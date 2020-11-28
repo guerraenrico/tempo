@@ -1,0 +1,3 @@
+rootProject.name = "Tempo"
+include ':app'
+include ':ui_components'
