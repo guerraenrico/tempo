@@ -2,7 +2,7 @@ import com.enricog.tempo.buildsrc.Libs
 import com.enricog.tempo.buildsrc.Versions
 
 plugins {
-    id 'com.android.application'
+    id 'com.android.library'
     id 'kotlin-android'
 }
 
@@ -10,20 +10,7 @@ android {
     compileSdkVersion Versions.compileSdk
 
     defaultConfig {
-        applicationId 'com.enricog.tempo'
         minSdkVersion Versions.minSdk
-        targetSdkVersion Versions.targetSdk
-        versionCode 1
-        versionName "1.0"
-
-        testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
-    }
-
-    buildTypes {
-        release {
-            minifyEnabled false
-            proguardFiles getDefaultProguardFile('proguard-android-optimize.txt'), 'proguard-rules.pro'
-        }
     }
 
     compileOptions {
@@ -43,15 +30,15 @@ android {
     }
 }
 
-dependencies {
-    implementation Libs.AndroidX.coreKtx
-    implementation Libs.AndroidX.appCompat
-    implementation Libs.Google.material
 
+dependencies {
+    implementation Libs.AndroidX.appCompat
+    implementation Libs.AndroidX.coreKtx
+
+    // Compose
     implementation Libs.AndroidX.Compose.ui
-    implementation Libs.AndroidX.Compose.material
+    implementation Libs.AndroidX.Compose.foundation
     implementation Libs.AndroidX.Compose.tooling
 
     implementation project(":ui_components")
-    implementation project(":features:routines")
 }

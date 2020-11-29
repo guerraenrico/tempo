@@ -4,9 +4,17 @@ import androidx.compose.runtime.Composable
 
 @Composable
 fun TempoTheme(content: @Composable () -> Unit) {
-    val colors: ThemeColors = defaultThemeColors
-    val typography: Typography = defaultTypography
-
-
     content()
+}
+
+object TempoTheme {
+
+    @Composable
+    val colors: TempoColors
+        get() = AmbientColors.current
+
+    @Composable
+    val typography: TempoTypography
+        get() = AmbientTypography.current
+
 }

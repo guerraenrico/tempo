@@ -10,7 +10,7 @@ object Versions {
 object Libs {
 
     object Kotlin {
-        const val version = "1.4.20"
+        const val version = "1.4.10"
         private const val coroutineVersion = "1.4.2"
 
         const val coroutines = "org.jetbrains.kotlinx:kotlinx-coroutines-android:$coroutineVersion"
@@ -42,6 +42,10 @@ object Libs {
             const val tooling = "androidx.ui:ui-tooling:$version"
             const val test = "androidx.ui:ui-test:$version"
         }
+    }
+
+    object Google {
+        const val material = "com.google.android.material:material:1.2.0-beta01"
     }
 
     object Lifecycle {

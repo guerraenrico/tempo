@@ -1,4 +1,5 @@
 import com.enricog.tempo.buildsrc.Libs
+import org.jetbrains.kotlin.gradle.tasks.KotlinCompile
 
 buildscript {
     repositories {
@@ -18,6 +19,19 @@ allprojects {
     repositories {
         google()
         jcenter()
+    }
+
+    tasks.withType(KotlinCompile).all {
+        kotlinOptions {
+            // Enable experimental coroutines APIs, including Flow
+            freeCompilerArgs += "-Xuse-experimental=kotlinx.coroutines.ExperimentalCoroutinesApi"
+            freeCompilerArgs += "-Xuse-experimental=kotlinx.coroutines.FlowPreview"
+            freeCompilerArgs += "-Xuse-experimental=kotlinx.coroutines.InternalCoroutinesApi"
+            freeCompilerArgs += "-Xuse-experimental=kotlin.ExperimentalStdlibApi"
+            freeCompilerArgs += "-Xuse-experimental=kotlin.contracts.ExperimentalContracts"
+
+            freeCompilerArgs += ["-Xallow-jvm-ir-dependencies", "-Xskip-prerelease-check"]
+        }
     }
 }
 
