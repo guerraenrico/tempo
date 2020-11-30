@@ -2,3 +2,4 @@ rootProject.name = "Tempo"
 include ':app'
 include ':ui_components'
 include ':features:routines'
+include ':features:timer'
