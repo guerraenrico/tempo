@@ -9,10 +9,10 @@ import androidx.compose.ui.text.font.fontFamily
 import androidx.compose.ui.unit.sp
 import com.enricog.ui_components.R
 
-private val Prompt = fontFamily(
-    font(R.font.prompt_light, FontWeight.Light),
-    font(R.font.prompt, FontWeight.Normal),
-    font(R.font.prompt_bold, FontWeight.Bold)
+val Prompt = fontFamily(
+    font(resId = R.font.prompt_light, weight = FontWeight.Light),
+    font(resId = R.font.prompt, weight = FontWeight.Normal),
+    font(resId = R.font.prompt_bold, weight = FontWeight.Bold)
 )
 
 @Stable
