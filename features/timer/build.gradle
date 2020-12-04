@@ -49,5 +49,6 @@ dependencies {
     implementation Libs.Hilt.lifecycleViewModel
     kapt Libs.Hilt.compiler
 
+    implementation project(":base_android")
     implementation project(":ui_components")
 }

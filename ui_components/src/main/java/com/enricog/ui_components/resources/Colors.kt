@@ -3,19 +3,19 @@ package com.enricog.ui_components.resources
 import androidx.compose.material.Colors
 import androidx.compose.ui.graphics.Color
 
-val darkBlue500 = Color(0xff1A1D20)
+val darkBlue500 = Color(0xff_1A1D20)
 
-val blue500 = Color(0xff006DFF)
+val blue500 = Color(0xff_006DFF)
 
-val green500 = Color(0xff32B84D)
+val green500 = Color(0xff_32B84D)
 
-val orange500 = Color(0xffC7600D)
+val orange500 = Color(0xff_C7600D)
 
-val purple500 = Color(0xff722CCE)
+val purple500 = Color(0xff_722CCE)
 
-val white = Color(0xffffffff)
+val white = Color(0xff_ffffff)
 
-val red = Color(0xFFCF6679)
+val red = Color(0xff_cf6679)
 
 internal val defaultThemeColors = Colors(
     primary = blue500,

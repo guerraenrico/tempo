@@ -10,7 +10,7 @@ object Versions {
 object Libs {
 
     object Kotlin {
-        const val version = "1.4.10"
+        const val version = "1.4.20"
         private const val coroutineVersion = "1.4.2"
 
         const val coroutines = "org.jetbrains.kotlinx:kotlinx-coroutines-android:$coroutineVersion"
@@ -30,7 +30,9 @@ object Libs {
         const val activityKtx = "androidx.activity:activity-ktx:1.2.0-beta01"
 
         object Compose {
-            const val version = "1.0.0-alpha07"
+            const val version = "1.0.0-alpha08"
+            private const val versionTest = "1.0.0-alpha07"
+
 
             const val runtime = "androidx.compose.runtime:runtime:$version"
             const val foundation = "androidx.compose.foundation:foundation:$version"
@@ -39,8 +41,8 @@ object Libs {
             const val ui = "androidx.compose.ui:ui:$version"
             const val material = "androidx.compose.material:material:$version"
 
-            const val tooling = "androidx.ui:ui-tooling:$version"
-            const val test = "androidx.ui:ui-test:$version"
+            const val tooling = "androidx.ui:ui-tooling:$versionTest"
+            const val test = "androidx.ui:ui-test:$versionTest"
 
             const val navigation = "androidx.navigation:navigation-compose:1.0.0-alpha01"
         }
