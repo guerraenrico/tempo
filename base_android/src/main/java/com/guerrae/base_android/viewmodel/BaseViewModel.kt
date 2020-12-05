@@ -2,12 +2,14 @@ package com.guerrae.base_android.viewmodel
 
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
+import com.guerrae.core.coroutine.CoroutineDispatchers
 import kotlinx.coroutines.flow.*
 
 open class BaseViewModel<ViewModelState : Any, ViewState : Any>(
     initialState: ViewModelState,
     converter: StateConverter<ViewModelState, ViewState>,
-    configuration: ViewModelConfiguration = ViewModelConfiguration(debounce = 5L)
+    dispatchers: CoroutineDispatchers,
+    configuration: ViewModelConfiguration = ViewModelConfiguration(debounce = 5L),
 ) : ViewModel() {
 
     private val viewModelStateFlow = MutableStateFlow(initialState)
@@ -25,9 +27,9 @@ open class BaseViewModel<ViewModelState : Any, ViewState : Any>(
         viewModelStateFlow
             .debounce(configuration.debounce)
             .map { converter.convert(it) }
+            .flowOn(dispatchers.cpu)
             .distinctUntilChanged()
             .onEach { viewStateFlow.value = it }
-//            .flowOn() TODO
             .launchIn(viewModelScope)
     }
 

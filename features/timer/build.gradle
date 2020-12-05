@@ -36,6 +36,7 @@ android {
 dependencies {
     implementation Libs.AndroidX.appCompat
     implementation Libs.AndroidX.coreKtx
+    implementation Libs.Lifecycle.viewModelKtx
 
     // Compose
     implementation Libs.AndroidX.Compose.ui
@@ -49,6 +50,7 @@ dependencies {
     implementation Libs.Hilt.lifecycleViewModel
     kapt Libs.Hilt.compiler
 
+    implementation project(":core")
     implementation project(":base_android")
     implementation project(":ui_components")
 }

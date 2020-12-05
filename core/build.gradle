@@ -25,10 +25,10 @@ android {
 
 
 dependencies {
-    implementation Libs.AndroidX.appCompat
-    implementation Libs.AndroidX.coreKtx
     implementation Libs.Kotlin.coroutines
-    implementation Libs.Lifecycle.viewModelKtx
 
-    implementation project(":core")
+    // Hilt
+    implementation Libs.Hilt.android
+    kapt Libs.Hilt.androidCompiler
+    kapt Libs.Hilt.compiler
 }
