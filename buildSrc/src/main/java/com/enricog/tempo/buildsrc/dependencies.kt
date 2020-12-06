@@ -31,18 +31,18 @@ object Libs {
 
         object Compose {
             const val version = "1.0.0-alpha08"
-            private const val versionTest = "1.0.0-alpha07"
-
 
             const val runtime = "androidx.compose.runtime:runtime:$version"
             const val foundation = "androidx.compose.foundation:foundation:$version"
             const val layout = "androidx.compose.foundation:foundation-layout:$version"
 
-            const val ui = "androidx.compose.ui:ui:$version"
             const val material = "androidx.compose.material:material:$version"
+            const val ui = "androidx.compose.ui:ui:$version"
+            const val tooling = "androidx.compose.ui:ui-tooling:$version"
+            const val uiUtil = "androidx.compose.ui:ui-util:${version}"
 
-            const val tooling = "androidx.ui:ui-tooling:$versionTest"
-            const val test = "androidx.ui:ui-test:$versionTest"
+            const val test = "androidx.compose.ui:ui-test:$version"
+            const val uiTest = "androidx.compose.ui:ui-test-junit4:$version"
 
             const val navigation = "androidx.navigation:navigation-compose:1.0.0-alpha01"
         }
@@ -90,7 +90,14 @@ object Libs {
 
     // Test
 
-    const val Junit = "junit:junit:4.13"
+    object Test {
+        const val junit = "junit:junit:4.13"
+        const val junitKtx = "androidx.test.ext:junit-ktx:1.1.2-rc01"
+
+        private const val version = "1.2.0"
+        const val core = "androidx.test:core:$version"
+        const val rules = "androidx.test:rules:$version"
+    }
 
     const val Robolectric = "org.robolectric:robolectric:4.3.1"
 

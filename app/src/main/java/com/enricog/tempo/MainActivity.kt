@@ -6,7 +6,7 @@ import androidx.compose.foundation.layout.Column
 import androidx.compose.ui.platform.setContent
 import com.enricog.routines.RoutinesList
 import com.enricog.ui_components.resources.TempoTheme
-import com.guerrae.timer.Timer
+import com.enricog.timer.Timer
 import dagger.hilt.android.AndroidEntryPoint
 
 @AndroidEntryPoint
