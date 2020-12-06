@@ -63,7 +63,7 @@ dependencies {
 
     implementation project(":core")
     implementation project(":ui_components")
-    implementation project(":base_android")
+    implementation project(":base:base_android")
     implementation project(":features:timer")
     implementation project(":features:routines")
 }

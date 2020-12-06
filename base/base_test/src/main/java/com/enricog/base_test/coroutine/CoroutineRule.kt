@@ -25,7 +25,7 @@ class CoroutineRule(
     }
 }
 
-operator fun CoroutineRule.invoke(block: CoroutineDispatcher.() -> Unit) {
+operator fun CoroutineRule.invoke(block: suspend CoroutineDispatcher.() -> Unit) {
     testDispatcher.runBlockingTest {
         block(testDispatcher)
     }

@@ -43,7 +43,7 @@ android {
 
 dependencies {
     implementation project(":core")
-    implementation project(":base_android")
+    implementation project(":base:base_android")
     implementation project(":ui_components")
 
     implementation Libs.AndroidX.appCompat
@@ -63,8 +63,8 @@ dependencies {
     kapt Libs.Hilt.compiler
 
     // Test
-    testImplementation project(":base_test")
-    androidTestImplementation project(":base_test")
+    testImplementation project(":base:base_test")
+    androidTestImplementation project(":base:base_test")
 
     androidTestImplementation Libs.Test.junit
     androidTestImplementation Libs.Test.core
