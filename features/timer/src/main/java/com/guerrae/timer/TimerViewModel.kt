@@ -26,7 +26,7 @@ internal class TimerViewModel @ViewModelInject constructor(
     private fun startCounting() {
         viewModelScope.launch {
             for (i in 1..1000) {
-                delay(1000)
+                delay(200)
                 state = reducer.progressTime(state)
             }
         }

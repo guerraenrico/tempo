@@ -15,7 +15,7 @@ import com.guerrae.timer.ui_components.Clock
 
 @Composable
 fun Timer() {
-    val viewModel: TimerViewModel = viewModel()
+    val viewModel: TimerViewModel = viewModel() // TODO should use by?
     val viewState = viewModel.viewState.collectAsState(TimerViewState.Idle)
     Column(
         modifier = Modifier
