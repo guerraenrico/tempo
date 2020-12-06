@@ -1,7 +1,10 @@
 package com.enricog.timer.ui_components
 
 import androidx.compose.foundation.background
-import androidx.compose.foundation.layout.*
+import androidx.compose.foundation.layout.Arrangement
+import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.height
+import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.material.Text
 import androidx.compose.runtime.Composable
@@ -15,7 +18,6 @@ import androidx.compose.ui.text.SpanStyle
 import androidx.compose.ui.text.SpanStyleRange
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.BaselineShift
-import androidx.compose.ui.text.style.BaselineShift.Companion.Superscript
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
@@ -23,6 +25,7 @@ import com.enricog.ui_components.resources.FontFamilyMono
 import com.enricog.ui_components.resources.white
 
 internal const val ClockTestTag = "ClockTestTag"
+internal const val ClockTimeTextTestTag = "ClockTimeTextTestTag"
 
 @Composable
 internal fun Clock(backgroundColor: Color, timeInSeconds: Int) {
@@ -76,6 +79,7 @@ private fun TimeText(timeInSeconds: Int) {
             spanStyles = spanStyles,
         ),
         textAlign = TextAlign.Center,
+        modifier = Modifier.testTag(ClockTimeTextTestTag)
     )
 }
 
@@ -91,6 +95,6 @@ private val SeparatorStyle = SpanStyle(
     fontSize = 30.sp,
     fontFamily = FontFamilyMono,
     fontWeight = FontWeight.ExtraBold,
-    baselineShift =  BaselineShift(0.8f),
+    baselineShift = BaselineShift(0.8f),
     letterSpacing = 2.sp
 )
