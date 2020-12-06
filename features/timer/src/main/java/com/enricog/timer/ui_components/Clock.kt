@@ -9,6 +9,7 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.shadow
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.platform.testTag
 import androidx.compose.ui.text.AnnotatedString
 import androidx.compose.ui.text.SpanStyle
 import androidx.compose.ui.text.SpanStyleRange
@@ -21,11 +22,14 @@ import androidx.compose.ui.unit.sp
 import com.enricog.ui_components.resources.FontFamilyMono
 import com.enricog.ui_components.resources.white
 
+internal const val ClockTestTag = "ClockTestTag"
+
 @Composable
 internal fun Clock(backgroundColor: Color, timeInSeconds: Int) {
     val shape = CircleShape
     Column(
         modifier = Modifier
+            .testTag(ClockTestTag)
             .shadow(elevation = 20.dp, shape = shape)
             .background(color = backgroundColor, shape = shape)
             .height(220.dp)

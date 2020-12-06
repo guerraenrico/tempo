@@ -63,6 +63,9 @@ dependencies {
     kapt Libs.Hilt.compiler
 
     // Test
+    testImplementation project(":base_test")
+    androidTestImplementation project(":base_test")
+
     androidTestImplementation Libs.Test.junit
     androidTestImplementation Libs.Test.core
     androidTestImplementation Libs.Test.rules

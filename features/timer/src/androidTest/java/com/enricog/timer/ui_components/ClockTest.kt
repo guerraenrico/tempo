@@ -2,16 +2,12 @@ package com.enricog.timer.ui_components
 
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.test.assertIsDisplayed
-import androidx.compose.ui.test.junit4.ComposeTestRule
 import androidx.compose.ui.test.junit4.createComposeRule
 import androidx.compose.ui.test.onNodeWithText
+import com.enricog.base_test.compose.invoke
 import com.enricog.ui_components.resources.TempoTheme
 import org.junit.Rule
 import org.junit.Test
-
-fun ComposeTestRule.test(block: ComposeTestRule.() -> Unit) {
-    block()
-}
 
 class ClockTest {
 
@@ -19,7 +15,7 @@ class ClockTest {
     val composeRule = createComposeRule()
 
     @Test
-    fun shouldShowClockWitSeconds() = composeRule.test {
+    fun shouldShowClockWitSeconds() = composeRule {
         val color = Color.Red
         val timeInSeconds = 10
         setContent {
@@ -32,7 +28,7 @@ class ClockTest {
     }
 
     @Test
-    fun shouldShowClockWitMinutesAndSeconds() = composeRule.test {
+    fun shouldShowClockWitMinutesAndSeconds() = composeRule {
         val color = Color.Red
         val timeInSeconds = 90
         setContent {
