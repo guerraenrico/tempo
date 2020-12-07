@@ -10,7 +10,7 @@ import com.enricog.ui_components.resources.TempoTheme
 import org.junit.Rule
 import org.junit.Test
 
-class ClockTest {
+class ClockKtTest {
 
     @get:Rule
     val composeRule = createComposeRule()

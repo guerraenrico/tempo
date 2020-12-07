@@ -24,13 +24,18 @@ fun Timer() {
         verticalArrangement = Arrangement.Center,
         horizontalAlignment = Alignment.CenterHorizontally
     ) {
-        when (val value = viewState.value) {
-            TimerViewState.Idle -> {
-            }
-            is TimerViewState.Counting -> Clock(
-                backgroundColor = colors.primary,
-                timeInSeconds = value.timeInSeconds
-            )
+        viewState.value.Compose()
+    }
+}
+
+@Composable
+internal fun TimerViewState.Compose() {
+    when (this) {
+        TimerViewState.Idle -> {
         }
+        is TimerViewState.Counting -> Clock(
+            backgroundColor = colors.primary,
+            timeInSeconds = timeInSeconds
+        )
     }
 }
