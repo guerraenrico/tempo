@@ -4,10 +4,13 @@ import androidx.compose.material.Colors
 import androidx.compose.ui.graphics.Color
 
 val darkBlue500 = Color(0xff_1A1D20)
+val darkBlue600 = Color(0xff_171A1D)
 
 val blue500 = Color(0xff_006DFF)
+val blue600 = Color(0xff_0567EB)
 
 val green500 = Color(0xff_32B84D)
+val green600 = Color(0xff_2BAE46)
 
 val orange500 = Color(0xff_C7600D)
 
