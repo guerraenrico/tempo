@@ -11,7 +11,10 @@ internal class TimerStateConverter @Inject constructor() :
     override suspend fun convert(state: TimerState): TimerViewState {
         return when (state) {
             TimerState.Idle -> TimerViewState.Idle
-            is TimerState.Counting -> TimerViewState.Counting(timeInSeconds = state.timeInSeconds)
+            is TimerState.Counting -> TimerViewState.Counting(
+                timeInSeconds = state.timeInSeconds,
+                isRunning = state.isRunning
+            )
         }
     }
 

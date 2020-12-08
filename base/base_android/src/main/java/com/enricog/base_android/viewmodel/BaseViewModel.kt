@@ -12,7 +12,7 @@ open class BaseViewModel<ViewModelState : Any, ViewState : Any>(
     configuration: ViewModelConfiguration = ViewModelConfiguration(debounce = 5L),
 ) : ViewModel() {
 
-    private val viewModelStateFlow = MutableStateFlow(initialState)
+    protected val viewModelStateFlow = MutableStateFlow(initialState)
     protected var state: ViewModelState
         get() = viewModelStateFlow.value
         set(value) {

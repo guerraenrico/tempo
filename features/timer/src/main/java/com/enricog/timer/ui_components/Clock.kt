@@ -29,16 +29,17 @@ internal const val ClockTimeTextTestTag = "ClockTimeTextTestTag"
 
 @Composable
 internal fun Clock(backgroundColor: Color, timeInSeconds: Int) {
+    val size = 220.dp
     Shadow(
-        contentSize = 220.dp,
+        contentSize = size,
         size = 20.dp
     ) {
         Column(
             modifier = Modifier
                 .testTag(ClockTestTag)
                 .background(color = backgroundColor, shape = CircleShape)
-                .height(220.dp)
-                .width(220.dp),
+                .height(size)
+                .width(size),
             verticalArrangement = Arrangement.Center,
             horizontalAlignment = Alignment.CenterHorizontally
         ) {
