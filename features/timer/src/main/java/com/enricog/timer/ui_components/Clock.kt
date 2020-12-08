@@ -10,7 +10,6 @@ import androidx.compose.material.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.draw.shadow
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.platform.testTag
 import androidx.compose.ui.text.AnnotatedString
@@ -21,6 +20,7 @@ import androidx.compose.ui.text.style.BaselineShift
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import com.enricog.ui_components.common.shadow.Shadow
 import com.enricog.ui_components.resources.FontFamilyMono
 import com.enricog.ui_components.resources.white
 
@@ -29,19 +29,23 @@ internal const val ClockTimeTextTestTag = "ClockTimeTextTestTag"
 
 @Composable
 internal fun Clock(backgroundColor: Color, timeInSeconds: Int) {
-    val shape = CircleShape
-    Column(
-        modifier = Modifier
-            .testTag(ClockTestTag)
-            .shadow(elevation = 20.dp, shape = shape)
-            .background(color = backgroundColor, shape = shape)
-            .height(220.dp)
-            .width(220.dp),
-        verticalArrangement = Arrangement.Center,
-        horizontalAlignment = Alignment.CenterHorizontally
+    Shadow(
+        contentSize = 220.dp,
+        size = 20.dp
     ) {
-        TimeText(timeInSeconds = timeInSeconds)
+        Column(
+            modifier = Modifier
+                .testTag(ClockTestTag)
+                .background(color = backgroundColor, shape = CircleShape)
+                .height(220.dp)
+                .width(220.dp),
+            verticalArrangement = Arrangement.Center,
+            horizontalAlignment = Alignment.CenterHorizontally
+        ) {
+            TimeText(timeInSeconds = timeInSeconds)
+        }
     }
+
 }
 
 @Composable

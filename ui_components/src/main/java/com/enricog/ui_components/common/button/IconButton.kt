@@ -12,12 +12,11 @@ import androidx.compose.runtime.Composable
 import androidx.compose.runtime.remember
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.draw.shadow
 import androidx.compose.ui.graphics.Color
-import androidx.compose.ui.graphics.RadialGradientShader
 import androidx.compose.ui.graphics.vector.ImageVector
 import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.dp
+import com.enricog.ui_components.common.shadow.Shadow
 import com.enricog.ui_components.resources.blue500
 import com.enricog.ui_components.resources.darkBlue500
 import com.enricog.ui_components.resources.green500
@@ -33,30 +32,32 @@ fun IconButton(
     size: IconButtonSize = IconButtonSize.Normal,
     enabled: Boolean = true
 ) {
-    Box(
-        modifier = modifier
-            .shadow(4.dp, shape = CircleShape)
-            .background(color.color, CircleShape)
-            .size(size = size.box)
-            .clickable(
-                onClick = onClick,
-                enabled = enabled,
-                interactionState = remember { InteractionState() },
-                indication = rememberRippleIndication(
-                    bounded = false,
-                    radius = size.box
-                )
-            ),
-        contentAlignment = Alignment.Center
-    ) {
-        Icon(icon.copy(defaultHeight = size.icon, defaultWidth = size.icon), tint = white)
+    Shadow(contentSize = size.box, size = size.shadow) {
+        Box(
+            modifier = modifier
+                .background(color.color, CircleShape)
+                .size(size = size.box)
+                .clickable(
+                    onClick = onClick,
+                    enabled = enabled,
+                    interactionState = remember { InteractionState() },
+                    indication = rememberRippleIndication(
+                        bounded = false,
+                        radius = size.box / 2
+                    )
+                ),
+            contentAlignment = Alignment.Center
+        ) {
+            Icon(icon.copy(defaultHeight = size.icon, defaultWidth = size.icon), tint = white)
+        }
     }
+
 }
 
 
-enum class IconButtonSize(val box: Dp, val icon: Dp) {
-    Normal(55.dp, 14.dp),
-    Large(75.dp, 20.dp)
+enum class IconButtonSize(val box: Dp, val icon: Dp, val shadow: Dp) {
+    Normal(55.dp, 14.dp, 4.dp),
+    Large(75.dp, 20.dp, 8.dp)
 }
 
 enum class IconButtonColor(val color: Color) {
