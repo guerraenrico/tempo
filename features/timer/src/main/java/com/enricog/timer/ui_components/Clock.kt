@@ -8,6 +8,7 @@ import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.material.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.remember
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
@@ -51,6 +52,31 @@ internal fun Clock(backgroundColor: Color, timeInSeconds: Int) {
 
 @Composable
 private fun TimeText(timeInSeconds: Int) {
+    val timeText = remember(timeInSeconds) { buildTimeText(timeInSeconds) }
+    Text(
+        text = timeText,
+        textAlign = TextAlign.Center,
+        modifier = Modifier.testTag(ClockTimeTextTestTag)
+    )
+}
+
+private val NumberStyle = SpanStyle(
+    color = white,
+    fontSize = 65.sp,
+    fontFamily = FontFamilyMono,
+    fontWeight = FontWeight.ExtraBold,
+)
+
+private val SeparatorStyle = SpanStyle(
+    color = white,
+    fontSize = 30.sp,
+    fontFamily = FontFamilyMono,
+    fontWeight = FontWeight.ExtraBold,
+    baselineShift = BaselineShift(0.8f),
+    letterSpacing = 2.sp
+)
+
+private fun buildTimeText(timeInSeconds: Int): AnnotatedString {
     val minutes = timeInSeconds / 60
     val seconds = timeInSeconds - (minutes * 60)
 
@@ -78,28 +104,5 @@ private fun TimeText(timeInSeconds: Int) {
     timeBuilder.append(secondsString)
     spanStyles.add(SpanStyleRange(NumberStyle, from, to))
 
-    Text(
-        text = AnnotatedString(
-            text = timeBuilder.toString(),
-            spanStyles = spanStyles,
-        ),
-        textAlign = TextAlign.Center,
-        modifier = Modifier.testTag(ClockTimeTextTestTag)
-    )
+    return AnnotatedString(text = timeBuilder.toString(), spanStyles = spanStyles)
 }
-
-private val NumberStyle = SpanStyle(
-    color = white,
-    fontSize = 65.sp,
-    fontFamily = FontFamilyMono,
-    fontWeight = FontWeight.ExtraBold,
-)
-
-private val SeparatorStyle = SpanStyle(
-    color = white,
-    fontSize = 30.sp,
-    fontFamily = FontFamilyMono,
-    fontWeight = FontWeight.ExtraBold,
-    baselineShift = BaselineShift(0.8f),
-    letterSpacing = 2.sp
-)
