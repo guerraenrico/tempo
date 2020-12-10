@@ -49,6 +49,7 @@ dependencies {
     implementation Libs.AndroidX.appCompat
     implementation Libs.AndroidX.coreKtx
     implementation Libs.Lifecycle.viewModelKtx
+    implementation Libs.AndroidX.fragmentKtx
 
     // Compose
     implementation Libs.AndroidX.Compose.ui
@@ -64,10 +65,12 @@ dependencies {
 
     // Test
     testImplementation project(":base:base_test")
+
     androidTestImplementation project(":base:base_test")
 
     androidTestImplementation Libs.Test.junit
     androidTestImplementation Libs.Test.core
     androidTestImplementation Libs.Test.rules
     androidTestImplementation Libs.AndroidX.Compose.uiTest
+
 }

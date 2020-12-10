@@ -4,38 +4,40 @@ import androidx.compose.foundation.layout.*
 import androidx.compose.material.MaterialTheme.colors
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.collectAsState
+import androidx.compose.runtime.getValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.platform.testTag
 import androidx.compose.ui.unit.dp
-import androidx.compose.ui.viewinterop.viewModel
 import com.enricog.timer.models.TimerActions
 import com.enricog.timer.models.TimerViewState
 import com.enricog.timer.ui_components.ActionsBar
 import com.enricog.timer.ui_components.Clock
-import androidx.compose.runtime.getValue
 
 internal const val CountingSceneTestTag = "CountingSceneTestTag"
 
+/**
+ * TODO: fix test
+ */
+
 @Composable
-fun Timer() {
-    val viewModel: TimerViewModel = viewModel()
+internal fun Timer(viewModel: TimerViewModel) {
+    val viewState by viewModel.viewState.collectAsState(TimerViewState.Idle)
     Column(
         modifier = Modifier
             .fillMaxWidth()
             .fillMaxHeight()
     ) {
-        viewModel.ComposeViewState()
+        viewState.Compose(viewModel)
     }
 }
 
 @Composable
-internal fun TimerViewModel.ComposeViewState() {
-    val viewState by viewState.collectAsState(TimerViewState.Idle)
-    when (val state = viewState) {
+internal fun TimerViewState.Compose(timerActions: TimerActions) {
+    when (this) {
         TimerViewState.Idle -> {
         }
-        is TimerViewState.Counting -> CountingScene(state, this)
+        is TimerViewState.Counting -> CountingScene(state = this, timerActions = timerActions)
     }
 }
 

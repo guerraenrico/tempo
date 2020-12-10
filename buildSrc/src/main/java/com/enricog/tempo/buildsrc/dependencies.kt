@@ -26,8 +26,8 @@ object Libs {
 
         const val appCompat = "androidx.appcompat:appcompat:1.2.0"
 
-        const val fragmentKtx = "androidx.fragment:fragment-ktx:1.3.0-beta01"
-        const val activityKtx = "androidx.activity:activity-ktx:1.2.0-beta01"
+        const val fragmentKtx = "androidx.fragment:fragment-ktx:1.3.0-beta02"
+        const val activityKtx = "androidx.activity:activity-ktx:1.2.0-beta02"
 
         object Compose {
             const val version = "1.0.0-alpha08"
