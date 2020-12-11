@@ -6,7 +6,7 @@ import androidx.compose.ui.test.onNodeWithTag
 import com.enricog.base_test.compose.invoke
 import com.enricog.timer.models.TimerActions
 import com.enricog.timer.models.TimerViewState
-import com.enricog.timer.ui_components.ClockTestTag
+import com.enricog.timer.ui_components.CountingSceneTestTag
 import org.junit.Rule
 import org.junit.Test
 
@@ -22,20 +22,20 @@ class TimerKtTest {
     }
 
     @Test
-    fun shouldNotShowClock() = composeRule {
+    fun shouldNotShowCountingScene() = composeRule {
         val viewState = TimerViewState.Idle
 
         setContent { viewState.Compose(timerActions) }
 
-        onNodeWithTag(ClockTestTag).assertDoesNotExist()
+        onNodeWithTag(CountingSceneTestTag).assertDoesNotExist()
     }
 
     @Test
-    fun shoulShowClock() = composeRule {
+    fun shouldShowCountingScene() = composeRule {
         val viewState = TimerViewState.Counting(timeInSeconds = 1, isRunning = true)
 
         setContent { viewState.Compose(timerActions) }
 
-        onNodeWithTag(ClockTestTag).assertIsDisplayed()
+        onNodeWithTag(CountingSceneTestTag).assertIsDisplayed()
     }
 }
