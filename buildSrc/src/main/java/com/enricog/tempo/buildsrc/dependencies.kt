@@ -1,10 +1,17 @@
 @file:Suppress("unused")
+
 package com.enricog.tempo.buildsrc
+
+import org.gradle.api.JavaVersion
+
 
 object Versions {
     const val compileSdk = 30
     const val minSdk = 24
     const val targetSdk = 30
+
+    val java = JavaVersion.VERSION_1_8
+    const val jvmTarget = "1.8"
 }
 
 object Libs {
@@ -88,6 +95,10 @@ object Libs {
         const val checks = "com.android.tools.lint:lint-checks:$version"
     }
 
+    object Tools {
+        const val desugar = "com.android.tools:desugar_jdk_libs:1.0.9"
+    }
+
     // Test
 
     object Test {
@@ -97,6 +108,8 @@ object Libs {
         private const val version = "1.2.0"
         const val core = "androidx.test:core:$version"
         const val rules = "androidx.test:rules:$version"
+
+        const val flow = "app.cash.turbine:turbine:0.3.0"
     }
 
     const val Robolectric = "org.robolectric:robolectric:4.3.1"

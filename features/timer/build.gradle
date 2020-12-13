@@ -18,11 +18,11 @@ android {
     }
 
     compileOptions {
-        sourceCompatibility JavaVersion.VERSION_1_8
-        targetCompatibility JavaVersion.VERSION_1_8
+        sourceCompatibility Versions.java
+        targetCompatibility Versions.java
     }
     kotlinOptions {
-        jvmTarget = '1.8'
+        jvmTarget = Versions.jvmTarget
         useIR = true
     }
     buildFeatures {
@@ -65,6 +65,12 @@ dependencies {
 
     // Test
     testImplementation project(":base:base_test")
+    testImplementation Libs.Kotlin.Test.coroutines
+    testImplementation Libs.Kotlin.Test.kotlin
+    testImplementation Libs.Test.junit
+    testImplementation Libs.Test.flow
+    testImplementation Libs.Mockk.lib
+    testImplementation Libs.Mockk.android
 
     androidTestImplementation project(":base:base_test")
 

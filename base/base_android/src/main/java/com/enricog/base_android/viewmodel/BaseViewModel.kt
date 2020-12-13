@@ -3,16 +3,18 @@ package com.enricog.base_android.viewmodel
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.enricog.core.coroutine.CoroutineDispatchers
+import kotlinx.coroutines.FlowPreview
 import kotlinx.coroutines.flow.*
 
+@OptIn(FlowPreview::class)
 open class BaseViewModel<ViewModelState : Any, ViewState : Any>(
     initialState: ViewModelState,
     converter: StateConverter<ViewModelState, ViewState>,
     dispatchers: CoroutineDispatchers,
-    configuration: ViewModelConfiguration = ViewModelConfiguration(debounce = 5L),
+    configuration: ViewModelConfiguration = ViewModelConfiguration(debounce = 50L),
 ) : ViewModel() {
 
-    protected val viewModelStateFlow = MutableStateFlow(initialState)
+    private val viewModelStateFlow = MutableStateFlow(initialState)
     protected var state: ViewModelState
         get() = viewModelStateFlow.value
         set(value) {
@@ -26,11 +28,13 @@ open class BaseViewModel<ViewModelState : Any, ViewState : Any>(
     init {
         viewModelStateFlow
             .debounce(configuration.debounce)
-            .map { converter.convert(it) }
+            .onEach(::onStateUpdated)
+            .map(converter::convert)
             .flowOn(dispatchers.cpu)
             .distinctUntilChanged()
             .onEach { viewStateFlow.value = it }
             .launchIn(viewModelScope)
     }
 
+    protected open fun onStateUpdated(currentState: ViewModelState) {}
 }

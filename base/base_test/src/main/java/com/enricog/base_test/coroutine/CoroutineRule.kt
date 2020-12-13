@@ -1,17 +1,21 @@
 package com.enricog.base_test.coroutine
 
+import com.enricog.core.coroutine.CoroutineDispatchers
 import kotlinx.coroutines.CoroutineDispatcher
 import kotlinx.coroutines.Dispatchers
-import kotlinx.coroutines.test.TestCoroutineDispatcher
-import kotlinx.coroutines.test.resetMain
-import kotlinx.coroutines.test.runBlockingTest
-import kotlinx.coroutines.test.setMain
+import kotlinx.coroutines.test.*
 import org.junit.rules.TestWatcher
 import org.junit.runner.Description
 
 class CoroutineRule(
-    val testDispatcher: TestCoroutineDispatcher = TestCoroutineDispatcher()
+    private val testDispatcher: TestCoroutineDispatcher = TestCoroutineDispatcher()
 ) : TestWatcher() {
+
+    val dispatchers = object : CoroutineDispatchers {
+        override val main: CoroutineDispatcher = testDispatcher
+        override val cpu: CoroutineDispatcher = testDispatcher
+        override val io: CoroutineDispatcher = testDispatcher
+    }
 
     override fun starting(description: Description?) {
         super.starting(description)
@@ -23,10 +27,11 @@ class CoroutineRule(
         Dispatchers.resetMain()
         testDispatcher.cleanupTestCoroutines()
     }
-}
 
-operator fun CoroutineRule.invoke(block: suspend CoroutineDispatcher.() -> Unit) {
-    testDispatcher.runBlockingTest {
-        block(testDispatcher)
+    operator fun invoke(block: suspend TestCoroutineScope.() -> Unit) {
+        testDispatcher.runBlockingTest {
+            block()
+        }
     }
 }
+

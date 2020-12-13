@@ -1,0 +1,15 @@
+import com.enricog.tempo.buildsrc.Versions
+
+plugins {
+    id 'java-library'
+    id 'kotlin'
+}
+
+java {
+    sourceCompatibility = Versions.java
+    targetCompatibility = Versions.java
+}
+
+dependencies {
+
+}

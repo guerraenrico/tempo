@@ -7,7 +7,7 @@ internal class TimerReducer @Inject constructor() {
 
     fun progressTime(state: TimerState): TimerState {
         if (state !is TimerState.Counting) {
-            return TimerState.Counting(timeInSeconds = 1, isRunning = true)
+            return TimerState.Counting(timeInSeconds = 1, isRunning = true, isCompleted = false)
         }
         return state.copy(timeInSeconds = state.timeInSeconds + 1)
     }
@@ -22,6 +22,6 @@ internal class TimerReducer @Inject constructor() {
     fun restartTime(state: TimerState): TimerState {
         if (state !is TimerState.Counting) return state
 
-        return TimerState.Counting(timeInSeconds = 0, isRunning = false)
+        return TimerState.Counting(timeInSeconds = 0, isRunning = false, isCompleted = false)
     }
 }

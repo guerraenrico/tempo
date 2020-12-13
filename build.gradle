@@ -25,11 +25,10 @@ allprojects {
     tasks.withType(KotlinCompile).all {
         kotlinOptions {
             // Enable experimental coroutines APIs, including Flow
+            freeCompilerArgs += "-Xopt-in=kotlin.RequiresOptIn"
             freeCompilerArgs += "-Xuse-experimental=kotlinx.coroutines.ExperimentalCoroutinesApi"
-            freeCompilerArgs += "-Xuse-experimental=kotlinx.coroutines.FlowPreview"
-            freeCompilerArgs += "-Xuse-experimental=kotlinx.coroutines.InternalCoroutinesApi"
-            freeCompilerArgs += "-Xuse-experimental=kotlin.ExperimentalStdlibApi"
             freeCompilerArgs += "-Xuse-experimental=kotlin.contracts.ExperimentalContracts"
+            freeCompilerArgs += "-Xuse-experimental=kotlin.time.ExperimentalTime"
 
             freeCompilerArgs += ["-Xallow-jvm-ir-dependencies", "-Xskip-prerelease-check"]
         }

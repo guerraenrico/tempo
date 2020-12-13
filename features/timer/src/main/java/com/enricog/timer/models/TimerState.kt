@@ -6,6 +6,7 @@ internal sealed class TimerState {
 
     data class Counting(
         val timeInSeconds: Int,
-        val isRunning: Boolean
+        val isRunning: Boolean,
+        val isCompleted: Boolean
     ) : TimerState()
 }
