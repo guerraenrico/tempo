@@ -1,4 +1,4 @@
-package com.enricog.entities
+package com.enricog.entities.routines
 
 enum class TimeType {
     STOPWATCH,

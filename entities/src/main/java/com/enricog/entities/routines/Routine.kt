@@ -1,4 +1,4 @@
-package com.enricog.entities
+package com.enricog.entities.routines
 
 import java.time.OffsetDateTime
 
@@ -8,4 +8,5 @@ data class Routine(
     val startTimeOffsetInSeconds: Int,
     val createdAt: OffsetDateTime,
     val updatedAt: OffsetDateTime,
+    val segments: List<Segment>
 )

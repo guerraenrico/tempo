@@ -1,4 +1,4 @@
-package com.enricog.entities
+package com.enricog.entities.routines
 
 data class Segment(
     val id: Int,
