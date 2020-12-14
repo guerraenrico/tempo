@@ -3,9 +3,9 @@ package com.enricog.entities.routines
 import java.time.OffsetDateTime
 
 data class Routine(
-    val id: Int,
+    val id: Long,
     val name: String,
-    val startTimeOffsetInSeconds: Int,
+    val startTimeOffsetInSeconds: Long,
     val createdAt: OffsetDateTime,
     val updatedAt: OffsetDateTime,
     val segments: List<Segment>

@@ -1,8 +1,8 @@
 package com.enricog.entities.routines
 
 data class Segment(
-    val id: Int,
+    val id: Long,
     val name: String,
-    val timeInSeconds: Int,
+    val timeInSeconds: Long,
     val type: TimeType
 )

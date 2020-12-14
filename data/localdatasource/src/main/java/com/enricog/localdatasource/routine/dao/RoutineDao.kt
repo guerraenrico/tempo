@@ -1,8 +1,7 @@
 package com.enricog.localdatasource.routine.dao
 
-import androidx.room.Dao
-import androidx.room.Query
-import androidx.room.Transaction
+import androidx.room.*
+import com.enricog.localdatasource.routine.model.InternalRoutine
 import com.enricog.localdatasource.routine.model.InternalRoutineWithSegments
 
 @Dao
@@ -12,4 +11,13 @@ internal interface RoutineDao {
     @Query("SELECT * FROM Routines")
     suspend fun getAll(): List<InternalRoutineWithSegments>
 
+    @Transaction
+    @Query("SELECT * FROM Routines WHERE routineId=:id LIMIT 1")
+    suspend fun get(id: Long): InternalRoutineWithSegments
+
+    @Insert
+    suspend fun insert(vararg routines: InternalRoutine): List<Long>
+
+    @Update
+    suspend fun update(vararg routines: InternalRoutine)
 }

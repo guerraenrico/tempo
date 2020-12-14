@@ -8,9 +8,9 @@ import java.time.OffsetDateTime
 
 @Entity(tableName = "Routines")
 internal data class InternalRoutine(
-    @PrimaryKey(autoGenerate = true) @ColumnInfo(name = "routineId") val id: Int,
+    @PrimaryKey(autoGenerate = true) @ColumnInfo(name = "routineId") val id: Long,
     @ColumnInfo(name = "name") val name: String,
-    @ColumnInfo(name = "startTimeOffsetInSeconds") val startTimeOffsetInSeconds: Int,
+    @ColumnInfo(name = "startTimeOffsetInSeconds") val startTimeOffsetInSeconds: Long,
     @ColumnInfo(name = "createdAt") val createdAt: OffsetDateTime,
     @ColumnInfo(name = "updatedAt") val updatedAt: OffsetDateTime,
 ) {

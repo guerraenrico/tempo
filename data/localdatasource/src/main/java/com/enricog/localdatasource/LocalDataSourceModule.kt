@@ -1,0 +1,29 @@
+package com.enricog.localdatasource
+
+import android.content.Context
+import com.enricog.datasource.RoutineDataSource
+import com.enricog.localdatasource.routine.RoutineDataSourceImpl
+import dagger.Module
+import dagger.Provides
+import dagger.hilt.InstallIn
+import dagger.hilt.android.components.ApplicationComponent
+import dagger.hilt.android.qualifiers.ApplicationContext
+import javax.inject.Singleton
+
+@InstallIn(ApplicationComponent::class)
+@Module
+object LocalDataSourceModule {
+
+    @Provides
+    @Singleton
+    internal fun provideDatabase(@ApplicationContext context: Context): TempoDatabase {
+        return TempoDatabase.getInstance(context)
+    }
+
+    @Provides
+    @Singleton
+    internal fun provideRoutineDataSource(impl: RoutineDataSourceImpl): RoutineDataSource {
+        return impl
+    }
+
+}
