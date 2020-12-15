@@ -20,7 +20,7 @@ internal class RoutineDataSourceImpl @Inject constructor(
 
     override suspend fun create(routine: Routine) {
         val routineId = database.routineDao()
-            .insert(routines = arrayOf(routine.toInternal()))
+            .insert(routines = *arrayOf(routine.toInternal()))
             .first()
 
         val internalSegments = routine.segments.map { it.toInternal(routineId) }

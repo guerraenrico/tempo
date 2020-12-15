@@ -7,8 +7,8 @@ buildscript {
         jcenter()
     }
     dependencies {
-        classpath 'com.android.tools.build:gradle:4.2.0-beta01'
-        classpath "org.jetbrains.kotlin:kotlin-gradle-plugin:${Libs.Kotlin.version}"
+        classpath 'com.android.tools.build:gradle:4.2.0-beta02'
+        classpath "org.jetbrains.kotlin:kotlin-gradle-plugin:1.3.20"
         classpath "com.google.dagger:hilt-android-gradle-plugin:${Libs.Hilt.androidVersion}"
 
         // NOTE: Do not place your application dependencies here; they belong

@@ -12,7 +12,7 @@ internal data class InternalRoutine(
     @ColumnInfo(name = "name") val name: String,
     @ColumnInfo(name = "startTimeOffsetInSeconds") val startTimeOffsetInSeconds: Long,
     @ColumnInfo(name = "createdAt") val createdAt: OffsetDateTime,
-    @ColumnInfo(name = "updatedAt") val updatedAt: OffsetDateTime,
+    @ColumnInfo(name = "updatedAt") val updatedAt: OffsetDateTime
 ) {
     fun toEntity(segments: List<InternalSegment>): Routine {
         return Routine(
