@@ -75,8 +75,8 @@ dependencies {
     androidTestImplementation project(":base:base_test")
 
     androidTestImplementation Libs.Test.junit
-    androidTestImplementation Libs.Test.core
-    androidTestImplementation Libs.Test.rules
+    androidTestImplementation Libs.AndroidX.Test.core
+    androidTestImplementation Libs.AndroidX.Test.rules
     androidTestImplementation Libs.AndroidX.Compose.uiTest
 
 }

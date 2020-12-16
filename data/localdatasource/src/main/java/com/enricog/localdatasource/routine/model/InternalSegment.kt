@@ -17,6 +17,7 @@ internal data class InternalSegment(
         childColumns = ["routineId_fk"],
         onDelete = CASCADE
     )
+    @ColumnInfo(name = "routineId_fk")
     val routineId: Long,
     @ColumnInfo(name = "name") val name: String,
     @ColumnInfo(name = "timeInSeconds") val timeInSeconds: Long,

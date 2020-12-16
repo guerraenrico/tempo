@@ -56,14 +56,13 @@ dependencies {
 
     testImplementation project(":base:base_test")
     testImplementation Libs.Kotlin.Test.coroutines
+    testImplementation Libs.AndroidX.Test.core
+    testImplementation Libs.AndroidX.Test.rules
+    testImplementation Libs.AndroidX.Test.junitKtx
+    testImplementation Libs.AndroidX.Test.archCore
     testImplementation Libs.Test.junit
+    testImplementation Libs.Robolectric
     testImplementation Libs.Mockk.lib
     testImplementation Libs.Mockk.android
-
-    androidTestImplementation project(":base:base_test")
-    androidTestImplementation Libs.Test.junit
-    androidTestImplementation Libs.Test.junitKtx
-    androidTestImplementation Libs.Test.core
-    androidTestImplementation Libs.Test.rules
 
 }

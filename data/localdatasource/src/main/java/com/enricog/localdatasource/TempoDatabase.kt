@@ -5,6 +5,7 @@ import androidx.room.Database
 import androidx.room.Room
 import androidx.room.RoomDatabase
 import androidx.room.TypeConverters
+import com.enricog.localdatasource.converter.OffsetDateTimeConverter
 import com.enricog.localdatasource.converter.TimeTypeConverter
 import com.enricog.localdatasource.routine.dao.RoutineDao
 import com.enricog.localdatasource.routine.dao.SegmentDao
@@ -12,7 +13,7 @@ import com.enricog.localdatasource.routine.model.InternalRoutine
 import com.enricog.localdatasource.routine.model.InternalSegment
 
 @Database(entities = [InternalRoutine::class, InternalSegment::class], version = 1)
-@TypeConverters(TimeTypeConverter::class)
+@TypeConverters(TimeTypeConverter::class, OffsetDateTimeConverter::class)
 internal abstract class TempoDatabase : RoomDatabase() {
 
     abstract fun routineDao(): RoutineDao

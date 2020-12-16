@@ -7,8 +7,8 @@ import com.enricog.entities.routines.Routine
 internal data class InternalRoutineWithSegments(
     @Embedded val routine: InternalRoutine,
     @Relation(
-        parentColumn = "routineId_fk",
-        entityColumn = "segmentId"
+        parentColumn = "routineId",
+        entityColumn = "routineId_fk"
     )
     val segments: List<InternalSegment>
 ) {

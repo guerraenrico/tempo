@@ -21,6 +21,7 @@ object Libs {
         private const val coroutineVersion = "1.4.2"
 
         const val coroutines = "org.jetbrains.kotlinx:kotlinx-coroutines-android:$coroutineVersion"
+        const val stdlib = "org.jetbrains.kotlin:kotlin-stdlib:$version"
 
         object Test {
             const val coroutines = "org.jetbrains.kotlinx:kotlinx-coroutines-test:$coroutineVersion"
@@ -35,6 +36,15 @@ object Libs {
 
         const val fragmentKtx = "androidx.fragment:fragment-ktx:1.3.0-beta02"
         const val activityKtx = "androidx.activity:activity-ktx:1.2.0-beta02"
+
+        object Test {
+            const val junitKtx = "androidx.test.ext:junit-ktx:1.1.2-rc01"
+
+            private const val version = "1.2.0"
+            const val core = "androidx.test:core:$version"
+            const val rules = "androidx.test:rules:$version"
+            const val archCore = "androidx.arch.core:core-testing:2.1.0"
+        }
 
         object Compose {
             const val version = "1.0.0-alpha08"
@@ -103,12 +113,6 @@ object Libs {
 
     object Test {
         const val junit = "junit:junit:4.13"
-        const val junitKtx = "androidx.test.ext:junit-ktx:1.1.2-rc01"
-
-        private const val version = "1.2.0"
-        const val core = "androidx.test:core:$version"
-        const val rules = "androidx.test:rules:$version"
-
         const val flow = "app.cash.turbine:turbine:0.3.0"
     }
 
