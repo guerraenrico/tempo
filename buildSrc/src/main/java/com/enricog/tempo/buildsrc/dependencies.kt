@@ -17,7 +17,7 @@ object Versions {
 object Libs {
 
     object Kotlin {
-        const val version = "1.4.20"
+        const val version = "1.4.21"
         private const val coroutineVersion = "1.4.2"
 
         const val coroutines = "org.jetbrains.kotlinx:kotlinx-coroutines-android:$coroutineVersion"
@@ -47,7 +47,7 @@ object Libs {
         }
 
         object Compose {
-            const val version = "1.0.0-alpha08"
+            const val version = "1.0.0-alpha09"
 
             const val runtime = "androidx.compose.runtime:runtime:$version"
             const val foundation = "androidx.compose.foundation:foundation:$version"

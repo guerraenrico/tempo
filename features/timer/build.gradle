@@ -4,6 +4,7 @@ import com.enricog.tempo.buildsrc.Versions
 plugins {
     id 'com.android.library'
     id 'kotlin-android'
+    id 'kotlin-parcelize'
     id 'kotlin-kapt'
     id 'dagger.hilt.android.plugin'
 }
@@ -45,6 +46,8 @@ dependencies {
     implementation project(":core")
     implementation project(":base:base_android")
     implementation project(":ui_components")
+    implementation project(":entities")
+    implementation project(":data:datasource")
 
     implementation Libs.AndroidX.appCompat
     implementation Libs.AndroidX.coreKtx

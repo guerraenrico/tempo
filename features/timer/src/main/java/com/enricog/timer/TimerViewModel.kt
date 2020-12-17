@@ -8,16 +8,17 @@ import com.enricog.timer.models.TimerActions
 import com.enricog.timer.models.TimerConfiguration
 import com.enricog.timer.models.TimerState
 import com.enricog.timer.models.TimerViewState
+import com.enricog.timer.usecase.RoutineUseCase
 import kotlinx.coroutines.Job
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
-import kotlinx.coroutines.withContext
 
 internal class TimerViewModel @ViewModelInject constructor(
     dispatchers: CoroutineDispatchers,
     converter: TimerStateConverter,
+    configuration: TimerConfiguration,
     private val reducer: TimerReducer,
-    private val configuration: TimerConfiguration
+    private val routineUseCase: RoutineUseCase
 ) : BaseViewModel<TimerState, TimerViewState>(
     initialState = TimerState.Idle,
     converter = converter,
@@ -27,7 +28,19 @@ internal class TimerViewModel @ViewModelInject constructor(
     private var countingJob: Job? = null
 
     init {
-        state = reducer.progressTime(state)
+        load(configuration)
+    }
+
+    private fun load(configuration: TimerConfiguration) {
+        viewModelScope.launch {
+            val routine = routineUseCase.get(configuration.routineId)
+            state = reducer.setup(routine)
+
+            // Wait to render the state
+            delay(1000)
+
+            state = reducer.progressTime(state)
+        }
     }
 
     override fun onStartStopButtonClick() {
@@ -40,7 +53,8 @@ internal class TimerViewModel @ViewModelInject constructor(
 
     override fun onStateUpdated(currentState: TimerState) {
         when {
-            currentState is TimerState.Counting && currentState.isRunning && !currentState.isCompleted -> startCounting()
+            currentState is TimerState.Counting &&
+                    currentState.step.count.isRunning && !currentState.step.count.isCompleted -> startCounting()
             else -> stopCounting()
         }
     }

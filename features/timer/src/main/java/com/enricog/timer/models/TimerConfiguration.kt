@@ -1,3 +1,7 @@
 package com.enricog.timer.models
 
-internal data class TimerConfiguration(val routineId: Int)
+import android.os.Parcelable
+import kotlinx.parcelize.Parcelize
+
+@Parcelize
+internal data class TimerConfiguration(val routineId: Long): Parcelable
