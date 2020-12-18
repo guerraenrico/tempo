@@ -52,6 +52,11 @@ dependencies {
     implementation Libs.AndroidX.appCompat
     implementation Libs.Google.material
 
+    // Room
+    implementation Libs.Room.runtime
+    kapt Libs.Room.compiler
+    implementation Libs.Room.ktx
+
     // Compose
     implementation Libs.AndroidX.Compose.ui
     implementation Libs.AndroidX.Compose.material
