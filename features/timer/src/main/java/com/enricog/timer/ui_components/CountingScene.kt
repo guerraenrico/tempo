@@ -14,6 +14,7 @@ internal const val CountingSceneTestTag = "CountingSceneTestTag"
 
 @Composable
 internal fun CountingScene(state: TimerViewState.Counting, timerActions: TimerActions) {
+    val count = state.step.count
     Column(
         modifier = Modifier
             .fillMaxWidth()
@@ -24,9 +25,9 @@ internal fun CountingScene(state: TimerViewState.Counting, timerActions: TimerAc
     ) {
         Clock(
             backgroundColor = MaterialTheme.colors.primary,
-            timeInSeconds = state.timeInSeconds
+            timeInSeconds = count.timeInSeconds
         )
         Spacer(modifier = Modifier.height(40.dp))
-        ActionsBar(state.isRunning, timerActions)
+        ActionsBar(count.isRunning, timerActions)
     }
 }

@@ -14,7 +14,7 @@ class MainActivity : AppCompatActivity() {
 
         if (savedInstanceState == null) {
             supportFragmentManager.beginTransaction().apply {
-                replace(R.id.rootContainer, TimerFragment())
+                replace(R.id.rootContainer, TimerFragment.newInstance(1))
                 setReorderingAllowed(true)
                 commit()
             }

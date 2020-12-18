@@ -29,7 +29,7 @@ internal const val ClockTestTag = "ClockTestTag"
 internal const val ClockTimeTextTestTag = "ClockTimeTextTestTag"
 
 @Composable
-internal fun Clock(backgroundColor: Color, timeInSeconds: Int) {
+internal fun Clock(backgroundColor: Color, timeInSeconds: Long) {
     val size = 220.dp
     Shadow(
         contentSize = size,
@@ -51,7 +51,7 @@ internal fun Clock(backgroundColor: Color, timeInSeconds: Int) {
 }
 
 @Composable
-private fun TimeText(timeInSeconds: Int) {
+private fun TimeText(timeInSeconds: Long) {
     val timeText = remember(timeInSeconds) { buildTimeText(timeInSeconds) }
     Text(
         text = timeText,
@@ -76,7 +76,7 @@ private val SeparatorStyle = SpanStyle(
     letterSpacing = 2.sp
 )
 
-private fun buildTimeText(timeInSeconds: Int): AnnotatedString {
+private fun buildTimeText(timeInSeconds: Long): AnnotatedString {
     val minutes = timeInSeconds / 60
     val seconds = timeInSeconds - (minutes * 60)
 

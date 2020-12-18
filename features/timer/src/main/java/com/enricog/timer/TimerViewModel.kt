@@ -16,7 +16,6 @@ import kotlinx.coroutines.launch
 internal class TimerViewModel @ViewModelInject constructor(
     dispatchers: CoroutineDispatchers,
     converter: TimerStateConverter,
-    configuration: TimerConfiguration,
     private val reducer: TimerReducer,
     private val routineUseCase: RoutineUseCase
 ) : BaseViewModel<TimerState, TimerViewState>(
@@ -27,11 +26,7 @@ internal class TimerViewModel @ViewModelInject constructor(
 
     private var countingJob: Job? = null
 
-    init {
-        load(configuration)
-    }
-
-    private fun load(configuration: TimerConfiguration) {
+    fun load(configuration: TimerConfiguration) {
         viewModelScope.launch {
             val routine = routineUseCase.get(configuration.routineId)
             state = reducer.setup(routine)

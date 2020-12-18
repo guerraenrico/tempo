@@ -7,6 +7,7 @@ import android.view.ViewGroup
 import androidx.compose.ui.platform.ComposeView
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
+import com.enricog.timer.models.TimerConfiguration
 import com.enricog.ui_components.resources.TempoTheme
 import dagger.hilt.android.AndroidEntryPoint
 
@@ -29,4 +30,24 @@ class TimerFragment : Fragment() {
         }
     }
 
+    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
+        super.onViewCreated(view, savedInstanceState)
+
+        if (savedInstanceState == null) {
+            val routineId = requireArguments().getLong(ARGUMENT_ROUTINE_ID)
+            viewModel.load(TimerConfiguration(routineId))
+        }
+    }
+
+    companion object {
+        private const val ARGUMENT_ROUTINE_ID = "routine_id"
+
+        fun newInstance(routineId: Long): TimerFragment {
+            val args = Bundle()
+            args.putLong(ARGUMENT_ROUTINE_ID, routineId)
+            val fragment = TimerFragment()
+            fragment.arguments = args
+            return fragment
+        }
+    }
 }

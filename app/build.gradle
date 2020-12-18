@@ -64,10 +64,12 @@ dependencies {
     kapt Libs.Hilt.compiler
 
     implementation project(":core")
-    implementation project(":ui_components")
     implementation project(":base:base_android")
+    implementation project(":data:datasource")
+    implementation project(":data:localdatasource")
     implementation project(":features:timer")
     implementation project(":features:routines")
+    implementation project(":ui_components")
 
     coreLibraryDesugaring  Libs.Tools.desugar
 }
