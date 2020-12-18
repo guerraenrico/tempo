@@ -26,7 +26,7 @@ internal sealed class TimerState {
         }
 
         fun restartTime(): Counting {
-            return copy(step = step.copy(count = Count.IDLE)) // TODO the timeInSeconds should be reset to the right value
+            return copy(step = step.copy(count = Count.IDLE.copy(timeInSeconds = runningSegment.timeInSeconds)))
         }
 
         fun next(): Counting {
@@ -58,8 +58,3 @@ internal sealed class TimerState {
         }
     }
 }
-
-internal data class SegmentStep(
-    val count: Count,
-    val type: SegmentStepType
-)
