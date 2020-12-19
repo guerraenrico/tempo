@@ -2,6 +2,7 @@ package com.enricog.timer.models
 
 import com.enricog.entities.routines.Routine
 import com.enricog.entities.routines.Segment
+import com.enricog.entities.routines.TimeType
 
 internal sealed class TimerState {
 
@@ -13,10 +14,39 @@ internal sealed class TimerState {
         val step: SegmentStep
     ) : TimerState() {
 
-        fun updateTime(timeInSeconds: Long): Counting {
+        val isCountRunning: Boolean
+            get() = step.count.isRunning && !step.count.isCompleted
+
+        val isCountCompleted: Boolean
+            get() = step.count.isCompleted
+
+        val isLastSegment: Boolean
+            get() = routine.segments.indexOf(runningSegment) == routine.segments.size - 1
+
+        val isStopwatchRunning: Boolean
+            get() = runningSegment.type == TimeType.STOPWATCH &&
+                    step.type == SegmentStepType.IN_PROGRESS &&
+                    isCountRunning
+
+        fun progressTime(): Counting {
+            val goal = when (runningSegment.type) {
+                TimeType.TIMER, TimeType.REST -> 0L
+                TimeType.STOPWATCH -> runningSegment.timeInSeconds
+            }
+            val progress = when {
+                step.type == SegmentStepType.STARTING -> -1L
+                runningSegment.type == TimeType.TIMER || runningSegment.type == TimeType.REST -> -1L
+                runningSegment.type == TimeType.STOPWATCH -> 1L
+                else -> throw IllegalStateException("progress state not handled")
+            }
+            val timeInSeconds = step.count.timeInSeconds + progress
+            val isCompleted = goal == timeInSeconds
             return copy(
                 step = step.copy(
-                    count = step.count.copy(timeInSeconds = timeInSeconds)
+                    count = step.count.copy(
+                        timeInSeconds = timeInSeconds,
+                        isCompleted = isCompleted
+                    )
                 )
             )
         }
@@ -26,10 +56,18 @@ internal sealed class TimerState {
         }
 
         fun restartTime(): Counting {
-            return copy(step = step.copy(count = Count.IDLE.copy(timeInSeconds = runningSegment.timeInSeconds)))
+            return copy(step = step.copy(count = Count.idle(timeInSeconds = runningSegment.timeInSeconds)))
         }
 
-        fun next(): Counting {
+        fun completeCount(): Counting {
+            return copy(
+                step = step.copy(
+                    count = step.count.copy(isCompleted = true)
+                )
+            )
+        }
+
+        fun nextStep(): Counting {
             return when (step.type) {
                 SegmentStepType.STARTING -> nextSegmentStep()
                 SegmentStepType.IN_PROGRESS -> nextSegment()

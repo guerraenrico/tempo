@@ -6,7 +6,9 @@ internal data class Count(
     val isCompleted: Boolean
 ) {
     companion object {
-        val IDLE = Count(timeInSeconds = 0, isRunning = false, isCompleted = false)
+        fun idle(timeInSeconds: Long): Count {
+            return Count(timeInSeconds = timeInSeconds, isRunning = false, isCompleted = false)
+        }
 
         fun start(timeInSeconds: Long): Count {
             return Count(timeInSeconds = timeInSeconds, isRunning = true, isCompleted = false)

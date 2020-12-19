@@ -34,7 +34,7 @@ internal class TimerViewModel @ViewModelInject constructor(
             // Wait to render the state
             delay(1000)
 
-            state = reducer.progressTime(state)
+            state = reducer.toggleTimeRunning(state)
         }
     }
 
@@ -47,11 +47,16 @@ internal class TimerViewModel @ViewModelInject constructor(
     }
 
     override fun onStateUpdated(currentState: TimerState) {
-        when {
-            currentState is TimerState.Counting &&
-                    currentState.step.count.isRunning && !currentState.step.count.isCompleted -> startCounting()
-            else -> stopCounting()
+        if (currentState is TimerState.Counting) {
+            if (currentState.isCountRunning) {
+                startCounting()
+                return
+            }
+            if (currentState.isCountCompleted) {
+                state = reducer.nextStep(state)
+            }
         }
+        stopCounting()
     }
 
     private fun startCounting() {
