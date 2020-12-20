@@ -1,5 +1,6 @@
 package com.enricog.timer.ui_components
 
+import androidx.compose.animation.animate
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
@@ -31,6 +32,7 @@ internal const val ClockTimeTextTestTag = "ClockTimeTextTestTag"
 @Composable
 internal fun Clock(backgroundColor: Color, timeInSeconds: Long) {
     val size = 220.dp
+    val animatedBackgroundColor = animate(backgroundColor)
     Shadow(
         contentSize = size,
         size = 20.dp
@@ -38,11 +40,11 @@ internal fun Clock(backgroundColor: Color, timeInSeconds: Long) {
         Column(
             modifier = Modifier
                 .testTag(ClockTestTag)
-                .background(color = backgroundColor, shape = CircleShape)
+                .background(color = animatedBackgroundColor, shape = CircleShape)
                 .height(size)
                 .width(size),
             verticalArrangement = Arrangement.Center,
-            horizontalAlignment = Alignment.CenterHorizontally
+            horizontalAlignment = Alignment.CenterHorizontally,
         ) {
             TimeText(timeInSeconds = timeInSeconds)
         }

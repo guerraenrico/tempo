@@ -31,7 +31,6 @@ internal class TimerViewModel @ViewModelInject constructor(
             val routine = routineUseCase.get(configuration.routineId)
             state = reducer.setup(routine)
 
-            // Wait to render the state
             delay(1000)
 
             state = reducer.toggleTimeRunning(state)
@@ -64,10 +63,7 @@ internal class TimerViewModel @ViewModelInject constructor(
     private fun onCountCompleted() {
         viewModelScope.launch {
             delay(1000)
-
             state = reducer.nextStep(state)
-
-            state = reducer.toggleTimeRunning(state)
         }
     }
 

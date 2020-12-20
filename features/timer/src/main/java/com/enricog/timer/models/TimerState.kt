@@ -77,7 +77,7 @@ internal sealed class TimerState {
         private fun nextSegmentStep(): Counting {
             return copy(
                 step = SegmentStep(
-                    count = Count.idle(runningSegment.timeInSeconds),
+                    count = Count.start(runningSegment.timeInSeconds),
                     type = SegmentStepType.IN_PROGRESS
                 )
             )
@@ -94,7 +94,7 @@ internal sealed class TimerState {
             return copy(
                 runningSegment = segment,
                 step = SegmentStep(
-                    count = Count.idle(routine.startTimeOffsetInSeconds),
+                    count = Count.start(routine.startTimeOffsetInSeconds),
                     type = type
                 )
             )
