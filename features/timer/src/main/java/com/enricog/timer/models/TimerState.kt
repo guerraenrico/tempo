@@ -74,25 +74,31 @@ internal sealed class TimerState {
             }
         }
 
-        private fun nextSegment(): Counting {
-            val indexRunningSegment = routine.segments.indexOf(runningSegment)
-            val segment = routine.segments[indexRunningSegment + 1]
-            return copy(
-                runningSegment = segment,
-                step = SegmentStep(
-                    count = Count.start(routine.startTimeOffsetInSeconds),
-                    type = SegmentStepType.STARTING
-                )
-            )
-        }
-
         private fun nextSegmentStep(): Counting {
             return copy(
                 step = SegmentStep(
-                    count = Count.start(runningSegment.timeInSeconds),
+                    count = Count.idle(runningSegment.timeInSeconds),
                     type = SegmentStepType.IN_PROGRESS
                 )
             )
         }
+
+        private fun nextSegment(): Counting {
+            val indexRunningSegment = routine.segments.indexOf(runningSegment)
+            val segment = routine.segments[indexRunningSegment + 1]
+            val type = if (segment.type != TimeType.REST) {
+                SegmentStepType.STARTING
+            } else {
+                SegmentStepType.IN_PROGRESS
+            }
+            return copy(
+                runningSegment = segment,
+                step = SegmentStep(
+                    count = Count.idle(routine.startTimeOffsetInSeconds),
+                    type = type
+                )
+            )
+        }
+
     }
 }

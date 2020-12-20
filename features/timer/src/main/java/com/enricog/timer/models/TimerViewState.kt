@@ -1,5 +1,6 @@
 package com.enricog.timer.models
 
+import androidx.compose.ui.graphics.Color
 import com.enricog.entities.routines.Segment
 
 internal sealed class TimerViewState {
@@ -8,6 +9,7 @@ internal sealed class TimerViewState {
 
     data class Counting(
         val runningSegment: Segment,
-        val step: SegmentStep
+        val step: SegmentStep,
+        val clockBackgroundColor: Color
     ) : TimerViewState()
 }

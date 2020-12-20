@@ -22,13 +22,12 @@ internal class TimerReducer @Inject constructor() {
 
     fun progressTime(state: TimerState): TimerState {
         if (state !is TimerState.Counting || !state.isCountRunning) return state
+
         return state.progressTime()
     }
 
     fun toggleTimeRunning(state: TimerState): TimerState {
-        if (state !is TimerState.Counting) return state
-
-        // TODO should check if the stop button is pressed when the segment is completed?
+        if (state !is TimerState.Counting || state.isCountCompleted) return state
 
         return if (state.isStopwatchRunning) {
             state.completeCount()
@@ -39,16 +38,13 @@ internal class TimerReducer @Inject constructor() {
 
     fun restartTime(state: TimerState): TimerState {
         if (state !is TimerState.Counting) return state
+
         return state.restartTime()
     }
 
     fun nextStep(state: TimerState): TimerState {
-        if (state !is TimerState.Counting) return state
+        if (state !is TimerState.Counting || state.isLastSegment) return state
 
-        return if (!state.isLastSegment) {
-            state.nextStep()
-        } else {
-            state
-        }
+        return state.nextStep()
     }
 }

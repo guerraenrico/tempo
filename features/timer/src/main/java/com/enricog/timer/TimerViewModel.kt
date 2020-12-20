@@ -53,17 +53,29 @@ internal class TimerViewModel @ViewModelInject constructor(
                 return
             }
             if (currentState.isCountCompleted) {
-                state = reducer.nextStep(state)
+                stopCounting()
+                onCountCompleted()
+                return
             }
         }
         stopCounting()
+    }
+
+    private fun onCountCompleted() {
+        viewModelScope.launch {
+            delay(1000)
+
+            state = reducer.nextStep(state)
+
+            state = reducer.toggleTimeRunning(state)
+        }
     }
 
     private fun startCounting() {
         if (countingJob?.isActive == true) return
 
         countingJob = viewModelScope.launch {
-            for (i in 1..1000) {
+            while (true) {
                 delay(1000)
                 state = reducer.progressTime(state)
             }
