@@ -29,15 +29,14 @@ internal sealed class TimerState {
                     isCountRunning
 
         fun progressTime(): Counting {
-            val goal = when (runningSegment.type) {
-                TimeType.TIMER, TimeType.REST -> 0L
-                TimeType.STOPWATCH -> runningSegment.timeInSeconds
+            val goal = when {
+                step.type == SegmentStepType.STARTING -> 0L
+                runningSegment.type == TimeType.STOPWATCH -> -1L
+                else -> 0L
             }
-            val progress = when {
-                step.type == SegmentStepType.STARTING -> -1L
-                runningSegment.type == TimeType.TIMER || runningSegment.type == TimeType.REST -> -1L
-                runningSegment.type == TimeType.STOPWATCH -> 1L
-                else -> throw IllegalStateException("progress state not handled")
+            val progress = when (step.type) {
+                SegmentStepType.STARTING -> -1L
+                else -> runningSegment.type.progress
             }
             val timeInSeconds = step.count.timeInSeconds + progress
             val isCompleted = goal == timeInSeconds
@@ -86,15 +85,15 @@ internal sealed class TimerState {
         private fun nextSegment(): Counting {
             val indexRunningSegment = routine.segments.indexOf(runningSegment)
             val segment = routine.segments[indexRunningSegment + 1]
-            val type = if (segment.type != TimeType.REST) {
-                SegmentStepType.STARTING
+            val (type, timeInSeconds) = if (segment.type != TimeType.REST) {
+                SegmentStepType.STARTING to routine.startTimeOffsetInSeconds
             } else {
-                SegmentStepType.IN_PROGRESS
+                SegmentStepType.IN_PROGRESS to segment.timeInSeconds
             }
             return copy(
                 runningSegment = segment,
                 step = SegmentStep(
-                    count = Count.start(routine.startTimeOffsetInSeconds),
+                    count = Count.start(timeInSeconds),
                     type = type
                 )
             )

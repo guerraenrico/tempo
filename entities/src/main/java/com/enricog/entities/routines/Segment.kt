@@ -5,4 +5,6 @@ data class Segment(
     val name: String,
     val timeInSeconds: Long,
     val type: TimeType
-)
+) {
+    companion object
+}

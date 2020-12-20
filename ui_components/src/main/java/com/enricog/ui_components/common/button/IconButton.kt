@@ -7,7 +7,7 @@ import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.material.Icon
-import androidx.compose.material.ripple.rememberRippleIndication
+import androidx.compose.material.ripple.rememberRipple
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.remember
 import androidx.compose.ui.Alignment
@@ -41,7 +41,7 @@ fun IconButton(
                     onClick = onClick,
                     enabled = enabled,
                     interactionState = remember { InteractionState() },
-                    indication = rememberRippleIndication(
+                    indication = rememberRipple(
                         bounded = false,
                         radius = size.box / 2
                     )

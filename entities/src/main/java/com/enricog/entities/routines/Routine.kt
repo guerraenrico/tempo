@@ -9,4 +9,6 @@ data class Routine(
     val createdAt: OffsetDateTime,
     val updatedAt: OffsetDateTime,
     val segments: List<Segment>
-)
+) {
+    companion object
+}

@@ -25,6 +25,7 @@ android {
 
 dependencies {
     implementation project(":core")
+    implementation project(":entities")
 
     implementation Libs.AndroidX.appCompat
     implementation Libs.AndroidX.coreKtx

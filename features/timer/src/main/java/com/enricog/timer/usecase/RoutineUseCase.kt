@@ -22,9 +22,9 @@ internal class RoutineUseCase @Inject constructor(
             updatedAt = OffsetDateTime.now(),
             segments = listOf(
                 Segment(id = 1, name = "Segment 1", timeInSeconds = 15, type = TimeType.TIMER),
+                Segment(id = 4, name = "Segment 4", timeInSeconds = 0, type = TimeType.STOPWATCH),
                 Segment(id = 2, name = "Segment 2", timeInSeconds = 10, type = TimeType.REST),
                 Segment(id = 3, name = "Segment 3", timeInSeconds = 15, type = TimeType.TIMER),
-                Segment(id = 4, name = "Segment 4", timeInSeconds = 0, type = TimeType.STOPWATCH),
                 Segment(id = 5, name = "Segment 5", timeInSeconds = 10, type = TimeType.REST),
                 )
         )
