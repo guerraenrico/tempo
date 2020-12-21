@@ -1,104 +1,119 @@
 package com.enricog.timer
 
-import app.cash.turbine.test
 import com.enricog.base_test.coroutine.CoroutineRule
-import com.enricog.timer.models.TimerViewState
-import kotlinx.coroutines.flow.first
-import kotlinx.coroutines.flow.flowOf
-import kotlinx.coroutines.flow.single
-import kotlinx.coroutines.flow.singleOrNull
-import org.junit.Assert.assertEquals
+import com.enricog.base_test.entities.routines.EMPTY
+import com.enricog.entities.routines.Routine
+import com.enricog.entities.routines.Segment
+import com.enricog.timer.models.*
+import com.enricog.timer.usecase.RoutineUseCase
+import io.mockk.coEvery
+import io.mockk.every
+import io.mockk.mockk
+import io.mockk.verify
+import org.junit.Before
 import org.junit.Rule
 import org.junit.Test
-import kotlin.time.seconds
+import kotlin.test.assertTrue
 
-// TODO: Complete
 class TimerViewModelTest {
 
-//    @get:Rule
-//    val coroutineRule = CoroutineRule()
-//
-//    private val converter: TimerStateConverter = TimerStateConverter()
-//    private val reducer: TimerReducer = TimerReducer()
-//
-//    @Test
-//    fun `should stop counting`() = coroutineRule {
-//        val sut = buildSut(2)
-//
-//        advanceUntilIdle()
-//        assertEquals(
-//            TimerViewState.Counting(timeInSeconds = 1, isRunning = true),
-//            sut.viewState.singleOrNull()
-//        )
-//
-////        sut.onStartStopButtonClick()
-//
-////        advanceUntilIdle()
-//
-////        assertEquals(
-////            TimerViewState.Counting(timeInSeconds = 1, isRunning = false),
-////            sut.viewState.singleOrNull()
-////        )
-//    }
-//
-//    @Test
-//    fun `should continue counting`() = coroutineRule {
-//        val sut = buildSut(2)
-//
-//        advanceUntilIdle()
-//        sut.viewState.test {
-//            assertEquals(TimerViewState.Counting(timeInSeconds = 1, isRunning = true), expectItem())
-//
-//        }
-//
-//        sut.onStartStopButtonClick()
-//
-//        advanceUntilIdle()
-//        sut.viewState.test {
-//            assertEquals(
-//                TimerViewState.Counting(timeInSeconds = 1, isRunning = false),
-//                expectItem()
-//            )
-//        }
-//
-//        sut.onStartStopButtonClick()
-//
-//        advanceUntilIdle()
-//        sut.viewState.test {
-//            assertEquals(TimerViewState.Counting(timeInSeconds = 2, isRunning = true), expectItem())
-//        }
-//    }
-//
-//    @Test
-//    fun `onRestart should stop and reset counting`() = coroutineRule {
-//        val sut = buildSut(2)
-//
-//        advanceUntilIdle()
-//        sut.viewState.test {
-//            assertEquals(TimerViewState.Counting(timeInSeconds = 1, isRunning = true), expectItem())
-//        }
-//
-//        advanceUntilIdle()
-//        sut.viewState.test {
-//            assertEquals(TimerViewState.Counting(timeInSeconds = 2, isRunning = true), expectItem())
-//        }
-//
-//        sut.onRestartButtonClick()
-//
-//        advanceUntilIdle()
-//        sut.viewState.test {
-//            assertEquals(
-//                TimerViewState.Counting(timeInSeconds = 0, isRunning = false),
-//                expectItem()
-//            )
-//        }
-//    }
-//
-//    private fun buildSut(timeInSeconds: Int): TimerViewModel {
-//        return TimerViewModel(
-//            dispatchers = coroutineRule.dispatchers,
-//            converter = converter,
-//            reducer = reducer
-//        )
-//    }
+    @get:Rule
+    val coroutineRule = CoroutineRule()
+
+    private val converter: TimerStateConverter = mockk()
+    private val reducer: TimerReducer = mockk()
+    private val routineUseCase: RoutineUseCase = mockk()
+    private val configuration = TimerConfiguration(routineId = 1)
+
+    @Before
+    fun setup() {
+        coEvery { routineUseCase.get(any()) } returns Routine.EMPTY
+        coEvery { converter.convert(any()) } returns TimerViewState.Idle
+        every { reducer.setup(any()) } returns TimerState.Idle
+    }
+
+    @Test
+    fun `test onStartStopButtonClick`() = coroutineRule {
+        every { reducer.toggleTimeRunning(any()) } returns TimerState.Idle
+
+        val sut = buildSut().apply { load(configuration) }
+
+        advanceUntilIdle()
+        sut.onStartStopButtonClick()
+
+        verify { reducer.toggleTimeRunning(any()) }
+    }
+
+    @Test
+    fun `test onRestartButtonClick`() = coroutineRule {
+        every { reducer.restartTime(any()) } returns TimerState.Idle
+        every { reducer.toggleTimeRunning(any()) } returns TimerState.Idle
+
+        val sut = buildSut().apply { load(configuration) }
+
+        advanceUntilIdle()
+        sut.onRestartButtonClick()
+
+        verify { reducer.restartTime(any()) }
+    }
+
+    @Test
+    fun `test every second should call progressTime`() = coroutineRule {
+        val countingState = TimerState.Counting(
+            routine = Routine.EMPTY,
+            runningSegment = Segment.EMPTY,
+            step = SegmentStep(
+                count = Count(timeInSeconds = 5, isRunning = true, isCompleted = false),
+                type = SegmentStepType.STARTING
+            )
+        )
+        every { reducer.progressTime(any()) } returns TimerState.Idle
+        every { reducer.toggleTimeRunning(any()) } returns countingState
+
+        buildSut().apply { load(configuration) }
+
+        advanceUntilIdle()
+
+        verify { reducer.progressTime(any()) }
+    }
+
+    @Test
+    fun `test onStateUpdated countingJob is cancelled when isCountCompleted`() = coroutineRule {
+        val countingStateInitial = TimerState.Counting(
+            routine = Routine.EMPTY,
+            runningSegment = Segment.EMPTY,
+            step = SegmentStep(
+                count = Count(timeInSeconds = 5, isRunning = true, isCompleted = false),
+                type = SegmentStepType.STARTING
+            )
+        )
+        val countingStateCompleted = TimerState.Counting(
+            routine = Routine.EMPTY,
+            runningSegment = Segment.EMPTY,
+            step = SegmentStep(
+                count = Count(timeInSeconds = 5, isRunning = true, isCompleted = true),
+                type = SegmentStepType.STARTING
+            )
+        )
+        every { reducer.nextStep(any()) } returns TimerState.Idle
+        every { reducer.progressTime(any()) } returns countingStateCompleted
+        every { reducer.toggleTimeRunning(any()) } returns countingStateInitial
+
+        val sut = buildSut().apply { load(configuration) }
+
+        advanceUntilIdle()
+
+        verify { reducer.progressTime(any()) }
+        verify { reducer.nextStep(any()) }
+        assertTrue(sut.countingJob?.isCancelled ?: false)
+    }
+
+    private fun buildSut(): TimerViewModel {
+        return TimerViewModel(
+            dispatchers = coroutineRule.dispatchers,
+            converter = converter,
+            reducer = reducer,
+            routineUseCase = routineUseCase
+        )
+    }
 }

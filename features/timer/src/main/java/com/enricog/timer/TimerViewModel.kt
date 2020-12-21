@@ -1,5 +1,6 @@
 package com.enricog.timer
 
+import androidx.annotation.VisibleForTesting
 import androidx.hilt.lifecycle.ViewModelInject
 import androidx.lifecycle.viewModelScope
 import com.enricog.base_android.viewmodel.BaseViewModel
@@ -24,7 +25,8 @@ internal class TimerViewModel @ViewModelInject constructor(
     dispatchers = dispatchers
 ), TimerActions {
 
-    private var countingJob: Job? = null
+    @VisibleForTesting(otherwise = VisibleForTesting.PRIVATE)
+    internal var countingJob: Job? = null
 
     fun load(configuration: TimerConfiguration) {
         viewModelScope.launch {
