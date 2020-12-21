@@ -29,6 +29,7 @@ allprojects {
             freeCompilerArgs += "-Xuse-experimental=kotlinx.coroutines.ExperimentalCoroutinesApi"
             freeCompilerArgs += "-Xuse-experimental=kotlin.contracts.ExperimentalContracts"
             freeCompilerArgs += "-Xuse-experimental=kotlin.time.ExperimentalTime"
+            freeCompilerArgs += "-Xuse-experimental=androidx.compose.material.ExperimentalMaterialApi"
 
             freeCompilerArgs += ["-Xallow-jvm-ir-dependencies", "-Xskip-prerelease-check"]
         }

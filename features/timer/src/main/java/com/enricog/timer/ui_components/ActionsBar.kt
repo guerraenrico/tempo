@@ -9,7 +9,9 @@ import androidx.compose.ui.res.vectorResource
 import androidx.compose.ui.unit.dp
 import com.enricog.timer.R
 import com.enricog.timer.models.TimerActions
-import com.enricog.ui_components.common.button.IconButton
+import com.enricog.ui_components.common.button.TempoButton
+import com.enricog.ui_components.common.button.TempoButtonColor
+import com.enricog.ui_components.common.button.TempoIconButton
 
 internal const val ActionBarTestTag = "ActionBarTestTag"
 
@@ -25,12 +27,14 @@ internal fun ActionsBar(isTimeRunning: Boolean, timerActions: TimerActions) {
         RestartButton(onClick = timerActions::onRestartButtonClick)
         Spacer(modifier = Modifier.width(20.dp))
         StartStopButton(isRunning = isTimeRunning, onClick = timerActions::onStartStopButtonClick)
+        Spacer(modifier = Modifier.width(20.dp))
+        TempoButton(onClick = {}, text = "DONE", color = TempoButtonColor.Normal)
     }
 }
 
 @Composable
 private fun RestartButton(onClick: () -> Unit) {
-    IconButton(onClick = onClick, icon = vectorResource(R.drawable.ic_timer_restart))
+    TempoIconButton(onClick = onClick, icon = vectorResource(R.drawable.ic_timer_restart))
 }
 
 @Composable
@@ -40,5 +44,5 @@ private fun StartStopButton(isRunning: Boolean, onClick: () -> Unit) {
     } else {
         R.drawable.ic_timer_play
     }
-    IconButton(onClick = onClick, icon = vectorResource(icon))
+    TempoIconButton(onClick = onClick, icon = vectorResource(icon))
 }

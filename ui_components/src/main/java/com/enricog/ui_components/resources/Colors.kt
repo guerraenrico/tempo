@@ -16,7 +16,10 @@ val orange500 = Color(0xff_C7600D)
 
 val purple500 = Color(0xff_722CCE)
 
+val grey100 = Color(0xff_fafafa)
+
 val white = Color(0xff_ffffff)
+val black = Color(0xff_000000)
 
 val red = Color(0xff_cf6679)
 

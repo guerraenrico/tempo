@@ -33,10 +33,7 @@ internal const val ClockTimeTextTestTag = "ClockTimeTextTestTag"
 internal fun Clock(backgroundColor: Color, timeInSeconds: Long) {
     val size = 220.dp
     val animatedBackgroundColor = animate(backgroundColor)
-    Shadow(
-        contentSize = size,
-        size = 20.dp
-    ) {
+    Shadow(size = 20.dp) {
         Column(
             modifier = Modifier
                 .testTag(ClockTestTag)
