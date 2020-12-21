@@ -18,7 +18,7 @@ class ClockKtTest {
     @Test
     fun shouldShowClockWitSeconds() = composeRule {
         val color = Color.Red
-        val timeInSeconds = 10
+        val timeInSeconds = 10L
         setContent {
             TempoTheme {
                 Clock(backgroundColor = color, timeInSeconds = timeInSeconds)
@@ -32,7 +32,7 @@ class ClockKtTest {
     @Test
     fun shouldShowClockWitMinutesAndSeconds() = composeRule {
         val color = Color.Red
-        val timeInSeconds = 90
+        val timeInSeconds = 90L
         setContent {
             TempoTheme {
                 Clock(backgroundColor = color, timeInSeconds = timeInSeconds)
