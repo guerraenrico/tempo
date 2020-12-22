@@ -78,7 +78,7 @@ class TimerStateTest {
     }
 
     @Test
-    fun `test isLastSegment`() {
+    fun `test isRoutineCompleted`() {
         var sut = TimerState.Counting(
             routine = Routine.EMPTY.copy(
                 segments = listOf(
@@ -87,11 +87,11 @@ class TimerStateTest {
             ),
             runningSegment = Segment.EMPTY.copy(id = 2),
             step = SegmentStep(
-                count = Count.idle(timeInSeconds = 0),
-                type = SegmentStepType.STARTING
+                count = Count(timeInSeconds = 0, isRunning = true, isCompleted = true),
+                type = SegmentStepType.IN_PROGRESS
             )
         )
-        assertTrue(sut.isLastSegment)
+        assertTrue(sut.isRoutineCompleted)
 
         sut = TimerState.Counting(
             routine = Routine.EMPTY.copy(
@@ -101,11 +101,39 @@ class TimerStateTest {
             ),
             runningSegment = Segment.EMPTY.copy(id = 1),
             step = SegmentStep(
-                count = Count.idle(timeInSeconds = 0),
+                count = Count(timeInSeconds = 0, isRunning = true, isCompleted = true),
+                type = SegmentStepType.IN_PROGRESS
+            )
+        )
+        assertFalse(sut.isRoutineCompleted)
+
+        sut = TimerState.Counting(
+            routine = Routine.EMPTY.copy(
+                segments = listOf(
+                    Segment.EMPTY.copy(id = 1), Segment.EMPTY.copy(id = 2)
+                )
+            ),
+            runningSegment = Segment.EMPTY.copy(id = 2),
+            step = SegmentStep(
+                count = Count(timeInSeconds = 0, isRunning = true, isCompleted = true),
                 type = SegmentStepType.STARTING
             )
         )
-        assertFalse(sut.isLastSegment)
+        assertFalse(sut.isRoutineCompleted)
+
+        sut = TimerState.Counting(
+            routine = Routine.EMPTY.copy(
+                segments = listOf(
+                    Segment.EMPTY.copy(id = 1), Segment.EMPTY.copy(id = 2)
+                )
+            ),
+            runningSegment = Segment.EMPTY.copy(id = 2),
+            step = SegmentStep(
+                count = Count(timeInSeconds = 0, isRunning = true, isCompleted = false),
+                type = SegmentStepType.IN_PROGRESS
+            )
+        )
+        assertFalse(sut.isRoutineCompleted)
     }
 
     @Test

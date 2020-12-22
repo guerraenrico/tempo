@@ -224,7 +224,7 @@ class TimerReducerTest {
             routine = routine,
             runningSegment = Segment.EMPTY,
             step = SegmentStep(
-                count = Count(timeInSeconds = 0, isRunning = false, isCompleted = false),
+                count = Count(timeInSeconds = 0, isRunning = false, isCompleted = true),
                 type = SegmentStepType.IN_PROGRESS
             )
         )
@@ -236,6 +236,27 @@ class TimerReducerTest {
                 type = SegmentStepType.STARTING
             )
         )
+
+        val result = sut.nextStep(state)
+
+        assertEquals(expected, result)
+    }
+
+    @Test
+    fun `test nextStep should return done state when routine is completed`() = coroutineRule {
+        val segment = Segment.EMPTY.copy(timeInSeconds = 10, type = TimeType.TIMER)
+        val routine = Routine.EMPTY.copy(
+            segments = listOf(segment)
+        )
+        val state = TimerState.Counting(
+            routine = routine,
+            runningSegment = segment,
+            step = SegmentStep(
+                count = Count(timeInSeconds = 0, isRunning = false, isCompleted = true),
+                type = SegmentStepType.IN_PROGRESS
+            )
+        )
+        val expected = TimerState.Done(routine)
 
         val result = sut.nextStep(state)
 

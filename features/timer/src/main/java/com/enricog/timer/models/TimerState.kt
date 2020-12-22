@@ -20,8 +20,10 @@ internal sealed class TimerState {
         val isCountCompleted: Boolean
             get() = step.count.isCompleted
 
-        val isLastSegment: Boolean
-            get() = routine.segments.indexOf(runningSegment) == routine.segments.size - 1
+        val isRoutineCompleted: Boolean
+            get() = routine.segments.indexOf(runningSegment) == routine.segments.size - 1 &&
+                    step.type == SegmentStepType.IN_PROGRESS &&
+                    step.count.isCompleted
 
         val isStopwatchRunning: Boolean
             get() = runningSegment.type == TimeType.STOPWATCH &&
@@ -101,5 +103,5 @@ internal sealed class TimerState {
 
     }
 
-    data class Done(val routine: Routine): TimerState()
+    data class Done(val routine: Routine) : TimerState()
 }
