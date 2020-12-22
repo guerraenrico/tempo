@@ -7,6 +7,8 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.platform.testTag
+import androidx.compose.ui.res.stringResource
+import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import com.enricog.timer.models.TimerActions
 import com.enricog.timer.models.TimerViewState
@@ -24,9 +26,12 @@ internal fun CountingScene(state: TimerViewState.Counting, timerActions: TimerAc
         verticalArrangement = Arrangement.Center,
         horizontalAlignment = Alignment.CenterHorizontally
     ) {
-        Text(text = state.step.type.name, style = MaterialTheme.typography.h1)
+        Text(text = stringResource(state.stepTitleId), style = MaterialTheme.typography.h3)
         Spacer(modifier = Modifier.height(10.dp))
-        Text(text = state.runningSegment.name, style = MaterialTheme.typography.h1)
+        Text(
+            text = state.segmentName,
+            style = MaterialTheme.typography.h1.copy(fontWeight = FontWeight.Normal)
+        )
         Spacer(modifier = Modifier.height(40.dp))
         Clock(
             backgroundColor = state.clockBackgroundColor,

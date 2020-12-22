@@ -58,7 +58,7 @@ internal class TimerViewModel @ViewModelInject constructor(
         state = reducer.restartTime(state)
     }
 
-    override fun onResetButtonClick() = runWhen<TimerState.Done> { state ->
+    override fun onResetButtonClick() = runWhen<TimerState.Counting> { state ->
         start(state.routine)
     }
 

@@ -102,6 +102,4 @@ internal sealed class TimerState {
         }
 
     }
-
-    data class Done(val routine: Routine) : TimerState()
 }

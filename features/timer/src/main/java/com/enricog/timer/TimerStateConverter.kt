@@ -1,5 +1,6 @@
 package com.enricog.timer
 
+import androidx.annotation.StringRes
 import androidx.compose.ui.graphics.Color
 import com.enricog.base_android.viewmodel.StateConverter
 import com.enricog.entities.routines.TimeType
@@ -19,15 +20,16 @@ internal class TimerStateConverter @Inject constructor() :
         return when (state) {
             TimerState.Idle -> TimerViewState.Idle
             is TimerState.Counting -> mapCounting(state)
-            is TimerState.Done -> TimerViewState.Done
         }
     }
 
     private fun mapCounting(state: TimerState.Counting): TimerViewState.Counting {
         return TimerViewState.Counting(
-            runningSegment = state.runningSegment,
             step = state.step,
-            clockBackgroundColor = state.getClockBackgroundColor()
+            stepTitleId = state.getStepTitleId(),
+            segmentName = state.runningSegment.name,
+            clockBackgroundColor = state.getClockBackgroundColor(),
+            isRoutineCompleted = state.isRoutineCompleted
         )
     }
 
@@ -37,7 +39,17 @@ internal class TimerStateConverter @Inject constructor() :
             runningSegment.type == TimeType.REST -> purple500
             runningSegment.type == TimeType.TIMER -> blue500
             runningSegment.type == TimeType.STOPWATCH -> darkBlue500
-            else -> darkBlue500
+            else -> throw IllegalArgumentException("unhandled case")
+        }
+    }
+
+    @StringRes
+    private fun TimerState.Counting.getStepTitleId(): Int {
+        return when {
+            runningSegment.type == TimeType.REST -> R.string.title_segment_time_type_rest
+            step.type == SegmentStepType.STARTING -> R.string.title_segment_step_type_starting
+            step.type == SegmentStepType.IN_PROGRESS -> R.string.title_segment_step_type_in_progress
+            else -> throw IllegalArgumentException("unhandled case")
         }
     }
 }
