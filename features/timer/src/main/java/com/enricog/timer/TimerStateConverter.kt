@@ -19,6 +19,7 @@ internal class TimerStateConverter @Inject constructor() :
         return when (state) {
             TimerState.Idle -> TimerViewState.Idle
             is TimerState.Counting -> mapCounting(state)
+            is TimerState.Done -> TimerViewState.Done
         }
     }
 

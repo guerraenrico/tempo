@@ -33,6 +33,10 @@ internal fun CountingScene(state: TimerViewState.Counting, timerActions: TimerAc
             timeInSeconds = count.timeInSeconds
         )
         Spacer(modifier = Modifier.height(40.dp))
-        ActionsBar(count.isRunning, timerActions)
+        ActionsBar(
+            isTimeRunning = count.isRunning,
+            isRoutineCompleted = false,
+            timerActions = timerActions
+        )
     }
 }

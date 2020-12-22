@@ -5,6 +5,7 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.platform.testTag
+import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.res.vectorResource
 import androidx.compose.ui.unit.dp
 import com.enricog.timer.R
@@ -16,7 +17,11 @@ import com.enricog.ui_components.common.button.TempoIconButton
 internal const val ActionBarTestTag = "ActionBarTestTag"
 
 @Composable
-internal fun ActionsBar(isTimeRunning: Boolean, timerActions: TimerActions) {
+internal fun ActionsBar(
+    isTimeRunning: Boolean,
+    isRoutineCompleted: Boolean,
+    timerActions: TimerActions
+) {
     Row(
         modifier = Modifier
             .fillMaxWidth()
@@ -24,12 +29,45 @@ internal fun ActionsBar(isTimeRunning: Boolean, timerActions: TimerActions) {
         verticalAlignment = Alignment.CenterVertically,
         horizontalArrangement = Arrangement.Center
     ) {
-        RestartButton(onClick = timerActions::onRestartButtonClick)
-        Spacer(modifier = Modifier.width(20.dp))
-        StartStopButton(isRunning = isTimeRunning, onClick = timerActions::onStartStopButtonClick)
-        Spacer(modifier = Modifier.width(20.dp))
-        TempoButton(onClick = {}, text = "DONE", color = TempoButtonColor.Normal)
+        if (isRoutineCompleted) {
+            DoneActions(
+                onResetButtonClick = timerActions::onResetButtonClick,
+                onDoneButtonClick = timerActions::onDoneButtonClick
+            )
+        } else {
+            RunningActions(
+                isTimeRunning = isTimeRunning,
+                onRestartSegmentButtonClick = timerActions::onRestartSegmentButtonClick,
+                onStartStopButtonClick = timerActions::onStartStopButtonClick
+            )
+        }
+
     }
+}
+
+@Composable
+private fun RunningActions(
+    isTimeRunning: Boolean,
+    onRestartSegmentButtonClick: () -> Unit,
+    onStartStopButtonClick: () -> Unit
+) {
+    RestartButton(onClick = onRestartSegmentButtonClick)
+    Spacer(modifier = Modifier.width(20.dp))
+    StartStopButton(isRunning = isTimeRunning, onClick = onStartStopButtonClick)
+}
+
+@Composable
+private fun DoneActions(
+    onResetButtonClick: () -> Unit,
+    onDoneButtonClick: () -> Unit
+) {
+    ResetButton(onClick = onResetButtonClick)
+    Spacer(modifier = Modifier.width(20.dp))
+    TempoButton(
+        onClick = onDoneButtonClick,
+        text = stringResource(R.string.button_done),
+        color = TempoButtonColor.Normal
+    )
 }
 
 @Composable
@@ -45,4 +83,9 @@ private fun StartStopButton(isRunning: Boolean, onClick: () -> Unit) {
         R.drawable.ic_timer_play
     }
     TempoIconButton(onClick = onClick, icon = vectorResource(icon))
+}
+
+@Composable
+private fun ResetButton(onClick: () -> Unit) {
+    TempoIconButton(onClick = onClick, icon = vectorResource(R.drawable.ic_timer_restart))
 }

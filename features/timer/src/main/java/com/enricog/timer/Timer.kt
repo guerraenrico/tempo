@@ -7,8 +7,10 @@ import androidx.compose.runtime.Composable
 import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
 import androidx.compose.ui.Modifier
+import com.enricog.core.extensions.exhaustive
 import com.enricog.timer.models.TimerActions
 import com.enricog.timer.models.TimerViewState
+import com.enricog.timer.ui_components.ActionsBar
 import com.enricog.timer.ui_components.CountingScene
 
 @Composable
@@ -29,5 +31,11 @@ internal fun TimerViewState.Compose(timerActions: TimerActions) {
         TimerViewState.Idle -> {
         }
         is TimerViewState.Counting -> CountingScene(state = this, timerActions = timerActions)
-    }
+        // TODO: review scene
+        TimerViewState.Done -> ActionsBar(
+            isTimeRunning = false,
+            isRoutineCompleted = true,
+            timerActions = timerActions
+        )
+    }.exhaustive
 }

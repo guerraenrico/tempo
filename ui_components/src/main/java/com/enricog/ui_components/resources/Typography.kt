@@ -11,7 +11,7 @@ import com.enricog.ui_components.R
 
 internal val FontFamilyDefault = fontFamily(
     font(resId = R.font.prompt_light, weight = FontWeight.Light),
-    font(resId = R.font.prompt, weight = FontWeight.Normal),
+    font(resId = R.font.prompt_normal, weight = FontWeight.Normal),
     font(resId = R.font.prompt_bold, weight = FontWeight.Bold)
 )
 

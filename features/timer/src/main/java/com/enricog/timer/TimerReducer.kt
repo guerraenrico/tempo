@@ -43,7 +43,11 @@ internal class TimerReducer @Inject constructor() {
     }
 
     fun nextStep(state: TimerState): TimerState {
-        if (state !is TimerState.Counting || state.isLastSegment) return state
+        if (state !is TimerState.Counting) return state
+
+        if (state.isLastSegment) {
+            return TimerState.Done(state.routine)
+        }
 
         return state.nextStep()
     }

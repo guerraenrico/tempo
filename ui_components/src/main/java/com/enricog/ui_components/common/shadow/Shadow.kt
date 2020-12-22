@@ -10,6 +10,7 @@ import androidx.compose.ui.graphics.Brush.Companion.radialGradient
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.dp
+import com.enricog.ui_components.resources.black
 import com.enricog.ui_components.resources.white
 
 @Composable
@@ -41,7 +42,7 @@ fun Shadow(
                     val center = this.size.height / 2
                     drawCircle(
                         radialGradient(
-                            colors = listOf(Color.Black.copy(alpha = 1f), white.copy(alpha = 0f)),
+                            colors = listOf(black.copy(alpha = 1f), black.copy(alpha = 0f)),
                             center = Offset(center, center),
                             radius = center
                         )

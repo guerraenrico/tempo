@@ -20,7 +20,7 @@ class CountingSceneKtTest {
     private val timerActions = object : TimerActions {
         override fun onStartStopButtonClick() {}
 
-        override fun onRestartButtonClick() {}
+        override fun onRestartSegmentButtonClick() {}
     }
 
     @Test

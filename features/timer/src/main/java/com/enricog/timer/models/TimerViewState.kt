@@ -12,4 +12,6 @@ internal sealed class TimerViewState {
         val step: SegmentStep,
         val clockBackgroundColor: Color
     ) : TimerViewState()
+
+    object Done : TimerViewState()
 }

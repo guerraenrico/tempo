@@ -52,7 +52,7 @@ class TimerViewModelTest {
         val sut = buildSut().apply { load(configuration) }
 
         advanceUntilIdle()
-        sut.onRestartButtonClick()
+        sut.onRestartSegmentButtonClick()
 
         verify { reducer.restartTime(any()) }
     }

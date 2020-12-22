@@ -4,13 +4,14 @@ import androidx.annotation.VisibleForTesting
 import androidx.hilt.lifecycle.ViewModelInject
 import androidx.lifecycle.viewModelScope
 import com.enricog.base_android.viewmodel.BaseViewModel
-import com.enricog.core.coroutine.CoroutineDispatchers
+import com.enricog.core.coroutine.dispatchers.CoroutineDispatchers
+import com.enricog.core.coroutine.job.autoCancelableJob
+import com.enricog.entities.routines.Routine
 import com.enricog.timer.models.TimerActions
 import com.enricog.timer.models.TimerConfiguration
 import com.enricog.timer.models.TimerState
 import com.enricog.timer.models.TimerViewState
 import com.enricog.timer.usecase.RoutineUseCase
-import kotlinx.coroutines.Job
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
 
@@ -26,11 +27,21 @@ internal class TimerViewModel @ViewModelInject constructor(
 ), TimerActions {
 
     @VisibleForTesting(otherwise = VisibleForTesting.PRIVATE)
-    internal var countingJob: Job? = null
+    internal var countingJob by autoCancelableJob()
+
+    private var loadJob by autoCancelableJob()
+
+    private var startJob by autoCancelableJob()
 
     fun load(configuration: TimerConfiguration) {
-        viewModelScope.launch {
+        loadJob = viewModelScope.launch {
             val routine = routineUseCase.get(configuration.routineId)
+            start(routine)
+        }
+    }
+
+    private fun start(routine: Routine) {
+        startJob = viewModelScope.launch {
             state = reducer.setup(routine)
 
             delay(1000)
@@ -43,8 +54,16 @@ internal class TimerViewModel @ViewModelInject constructor(
         state = reducer.toggleTimeRunning(state)
     }
 
-    override fun onRestartButtonClick() {
+    override fun onRestartSegmentButtonClick() {
         state = reducer.restartTime(state)
+    }
+
+    override fun onResetButtonClick() = runWhen<TimerState.Done> { state ->
+        start(state.routine)
+    }
+
+    override fun onDoneButtonClick() {
+        TODO("Not yet implemented")
     }
 
     override fun onStateUpdated(currentState: TimerState) {

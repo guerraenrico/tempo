@@ -7,6 +7,7 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.vector.ImageVector
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
+import com.enricog.ui_components.resources.FontFamilyDefault
 
 @Composable
 fun TempoButton(
@@ -28,14 +29,13 @@ fun TempoButton(
         ) {
             if (icon != null) {
                 Icon(
-                    icon.copy(defaultHeight = 14.dp, defaultWidth = 14.dp),
+                    imageVector = icon.copy(defaultHeight = 14.dp, defaultWidth = 14.dp),
                     tint = color.contentColor(enabled)
                 )
             }
             Text(
-                text,
+                text = text,
                 style = MaterialTheme.typography.button,
-                fontWeight = FontWeight.Bold,
                 color = color.contentColor(enabled)
             )
         }

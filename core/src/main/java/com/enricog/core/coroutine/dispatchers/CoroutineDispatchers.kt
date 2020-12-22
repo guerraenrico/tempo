@@ -1,4 +1,4 @@
-package com.enricog.core.coroutine
+package com.enricog.core.coroutine.dispatchers
 
 import kotlinx.coroutines.CoroutineDispatcher
 

@@ -2,7 +2,7 @@ package com.enricog.base_android.viewmodel
 
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import com.enricog.core.coroutine.CoroutineDispatchers
+import com.enricog.core.coroutine.dispatchers.CoroutineDispatchers
 import kotlinx.coroutines.FlowPreview
 import kotlinx.coroutines.flow.*
 
@@ -37,4 +37,8 @@ open class BaseViewModel<ViewModelState : Any, ViewState : Any>(
     }
 
     protected open fun onStateUpdated(currentState: ViewModelState) {}
+
+    protected inline fun <reified T : ViewModelState> runWhen(block: (T) -> Unit) {
+        (state as? T)?.also(block)
+    }
 }
