@@ -15,7 +15,6 @@ import com.enricog.timer.usecase.RoutineUseCase
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
 
-// TODO update tests
 internal class TimerViewModel @ViewModelInject constructor(
     dispatchers: CoroutineDispatchers,
     converter: TimerStateConverter,
@@ -64,7 +63,7 @@ internal class TimerViewModel @ViewModelInject constructor(
     }
 
     override fun onDoneButtonClick() {
-        TODO("Not yet implemented")
+        TODO("should return to routine list")
     }
 
     override fun onStateUpdated(currentState: TimerState) {

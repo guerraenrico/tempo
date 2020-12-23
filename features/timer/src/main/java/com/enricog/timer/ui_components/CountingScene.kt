@@ -33,7 +33,7 @@ internal fun CountingScene(state: TimerViewState.Counting, timerActions: TimerAc
 
     val count = state.step.count
 
-    val transitionDefinition = remember { completeTransitionDefinition() }
+    val transitionDefinition = remember { routineCompletedTransitionDefinition() }
     val transition = transition(
         definition = transitionDefinition,
         toState = state.isRoutineCompleted
@@ -101,7 +101,7 @@ private val AlphaProp = FloatPropKey("Alpha")
 private val ScaleProp = FloatPropKey("Scale")
 private val Offset = FloatPropKey("Offset")
 
-private fun completeTransitionDefinition(): TransitionDefinition<Boolean> {
+private fun routineCompletedTransitionDefinition(): TransitionDefinition<Boolean> {
     return transitionDefinition {
         state(name = true) { // completed
             this[AlphaProp] = 0f

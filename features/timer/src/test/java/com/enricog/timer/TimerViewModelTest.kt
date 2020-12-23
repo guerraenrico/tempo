@@ -58,6 +58,28 @@ class TimerViewModelTest {
     }
 
     @Test
+    fun `test onResetButtonClick should setup state again`() = coroutineRule {
+        val countingState = TimerState.Counting(
+            routine = Routine.EMPTY,
+            runningSegment = Segment.EMPTY,
+            step = SegmentStep(
+                count = Count(timeInSeconds = 5, isRunning = true, isCompleted = true),
+                type = SegmentStepType.IN_PROGRESS
+            )
+        )
+        every { reducer.progressTime(any()) } returns countingState
+        every { reducer.toggleTimeRunning(any()) } returns countingState
+        every { reducer.nextStep(any()) } returns countingState
+
+        val sut  = buildSut().apply { load(configuration) }
+
+        advanceUntilIdle()
+        sut.onResetButtonClick()
+
+        verify { reducer.setup(any()) }
+    }
+
+    @Test
     fun `test every second should call progressTime`() = coroutineRule {
         val countingState = TimerState.Counting(
             routine = Routine.EMPTY,
