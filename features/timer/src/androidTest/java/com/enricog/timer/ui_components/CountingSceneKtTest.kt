@@ -5,8 +5,7 @@ import androidx.compose.ui.test.assertIsDisplayed
 import androidx.compose.ui.test.junit4.createComposeRule
 import androidx.compose.ui.test.onNodeWithTag
 import com.enricog.base_test.compose.invoke
-import com.enricog.base_test.entities.routines.EMPTY
-import com.enricog.entities.routines.Segment
+import com.enricog.timer.R
 import com.enricog.timer.models.*
 import com.enricog.ui_components.resources.TempoTheme
 import org.junit.Rule
@@ -19,22 +18,25 @@ class CountingSceneKtTest {
 
     private val timerActions = object : TimerActions {
         override fun onStartStopButtonClick() {}
-
         override fun onRestartSegmentButtonClick() {}
+        override fun onResetButtonClick() {}
+        override fun onDoneButtonClick() {}
     }
 
     @Test
     fun shouldShowClockAndActionBar() = composeTestRule {
         val viewState = TimerViewState.Counting(
-            runningSegment = Segment.EMPTY,
+            stepTitleId = R.string.title_segment_step_type_in_progress,
+            segmentName = "segment name",
             step = SegmentStep(
                 count = Count(
                     timeInSeconds = 1,
-                    isRunning = false,
+                    isRunning = true,
                     isCompleted = false
                 ), type = SegmentStepType.STARTING
             ),
-            clockBackgroundColor = Color.Blue
+            clockBackgroundColor = Color.Blue,
+            isRoutineCompleted = false
         )
 
         setContent {
