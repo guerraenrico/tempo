@@ -2,10 +2,7 @@ package com.enricog.timer.ui_components
 
 import androidx.compose.animation.animate
 import androidx.compose.foundation.background
-import androidx.compose.foundation.layout.Arrangement
-import androidx.compose.foundation.layout.Column
-import androidx.compose.foundation.layout.height
-import androidx.compose.foundation.layout.width
+import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.material.Text
 import androidx.compose.runtime.Composable
@@ -29,22 +26,28 @@ import com.enricog.ui_components.resources.white
 internal const val ClockTestTag = "ClockTestTag"
 internal const val ClockTimeTextTestTag = "ClockTimeTextTestTag"
 
+private val clockSize = 220.dp
+private val clockShadowSize = 20.dp
+
 @Composable
-internal fun Clock(backgroundColor: Color, timeInSeconds: Long) {
-    val size = 220.dp
+internal fun Clock(backgroundColor: Color, timeInSeconds: Long, modifier: Modifier = Modifier) {
     val animatedBackgroundColor = animate(backgroundColor)
-    Shadow(size = 20.dp) {
-        Column(
-            modifier = Modifier
-                .testTag(ClockTestTag)
-                .background(color = animatedBackgroundColor, shape = CircleShape)
-                .height(size)
-                .width(size),
-            verticalArrangement = Arrangement.Center,
-            horizontalAlignment = Alignment.CenterHorizontally,
-        ) {
-            TimeText(timeInSeconds = timeInSeconds)
+
+    Box(modifier = modifier) {
+        Shadow(size = clockShadowSize) {
+            Column(
+                modifier = Modifier
+                    .testTag(ClockTestTag)
+                    .background(color = animatedBackgroundColor, shape = CircleShape)
+                    .height(clockSize)
+                    .width(clockSize),
+                verticalArrangement = Arrangement.Center,
+                horizontalAlignment = Alignment.CenterHorizontally,
+            ) {
+                TimeText(timeInSeconds = timeInSeconds)
+            }
         }
+
     }
 
 }

@@ -57,7 +57,11 @@ internal sealed class TimerState {
         }
 
         fun restartTime(): Counting {
-            return copy(step = step.copy(count = Count.idle(timeInSeconds = runningSegment.timeInSeconds)))
+            val timeInSeconds = when (step.type) {
+                SegmentStepType.STARTING -> routine.startTimeOffsetInSeconds
+                SegmentStepType.IN_PROGRESS -> runningSegment.timeInSeconds
+            }
+            return copy(step = step.copy(count = Count.idle(timeInSeconds = timeInSeconds)))
         }
 
         fun completeCount(): Counting {

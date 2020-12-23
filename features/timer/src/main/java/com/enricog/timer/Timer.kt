@@ -31,11 +31,5 @@ internal fun TimerViewState.Compose(timerActions: TimerActions) {
         TimerViewState.Idle -> {
         }
         is TimerViewState.Counting -> CountingScene(state = this, timerActions = timerActions)
-        // TODO: review scene
-        TimerViewState.Done -> ActionsBar(
-            isTimeRunning = false,
-            isRoutineCompleted = true,
-            timerActions = timerActions
-        )
     }.exhaustive
 }

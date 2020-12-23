@@ -20,10 +20,11 @@ internal const val ActionBarTestTag = "ActionBarTestTag"
 internal fun ActionsBar(
     isTimeRunning: Boolean,
     isRoutineCompleted: Boolean,
-    timerActions: TimerActions
+    timerActions: TimerActions,
+    modifier: Modifier = Modifier
 ) {
     Row(
-        modifier = Modifier
+        modifier = modifier then Modifier
             .fillMaxWidth()
             .testTag(ActionBarTestTag),
         verticalAlignment = Alignment.CenterVertically,
@@ -61,12 +62,16 @@ private fun DoneActions(
     onResetButtonClick: () -> Unit,
     onDoneButtonClick: () -> Unit
 ) {
-    ResetButton(onClick = onResetButtonClick)
+    TempoButton(
+        onClick = onResetButtonClick,
+        text = stringResource(R.string.button_reset),
+        color = TempoButtonColor.Normal
+    )
     Spacer(modifier = Modifier.width(20.dp))
     TempoButton(
         onClick = onDoneButtonClick,
         text = stringResource(R.string.button_done),
-        color = TempoButtonColor.Normal
+        color = TempoButtonColor.Accent
     )
 }
 
@@ -83,9 +88,4 @@ private fun StartStopButton(isRunning: Boolean, onClick: () -> Unit) {
         R.drawable.ic_timer_play
     }
     TempoIconButton(onClick = onClick, icon = vectorResource(icon))
-}
-
-@Composable
-private fun ResetButton(onClick: () -> Unit) {
-    TempoIconButton(onClick = onClick, icon = vectorResource(R.drawable.ic_timer_restart))
 }

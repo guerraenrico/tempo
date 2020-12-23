@@ -1,6 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
     <string name="button_done">DONE</string>
+    <string name="button_reset">RESET</string>
 
     <string name="title_segment_step_type_starting">STARTING</string>
     <string name="title_segment_step_type_in_progress">GO</string>

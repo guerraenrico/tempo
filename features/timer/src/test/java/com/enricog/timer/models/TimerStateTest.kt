@@ -329,7 +329,7 @@ class TimerStateTest {
     }
 
     @Test
-    fun `test restartTime`() {
+    fun `test restartTime running segment`() {
         val sut = TimerState.Counting(
             routine = Routine.EMPTY,
             runningSegment = Segment.EMPTY.copy(timeInSeconds = 99),
@@ -344,6 +344,30 @@ class TimerStateTest {
             step = SegmentStep(
                 count = Count(timeInSeconds = 99, isRunning = false, isCompleted = false),
                 type = SegmentStepType.IN_PROGRESS
+            )
+        )
+
+        val result = sut.restartTime()
+
+        assertEquals(expected, result)
+    }
+
+    @Test
+    fun `test restartTime starting segment`() {
+        val sut = TimerState.Counting(
+            routine = Routine.EMPTY.copy(startTimeOffsetInSeconds = 10),
+            runningSegment = Segment.EMPTY.copy(timeInSeconds = 99),
+            step = SegmentStep(
+                count = Count(timeInSeconds = 5, isRunning = true, isCompleted = false),
+                type = SegmentStepType.STARTING
+            )
+        )
+        val expected = TimerState.Counting(
+            routine = Routine.EMPTY.copy(startTimeOffsetInSeconds = 10),
+            runningSegment = Segment.EMPTY.copy(timeInSeconds = 99),
+            step = SegmentStep(
+                count = Count(timeInSeconds = 10, isRunning = false, isCompleted = false),
+                type = SegmentStepType.STARTING
             )
         )
 

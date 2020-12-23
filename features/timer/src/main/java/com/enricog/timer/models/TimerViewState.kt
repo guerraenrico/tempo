@@ -15,6 +15,4 @@ internal sealed class TimerViewState {
         val clockBackgroundColor: Color,
         val isRoutineCompleted: Boolean
     ) : TimerViewState()
-
-    object Done : TimerViewState()
 }

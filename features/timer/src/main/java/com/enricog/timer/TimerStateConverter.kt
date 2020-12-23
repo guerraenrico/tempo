@@ -13,6 +13,7 @@ import com.enricog.ui_components.resources.orange500
 import com.enricog.ui_components.resources.purple500
 import javax.inject.Inject
 
+// TODO create tests
 internal class TimerStateConverter @Inject constructor() :
     StateConverter<TimerState, TimerViewState> {
 

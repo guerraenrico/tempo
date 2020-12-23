@@ -15,6 +15,7 @@ import com.enricog.timer.usecase.RoutineUseCase
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
 
+// TODO update tests
 internal class TimerViewModel @ViewModelInject constructor(
     dispatchers: CoroutineDispatchers,
     converter: TimerStateConverter,
