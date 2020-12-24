@@ -8,9 +8,13 @@ import android.view.WindowManager
 import androidx.compose.ui.platform.ComposeView
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
+import com.enricog.base_android.extensions.viewLifecycleScope
 import com.enricog.timer.models.TimerConfiguration
+import com.enricog.timer.models.TimerViewState
 import com.enricog.ui_components.resources.TempoTheme
 import dagger.hilt.android.AndroidEntryPoint
+import kotlinx.coroutines.flow.launchIn
+import kotlinx.coroutines.flow.onEach
 
 @AndroidEntryPoint
 class TimerFragment : Fragment() {
@@ -34,17 +38,31 @@ class TimerFragment : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
-        requireActivity().window.addFlags(WindowManager.LayoutParams.FLAG_KEEP_SCREEN_ON)
 
         if (savedInstanceState == null) {
             val routineId = requireArguments().getLong(ARGUMENT_ROUTINE_ID)
             viewModel.load(TimerConfiguration(routineId))
         }
+
+        viewModel.viewState.onEach { viewState ->
+            val enable = viewState is TimerViewState.Counting &&
+                    viewState.step.count.isRunning &&
+                    !viewState.step.count.isCompleted
+            toggleKeepScreenOnFlag(enable)
+        }.launchIn(viewLifecycleScope)
     }
 
     override fun onDestroyView() {
         super.onDestroyView()
-        requireActivity().window.clearFlags(WindowManager.LayoutParams.FLAG_KEEP_SCREEN_ON)
+        toggleKeepScreenOnFlag(false)
+    }
+
+    private fun toggleKeepScreenOnFlag(enable: Boolean) {
+        if (enable) {
+            requireActivity().window.addFlags(WindowManager.LayoutParams.FLAG_KEEP_SCREEN_ON)
+        } else {
+            requireActivity().window.clearFlags(WindowManager.LayoutParams.FLAG_KEEP_SCREEN_ON)
+        }
     }
 
     companion object {
