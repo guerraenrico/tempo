@@ -47,7 +47,7 @@ class TimerFragment : Fragment() {
         viewModel.viewState.onEach { viewState ->
             val enable = viewState is TimerViewState.Counting &&
                     viewState.step.count.isRunning &&
-                    !viewState.step.count.isCompleted
+                    !viewState.isRoutineCompleted
             toggleKeepScreenOnFlag(enable)
         }.launchIn(viewLifecycleScope)
     }
