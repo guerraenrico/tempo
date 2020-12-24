@@ -5,18 +5,21 @@ import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.platform.testTag
 import com.enricog.entities.routines.Routine
 
+internal const val RoutineSceneTestTag = "RoutineSceneTestTag"
+
 @Composable
-fun RoutinesScene(routines: List<Routine>, onClick: (Routine) -> Unit) {
+internal fun RoutinesScene(routines: List<Routine>, onRoutineClick: (Routine) -> Unit) {
     LazyColumn(
         modifier = Modifier
             .fillMaxWidth()
-            .fillMaxHeight(),
-
-        ) {
+            .fillMaxHeight()
+            .testTag(RoutineSceneTestTag)
+    ) {
         items(routines) { item ->
-            RoutineItem(item)
+            RoutineItem(item, onRoutineClick)
         }
     }
 

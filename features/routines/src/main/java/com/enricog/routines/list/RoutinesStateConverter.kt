@@ -11,6 +11,8 @@ internal class RoutinesStateConverter @Inject constructor() :
     override suspend fun convert(state: RoutinesState): RoutinesViewState {
         return when (state) {
             RoutinesState.Idle -> RoutinesViewState.Idle
+            RoutinesState.Empty -> RoutinesViewState.Empty
+            is RoutinesState.Data -> RoutinesViewState.Data(routines = state.routines)
         }
     }
 }
