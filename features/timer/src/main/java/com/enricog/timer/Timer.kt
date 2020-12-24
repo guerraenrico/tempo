@@ -10,7 +10,6 @@ import androidx.compose.ui.Modifier
 import com.enricog.core.extensions.exhaustive
 import com.enricog.timer.models.TimerActions
 import com.enricog.timer.models.TimerViewState
-import com.enricog.timer.ui_components.ActionsBar
 import com.enricog.timer.ui_components.CountingScene
 
 @Composable
