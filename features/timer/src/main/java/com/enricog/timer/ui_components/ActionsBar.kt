@@ -15,6 +15,10 @@ import com.enricog.ui_components.common.button.TempoButtonColor
 import com.enricog.ui_components.common.button.TempoIconButton
 
 internal const val ActionBarTestTag = "ActionBarTestTag"
+internal const val ButtonDoneTestTag = "ButtonDoneTestTag"
+internal const val ButtonResetTestTag = "ButtonResetTestTag"
+internal const val ButtonStartStopTestTag = "ButtonStartStopTestTag"
+internal const val ButtonRestartTestTag = "ButtonRestartTestTag"
 
 @Composable
 internal fun ActionsBar(
@@ -65,19 +69,26 @@ private fun DoneActions(
     TempoButton(
         onClick = onResetButtonClick,
         text = stringResource(R.string.button_reset),
-        color = TempoButtonColor.Normal
+        color = TempoButtonColor.Normal,
+        modifier = Modifier.testTag(ButtonResetTestTag)
+
     )
     Spacer(modifier = Modifier.width(20.dp))
     TempoButton(
         onClick = onDoneButtonClick,
         text = stringResource(R.string.button_done),
-        color = TempoButtonColor.Accent
+        color = TempoButtonColor.Accent,
+        modifier = Modifier.testTag(ButtonDoneTestTag)
     )
 }
 
 @Composable
 private fun RestartButton(onClick: () -> Unit) {
-    TempoIconButton(onClick = onClick, icon = vectorResource(R.drawable.ic_timer_restart))
+    TempoIconButton(
+        onClick = onClick,
+        icon = vectorResource(R.drawable.ic_timer_restart),
+        modifier = Modifier.testTag(ButtonRestartTestTag)
+    )
 }
 
 @Composable
@@ -87,5 +98,9 @@ private fun StartStopButton(isRunning: Boolean, onClick: () -> Unit) {
     } else {
         R.drawable.ic_timer_play
     }
-    TempoIconButton(onClick = onClick, icon = vectorResource(icon))
+    TempoIconButton(
+        onClick = onClick,
+        icon = vectorResource(icon),
+        modifier = Modifier.testTag(ButtonStartStopTestTag)
+    )
 }

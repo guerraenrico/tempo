@@ -2,6 +2,7 @@ package com.enricog.timer.ui_components
 
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.test.assertIsDisplayed
+import androidx.compose.ui.test.assertTextEquals
 import androidx.compose.ui.test.junit4.createComposeRule
 import androidx.compose.ui.test.onNodeWithTag
 import com.enricog.base_test.compose.invoke
@@ -24,7 +25,7 @@ class CountingSceneKtTest {
     }
 
     @Test
-    fun shouldShowClockAndActionBar() = composeTestRule {
+    fun shouldShowTitlesClockAndActionBarWhenRoutineIsNotCompleted() = composeTestRule {
         val viewState = TimerViewState.Counting(
             stepTitleId = R.string.title_segment_step_type_in_progress,
             segmentName = "segment name",
@@ -33,7 +34,8 @@ class CountingSceneKtTest {
                     timeInSeconds = 1,
                     isRunning = true,
                     isCompleted = false
-                ), type = SegmentStepType.STARTING
+                ),
+                type = SegmentStepType.IN_PROGRESS
             ),
             clockBackgroundColor = Color.Blue,
             isRoutineCompleted = false
@@ -45,8 +47,67 @@ class CountingSceneKtTest {
             }
         }
 
+        onNodeWithTag(StepTitleTestTag).assertIsDisplayed()
+        onNodeWithTag(SegmentNameTestTag).assertIsDisplayed()
         onNodeWithTag(ClockTestTag).assertIsDisplayed()
         onNodeWithTag(ActionBarTestTag).assertIsDisplayed()
+    }
+
+    @Test
+    fun shouldShowClockAndActionBarWhenRoutineIsCompleted() = composeTestRule {
+        val viewState = TimerViewState.Counting(
+            stepTitleId = R.string.title_segment_step_type_in_progress,
+            segmentName = "segment name",
+            step = SegmentStep(
+                count = Count(
+                    timeInSeconds = 1,
+                    isRunning = true,
+                    isCompleted = false
+                ),
+                type = SegmentStepType.IN_PROGRESS
+            ),
+            clockBackgroundColor = Color.Blue,
+            isRoutineCompleted = true
+        )
+
+        setContent {
+            TempoTheme {
+                CountingScene(viewState, timerActions)
+            }
+        }
+
+        // FIXME right now assertIsNotDisplayed doesn't consider alpha at 0 to be notDisplayed
+        // onNodeWithTag(StepTitleTestTag).assertIsNotDisplayed()
+        // onNodeWithTag(SegmentNameTestTag).assertIsNotDisplayed()
+        onNodeWithTag(ClockTestTag).assertIsDisplayed()
+        onNodeWithTag(ActionBarTestTag).assertIsDisplayed()
+    }
+
+    @Test
+    fun testStepTitleAndSegmentName() = composeTestRule {
+        val viewState = TimerViewState.Counting(
+            stepTitleId = R.string.title_segment_step_type_in_progress,
+            segmentName = "segment name",
+            step = SegmentStep(
+                count = Count(
+                    timeInSeconds = 1,
+                    isRunning = true,
+                    isCompleted = false
+                ),
+                type = SegmentStepType.IN_PROGRESS
+            ),
+            clockBackgroundColor = Color.Blue,
+            isRoutineCompleted = false
+        )
+
+        setContent {
+            TempoTheme {
+                CountingScene(viewState, timerActions)
+            }
+        }
+
+        onNodeWithTag(StepTitleTestTag).assertTextEquals("GO")
+        onNodeWithTag(SegmentNameTestTag).assertTextEquals("segment name")
     }
 
 }

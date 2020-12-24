@@ -24,7 +24,8 @@ import com.enricog.timer.models.TimerActions
 import com.enricog.timer.models.TimerViewState
 
 internal const val CountingSceneTestTag = "CountingSceneTestTag"
-
+internal const val StepTitleTestTag = "StepTitleTestTag"
+internal const val SegmentNameTestTag = "SegmentNameTestTag"
 
 @Composable
 internal fun CountingScene(state: TimerViewState.Counting, timerActions: TimerActions) {
@@ -58,7 +59,7 @@ internal fun CountingScene(state: TimerViewState.Counting, timerActions: TimerAc
         Clock(
             backgroundColor = state.clockBackgroundColor,
             timeInSeconds = count.timeInSeconds,
-            modifier =  Modifier
+            modifier = Modifier
                 .scale(transition[ScaleProp])
                 .offset(y = offset)
         )
@@ -85,12 +86,14 @@ private fun Title(
     ) {
         Text(
             text = stepTitle,
-            style = MaterialTheme.typography.h3
+            style = MaterialTheme.typography.h3,
+            modifier = Modifier.testTag(StepTitleTestTag)
         )
         Spacer(modifier = Modifier.height(10.dp))
         Text(
             text = segmentName,
-            style = MaterialTheme.typography.h1.copy(fontWeight = FontWeight.Normal)
+            style = MaterialTheme.typography.h1.copy(fontWeight = FontWeight.Normal),
+            modifier = Modifier.testTag(SegmentNameTestTag)
         )
         Spacer(modifier = Modifier.height(40.dp))
     }
