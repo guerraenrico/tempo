@@ -76,7 +76,6 @@ dependencies {
     testImplementation Libs.Mockk.android
 
     androidTestImplementation project(":base:base_test")
-
     androidTestImplementation Libs.Test.junit
     androidTestImplementation Libs.AndroidX.Test.core
     androidTestImplementation Libs.AndroidX.Test.rules

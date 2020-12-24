@@ -1,4 +1,4 @@
-package com.enricog.routines
+package com.enricog.routines.list
 
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Column

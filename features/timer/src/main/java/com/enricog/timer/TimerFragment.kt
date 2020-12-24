@@ -8,6 +8,7 @@ import android.view.WindowManager
 import androidx.compose.ui.platform.ComposeView
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
+import com.enricog.base_android.extensions.applyArguments
 import com.enricog.base_android.extensions.viewLifecycleScope
 import com.enricog.timer.models.TimerConfiguration
 import com.enricog.timer.models.TimerViewState
@@ -67,11 +68,9 @@ class TimerFragment : Fragment() {
         private const val ARGUMENT_ROUTINE_ID = "routine_id"
 
         fun newInstance(routineId: Long): TimerFragment {
-            val args = Bundle()
-            args.putLong(ARGUMENT_ROUTINE_ID, routineId)
-            val fragment = TimerFragment()
-            fragment.arguments = args
-            return fragment
+            return TimerFragment().applyArguments(
+                ARGUMENT_ROUTINE_ID to routineId
+            )
         }
     }
 }

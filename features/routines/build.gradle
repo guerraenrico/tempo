@@ -13,6 +13,8 @@ android {
 
     defaultConfig {
         minSdkVersion Versions.minSdk
+
+        testInstrumentationRunner 'androidx.test.runner.AndroidJUnitRunner'
     }
 
     compileOptions {
@@ -34,9 +36,16 @@ android {
 
 
 dependencies {
+    implementation project(":core")
+    implementation project(":base:base_android")
+    implementation project(":ui_components")
+    implementation project(":entities")
+    implementation project(":data:datasource")
+
     implementation Libs.AndroidX.appCompat
     implementation Libs.AndroidX.coreKtx
     implementation Libs.Lifecycle.viewModelKtx
+    implementation Libs.AndroidX.fragmentKtx
 
     // Compose
     implementation Libs.AndroidX.Compose.ui
@@ -50,6 +59,18 @@ dependencies {
     implementation Libs.Hilt.lifecycleViewModel
     kapt Libs.Hilt.compiler
 
-    implementation project(":core")
-    implementation project(":ui_components")
+    // Test
+    testImplementation project(":base:base_test")
+    testImplementation Libs.Kotlin.Test.coroutines
+    testImplementation Libs.Kotlin.Test.kotlin
+    testImplementation Libs.Test.junit
+    testImplementation Libs.Test.flow
+    testImplementation Libs.Mockk.lib
+    testImplementation Libs.Mockk.android
+
+    androidTestImplementation project(":base:base_test")
+    androidTestImplementation Libs.Test.junit
+    androidTestImplementation Libs.AndroidX.Test.core
+    androidTestImplementation Libs.AndroidX.Test.rules
+    androidTestImplementation Libs.AndroidX.Compose.uiTest
 }

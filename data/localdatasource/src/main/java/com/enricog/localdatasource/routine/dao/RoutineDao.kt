@@ -8,7 +8,7 @@ import com.enricog.localdatasource.routine.model.InternalRoutineWithSegments
 internal interface RoutineDao {
 
     @Transaction
-    @Query("SELECT * FROM Routines")
+    @Query("SELECT * FROM Routines ORDER BY createdAt DESC")
     suspend fun getAll(): List<InternalRoutineWithSegments>
 
     @Transaction
