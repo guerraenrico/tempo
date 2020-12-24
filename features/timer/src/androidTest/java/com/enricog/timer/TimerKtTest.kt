@@ -44,7 +44,8 @@ class TimerKtTest {
                 ), type = SegmentStepType.STARTING
             ),
             clockBackgroundColor = Color.Blue,
-            isRoutineCompleted = false
+            isRoutineCompleted = false,
+            enableKeepScreenOn = false
         )
 
         setContent { viewState.Compose(timerActions) }
