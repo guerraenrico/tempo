@@ -1,0 +1,8 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="title_routines">Routines</string>
+
+    <string name="description_no_routines">No routines saved.\nGet started by creating a new one.</string>
+
+    <string name="button_create_routine">Create Routine</string>
+</resources>

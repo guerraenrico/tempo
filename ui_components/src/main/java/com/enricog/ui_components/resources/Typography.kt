@@ -26,6 +26,11 @@ internal val defaultTypography = Typography(
         color = white,
         fontSize = 22.sp
     ),
+    h2 = TextStyle(
+        fontWeight = FontWeight.Bold,
+        color = white,
+        fontSize = 18.sp
+    ),
     h3 = TextStyle(
         fontWeight = FontWeight.Bold,
         color = white,

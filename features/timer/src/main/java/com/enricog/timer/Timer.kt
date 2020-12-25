@@ -1,8 +1,7 @@
 package com.enricog.timer
 
 import androidx.compose.foundation.layout.Column
-import androidx.compose.foundation.layout.fillMaxHeight
-import androidx.compose.foundation.layout.fillMaxWidth
+import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
@@ -16,9 +15,7 @@ import com.enricog.timer.ui_components.CountingScene
 internal fun Timer(viewModel: TimerViewModel) {
     val viewState by viewModel.viewState.collectAsState(TimerViewState.Idle)
     Column(
-        modifier = Modifier
-            .fillMaxWidth()
-            .fillMaxHeight()
+        modifier = Modifier.fillMaxSize()
     ) {
         viewState.Compose(viewModel)
     }

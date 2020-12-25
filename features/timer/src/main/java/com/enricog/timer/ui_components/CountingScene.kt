@@ -44,8 +44,7 @@ internal fun CountingScene(state: TimerViewState.Counting, timerActions: TimerAc
 
     Column(
         modifier = Modifier
-            .fillMaxWidth()
-            .fillMaxHeight()
+            .fillMaxSize()
             .testTag(CountingSceneTestTag),
         verticalArrangement = Arrangement.Center,
         horizontalAlignment = Alignment.CenterHorizontally
