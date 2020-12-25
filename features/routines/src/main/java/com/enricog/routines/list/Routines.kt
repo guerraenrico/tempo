@@ -39,6 +39,10 @@ private fun RoutinesViewState.Compose(
         RoutinesViewState.Empty ->
             EmptyScene(onCreateSegmentClick = onCreateRoutineClick)
         is RoutinesViewState.Data ->
-            RoutinesScene(routines = routines, onRoutineClick = onRoutineClick)
+            RoutinesScene(
+                routines = routines,
+                onRoutineClick = onRoutineClick,
+                onCreateRoutineClick = onCreateRoutineClick
+            )
     }.exhaustive
 }
