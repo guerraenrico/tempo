@@ -1,4 +1,4 @@
-package com.enricog.routines.list
+package com.enricog.routines
 
 import android.os.Bundle
 import android.view.LayoutInflater
@@ -7,11 +7,13 @@ import android.view.ViewGroup
 import androidx.compose.ui.platform.ComposeView
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
+import com.enricog.routines.list.Routines
+import com.enricog.routines.list.RoutinesViewModel
 import com.enricog.ui_components.resources.TempoTheme
 import dagger.hilt.android.AndroidEntryPoint
 
 @AndroidEntryPoint
-class RoutineFragment : Fragment() {
+class RoutinesFragment : Fragment() {
 
     private val viewModel: RoutinesViewModel by viewModels()
 
@@ -30,8 +32,8 @@ class RoutineFragment : Fragment() {
     }
 
     companion object {
-        fun newInstance(): RoutineFragment {
-            return RoutineFragment()
+        fun newInstance(): RoutinesFragment {
+            return RoutinesFragment()
         }
     }
 }

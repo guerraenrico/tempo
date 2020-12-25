@@ -36,6 +36,16 @@ internal val defaultTypography = Typography(
         color = white,
         fontSize = 16.sp
     ),
+    body1 = TextStyle(
+        fontWeight = FontWeight.Normal,
+        color = white,
+        fontSize = 18.sp
+    ),
+    body2 = TextStyle(
+        fontWeight = FontWeight.Normal,
+        color = white,
+        fontSize = 16.sp
+    ),
     button = TextStyle(
         fontWeight = FontWeight.Bold,
         color = white,

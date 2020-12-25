@@ -13,8 +13,8 @@ internal const val RoutineSceneTestTag = "RoutineSceneTestTag"
 internal fun RoutinesScene(routines: List<Routine>, onRoutineClick: (Routine) -> Unit) {
     LazyColumn(
         modifier = Modifier
-            .fillMaxSize()
             .testTag(RoutineSceneTestTag)
+            .fillMaxSize()
     ) {
         items(routines) { item ->
             RoutineItem(item, onRoutineClick)

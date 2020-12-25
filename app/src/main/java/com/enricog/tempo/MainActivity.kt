@@ -2,7 +2,7 @@ package com.enricog.tempo
 
 import android.os.Bundle
 import androidx.appcompat.app.AppCompatActivity
-import com.enricog.routines.list.RoutineFragment
+import com.enricog.routines.RoutinesFragment
 import dagger.hilt.android.AndroidEntryPoint
 
 @AndroidEntryPoint
@@ -15,7 +15,7 @@ class MainActivity : AppCompatActivity() {
         if (savedInstanceState == null) {
             supportFragmentManager.beginTransaction().apply {
 //                replace(R.id.rootContainer, TimerFragment.newInstance(1))
-                replace(R.id.rootContainer, RoutineFragment.newInstance())
+                replace(R.id.rootContainer, RoutinesFragment.newInstance())
                 setReorderingAllowed(true)
                 commit()
             }
