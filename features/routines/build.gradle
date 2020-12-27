@@ -40,11 +40,13 @@ dependencies {
     implementation project(":base:base_android")
     implementation project(":ui_components")
     implementation project(":entities")
+    implementation project(":navigation")
     implementation project(":data:datasource")
 
     implementation Libs.AndroidX.appCompat
     implementation Libs.AndroidX.coreKtx
     implementation Libs.Lifecycle.viewModelKtx
+    // todo can be removed
     implementation Libs.AndroidX.fragmentKtx
 
     // Compose

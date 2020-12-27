@@ -2,23 +2,28 @@ package com.enricog.timer
 
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.fillMaxSize
-import androidx.compose.runtime.Composable
-import androidx.compose.runtime.collectAsState
-import androidx.compose.runtime.getValue
+import androidx.compose.runtime.*
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.viewinterop.viewModel
 import com.enricog.core.extensions.exhaustive
 import com.enricog.timer.models.TimerActions
+import com.enricog.timer.models.TimerConfiguration
 import com.enricog.timer.models.TimerViewState
 import com.enricog.timer.ui_components.CountingScene
 
 @Composable
-internal fun Timer(viewModel: TimerViewModel) {
+internal fun Timer(routineId: Long, viewModel: TimerViewModel = viewModel()) {
+    onActive {
+        viewModel.load(TimerConfiguration(routineId))
+    }
     val viewState by viewModel.viewState.collectAsState(TimerViewState.Idle)
     Column(
         modifier = Modifier.fillMaxSize()
     ) {
         viewState.Compose(viewModel)
     }
+
+    onDispose { toggleKeepScreenOnFlag(enable = false) }
 }
 
 @Composable
@@ -26,6 +31,18 @@ internal fun TimerViewState.Compose(timerActions: TimerActions) {
     when (this) {
         TimerViewState.Idle -> {
         }
-        is TimerViewState.Counting -> CountingScene(state = this, timerActions = timerActions)
+        is TimerViewState.Counting -> {
+            toggleKeepScreenOnFlag(enableKeepScreenOn)
+
+            CountingScene(state = this, timerActions = timerActions)
+        }
     }.exhaustive
+}
+
+private fun toggleKeepScreenOnFlag(enable: Boolean) {
+//    if (enable) {
+//        requireActivity().window.addFlags(android.view.WindowManager.LayoutParams.FLAG_KEEP_SCREEN_ON)
+//    } else {
+//        requireActivity().window.clearFlags(android.view.WindowManager.LayoutParams.FLAG_KEEP_SCREEN_ON)
+//    }
 }

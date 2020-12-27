@@ -40,6 +40,9 @@ android {
 
 
 dependencies {
+    implementation project(":data:datasource")
+    implementation project(":entities")
+
     implementation Libs.Kotlin.coroutines
 
     // Room
@@ -50,9 +53,6 @@ dependencies {
     // Hilt
     implementation Libs.Hilt.android
     kapt Libs.Hilt.androidCompiler
-
-    implementation project(":data:datasource")
-    implementation project(":entities")
 
     testImplementation project(":base:base_test")
     testImplementation Libs.Kotlin.Test.coroutines

@@ -2,7 +2,12 @@ package com.enricog.tempo
 
 import android.os.Bundle
 import androidx.appcompat.app.AppCompatActivity
-import com.enricog.routines.RoutinesFragment
+import androidx.compose.ui.platform.setContent
+import androidx.navigation.compose.NavHost
+import androidx.navigation.compose.rememberNavController
+import com.enricog.routines.RoutinesNavigation
+import com.enricog.timer.TimerNavigation
+import com.enricog.ui_components.resources.TempoTheme
 import dagger.hilt.android.AndroidEntryPoint
 
 @AndroidEntryPoint
@@ -11,15 +16,14 @@ class MainActivity : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
-
-        if (savedInstanceState == null) {
-            supportFragmentManager.beginTransaction().apply {
-//                replace(R.id.rootContainer, TimerFragment.newInstance(1))
-                replace(R.id.rootContainer, RoutinesFragment.newInstance())
-                setReorderingAllowed(true)
-                commit()
+        setContent {
+            TempoTheme {
+                val navController = rememberNavController()
+                NavHost(navController = navController, startDestination = "routinesNav") {
+                    RoutinesNavigation(navController)
+                    TimerNavigation(navController)
+                }
             }
         }
-
     }
 }

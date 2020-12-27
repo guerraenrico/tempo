@@ -48,6 +48,7 @@ dependencies {
     implementation project(":ui_components")
     implementation project(":entities")
     implementation project(":data:datasource")
+    implementation project(":navigation")
 
     implementation Libs.AndroidX.appCompat
     implementation Libs.AndroidX.coreKtx
@@ -59,6 +60,7 @@ dependencies {
     implementation Libs.AndroidX.Compose.foundation
     implementation Libs.AndroidX.Compose.material
     implementation Libs.AndroidX.Compose.tooling
+    implementation Libs.AndroidX.Compose.navigation
 
     // Hilt
     implementation Libs.Hilt.android
