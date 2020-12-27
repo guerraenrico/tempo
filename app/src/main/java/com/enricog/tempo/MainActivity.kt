@@ -17,7 +17,7 @@ class MainActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
         setContent {
-            TempoTheme {
+            TempoTheme(defaultViewModelProviderFactory) {
                 val navController = rememberNavController()
                 NavHost(navController = navController, startDestination = "routinesNav") {
                     RoutinesNavigation(navController)

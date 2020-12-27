@@ -46,8 +46,6 @@ dependencies {
     implementation Libs.AndroidX.appCompat
     implementation Libs.AndroidX.coreKtx
     implementation Libs.Lifecycle.viewModelKtx
-    // todo can be removed
-    implementation Libs.AndroidX.fragmentKtx
 
     // Compose
     implementation Libs.AndroidX.Compose.ui

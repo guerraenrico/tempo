@@ -1,7 +1,5 @@
 package com.enricog.routines
 
-import androidx.compose.runtime.Providers
-import androidx.compose.ui.platform.AmbientViewModelStoreOwner
 import androidx.navigation.NavGraphBuilder
 import androidx.navigation.NavHostController
 import androidx.navigation.NavType
@@ -20,13 +18,7 @@ fun NavGraphBuilder.RoutinesNavigation(
             arguments = emptyList(),
             deepLinks = emptyList()
         ) {
-            Providers(
-                AmbientViewModelStoreOwner provides navController.getViewModelStoreOwner(
-                    navController.graph.id
-                )
-            ) {
-                Routines(navController)
-            }
+            Routines(navController)
         }
 
         composable(
@@ -35,13 +27,7 @@ fun NavGraphBuilder.RoutinesNavigation(
                 type = NavType.LongType; defaultValue = -1L
             })
         ) { navBackStackEntry ->
-            Providers(
-                AmbientViewModelStoreOwner provides navController.getViewModelStoreOwner(
-                    navController.graph.id
-                )
-            ) {
-                Routine(navController, navBackStackEntry.arguments?.getLong("routineId"))
-            }
+            Routine(navController, navBackStackEntry.arguments?.getLong("routineId"))
         }
     }
 }

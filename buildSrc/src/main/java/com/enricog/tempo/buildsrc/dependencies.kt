@@ -46,13 +46,6 @@ object Libs {
             const val archCore = "androidx.arch.core:core-testing:2.1.0"
         }
 
-        object Navigation {
-            private const val version = "2.3.2"
-
-            const val fragment = "androidx.navigation:navigation-fragment-ktx:$version"
-//            const val ui = "androidx.navigation:navigation-ui-ktx:$version"
-        }
-
         object Compose {
             const val version = "1.0.0-alpha09"
 

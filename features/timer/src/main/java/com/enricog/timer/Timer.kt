@@ -4,12 +4,12 @@ import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.runtime.*
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.viewinterop.viewModel
 import com.enricog.core.extensions.exhaustive
 import com.enricog.timer.models.TimerActions
 import com.enricog.timer.models.TimerConfiguration
 import com.enricog.timer.models.TimerViewState
 import com.enricog.timer.ui_components.CountingScene
+import com.enricog.ui_components.extensions.viewModel
 
 @Composable
 internal fun Timer(routineId: Long, viewModel: TimerViewModel = viewModel()) {
