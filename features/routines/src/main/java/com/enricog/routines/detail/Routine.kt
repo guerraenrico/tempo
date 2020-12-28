@@ -4,14 +4,13 @@ import androidx.compose.foundation.layout.Column
 import androidx.compose.material.Button
 import androidx.compose.material.Text
 import androidx.compose.runtime.Composable
-import androidx.navigation.NavController
-import androidx.navigation.compose.navigate
+import com.enricog.ui_components.extensions.viewModel
 
 @Composable
-internal fun Routine(navController: NavController, routineId: Long?) {
+internal fun Routine(routineId: Long?, viewModel: RoutineViewModel = viewModel()) {
     Column {
         Text("routineId: $routineId")
-        Button(onClick = { navController.navigate("routines")}) {
+        Button(onClick = viewModel::onStartRoutine) {
             Text("navigate")
         }
     }

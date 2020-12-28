@@ -6,9 +6,11 @@ import androidx.compose.ui.viewinterop.viewModel
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.ViewModelProvider
 
-val AmbientViewModelFactory = staticAmbientOf<ViewModelProvider.Factory?> { null }
+val AmbientViewModelFactory = staticAmbientOf<ViewModelProvider.Factory>()
 
 @Composable
-inline fun <reified VM : ViewModel> viewModel(
-    key: String? = null,
-): VM = viewModel(VM::class.java, key, AmbientViewModelFactory.current)
+inline fun <reified VM : ViewModel> viewModel(): VM = viewModel(
+    modelClass = VM::class.java,
+    key = null,
+    factory = AmbientViewModelFactory.current
+)

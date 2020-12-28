@@ -40,7 +40,6 @@ dependencies {
     implementation project(":base:base_android")
     implementation project(":ui_components")
     implementation project(":entities")
-    implementation project(":navigation")
     implementation project(":data:datasource")
 
     implementation Libs.AndroidX.appCompat

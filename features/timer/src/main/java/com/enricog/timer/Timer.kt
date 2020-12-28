@@ -39,6 +39,7 @@ internal fun TimerViewState.Compose(timerActions: TimerActions) {
     }.exhaustive
 }
 
+// FIXME add activity/window ambient?
 private fun toggleKeepScreenOnFlag(enable: Boolean) {
 //    if (enable) {
 //        requireActivity().window.addFlags(android.view.WindowManager.LayoutParams.FLAG_KEEP_SCREEN_ON)

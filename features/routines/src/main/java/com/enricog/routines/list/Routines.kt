@@ -6,8 +6,6 @@ import androidx.compose.runtime.Composable
 import androidx.compose.runtime.collectAsState
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.stringResource
-import androidx.navigation.NavController
-import androidx.navigation.compose.navigate
 import com.enricog.core.extensions.exhaustive
 import com.enricog.entities.routines.Routine
 import com.enricog.routines.R
@@ -18,10 +16,7 @@ import com.enricog.ui_components.common.toolbar.TempoToolbar
 import com.enricog.ui_components.extensions.viewModel
 
 @Composable
-internal fun Routines(
-    navController: NavController,
-    viewModel: RoutinesViewModel = viewModel()
-) {
+internal fun Routines(viewModel: RoutinesViewModel = viewModel()) {
     val viewState = viewModel.viewState.collectAsState(RoutinesViewState.Idle)
     Column(
         modifier = Modifier.fillMaxSize()
@@ -29,10 +24,7 @@ internal fun Routines(
         TempoToolbar(title = stringResource(R.string.title_routines))
         viewState.value.Compose(
             onCreateRoutineClick = viewModel::onCreateRoutineClick,
-//            onRoutineClick = viewModel::onRoutineClick
-            onRoutineClick = {
-                navController.navigate("timer?routineId=1")
-            }
+            onRoutineClick = viewModel::onRoutineClick
         )
     }
 }

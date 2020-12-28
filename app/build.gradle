@@ -55,7 +55,6 @@ dependencies {
     implementation project(":features:timer")
     implementation project(":features:routines")
     implementation project(":ui_components")
-    implementation project(":navigation")
 
     implementation Libs.AndroidX.coreKtx
     implementation Libs.AndroidX.appCompat

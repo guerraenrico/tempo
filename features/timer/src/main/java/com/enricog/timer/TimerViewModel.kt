@@ -11,6 +11,7 @@ import com.enricog.timer.models.TimerActions
 import com.enricog.timer.models.TimerConfiguration
 import com.enricog.timer.models.TimerState
 import com.enricog.timer.models.TimerViewState
+import com.enricog.timer.navigation.TimerNavigationActions
 import com.enricog.timer.usecase.RoutineUseCase
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
@@ -18,6 +19,7 @@ import kotlinx.coroutines.launch
 internal class TimerViewModel @ViewModelInject constructor(
     dispatchers: CoroutineDispatchers,
     converter: TimerStateConverter,
+    private val navigationActions: TimerNavigationActions,
     private val reducer: TimerReducer,
     private val routineUseCase: RoutineUseCase
 ) : BaseViewModel<TimerState, TimerViewState>(
@@ -63,7 +65,7 @@ internal class TimerViewModel @ViewModelInject constructor(
     }
 
     override fun onDoneButtonClick() {
-        TODO("should return to routine list")
+        navigationActions.backToRoutines()
     }
 
     override fun onStateUpdated(currentState: TimerState) {
