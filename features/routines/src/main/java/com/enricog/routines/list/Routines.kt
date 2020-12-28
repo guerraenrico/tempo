@@ -13,8 +13,7 @@ import com.enricog.routines.list.models.RoutinesViewState
 import com.enricog.routines.list.ui_components.EmptyScene
 import com.enricog.routines.list.ui_components.RoutinesScene
 import com.enricog.ui_components.common.toolbar.TempoToolbar
-import com.enricog.ui_components.extensions.navViewModel
-import com.enricog.ui_components.extensions.viewModel
+import com.enricog.ui_components.ambients.navViewModel
 
 @Composable
 internal fun Routines(viewModel: RoutinesViewModel = navViewModel()) {
