@@ -5,6 +5,7 @@ import com.enricog.base_test.entities.routines.EMPTY
 import com.enricog.entities.routines.Routine
 import com.enricog.entities.routines.Segment
 import com.enricog.timer.models.*
+import com.enricog.timer.navigation.TimerNavigationActions
 import com.enricog.timer.usecase.RoutineUseCase
 import io.mockk.coEvery
 import io.mockk.every
@@ -24,6 +25,7 @@ class TimerViewModelTest {
     private val reducer: TimerReducer = mockk()
     private val routineUseCase: RoutineUseCase = mockk()
     private val configuration = TimerConfiguration(routineId = 1)
+    private val navigationActions: TimerNavigationActions = mockk(relaxUnitFun = true)
 
     @Before
     fun setup() {
@@ -71,7 +73,7 @@ class TimerViewModelTest {
         every { reducer.toggleTimeRunning(any()) } returns countingState
         every { reducer.nextStep(any()) } returns countingState
 
-        val sut  = buildSut().apply { load(configuration) }
+        val sut = buildSut().apply { load(configuration) }
 
         advanceUntilIdle()
         sut.onResetButtonClick()
@@ -130,12 +132,25 @@ class TimerViewModelTest {
         assertTrue(sut.countingJob?.isCancelled ?: false)
     }
 
+    @Test
+    fun `test onDoneButtonClick should go backToRoutines`() = coroutineRule {
+        every { reducer.toggleTimeRunning(any()) } returns TimerState.Idle
+
+        val sut = buildSut().apply { load(configuration) }
+
+        advanceUntilIdle()
+        sut.onDoneButtonClick()
+
+        verify { navigationActions.backToRoutines() }
+    }
+
     private fun buildSut(): TimerViewModel {
         return TimerViewModel(
             dispatchers = coroutineRule.dispatchers,
             converter = converter,
             reducer = reducer,
-            routineUseCase = routineUseCase
+            routineUseCase = routineUseCase,
+            navigationActions = navigationActions
         )
     }
 }

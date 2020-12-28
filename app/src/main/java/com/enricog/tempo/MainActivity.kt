@@ -12,6 +12,7 @@ import com.enricog.tempo.navigation.Navigator
 import com.enricog.timer.TimerNavigation
 import com.enricog.ui_components.extensions.AmbientApplication
 import com.enricog.ui_components.extensions.AmbientNavController
+import com.enricog.ui_components.extensions.AmbientViewModelFactory
 import com.enricog.ui_components.extensions.ProvideNavigationViewModelFactoryMap
 import com.enricog.ui_components.resources.TempoTheme
 import dagger.hilt.android.AndroidEntryPoint
@@ -25,15 +26,15 @@ class MainActivity : AppCompatActivity() {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        setContentView(R.layout.activity_main)
         setContent {
-            TempoTheme(defaultViewModelProviderFactory) {
+            TempoTheme {
                 val navController = rememberNavController()
                 navigator.navController = navController
 
                 Providers(
                     AmbientApplication provides application,
-                    AmbientNavController provides navController
+                    AmbientNavController provides navController,
+                    AmbientViewModelFactory provides defaultViewModelProviderFactory
                 ) {
                     ProvideNavigationViewModelFactoryMap(factory = defaultViewModelProviderFactory as HiltViewModelFactory) {
 
