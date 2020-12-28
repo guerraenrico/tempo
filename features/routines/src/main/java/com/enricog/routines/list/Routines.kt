@@ -13,10 +13,11 @@ import com.enricog.routines.list.models.RoutinesViewState
 import com.enricog.routines.list.ui_components.EmptyScene
 import com.enricog.routines.list.ui_components.RoutinesScene
 import com.enricog.ui_components.common.toolbar.TempoToolbar
+import com.enricog.ui_components.extensions.navViewModel
 import com.enricog.ui_components.extensions.viewModel
 
 @Composable
-internal fun Routines(viewModel: RoutinesViewModel = viewModel()) {
+internal fun Routines(viewModel: RoutinesViewModel = navViewModel()) {
     val viewState = viewModel.viewState.collectAsState(RoutinesViewState.Idle)
     Column(
         modifier = Modifier.fillMaxSize()

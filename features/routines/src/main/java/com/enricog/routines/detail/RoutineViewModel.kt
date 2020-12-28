@@ -23,7 +23,6 @@ class RoutineViewModel @ViewModelInject constructor(
     dispatchers = dispatchers
 ) {
 
-
     fun onStartRoutine() {
         navigationActions.goToTimer(routineId = 1)
     }

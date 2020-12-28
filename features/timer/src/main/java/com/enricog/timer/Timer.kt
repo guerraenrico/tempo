@@ -9,10 +9,10 @@ import com.enricog.timer.models.TimerActions
 import com.enricog.timer.models.TimerConfiguration
 import com.enricog.timer.models.TimerViewState
 import com.enricog.timer.ui_components.CountingScene
-import com.enricog.ui_components.extensions.viewModel
+import com.enricog.ui_components.extensions.navViewModel
 
 @Composable
-internal fun Timer(routineId: Long, viewModel: TimerViewModel = viewModel()) {
+internal fun Timer(routineId: Long, viewModel: TimerViewModel = navViewModel()) {
     onActive {
         viewModel.load(TimerConfiguration(routineId))
     }
