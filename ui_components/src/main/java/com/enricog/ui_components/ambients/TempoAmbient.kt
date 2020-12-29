@@ -66,8 +66,7 @@ fun ProvideTempoAmbient(
         AmbientActivity provides activity,
         AmbientApplication provides application,
         AmbientNavController provides navController,
-        AmbientViewModelFactoriesMap provides factories
-    ) {
-        content()
-    }
+        AmbientViewModelFactoriesMap provides factories,
+        content = content
+    )
 }

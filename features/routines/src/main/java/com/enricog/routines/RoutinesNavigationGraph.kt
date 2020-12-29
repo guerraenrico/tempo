@@ -27,7 +27,7 @@ fun NavGraphBuilder.RoutinesNavigation() {
                 type = NavType.LongType; defaultValue = -1L
             })
         ) { navBackStackEntry ->
-            Routine(navBackStackEntry.arguments?.getLong(RoutinesNavigationConstants.Routine.routeIdParamName))
+            Routine(navBackStackEntry.arguments!!.getLong(RoutinesNavigationConstants.Routine.routeIdParamName))
         }
     }
 }

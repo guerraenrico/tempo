@@ -26,4 +26,10 @@ internal class RoutineDataSourceImpl @Inject constructor(
         val internalSegments = routine.segments.map { it.toInternal(routineId) }
         database.segmentDao().insert(*internalSegments.toTypedArray())
     }
+
+    override suspend fun update(routine: Routine) {
+        database.routineDao().update(routines = arrayOf(routine.toInternal()))
+
+
+    }
 }

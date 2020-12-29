@@ -7,7 +7,7 @@ import androidx.compose.runtime.Composable
 import com.enricog.ui_components.ambients.navViewModel
 
 @Composable
-internal fun Routine(routineId: Long?, viewModel: RoutineViewModel = navViewModel()) {
+internal fun Routine(routineId: Long, viewModel: RoutineViewModel = navViewModel()) {
     Column {
         Text("routineId: $routineId")
         Button(onClick = viewModel::onStartRoutine) {

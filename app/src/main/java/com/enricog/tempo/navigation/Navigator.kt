@@ -9,7 +9,7 @@ import com.enricog.timer.navigation.TimerNavigationActions
 import com.enricog.timer.navigation.TimerNavigationConstants
 import javax.inject.Inject
 
-class Navigator @Inject constructor() : RoutinesNavigationActions, TimerNavigationActions {
+internal class Navigator @Inject constructor() : RoutinesNavigationActions, TimerNavigationActions {
 
     var navController: NavController? = null
 
@@ -36,6 +36,5 @@ class Navigator @Inject constructor() : RoutinesNavigationActions, TimerNavigati
             popUpTo(TimerNavigationConstants.routeName) { inclusive = true }
         }
     }
-
 
 }
