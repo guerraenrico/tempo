@@ -20,7 +20,7 @@ internal class RoutineDataSourceImpl @Inject constructor(
 
     override suspend fun create(routine: Routine) {
         val routineId = database.routineDao()
-            .insert(routines = arrayOf(routine.toInternal()))
+            .insert(routine.toInternal())
             .first()
 
         val internalSegments = routine.segments.map { it.toInternal(routineId) }
@@ -28,8 +28,20 @@ internal class RoutineDataSourceImpl @Inject constructor(
     }
 
     override suspend fun update(routine: Routine) {
-        database.routineDao().update(routines = arrayOf(routine.toInternal()))
+        val currentRoutine = database.routineDao().get(routine.id)
 
+        val internalSegments = routine.segments.map { it.toInternal(routine.id) }
 
+        val addedSegments = internalSegments.filter { it.id == 0L }
+        val deletedSegments = currentRoutine.segments.filter { currentSegment ->
+            internalSegments.none { currentSegment.id == it.id }
+        }
+        val updatedSegments = internalSegments.filter { it.id > 0 }
+
+        database.segmentDao().insert(*addedSegments.toTypedArray())
+        database.segmentDao().delete(*deletedSegments.toTypedArray())
+        database.segmentDao().update(*updatedSegments.toTypedArray())
+
+        database.routineDao().update(routine.toInternal())
     }
 }

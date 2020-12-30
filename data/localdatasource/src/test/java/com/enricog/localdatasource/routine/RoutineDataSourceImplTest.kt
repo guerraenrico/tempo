@@ -95,7 +95,6 @@ class RoutineDataSourceImplTest {
     @Test
     fun `should return single routine`() = coroutineRule {
         val now = OffsetDateTime.now()
-        val routineId = 1L
         val internalSegment = InternalSegment(
             id = 1,
             routineId = 1,
@@ -111,7 +110,7 @@ class RoutineDataSourceImplTest {
             updatedAt = now
         )
         val expected = Routine(
-            id = routineId,
+            id = 1,
             name = "name",
             startTimeOffsetInSeconds = 10,
             createdAt = now,
@@ -129,7 +128,7 @@ class RoutineDataSourceImplTest {
         database.routineDao().insert(internalRoutine)
         database.segmentDao().insert(internalSegment)
 
-        val result = sut.get(routineId)
+        val result = sut.get(1)
 
         assertEquals(expected, result)
     }
@@ -137,9 +136,23 @@ class RoutineDataSourceImplTest {
     @Test
     fun `should create a routine`() = coroutineRule {
         val now = OffsetDateTime.now()
-        val routineId = 1L
         val routine = Routine(
-            id = routineId,
+            id = 0,
+            name = "name",
+            startTimeOffsetInSeconds = 10,
+            createdAt = now,
+            updatedAt = now,
+            segments = listOf(
+                Segment(
+                    id = 1,
+                    name = "name",
+                    timeInSeconds = 40,
+                    type = TimeType.TIMER
+                )
+            )
+        )
+        val expected = Routine(
+            id = 1,
             name = "name",
             startTimeOffsetInSeconds = 10,
             createdAt = now,
@@ -157,9 +170,314 @@ class RoutineDataSourceImplTest {
         sut.create(routine)
 
         // Assert that has been saved correctly
-        val result = sut.get(routineId)
+        val result = sut.get(1)
+        assertEquals(expected, result)
+    }
+
+    @Test
+    fun `should update routine`() = coroutineRule {
+        val now = OffsetDateTime.now()
+        val internalSegment = InternalSegment(
+            id = 1,
+            routineId = 1,
+            name = "name",
+            timeInSeconds = 40,
+            type = TimeType.TIMER
+        )
+        val internalRoutine = InternalRoutine(
+            id = 1,
+            name = "name",
+            startTimeOffsetInSeconds = 10,
+            createdAt = now,
+            updatedAt = now
+        )
+        val routine = Routine(
+            id = 1,
+            name = "name2",
+            startTimeOffsetInSeconds = 10,
+            createdAt = now,
+            updatedAt = now,
+            segments = listOf(
+                Segment(
+                    id = 1,
+                    name = "name",
+                    timeInSeconds = 40,
+                    type = TimeType.TIMER
+                )
+            )
+        )
+
+        database.routineDao().insert(internalRoutine)
+        database.segmentDao().insert(internalSegment)
+
+        sut.update(routine)
+
+        // Assert that has been saved correctly
+        val result = sut.get(1)
         assertEquals(routine, result)
     }
 
+    @Test
+    fun `should update routine and segment`() = coroutineRule {
+        val now = OffsetDateTime.now()
+        val internalSegment = InternalSegment(
+            id = 1,
+            routineId = 1,
+            name = "name",
+            timeInSeconds = 40,
+            type = TimeType.TIMER
+        )
+        val internalRoutine = InternalRoutine(
+            id = 1,
+            name = "name",
+            startTimeOffsetInSeconds = 10,
+            createdAt = now,
+            updatedAt = now
+        )
+        val routine = Routine(
+            id = 1,
+            name = "name2",
+            startTimeOffsetInSeconds = 10,
+            createdAt = now,
+            updatedAt = now,
+            segments = listOf(
+                Segment(
+                    id = 1,
+                    name = "name2",
+                    timeInSeconds = 40,
+                    type = TimeType.TIMER
+                )
+            )
+        )
 
+        database.routineDao().insert(internalRoutine)
+        database.segmentDao().insert(internalSegment)
+
+        sut.update(routine)
+
+        // Assert that has been saved correctly
+        val result = sut.get(1)
+        assertEquals(routine, result)
+    }
+
+    @Test
+    fun `should update routine and delete segment`() = coroutineRule {
+        val now = OffsetDateTime.now()
+        val internalSegment = InternalSegment(
+            id = 1,
+            routineId = 1,
+            name = "name",
+            timeInSeconds = 40,
+            type = TimeType.TIMER
+        )
+        val internalRoutine = InternalRoutine(
+            id = 1,
+            name = "name",
+            startTimeOffsetInSeconds = 10,
+            createdAt = now,
+            updatedAt = now
+        )
+        val routine = Routine(
+            id = 1,
+            name = "name2",
+            startTimeOffsetInSeconds = 10,
+            createdAt = now,
+            updatedAt = now,
+            segments = emptyList()
+        )
+
+        database.routineDao().insert(internalRoutine)
+        database.segmentDao().insert(internalSegment)
+
+        sut.update(routine)
+
+        // Assert that has been saved correctly
+        val result = sut.get(1)
+        assertEquals(routine, result)
+    }
+
+    @Test
+    fun `should update routine and create segment`() = coroutineRule {
+        val now = OffsetDateTime.now()
+        val internalRoutine = InternalRoutine(
+            id = 1,
+            name = "name",
+            startTimeOffsetInSeconds = 10,
+            createdAt = now,
+            updatedAt = now
+        )
+        val routine = Routine(
+            id = 1,
+            name = "name2",
+            startTimeOffsetInSeconds = 10,
+            createdAt = now,
+            updatedAt = now,
+            segments = listOf(
+                Segment(
+                    id = 0,
+                    name = "name",
+                    timeInSeconds = 40,
+                    type = TimeType.TIMER
+                )
+            )
+        )
+        val expected = Routine(
+            id = 1,
+            name = "name2",
+            startTimeOffsetInSeconds = 10,
+            createdAt = now,
+            updatedAt = now,
+            segments = listOf(
+                Segment(
+                    id = 1,
+                    name = "name",
+                    timeInSeconds = 40,
+                    type = TimeType.TIMER
+                )
+            )
+        )
+
+        database.routineDao().insert(internalRoutine)
+
+        sut.update(routine)
+
+        // Assert that has been saved correctly
+        val result = sut.get(1)
+        assertEquals(expected, result)
+    }
+
+    @Test
+    fun `should update routine and create and delete segments`() = coroutineRule {
+        val now = OffsetDateTime.now()
+        val internalSegment = InternalSegment(
+            id = 1,
+            routineId = 1,
+            name = "name",
+            timeInSeconds = 40,
+            type = TimeType.TIMER
+        )
+        val internalRoutine = InternalRoutine(
+            id = 1,
+            name = "name",
+            startTimeOffsetInSeconds = 10,
+            createdAt = now,
+            updatedAt = now
+        )
+        val routine = Routine(
+            id = 1,
+            name = "name2",
+            startTimeOffsetInSeconds = 10,
+            createdAt = now,
+            updatedAt = now,
+            segments = listOf(
+                Segment(
+                    id = 0,
+                    name = "name2",
+                    timeInSeconds = 40,
+                    type = TimeType.TIMER
+                )
+            )
+        )
+        val expected = Routine(
+            id = 1,
+            name = "name2",
+            startTimeOffsetInSeconds = 10,
+            createdAt = now,
+            updatedAt = now,
+            segments = listOf(
+                Segment(
+                    id = 2,
+                    name = "name2",
+                    timeInSeconds = 40,
+                    type = TimeType.TIMER
+                )
+            )
+        )
+
+        database.routineDao().insert(internalRoutine)
+        database.segmentDao().insert(internalSegment)
+
+        sut.update(routine)
+
+        // Assert that has been saved correctly
+        val result = sut.get(1)
+        assertEquals(expected, result)
+    }
+
+    @Test
+    fun `should update routine and create, delete and update segments`() = coroutineRule {
+        val now = OffsetDateTime.now()
+        val internalSegment1 = InternalSegment(
+            id = 1,
+            routineId = 1,
+            name = "name",
+            timeInSeconds = 40,
+            type = TimeType.TIMER
+        )
+        val internalSegment2 = InternalSegment(
+            id = 2,
+            routineId = 1,
+            name = "name2",
+            timeInSeconds = 40,
+            type = TimeType.TIMER
+        )
+        val internalRoutine = InternalRoutine(
+            id = 1,
+            name = "name",
+            startTimeOffsetInSeconds = 10,
+            createdAt = now,
+            updatedAt = now
+        )
+        val routine = Routine(
+            id = 1,
+            name = "name2",
+            startTimeOffsetInSeconds = 10,
+            createdAt = now,
+            updatedAt = now,
+            segments = listOf(
+                Segment(
+                    id = 2,
+                    name = "name2_mod",
+                    timeInSeconds = 40,
+                    type = TimeType.TIMER
+                ),
+                Segment(
+                    id = 0,
+                    name = "name3",
+                    timeInSeconds = 40,
+                    type = TimeType.TIMER
+                )
+            )
+        )
+        val expected = Routine(
+            id = 1,
+            name = "name2",
+            startTimeOffsetInSeconds = 10,
+            createdAt = now,
+            updatedAt = now,
+            segments = listOf(
+                Segment(
+                    id = 2,
+                    name = "name2_mod",
+                    timeInSeconds = 40,
+                    type = TimeType.TIMER
+                ),
+                Segment(
+                    id = 3,
+                    name = "name3",
+                    timeInSeconds = 40,
+                    type = TimeType.TIMER
+                )
+            )
+        )
+
+        database.routineDao().insert(internalRoutine)
+        database.segmentDao().insert(internalSegment1, internalSegment2)
+
+        sut.update(routine)
+
+        // Assert that has been saved correctly
+        val result = sut.get(1)
+        assertEquals(expected, result)
+    }
 }

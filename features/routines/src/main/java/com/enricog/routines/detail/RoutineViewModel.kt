@@ -6,14 +6,14 @@ import com.enricog.core.coroutine.dispatchers.CoroutineDispatchers
 import com.enricog.routines.detail.models.RoutineState
 import com.enricog.routines.detail.models.RoutineViewState
 import com.enricog.routines.navigation.RoutinesNavigationActions
-import com.enricog.routines.usecase.RoutinesUseCase
+import com.enricog.routines.usecase.RoutineUseCase
 
 internal class RoutineViewModel @ViewModelInject constructor(
     dispatchers: CoroutineDispatchers,
     converter: RoutineStateConverter,
     private val navigationActions: RoutinesNavigationActions,
     private val reducer: RoutineReducer,
-    private val routinesUseCase: RoutinesUseCase
+    private val routineUseCase: RoutineUseCase
 ) : BaseViewModel<RoutineState, RoutineViewState>(
     initialState = RoutineState.Idle,
     converter = converter,
@@ -23,7 +23,6 @@ internal class RoutineViewModel @ViewModelInject constructor(
     fun load(routineId: Long) {
 
     }
-
 
 
     fun onStartRoutine() {

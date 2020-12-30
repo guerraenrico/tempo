@@ -24,7 +24,7 @@ fun NavGraphBuilder.RoutinesNavigation() {
         composable(
             route = RoutinesNavigationConstants.Routine.routeName,
             arguments = listOf(navArgument(RoutinesNavigationConstants.Routine.routeIdParamName) {
-                type = NavType.LongType; defaultValue = -1L
+                type = NavType.LongType; defaultValue = 0L
             })
         ) { navBackStackEntry ->
             Routine(navBackStackEntry.arguments!!.getLong(RoutinesNavigationConstants.Routine.routeIdParamName))
