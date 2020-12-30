@@ -21,6 +21,7 @@ import org.robolectric.RobolectricTestRunner
 import org.robolectric.annotation.Config
 import java.io.IOException
 import java.time.OffsetDateTime
+import java.time.temporal.ChronoUnit
 
 @RunWith(RobolectricTestRunner::class)
 @Config(sdk = [28])
@@ -135,13 +136,14 @@ class RoutineDataSourceImplTest {
 
     @Test
     fun `should create a routine`() = coroutineRule {
+        val max = OffsetDateTime.MIN
         val now = OffsetDateTime.now()
         val routine = Routine(
             id = 0,
             name = "name",
             startTimeOffsetInSeconds = 10,
-            createdAt = now,
-            updatedAt = now,
+            createdAt = max,
+            updatedAt = max,
             segments = listOf(
                 Segment(
                     id = 1,
@@ -171,11 +173,12 @@ class RoutineDataSourceImplTest {
 
         // Assert that has been saved correctly
         val result = sut.get(1)
-        assertEquals(expected, result)
+        assertRoutineEquals(expected, result)
     }
 
     @Test
     fun `should update routine`() = coroutineRule {
+        val max = OffsetDateTime.MIN
         val now = OffsetDateTime.now()
         val internalSegment = InternalSegment(
             id = 1,
@@ -188,14 +191,14 @@ class RoutineDataSourceImplTest {
             id = 1,
             name = "name",
             startTimeOffsetInSeconds = 10,
-            createdAt = now,
-            updatedAt = now
+            createdAt = max,
+            updatedAt = max
         )
         val routine = Routine(
             id = 1,
             name = "name2",
             startTimeOffsetInSeconds = 10,
-            createdAt = now,
+            createdAt = max,
             updatedAt = now,
             segments = listOf(
                 Segment(
@@ -214,11 +217,12 @@ class RoutineDataSourceImplTest {
 
         // Assert that has been saved correctly
         val result = sut.get(1)
-        assertEquals(routine, result)
+        assertRoutineEquals(routine, result)
     }
 
     @Test
     fun `should update routine and segment`() = coroutineRule {
+        val max = OffsetDateTime.MAX
         val now = OffsetDateTime.now()
         val internalSegment = InternalSegment(
             id = 1,
@@ -231,14 +235,14 @@ class RoutineDataSourceImplTest {
             id = 1,
             name = "name",
             startTimeOffsetInSeconds = 10,
-            createdAt = now,
-            updatedAt = now
+            createdAt = max,
+            updatedAt = max
         )
         val routine = Routine(
             id = 1,
             name = "name2",
             startTimeOffsetInSeconds = 10,
-            createdAt = now,
+            createdAt = max,
             updatedAt = now,
             segments = listOf(
                 Segment(
@@ -257,11 +261,12 @@ class RoutineDataSourceImplTest {
 
         // Assert that has been saved correctly
         val result = sut.get(1)
-        assertEquals(routine, result)
+        assertRoutineEquals(routine, result)
     }
 
     @Test
     fun `should update routine and delete segment`() = coroutineRule {
+        val max = OffsetDateTime.MAX
         val now = OffsetDateTime.now()
         val internalSegment = InternalSegment(
             id = 1,
@@ -274,14 +279,14 @@ class RoutineDataSourceImplTest {
             id = 1,
             name = "name",
             startTimeOffsetInSeconds = 10,
-            createdAt = now,
-            updatedAt = now
+            createdAt = max,
+            updatedAt = max
         )
         val routine = Routine(
             id = 1,
             name = "name2",
             startTimeOffsetInSeconds = 10,
-            createdAt = now,
+            createdAt = max,
             updatedAt = now,
             segments = emptyList()
         )
@@ -293,25 +298,26 @@ class RoutineDataSourceImplTest {
 
         // Assert that has been saved correctly
         val result = sut.get(1)
-        assertEquals(routine, result)
+        assertRoutineEquals(routine, result)
     }
 
     @Test
     fun `should update routine and create segment`() = coroutineRule {
+        val max = OffsetDateTime.MAX
         val now = OffsetDateTime.now()
         val internalRoutine = InternalRoutine(
             id = 1,
             name = "name",
             startTimeOffsetInSeconds = 10,
-            createdAt = now,
-            updatedAt = now
+            createdAt = max,
+            updatedAt = max
         )
         val routine = Routine(
             id = 1,
             name = "name2",
             startTimeOffsetInSeconds = 10,
-            createdAt = now,
-            updatedAt = now,
+            createdAt = max,
+            updatedAt = max,
             segments = listOf(
                 Segment(
                     id = 0,
@@ -325,7 +331,7 @@ class RoutineDataSourceImplTest {
             id = 1,
             name = "name2",
             startTimeOffsetInSeconds = 10,
-            createdAt = now,
+            createdAt = max,
             updatedAt = now,
             segments = listOf(
                 Segment(
@@ -343,11 +349,12 @@ class RoutineDataSourceImplTest {
 
         // Assert that has been saved correctly
         val result = sut.get(1)
-        assertEquals(expected, result)
+        assertRoutineEquals(expected, result)
     }
 
     @Test
     fun `should update routine and create and delete segments`() = coroutineRule {
+        val max = OffsetDateTime.MAX
         val now = OffsetDateTime.now()
         val internalSegment = InternalSegment(
             id = 1,
@@ -360,15 +367,15 @@ class RoutineDataSourceImplTest {
             id = 1,
             name = "name",
             startTimeOffsetInSeconds = 10,
-            createdAt = now,
-            updatedAt = now
+            createdAt = max,
+            updatedAt = max
         )
         val routine = Routine(
             id = 1,
             name = "name2",
             startTimeOffsetInSeconds = 10,
-            createdAt = now,
-            updatedAt = now,
+            createdAt = max,
+            updatedAt = max,
             segments = listOf(
                 Segment(
                     id = 0,
@@ -382,7 +389,7 @@ class RoutineDataSourceImplTest {
             id = 1,
             name = "name2",
             startTimeOffsetInSeconds = 10,
-            createdAt = now,
+            createdAt = max,
             updatedAt = now,
             segments = listOf(
                 Segment(
@@ -401,11 +408,12 @@ class RoutineDataSourceImplTest {
 
         // Assert that has been saved correctly
         val result = sut.get(1)
-        assertEquals(expected, result)
+        assertRoutineEquals(expected, result)
     }
 
     @Test
     fun `should update routine and create, delete and update segments`() = coroutineRule {
+        val max = OffsetDateTime.MAX
         val now = OffsetDateTime.now()
         val internalSegment1 = InternalSegment(
             id = 1,
@@ -425,15 +433,15 @@ class RoutineDataSourceImplTest {
             id = 1,
             name = "name",
             startTimeOffsetInSeconds = 10,
-            createdAt = now,
-            updatedAt = now
+            createdAt = max,
+            updatedAt = max
         )
         val routine = Routine(
             id = 1,
             name = "name2",
             startTimeOffsetInSeconds = 10,
-            createdAt = now,
-            updatedAt = now,
+            createdAt = max,
+            updatedAt = max,
             segments = listOf(
                 Segment(
                     id = 2,
@@ -453,7 +461,7 @@ class RoutineDataSourceImplTest {
             id = 1,
             name = "name2",
             startTimeOffsetInSeconds = 10,
-            createdAt = now,
+            createdAt = max,
             updatedAt = now,
             segments = listOf(
                 Segment(
@@ -478,6 +486,22 @@ class RoutineDataSourceImplTest {
 
         // Assert that has been saved correctly
         val result = sut.get(1)
-        assertEquals(expected, result)
+        assertRoutineEquals(expected, result)
+    }
+
+
+    private fun assertRoutineEquals(expected: Routine, actual: Routine) {
+        assertEquals(expected.id, actual.id)
+        assertEquals(expected.name, actual.name)
+        assertEquals(expected.startTimeOffsetInSeconds, actual.startTimeOffsetInSeconds)
+        assertEquals(
+            expected.createdAt.truncatedTo(ChronoUnit.HOURS),
+            actual.createdAt.truncatedTo(ChronoUnit.HOURS)
+        )
+        assertEquals(
+            expected.updatedAt.truncatedTo(ChronoUnit.HOURS),
+            actual.updatedAt.truncatedTo(ChronoUnit.HOURS)
+        )
+        assertEquals(expected.segments, actual.segments)
     }
 }

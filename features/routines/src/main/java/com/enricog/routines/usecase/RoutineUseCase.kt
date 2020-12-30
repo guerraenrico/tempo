@@ -30,15 +30,10 @@ internal class RoutineUseCase @Inject constructor(
     }
 
     suspend fun save(routine: Routine) {
-        var routineToSave = routine
         if (routine.id == 0L) {
-            val now = OffsetDateTime.now()
-            routineToSave = routine.copy(
-                createdAt = now,
-                updatedAt = now,
-            )
+            routineDataSource.create(routine)
+        } else {
+            routineDataSource.update(routine)
         }
-
-        routineDataSource.create(routine)
     }
 }

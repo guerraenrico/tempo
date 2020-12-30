@@ -1,11 +1,14 @@
 package com.enricog.localdatasource.routine
 
+import android.annotation.SuppressLint
 import com.enricog.datasource.RoutineDataSource
 import com.enricog.entities.routines.Routine
 import com.enricog.localdatasource.TempoDatabase
 import com.enricog.localdatasource.routine.model.toInternal
+import java.time.OffsetDateTime
 import javax.inject.Inject
 
+@SuppressLint("NewApi")
 internal class RoutineDataSourceImpl @Inject constructor(
     private val database: TempoDatabase
 ) : RoutineDataSource {
@@ -19,8 +22,13 @@ internal class RoutineDataSourceImpl @Inject constructor(
     }
 
     override suspend fun create(routine: Routine) {
+        val now = OffsetDateTime.now()
+        val routineToCreate = routine.copy(
+            createdAt = now,
+            updatedAt = now,
+        )
         val routineId = database.routineDao()
-            .insert(routine.toInternal())
+            .insert(routineToCreate.toInternal())
             .first()
 
         val internalSegments = routine.segments.map { it.toInternal(routineId) }
@@ -29,19 +37,20 @@ internal class RoutineDataSourceImpl @Inject constructor(
 
     override suspend fun update(routine: Routine) {
         val currentRoutine = database.routineDao().get(routine.id)
+        val currentInternalSegments = routine.segments.map { it.toInternal(routine.id) }
 
-        val internalSegments = routine.segments.map { it.toInternal(routine.id) }
-
-        val addedSegments = internalSegments.filter { it.id == 0L }
+        val addedSegments = currentInternalSegments.filter { it.id == 0L }
         val deletedSegments = currentRoutine.segments.filter { currentSegment ->
-            internalSegments.none { currentSegment.id == it.id }
+            currentInternalSegments.none { currentSegment.id == it.id }
         }
-        val updatedSegments = internalSegments.filter { it.id > 0 }
+        val updatedSegments = currentInternalSegments.filter { it.id > 0 }
 
         database.segmentDao().insert(*addedSegments.toTypedArray())
         database.segmentDao().delete(*deletedSegments.toTypedArray())
         database.segmentDao().update(*updatedSegments.toTypedArray())
 
-        database.routineDao().update(routine.toInternal())
+        val now = OffsetDateTime.now()
+        val routineToUpdate = routine.copy(updatedAt = now)
+        database.routineDao().update(routineToUpdate.toInternal())
     }
 }
