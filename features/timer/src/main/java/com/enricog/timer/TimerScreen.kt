@@ -14,7 +14,7 @@ import com.enricog.ui_components.ambients.TempoAmbient
 import com.enricog.ui_components.ambients.navViewModel
 
 @Composable
-internal fun Timer(routineId: Long, viewModel: TimerViewModel = navViewModel()) {
+internal fun TimerScreen(routineId: Long, viewModel: TimerViewModel = navViewModel()) {
     onActive {
         viewModel.load(TimerConfiguration(routineId))
     }

@@ -15,7 +15,7 @@ fun NavGraphBuilder.TimerNavigation() {
                 type = NavType.LongType; nullable = false
             })
         ) { navBackStackEntry ->
-            Timer(navBackStackEntry.arguments!!.getLong(TimerNavigationConstants.routeIdParamName))
+            TimerScreen(navBackStackEntry.arguments!!.getLong(TimerNavigationConstants.routeIdParamName))
         }
     }
 }

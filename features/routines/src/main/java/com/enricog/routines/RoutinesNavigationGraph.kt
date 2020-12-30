@@ -5,8 +5,8 @@ import androidx.navigation.NavType
 import androidx.navigation.compose.composable
 import androidx.navigation.compose.navArgument
 import androidx.navigation.compose.navigation
-import com.enricog.routines.detail.Routine
-import com.enricog.routines.list.Routines
+import com.enricog.routines.detail.RoutineScreen
+import com.enricog.routines.list.RoutinesScreen
 import com.enricog.routines.navigation.RoutinesNavigationConstants
 
 fun NavGraphBuilder.RoutinesNavigation() {
@@ -18,7 +18,7 @@ fun NavGraphBuilder.RoutinesNavigation() {
             route = RoutinesNavigationConstants.Routines.routeName,
             arguments = emptyList()
         ) {
-            Routines()
+            RoutinesScreen()
         }
 
         composable(
@@ -27,7 +27,7 @@ fun NavGraphBuilder.RoutinesNavigation() {
                 type = NavType.LongType; defaultValue = 0L
             })
         ) { navBackStackEntry ->
-            Routine(navBackStackEntry.arguments!!.getLong(RoutinesNavigationConstants.Routine.routeIdParamName))
+            RoutineScreen(navBackStackEntry.arguments!!.getLong(RoutinesNavigationConstants.Routine.routeIdParamName))
         }
     }
 }

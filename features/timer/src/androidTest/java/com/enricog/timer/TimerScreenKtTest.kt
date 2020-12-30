@@ -10,7 +10,7 @@ import com.enricog.timer.ui_components.CountingSceneTestTag
 import org.junit.Rule
 import org.junit.Test
 
-class TimerKtTest {
+class TimerScreenKtTest {
 
     @get:Rule
     val composeRule = createComposeRule()

@@ -10,6 +10,15 @@ internal class RoutineStateConverter @Inject constructor() :
     override suspend fun convert(state: RoutineState): RoutineViewState {
         return when (state) {
             RoutineState.Idle -> RoutineViewState.Idle
+            is RoutineState.Data -> state.toViewState()
         }
+    }
+
+    private fun RoutineState.Data.toViewState(): RoutineViewState {
+        return RoutineViewState.Data(
+            routine = routine,
+            editingSegment = editingSegment,
+            errors = errors
+        )
     }
 }
