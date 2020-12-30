@@ -9,7 +9,7 @@ internal sealed class RoutineViewState {
     data class Data(
         val routine: Routine,
         val editingSegment: Segment?,
-        val errors: List<FieldError>
+        val errors: Map<Field, Int>
     ) : RoutineViewState()
 
 }

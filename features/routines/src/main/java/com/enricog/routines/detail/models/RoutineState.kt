@@ -9,6 +9,6 @@ internal sealed class RoutineState {
     data class Data(
         val routine: Routine,
         val editingSegment: Segment?,
-        val errors: List<FieldError>
+        val errors: Map<Field, ValidationError>
     ) : RoutineState()
 }

@@ -10,8 +10,10 @@ internal class RoutineReducer @Inject constructor() {
         return RoutineState.Data(
             routine = routine,
             editingSegment = null,
-            errors = emptyList()
+            errors = emptyMap()
         )
     }
+
+
 
 }
