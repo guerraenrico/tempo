@@ -16,6 +16,8 @@ import com.enricog.ui_components.resources.dimensions
 
 internal const val RoutineFormSceneTestTag = "RoutineFormSceneTestTag"
 
+// TODO: Improve UI
+
 @Composable
 internal fun RoutineFormScene(
     routine: Routine,
@@ -23,7 +25,8 @@ internal fun RoutineFormScene(
     onRoutineNameChange: (String) -> Unit,
     onStartTimeOffsetChange: (Long) -> Unit,
     onAddSegmentClick: () -> Unit,
-    onSegmentClick: (Segment) -> Unit
+    onSegmentClick: (Segment) -> Unit,
+    onStartRoutine: () -> Unit
 ) {
     Column(
         modifier = Modifier.fillMaxSize()
@@ -48,6 +51,9 @@ internal fun RoutineFormScene(
 
         Spacer(Modifier.height(MaterialTheme.dimensions.spaceM))
         TempoButton(onClick = onAddSegmentClick, text = "Add Segment")
+
+        Spacer(Modifier.height(MaterialTheme.dimensions.spaceM))
+        TempoButton(onClick = onStartRoutine, text = "START")
     }
 }
 

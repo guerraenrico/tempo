@@ -4,7 +4,9 @@ import com.enricog.entities.routines.Routine
 import com.enricog.entities.routines.Segment
 import com.enricog.entities.routines.TimeType
 import com.enricog.routines.detail.models.EditingSegment
+import com.enricog.routines.detail.models.Field
 import com.enricog.routines.detail.models.RoutineState
+import com.enricog.routines.detail.models.ValidationError
 import javax.inject.Inject
 
 internal class RoutineReducer @Inject constructor() {
@@ -33,7 +35,8 @@ internal class RoutineReducer @Inject constructor() {
         val editingSegment = EditingSegment.Data(
             segment = Segment(id = 0, name = "", timeInSeconds = 0, type = TimeType.TIMER),
             errors = emptyMap(),
-            timeTypes = timeTypes
+            timeTypes = timeTypes,
+            originalSegmentPosition = -1
         )
         return state.copy(editingSegment = editingSegment)
     }
@@ -42,7 +45,8 @@ internal class RoutineReducer @Inject constructor() {
         val editingSegment = EditingSegment.Data(
             segment = segment,
             errors = emptyMap(),
-            timeTypes = timeTypes
+            timeTypes = timeTypes,
+            originalSegmentPosition = state.routine.segments.indexOf(segment)
         )
         return state.copy(editingSegment = editingSegment)
     }
@@ -68,8 +72,47 @@ internal class RoutineReducer @Inject constructor() {
         return state.copy(editingSegment = state.editingSegment.copy(segment = segment))
     }
 
+    fun updateRoutineSegment(state: RoutineState.Data): RoutineState.Data {
+        if (state.editingSegment !is EditingSegment.Data) return state
+
+        val editedSegment = state.editingSegment.segment
+        val segmentPosition = state.editingSegment.originalSegmentPosition
+        val segments = if (segmentPosition >= 0) {
+            state.routine.segments.mapIndexed { index, segment ->
+                if (index == segmentPosition) {
+                    editedSegment
+                } else {
+                    segment
+                }
+            }
+        } else {
+            listOf(*state.routine.segments.toTypedArray(), editedSegment)
+        }
+
+        val routine = state.routine.copy(segments = segments)
+        return state.copy(
+            routine = routine,
+            editingSegment = EditingSegment.None
+        )
+    }
+
     fun closeEditSegment(state: RoutineState.Data): RoutineState.Data {
         return state.copy(editingSegment = EditingSegment.None)
     }
 
+    fun applyRoutineErrors(
+        state: RoutineState.Data,
+        errors: Map<Field.Routine, ValidationError>
+    ): RoutineState.Data {
+        return state.copy(errors = errors)
+    }
+
+    fun applySegmentErrors(
+        state: RoutineState.Data,
+        errors: Map<Field.Segment, ValidationError>
+    ): RoutineState.Data {
+        if (state.editingSegment !is EditingSegment.Data) return state
+        val editingSegment = state.editingSegment.copy(errors = errors)
+        return state.copy(editingSegment = editingSegment)
+    }
 }

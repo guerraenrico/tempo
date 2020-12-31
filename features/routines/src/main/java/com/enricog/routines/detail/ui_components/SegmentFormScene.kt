@@ -8,18 +8,21 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.platform.testTag
 import androidx.compose.ui.res.stringResource
 import com.enricog.entities.routines.TimeType
-import com.enricog.routines.detail.models.EditingSegment
+import com.enricog.routines.detail.models.EditingSegmentView
 import com.enricog.routines.detail.models.Field
 import com.enricog.ui_components.common.button.TempoButton
+import com.enricog.ui_components.common.button.TempoButtonColor
 import com.enricog.ui_components.common.textField.TempoNumberField
 import com.enricog.ui_components.common.textField.TempoTextField
 import com.enricog.ui_components.resources.dimensions
 
 internal const val SegmentFormSceneTestTag = "SegmentFormSceneTestTag"
 
+// TODO: Improve UI
+
 @Composable
 internal fun SegmentFormScene(
-    data: EditingSegment.Data,
+    data: EditingSegmentView.Data,
     onSegmentNameChange: (String) -> Unit,
     onSegmentTimeChange: (Long) -> Unit,
     onSegmentTimeTypeChange: (TimeType) -> Unit,
@@ -52,6 +55,8 @@ internal fun SegmentFormScene(
         )
         Spacer(Modifier.height(MaterialTheme.dimensions.spaceM))
         TempoButton(onClick = onSegmentBack, text = "BACK")
+        Spacer(Modifier.height(MaterialTheme.dimensions.spaceM))
+        TempoButton(onClick = onSegmentConfirmed, color = TempoButtonColor.Accent, text = "CONFIRM")
     }
 }
 

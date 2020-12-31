@@ -5,8 +5,11 @@ import androidx.lifecycle.viewModelScope
 import com.enricog.base_android.viewmodel.BaseViewModel
 import com.enricog.base_android.viewmodel.ViewModelConfiguration
 import com.enricog.core.coroutine.dispatchers.CoroutineDispatchers
+import com.enricog.core.coroutine.job.autoCancelableJob
+import com.enricog.entities.routines.Routine
 import com.enricog.entities.routines.Segment
 import com.enricog.entities.routines.TimeType
+import com.enricog.routines.detail.models.EditingSegment
 import com.enricog.routines.detail.models.RoutineState
 import com.enricog.routines.detail.models.RoutineViewState
 import com.enricog.routines.detail.validation.RoutineValidator
@@ -27,6 +30,8 @@ internal class RoutineViewModel @ViewModelInject constructor(
     dispatchers = dispatchers,
     configuration = ViewModelConfiguration(debounce = 0)
 ) {
+
+    private var startRoutineJob by autoCancelableJob()
 
     fun load(routineId: Long) {
         viewModelScope.launch {
@@ -63,16 +68,35 @@ internal class RoutineViewModel @ViewModelInject constructor(
         state = reducer.updateSegmentTimeType(stateData, timeType)
     }
 
-    fun onSegmentConfirmed() {
+    fun onSegmentConfirmed() = runWhen<RoutineState.Data> { stateData ->
+        if (stateData.editingSegment !is EditingSegment.Data) return@runWhen
 
+        val errors = validator.validate(stateData.editingSegment.segment)
+        state = if (errors.isEmpty()) {
+            reducer.updateRoutineSegment(stateData)
+        } else {
+            reducer.applySegmentErrors(stateData, errors)
+        }
     }
 
     fun onSegmentBack() = runWhen<RoutineState.Data> { stateData ->
         state = reducer.closeEditSegment(stateData)
     }
 
-    fun onStartRoutine() {
-        navigationActions.goToTimer(routineId = 1)
+    fun onStartRoutine() = runWhen<RoutineState.Data> { stateData ->
+        val errors = validator.validate(stateData.routine)
+        if (errors.isEmpty()) {
+            saveAndStartRoutine(stateData.routine)
+        } else {
+            state = reducer.applyRoutineErrors(stateData, errors)
+        }
+    }
+
+    private fun saveAndStartRoutine(routine: Routine) {
+        startRoutineJob = viewModelScope.launch {
+            routineUseCase.save(routine)
+            navigationActions.goToTimer(routineId = 1)
+        }
     }
 
 }

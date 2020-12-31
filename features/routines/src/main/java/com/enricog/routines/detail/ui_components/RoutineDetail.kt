@@ -6,8 +6,10 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import com.enricog.entities.routines.Segment
 import com.enricog.entities.routines.TimeType
-import com.enricog.routines.detail.models.EditingSegment
+import com.enricog.routines.detail.models.EditingSegmentView
 import com.enricog.routines.detail.models.RoutineViewState
+
+// TODO: Improve UI
 
 @Composable
 internal fun RoutineDetail(
@@ -34,10 +36,11 @@ internal fun RoutineDetail(
             onRoutineNameChange = onRoutineNameChange,
             onStartTimeOffsetChange = onStartTimeOffsetChange,
             onAddSegmentClick = onAddSegmentClick,
-            onSegmentClick = onSegmentClick
+            onSegmentClick = onSegmentClick,
+            onStartRoutine = onStartRoutine
         )
 
-        if (state.editingSegment is EditingSegment.Data) {
+        if (state.editingSegment is EditingSegmentView.Data) {
             SegmentFormScene(
                 data = state.editingSegment,
                 onSegmentNameChange = onSegmentNameChange,
