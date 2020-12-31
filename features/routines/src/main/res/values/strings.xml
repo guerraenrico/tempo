@@ -14,4 +14,8 @@
 
     <string name="field_error_message_routine_name_blank">Routine name must not be blank</string>
     <string name="field_error_message_segment_name_blank">Segment name must not be blank</string>
+
+    <string name="chip_time_type_rest_name">REST</string>
+    <string name="chip_time_type_timer_name">TIMER</string>
+    <string name="chip_time_type_stopwatch_name">STOP WATCH</string>
 </resources>

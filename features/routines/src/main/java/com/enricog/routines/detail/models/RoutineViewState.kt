@@ -8,8 +8,8 @@ internal sealed class RoutineViewState {
 
     data class Data(
         val routine: Routine,
-        val editingSegment: Segment?,
-        val errors: Map<Field, Int>
+        val errors: Map<Field.Routine, Int>,
+        val editingSegment: EditingSegment
     ) : RoutineViewState()
 
 }

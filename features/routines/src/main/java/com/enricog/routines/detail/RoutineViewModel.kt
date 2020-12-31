@@ -43,6 +43,10 @@ internal class RoutineViewModel @ViewModelInject constructor(
 
     }
 
+    fun onAddSegmentClick() {
+
+    }
+
     fun onSegmentClick(segment: Segment) {
 
     }
@@ -59,7 +63,11 @@ internal class RoutineViewModel @ViewModelInject constructor(
 
     }
 
-    fun onConfirmSegment() {
+    fun onSegmentConfirmed() {
+
+    }
+
+    fun onSegmentBack() {
 
     }
 
