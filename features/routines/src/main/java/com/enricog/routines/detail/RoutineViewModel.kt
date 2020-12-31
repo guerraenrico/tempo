@@ -94,8 +94,8 @@ internal class RoutineViewModel @ViewModelInject constructor(
 
     private fun saveAndStartRoutine(routine: Routine) {
         startRoutineJob = viewModelScope.launch {
-            routineUseCase.save(routine)
-            navigationActions.goToTimer(routineId = 1)
+            val routineId = routineUseCase.save(routine)
+            navigationActions.goToTimer(routineId = routineId)
         }
     }
 

@@ -21,7 +21,7 @@ internal class RoutineDataSourceImpl @Inject constructor(
         return database.routineDao().get(id).toEntity()
     }
 
-    override suspend fun create(routine: Routine) {
+    override suspend fun create(routine: Routine): Long {
         val now = OffsetDateTime.now()
         val routineToCreate = routine.copy(
             createdAt = now,
@@ -33,9 +33,10 @@ internal class RoutineDataSourceImpl @Inject constructor(
 
         val internalSegments = routine.segments.map { it.toInternal(routineId) }
         database.segmentDao().insert(*internalSegments.toTypedArray())
+        return routineId
     }
 
-    override suspend fun update(routine: Routine) {
+    override suspend fun update(routine: Routine): Long {
         val currentRoutine = database.routineDao().get(routine.id)
         val currentInternalSegments = routine.segments.map { it.toInternal(routine.id) }
 
@@ -52,5 +53,6 @@ internal class RoutineDataSourceImpl @Inject constructor(
         val now = OffsetDateTime.now()
         val routineToUpdate = routine.copy(updatedAt = now)
         database.routineDao().update(routineToUpdate.toInternal())
+        return routine.id
     }
 }
