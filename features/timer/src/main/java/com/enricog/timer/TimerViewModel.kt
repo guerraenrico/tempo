@@ -12,7 +12,7 @@ import com.enricog.timer.models.TimerConfiguration
 import com.enricog.timer.models.TimerState
 import com.enricog.timer.models.TimerViewState
 import com.enricog.timer.navigation.TimerNavigationActions
-import com.enricog.timer.usecase.RoutineUseCase
+import com.enricog.timer.usecase.TimerUseCase
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
 
@@ -21,7 +21,7 @@ internal class TimerViewModel @ViewModelInject constructor(
     converter: TimerStateConverter,
     private val navigationActions: TimerNavigationActions,
     private val reducer: TimerReducer,
-    private val routineUseCase: RoutineUseCase
+    private val timerUseCase: TimerUseCase
 ) : BaseViewModel<TimerState, TimerViewState>(
     initialState = TimerState.Idle,
     converter = converter,
@@ -37,7 +37,7 @@ internal class TimerViewModel @ViewModelInject constructor(
 
     fun load(configuration: TimerConfiguration) {
         loadJob = viewModelScope.launch {
-            val routine = routineUseCase.get(configuration.routineId)
+            val routine = timerUseCase.get(configuration.routineId)
             start(routine)
         }
     }

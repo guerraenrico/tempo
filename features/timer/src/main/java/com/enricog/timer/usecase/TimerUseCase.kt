@@ -5,7 +5,7 @@ import com.enricog.datasource.RoutineDataSource
 import com.enricog.entities.routines.Routine
 import javax.inject.Inject
 
-internal class RoutineUseCase @Inject constructor(
+internal class TimerUseCase @Inject constructor(
     private val routineDataSource: RoutineDataSource
 ) {
 

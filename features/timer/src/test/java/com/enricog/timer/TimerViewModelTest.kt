@@ -6,7 +6,7 @@ import com.enricog.entities.routines.Routine
 import com.enricog.entities.routines.Segment
 import com.enricog.timer.models.*
 import com.enricog.timer.navigation.TimerNavigationActions
-import com.enricog.timer.usecase.RoutineUseCase
+import com.enricog.timer.usecase.TimerUseCase
 import io.mockk.coEvery
 import io.mockk.every
 import io.mockk.mockk
@@ -23,13 +23,13 @@ class TimerViewModelTest {
 
     private val converter: TimerStateConverter = mockk()
     private val reducer: TimerReducer = mockk()
-    private val routineUseCase: RoutineUseCase = mockk()
+    private val timerUseCase: TimerUseCase = mockk()
     private val configuration = TimerConfiguration(routineId = 1)
     private val navigationActions: TimerNavigationActions = mockk(relaxUnitFun = true)
 
     @Before
     fun setup() {
-        coEvery { routineUseCase.get(any()) } returns Routine.EMPTY
+        coEvery { timerUseCase.get(any()) } returns Routine.EMPTY
         coEvery { converter.convert(any()) } returns TimerViewState.Idle
         every { reducer.setup(any()) } returns TimerState.Idle
     }
@@ -149,7 +149,7 @@ class TimerViewModelTest {
             dispatchers = coroutineRule.dispatchers,
             converter = converter,
             reducer = reducer,
-            routineUseCase = routineUseCase,
+            routineUseCase = timerUseCase,
             navigationActions = navigationActions
         )
     }
