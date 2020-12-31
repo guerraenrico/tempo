@@ -35,40 +35,40 @@ internal class RoutineViewModel @ViewModelInject constructor(
         }
     }
 
-    fun onRoutineNameTextChange(text: String) {
-
+    fun onRoutineNameTextChange(text: String) = runWhen<RoutineState.Data> { stateData ->
+        state = reducer.updateRoutineName(stateData, text)
     }
 
-    fun onRoutineStartTimeOffsetChange(seconds: Long) {
-
+    fun onRoutineStartTimeOffsetChange(seconds: Long) = runWhen<RoutineState.Data> { stateData ->
+        state = reducer.updateRoutineStartTimeOffset(stateData, seconds)
     }
 
-    fun onAddSegmentClick() {
-
+    fun onAddSegmentClick() = runWhen<RoutineState.Data> { stateData ->
+        state = reducer.editNewSegment(stateData)
     }
 
-    fun onSegmentClick(segment: Segment) {
-
+    fun onSegmentClick(segment: Segment) = runWhen<RoutineState.Data> { stateData ->
+        state = reducer.editSegment(stateData, segment)
     }
 
-    fun onSegmentNameTextChange(text: String) {
-
+    fun onSegmentNameTextChange(text: String) = runWhen<RoutineState.Data> { stateData ->
+        state = reducer.updateSegmentName(stateData, text)
     }
 
-    fun onSegmentTimeChange(seconds: Long) {
-
+    fun onSegmentTimeChange(seconds: Long) = runWhen<RoutineState.Data> { stateData ->
+        state = reducer.updateSegmentTime(stateData, seconds)
     }
 
-    fun onSegmentTypeChange(type: TimeType) {
-
+    fun onSegmentTypeChange(timeType: TimeType) = runWhen<RoutineState.Data> { stateData ->
+        state = reducer.updateSegmentTimeType(stateData, timeType)
     }
 
     fun onSegmentConfirmed() {
 
     }
 
-    fun onSegmentBack() {
-
+    fun onSegmentBack() = runWhen<RoutineState.Data> { stateData ->
+        state = reducer.closeEditSegment(stateData)
     }
 
     fun onStartRoutine() {

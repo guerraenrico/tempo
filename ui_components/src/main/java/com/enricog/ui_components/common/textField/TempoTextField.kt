@@ -41,7 +41,7 @@ fun TempoTextField(
         isErrorValue = isErrorValue,
         errorMessage = errorMessage,
         visualTransformation = visualTransformation,
-        keyboardOptions = keyboardOptions.copy(keyboardType = KeyboardType.Number),
+        keyboardOptions = keyboardOptions,
         singleLine = singleLine,
         maxLines = maxLines
     )

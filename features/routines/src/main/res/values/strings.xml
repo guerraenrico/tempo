@@ -17,5 +17,5 @@
 
     <string name="chip_time_type_rest_name">REST</string>
     <string name="chip_time_type_timer_name">TIMER</string>
-    <string name="chip_time_type_stopwatch_name">STOP WATCH</string>
+    <string name="chip_time_type_stopwatch_name">STOPWATCH</string>
 </resources>

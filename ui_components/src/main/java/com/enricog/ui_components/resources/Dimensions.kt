@@ -10,6 +10,7 @@ import androidx.compose.ui.unit.dp
 
 @Immutable
 data class Dimensions internal constructor(
+    val spaceXS: Dp,
     val spaceS: Dp,
     val spaceM: Dp,
     val spaceL: Dp,
@@ -18,6 +19,7 @@ data class Dimensions internal constructor(
 )
 
 internal val defaultDimensions = Dimensions(
+    spaceXS = 6.dp,
     spaceS = 10.dp,
     spaceM = 16.dp,
     spaceL = 20.dp,

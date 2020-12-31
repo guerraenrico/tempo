@@ -1,5 +1,6 @@
 package com.enricog.routines.detail.ui_components
 
+import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.*
 import androidx.compose.material.MaterialTheme
 import androidx.compose.runtime.Composable
@@ -28,7 +29,9 @@ internal fun SegmentFormScene(
     Column(
         modifier = Modifier
             .testTag(SegmentFormSceneTestTag)
+            .fillMaxSize()
             .padding(MaterialTheme.dimensions.spaceM)
+            .background(MaterialTheme.colors.background)
     ) {
         SegmentNameTextField(
             value = data.segment.name,
