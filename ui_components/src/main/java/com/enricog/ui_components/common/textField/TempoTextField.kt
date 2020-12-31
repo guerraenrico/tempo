@@ -65,7 +65,7 @@ fun TempoNumberField(
 ) {
     TempoTextFieldBase(
         value = value.toString(),
-        onValueChange = { onValueChange(it.toLong()) },
+        onValueChange = { onValueChange(it.toLongOrNull() ?: 0) },
         modifier = modifier,
         textStyle = textStyle,
         label = label,
@@ -118,7 +118,7 @@ private fun TempoTextFieldBase(
         if (errorMessage != null) {
             Text(
                 modifier = Modifier.padding(top = MaterialTheme.dimensions.spaceS),
-                text = "errorMessage",
+                text = errorMessage,
                 style = MaterialTheme.typography.caption,
                 maxLines = 1,
                 color = MaterialTheme.colors.error
