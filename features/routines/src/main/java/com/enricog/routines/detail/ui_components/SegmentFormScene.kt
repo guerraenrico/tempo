@@ -44,34 +44,34 @@ internal fun SegmentFormScene(
         ScrollableColumn(
             modifier = Modifier
                 .fillMaxWidth()
-                .padding(MaterialTheme.dimensions.spaceM)
+                .weight(1f)
         ) {
             SegmentNameTextField(
                 value = data.segment.name,
                 onTextChange = onSegmentNameChange,
                 errorMessageResourceId = data.errors[Field.Segment.Name]
             )
-            Spacer(Modifier.height(MaterialTheme.dimensions.spaceXL))
             // TODO hide/disable time field if type selected is stopwatch
             SegmentTimeField(
                 value = data.segment.timeInSeconds,
                 onValueChange = onSegmentTimeChange,
                 errorMessageResourceId = data.errors[Field.Segment.TimeInSeconds],
             )
-            Spacer(Modifier.height(MaterialTheme.dimensions.spaceXL))
             SelectableTimeType(
                 timeTypes = data.timeTypes,
                 selected = data.segment.type,
                 onSelectChange = onSegmentTimeTypeChange
             )
-            Spacer(Modifier.height(MaterialTheme.dimensions.spaceXXL))
-            TempoButton(
-                modifier = Modifier.fillMaxWidth(),
-                onClick = onSegmentConfirmed,
-                color = TempoButtonColor.Confirm,
-                text = stringResource(R.string.button_save)
-            )
         }
+
+        TempoButton(
+            modifier = Modifier
+                .fillMaxWidth()
+                .padding(MaterialTheme.dimensions.spaceM),
+            onClick = onSegmentConfirmed,
+            color = TempoButtonColor.Confirm,
+            text = stringResource(R.string.button_save)
+        )
     }
 }
 
@@ -89,7 +89,9 @@ private fun SegmentNameTextField(
     TempoTextField(
         value = value,
         onValueChange = onTextChange,
-        modifier = Modifier.fillMaxWidth(),
+        modifier = Modifier
+            .fillMaxWidth()
+            .padding(MaterialTheme.dimensions.spaceM),
         label = stringResource(R.string.field_label_segment_name),
         isErrorValue = errorMessage != null,
         errorMessage = errorMessage
@@ -110,7 +112,9 @@ private fun SegmentTimeField(
     TempoNumberField(
         value = value,
         onValueChange = onValueChange,
-        modifier = Modifier.fillMaxWidth(),
+        modifier = Modifier
+            .fillMaxWidth()
+            .padding(MaterialTheme.dimensions.spaceM),
         label = stringResource(R.string.field_label_segment_time),
         isErrorValue = errorMessage != null,
         errorMessage = errorMessage
@@ -124,7 +128,9 @@ private fun SelectableTimeType(
     onSelectChange: (TimeType) -> Unit
 ) {
     Column(
-        modifier = Modifier.fillMaxWidth(),
+        modifier = Modifier
+            .fillMaxWidth()
+            .padding(MaterialTheme.dimensions.spaceM),
         horizontalAlignment = Alignment.CenterHorizontally
     ) {
         Text(

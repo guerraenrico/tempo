@@ -13,7 +13,6 @@ import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.dp
 import com.enricog.ui_components.resources.white
 
-
 @Composable
 fun TempoIconButton(
     onClick: () -> Unit,
@@ -36,6 +35,7 @@ fun TempoIconButton(
 }
 
 enum class TempoIconButtonSize(val box: Dp, val icon: Dp, val shadow: Dp) {
+    Small(48.dp, 10.dp, 2.dp),
     Normal(55.dp, 14.dp, 4.dp),
-    Large(75.dp, 20.dp, 8.dp)
+    Large(65.dp, 18.dp, 8.dp)
 }

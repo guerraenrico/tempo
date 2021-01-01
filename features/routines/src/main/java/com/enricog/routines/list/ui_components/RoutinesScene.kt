@@ -42,7 +42,7 @@ internal fun RoutinesScene(
                 .align(Alignment.BottomEnd)
                 .padding(MaterialTheme.dimensions.spaceL),
             onClick = onCreateRoutineClick,
-            icon = vectorResource(R.drawable.ic_add),
+            icon = vectorResource(R.drawable.ic_segment_add),
             color = TempoButtonColor.Accent
         )
     }

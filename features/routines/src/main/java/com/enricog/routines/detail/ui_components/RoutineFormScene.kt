@@ -3,14 +3,20 @@ package com.enricog.routines.detail.ui_components
 import androidx.compose.foundation.ScrollableColumn
 import androidx.compose.foundation.layout.*
 import androidx.compose.material.MaterialTheme
+import androidx.compose.material.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.platform.testTag
 import androidx.compose.ui.res.stringResource
+import androidx.compose.ui.res.vectorResource
 import com.enricog.entities.routines.Routine
 import com.enricog.entities.routines.Segment
+import com.enricog.routines.R
 import com.enricog.routines.detail.models.Field
-import com.enricog.ui_components.common.button.TempoButton
+import com.enricog.ui_components.common.button.TempoButtonColor
+import com.enricog.ui_components.common.button.TempoIconButton
+import com.enricog.ui_components.common.button.TempoIconButtonSize
 import com.enricog.ui_components.common.textField.TempoNumberField
 import com.enricog.ui_components.common.textField.TempoTextField
 import com.enricog.ui_components.common.toolbar.TempoToolbar
@@ -31,42 +37,55 @@ internal fun RoutineFormScene(
     onStartRoutine: () -> Unit,
     onRoutineBack: () -> Unit,
 ) {
-    Column(
+    val startRoutineButtonSize = TempoIconButtonSize.Large
+    val startRoutinePadding = MaterialTheme.dimensions.spaceL
+    val segmentListBottomSpace = (startRoutinePadding * 2) + startRoutineButtonSize.box
+
+    Box(
         modifier = Modifier
             .fillMaxSize()
             .testTag(RoutineFormSceneTestTag)
     ) {
-        TempoToolbar(onBack = onRoutineBack)
-
-        ScrollableColumn(
-            modifier = Modifier
-                .fillMaxSize()
-                .padding(MaterialTheme.dimensions.spaceM)
+        Column(
+            modifier = Modifier.fillMaxSize()
         ) {
+            TempoToolbar(onBack = onRoutineBack)
 
-            RoutineNameTextField(
-                value = routine.name,
-                onTextChange = onRoutineNameChange,
-                errorMessageResourceId = errors[Field.Routine.Name]
-            )
-            Spacer(Modifier.preferredHeight(MaterialTheme.dimensions.spaceM))
-            RoutineStartTimeOffsetField(
-                value = routine.startTimeOffsetInSeconds,
-                onValueChange = onStartTimeOffsetChange,
-                errorMessageResourceId = errors[Field.Routine.StartTimeOffsetInSeconds]
-            )
-            Spacer(Modifier.preferredHeight(MaterialTheme.dimensions.spaceM))
+            ScrollableColumn(
+                modifier = Modifier.fillMaxSize()
+            ) {
 
-            routine.segments.map { SegmentItem(it, onSegmentClick) }
+                RoutineNameTextField(
+                    value = routine.name,
+                    onTextChange = onRoutineNameChange,
+                    errorMessageResourceId = errors[Field.Routine.Name]
+                )
 
-            // TODO: handle no segment error
+                RoutineStartTimeOffsetField(
+                    value = routine.startTimeOffsetInSeconds,
+                    onValueChange = onStartTimeOffsetChange,
+                    errorMessageResourceId = errors[Field.Routine.StartTimeOffsetInSeconds]
+                )
 
-            Spacer(Modifier.preferredHeight(MaterialTheme.dimensions.spaceM))
-            TempoButton(onClick = onAddSegmentClick, text = "Add Segment")
+                SegmentsSection(
+                    segments = routine.segments,
+                    onSegmentClick = onSegmentClick,
+                    onAddSegmentClick = onAddSegmentClick
+                )
+                Spacer(Modifier.preferredHeight(segmentListBottomSpace))
 
-            Spacer(Modifier.preferredHeight(MaterialTheme.dimensions.spaceM))
-            TempoButton(onClick = onStartRoutine, text = "START")
+                // TODO: handle no segment error
+            }
         }
+        TempoIconButton(
+            modifier = Modifier
+                .align(Alignment.BottomCenter)
+                .padding(startRoutinePadding),
+            onClick = onStartRoutine,
+            icon = vectorResource(R.drawable.ic_routine_play),
+            color = TempoButtonColor.Accent,
+            size = startRoutineButtonSize
+        )
     }
 }
 
@@ -76,11 +95,20 @@ private fun RoutineNameTextField(
     onTextChange: (String) -> Unit,
     errorMessageResourceId: Int?
 ) {
+    val errorMessage: String? = if (errorMessageResourceId != null) {
+        stringResource(errorMessageResourceId)
+    } else {
+        null
+    }
     TempoTextField(
         value = value,
         onValueChange = onTextChange,
-        isErrorValue = errorMessageResourceId != null,
-        errorMessage = if (errorMessageResourceId != null) stringResource(errorMessageResourceId) else null
+        modifier = Modifier
+            .fillMaxWidth()
+            .padding(MaterialTheme.dimensions.spaceM),
+        label = stringResource(R.string.field_label_routine_name),
+        isErrorValue = errorMessage != null,
+        errorMessage = errorMessage
     )
 }
 
@@ -90,10 +118,47 @@ private fun RoutineStartTimeOffsetField(
     onValueChange: (Long) -> Unit,
     errorMessageResourceId: Int?
 ) {
+    val errorMessage: String? = if (errorMessageResourceId != null) {
+        stringResource(errorMessageResourceId)
+    } else {
+        null
+    }
     TempoNumberField(
         value = value,
         onValueChange = onValueChange,
-        isErrorValue = errorMessageResourceId != null,
-        errorMessage = if (errorMessageResourceId != null) stringResource(errorMessageResourceId) else null
+        modifier = Modifier
+            .fillMaxWidth()
+            .padding(MaterialTheme.dimensions.spaceM),
+        label = stringResource(R.string.field_label_routine_start_time_offset),
+        isErrorValue = errorMessage != null,
+        errorMessage = errorMessage
     )
+}
+
+@Composable
+private fun SegmentsSection(
+    segments: List<Segment>,
+    onSegmentClick: (Segment) -> Unit,
+    onAddSegmentClick: () -> Unit
+) {
+    Row(
+        modifier = Modifier
+            .fillMaxWidth()
+            .padding(MaterialTheme.dimensions.spaceM),
+        verticalAlignment = Alignment.CenterVertically
+    ) {
+        Text(
+            text = stringResource(R.string.field_label_routine_segments),
+            style = MaterialTheme.typography.h3
+        )
+        Spacer(modifier = Modifier.weight(1f))
+        TempoIconButton(
+            onClick = onAddSegmentClick,
+            size = TempoIconButtonSize.Small,
+            icon = vectorResource(R.drawable.ic_segment_add)
+        )
+    }
+    Column(modifier = Modifier.fillMaxWidth()) {
+        segments.map { SegmentItem(it, onSegmentClick) }
+    }
 }
