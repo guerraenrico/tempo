@@ -10,16 +10,28 @@ import androidx.compose.material.TextField
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.text.TextStyle
+import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.input.KeyboardType
 import androidx.compose.ui.text.input.VisualTransformation
+import androidx.compose.ui.unit.sp
+import com.enricog.ui_components.resources.FontFamilyDefault
 import com.enricog.ui_components.resources.dimensions
+import com.enricog.ui_components.resources.white
+
+private val textFieldStyle: TextStyle = TextStyle(
+    fontFamily = FontFamilyDefault,
+    fontWeight = FontWeight.Bold,
+    color = white,
+    fontSize = 20.sp
+)
+
 
 @Composable
 fun TempoTextField(
     value: String,
     onValueChange: (String) -> Unit,
     modifier: Modifier = Modifier,
-    textStyle: TextStyle = AmbientTextStyle.current,
+    textStyle: TextStyle = textFieldStyle,
     label: String? = null,
     leadingIcon: @Composable (() -> Unit)? = null,
     trailingIcon: @Composable (() -> Unit)? = null,
@@ -52,7 +64,7 @@ fun TempoNumberField(
     value: Long,
     onValueChange: (Long) -> Unit,
     modifier: Modifier = Modifier,
-    textStyle: TextStyle = AmbientTextStyle.current,
+    textStyle: TextStyle = textFieldStyle,
     label: String? = null,
     leadingIcon: @Composable (() -> Unit)? = null,
     trailingIcon: @Composable (() -> Unit)? = null,
@@ -105,7 +117,7 @@ private fun TempoTextFieldBase(
             value = value,
             onValueChange = onValueChange,
             modifier = modifier,
-            textStyle = textStyle,
+            textStyle = textFieldStyle.merge(textStyle),
             label = labelText,
             leadingIcon = leadingIcon,
             trailingIcon = trailingIcon,

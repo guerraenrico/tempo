@@ -56,6 +56,10 @@ internal class RoutineViewModel @ViewModelInject constructor(
         state = reducer.editSegment(stateData, segment)
     }
 
+    fun onRoutineBack() {
+        navigationActions.goBackToRoutines()
+    }
+
     fun onSegmentNameTextChange(text: String) = runWhen<RoutineState.Data> { stateData ->
         state = reducer.updateSegmentName(stateData, text)
     }

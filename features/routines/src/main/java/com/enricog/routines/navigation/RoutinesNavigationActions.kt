@@ -1,7 +1,7 @@
 package com.enricog.routines.navigation
 
 interface RoutinesNavigationActions {
-    fun goToRoutines()
+    fun goBackToRoutines()
     fun goToRoutine(routineId: Long?)
     fun goToTimer(routineId: Long)
 }

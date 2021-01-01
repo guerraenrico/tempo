@@ -15,8 +15,8 @@ internal class Navigator @Inject constructor() : RoutinesNavigationActions, Time
 
     // RoutinesNavigationActions
 
-    override fun goToRoutines() {
-        navController?.navigate(RoutinesNavigationConstants.Routines.routeName)
+    override fun goBackToRoutines() {
+        navController?.popBackStack()
     }
 
     override fun goToRoutine(routineId: Long?) {
@@ -25,7 +25,7 @@ internal class Navigator @Inject constructor() : RoutinesNavigationActions, Time
 
     override fun goToTimer(routineId: Long) {
         navController?.navigate(TimerNavigationConstants.applyRouteId(routineId)) {
-            popUpTo("routines") { inclusive = true }
+            popUpTo(RoutinesNavigationConstants.Routines.routeName) { inclusive = true }
         }
     }
 

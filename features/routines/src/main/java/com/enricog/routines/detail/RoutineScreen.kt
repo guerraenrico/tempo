@@ -32,7 +32,8 @@ internal fun RoutineScreen(routineId: Long, viewModel: RoutineViewModel = navVie
             onSegmentTimeTypeChange = viewModel::onSegmentTypeChange,
             onStartRoutine = viewModel::onStartRoutine,
             onSegmentConfirmed = viewModel::onSegmentConfirmed,
-            onSegmentBack = viewModel::onSegmentBack
+            onSegmentBack = viewModel::onSegmentBack,
+            onRoutineBack = viewModel::onRoutineBack
         )
     }
 }
@@ -43,6 +44,7 @@ private fun RoutineViewState.Compose(
     onStartTimeOffsetChange: (Long) -> Unit,
     onAddSegmentClick: () -> Unit,
     onSegmentClick: (Segment) -> Unit,
+    onRoutineBack: () -> Unit,
 
     onSegmentNameChange: (String) -> Unit,
     onSegmentTimeChange: (Long) -> Unit,
@@ -67,7 +69,8 @@ private fun RoutineViewState.Compose(
                 onSegmentTimeTypeChange = onSegmentTimeTypeChange,
                 onStartRoutine = onStartRoutine,
                 onSegmentConfirmed = onSegmentConfirmed,
-                onSegmentBack = onSegmentBack
+                onSegmentBack = onSegmentBack,
+                onRoutineBack = onRoutineBack
             )
         }
     }.exhaustive

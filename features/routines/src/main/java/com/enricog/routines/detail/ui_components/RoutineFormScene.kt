@@ -1,5 +1,6 @@
 package com.enricog.routines.detail.ui_components
 
+import androidx.compose.foundation.ScrollableColumn
 import androidx.compose.foundation.layout.*
 import androidx.compose.material.MaterialTheme
 import androidx.compose.runtime.Composable
@@ -12,6 +13,7 @@ import com.enricog.routines.detail.models.Field
 import com.enricog.ui_components.common.button.TempoButton
 import com.enricog.ui_components.common.textField.TempoNumberField
 import com.enricog.ui_components.common.textField.TempoTextField
+import com.enricog.ui_components.common.toolbar.TempoToolbar
 import com.enricog.ui_components.resources.dimensions
 
 internal const val RoutineFormSceneTestTag = "RoutineFormSceneTestTag"
@@ -26,34 +28,45 @@ internal fun RoutineFormScene(
     onStartTimeOffsetChange: (Long) -> Unit,
     onAddSegmentClick: () -> Unit,
     onSegmentClick: (Segment) -> Unit,
-    onStartRoutine: () -> Unit
+    onStartRoutine: () -> Unit,
+    onRoutineBack: () -> Unit,
 ) {
     Column(
-        modifier = Modifier.fillMaxSize()
+        modifier = Modifier
+            .fillMaxSize()
             .testTag(RoutineFormSceneTestTag)
-            .padding(MaterialTheme.dimensions.spaceM)
     ) {
+        TempoToolbar(onBack = onRoutineBack)
 
-        RoutineNameTextField(
-            value = routine.name,
-            onTextChange = onRoutineNameChange,
-            errorMessageResourceId = errors[Field.Routine.Name]
-        )
-        Spacer(Modifier.height(MaterialTheme.dimensions.spaceM))
-        RoutineStartTimeOffsetField(
-            value = routine.startTimeOffsetInSeconds,
-            onValueChange = onStartTimeOffsetChange,
-            errorMessageResourceId = errors[Field.Routine.StartTimeOffsetInSeconds]
-        )
-        Spacer(Modifier.height(MaterialTheme.dimensions.spaceM))
+        ScrollableColumn(
+            modifier = Modifier
+                .fillMaxSize()
+                .padding(MaterialTheme.dimensions.spaceM)
+        ) {
 
-        routine.segments.map { SegmentItem(it, onSegmentClick) }
+            RoutineNameTextField(
+                value = routine.name,
+                onTextChange = onRoutineNameChange,
+                errorMessageResourceId = errors[Field.Routine.Name]
+            )
+            Spacer(Modifier.preferredHeight(MaterialTheme.dimensions.spaceM))
+            RoutineStartTimeOffsetField(
+                value = routine.startTimeOffsetInSeconds,
+                onValueChange = onStartTimeOffsetChange,
+                errorMessageResourceId = errors[Field.Routine.StartTimeOffsetInSeconds]
+            )
+            Spacer(Modifier.preferredHeight(MaterialTheme.dimensions.spaceM))
 
-        Spacer(Modifier.height(MaterialTheme.dimensions.spaceM))
-        TempoButton(onClick = onAddSegmentClick, text = "Add Segment")
+            routine.segments.map { SegmentItem(it, onSegmentClick) }
 
-        Spacer(Modifier.height(MaterialTheme.dimensions.spaceM))
-        TempoButton(onClick = onStartRoutine, text = "START")
+            // TODO: handle no segment error
+
+            Spacer(Modifier.preferredHeight(MaterialTheme.dimensions.spaceM))
+            TempoButton(onClick = onAddSegmentClick, text = "Add Segment")
+
+            Spacer(Modifier.preferredHeight(MaterialTheme.dimensions.spaceM))
+            TempoButton(onClick = onStartRoutine, text = "START")
+        }
     }
 }
 

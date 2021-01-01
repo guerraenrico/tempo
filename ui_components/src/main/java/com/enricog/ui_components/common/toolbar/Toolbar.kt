@@ -17,7 +17,7 @@ import com.enricog.ui_components.resources.dimensions
 fun TempoToolbar(
     modifier: Modifier = Modifier,
     onBack: (() -> Unit)? = null,
-    title: String
+    title: String? = null
 ) {
     Providers(
         AmbientElevationOverlay provides null
@@ -35,12 +35,14 @@ fun TempoToolbar(
                         Icon(imageVector = vectorResource(R.drawable.ic_back))
                     }
                 }
-                Text(
-                    text = title,
-                    style = MaterialTheme.typography.h1,
-                    maxLines = 1,
-                    modifier = Modifier.padding(start = MaterialTheme.dimensions.spaceM),
-                )
+                if (title != null) {
+                    Text(
+                        text = title,
+                        style = MaterialTheme.typography.h1,
+                        maxLines = 1,
+                        modifier = Modifier.padding(start = MaterialTheme.dimensions.spaceM),
+                    )
+                }
             }
         }
     }

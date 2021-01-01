@@ -48,7 +48,7 @@ internal fun TimeTypeChip(
         Text(
             text = value.description,
             color = white,
-            fontWeight = FontWeight.Normal,
+            fontWeight = FontWeight.Bold,
             fontSize = 14.sp,
             modifier = Modifier.padding(
                 horizontal = MaterialTheme.dimensions.spaceS,

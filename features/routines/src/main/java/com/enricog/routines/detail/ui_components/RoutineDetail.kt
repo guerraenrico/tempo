@@ -9,8 +9,6 @@ import com.enricog.entities.routines.TimeType
 import com.enricog.routines.detail.models.EditingSegmentView
 import com.enricog.routines.detail.models.RoutineViewState
 
-// TODO: Improve UI
-
 @Composable
 internal fun RoutineDetail(
     state: RoutineViewState.Data,
@@ -18,6 +16,7 @@ internal fun RoutineDetail(
     onStartTimeOffsetChange: (Long) -> Unit,
     onAddSegmentClick: () -> Unit,
     onSegmentClick: (Segment) -> Unit,
+    onRoutineBack: () -> Unit,
 
     onSegmentNameChange: (String) -> Unit,
     onSegmentTimeChange: (Long) -> Unit,
@@ -37,7 +36,8 @@ internal fun RoutineDetail(
             onStartTimeOffsetChange = onStartTimeOffsetChange,
             onAddSegmentClick = onAddSegmentClick,
             onSegmentClick = onSegmentClick,
-            onStartRoutine = onStartRoutine
+            onStartRoutine = onStartRoutine,
+            onRoutineBack = onRoutineBack
         )
 
         if (state.editingSegment is EditingSegmentView.Data) {
