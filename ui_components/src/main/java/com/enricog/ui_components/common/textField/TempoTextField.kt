@@ -3,7 +3,6 @@ package com.enricog.ui_components.common.textField
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.text.KeyboardOptions
-import androidx.compose.material.AmbientTextStyle
 import androidx.compose.material.MaterialTheme
 import androidx.compose.material.Text
 import androidx.compose.material.TextField
@@ -35,7 +34,6 @@ fun TempoTextField(
     label: String? = null,
     leadingIcon: @Composable (() -> Unit)? = null,
     trailingIcon: @Composable (() -> Unit)? = null,
-    isErrorValue: Boolean = false,
     errorMessage: String? = null,
     visualTransformation: VisualTransformation = VisualTransformation.None,
     keyboardOptions: KeyboardOptions = KeyboardOptions.Default,
@@ -50,7 +48,6 @@ fun TempoTextField(
         label = label,
         leadingIcon = leadingIcon,
         trailingIcon = trailingIcon,
-        isErrorValue = isErrorValue,
         errorMessage = errorMessage,
         visualTransformation = visualTransformation,
         keyboardOptions = keyboardOptions,
@@ -68,7 +65,6 @@ fun TempoNumberField(
     label: String? = null,
     leadingIcon: @Composable (() -> Unit)? = null,
     trailingIcon: @Composable (() -> Unit)? = null,
-    isErrorValue: Boolean = false,
     errorMessage: String? = null,
     visualTransformation: VisualTransformation = VisualTransformation.None,
     keyboardOptions: KeyboardOptions = KeyboardOptions.Default,
@@ -83,7 +79,6 @@ fun TempoNumberField(
         label = label,
         leadingIcon = leadingIcon,
         trailingIcon = trailingIcon,
-        isErrorValue = isErrorValue,
         errorMessage = errorMessage,
         visualTransformation = visualTransformation,
         keyboardOptions = keyboardOptions.copy(keyboardType = KeyboardType.Number),
@@ -101,7 +96,6 @@ private fun TempoTextFieldBase(
     label: String?,
     leadingIcon: @Composable (() -> Unit)?,
     trailingIcon: @Composable (() -> Unit)?,
-    isErrorValue: Boolean,
     errorMessage: String?,
     visualTransformation: VisualTransformation,
     keyboardOptions: KeyboardOptions,
@@ -121,7 +115,7 @@ private fun TempoTextFieldBase(
             label = labelText,
             leadingIcon = leadingIcon,
             trailingIcon = trailingIcon,
-            isErrorValue = isErrorValue,
+            isErrorValue = errorMessage != null,
             visualTransformation = visualTransformation,
             keyboardOptions = keyboardOptions,
             singleLine = singleLine,

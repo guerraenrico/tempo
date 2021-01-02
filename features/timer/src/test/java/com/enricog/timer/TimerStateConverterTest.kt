@@ -6,10 +6,7 @@ import com.enricog.entities.routines.Routine
 import com.enricog.entities.routines.Segment
 import com.enricog.entities.routines.TimeType
 import com.enricog.timer.models.*
-import com.enricog.ui_components.resources.blue500
-import com.enricog.ui_components.resources.darkBlue500
-import com.enricog.ui_components.resources.orange500
-import com.enricog.ui_components.resources.purple500
+import com.enricog.ui_components.resources.TimeTypeColors
 import org.junit.Rule
 import org.junit.Test
 import kotlin.test.assertEquals
@@ -49,7 +46,7 @@ class TimerStateConverterTest {
             ),
             stepTitleId = R.string.title_segment_time_type_rest,
             segmentName =  "segment name",
-            clockBackgroundColor = purple500,
+            clockBackgroundColor = TimeTypeColors.REST,
             isRoutineCompleted = true,
             enableKeepScreenOn = false
         )
@@ -77,7 +74,7 @@ class TimerStateConverterTest {
             ),
             stepTitleId = R.string.title_segment_time_type_rest,
             segmentName =  "segment name",
-            clockBackgroundColor = orange500,
+            clockBackgroundColor = TimeTypeColors.REST,
             isRoutineCompleted = false,
             enableKeepScreenOn = false
         )
@@ -104,7 +101,7 @@ class TimerStateConverterTest {
             ),
             stepTitleId = R.string.title_segment_time_type_rest,
             segmentName =  "segment name",
-            clockBackgroundColor = purple500,
+            clockBackgroundColor = TimeTypeColors.REST,
             isRoutineCompleted = true,
             enableKeepScreenOn = false
         )
@@ -131,7 +128,7 @@ class TimerStateConverterTest {
             ),
             stepTitleId = R.string.title_segment_step_type_in_progress,
             segmentName =  "segment name",
-            clockBackgroundColor = blue500,
+            clockBackgroundColor = TimeTypeColors.TIMER,
             isRoutineCompleted = true,
             enableKeepScreenOn = false
         )
@@ -158,7 +155,7 @@ class TimerStateConverterTest {
             ),
             stepTitleId = R.string.title_segment_step_type_in_progress,
             segmentName =  "segment name",
-            clockBackgroundColor = darkBlue500,
+            clockBackgroundColor = TimeTypeColors.STOPWATCH,
             isRoutineCompleted = true,
             enableKeepScreenOn = false
         )
@@ -185,7 +182,7 @@ class TimerStateConverterTest {
             ),
             stepTitleId = R.string.title_segment_time_type_rest,
             segmentName =  "segment name",
-            clockBackgroundColor = purple500,
+            clockBackgroundColor = TimeTypeColors.REST,
             isRoutineCompleted = false,
             enableKeepScreenOn = true
         )
@@ -212,7 +209,7 @@ class TimerStateConverterTest {
             ),
             stepTitleId = R.string.title_segment_time_type_rest,
             segmentName =  "segment name",
-            clockBackgroundColor = purple500,
+            clockBackgroundColor = TimeTypeColors.REST,
             isRoutineCompleted = false,
             enableKeepScreenOn = false
         )
@@ -239,7 +236,7 @@ class TimerStateConverterTest {
             ),
             stepTitleId = R.string.title_segment_time_type_rest,
             segmentName =  "segment name",
-            clockBackgroundColor = purple500,
+            clockBackgroundColor = TimeTypeColors.REST,
             isRoutineCompleted = true,
             enableKeepScreenOn = false
         )

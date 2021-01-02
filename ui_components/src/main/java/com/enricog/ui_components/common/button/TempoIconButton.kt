@@ -11,7 +11,6 @@ import androidx.compose.ui.draw.shadow
 import androidx.compose.ui.graphics.vector.ImageVector
 import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.dp
-import com.enricog.ui_components.resources.white
 
 @Composable
 fun TempoIconButton(

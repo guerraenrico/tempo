@@ -20,6 +20,7 @@ import com.enricog.ui_components.common.button.TempoIconButtonSize
 import com.enricog.ui_components.common.textField.TempoNumberField
 import com.enricog.ui_components.common.textField.TempoTextField
 import com.enricog.ui_components.common.toolbar.TempoToolbar
+import com.enricog.ui_components.modifiers.verticalListItemSpacing
 import com.enricog.ui_components.resources.dimensions
 
 internal const val RoutineFormSceneTestTag = "RoutineFormSceneTestTag"
@@ -35,7 +36,7 @@ internal fun RoutineFormScene(
     onAddSegmentClick: () -> Unit,
     onSegmentClick: (Segment) -> Unit,
     onStartRoutine: () -> Unit,
-    onRoutineBack: () -> Unit,
+    onRoutineBack: () -> Unit
 ) {
     val startRoutineButtonSize = TempoIconButtonSize.Large
     val startRoutinePadding = MaterialTheme.dimensions.spaceL
@@ -107,8 +108,8 @@ private fun RoutineNameTextField(
             .fillMaxWidth()
             .padding(MaterialTheme.dimensions.spaceM),
         label = stringResource(R.string.field_label_routine_name),
-        isErrorValue = errorMessage != null,
-        errorMessage = errorMessage
+        errorMessage = errorMessage,
+        singleLine = true
     )
 }
 
@@ -130,8 +131,8 @@ private fun RoutineStartTimeOffsetField(
             .fillMaxWidth()
             .padding(MaterialTheme.dimensions.spaceM),
         label = stringResource(R.string.field_label_routine_start_time_offset),
-        isErrorValue = errorMessage != null,
-        errorMessage = errorMessage
+        errorMessage = errorMessage,
+        singleLine = true
     )
 }
 
@@ -159,6 +160,17 @@ private fun SegmentsSection(
         )
     }
     Column(modifier = Modifier.fillMaxWidth()) {
-        segments.map { SegmentItem(it, onSegmentClick) }
+        segments.mapIndexed { index, segment ->
+            SegmentItem(
+                segment = segment,
+                onClick = onSegmentClick,
+                modifier = Modifier
+                    .fillMaxWidth()
+                    .verticalListItemSpacing(
+                        itemPosition = index,
+                        spacing = MaterialTheme.dimensions.spaceM
+                    )
+            )
+        }
     }
 }

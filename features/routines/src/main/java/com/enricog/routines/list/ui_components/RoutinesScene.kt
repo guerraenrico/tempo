@@ -2,6 +2,7 @@ package com.enricog.routines.list.ui_components
 
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.fillMaxSize
+import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.material.MaterialTheme
@@ -14,6 +15,7 @@ import com.enricog.entities.routines.Routine
 import com.enricog.routines.R
 import com.enricog.ui_components.common.button.TempoButtonColor
 import com.enricog.ui_components.common.button.TempoIconButton
+import com.enricog.ui_components.modifiers.verticalListItemSpacing
 import com.enricog.ui_components.resources.dimensions
 
 internal const val RoutineSceneTestTag = "RoutineSceneTestTag"
@@ -32,8 +34,17 @@ internal fun RoutinesScene(
                 .testTag(RoutineSceneTestTag)
                 .fillMaxSize()
         ) {
-            items(routines) { item ->
-                RoutineItem(item, onRoutineClick)
+            itemsIndexed(routines) { index: Int, routine: Routine ->
+                RoutineItem(
+                    routine = routine,
+                    onClick = onRoutineClick,
+                    modifier = Modifier.fillMaxWidth()
+                        .verticalListItemSpacing(
+                            itemPosition = index,
+                            spacing = MaterialTheme.dimensions.spaceM
+                        )
+                )
+
             }
         }
 

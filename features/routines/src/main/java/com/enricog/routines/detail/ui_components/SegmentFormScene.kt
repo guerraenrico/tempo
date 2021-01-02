@@ -93,8 +93,8 @@ private fun SegmentNameTextField(
             .fillMaxWidth()
             .padding(MaterialTheme.dimensions.spaceM),
         label = stringResource(R.string.field_label_segment_name),
-        isErrorValue = errorMessage != null,
-        errorMessage = errorMessage
+        errorMessage = errorMessage,
+        singleLine = true
     )
 }
 
@@ -116,8 +116,8 @@ private fun SegmentTimeField(
             .fillMaxWidth()
             .padding(MaterialTheme.dimensions.spaceM),
         label = stringResource(R.string.field_label_segment_time),
-        isErrorValue = errorMessage != null,
-        errorMessage = errorMessage
+        errorMessage = errorMessage,
+        singleLine = true
     )
 }
 

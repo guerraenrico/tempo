@@ -20,7 +20,10 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import com.enricog.entities.routines.TimeType
 import com.enricog.routines.R
-import com.enricog.ui_components.resources.*
+import com.enricog.ui_components.resources.TimeTypeColors
+import com.enricog.ui_components.resources.darkBlue500
+import com.enricog.ui_components.resources.dimensions
+import com.enricog.ui_components.resources.white
 
 internal const val TimeTypeChipTestTag = "TimeTypeChipTestTag"
 
@@ -28,11 +31,12 @@ internal const val TimeTypeChipTestTag = "TimeTypeChipTestTag"
 internal fun TimeTypeChip(
     value: TimeType,
     isSelected: Boolean,
-    onSelect: (TimeType) -> Unit
+    modifier: Modifier = Modifier,
+    onSelect: ((TimeType) -> Unit)? = null
 ) {
     val chipShape = RoundedCornerShape(percent = 50)
     Box(
-        modifier = Modifier
+        modifier = modifier
             .testTag(TimeTypeChipTestTag)
             .padding(horizontal = MaterialTheme.dimensions.spaceS)
             .alpha(if (isSelected) 1f else 0.7f)
@@ -41,7 +45,7 @@ internal fun TimeTypeChip(
             .border(width = 1.dp, color = if (isSelected) white else Color.Transparent, chipShape)
             .clickable {
                 if (!isSelected) {
-                    onSelect(value)
+                    onSelect?.invoke(value)
                 }
             }
     ) {
@@ -63,9 +67,9 @@ private fun TimeType.color(isSelected: Boolean): Color {
     if (!isSelected) return darkBlue500
 
     return when (this) {
-        TimeType.TIMER -> blue500
-        TimeType.REST -> purple500
-        TimeType.STOPWATCH -> darkBlue600
+        TimeType.TIMER -> TimeTypeColors.TIMER
+        TimeType.REST -> TimeTypeColors.REST
+        TimeType.STOPWATCH -> TimeTypeColors.STOPWATCH
     }
 }
 

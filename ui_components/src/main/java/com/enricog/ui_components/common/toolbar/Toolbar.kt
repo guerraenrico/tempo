@@ -24,7 +24,8 @@ fun TempoToolbar(
     ) {
         TopAppBar(
             modifier = modifier,
-            elevation = 0.dp
+            elevation = 0.dp,
+            backgroundColor = MaterialTheme.colors.background
         ) {
             Row(
                 modifier = Modifier.fillMaxSize(),
