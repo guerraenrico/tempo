@@ -74,7 +74,7 @@ class TimerStateConverterTest {
             ),
             stepTitleId = R.string.title_segment_time_type_rest,
             segmentName =  "segment name",
-            clockBackgroundColor = TimeTypeColors.REST,
+            clockBackgroundColor = TimeTypeColors.STARTING,
             isRoutineCompleted = false,
             enableKeepScreenOn = false
         )

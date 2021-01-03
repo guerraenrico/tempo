@@ -149,7 +149,7 @@ class TimerViewModelTest {
             dispatchers = coroutineRule.dispatchers,
             converter = converter,
             reducer = reducer,
-            routineUseCase = timerUseCase,
+            timerUseCase = timerUseCase,
             navigationActions = navigationActions
         )
     }
