@@ -25,8 +25,6 @@ import com.enricog.ui_components.resources.dimensions
 
 internal const val RoutineFormSceneTestTag = "RoutineFormSceneTestTag"
 
-// TODO: Improve UI
-
 @Composable
 internal fun RoutineFormScene(
     routine: Routine,
@@ -145,12 +143,12 @@ private fun SegmentsSection(
     Row(
         modifier = Modifier
             .fillMaxWidth()
-            .padding(MaterialTheme.dimensions.spaceM),
+            .padding(horizontal = MaterialTheme.dimensions.spaceM),
         verticalAlignment = Alignment.CenterVertically
     ) {
         Text(
             text = stringResource(R.string.field_label_routine_segments),
-            style = MaterialTheme.typography.h3
+            style = MaterialTheme.typography.body2
         )
         Spacer(modifier = Modifier.weight(1f))
         TempoIconButton(

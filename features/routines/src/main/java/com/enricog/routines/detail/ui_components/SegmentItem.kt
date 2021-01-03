@@ -1,6 +1,5 @@
 package com.enricog.routines.detail.ui_components
 
-import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.ConstraintLayout
 import androidx.compose.foundation.layout.Dimension
 import androidx.compose.foundation.layout.fillMaxWidth
@@ -11,8 +10,8 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.platform.testTag
 import com.enricog.entities.routines.Segment
-import com.enricog.ui_components.common.surface.ListItemSurface
 import com.enricog.ui_components.resources.dimensions
+import com.enricog.ui_components.surfaces.ListItemSurface
 
 internal const val SegmentItemTestTag = "SegmentItemTestTag"
 
@@ -24,8 +23,8 @@ internal fun SegmentItem(
 ) {
     ListItemSurface(
         modifier = modifier
-            .testTag(SegmentItemTestTag)
-            .clickable { onClick(segment) }
+            .testTag(SegmentItemTestTag),
+        onClick = { onClick(segment) }
     ) {
         ConstraintLayout(
             modifier = Modifier.fillMaxWidth()
@@ -43,7 +42,7 @@ internal fun SegmentItem(
                         width = Dimension.fillToConstraints
                     },
                 text = segment.name,
-                style = MaterialTheme.typography.body1
+                style = MaterialTheme.typography.h2
             )
 
             TimeTypeChip(
@@ -52,9 +51,10 @@ internal fun SegmentItem(
                         top.linkTo(name.bottom)
                         start.linkTo(parent.start)
                         bottom.linkTo(parent.bottom)
-                    },
+                    }
+                    .padding(top = MaterialTheme.dimensions.spaceM),
                 value = segment.type,
-                isSelected = false
+                isSelected = true
             )
 
             Text(
@@ -66,7 +66,7 @@ internal fun SegmentItem(
                         bottom.linkTo(parent.bottom)
                     },
                 text = "${segment.timeInSeconds}s",
-                style = MaterialTheme.typography.body1
+                style = MaterialTheme.typography.h3
             )
         }
     }

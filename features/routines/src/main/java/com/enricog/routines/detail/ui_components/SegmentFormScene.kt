@@ -6,7 +6,6 @@ import androidx.compose.foundation.layout.*
 import androidx.compose.material.MaterialTheme
 import androidx.compose.material.Text
 import androidx.compose.runtime.Composable
-import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.platform.testTag
 import androidx.compose.ui.res.stringResource
@@ -19,6 +18,7 @@ import com.enricog.ui_components.common.button.TempoButtonColor
 import com.enricog.ui_components.common.textField.TempoNumberField
 import com.enricog.ui_components.common.textField.TempoTextField
 import com.enricog.ui_components.common.toolbar.TempoToolbar
+import com.enricog.ui_components.modifiers.horizontalListItemSpacing
 import com.enricog.ui_components.resources.dimensions
 
 internal const val SegmentFormSceneTestTag = "SegmentFormSceneTestTag"
@@ -130,20 +130,24 @@ private fun SelectableTimeType(
     Column(
         modifier = Modifier
             .fillMaxWidth()
-            .padding(MaterialTheme.dimensions.spaceM),
-        horizontalAlignment = Alignment.CenterHorizontally
+            .padding(MaterialTheme.dimensions.spaceM)
     ) {
         Text(
             text = stringResource(R.string.field_label_segment_type),
-            style = MaterialTheme.typography.caption
+            style = MaterialTheme.typography.body2
         )
         Spacer(Modifier.height(MaterialTheme.dimensions.spaceM))
         Row {
-            timeTypes.map { timeType ->
+            timeTypes.mapIndexed { index, timeType ->
                 TimeTypeChip(
                     value = timeType,
                     isSelected = timeType == selected,
-                    onSelect = onSelectChange
+                    onSelect = onSelectChange,
+                    modifier = Modifier.horizontalListItemSpacing(
+                        itemPosition = index,
+                        spacing = MaterialTheme.dimensions.spaceS,
+                        includeEdge = false
+                    )
                 )
             }
         }

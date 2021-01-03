@@ -119,7 +119,8 @@ private fun TempoTextFieldBase(
             visualTransformation = visualTransformation,
             keyboardOptions = keyboardOptions,
             singleLine = singleLine,
-            maxLines = maxLines
+            maxLines = maxLines,
+            backgroundColor = MaterialTheme.colors.surface
         )
         if (errorMessage != null) {
             Text(

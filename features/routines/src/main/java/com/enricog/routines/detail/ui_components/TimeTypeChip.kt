@@ -1,7 +1,6 @@
 package com.enricog.routines.detail.ui_components
 
 import androidx.compose.foundation.background
-import androidx.compose.foundation.border
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.padding
@@ -16,7 +15,6 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.platform.testTag
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.font.FontWeight
-import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import com.enricog.entities.routines.TimeType
 import com.enricog.routines.R
@@ -38,12 +36,10 @@ internal fun TimeTypeChip(
     Box(
         modifier = modifier
             .testTag(TimeTypeChipTestTag)
-            .padding(horizontal = MaterialTheme.dimensions.spaceS)
             .alpha(if (isSelected) 1f else 0.7f)
             .clip(chipShape)
             .background(color = value.color(isSelected), shape = chipShape)
-            .border(width = 1.dp, color = if (isSelected) white else Color.Transparent, chipShape)
-            .clickable {
+            .clickable(enabled = onSelect != null) {
                 if (!isSelected) {
                     onSelect?.invoke(value)
                 }
@@ -55,7 +51,7 @@ internal fun TimeTypeChip(
             fontWeight = FontWeight.Bold,
             fontSize = 14.sp,
             modifier = Modifier.padding(
-                horizontal = MaterialTheme.dimensions.spaceS,
+                horizontal = MaterialTheme.dimensions.spaceM,
                 vertical = MaterialTheme.dimensions.spaceXS
             )
         )
