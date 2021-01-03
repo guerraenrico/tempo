@@ -1,6 +1,7 @@
 package com.enricog.ui_components.common.textField
 
 import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.text.KeyboardOptions
 import androidx.compose.material.MaterialTheme
@@ -106,11 +107,13 @@ private fun TempoTextFieldBase(
         @Composable { Text(label) }
     } else null
 
-    Column {
+    Column(
+        modifier = modifier
+    ) {
         TextField(
             value = value,
             onValueChange = onValueChange,
-            modifier = modifier,
+            modifier = Modifier.fillMaxSize(),
             textStyle = textFieldStyle.merge(textStyle),
             label = labelText,
             leadingIcon = leadingIcon,

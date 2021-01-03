@@ -19,12 +19,14 @@ fun TempoIconButton(
     modifier: Modifier = Modifier,
     color: TempoButtonColor = TempoButtonColor.Normal,
     size: TempoIconButtonSize = TempoIconButtonSize.Normal,
+    drawShadow: Boolean = true,
     enabled: Boolean = true
 ) {
+    val shadowSize = if (drawShadow) size.shadow else 0.dp
     IconButton(
         onClick = onClick,
         modifier = modifier
-            .shadow(size.shadow, shape = CircleShape)
+            .shadow(shadowSize, shape = CircleShape)
             .background(color = color.backgroundColor(enabled), shape = CircleShape)
             .size(size = size.box),
         enabled = enabled

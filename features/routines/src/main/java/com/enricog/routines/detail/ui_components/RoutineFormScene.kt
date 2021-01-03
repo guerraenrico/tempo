@@ -69,11 +69,10 @@ internal fun RoutineFormScene(
                 SegmentsSection(
                     segments = routine.segments,
                     onSegmentClick = onSegmentClick,
-                    onAddSegmentClick = onAddSegmentClick
+                    onAddSegmentClick = onAddSegmentClick,
+                    errorMessageResourceId = errors[Field.Routine.Segments]
                 )
                 Spacer(Modifier.preferredHeight(segmentListBottomSpace))
-
-                // TODO: handle no segment error
             }
         }
         TempoIconButton(
@@ -138,24 +137,58 @@ private fun RoutineStartTimeOffsetField(
 private fun SegmentsSection(
     segments: List<Segment>,
     onSegmentClick: (Segment) -> Unit,
-    onAddSegmentClick: () -> Unit
+    onAddSegmentClick: () -> Unit,
+    errorMessageResourceId: Int?
 ) {
-    Row(
+    ConstraintLayout(
         modifier = Modifier
             .fillMaxWidth()
             .padding(horizontal = MaterialTheme.dimensions.spaceM),
-        verticalAlignment = Alignment.CenterVertically
     ) {
+        val (label, buttonAdd, errorMessage) = createRefs()
         Text(
+            modifier = Modifier.constrainAs(label) {
+                top.linkTo(parent.top)
+                start.linkTo(parent.start)
+                bottom.linkTo(buttonAdd.bottom)
+                end.linkTo(buttonAdd.start)
+                width = Dimension.fillToConstraints
+            },
             text = stringResource(R.string.field_label_routine_segments),
             style = MaterialTheme.typography.body2
         )
-        Spacer(modifier = Modifier.weight(1f))
         TempoIconButton(
+            modifier = Modifier.constrainAs(buttonAdd) {
+                top.linkTo(parent.top)
+                start.linkTo(label.end)
+                bottom.linkTo(
+                    if (errorMessageResourceId != null) {
+                        errorMessage.top
+                    } else {
+                        parent.bottom
+                    }
+                )
+                end.linkTo(parent.end)
+                baseline.linkTo(label.baseline)
+            },
             onClick = onAddSegmentClick,
             size = TempoIconButtonSize.Small,
-            icon = vectorResource(R.drawable.ic_segment_add)
+            icon = vectorResource(R.drawable.ic_segment_add),
+            color = TempoButtonColor.Transparent,
+            drawShadow = false
         )
+        if (errorMessageResourceId != null) {
+            Text(
+                modifier = Modifier.constrainAs(errorMessage) {
+                    top.linkTo(buttonAdd.bottom)
+                    bottom.linkTo(parent.bottom)
+                    end.linkTo(parent.end)
+                },
+                text = stringResource(errorMessageResourceId),
+                style = MaterialTheme.typography.caption,
+                color = MaterialTheme.colors.error
+            )
+        }
     }
     Column(modifier = Modifier.fillMaxWidth()) {
         segments.mapIndexed { index, segment ->

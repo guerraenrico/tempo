@@ -21,6 +21,13 @@ abstract class TempoButtonColors : ButtonColors {
 }
 
 sealed class TempoButtonColor : TempoButtonColors() {
+    object Transparent : TempoButtonColor() {
+        override val enabledBackgroundColor: Color = Color.Transparent
+        override val disabledBackgroundColor: Color = Color.Transparent
+        override val enabledContentColor: Color = white
+        override val disabledContentColor: Color = grey100
+    }
+
     object Normal : TempoButtonColor() {
         override val enabledBackgroundColor: Color = darkBlue500
         override val disabledBackgroundColor: Color = darkBlue600
