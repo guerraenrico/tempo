@@ -12,8 +12,8 @@ import com.enricog.routines.R
 import com.enricog.routines.list.models.RoutinesViewState
 import com.enricog.routines.list.ui_components.EmptyScene
 import com.enricog.routines.list.ui_components.RoutinesScene
-import com.enricog.ui_components.common.toolbar.TempoToolbar
 import com.enricog.ui_components.ambients.navViewModel
+import com.enricog.ui_components.common.toolbar.TempoToolbar
 
 @Composable
 internal fun RoutinesScreen(viewModel: RoutinesViewModel = navViewModel()) {
@@ -24,7 +24,8 @@ internal fun RoutinesScreen(viewModel: RoutinesViewModel = navViewModel()) {
         TempoToolbar(title = stringResource(R.string.title_routines))
         viewState.value.Compose(
             onCreateRoutineClick = viewModel::onCreateRoutineClick,
-            onRoutineClick = viewModel::onRoutineClick
+            onRoutineClick = viewModel::onRoutineClick,
+            onRoutineDelete = viewModel::onRoutineDelete
         )
     }
 }
@@ -32,7 +33,8 @@ internal fun RoutinesScreen(viewModel: RoutinesViewModel = navViewModel()) {
 @Composable
 private fun RoutinesViewState.Compose(
     onCreateRoutineClick: () -> Unit,
-    onRoutineClick: (Routine) -> Unit
+    onRoutineClick: (Routine) -> Unit,
+    onRoutineDelete: (Routine) -> Unit
 ) {
     when (this) {
         RoutinesViewState.Idle -> {
@@ -43,6 +45,7 @@ private fun RoutinesViewState.Compose(
             RoutinesScene(
                 routines = routines,
                 onRoutineClick = onRoutineClick,
+                onRoutineDelete = onRoutineDelete,
                 onCreateRoutineClick = onCreateRoutineClick
             )
     }.exhaustive

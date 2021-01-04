@@ -24,6 +24,7 @@ internal const val RoutineSceneTestTag = "RoutineSceneTestTag"
 internal fun RoutinesScene(
     routines: List<Routine>,
     onRoutineClick: (Routine) -> Unit,
+    onRoutineDelete: (Routine) -> Unit,
     onCreateRoutineClick: () -> Unit,
 ) {
     Box(
@@ -38,6 +39,7 @@ internal fun RoutinesScene(
                 RoutineItem(
                     routine = routine,
                     onClick = onRoutineClick,
+                    onDelete = onRoutineDelete,
                     modifier = Modifier.fillMaxWidth()
                         .verticalListItemSpacing(
                             itemPosition = index,

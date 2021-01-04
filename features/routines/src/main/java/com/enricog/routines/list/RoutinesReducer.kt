@@ -13,4 +13,7 @@ internal class RoutinesReducer @Inject constructor() {
         return RoutinesState.Data(routines = routines)
     }
 
+    fun deleteRoutine(state: RoutinesState.Data, routine: Routine): RoutinesState {
+        return state.copy(routines = state.routines.filter { it != routine })
+    }
 }
