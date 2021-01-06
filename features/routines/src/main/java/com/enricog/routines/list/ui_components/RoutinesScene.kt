@@ -12,7 +12,6 @@ import com.enricog.entities.routines.Routine
 import com.enricog.routines.R
 import com.enricog.ui_components.common.button.TempoButtonColor
 import com.enricog.ui_components.common.button.TempoIconButton
-import com.enricog.ui_components.modifiers.verticalListItemSpacing
 import com.enricog.ui_components.resources.dimensions
 
 internal const val RoutineSceneTestTag = "RoutineSceneTestTag"
@@ -34,7 +33,7 @@ internal fun RoutinesScene(
             verticalArrangement = Arrangement.spacedBy(MaterialTheme.dimensions.spaceM),
             contentPadding = PaddingValues(MaterialTheme.dimensions.spaceM)
         ) {
-            itemsIndexed(routines) { index: Int, routine: Routine ->
+            items(routines) { routine: Routine ->
                 RoutineItem(
                     modifier = Modifier.fillMaxWidth(),
                     routine = routine,

@@ -16,8 +16,11 @@ internal interface RoutineDao {
     suspend fun get(id: Long): InternalRoutineWithSegments
 
     @Insert
-    suspend fun insert(vararg routines: InternalRoutine): List<Long>
+    suspend fun insert(vararg routine: InternalRoutine): List<Long>
 
     @Update
-    suspend fun update(vararg routines: InternalRoutine)
+    suspend fun update(vararg routine: InternalRoutine)
+
+    @Delete
+    suspend fun delete(vararg routine: InternalRoutine)
 }

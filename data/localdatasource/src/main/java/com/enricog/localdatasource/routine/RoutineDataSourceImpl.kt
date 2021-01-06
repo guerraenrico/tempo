@@ -55,4 +55,11 @@ internal class RoutineDataSourceImpl @Inject constructor(
         database.routineDao().update(routineToUpdate.toInternal())
         return routine.id
     }
+
+    override suspend fun delete(routine: Routine) {
+        val internalRoutine = routine.toInternal()
+        val internalSegments = routine.segments.map { it.toInternal(routine.id) }
+        database.segmentDao().delete(*internalSegments.toTypedArray())
+        database.routineDao().delete(internalRoutine)
+    }
 }

@@ -10,6 +10,7 @@ import com.enricog.entities.routines.Segment
 import com.enricog.entities.routines.TimeType
 import com.enricog.localdatasource.TempoDatabase
 import com.enricog.localdatasource.routine.model.InternalRoutine
+import com.enricog.localdatasource.routine.model.InternalRoutineWithSegments
 import com.enricog.localdatasource.routine.model.InternalSegment
 import org.junit.After
 import org.junit.Assert.assertEquals
@@ -496,6 +497,49 @@ class RoutineDataSourceImplTest {
         assertRoutineEquals(expected, result)
     }
 
+    @Test
+    fun `should delete routine and all relative segments`() = coroutineRule {
+        val now = OffsetDateTime.now()
+        val internalSegment = InternalSegment(
+            id = 1,
+            routineId = 1,
+            name = "name",
+            timeInSeconds = 40,
+            type = TimeType.TIMER
+        )
+        val internalRoutine = InternalRoutine(
+            id = 1,
+            name = "name",
+            startTimeOffsetInSeconds = 10,
+            createdAt = now,
+            updatedAt = now
+        )
+        val routine = Routine(
+            id = 1,
+            name = "name",
+            startTimeOffsetInSeconds = 10,
+            createdAt = now,
+            updatedAt = now,
+            segments = listOf(
+                Segment(
+                    id = 1,
+                    name = "name",
+                    timeInSeconds = 40,
+                    type = TimeType.TIMER
+                )
+            )
+        )
+
+        database.routineDao().insert(internalRoutine)
+        database.segmentDao().insert(internalSegment)
+
+        sut.delete(routine)
+
+        val segments = database.segmentDao().getAll()
+        val routines = database.routineDao().getAll()
+        assertEquals(emptyList<InternalSegment>(), segments)
+        assertEquals(emptyList<InternalRoutineWithSegments>(), routines)
+    }
 
     private fun assertRoutineEquals(expected: Routine, actual: Routine) {
         assertEquals(expected.id, actual.id)

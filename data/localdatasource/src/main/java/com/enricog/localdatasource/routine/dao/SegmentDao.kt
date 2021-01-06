@@ -6,12 +6,14 @@ import com.enricog.localdatasource.routine.model.InternalSegment
 @Dao
 internal interface SegmentDao {
 
-    @Transaction
+    @Query("SELECT * FROM Segments")
+    suspend fun getAll(): List<InternalSegment>
+
     @Insert
-    suspend fun insert(vararg segments: InternalSegment): List<Long>
+    suspend fun insert(vararg segment: InternalSegment): List<Long>
 
     @Update
-    suspend fun update(vararg segments: InternalSegment)
+    suspend fun update(vararg segment: InternalSegment)
 
     @Delete
     suspend fun delete(vararg segment: InternalSegment)

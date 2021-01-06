@@ -11,4 +11,6 @@ interface RoutineDataSource {
     suspend fun create(routine: Routine): Long
 
     suspend fun update(routine: Routine): Long
+
+    suspend fun delete(routine: Routine)
 }
