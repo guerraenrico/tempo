@@ -1,9 +1,6 @@
 package com.enricog.routines.list.ui_components
 
-import androidx.compose.foundation.layout.Box
-import androidx.compose.foundation.layout.fillMaxSize
-import androidx.compose.foundation.layout.fillMaxWidth
-import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.material.MaterialTheme
 import androidx.compose.runtime.Composable
@@ -33,20 +30,17 @@ internal fun RoutinesScene(
         LazyColumn(
             modifier = Modifier
                 .testTag(RoutineSceneTestTag)
-                .fillMaxSize()
+                .fillMaxSize(),
+            verticalArrangement = Arrangement.spacedBy(MaterialTheme.dimensions.spaceM),
+            contentPadding = PaddingValues(MaterialTheme.dimensions.spaceM)
         ) {
             itemsIndexed(routines) { index: Int, routine: Routine ->
                 RoutineItem(
+                    modifier = Modifier.fillMaxWidth(),
                     routine = routine,
                     onClick = onRoutineClick,
-                    onDelete = onRoutineDelete,
-                    modifier = Modifier.fillMaxWidth()
-                        .verticalListItemSpacing(
-                            itemPosition = index,
-                            spacing = MaterialTheme.dimensions.spaceM
-                        )
+                    onDelete = onRoutineDelete
                 )
-
             }
         }
 

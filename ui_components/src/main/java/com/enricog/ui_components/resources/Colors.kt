@@ -18,7 +18,7 @@ val grey100 = Color(0xff_FAFAFA)
 val white = Color(0xff_FFFFFF)
 val black = Color(0xff_000000)
 
-val red = Color(0xff_CF6679)
+val red = Color(0xff_F44336)
 
 internal val defaultThemeColors = Colors(
     primary = blue500,

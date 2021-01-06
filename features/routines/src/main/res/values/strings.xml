@@ -23,4 +23,6 @@
     <string name="chip_time_type_rest_name">Rest</string>
     <string name="chip_time_type_timer_name">Timer</string>
     <string name="chip_time_type_stopwatch_name">Stopwatch</string>
+
+    <string name="label_delete">DELETE</string>
 </resources>
