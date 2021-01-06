@@ -20,7 +20,6 @@ import com.enricog.ui_components.common.button.TempoIconButtonSize
 import com.enricog.ui_components.common.textField.TempoNumberField
 import com.enricog.ui_components.common.textField.TempoTextField
 import com.enricog.ui_components.common.toolbar.TempoToolbar
-import com.enricog.ui_components.modifiers.verticalListItemSpacing
 import com.enricog.ui_components.resources.dimensions
 
 internal const val RoutineFormSceneTestTag = "RoutineFormSceneTestTag"
@@ -33,6 +32,7 @@ internal fun RoutineFormScene(
     onStartTimeOffsetChange: (Long) -> Unit,
     onAddSegmentClick: () -> Unit,
     onSegmentClick: (Segment) -> Unit,
+    onSegmentDelete: (Segment) -> Unit,
     onStartRoutine: () -> Unit,
     onRoutineBack: () -> Unit
 ) {
@@ -69,6 +69,7 @@ internal fun RoutineFormScene(
                 SegmentsSection(
                     segments = routine.segments,
                     onSegmentClick = onSegmentClick,
+                    onSegmentDelete = onSegmentDelete,
                     onAddSegmentClick = onAddSegmentClick,
                     errorMessageResourceId = errors[Field.Routine.Segments]
                 )
@@ -137,6 +138,7 @@ private fun RoutineStartTimeOffsetField(
 private fun SegmentsSection(
     segments: List<Segment>,
     onSegmentClick: (Segment) -> Unit,
+    onSegmentDelete: (Segment) -> Unit,
     onAddSegmentClick: () -> Unit,
     errorMessageResourceId: Int?
 ) {
@@ -190,17 +192,18 @@ private fun SegmentsSection(
             )
         }
     }
-    Column(modifier = Modifier.fillMaxWidth()) {
-        segments.mapIndexed { index, segment ->
+    Column(
+        modifier = Modifier
+            .fillMaxWidth()
+            .padding(MaterialTheme.dimensions.spaceM),
+        verticalArrangement = Arrangement.spacedBy(MaterialTheme.dimensions.spaceM),
+    ) {
+        segments.map { segment ->
             SegmentItem(
                 segment = segment,
                 onClick = onSegmentClick,
-                modifier = Modifier
-                    .fillMaxWidth()
-                    .verticalListItemSpacing(
-                        itemPosition = index,
-                        spacing = MaterialTheme.dimensions.spaceM
-                    )
+                onDelete = onSegmentDelete,
+                modifier = Modifier.fillMaxWidth()
             )
         }
     }

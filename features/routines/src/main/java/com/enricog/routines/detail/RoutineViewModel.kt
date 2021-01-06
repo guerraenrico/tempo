@@ -56,6 +56,10 @@ internal class RoutineViewModel @ViewModelInject constructor(
         state = reducer.editSegment(stateData, segment)
     }
 
+    fun onSegmentDelete(segment: Segment) = runWhen<RoutineState.Data> { stateData ->
+        state = reducer.deleteSegment(stateData, segment)
+    }
+
     fun onRoutineBack() {
         navigationActions.goBackToRoutines()
     }

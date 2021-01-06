@@ -51,6 +51,13 @@ internal class RoutineReducer @Inject constructor() {
         return state.copy(editingSegment = editingSegment)
     }
 
+    fun deleteSegment(state: RoutineState.Data, segment: Segment): RoutineState.Data {
+        val segments = state.routine.segments.filterNot { it == segment }
+        return state.copy(
+            routine = state.routine.copy(segments = segments)
+        )
+    }
+
     fun updateSegmentName(state: RoutineState.Data, text: String): RoutineState.Data {
         if (state.editingSegment !is EditingSegment.Data) return state
 

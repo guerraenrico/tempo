@@ -27,6 +27,7 @@ internal fun RoutineScreen(routineId: Long, viewModel: RoutineViewModel = navVie
             onStartTimeOffsetChange = viewModel::onRoutineStartTimeOffsetChange,
             onAddSegmentClick = viewModel::onAddSegmentClick,
             onSegmentClick = viewModel::onSegmentClick,
+            onSegmentDelete = viewModel::onSegmentDelete,
             onSegmentNameChange = viewModel::onSegmentNameTextChange,
             onSegmentTimeChange = viewModel::onSegmentTimeChange,
             onSegmentTimeTypeChange = viewModel::onSegmentTypeChange,
@@ -44,6 +45,7 @@ private fun RoutineViewState.Compose(
     onStartTimeOffsetChange: (Long) -> Unit,
     onAddSegmentClick: () -> Unit,
     onSegmentClick: (Segment) -> Unit,
+    onSegmentDelete: (Segment) -> Unit,
     onRoutineBack: () -> Unit,
 
     onSegmentNameChange: (String) -> Unit,
@@ -64,6 +66,7 @@ private fun RoutineViewState.Compose(
                 onStartTimeOffsetChange = onStartTimeOffsetChange,
                 onAddSegmentClick = onAddSegmentClick,
                 onSegmentClick = onSegmentClick,
+                onSegmentDelete = onSegmentDelete,
                 onSegmentNameChange = onSegmentNameChange,
                 onSegmentTimeChange = onSegmentTimeChange,
                 onSegmentTimeTypeChange = onSegmentTimeTypeChange,

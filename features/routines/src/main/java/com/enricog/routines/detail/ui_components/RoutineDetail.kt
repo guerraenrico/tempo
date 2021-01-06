@@ -16,6 +16,7 @@ internal fun RoutineDetail(
     onStartTimeOffsetChange: (Long) -> Unit,
     onAddSegmentClick: () -> Unit,
     onSegmentClick: (Segment) -> Unit,
+    onSegmentDelete: (Segment) -> Unit,
     onRoutineBack: () -> Unit,
 
     onSegmentNameChange: (String) -> Unit,
@@ -36,6 +37,7 @@ internal fun RoutineDetail(
             onStartTimeOffsetChange = onStartTimeOffsetChange,
             onAddSegmentClick = onAddSegmentClick,
             onSegmentClick = onSegmentClick,
+            onSegmentDelete = onSegmentDelete,
             onStartRoutine = onStartRoutine,
             onRoutineBack = onRoutineBack
         )

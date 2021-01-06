@@ -33,7 +33,7 @@ internal fun RoutinesScene(
             verticalArrangement = Arrangement.spacedBy(MaterialTheme.dimensions.spaceM),
             contentPadding = PaddingValues(MaterialTheme.dimensions.spaceM)
         ) {
-            items(routines) { routine: Routine ->
+            items(routines) { routine ->
                 RoutineItem(
                     modifier = Modifier.fillMaxWidth(),
                     routine = routine,
