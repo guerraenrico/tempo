@@ -30,8 +30,8 @@ internal fun SegmentItem(
     ) {
         ConstraintLayout(
             modifier = Modifier.fillMaxWidth()
-                .padding(MaterialTheme.dimensions.spaceM)
                 .clickable { onClick(segment) }
+                .padding(MaterialTheme.dimensions.spaceM)
         ) {
             val (name, type, time) = createRefs()
 
