@@ -23,12 +23,14 @@ internal class RoutineReducer @Inject constructor() {
 
     fun updateRoutineName(state: RoutineState.Data, text: String): RoutineState.Data {
         val routine = state.routine.copy(name = text)
-        return state.copy(routine = routine)
+        val errors = state.errors.filterKeys { it != Field.Routine.Name }
+        return state.copy(routine = routine, errors = errors)
     }
 
     fun updateRoutineStartTimeOffset(state: RoutineState.Data, seconds: Long): RoutineState.Data {
         val routine = state.routine.copy(startTimeOffsetInSeconds = seconds)
-        return state.copy(routine = routine)
+        val errors = state.errors.filterKeys { it != Field.Routine.StartTimeOffsetInSeconds }
+        return state.copy(routine = routine, errors = errors)
     }
 
     fun editNewSegment(state: RoutineState.Data): RoutineState.Data {
@@ -62,14 +64,26 @@ internal class RoutineReducer @Inject constructor() {
         if (state.editingSegment !is EditingSegment.Data) return state
 
         val segment = state.editingSegment.segment.copy(name = text)
-        return state.copy(editingSegment = state.editingSegment.copy(segment = segment))
+        val errors = state.editingSegment.errors.filterKeys { it != Field.Segment.Name }
+        return state.copy(
+            editingSegment = state.editingSegment.copy(
+                segment = segment,
+                errors = errors
+            )
+        )
     }
 
     fun updateSegmentTime(state: RoutineState.Data, seconds: Long): RoutineState.Data {
         if (state.editingSegment !is EditingSegment.Data) return state
 
         val segment = state.editingSegment.segment.copy(timeInSeconds = seconds)
-        return state.copy(editingSegment = state.editingSegment.copy(segment = segment))
+        val errors = state.editingSegment.errors.filterKeys { it != Field.Segment.TimeInSeconds }
+        return state.copy(
+            editingSegment = state.editingSegment.copy(
+                segment = segment,
+                errors = errors
+            )
+        )
     }
 
     fun updateSegmentTimeType(state: RoutineState.Data, timeType: TimeType): RoutineState.Data {
@@ -93,12 +107,17 @@ internal class RoutineReducer @Inject constructor() {
                 }
             }
         } else {
-            listOf(*state.routine.segments.toTypedArray(), editedSegment)
+            buildList {
+                addAll(state.routine.segments)
+                add(editedSegment)
+            }
         }
 
         val routine = state.routine.copy(segments = segments)
+        val errors = state.errors.filterKeys { it != Field.Routine.Segments }
         return state.copy(
             routine = routine,
+            errors = errors,
             editingSegment = EditingSegment.None
         )
     }
