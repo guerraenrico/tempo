@@ -4,10 +4,10 @@ import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.collectAsState
+import androidx.compose.runtime.getValue
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.stringResource
 import com.enricog.core.extensions.exhaustive
-import com.enricog.entities.routines.Routine
 import com.enricog.routines.R
 import com.enricog.routines.list.models.RoutinesViewState
 import com.enricog.routines.list.ui_components.EmptyScene
@@ -17,36 +17,25 @@ import com.enricog.ui_components.common.toolbar.TempoToolbar
 
 @Composable
 internal fun RoutinesScreen(viewModel: RoutinesViewModel = navViewModel()) {
-    val viewState = viewModel.viewState.collectAsState(RoutinesViewState.Idle)
+    val viewState by viewModel.viewState.collectAsState(RoutinesViewState.Idle)
     Column(
         modifier = Modifier.fillMaxSize()
     ) {
         TempoToolbar(title = stringResource(R.string.title_routines))
-        viewState.value.Compose(
-            onCreateRoutineClick = viewModel::onCreateRoutineClick,
-            onRoutineClick = viewModel::onRoutineClick,
-            onRoutineDelete = viewModel::onRoutineDelete
-        )
-    }
-}
-
-@Composable
-private fun RoutinesViewState.Compose(
-    onCreateRoutineClick: () -> Unit,
-    onRoutineClick: (Routine) -> Unit,
-    onRoutineDelete: (Routine) -> Unit
-) {
-    when (this) {
-        RoutinesViewState.Idle -> {
+        with(viewState) {
+            when (this) {
+                RoutinesViewState.Idle -> {
+                }
+                RoutinesViewState.Empty ->
+                    EmptyScene(onCreateSegmentClick = viewModel::onCreateRoutineClick)
+                is RoutinesViewState.Data ->
+                    RoutinesScene(
+                        routines = routines,
+                        onRoutineClick = viewModel::onRoutineClick,
+                        onRoutineDelete = viewModel::onRoutineDelete,
+                        onCreateRoutineClick = viewModel::onCreateRoutineClick
+                    )
+            }.exhaustive
         }
-        RoutinesViewState.Empty ->
-            EmptyScene(onCreateSegmentClick = onCreateRoutineClick)
-        is RoutinesViewState.Data ->
-            RoutinesScene(
-                routines = routines,
-                onRoutineClick = onRoutineClick,
-                onRoutineDelete = onRoutineDelete,
-                onCreateRoutineClick = onCreateRoutineClick
-            )
-    }.exhaustive
+    }
 }
