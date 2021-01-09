@@ -1,4 +1,4 @@
-package com.enricog.routines.usecase
+package com.enricog.routines.detail.usecase
 
 import android.annotation.SuppressLint
 import com.enricog.datasource.RoutineDataSource

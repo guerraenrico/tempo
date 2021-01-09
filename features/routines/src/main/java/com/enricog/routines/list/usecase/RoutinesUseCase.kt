@@ -1,4 +1,4 @@
-package com.enricog.routines.usecase
+package com.enricog.routines.list.usecase
 
 import com.enricog.datasource.RoutineDataSource
 import com.enricog.entities.routines.Routine

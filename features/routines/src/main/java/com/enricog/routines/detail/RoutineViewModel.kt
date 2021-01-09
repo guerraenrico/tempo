@@ -14,7 +14,7 @@ import com.enricog.routines.detail.models.RoutineState
 import com.enricog.routines.detail.models.RoutineViewState
 import com.enricog.routines.detail.validation.RoutineValidator
 import com.enricog.routines.navigation.RoutinesNavigationActions
-import com.enricog.routines.usecase.RoutineUseCase
+import com.enricog.routines.detail.usecase.RoutineUseCase
 import kotlinx.coroutines.launch
 
 internal class RoutineViewModel @ViewModelInject constructor(

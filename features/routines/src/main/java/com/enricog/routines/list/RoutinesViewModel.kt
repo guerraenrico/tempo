@@ -8,7 +8,7 @@ import com.enricog.entities.routines.Routine
 import com.enricog.routines.list.models.RoutinesState
 import com.enricog.routines.list.models.RoutinesViewState
 import com.enricog.routines.navigation.RoutinesNavigationActions
-import com.enricog.routines.usecase.RoutinesUseCase
+import com.enricog.routines.list.usecase.RoutinesUseCase
 import kotlinx.coroutines.launch
 
 internal class RoutinesViewModel @ViewModelInject constructor(
