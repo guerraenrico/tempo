@@ -7,13 +7,19 @@ import javax.inject.Inject
 internal class RoutinesReducer @Inject constructor() {
 
     fun setup(routines: List<Routine>): RoutinesState {
-        if (routines.isEmpty()) {
-            return RoutinesState.Empty
+        return if (routines.isEmpty()) {
+            RoutinesState.Empty
+        } else {
+            RoutinesState.Data(routines = routines)
         }
-        return RoutinesState.Data(routines = routines)
     }
 
     fun deleteRoutine(state: RoutinesState.Data, routine: Routine): RoutinesState {
-        return state.copy(routines = state.routines.filter { it != routine })
+        val routines = state.routines.filter { it != routine }
+        return if (routines.isEmpty()) {
+            RoutinesState.Empty
+        } else {
+            state.copy(routines = routines)
+        }
     }
 }
