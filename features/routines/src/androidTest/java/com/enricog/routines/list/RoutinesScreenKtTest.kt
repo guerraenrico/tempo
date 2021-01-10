@@ -17,56 +17,51 @@ class RoutinesScreenKtTest {
     val composeRule = createComposeRule()
 
     @Test
-    fun shouldNotRenderAnySceneWhenStateIsIdle() {
-        composeRule {
-            val viewState = RoutinesViewState.Idle
+    fun shouldNotRenderAnySceneWhenStateIsIdle() = composeRule {
+        val viewState = RoutinesViewState.Idle
 
-            setContent {
-                TempoTheme {
-                    viewState.Compose({}, {}, {})
-                }
+        setContent {
+            TempoTheme {
+                viewState.Compose({}, {}, {})
             }
-
-            waitForIdle()
-
-            onNodeWithTag(EmptySceneTestTag).assertDoesNotExist()
-            onNodeWithTag(RoutinesSceneTestTag).assertDoesNotExist()
         }
+
+        waitForIdle()
+
+        onNodeWithTag(EmptySceneTestTag).assertDoesNotExist()
+        onNodeWithTag(RoutinesSceneTestTag).assertDoesNotExist()
     }
 
     @Test
-    fun shouldRenderEmptySceneWhenStateIsEmpty() {
-        composeRule {
-            val viewState = RoutinesViewState.Empty
+    fun shouldRenderEmptySceneWhenStateIsEmpty() = composeRule {
+        val viewState = RoutinesViewState.Empty
 
-            setContent {
-                TempoTheme {
-                    viewState.Compose({}, {}, {})
-                }
+        setContent {
+            TempoTheme {
+                viewState.Compose({}, {}, {})
             }
-
-            waitForIdle()
-
-            onNodeWithTag(EmptySceneTestTag).assertIsDisplayed()
-            onNodeWithTag(RoutinesSceneTestTag).assertDoesNotExist()
         }
+
+        waitForIdle()
+
+        onNodeWithTag(EmptySceneTestTag).assertIsDisplayed()
+        onNodeWithTag(RoutinesSceneTestTag).assertDoesNotExist()
     }
 
     @Test
-    fun shouldRenderRoutinesSceneWhenStateIsData() {
-        composeRule {
-            val viewState = RoutinesViewState.Data(emptyList())
+    fun shouldRenderRoutinesSceneWhenStateIsData() = composeRule {
+        val viewState = RoutinesViewState.Data(emptyList())
 
-            setContent {
-                TempoTheme {
-                    viewState.Compose({}, {}, {})
-                }
+        setContent {
+            TempoTheme {
+                viewState.Compose({}, {}, {})
             }
-
-            waitForIdle()
-
-            onNodeWithTag(EmptySceneTestTag).assertDoesNotExist()
-            onNodeWithTag(RoutinesSceneTestTag).assertIsDisplayed()
         }
+
+        waitForIdle()
+
+        onNodeWithTag(EmptySceneTestTag).assertDoesNotExist()
+        onNodeWithTag(RoutinesSceneTestTag).assertIsDisplayed()
     }
+
 }
