@@ -76,7 +76,13 @@ internal class RoutineReducer @Inject constructor() {
     fun updateSegmentTime(state: RoutineState.Data, seconds: Long): RoutineState.Data {
         if (state.editingSegment !is EditingSegment.Data) return state
 
-        val segment = state.editingSegment.segment.copy(timeInSeconds = seconds)
+        val timeInSeconds = if (state.editingSegment.segment.type == TimeType.STOPWATCH) {
+            0L
+        } else {
+            seconds
+        }
+
+        val segment = state.editingSegment.segment.copy(timeInSeconds = timeInSeconds)
         val errors = state.editingSegment.errors.filterKeys { it != Field.Segment.TimeInSeconds }
         return state.copy(
             editingSegment = state.editingSegment.copy(
@@ -89,7 +95,16 @@ internal class RoutineReducer @Inject constructor() {
     fun updateSegmentTimeType(state: RoutineState.Data, timeType: TimeType): RoutineState.Data {
         if (state.editingSegment !is EditingSegment.Data) return state
 
-        val segment = state.editingSegment.segment.copy(type = timeType)
+        val timeInSeconds = if (timeType == TimeType.STOPWATCH) {
+            0L
+        } else {
+            state.editingSegment.segment.timeInSeconds
+        }
+
+        val segment = state.editingSegment.segment.copy(
+            type = timeType,
+            timeInSeconds = timeInSeconds
+        )
         return state.copy(editingSegment = state.editingSegment.copy(segment = segment))
     }
 

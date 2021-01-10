@@ -55,18 +55,11 @@ internal fun DeletableListItem(
             modifier = Modifier.matchParentSize(),
             contentAlignment = Alignment.CenterEnd
         ) {
-            val alpha = animate(
-                when (swipeState.targetValue) {
-                    CLOSE -> 0f
-                    OPEN -> 1f
-                }
-            )
             Box(
                 modifier = Modifier
                     .fillMaxHeight()
                     .fillMaxWidth(0.5f)
                     .clip(MaterialTheme.commonShapes.listItem)
-                    .alpha(alpha)
                     .background(MaterialTheme.colors.error)
                     .clickable {
                         onDelete()
