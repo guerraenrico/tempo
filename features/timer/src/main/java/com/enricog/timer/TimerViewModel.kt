@@ -21,7 +21,8 @@ internal class TimerViewModel @ViewModelInject constructor(
     converter: TimerStateConverter,
     private val navigationActions: TimerNavigationActions,
     private val reducer: TimerReducer,
-    private val timerUseCase: TimerUseCase
+    private val timerUseCase: TimerUseCase,
+    private val windowScreenManager: WindowScreenManager
 ) : BaseViewModel<TimerState, TimerViewState>(
     initialState = TimerState.Idle,
     converter = converter,
@@ -69,6 +70,7 @@ internal class TimerViewModel @ViewModelInject constructor(
     }
 
     override fun onStateUpdated(currentState: TimerState) {
+        toggleKeepScreenOn(currentState)
         if (currentState is TimerState.Counting) {
             if (currentState.isCountRunning) {
                 startCounting()
@@ -103,5 +105,11 @@ internal class TimerViewModel @ViewModelInject constructor(
 
     private fun stopCounting() {
         countingJob?.cancel()
+    }
+
+    private fun toggleKeepScreenOn(currentState: TimerState) {
+        val enableKeepScreenOn = currentState is TimerState.Counting &&
+                currentState.isCountRunning && !currentState.isRoutineCompleted
+        windowScreenManager.toggleKeepScreenOnFlag(enableKeepScreenOn)
     }
 }

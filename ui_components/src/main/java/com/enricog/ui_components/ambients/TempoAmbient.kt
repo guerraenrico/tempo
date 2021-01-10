@@ -1,6 +1,5 @@
 package com.enricog.ui_components.ambients
 
-import android.app.Activity
 import android.app.Application
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.ComposableContract
@@ -19,11 +18,6 @@ object TempoAmbient {
         @Composable
         @ComposableContract(readonly = true)
         get() = AmbientViewModelFactory.current
-
-    val activity: Activity
-        @Composable
-        @ComposableContract(readonly = true)
-        get() = AmbientActivity.current
 
     val application: Application
         @Composable
@@ -46,7 +40,6 @@ object TempoAmbient {
 @Composable
 fun ProvideTempoAmbient(
     viewModelFactory: ViewModelProvider.Factory,
-    activity: Activity,
     application: Application,
     navController: NavController,
     content: @Composable () -> Unit
@@ -63,7 +56,6 @@ fun ProvideTempoAmbient(
             }
     Providers(
         AmbientViewModelFactory provides viewModelFactory,
-        AmbientActivity provides activity,
         AmbientApplication provides application,
         AmbientNavController provides navController,
         AmbientViewModelFactoriesMap provides factories,

@@ -4,6 +4,7 @@ import com.enricog.base_test.coroutine.CoroutineRule
 import com.enricog.base_test.entities.routines.EMPTY
 import com.enricog.entities.routines.Routine
 import com.enricog.entities.routines.Segment
+import com.enricog.entities.routines.TimeType
 import com.enricog.timer.models.*
 import com.enricog.timer.navigation.TimerNavigationActions
 import com.enricog.timer.usecase.TimerUseCase
@@ -26,6 +27,7 @@ class TimerViewModelTest {
     private val timerUseCase: TimerUseCase = mockk()
     private val configuration = TimerConfiguration(routineId = 1)
     private val navigationActions: TimerNavigationActions = mockk(relaxUnitFun = true)
+    private val windowScreenManager: WindowScreenManager = mockk(relaxUnitFun = true)
 
     @Before
     fun setup() {
@@ -144,13 +146,103 @@ class TimerViewModelTest {
         verify { navigationActions.backToRoutines() }
     }
 
+    @Test
+    fun `test onStateUpdated should toggleKeepScreenOnFlag(true) when segment count is running`() =
+        coroutineRule {
+            val countingStateInitial = TimerState.Counting(
+                routine = Routine.EMPTY,
+                runningSegment = Segment.EMPTY,
+                step = SegmentStep(
+                    count = Count(timeInSeconds = 5, isRunning = true, isCompleted = false),
+                    type = SegmentStepType.STARTING
+                )
+            )
+            val countingStateRunning = TimerState.Counting(
+                routine = Routine.EMPTY,
+                runningSegment = Segment.EMPTY.copy(name = "segment name", type = TimeType.REST),
+                step = SegmentStep(
+                    count = Count(timeInSeconds = 5, isRunning = true, isCompleted = false),
+                    type = SegmentStepType.IN_PROGRESS
+                )
+            )
+            every { reducer.progressTime(countingStateInitial) } returns countingStateRunning
+            every { reducer.progressTime(countingStateRunning) } returns TimerState.Idle
+            every { reducer.toggleTimeRunning(any()) } returns countingStateInitial
+
+            buildSut().apply { load(configuration) }
+
+            advanceUntilIdle()
+
+            verify { windowScreenManager.toggleKeepScreenOnFlag(enable = true) }
+        }
+
+    @Test
+    fun `test onStateUpdated should toggleKeepScreenOnFlag(false) when segment count is not running`() =
+        coroutineRule {
+            val countingStateInitial = TimerState.Counting(
+                routine = Routine.EMPTY,
+                runningSegment = Segment.EMPTY,
+                step = SegmentStep(
+                    count = Count(timeInSeconds = 5, isRunning = true, isCompleted = false),
+                    type = SegmentStepType.STARTING
+                )
+            )
+            val countingStateNotRunning = TimerState.Counting(
+                routine = Routine.EMPTY,
+                runningSegment = Segment.EMPTY.copy(name = "segment name", type = TimeType.REST),
+                step = SegmentStep(
+                    count = Count(timeInSeconds = 5, isRunning = false, isCompleted = false),
+                    type = SegmentStepType.IN_PROGRESS
+                )
+            )
+            every { reducer.progressTime(any()) } returns countingStateNotRunning
+            every { reducer.toggleTimeRunning(any()) } returns countingStateInitial
+
+            buildSut().apply { load(configuration) }
+
+            advanceUntilIdle()
+
+            verify { windowScreenManager.toggleKeepScreenOnFlag(enable = false) }
+        }
+
+    @Test
+    fun `test onStateUpdated should toggleKeepScreenOnFlag(false) if routine is completed`() =
+        coroutineRule {
+            val countingStateInitial = TimerState.Counting(
+                routine = Routine.EMPTY,
+                runningSegment = Segment.EMPTY,
+                step = SegmentStep(
+                    count = Count(timeInSeconds = 5, isRunning = true, isCompleted = false),
+                    type = SegmentStepType.STARTING
+                )
+            )
+            val countingStateRoutineComplete = TimerState.Counting(
+                routine = Routine.EMPTY,
+                runningSegment = Segment.EMPTY.copy(name = "segment name", type = TimeType.REST),
+                step = SegmentStep(
+                    count = Count(timeInSeconds = 5, isRunning = false, isCompleted = true),
+                    type = SegmentStepType.IN_PROGRESS
+                )
+            )
+            every { reducer.progressTime(any()) } returns countingStateRoutineComplete
+            every { reducer.toggleTimeRunning(any()) } returns countingStateInitial
+            every { reducer.nextStep(any()) } returns TimerState.Idle
+
+            buildSut().apply { load(configuration) }
+
+            advanceUntilIdle()
+
+            verify { windowScreenManager.toggleKeepScreenOnFlag(enable = false) }
+        }
+
     private fun buildSut(): TimerViewModel {
         return TimerViewModel(
             dispatchers = coroutineRule.dispatchers,
             converter = converter,
             reducer = reducer,
             timerUseCase = timerUseCase,
-            navigationActions = navigationActions
+            navigationActions = navigationActions,
+            windowScreenManager = windowScreenManager
         )
     }
 }

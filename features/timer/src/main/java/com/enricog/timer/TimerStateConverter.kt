@@ -26,8 +26,7 @@ internal class TimerStateConverter @Inject constructor() :
             stepTitleId = state.getStepTitleId(),
             segmentName = state.runningSegment.name,
             clockBackgroundColor = state.getClockBackgroundColor(),
-            isRoutineCompleted = state.isRoutineCompleted,
-            enableKeepScreenOn = state.isCountRunning && !state.isRoutineCompleted
+            isRoutineCompleted = state.isRoutineCompleted
         )
     }
 

@@ -28,7 +28,6 @@ internal class MainActivity : AppCompatActivity() {
 
                 ProvideTempoAmbient(
                     viewModelFactory = defaultViewModelProviderFactory,
-                    activity = this,
                     application = application,
                     navController = navController
                 ) {

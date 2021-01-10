@@ -12,7 +12,6 @@ internal sealed class TimerViewState {
         @StringRes val stepTitleId: Int,
         val segmentName: String,
         val clockBackgroundColor: Color,
-        val isRoutineCompleted: Boolean,
-        val enableKeepScreenOn: Boolean
+        val isRoutineCompleted: Boolean
     ) : TimerViewState()
 }

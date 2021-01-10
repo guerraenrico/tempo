@@ -48,7 +48,6 @@ class TimerStateConverterTest {
             segmentName =  "segment name",
             clockBackgroundColor = TimeTypeColors.REST,
             isRoutineCompleted = true,
-            enableKeepScreenOn = false
         )
 
         val result = sut.convert(state)
@@ -76,7 +75,6 @@ class TimerStateConverterTest {
             segmentName =  "segment name",
             clockBackgroundColor = TimeTypeColors.STARTING,
             isRoutineCompleted = false,
-            enableKeepScreenOn = false
         )
 
         val result = sut.convert(state)
@@ -103,7 +101,6 @@ class TimerStateConverterTest {
             segmentName =  "segment name",
             clockBackgroundColor = TimeTypeColors.REST,
             isRoutineCompleted = true,
-            enableKeepScreenOn = false
         )
 
         val result = sut.convert(state)
@@ -130,7 +127,6 @@ class TimerStateConverterTest {
             segmentName =  "segment name",
             clockBackgroundColor = TimeTypeColors.TIMER,
             isRoutineCompleted = true,
-            enableKeepScreenOn = false
         )
 
         val result = sut.convert(state)
@@ -157,7 +153,6 @@ class TimerStateConverterTest {
             segmentName =  "segment name",
             clockBackgroundColor = TimeTypeColors.STOPWATCH,
             isRoutineCompleted = true,
-            enableKeepScreenOn = false
         )
 
         val result = sut.convert(state)
@@ -165,84 +160,4 @@ class TimerStateConverterTest {
         assertEquals(expected, result)
     }
 
-    @Test
-    fun `test TimerState#Counting#enableKeepScreenOn should be true if segment count is running`() = coroutineRule{
-        val state = TimerState.Counting(
-            routine = Routine.EMPTY,
-            runningSegment =  Segment.EMPTY.copy(name = "segment name", type = TimeType.REST),
-            step =  SegmentStep(
-                count = Count(timeInSeconds = 5, isRunning = true, isCompleted = false),
-                type = SegmentStepType.IN_PROGRESS
-            )
-        )
-        val expected = TimerViewState.Counting(
-            step =  SegmentStep(
-                count = Count(timeInSeconds = 5, isRunning = true, isCompleted = false),
-                type = SegmentStepType.IN_PROGRESS
-            ),
-            stepTitleId = R.string.title_segment_time_type_rest,
-            segmentName =  "segment name",
-            clockBackgroundColor = TimeTypeColors.REST,
-            isRoutineCompleted = false,
-            enableKeepScreenOn = true
-        )
-
-        val result = sut.convert(state)
-
-        assertEquals(expected, result)
-    }
-
-    @Test
-    fun `test TimerState#Counting#enableKeepScreenOn should be false if segment count is not running`() = coroutineRule{
-        val state = TimerState.Counting(
-            routine = Routine.EMPTY,
-            runningSegment =  Segment.EMPTY.copy(name = "segment name", type = TimeType.REST),
-            step =  SegmentStep(
-                count = Count(timeInSeconds = 5, isRunning = false, isCompleted = false),
-                type = SegmentStepType.IN_PROGRESS
-            )
-        )
-        val expected = TimerViewState.Counting(
-            step =  SegmentStep(
-                count = Count(timeInSeconds = 5, isRunning = false, isCompleted = false),
-                type = SegmentStepType.IN_PROGRESS
-            ),
-            stepTitleId = R.string.title_segment_time_type_rest,
-            segmentName =  "segment name",
-            clockBackgroundColor = TimeTypeColors.REST,
-            isRoutineCompleted = false,
-            enableKeepScreenOn = false
-        )
-
-        val result = sut.convert(state)
-
-        assertEquals(expected, result)
-    }
-
-    @Test
-    fun `test TimerState#Counting#enableKeepScreenOn should be false if routine is completed`() = coroutineRule{
-        val state = TimerState.Counting(
-            routine = Routine.EMPTY,
-            runningSegment =  Segment.EMPTY.copy(name = "segment name", type = TimeType.REST),
-            step =  SegmentStep(
-                count = Count(timeInSeconds = 5, isRunning = false, isCompleted = true),
-                type = SegmentStepType.IN_PROGRESS
-            )
-        )
-        val expected = TimerViewState.Counting(
-            step =  SegmentStep(
-                count = Count(timeInSeconds = 5, isRunning = false, isCompleted = true),
-                type = SegmentStepType.IN_PROGRESS
-            ),
-            stepTitleId = R.string.title_segment_time_type_rest,
-            segmentName =  "segment name",
-            clockBackgroundColor = TimeTypeColors.REST,
-            isRoutineCompleted = true,
-            enableKeepScreenOn = false
-        )
-
-        val result = sut.convert(state)
-
-        assertEquals(expected, result)
-    }
 }
