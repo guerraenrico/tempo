@@ -14,7 +14,7 @@ import com.enricog.ui_components.common.button.TempoButtonColor
 import com.enricog.ui_components.common.button.TempoIconButton
 import com.enricog.ui_components.resources.dimensions
 
-internal const val RoutineSceneTestTag = "RoutineSceneTestTag"
+internal const val RoutinesSceneTestTag = "RoutinesSceneTestTag"
 
 @Composable
 internal fun RoutinesScene(
@@ -24,11 +24,13 @@ internal fun RoutinesScene(
     onCreateRoutineClick: () -> Unit,
 ) {
     Box(
-        modifier = Modifier.fillMaxSize()
+        modifier = Modifier
+            .testTag(RoutinesSceneTestTag)
+            .fillMaxSize()
+
     ) {
         LazyColumn(
             modifier = Modifier
-                .testTag(RoutineSceneTestTag)
                 .fillMaxSize(),
             verticalArrangement = Arrangement.spacedBy(MaterialTheme.dimensions.spaceM),
             contentPadding = PaddingValues(MaterialTheme.dimensions.spaceM)

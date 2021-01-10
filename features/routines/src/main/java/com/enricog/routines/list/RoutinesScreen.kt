@@ -8,6 +8,7 @@ import androidx.compose.runtime.getValue
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.stringResource
 import com.enricog.core.extensions.exhaustive
+import com.enricog.entities.routines.Routine
 import com.enricog.routines.R
 import com.enricog.routines.list.models.RoutinesViewState
 import com.enricog.routines.list.ui_components.EmptyScene
@@ -22,20 +23,31 @@ internal fun RoutinesScreen(viewModel: RoutinesViewModel = navViewModel()) {
         modifier = Modifier.fillMaxSize()
     ) {
         TempoToolbar(title = stringResource(R.string.title_routines))
-        with(viewState) {
-            when (this) {
-                RoutinesViewState.Idle -> {
-                }
-                RoutinesViewState.Empty ->
-                    EmptyScene(onCreateSegmentClick = viewModel::onCreateRoutineClick)
-                is RoutinesViewState.Data ->
-                    RoutinesScene(
-                        routines = routines,
-                        onRoutineClick = viewModel::onRoutineClick,
-                        onRoutineDelete = viewModel::onRoutineDelete,
-                        onCreateRoutineClick = viewModel::onCreateRoutineClick
-                    )
-            }.exhaustive
-        }
+        viewState.Compose(
+            onCreateRoutineClick = viewModel::onCreateRoutineClick,
+            onRoutineClick = viewModel::onRoutineClick,
+            onRoutineDelete = viewModel::onRoutineDelete
+        )
     }
+}
+
+@Composable
+internal fun RoutinesViewState.Compose(
+    onCreateRoutineClick: () -> Unit,
+    onRoutineClick: (Routine) -> Unit,
+    onRoutineDelete: (Routine) -> Unit
+) {
+    when (this) {
+        RoutinesViewState.Idle -> {
+        }
+        RoutinesViewState.Empty ->
+            EmptyScene(onCreateSegmentClick = onCreateRoutineClick)
+        is RoutinesViewState.Data ->
+            RoutinesScene(
+                routines = routines,
+                onRoutineClick = onRoutineClick,
+                onRoutineDelete = onRoutineDelete,
+                onCreateRoutineClick = onCreateRoutineClick
+            )
+    }.exhaustive
 }

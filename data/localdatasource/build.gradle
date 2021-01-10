@@ -63,6 +63,5 @@ dependencies {
     testImplementation Libs.Test.junit
     testImplementation Libs.Robolectric
     testImplementation Libs.Mockk.lib
-    testImplementation Libs.Mockk.android
 
 }
