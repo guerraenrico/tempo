@@ -1,6 +1,5 @@
 package com.enricog.routines.ui_components
 
-import androidx.compose.animation.animate
 import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.*
@@ -8,7 +7,6 @@ import androidx.compose.material.*
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.draw.alpha
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.gesture.scrollorientationlocking.Orientation
 import androidx.compose.ui.layout.WithConstraints
@@ -57,7 +55,7 @@ internal fun DeletableListItem(
         ) {
             Box(
                 modifier = Modifier
-                    .fillMaxHeight()
+                    .fillMaxHeight(0.8f)
                     .fillMaxWidth(0.5f)
                     .clip(MaterialTheme.commonShapes.listItem)
                     .background(MaterialTheme.colors.error)
@@ -79,8 +77,7 @@ internal fun DeletableListItem(
         Surface(
             modifier = modifier
                 .fillMaxWidth()
-                .offset { IntOffset(swipeState.offset.value.roundToInt(), 0) }
-                .clip(MaterialTheme.commonShapes.listItem),
+                .offset { IntOffset(swipeState.offset.value.roundToInt(), 0) },
             shape = MaterialTheme.commonShapes.listItem,
             content = content
         )
