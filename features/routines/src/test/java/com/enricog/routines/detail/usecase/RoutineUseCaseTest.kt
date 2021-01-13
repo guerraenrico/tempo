@@ -4,6 +4,7 @@ import com.enricog.base_test.coroutine.CoroutineRule
 import com.enricog.base_test.entities.routines.EMPTY
 import com.enricog.datasource.RoutineDataSource
 import com.enricog.entities.routines.Routine
+import com.enricog.routines.detail.routine.usecase.RoutineUseCase
 import io.mockk.*
 import org.junit.Rule
 import org.junit.Test

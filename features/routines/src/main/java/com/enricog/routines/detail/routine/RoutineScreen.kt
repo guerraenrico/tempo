@@ -1,4 +1,4 @@
-package com.enricog.routines.detail
+package com.enricog.routines.detail.routine
 
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.fillMaxSize
@@ -8,8 +8,8 @@ import androidx.compose.runtime.getValue
 import androidx.compose.runtime.onActive
 import androidx.compose.ui.Modifier
 import com.enricog.core.extensions.exhaustive
-import com.enricog.routines.detail.models.RoutineViewState
-import com.enricog.routines.detail.ui_components.RoutineDetail
+import com.enricog.routines.detail.routine.models.RoutineViewState
+import com.enricog.routines.detail.routine.ui_components.RoutineFormScene
 import com.enricog.ui_components.ambients.navViewModel
 
 @Composable
@@ -26,19 +26,11 @@ internal fun RoutineScreen(routineId: Long, viewModel: RoutineViewModel = navVie
                 RoutineViewState.Idle -> {
                 }
                 is RoutineViewState.Data -> {
-                    RoutineDetail(
-                        state = this,
+                    RoutineFormScene(
+                        routine = routine,
+                        errors = errors,
                         onRoutineNameChange = viewModel::onRoutineNameTextChange,
                         onStartTimeOffsetChange = viewModel::onRoutineStartTimeOffsetChange,
-                        onAddSegmentClick = viewModel::onAddSegmentClick,
-                        onSegmentClick = viewModel::onSegmentClick,
-                        onSegmentDelete = viewModel::onSegmentDelete,
-                        onSegmentNameChange = viewModel::onSegmentNameTextChange,
-                        onSegmentTimeChange = viewModel::onSegmentTimeChange,
-                        onSegmentTimeTypeChange = viewModel::onSegmentTypeChange,
-                        onStartRoutine = viewModel::onStartRoutine,
-                        onSegmentConfirmed = viewModel::onSegmentConfirmed,
-                        onSegmentBack = viewModel::onSegmentBack,
                         onRoutineBack = viewModel::onRoutineBack
                     )
                 }

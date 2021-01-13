@@ -1,4 +1,4 @@
-package com.enricog.routines.detail.ui_components
+package com.enricog.routines.detail.segment.ui_components
 
 import androidx.compose.foundation.ScrollableColumn
 import androidx.compose.foundation.background
@@ -11,8 +11,9 @@ import androidx.compose.ui.platform.testTag
 import androidx.compose.ui.res.stringResource
 import com.enricog.entities.routines.TimeType
 import com.enricog.routines.R
-import com.enricog.routines.detail.models.EditingSegmentView
-import com.enricog.routines.detail.models.Field
+import com.enricog.routines.detail.routine.models.EditingSegmentView
+import com.enricog.routines.detail.routine.models.RoutineField
+import com.enricog.routines.detail.ui_components.TimeTypeChip
 import com.enricog.ui_components.common.button.TempoButton
 import com.enricog.ui_components.common.button.TempoButtonColor
 import com.enricog.ui_components.common.textField.TempoNumberField
@@ -49,13 +50,13 @@ internal fun SegmentFormScene(
             SegmentNameTextField(
                 value = data.segment.name,
                 onTextChange = onSegmentNameChange,
-                errorMessageResourceId = data.errors[Field.Segment.Name]
+                errorMessageResourceId = data.errors[RoutineField.Segment.Name]
             )
             // TODO hide/disable time field if type selected is stopwatch
             SegmentTimeField(
                 value = data.segment.timeInSeconds,
                 onValueChange = onSegmentTimeChange,
-                errorMessageResourceId = data.errors[Field.Segment.TimeInSeconds],
+                errorMessageResourceId = data.errors[RoutineField.Segment.TimeInSeconds],
             )
             SelectableTimeType(
                 timeTypes = data.timeTypes,

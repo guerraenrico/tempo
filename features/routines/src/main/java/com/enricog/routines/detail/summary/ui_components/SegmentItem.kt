@@ -1,4 +1,4 @@
-package com.enricog.routines.detail.ui_components
+package com.enricog.routines.detail.summary.ui_components
 
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.ConstraintLayout
@@ -11,6 +11,7 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.platform.testTag
 import com.enricog.entities.routines.Segment
+import com.enricog.routines.detail.ui_components.TimeTypeChip
 import com.enricog.routines.ui_components.DeletableListItem
 import com.enricog.ui_components.resources.dimensions
 
