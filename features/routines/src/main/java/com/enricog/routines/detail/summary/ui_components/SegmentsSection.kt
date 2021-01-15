@@ -1,4 +1,4 @@
-package com.enricog.routines.detail.summary
+package com.enricog.routines.detail.summary.ui_components
 
 import androidx.compose.foundation.layout.*
 import androidx.compose.material.MaterialTheme
@@ -19,15 +19,14 @@ internal fun SegmentsSection(
     segments: List<Segment>,
     onSegmentClick: (Segment) -> Unit,
     onSegmentDelete: (Segment) -> Unit,
-    onAddSegmentClick: () -> Unit,
-    errorMessageResourceId: Int?
+    onAddSegmentClick: () -> Unit
 ) {
     ConstraintLayout(
         modifier = Modifier
             .fillMaxWidth()
             .padding(horizontal = MaterialTheme.dimensions.spaceM),
     ) {
-        val (label, buttonAdd, errorMessage) = createRefs()
+        val (label, buttonAdd) = createRefs()
         Text(
             modifier = Modifier.constrainAs(label) {
                 top.linkTo(parent.top)
@@ -43,13 +42,7 @@ internal fun SegmentsSection(
             modifier = Modifier.constrainAs(buttonAdd) {
                 top.linkTo(parent.top)
                 start.linkTo(label.end)
-                bottom.linkTo(
-                    if (errorMessageResourceId != null) {
-                        errorMessage.top
-                    } else {
-                        parent.bottom
-                    }
-                )
+                bottom.linkTo(parent.bottom)
                 end.linkTo(parent.end)
                 baseline.linkTo(label.baseline)
             },
@@ -59,18 +52,6 @@ internal fun SegmentsSection(
             color = TempoButtonColor.Transparent,
             drawShadow = false
         )
-        if (errorMessageResourceId != null) {
-            Text(
-                modifier = Modifier.constrainAs(errorMessage) {
-                    top.linkTo(buttonAdd.bottom)
-                    bottom.linkTo(parent.bottom)
-                    end.linkTo(parent.end)
-                },
-                text = stringResource(errorMessageResourceId),
-                style = MaterialTheme.typography.caption,
-                color = MaterialTheme.colors.error
-            )
-        }
     }
     Column(
         modifier = Modifier

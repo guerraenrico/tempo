@@ -18,9 +18,6 @@ internal class RoutineValidator @Inject constructor() {
                     RoutineFieldError.InvalidRoutineStartTimeOffset
                 )
             }
-            if (routine.segments.isEmpty()) {
-                put(RoutineField.Segments, RoutineFieldError.NoSegmentsInRoutine)
-            }
         }
     }
 

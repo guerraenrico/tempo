@@ -10,8 +10,6 @@ import androidx.compose.ui.platform.testTag
 import androidx.compose.ui.res.vectorResource
 import com.enricog.entities.routines.Segment
 import com.enricog.routines.R
-import com.enricog.routines.detail.routine.models.RoutineField
-import com.enricog.routines.detail.summary.SegmentsSection
 import com.enricog.ui_components.common.button.TempoButtonColor
 import com.enricog.ui_components.common.button.TempoIconButton
 import com.enricog.ui_components.common.button.TempoIconButtonSize
@@ -23,11 +21,11 @@ internal const val RoutineSummarySceneTestTag = "RoutineSummaryScene"
 @Composable
 internal fun RoutineSummaryScene(
     segments: List<Segment>,
-//    errors: Map<RoutineField.Segments, Int>,
     onAddSegmentClick: () -> Unit,
     onSegmentClick: (Segment) -> Unit,
     onSegmentDelete: (Segment) -> Unit,
     onStartRoutine: () -> Unit,
+    onBack: () -> Unit
 ) {
     val startRoutineButtonSize = TempoIconButtonSize.Large
     val startRoutinePadding = MaterialTheme.dimensions.spaceL
@@ -42,7 +40,7 @@ internal fun RoutineSummaryScene(
         Column(
             modifier = Modifier.fillMaxSize()
         ) {
-            TempoToolbar(onBack =)
+            TempoToolbar(onBack = onBack)
 
             ScrollableColumn(
                 modifier = Modifier.fillMaxSize()
@@ -53,8 +51,7 @@ internal fun RoutineSummaryScene(
                     segments = segments,
                     onSegmentClick = onSegmentClick,
                     onSegmentDelete = onSegmentDelete,
-                    onAddSegmentClick = onAddSegmentClick,
-                    errorMessageResourceId = errors[RoutineField.Routine.Segments]
+                    onAddSegmentClick = onAddSegmentClick
                 )
 
                 Spacer(Modifier.preferredHeight(segmentListBottomSpace))
