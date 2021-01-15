@@ -48,7 +48,7 @@ internal class RoutineViewModel @ViewModelInject constructor(
         navigationActions.goBackToRoutines()
     }
 
-    fun onSaveRoutine() = runWhen<RoutineState.Data> { stateData ->
+    fun onRoutineSave() = runWhen<RoutineState.Data> { stateData ->
         val errors = validator.validate(stateData.routine)
         if (errors.isEmpty()) {
             saveAndStartRoutine(stateData.routine)
@@ -60,7 +60,11 @@ internal class RoutineViewModel @ViewModelInject constructor(
     private fun saveAndStartRoutine(routine: Routine) {
         startRoutineJob = viewModelScope.launch {
             val routineId = routineUseCase.save(routine)
-            navigationActions.goToOverView or goToSegment // if new
+            if (routine.segments.isEmpty()) {
+                navigationActions.goToSegment(routineId = routineId, segmentId = null)
+            } else {
+                navigationActions.goToRoutineSummary(routineId)
+            }
         }
     }
 }

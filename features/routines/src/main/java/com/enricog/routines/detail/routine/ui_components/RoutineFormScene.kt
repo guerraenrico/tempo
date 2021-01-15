@@ -1,6 +1,10 @@
 package com.enricog.routines.detail.routine.ui_components
 
-import androidx.compose.foundation.layout.*
+import androidx.compose.foundation.ScrollableColumn
+import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.fillMaxSize
+import androidx.compose.foundation.layout.fillMaxWidth
+import androidx.compose.foundation.layout.padding
 import androidx.compose.material.MaterialTheme
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
@@ -9,6 +13,8 @@ import androidx.compose.ui.res.stringResource
 import com.enricog.entities.routines.Routine
 import com.enricog.routines.R
 import com.enricog.routines.detail.routine.models.RoutineField
+import com.enricog.ui_components.common.button.TempoButton
+import com.enricog.ui_components.common.button.TempoButtonColor
 import com.enricog.ui_components.common.textField.TempoNumberField
 import com.enricog.ui_components.common.textField.TempoTextField
 import com.enricog.ui_components.common.toolbar.TempoToolbar
@@ -19,35 +25,45 @@ internal const val RoutineFormSceneTestTag = "RoutineFormSceneTestTag"
 @Composable
 internal fun RoutineFormScene(
     routine: Routine,
-    errors: Map<RoutineField.Routine, Int>,
+    errors: Map<RoutineField, Int>,
     onRoutineNameChange: (String) -> Unit,
     onStartTimeOffsetChange: (Long) -> Unit,
+    onRoutineSave: () -> Unit,
     onRoutineBack: () -> Unit
 ) {
-
-
-    Box(
+    Column(
         modifier = Modifier
             .fillMaxSize()
             .testTag(RoutineFormSceneTestTag)
     ) {
-        Column(
-            modifier = Modifier.fillMaxSize()
-        ) {
-            TempoToolbar(onBack = onRoutineBack)
+        TempoToolbar(onBack = onRoutineBack)
 
+        ScrollableColumn(
+            modifier = Modifier.fillMaxWidth()
+                .weight(1f)
+
+        ) {
             RoutineNameTextField(
                 value = routine.name,
                 onTextChange = onRoutineNameChange,
-                errorMessageResourceId = errors[RoutineField.Routine.Name]
+                errorMessageResourceId = errors[RoutineField.Name]
             )
 
             RoutineStartTimeOffsetField(
                 value = routine.startTimeOffsetInSeconds,
                 onValueChange = onStartTimeOffsetChange,
-                errorMessageResourceId = errors[RoutineField.Routine.StartTimeOffsetInSeconds]
+                errorMessageResourceId = errors[RoutineField.StartTimeOffsetInSeconds]
             )
         }
+
+        TempoButton(
+            modifier = Modifier
+                .fillMaxWidth()
+                .padding(MaterialTheme.dimensions.spaceM),
+            onClick = onRoutineSave,
+            color = TempoButtonColor.Confirm,
+            text = stringResource(R.string.button_save)
+        )
     }
 }
 

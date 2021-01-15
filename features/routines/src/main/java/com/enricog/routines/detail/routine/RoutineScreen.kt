@@ -31,6 +31,7 @@ internal fun RoutineScreen(routineId: Long, viewModel: RoutineViewModel = navVie
                         errors = errors,
                         onRoutineNameChange = viewModel::onRoutineNameTextChange,
                         onStartTimeOffsetChange = viewModel::onRoutineStartTimeOffsetChange,
+                        onRoutineSave = viewModel::onRoutineSave,
                         onRoutineBack = viewModel::onRoutineBack
                     )
                 }
