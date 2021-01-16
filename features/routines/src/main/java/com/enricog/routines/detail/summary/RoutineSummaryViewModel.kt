@@ -30,11 +30,11 @@ internal class RoutineSummaryViewModel @ViewModelInject constructor(
         }
     }
 
-    fun onAddSegmentClick() = runWhen<RoutineSummaryState.Data> { stateData ->
+    fun onSegmentAdd() = runWhen<RoutineSummaryState.Data> { stateData ->
         navigationActions.goToSegment(routineId = stateData.routine.id, segmentId = null)
     }
 
-    fun onSegmentClick(segment: Segment) = runWhen<RoutineSummaryState.Data> { stateData ->
+    fun onSegmentSelected(segment: Segment) = runWhen<RoutineSummaryState.Data> { stateData ->
         navigationActions.goToSegment(routineId = stateData.routine.id, segmentId = segment.id)
     }
 
@@ -42,8 +42,12 @@ internal class RoutineSummaryViewModel @ViewModelInject constructor(
         state = reducer.deleteSegment(stateData, segment)
     }
 
-    fun onStartRoutine() = runWhen<RoutineSummaryState.Data> { stateData ->
+    fun onRoutineStart() = runWhen<RoutineSummaryState.Data> { stateData ->
         navigationActions.goToTimer(routineId = stateData.routine.id)
+    }
+
+    fun onRoutineEdit() = runWhen<RoutineSummaryState.Data> { stateData ->
+        navigationActions.goToRoutine(routineId = stateData.routine.id)
     }
 
     fun onBack() {

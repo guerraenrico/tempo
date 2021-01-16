@@ -8,6 +8,7 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.platform.testTag
 import androidx.compose.ui.res.vectorResource
+import com.enricog.entities.routines.Routine
 import com.enricog.entities.routines.Segment
 import com.enricog.routines.R
 import com.enricog.ui_components.common.button.TempoButtonColor
@@ -19,11 +20,12 @@ internal const val RoutineSummarySceneTestTag = "RoutineSummaryScene"
 
 @Composable
 internal fun RoutineSummaryScene(
-    segments: List<Segment>,
-    onAddSegmentClick: () -> Unit,
-    onSegmentClick: (Segment) -> Unit,
+    routine: Routine,
+    onSegmentAdd: () -> Unit,
+    onSegmentSelected: (Segment) -> Unit,
     onSegmentDelete: (Segment) -> Unit,
-    onStartRoutine: () -> Unit
+    onRoutineStart: () -> Unit,
+    onRoutineEdit: () -> Unit
 ) {
     val startRoutineButtonSize = TempoIconButtonSize.Large
     val startRoutinePadding = MaterialTheme.dimensions.spaceL
@@ -39,13 +41,18 @@ internal fun RoutineSummaryScene(
             modifier = Modifier.fillMaxSize()
         ) {
 
-            SegmentsSection(
-                segments = segments,
-                onSegmentClick = onSegmentClick,
-                onSegmentDelete = onSegmentDelete,
-                onAddSegmentClick = onAddSegmentClick
+            RoutineSection(
+                routine = routine,
+                onEditRoutine = onRoutineEdit
             )
+            Spacer(Modifier.preferredHeight(MaterialTheme.dimensions.spaceL))
 
+            SegmentsSection(
+                segments = routine.segments,
+                onSegmentClick = onSegmentSelected,
+                onSegmentDelete = onSegmentDelete,
+                onAddSegmentClick = onSegmentAdd
+            )
             Spacer(Modifier.preferredHeight(segmentListBottomSpace))
         }
 
@@ -53,7 +60,7 @@ internal fun RoutineSummaryScene(
             modifier = Modifier
                 .align(Alignment.BottomCenter)
                 .padding(startRoutinePadding),
-            onClick = onStartRoutine,
+            onClick = onRoutineStart,
             icon = vectorResource(R.drawable.ic_routine_play),
             color = TempoButtonColor.Accent,
             size = startRoutineButtonSize

@@ -28,11 +28,12 @@ internal fun RoutineSummaryScreen(
                 }
                 is RoutineSummaryViewState.Data -> {
                     RoutineSummaryScene(
-                        segments = routine.segments,
-                        onAddSegmentClick = viewModel::onAddSegmentClick,
-                        onSegmentClick = viewModel::onSegmentClick,
+                        routine = routine,
+                        onSegmentAdd = viewModel::onSegmentAdd,
+                        onSegmentSelected = viewModel::onSegmentSelected,
                         onSegmentDelete = viewModel::onSegmentDelete,
-                        onStartRoutine = viewModel::onStartRoutine
+                        onRoutineStart = viewModel::onRoutineStart,
+                        onRoutineEdit = viewModel::onRoutineEdit
                     )
                 }
             }
