@@ -39,7 +39,7 @@ internal class RoutinesViewModel @ViewModelInject constructor(
     }
 
     fun onRoutineClick(routine: Routine) {
-        navigationActions.goToRoutine(routineId = routine.id)
+        navigationActions.goToRoutineSummary(routineId = routine.id)
     }
 
     fun onRoutineDelete(routine: Routine) = runWhen<RoutinesState.Data> { stateData ->

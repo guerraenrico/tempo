@@ -1,7 +1,7 @@
 package com.enricog.routines.navigation
 
 interface RoutinesNavigationActions {
-    fun goBackToRoutines()
+    fun routinesBack()
     fun goToRoutineSummary(routineId: Long)
     fun goToRoutine(routineId: Long?)
     fun goToSegment(routineId: Long, segmentId: Long?)
@@ -16,26 +16,25 @@ object RoutinesNavigationConstants {
     object RoutineSummary {
         const val routeIdParamName = "routineId"
 
-        const val routeName = "routine/${routeIdParamName}"
+        const val routeName = "routine/{$routeIdParamName}/summary"
 
         fun applyRouteId(routineId: Long): String {
-            val routeName = StringBuffer("routine")
-            routeName.append("/$routineId")
-            return routeName.toString()
+            return "routine/$routineId/summary"
         }
     }
 
     object Routine {
         const val routeIdParamName = "routineId"
 
-        const val routeName = "routine?routineId={$routeIdParamName}"
+        const val routeName = "routine/edit?routineId={$routeIdParamName}"
 
         fun applyRouteId(routineId: Long?): String {
-            val routeName = StringBuffer("routine")
-            if (routineId != null) {
-                routeName.append("?routineId=$routineId")
+            return buildString {
+                append("routine/edit")
+                if (routineId != null) {
+                    append("?routineId=$routineId")
+                }
             }
-            return routeName.toString()
         }
     }
 
@@ -44,15 +43,15 @@ object RoutinesNavigationConstants {
         const val segmentIdParamName = "segmentId"
 
         const val routeName =
-            "segment?routineId={$routeIdParamName}&segmentId=${segmentIdParamName}"
+            "routine/{$routeIdParamName}/segment/edit?segmentId={$segmentIdParamName}"
 
         fun applyRouteId(routineId: Long, segmentId: Long?): String {
-            val routeName = StringBuffer("routine")
-            routeName.append("?routineId=$routineId")
-            if (segmentId != null) {
-                routeName.append("&segmentId=$segmentId")
+            return buildString {
+                append("routine/$routineId/segment/edit")
+                if (segmentId != null) {
+                    append("?segmentId=$segmentId")
+                }
             }
-            return routeName.toString()
         }
     }
 }

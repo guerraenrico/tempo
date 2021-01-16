@@ -15,12 +15,14 @@ internal class Navigator @Inject constructor() : RoutinesNavigationActions, Time
 
     // RoutinesNavigationActions
 
-    override fun goBackToRoutines() {
+    override fun routinesBack() {
         navController?.popBackStack()
     }
 
     override fun goToRoutineSummary(routineId: Long) {
-        navController?.navigate(RoutinesNavigationConstants.RoutineSummary.applyRouteId(routineId))
+        navController?.navigate(RoutinesNavigationConstants.RoutineSummary.applyRouteId(routineId)) {
+            popUpTo(RoutinesNavigationConstants.Routines.routeName) { inclusive = false }
+        }
     }
 
     override fun goToRoutine(routineId: Long?) {

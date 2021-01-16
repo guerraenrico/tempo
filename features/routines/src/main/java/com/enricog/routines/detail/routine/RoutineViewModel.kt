@@ -45,7 +45,7 @@ internal class RoutineViewModel @ViewModelInject constructor(
     }
 
     fun onRoutineBack() {
-        navigationActions.goBackToRoutines()
+        navigationActions.routinesBack()
     }
 
     fun onRoutineSave() = runWhen<RoutineState.Data> { stateData ->
