@@ -9,16 +9,15 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.platform.testTag
 import androidx.compose.ui.res.stringResource
+import com.enricog.entities.routines.Segment
 import com.enricog.entities.routines.TimeType
 import com.enricog.routines.R
-import com.enricog.routines.detail.routine.models.EditingSegmentView
-import com.enricog.routines.detail.routine.models.RoutineField
+import com.enricog.routines.detail.segment.models.SegmentField
 import com.enricog.routines.detail.ui_components.TimeTypeChip
 import com.enricog.ui_components.common.button.TempoButton
 import com.enricog.ui_components.common.button.TempoButtonColor
 import com.enricog.ui_components.common.textField.TempoNumberField
 import com.enricog.ui_components.common.textField.TempoTextField
-import com.enricog.ui_components.common.toolbar.TempoToolbar
 import com.enricog.ui_components.modifiers.horizontalListItemSpacing
 import com.enricog.ui_components.resources.dimensions
 
@@ -26,12 +25,13 @@ internal const val SegmentFormSceneTestTag = "SegmentFormSceneTestTag"
 
 @Composable
 internal fun SegmentFormScene(
-    data: EditingSegmentView.Data,
+    segment: Segment,
+    errors: Map<SegmentField, Int>,
+    timeTypes: List<TimeType>,
     onSegmentNameChange: (String) -> Unit,
     onSegmentTimeChange: (Long) -> Unit,
     onSegmentTimeTypeChange: (TimeType) -> Unit,
-    onSegmentConfirmed: () -> Unit,
-    onSegmentBack: () -> Unit,
+    onSegmentConfirmed: () -> Unit
 ) {
     Column(
         modifier = Modifier
@@ -39,28 +39,25 @@ internal fun SegmentFormScene(
             .fillMaxSize()
             .background(MaterialTheme.colors.background)
     ) {
-
-        TempoToolbar(onBack = onSegmentBack)
-
         ScrollableColumn(
             modifier = Modifier
                 .fillMaxWidth()
                 .weight(1f)
         ) {
             SegmentNameTextField(
-                value = data.segment.name,
+                value = segment.name,
                 onTextChange = onSegmentNameChange,
-                errorMessageResourceId = data.errors[RoutineField.Segment.Name]
+                errorMessageResourceId = errors[SegmentField.Name]
             )
             // TODO hide/disable time field if type selected is stopwatch
             SegmentTimeField(
-                value = data.segment.timeInSeconds,
+                value = segment.timeInSeconds,
                 onValueChange = onSegmentTimeChange,
-                errorMessageResourceId = data.errors[RoutineField.Segment.TimeInSeconds],
+                errorMessageResourceId = errors[SegmentField.TimeInSeconds],
             )
             SelectableTimeType(
-                timeTypes = data.timeTypes,
-                selected = data.segment.type,
+                timeTypes = timeTypes,
+                selected = segment.type,
                 onSelectChange = onSegmentTimeTypeChange
             )
         }

@@ -46,9 +46,15 @@ internal class RoutineDataSourceImpl @Inject constructor(
         }
         val updatedSegments = currentInternalSegments.filter { it.id > 0 }
 
-        database.segmentDao().insert(*addedSegments.toTypedArray())
-        database.segmentDao().delete(*deletedSegments.toTypedArray())
-        database.segmentDao().update(*updatedSegments.toTypedArray())
+        if (addedSegments.isNotEmpty()) {
+            database.segmentDao().insert(*addedSegments.toTypedArray())
+        }
+        if (deletedSegments.isNotEmpty()) {
+            database.segmentDao().delete(*deletedSegments.toTypedArray())
+        }
+        if (updatedSegments.isNotEmpty()) {
+            database.segmentDao().update(*updatedSegments.toTypedArray())
+        }
 
         val now = OffsetDateTime.now()
         val routineToUpdate = routine.copy(updatedAt = now)
