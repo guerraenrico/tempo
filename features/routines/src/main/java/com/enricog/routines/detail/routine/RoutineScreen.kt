@@ -11,6 +11,7 @@ import com.enricog.core.extensions.exhaustive
 import com.enricog.routines.detail.routine.models.RoutineViewState
 import com.enricog.routines.detail.routine.ui_components.RoutineFormScene
 import com.enricog.ui_components.ambients.navViewModel
+import com.enricog.ui_components.common.toolbar.TempoToolbar
 
 @Composable
 internal fun RoutineScreen(routineId: Long, viewModel: RoutineViewModel = navViewModel()) {
@@ -21,6 +22,8 @@ internal fun RoutineScreen(routineId: Long, viewModel: RoutineViewModel = navVie
     Column(
         modifier = Modifier.fillMaxSize()
     ) {
+        TempoToolbar(onBack = viewModel::onRoutineBack)
+
         with(viewState) {
             when (this) {
                 RoutineViewState.Idle -> {
@@ -31,8 +34,7 @@ internal fun RoutineScreen(routineId: Long, viewModel: RoutineViewModel = navVie
                         errors = errors,
                         onRoutineNameChange = viewModel::onRoutineNameTextChange,
                         onStartTimeOffsetChange = viewModel::onRoutineStartTimeOffsetChange,
-                        onRoutineSave = viewModel::onRoutineSave,
-                        onRoutineBack = viewModel::onRoutineBack
+                        onRoutineSave = viewModel::onRoutineSave
                     )
                 }
             }.exhaustive

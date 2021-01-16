@@ -13,7 +13,6 @@ import com.enricog.routines.R
 import com.enricog.ui_components.common.button.TempoButtonColor
 import com.enricog.ui_components.common.button.TempoIconButton
 import com.enricog.ui_components.common.button.TempoIconButtonSize
-import com.enricog.ui_components.common.toolbar.TempoToolbar
 import com.enricog.ui_components.resources.dimensions
 
 internal const val RoutineSummarySceneTestTag = "RoutineSummaryScene"
@@ -24,8 +23,7 @@ internal fun RoutineSummaryScene(
     onAddSegmentClick: () -> Unit,
     onSegmentClick: (Segment) -> Unit,
     onSegmentDelete: (Segment) -> Unit,
-    onStartRoutine: () -> Unit,
-    onBack: () -> Unit
+    onStartRoutine: () -> Unit
 ) {
     val startRoutineButtonSize = TempoIconButtonSize.Large
     val startRoutinePadding = MaterialTheme.dimensions.spaceL
@@ -37,25 +35,18 @@ internal fun RoutineSummaryScene(
             .testTag(RoutineSummarySceneTestTag)
     ) {
 
-        Column(
+        ScrollableColumn(
             modifier = Modifier.fillMaxSize()
         ) {
-            TempoToolbar(onBack = onBack)
 
-            ScrollableColumn(
-                modifier = Modifier.fillMaxSize()
-            ) {
+            SegmentsSection(
+                segments = segments,
+                onSegmentClick = onSegmentClick,
+                onSegmentDelete = onSegmentDelete,
+                onAddSegmentClick = onAddSegmentClick
+            )
 
-
-                SegmentsSection(
-                    segments = segments,
-                    onSegmentClick = onSegmentClick,
-                    onSegmentDelete = onSegmentDelete,
-                    onAddSegmentClick = onAddSegmentClick
-                )
-
-                Spacer(Modifier.preferredHeight(segmentListBottomSpace))
-            }
+            Spacer(Modifier.preferredHeight(segmentListBottomSpace))
         }
 
         TempoIconButton(

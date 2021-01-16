@@ -17,7 +17,6 @@ import com.enricog.ui_components.common.button.TempoButton
 import com.enricog.ui_components.common.button.TempoButtonColor
 import com.enricog.ui_components.common.textField.TempoNumberField
 import com.enricog.ui_components.common.textField.TempoTextField
-import com.enricog.ui_components.common.toolbar.TempoToolbar
 import com.enricog.ui_components.resources.dimensions
 
 internal const val RoutineFormSceneTestTag = "RoutineFormSceneTestTag"
@@ -28,16 +27,13 @@ internal fun RoutineFormScene(
     errors: Map<RoutineField, Int>,
     onRoutineNameChange: (String) -> Unit,
     onStartTimeOffsetChange: (Long) -> Unit,
-    onRoutineSave: () -> Unit,
-    onRoutineBack: () -> Unit
+    onRoutineSave: () -> Unit
 ) {
     Column(
         modifier = Modifier
             .fillMaxSize()
             .testTag(RoutineFormSceneTestTag)
     ) {
-        TempoToolbar(onBack = onRoutineBack)
-
         ScrollableColumn(
             modifier = Modifier.fillMaxWidth()
                 .weight(1f)

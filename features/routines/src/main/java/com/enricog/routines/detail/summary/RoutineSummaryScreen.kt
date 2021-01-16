@@ -10,6 +10,7 @@ import androidx.compose.ui.Modifier
 import com.enricog.routines.detail.summary.models.RoutineSummaryViewState
 import com.enricog.routines.detail.summary.ui_components.RoutineSummaryScene
 import com.enricog.ui_components.ambients.navViewModel
+import com.enricog.ui_components.common.toolbar.TempoToolbar
 
 @Composable
 internal fun RoutineSummaryScreen(
@@ -19,6 +20,8 @@ internal fun RoutineSummaryScreen(
     onActive { viewModel.load(routineId) }
     val viewState by viewModel.viewState.collectAsState(RoutineSummaryViewState.Idle)
     Column(modifier = Modifier.fillMaxSize()) {
+        TempoToolbar(onBack = viewModel::onBack)
+
         with(viewState) {
             when (this) {
                 RoutineSummaryViewState.Idle -> {
@@ -29,8 +32,7 @@ internal fun RoutineSummaryScreen(
                         onAddSegmentClick = viewModel::onAddSegmentClick,
                         onSegmentClick = viewModel::onSegmentClick,
                         onSegmentDelete = viewModel::onSegmentDelete,
-                        onStartRoutine = viewModel::onStartRoutine,
-                        onBack = viewModel::onBack
+                        onStartRoutine = viewModel::onStartRoutine
                     )
                 }
             }
