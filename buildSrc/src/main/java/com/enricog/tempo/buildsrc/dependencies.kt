@@ -47,7 +47,7 @@ object Libs {
         }
 
         object Compose {
-            const val version = "1.0.0-alpha09"
+            const val version = "1.0.0-alpha10"
 
             const val runtime = "androidx.compose.runtime:runtime:$version"
             const val foundation = "androidx.compose.foundation:foundation:$version"
@@ -61,7 +61,7 @@ object Libs {
             const val test = "androidx.compose.ui:ui-test:$version"
             const val uiTest = "androidx.compose.ui:ui-test-junit4:$version"
 
-            const val navigation = "androidx.navigation:navigation-compose:1.0.0-alpha04"
+            const val navigation = "androidx.navigation:navigation-compose:1.0.0-alpha05"
         }
     }
 
