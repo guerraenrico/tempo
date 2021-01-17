@@ -19,8 +19,8 @@ internal class SegmentReducer @Inject constructor() {
         type = TimeType.TIMER
     )
 
-    fun setup(routine: Routine, segmentId: Long?): SegmentState {
-        val segment = segmentId?.let { id -> routine.segments.find { it.id == id } } ?: newSegment
+    fun setup(routine: Routine, segmentId: Long): SegmentState {
+        val segment = routine.segments.find { it.id == segmentId } ?: newSegment
         return SegmentState.Data(
             routine = routine,
             segment = segment,

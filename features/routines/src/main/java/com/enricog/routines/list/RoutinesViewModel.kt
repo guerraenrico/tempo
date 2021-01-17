@@ -7,8 +7,8 @@ import com.enricog.core.coroutine.dispatchers.CoroutineDispatchers
 import com.enricog.entities.routines.Routine
 import com.enricog.routines.list.models.RoutinesState
 import com.enricog.routines.list.models.RoutinesViewState
-import com.enricog.routines.navigation.RoutinesNavigationActions
 import com.enricog.routines.list.usecase.RoutinesUseCase
+import com.enricog.routines.navigation.RoutinesNavigationActions
 import kotlinx.coroutines.launch
 
 internal class RoutinesViewModel @ViewModelInject constructor(
@@ -42,14 +42,8 @@ internal class RoutinesViewModel @ViewModelInject constructor(
         navigationActions.goToRoutineSummary(routineId = routine.id)
     }
 
-    fun onRoutineDelete(routine: Routine) = runWhen<RoutinesState.Data> { stateData ->
+    fun onRoutineDelete(routine: Routine) = launchWhen<RoutinesState.Data> { stateData ->
         state = reducer.deleteRoutine(stateData, routine)
-        deleteRoutine(routine)
-    }
-
-    private fun deleteRoutine(routine: Routine) {
-        viewModelScope.launch {
-            routinesUseCase.delete(routine)
-        }
+        routinesUseCase.delete(routine)
     }
 }

@@ -31,7 +31,7 @@ internal class SegmentViewModel @ViewModelInject constructor(
 
     private var saveJob by autoCancelableJob()
 
-    fun load(routineId: Long, segmentId: Long?) {
+    fun load(routineId: Long, segmentId: Long) {
         viewModelScope.launch {
             val routine = segmentUseCase.get(routineId = routineId)
             state = reducer.setup(routine = routine, segmentId = segmentId)

@@ -16,7 +16,7 @@ import com.enricog.ui_components.common.toolbar.TempoToolbar
 @Composable
 internal fun SegmentScreen(
     routineId: Long,
-    segmentId: Long?,
+    segmentId: Long,
     viewModel: SegmentViewModel = navViewModel()
 ) {
     onActive { viewModel.load(routineId = routineId, segmentId = segmentId) }
@@ -30,12 +30,12 @@ internal fun SegmentScreen(
                 is SegmentViewState.Data -> {
                     SegmentFormScene(
                         segment = segment,
-                        errors,
-                        timeTypes,
-                        viewModel::onSegmentNameTextChange,
-                        viewModel::onSegmentTimeChange,
-                        viewModel::onSegmentTypeChange,
-                        viewModel::onSegmentConfirmed,
+                        errors = errors,
+                        timeTypes = timeTypes,
+                        onSegmentNameChange = viewModel::onSegmentNameTextChange,
+                        onSegmentTimeChange = viewModel::onSegmentTimeChange,
+                        onSegmentTimeTypeChange = viewModel::onSegmentTypeChange,
+                        onSegmentConfirmed = viewModel::onSegmentConfirmed,
                     )
                 }
             }.exhaustive

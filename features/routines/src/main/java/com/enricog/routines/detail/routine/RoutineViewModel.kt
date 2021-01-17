@@ -51,13 +51,13 @@ internal class RoutineViewModel @ViewModelInject constructor(
     fun onRoutineSave() = runWhen<RoutineState.Data> { stateData ->
         val errors = validator.validate(stateData.routine)
         if (errors.isEmpty()) {
-            saveAndStartRoutine(stateData.routine)
+            save(stateData.routine)
         } else {
             state = reducer.applyRoutineErrors(stateData, errors)
         }
     }
 
-    private fun saveAndStartRoutine(routine: Routine) {
+    private fun save(routine: Routine) {
         startRoutineJob = viewModelScope.launch {
             val routineId = routineUseCase.save(routine)
             if (routine.segments.isEmpty()) {

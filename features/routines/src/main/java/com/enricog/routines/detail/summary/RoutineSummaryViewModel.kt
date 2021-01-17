@@ -40,8 +40,8 @@ internal class RoutineSummaryViewModel @ViewModelInject constructor(
 
     fun onSegmentDelete(segment: Segment) = launchWhen<RoutineSummaryState.Data> { stateData ->
         val newState = reducer.deleteSegment(stateData, segment)
-        routineSummaryUseCase.update(newState.routine)
         state = newState
+        routineSummaryUseCase.update(newState.routine)
     }
 
     fun onRoutineStart() = runWhen<RoutineSummaryState.Data> { stateData ->

@@ -9,52 +9,55 @@ import com.enricog.routines.detail.routine.RoutineScreen
 import com.enricog.routines.detail.segment.SegmentScreen
 import com.enricog.routines.detail.summary.RoutineSummaryScreen
 import com.enricog.routines.list.RoutinesScreen
-import com.enricog.routines.navigation.RoutinesNavigationConstants
+import com.enricog.routines.navigation.RoutinesNavigationConstants.Routine
+import com.enricog.routines.navigation.RoutinesNavigationConstants.RoutineSummary
+import com.enricog.routines.navigation.RoutinesNavigationConstants.Routines
+import com.enricog.routines.navigation.RoutinesNavigationConstants.Segment
 
 fun NavGraphBuilder.RoutinesNavigation() {
     navigation(
-        startDestination = RoutinesNavigationConstants.Routines.routeName,
+        startDestination = Routines.routeName,
         route = "routinesNav"
     ) {
         composable(
-            route = RoutinesNavigationConstants.Routines.routeName,
+            route = Routines.routeName,
             arguments = emptyList()
         ) {
             RoutinesScreen()
         }
 
         composable(
-            route = RoutinesNavigationConstants.RoutineSummary.routeName,
-            arguments = listOf(navArgument(RoutinesNavigationConstants.RoutineSummary.routeIdParamName) {
-                type = NavType.LongType
-            })
-        ) { navBackStackEntry ->
-            RoutineSummaryScreen(navBackStackEntry.arguments!!.getLong(RoutinesNavigationConstants.Routine.routeIdParamName))
-        }
-
-        composable(
-            route = RoutinesNavigationConstants.Routine.routeName,
-            arguments = listOf(navArgument(RoutinesNavigationConstants.Routine.routeIdParamName) {
+            route = RoutineSummary.routeName,
+            arguments = listOf(navArgument(RoutineSummary.routeIdParamName) {
                 type = NavType.LongType; defaultValue = 0L
             })
         ) { navBackStackEntry ->
-            RoutineScreen(navBackStackEntry.arguments!!.getLong(RoutinesNavigationConstants.Routine.routeIdParamName))
+            RoutineSummaryScreen(navBackStackEntry.arguments!!.getLong(Routine.routeIdParamName))
         }
 
         composable(
-            route = RoutinesNavigationConstants.Segment.routeName,
+            route = Routine.routeName,
+            arguments = listOf(navArgument(Routine.routeIdParamName) {
+                type = NavType.LongType; defaultValue = 0L
+            })
+        ) { navBackStackEntry ->
+            RoutineScreen(navBackStackEntry.arguments!!.getLong(Routine.routeIdParamName))
+        }
+
+        composable(
+            route = Segment.routeName,
             arguments = listOf(
-                navArgument(RoutinesNavigationConstants.Segment.routeIdParamName) {
-                    type = NavType.LongType
+                navArgument(Segment.routeIdParamName) {
+                    type = NavType.LongType; defaultValue = 0L
                 },
-                navArgument(RoutinesNavigationConstants.Segment.segmentIdParamName) {
+                navArgument(Segment.segmentIdParamName) {
                     type = NavType.LongType; defaultValue = 0L
                 }
             )
         ) { navBackStackEntry ->
             SegmentScreen(
-                navBackStackEntry.arguments!!.getLong(RoutinesNavigationConstants.Segment.routeIdParamName),
-                navBackStackEntry.arguments!!.getLong(RoutinesNavigationConstants.Segment.segmentIdParamName),
+                navBackStackEntry.arguments!!.getLong(Segment.routeIdParamName),
+                navBackStackEntry.arguments!!.getLong(Segment.segmentIdParamName),
             )
         }
     }
