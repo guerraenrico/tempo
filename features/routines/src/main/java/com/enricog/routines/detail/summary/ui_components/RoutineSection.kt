@@ -53,7 +53,7 @@ internal fun RoutineSection(
             },
             onClick = onEditRoutine,
             size = TempoIconButtonSize.Small,
-            icon = vectorResource(R.drawable.ic_segment_add),
+            icon = vectorResource(R.drawable.ic_routine_edit),
             color = TempoButtonColor.Transparent,
             drawShadow = false
         )

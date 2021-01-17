@@ -41,11 +41,11 @@ open class BaseViewModel<ViewModelState : Any, ViewState : Any>(
     protected open fun onStateUpdated(currentState: ViewModelState) {}
 
     protected inline fun <reified T : ViewModelState> runWhen(block: (T) -> Unit) {
-        (state as? T)?.also(block)
+        (state as? T)?.let(block)
     }
 
     protected inline fun <reified T : ViewModelState> launchWhen(noinline block: suspend CoroutineScope.(T) -> Unit) {
-        (state as? T)?.also {
+        (state as? T)?.let {
             viewModelScope.launch {
                 block(it)
             }

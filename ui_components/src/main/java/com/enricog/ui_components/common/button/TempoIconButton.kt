@@ -36,7 +36,7 @@ fun TempoIconButton(
 }
 
 enum class TempoIconButtonSize(val box: Dp, val icon: Dp, val shadow: Dp) {
-    Small(48.dp, 10.dp, 2.dp),
+    Small(48.dp, 12.dp, 2.dp),
     Normal(55.dp, 14.dp, 4.dp),
     Large(65.dp, 18.dp, 8.dp)
 }
