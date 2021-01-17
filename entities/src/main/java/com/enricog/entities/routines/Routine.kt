@@ -10,5 +10,21 @@ data class Routine(
     val updatedAt: OffsetDateTime,
     val segments: List<Segment>
 ) {
-    companion object
+    companion object {
+        val NEW: Routine
+            get() {
+                val now = OffsetDateTime.now()
+                return Routine(
+                    id = 0,
+                    name = "",
+                    startTimeOffsetInSeconds = 0,
+                    createdAt = now,
+                    updatedAt = now,
+                    segments = emptyList()
+                )
+            }
+    }
+
+    val isNew: Boolean
+        get() = id == 0L
 }

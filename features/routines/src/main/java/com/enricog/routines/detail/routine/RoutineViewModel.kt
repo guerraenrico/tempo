@@ -60,10 +60,11 @@ internal class RoutineViewModel @ViewModelInject constructor(
     private fun save(routine: Routine) {
         startRoutineJob = viewModelScope.launch {
             val routineId = routineUseCase.save(routine)
-            if (routine.segments.isEmpty()) {
-                navigationActions.goToSegment(routineId = routineId, segmentId = null)
+
+            if (routine.isNew) {
+                navigationActions.goToRoutineSummary(routineId = routineId)
             } else {
-                navigationActions.goToRoutineSummary(routineId)
+                navigationActions.routinesBack()
             }
         }
     }

@@ -62,7 +62,7 @@ internal class SegmentViewModel @ViewModelInject constructor(
     private fun save(routine: Routine, segment: Segment) {
         saveJob = viewModelScope.launch {
             segmentUseCase.save(routine = routine, segment = segment)
-            navigationActions.goToRoutineSummary(routineId = routine.id)
+            navigationActions.routinesBack()
         }
     }
 

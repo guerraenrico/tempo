@@ -5,6 +5,9 @@ import androidx.navigation.compose.navigate
 import androidx.navigation.compose.popUpTo
 import com.enricog.routines.navigation.RoutinesNavigationActions
 import com.enricog.routines.navigation.RoutinesNavigationConstants
+import com.enricog.routines.navigation.RoutinesNavigationConstants.Routine
+import com.enricog.routines.navigation.RoutinesNavigationConstants.RoutineSummary
+import com.enricog.routines.navigation.RoutinesNavigationConstants.Routines
 import com.enricog.timer.navigation.TimerNavigationActions
 import com.enricog.timer.navigation.TimerNavigationConstants
 import javax.inject.Inject
@@ -20,13 +23,13 @@ internal class Navigator @Inject constructor() : RoutinesNavigationActions, Time
     }
 
     override fun goToRoutineSummary(routineId: Long) {
-        navController?.navigate(RoutinesNavigationConstants.RoutineSummary.applyRouteId(routineId)) {
-            popUpTo(RoutinesNavigationConstants.Routines.routeName) { inclusive = false }
+        navController?.navigate(RoutineSummary.applyRouteId(routineId)) {
+            popUpTo(Routines.routeName) { inclusive = false }
         }
     }
 
     override fun goToRoutine(routineId: Long?) {
-        navController?.navigate(RoutinesNavigationConstants.Routine.applyRouteId(routineId))
+        navController?.navigate(Routine.applyRouteId(routineId))
     }
 
     override fun goToSegment(routineId: Long, segmentId: Long?) {
@@ -40,14 +43,14 @@ internal class Navigator @Inject constructor() : RoutinesNavigationActions, Time
 
     override fun goToTimer(routineId: Long) {
         navController?.navigate(TimerNavigationConstants.applyRouteId(routineId)) {
-            popUpTo(RoutinesNavigationConstants.Routines.routeName) { inclusive = true }
+            popUpTo(Routines.routeName) { inclusive = true }
         }
     }
 
     // TimerNavigationActions
 
     override fun backToRoutines() {
-        navController?.navigate(RoutinesNavigationConstants.Routines.routeName) {
+        navController?.navigate(Routines.routeName) {
             popUpTo(TimerNavigationConstants.routeName) { inclusive = true }
         }
     }
