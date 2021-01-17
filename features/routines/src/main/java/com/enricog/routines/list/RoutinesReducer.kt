@@ -13,13 +13,4 @@ internal class RoutinesReducer @Inject constructor() {
             RoutinesState.Data(routines = routines)
         }
     }
-
-    fun deleteRoutine(state: RoutinesState.Data, routine: Routine): RoutinesState {
-        val routines = state.routines.filter { it != routine }
-        return if (routines.isEmpty()) {
-            RoutinesState.Empty
-        } else {
-            state.copy(routines = routines)
-        }
-    }
 }

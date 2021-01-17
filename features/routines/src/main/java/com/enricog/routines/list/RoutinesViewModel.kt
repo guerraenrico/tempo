@@ -42,8 +42,7 @@ internal class RoutinesViewModel @ViewModelInject constructor(
         navigationActions.goToRoutineSummary(routineId = routine.id)
     }
 
-    fun onRoutineDelete(routine: Routine) = launchWhen<RoutinesState.Data> { stateData ->
-        state = reducer.deleteRoutine(stateData, routine)
+    fun onRoutineDelete(routine: Routine) = launchWhen<RoutinesState.Data> {
         routinesUseCase.delete(routine)
     }
 }

@@ -30,37 +30,4 @@ class RoutinesReducerTest {
         assertEquals(expected, result)
     }
 
-    @Test
-    fun `test deleteRoutine should remove routine from routines`() {
-        val state = RoutinesState.Data(
-            routines = listOf(
-                Routine.EMPTY.copy(id = 1),
-                Routine.EMPTY.copy(id = 2)
-            )
-        )
-        val expected = RoutinesState.Data(
-            routines = listOf(
-                Routine.EMPTY.copy(id = 1)
-            )
-        )
-
-        val result = sut.deleteRoutine(state, Routine.EMPTY.copy(id = 2))
-
-        assertEquals(expected, result)
-    }
-
-    @Test
-    fun `test deleteRoutine should remove routine from routines and return empty state when there are no other routines`() {
-        val state = RoutinesState.Data(
-            routines = listOf(
-                Routine.EMPTY.copy(id = 1),
-            )
-        )
-        val expected = RoutinesState.Empty
-
-        val result = sut.deleteRoutine(state, Routine.EMPTY.copy(id = 1))
-
-        assertEquals(expected, result)
-    }
-
 }
