@@ -9,7 +9,8 @@ import com.enricog.routines.detail.summary.models.RoutineSummaryState
 import com.enricog.routines.detail.summary.models.RoutineSummaryViewState
 import com.enricog.routines.detail.summary.usecase.RoutineSummaryUseCase
 import com.enricog.routines.navigation.RoutinesNavigationActions
-import kotlinx.coroutines.launch
+import kotlinx.coroutines.flow.launchIn
+import kotlinx.coroutines.flow.onEach
 
 internal class RoutineSummaryViewModel @ViewModelInject constructor(
     dispatchers: CoroutineDispatchers,
@@ -24,10 +25,9 @@ internal class RoutineSummaryViewModel @ViewModelInject constructor(
 ) {
 
     fun load(routineId: Long) {
-        viewModelScope.launch {
-            val routine = routineSummaryUseCase.get(routineId)
-            state = reducer.setup(routine)
-        }
+        routineSummaryUseCase.get(routineId)
+            .onEach { routine -> state = reducer.setup(routine) }
+            .launchIn(viewModelScope)
     }
 
     fun onSegmentAdd() = runWhen<RoutineSummaryState.Data> { stateData ->

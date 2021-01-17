@@ -8,6 +8,7 @@ import com.enricog.routines.list.models.RoutinesViewState
 import com.enricog.routines.list.usecase.RoutinesUseCase
 import com.enricog.routines.navigation.RoutinesNavigationActions
 import io.mockk.*
+import kotlinx.coroutines.flow.flowOf
 import org.junit.Before
 import org.junit.Rule
 import org.junit.Test
@@ -25,14 +26,14 @@ class RoutinesViewModelTest {
     @Before
     fun setup() {
         coEvery { converter.convert(any()) } returns RoutinesViewState.Idle
-        coEvery { routinesUseCase.getAll() } returns emptyList()
+        coEvery { routinesUseCase.getAll() } returns flowOf(emptyList())
         every { reducer.setup(any()) } returns RoutinesState.Empty
     }
 
     @Test
     fun `test on init should load all routines`() = coroutineRule {
         val routines = listOf(Routine.EMPTY)
-        coEvery { routinesUseCase.getAll() } returns routines
+        coEvery { routinesUseCase.getAll() } returns flowOf(routines)
 
         buildSut()
         advanceUntilIdle()
@@ -44,7 +45,7 @@ class RoutinesViewModelTest {
     }
 
     @Test
-    fun `test onCreateRoutineClick should navigate to routine detail with routineId == null`() =
+    fun `test onCreateRoutineClick should navigate to routine detail`() =
         coroutineRule {
             val sut = buildSut()
             advanceUntilIdle()
@@ -55,7 +56,7 @@ class RoutinesViewModelTest {
         }
 
     @Test
-    fun `test onRoutineClick should navigate to routine detail with routineId != null`() =
+    fun `test onRoutineClick should navigate to routine summary`() =
         coroutineRule {
             val routine = Routine.EMPTY.copy(id = 1)
 
@@ -64,7 +65,7 @@ class RoutinesViewModelTest {
 
             sut.onRoutineClick(routine)
 
-            verify { navigationActions.goToRoutine(routineId = 1) }
+            verify { navigationActions.goToRoutineSummary(routineId = 1) }
         }
 
     @Test

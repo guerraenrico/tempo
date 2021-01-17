@@ -7,6 +7,8 @@ import com.enricog.entities.routines.Routine
 import io.mockk.coEvery
 import io.mockk.coVerify
 import io.mockk.mockk
+import kotlinx.coroutines.flow.first
+import kotlinx.coroutines.flow.flowOf
 import org.junit.Rule
 import org.junit.Test
 import kotlin.test.assertEquals
@@ -22,12 +24,12 @@ class RoutinesUseCaseTest {
 
     @Test
     fun `test get all`() = coroutineRule {
-        coEvery { routineDataSource.getAll() } returns emptyList()
+        coEvery { routineDataSource.observeAll() } returns flowOf(emptyList())
 
-        val result = sut.getAll()
+        val result = sut.getAll().first()
 
         assertEquals(emptyList(), result)
-        coVerify { routineDataSource.getAll() }
+        coVerify { routineDataSource.observeAll() }
     }
 
     @Test

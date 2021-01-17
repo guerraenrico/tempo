@@ -2,14 +2,15 @@ package com.enricog.routines.list.usecase
 
 import com.enricog.datasource.RoutineDataSource
 import com.enricog.entities.routines.Routine
+import kotlinx.coroutines.flow.Flow
 import javax.inject.Inject
 
 internal class RoutinesUseCase @Inject constructor(
     private val routineDataSource: RoutineDataSource
 ) {
 
-    suspend fun getAll(): List<Routine> {
-        return routineDataSource.getAll()
+    fun getAll(): Flow<List<Routine>> {
+        return routineDataSource.observeAll()
     }
 
     suspend fun delete(routine: Routine) {

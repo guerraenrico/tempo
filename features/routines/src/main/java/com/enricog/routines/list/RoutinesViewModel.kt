@@ -9,7 +9,8 @@ import com.enricog.routines.list.models.RoutinesState
 import com.enricog.routines.list.models.RoutinesViewState
 import com.enricog.routines.list.usecase.RoutinesUseCase
 import com.enricog.routines.navigation.RoutinesNavigationActions
-import kotlinx.coroutines.launch
+import kotlinx.coroutines.flow.launchIn
+import kotlinx.coroutines.flow.onEach
 
 internal class RoutinesViewModel @ViewModelInject constructor(
     dispatchers: CoroutineDispatchers,
@@ -28,10 +29,9 @@ internal class RoutinesViewModel @ViewModelInject constructor(
     }
 
     private fun load() {
-        viewModelScope.launch {
-            val routines = routinesUseCase.getAll()
-            state = reducer.setup(routines)
-        }
+        routinesUseCase.getAll()
+            .onEach { routines -> state = reducer.setup(routines) }
+            .launchIn(viewModelScope)
     }
 
     fun onCreateRoutineClick() {

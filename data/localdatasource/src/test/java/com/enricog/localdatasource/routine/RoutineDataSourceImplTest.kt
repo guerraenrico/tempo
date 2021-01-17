@@ -12,6 +12,7 @@ import com.enricog.localdatasource.TempoDatabase
 import com.enricog.localdatasource.routine.model.InternalRoutine
 import com.enricog.localdatasource.routine.model.InternalRoutineWithSegments
 import com.enricog.localdatasource.routine.model.InternalSegment
+import kotlinx.coroutines.flow.first
 import org.junit.After
 import org.junit.Assert.assertEquals
 import org.junit.Before
@@ -53,7 +54,7 @@ class RoutineDataSourceImplTest {
     }
 
     @Test
-    fun `should return all routines`() = coroutineRule {
+    fun `should observe all routines`() = coroutineRule {
         val now = OffsetDateTime.now()
         val internalSegment = InternalSegment(
             id = 1,
@@ -89,7 +90,48 @@ class RoutineDataSourceImplTest {
         database.routineDao().insert(internalRoutine)
         database.segmentDao().insert(internalSegment)
 
-        val result = sut.getAll()
+        val result = sut.observeAll().first()
+
+        assertEquals(expected, result)
+    }
+
+    @Test
+    fun `should observe single routine`() = coroutineRule {
+        val now = OffsetDateTime.now()
+        val internalSegment = InternalSegment(
+            id = 1,
+            routineId = 1,
+            name = "name",
+            timeInSeconds = 40,
+            type = TimeType.TIMER
+        )
+        val internalRoutine = InternalRoutine(
+            id = 1,
+            name = "name",
+            startTimeOffsetInSeconds = 10,
+            createdAt = now,
+            updatedAt = now
+        )
+        val expected = Routine(
+            id = 1,
+            name = "name",
+            startTimeOffsetInSeconds = 10,
+            createdAt = now,
+            updatedAt = now,
+            segments = listOf(
+                Segment(
+                    id = 1,
+                    name = "name",
+                    timeInSeconds = 40,
+                    type = TimeType.TIMER
+                )
+            )
+        )
+
+        database.routineDao().insert(internalRoutine)
+        database.segmentDao().insert(internalSegment)
+
+        val result = sut.observe(1).first()
 
         assertEquals(expected, result)
     }

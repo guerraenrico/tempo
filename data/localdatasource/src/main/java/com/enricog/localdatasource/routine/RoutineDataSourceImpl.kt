@@ -5,6 +5,8 @@ import com.enricog.datasource.RoutineDataSource
 import com.enricog.entities.routines.Routine
 import com.enricog.localdatasource.TempoDatabase
 import com.enricog.localdatasource.routine.model.toInternal
+import kotlinx.coroutines.flow.Flow
+import kotlinx.coroutines.flow.map
 import java.time.OffsetDateTime
 import javax.inject.Inject
 
@@ -13,8 +15,14 @@ internal class RoutineDataSourceImpl @Inject constructor(
     private val database: TempoDatabase
 ) : RoutineDataSource {
 
-    override suspend fun getAll(): List<Routine> {
-        return database.routineDao().getAll().map { it.toEntity() }
+    override fun observeAll(): Flow<List<Routine>> {
+        return database.routineDao().observeAll()
+            .map { list -> list.map { it.toEntity() } }
+    }
+
+    override fun observe(id: Long): Flow<Routine> {
+        return database.routineDao().observe(id)
+            .map { it.toEntity() }
     }
 
     override suspend fun get(id: Long): Routine {
