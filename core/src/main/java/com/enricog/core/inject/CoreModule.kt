@@ -5,9 +5,9 @@ import com.enricog.core.coroutine.dispatchers.CoroutineDispatchersImpl
 import dagger.Binds
 import dagger.Module
 import dagger.hilt.InstallIn
-import dagger.hilt.android.components.ApplicationComponent
+import dagger.hilt.components.SingletonComponent
 
-@InstallIn(ApplicationComponent::class)
+@InstallIn(SingletonComponent::class)
 @Module
 internal abstract class CoreModule {
 
