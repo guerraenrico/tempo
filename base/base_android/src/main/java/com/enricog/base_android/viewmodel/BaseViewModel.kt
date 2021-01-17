@@ -3,8 +3,10 @@ package com.enricog.base_android.viewmodel
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.enricog.core.coroutine.dispatchers.CoroutineDispatchers
+import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.FlowPreview
 import kotlinx.coroutines.flow.*
+import kotlinx.coroutines.launch
 
 @OptIn(FlowPreview::class)
 open class BaseViewModel<ViewModelState : Any, ViewState : Any>(
@@ -40,5 +42,13 @@ open class BaseViewModel<ViewModelState : Any, ViewState : Any>(
 
     protected inline fun <reified T : ViewModelState> runWhen(block: (T) -> Unit) {
         (state as? T)?.also(block)
+    }
+
+    protected inline fun <reified T : ViewModelState> launchWhen(noinline block: suspend CoroutineScope.(T) -> Unit) {
+        (state as? T)?.also {
+            viewModelScope.launch {
+                block(it)
+            }
+        }
     }
 }

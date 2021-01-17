@@ -10,4 +10,8 @@ internal class RoutineSummaryUseCase @Inject constructor(
     suspend fun get(routineId: Long): Routine {
         return routineDataSource.get(routineId)
     }
+
+    suspend fun update(routine: Routine) {
+        routineDataSource.update(routine)
+    }
 }
