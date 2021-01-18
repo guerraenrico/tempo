@@ -17,7 +17,8 @@ internal class RoutineSummaryViewModel @ViewModelInject constructor(
     converter: RoutineSummaryStateConverter,
     private val navigationActions: RoutinesNavigationActions,
     private val reducer: RoutineSummaryReducer,
-    private val routineSummaryUseCase: RoutineSummaryUseCase
+    private val routineSummaryUseCase: RoutineSummaryUseCase,
+    private val validator: RoutineSummaryValidator
 ) : BaseViewModel<RoutineSummaryState, RoutineSummaryViewState>(
     dispatchers = dispatchers,
     converter = converter,
@@ -26,7 +27,7 @@ internal class RoutineSummaryViewModel @ViewModelInject constructor(
 
     fun load(routineId: Long) {
         routineSummaryUseCase.get(routineId)
-            .onEach { routine -> state = reducer.setup(routine) }
+            .onEach { routine -> state = reducer.setup(routine = routine) }
             .launchIn(viewModelScope)
     }
 
@@ -39,13 +40,18 @@ internal class RoutineSummaryViewModel @ViewModelInject constructor(
     }
 
     fun onSegmentDelete(segment: Segment) = launchWhen<RoutineSummaryState.Data> { stateData ->
-        val newState = reducer.deleteSegment(stateData, segment)
+        val newState = reducer.deleteSegment(state = stateData, segment = segment)
         state = newState
-        routineSummaryUseCase.update(newState.routine)
+        routineSummaryUseCase.update(routine = newState.routine)
     }
 
     fun onRoutineStart() = runWhen<RoutineSummaryState.Data> { stateData ->
-        navigationActions.goToTimer(routineId = stateData.routine.id)
+        val errors = validator.validate(routine = stateData.routine)
+        if (errors.isEmpty()) {
+            navigationActions.goToTimer(routineId = stateData.routine.id)
+        } else {
+            state = reducer.applyRoutineErrors(state = stateData, errors = errors)
+        }
     }
 
     fun onRoutineEdit() = runWhen<RoutineSummaryState.Data> { stateData ->

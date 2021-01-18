@@ -35,6 +35,21 @@ internal val defaultTypography = Typography(
         color = white,
         fontSize = 16.sp
     ),
+    h4 = TextStyle(
+        fontWeight = FontWeight.Bold,
+        color = white,
+        fontSize = 14.sp
+    ),
+    h5 = TextStyle(
+        fontWeight = FontWeight.Bold,
+        color = white,
+        fontSize = 12.sp
+    ),
+    h6 = TextStyle(
+        fontWeight = FontWeight.Bold,
+        color = white,
+        fontSize = 10.sp
+    ),
     body1 = TextStyle(
         fontWeight = FontWeight.Normal,
         color = white,

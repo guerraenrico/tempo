@@ -9,7 +9,7 @@
 
     <string name="field_label_routine_name">Routine name</string>
     <string name="field_label_routine_start_time_offset">Start segment after (seconds)</string>
-    <string name="field_label_routine_segments">Segments</string>
+    <string name="field_label_routine_segments">SEGMENTS</string>
     <string name="field_label_segment_name">Segment name</string>
     <string name="field_label_segment_time">Duration (seconds)</string>
     <string name="field_label_segment_type">Timer type</string>

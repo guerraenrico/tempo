@@ -11,6 +11,7 @@ import androidx.compose.ui.res.vectorResource
 import com.enricog.entities.routines.Routine
 import com.enricog.entities.routines.Segment
 import com.enricog.routines.R
+import com.enricog.routines.detail.summary.models.RoutineSummaryField
 import com.enricog.ui_components.common.button.TempoButtonColor
 import com.enricog.ui_components.common.button.TempoIconButton
 import com.enricog.ui_components.common.button.TempoIconButtonSize
@@ -21,6 +22,7 @@ internal const val RoutineSummarySceneTestTag = "RoutineSummaryScene"
 @Composable
 internal fun RoutineSummaryScene(
     routine: Routine,
+    errors: Map<RoutineSummaryField, Int>,
     onSegmentAdd: () -> Unit,
     onSegmentSelected: (Segment) -> Unit,
     onSegmentDelete: (Segment) -> Unit,
@@ -47,8 +49,12 @@ internal fun RoutineSummaryScene(
             )
             Spacer(Modifier.preferredHeight(MaterialTheme.dimensions.spaceL))
 
+            val segmentError = errors[RoutineSummaryField.Segments]?.let {
+                RoutineSummaryField.Segments to it
+            }
             SegmentsSection(
                 segments = routine.segments,
+                error = segmentError,
                 onSegmentClick = onSegmentSelected,
                 onSegmentDelete = onSegmentDelete,
                 onAddSegmentClick = onSegmentAdd

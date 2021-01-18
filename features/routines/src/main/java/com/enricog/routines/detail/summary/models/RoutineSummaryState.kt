@@ -6,5 +6,8 @@ internal sealed class RoutineSummaryState {
 
     object Idle : RoutineSummaryState()
 
-    data class Data(val routine: Routine) : RoutineSummaryState()
+    data class Data(
+        val routine: Routine,
+        val errors: Map<RoutineSummaryField, RoutineSummaryFieldError>
+    ) : RoutineSummaryState()
 }

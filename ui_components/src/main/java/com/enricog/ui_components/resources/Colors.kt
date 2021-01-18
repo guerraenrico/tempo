@@ -3,6 +3,7 @@ package com.enricog.ui_components.resources
 import androidx.compose.material.Colors
 import androidx.compose.ui.graphics.Color
 
+val darkBlue200 = Color(0xff_5D6171)
 val darkBlue400 = Color(0xff_212529)
 val darkBlue500 = Color(0xff_1A1D20)
 val darkBlue600 = Color(0xff_171A1D)
