@@ -74,18 +74,13 @@ class RoutinesViewModelTest {
             val routine = Routine.EMPTY
             val initialState = RoutinesState.Data(routines = listOf(routine))
             every { reducer.setup(any()) } returns initialState
-            every { reducer.deleteRoutine(any(), any()) } returns RoutinesState.Empty
 
             val sut = buildSut()
             advanceUntilIdle()
 
             sut.onRoutineDelete(routine)
 
-            coVerify {
-                reducer.deleteRoutine(initialState, routine)
-                routinesUseCase.delete(routine)
-            }
-
+            coVerify { routinesUseCase.delete(routine) }
         }
 
 
