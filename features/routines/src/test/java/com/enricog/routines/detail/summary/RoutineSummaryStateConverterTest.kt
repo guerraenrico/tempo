@@ -20,7 +20,7 @@ class RoutineSummaryStateConverterTest {
     private val sut = RoutineSummaryStateConverter()
 
     @Test
-    fun `should convert Idle state to Idle viewState`() = coroutineRule {
+    fun `test map  RoutineSummaryState#Idle`() = coroutineRule {
         val state = RoutineSummaryState.Idle
         val expected = RoutineSummaryViewState.Idle
 
@@ -30,7 +30,7 @@ class RoutineSummaryStateConverterTest {
     }
 
     @Test
-    fun `should convert Data state to Data viewState`() = coroutineRule {
+    fun `test map  RoutineSummaryState#Data`() = coroutineRule {
         val state = RoutineSummaryState.Data(
             routine = Routine.EMPTY,
             errors = mapOf(RoutineSummaryField.Segments to RoutineSummaryFieldError.NoSegments)
