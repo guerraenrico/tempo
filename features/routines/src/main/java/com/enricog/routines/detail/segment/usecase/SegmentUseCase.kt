@@ -15,7 +15,7 @@ internal class SegmentUseCase @Inject constructor(
 
     suspend fun save(routine: Routine, segment: Segment) {
         val segments = routine.segments
-        val updatedSegments = if (segment.id == 0L) {
+        val updatedSegments = if (segment.isNew) {
             buildList {
                 addAll(segments)
                 add(segment)
