@@ -8,10 +8,10 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.platform.testTag
 import androidx.compose.ui.res.vectorResource
-import com.enricog.entities.routines.Routine
+import com.enricog.core.extensions.exhaustive
 import com.enricog.entities.routines.Segment
 import com.enricog.routines.R
-import com.enricog.routines.detail.summary.models.RoutineSummaryField
+import com.enricog.routines.detail.summary.models.RoutineSummaryItem
 import com.enricog.ui_components.common.button.TempoButtonColor
 import com.enricog.ui_components.common.button.TempoIconButton
 import com.enricog.ui_components.common.button.TempoIconButtonSize
@@ -21,8 +21,7 @@ internal const val RoutineSummarySceneTestTag = "RoutineSummaryScene"
 
 @Composable
 internal fun RoutineSummaryScene(
-    routine: Routine,
-    errors: Map<RoutineSummaryField, Int>,
+    summaryItems: List<RoutineSummaryItem>,
     onSegmentAdd: () -> Unit,
     onSegmentSelected: (Segment) -> Unit,
     onSegmentDelete: (Segment) -> Unit,
@@ -30,8 +29,8 @@ internal fun RoutineSummaryScene(
     onRoutineEdit: () -> Unit
 ) {
     val startRoutineButtonSize = TempoIconButtonSize.Large
-    val startRoutinePadding = MaterialTheme.dimensions.spaceL
-    val segmentListBottomSpace = (startRoutinePadding * 2) + startRoutineButtonSize.box
+    val startRoutinePadding = MaterialTheme.dimensions.spaceM
+    val segmentListBottomSpace = startRoutinePadding + startRoutineButtonSize.box
 
     Box(
         modifier = Modifier
@@ -40,26 +39,34 @@ internal fun RoutineSummaryScene(
     ) {
 
         ScrollableColumn(
-            modifier = Modifier.fillMaxSize()
+            modifier = Modifier.fillMaxSize(),
+            verticalArrangement = Arrangement.spacedBy(MaterialTheme.dimensions.spaceM),
+            contentPadding = PaddingValues(MaterialTheme.dimensions.spaceM)
         ) {
-
-            RoutineSection(
-                routine = routine,
-                onEditRoutine = onRoutineEdit
-            )
-            Spacer(Modifier.preferredHeight(MaterialTheme.dimensions.spaceL))
-
-            val segmentError = errors[RoutineSummaryField.Segments]?.let {
-                RoutineSummaryField.Segments to it
+            summaryItems.mapIndexed { index, item ->
+                when (item) {
+                    is RoutineSummaryItem.RoutineInfo -> {
+                        RoutineSection(
+                            routineName = item.routineName,
+                            onEditRoutine = onRoutineEdit
+                        )
+                    }
+                    is RoutineSummaryItem.SegmentSectionTitle -> {
+                        SegmentSectionTitle(item, onSegmentAdd)
+                    }
+                    is RoutineSummaryItem.SegmentItem -> {
+                        SegmentItem(
+                            segment = item.segment,
+                            onClick = onSegmentSelected,
+                            onDelete = onSegmentDelete,
+                            modifier = Modifier.fillMaxWidth()
+                        )
+                    }
+                }.exhaustive
+                if (index == summaryItems.size - 1) {
+                    Spacer(Modifier.preferredHeight(segmentListBottomSpace))
+                }
             }
-            SegmentsSection(
-                segments = routine.segments,
-                error = segmentError,
-                onSegmentClick = onSegmentSelected,
-                onSegmentDelete = onSegmentDelete,
-                onAddSegmentClick = onSegmentAdd
-            )
-            Spacer(Modifier.preferredHeight(segmentListBottomSpace))
         }
 
         TempoIconButton(

@@ -2,9 +2,7 @@ package com.enricog.routines.detail.summary
 
 import com.enricog.base_android.viewmodel.StateConverter
 import com.enricog.routines.R
-import com.enricog.routines.detail.summary.models.RoutineSummaryFieldError
-import com.enricog.routines.detail.summary.models.RoutineSummaryState
-import com.enricog.routines.detail.summary.models.RoutineSummaryViewState
+import com.enricog.routines.detail.summary.models.*
 import javax.inject.Inject
 
 internal class RoutineSummaryStateConverter @Inject constructor() :
@@ -18,10 +16,23 @@ internal class RoutineSummaryStateConverter @Inject constructor() :
     }
 
     private fun RoutineSummaryState.Data.toViewState(): RoutineSummaryViewState.Data {
-        return RoutineSummaryViewState.Data(
-            routine = routine,
-            errors = errors.mapValues { it.value.stringResourceId }
-        )
+        val items: List<RoutineSummaryItem> = buildList {
+            add(RoutineSummaryItem.RoutineInfo(routineName = routine.name))
+
+            val mappedErrors = errors.mapValues { it.value.stringResourceId }
+            add(
+                RoutineSummaryItem.SegmentSectionTitle(
+                    error = mappedErrors[RoutineSummaryField.Segments]?.let {
+                        RoutineSummaryField.Segments to it
+                    }
+                )
+            )
+
+            addAll(routine.segments.map {
+                RoutineSummaryItem.SegmentItem(segment = it)
+            })
+        }
+        return RoutineSummaryViewState.Data(items = items)
     }
 
     private val RoutineSummaryFieldError.stringResourceId: Int

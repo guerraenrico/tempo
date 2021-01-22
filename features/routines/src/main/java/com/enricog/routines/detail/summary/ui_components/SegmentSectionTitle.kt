@@ -1,6 +1,8 @@
 package com.enricog.routines.detail.summary.ui_components
 
-import androidx.compose.foundation.layout.*
+import androidx.compose.foundation.layout.ConstraintLayout
+import androidx.compose.foundation.layout.Dimension
+import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.material.MaterialTheme
 import androidx.compose.material.Text
 import androidx.compose.runtime.Composable
@@ -9,29 +11,23 @@ import androidx.compose.ui.platform.testTag
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.res.vectorResource
 import androidx.compose.ui.unit.sp
-import com.enricog.entities.routines.Segment
 import com.enricog.routines.R
-import com.enricog.routines.detail.summary.models.RoutineSummaryField
+import com.enricog.routines.detail.summary.models.RoutineSummaryItem
 import com.enricog.ui_components.common.button.TempoButtonColor
 import com.enricog.ui_components.common.button.TempoIconButton
 import com.enricog.ui_components.common.button.TempoIconButtonSize
-import com.enricog.ui_components.resources.dimensions
 
-internal const val SegmentsSectionTestTag = "SegmentsSectionTestTag"
+internal const val SegmentSectionTitleTestTag = "SegmentSectionTitleTestTag"
 
 @Composable
-internal fun SegmentsSection(
-    segments: List<Segment>,
-    error: Pair<RoutineSummaryField.Segments, Int>?,
-    onSegmentClick: (Segment) -> Unit,
-    onSegmentDelete: (Segment) -> Unit,
+internal fun SegmentSectionTitle(
+    item: RoutineSummaryItem.SegmentSectionTitle,
     onAddSegmentClick: () -> Unit
 ) {
     ConstraintLayout(
         modifier = Modifier
-            .testTag(SegmentsSectionTestTag)
+            .testTag(SegmentSectionTitleTestTag)
             .fillMaxWidth()
-            .padding(horizontal = MaterialTheme.dimensions.spaceM),
     ) {
         val (label, buttonAdd, errorMessage) = createRefs()
         Text(
@@ -51,7 +47,7 @@ internal fun SegmentsSection(
                 top.linkTo(parent.top)
                 start.linkTo(label.end)
                 bottom.linkTo(
-                    if (error == null) {
+                    if (item.error == null) {
                         parent.bottom
                     } else {
                         errorMessage.top
@@ -67,31 +63,16 @@ internal fun SegmentsSection(
             drawShadow = false
         )
 
-        if (error != null) {
+        if (item.error != null) {
             Text(
                 modifier = Modifier.constrainAs(errorMessage) {
                     top.linkTo(buttonAdd.bottom)
                     bottom.linkTo(parent.bottom)
                     end.linkTo(parent.end)
                 },
-                text = stringResource(error.second),
+                text = stringResource(item.error.second),
                 style = MaterialTheme.typography.caption,
                 color = MaterialTheme.colors.error
-            )
-        }
-    }
-    Column(
-        modifier = Modifier
-            .fillMaxWidth()
-            .padding(MaterialTheme.dimensions.spaceM),
-        verticalArrangement = Arrangement.spacedBy(MaterialTheme.dimensions.spaceM),
-    ) {
-        segments.map { segment ->
-            SegmentItem(
-                segment = segment,
-                onClick = onSegmentClick,
-                onDelete = onSegmentDelete,
-                modifier = Modifier.fillMaxWidth()
             )
         }
     }

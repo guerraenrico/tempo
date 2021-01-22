@@ -28,8 +28,7 @@ internal fun RoutineSummaryScreen(
                 }
                 is RoutineSummaryViewState.Data -> {
                     RoutineSummaryScene(
-                        routine = routine,
-                        errors = errors,
+                        summaryItems = items,
                         onSegmentAdd = viewModel::onSegmentAdd,
                         onSegmentSelected = viewModel::onSegmentSelected,
                         onSegmentDelete = viewModel::onSegmentDelete,
