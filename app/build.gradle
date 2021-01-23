@@ -10,7 +10,7 @@ plugins {
     id 'com.google.firebase.crashlytics'
 }
 
-apply from: '../../config.gradle'
+apply from: "$rootDir/../config.gradle"
 
 android {
     compileSdkVersion Versions.compileSdk
@@ -34,7 +34,7 @@ android {
             minifyEnabled true
             proguardFiles getDefaultProguardFile('proguard-android-optimize.txt'), 'proguard-rules.pro'
             firebaseCrashlytics {
-                mappingFileUploadEnabled false
+                mappingFileUploadEnabled true
             }
         }
     }
