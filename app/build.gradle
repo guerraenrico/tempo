@@ -10,6 +10,8 @@ plugins {
     id 'com.google.firebase.crashlytics'
 }
 
+apply from: '../../config.gradle'
+
 android {
     compileSdkVersion Versions.compileSdk
 
@@ -24,9 +26,24 @@ android {
     }
 
     buildTypes {
-        release {
+        debug {
             minifyEnabled false
+        }
+
+        release {
+            minifyEnabled true
             proguardFiles getDefaultProguardFile('proguard-android-optimize.txt'), 'proguard-rules.pro'
+            firebaseCrashlytics {
+                mappingFileUploadEnabled false
+            }
+        }
+    }
+    signingConfigs {
+        release {
+            storeFile file(keyStoreFile)
+            storePassword storePassword
+            keyAlias alias
+            keyPassword keyPassword
         }
     }
 
