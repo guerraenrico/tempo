@@ -19,8 +19,8 @@ android {
         applicationId 'com.enricog.tempo'
         minSdkVersion Versions.minSdk
         targetSdkVersion Versions.targetSdk
-        versionCode 1
-        versionName "1.0"
+        versionCode Versions.appVersionCode
+        versionName Versions.appVersionName
 
         testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
     }
@@ -101,5 +101,5 @@ dependencies {
     implementation Libs.Firebase.crashlytics
     implementation Libs.Firebase.analytics
 
-    coreLibraryDesugaring  Libs.Tools.desugar
+    coreLibraryDesugaring Libs.Tools.desugar
 }

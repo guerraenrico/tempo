@@ -6,6 +6,15 @@ import org.gradle.api.JavaVersion
 
 
 object Versions {
+    private const val versionMajor = 1
+    private const val versionMinor = 0
+    private const val versionPatch = 0
+    private const val versionBuild = 0
+
+    val appVersionCode: Int =
+        versionMajor * 1000000 + versionMinor * 10000 + versionPatch * 100 + versionBuild
+    val appVersionName: String = "$versionMajor.$versionMinor.$versionPatch"
+
     const val compileSdk = 30
     const val minSdk = 24
     const val targetSdk = 30
