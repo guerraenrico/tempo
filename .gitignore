@@ -3,6 +3,7 @@
 /captures
 /build
 buildSrc/build
+app/google-services.json
 
 /local.properties
 config.properties

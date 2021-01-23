@@ -6,6 +6,8 @@ plugins {
     id 'kotlin-android'
     id 'kotlin-kapt'
     id 'dagger.hilt.android.plugin'
+    id 'com.google.gms.google-services'
+    id 'com.google.firebase.crashlytics'
 }
 
 android {
@@ -76,6 +78,11 @@ dependencies {
     kapt Libs.Hilt.androidCompiler
     implementation Libs.Hilt.lifecycleViewModel
     kapt Libs.Hilt.compiler
+
+    // Firebase
+    implementation platform(Libs.Firebase.bom)
+    implementation Libs.Firebase.crashlytics
+    implementation Libs.Firebase.analytics
 
     coreLibraryDesugaring  Libs.Tools.desugar
 }

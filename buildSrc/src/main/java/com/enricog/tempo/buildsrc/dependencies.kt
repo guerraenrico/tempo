@@ -109,6 +109,14 @@ object Libs {
         const val desugar = "com.android.tools:desugar_jdk_libs:1.0.9"
     }
 
+    object Firebase {
+        private const val version = "26.3.0"
+
+        const val bom = "com.google.firebase:firebase-bom:$version"
+        const val crashlytics = "com.google.firebase:firebase-crashlytics-ktx"
+        const val analytics = "com.google.firebase:firebase-analytics-ktx"
+    }
+
     // Test
 
     object Test {
