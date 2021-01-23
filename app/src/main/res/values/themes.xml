@@ -10,8 +10,4 @@
         <item name="android:windowBackground">@color/dark_blue_500</item>
         <item name="android:colorBackground">@color/dark_blue_500</item>
     </style>
-
-    <style name="Theme.Tempo.AppBarOverlay" parent="ThemeOverlay.AppCompat.Dark.ActionBar" />
-
-    <style name="Theme.Tempo.PopupOverlay" parent="ThemeOverlay.AppCompat.Light" />
 </resources>

@@ -20,7 +20,7 @@ import org.junit.Rule
 import org.junit.Test
 import org.junit.runner.RunWith
 import org.robolectric.RobolectricTestRunner
-import org.robolectric.annotation.Configw
+import org.robolectric.annotation.Config
 import java.io.IOException
 import java.time.OffsetDateTime
 import java.time.temporal.ChronoUnit

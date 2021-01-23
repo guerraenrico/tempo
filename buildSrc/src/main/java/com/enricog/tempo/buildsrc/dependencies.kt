@@ -1,4 +1,4 @@
-@file:Suppress("unused")
+@file:Suppress("unused", "MemberVisibilityCanBePrivate")
 
 package com.enricog.tempo.buildsrc
 
@@ -11,9 +11,9 @@ object Versions {
     private const val versionPatch = 0
     private const val versionBuild = 0
 
-    val appVersionCode: Int =
+    const val appVersionCode: Int =
         versionMajor * 1000000 + versionMinor * 10000 + versionPatch * 100 + versionBuild
-    val appVersionName: String = "$versionMajor.$versionMinor.$versionPatch"
+    const val appVersionName: String = "$versionMajor.$versionMinor.$versionPatch"
 
     const val compileSdk = 30
     const val minSdk = 24

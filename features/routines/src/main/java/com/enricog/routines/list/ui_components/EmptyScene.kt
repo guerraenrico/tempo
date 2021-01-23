@@ -15,7 +15,7 @@ import com.enricog.ui_components.common.button.TempoButton
 import com.enricog.ui_components.common.button.TempoButtonColor
 import com.enricog.ui_components.resources.dimensions
 
-internal val EmptySceneTestTag = "EmptySceneTestTag"
+internal const val EmptySceneTestTag = "EmptySceneTestTag"
 
 @Composable
 internal fun EmptyScene(onCreateSegmentClick: () -> Unit) {

@@ -29,6 +29,7 @@ internal val defaultDimensions = Dimensions(
 
 internal val AmbientDimensions = staticAmbientOf { defaultDimensions }
 
+@Suppress("unused")
 val MaterialTheme.dimensions: Dimensions
     @Composable
     @ComposableContract(readonly = true)

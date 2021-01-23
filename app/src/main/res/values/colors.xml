@@ -2,11 +2,5 @@
 <resources>
     <color name="dark_blue_500">#ff1A1D20</color>
     <color name="blue_500">#ff006DFF</color>
-    <color name="green_500">#ff32B84D</color>
-    <color name="orange_500">#ffC7600D</color>
-    <color name="purple_500">#ff722CCE</color>
     <color name="white">#ffffffff</color>
-
-    <color name="color_fallback_status_bar">#bec4ca</color>
-
 </resources>

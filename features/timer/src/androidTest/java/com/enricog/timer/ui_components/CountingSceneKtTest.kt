@@ -38,8 +38,7 @@ class CountingSceneKtTest {
                 type = SegmentStepType.IN_PROGRESS
             ),
             clockBackgroundColor = Color.Blue,
-            isRoutineCompleted = false,
-            enableKeepScreenOn = false
+            isRoutineCompleted = false
         )
 
         setContent {
@@ -68,8 +67,7 @@ class CountingSceneKtTest {
                 type = SegmentStepType.IN_PROGRESS
             ),
             clockBackgroundColor = Color.Blue,
-            isRoutineCompleted = true,
-            enableKeepScreenOn = false
+            isRoutineCompleted = true
         )
 
         setContent {
@@ -99,8 +97,7 @@ class CountingSceneKtTest {
                 type = SegmentStepType.IN_PROGRESS
             ),
             clockBackgroundColor = Color.Blue,
-            isRoutineCompleted = false,
-            enableKeepScreenOn = false
+            isRoutineCompleted = false
         )
 
         setContent {

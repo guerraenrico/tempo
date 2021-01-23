@@ -46,7 +46,7 @@ internal fun TimeTypeChip(
             }
     ) {
         Text(
-            text = value.description,
+            text = value.description(),
             color = white,
             fontWeight = FontWeight.Bold,
             fontSize = 14.sp,
@@ -70,9 +70,10 @@ private fun TimeType.color(isSelected: Boolean): Color {
 }
 
 @Composable
-private val TimeType.description: String
-    get() = when (this) {
+private fun TimeType.description(): String {
+    return when (this) {
         TimeType.REST -> stringResource(R.string.chip_time_type_rest_name)
         TimeType.TIMER -> stringResource(R.string.chip_time_type_timer_name)
         TimeType.STOPWATCH -> stringResource(R.string.chip_time_type_stopwatch_name)
     }
+}

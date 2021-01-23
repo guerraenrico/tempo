@@ -19,6 +19,7 @@ internal val defaultCommonShapes = CommonShapes(
 
 internal val AmbientCommonShapes = staticAmbientOf { defaultCommonShapes }
 
+@Suppress("unused")
 val MaterialTheme.commonShapes: CommonShapes
     @Composable
     @ComposableContract(readonly = true)

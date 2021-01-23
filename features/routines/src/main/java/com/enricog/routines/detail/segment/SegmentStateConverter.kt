@@ -28,8 +28,8 @@ internal class SegmentStateConverter @Inject constructor() :
     private val SegmentFieldError.stringResourceId: Int
         get() {
             return when (this) {
-                SegmentFieldError.BlankSegmentName -> R.string.field_error_message_routine_name_blank
-                SegmentFieldError.InvalidSegmentTime -> R.string.field_error_message_routine_start_time_offset_invalid
+                SegmentFieldError.BlankSegmentName -> R.string.field_error_message_segment_name_blank
+                SegmentFieldError.InvalidSegmentTime -> R.string.field_error_message_segment_time_invalid
             }
         }
 
