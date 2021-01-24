@@ -23,22 +23,31 @@ internal fun RoutineScreen(routineId: Long, viewModel: RoutineViewModel = navVie
         modifier = Modifier.fillMaxSize()
     ) {
         TempoToolbar(onBack = viewModel::onRoutineBack)
-
-        with(viewState) {
-            when (this) {
-                RoutineViewState.Idle -> {
-                }
-                is RoutineViewState.Data -> {
-                    RoutineFormScene(
-                        routine = routine,
-                        errors = errors,
-                        onRoutineNameChange = viewModel::onRoutineNameTextChange,
-                        onStartTimeOffsetChange = viewModel::onRoutineStartTimeOffsetChange,
-                        onRoutineSave = viewModel::onRoutineSave
-                    )
-                }
-            }.exhaustive
-        }
-
+        viewState.Compose(
+            onRoutineNameChange = viewModel::onRoutineNameTextChange,
+            onStartTimeOffsetChange = viewModel::onRoutineStartTimeOffsetChange,
+            onRoutineSave = viewModel::onRoutineSave
+        )
     }
+}
+
+@Composable
+internal fun RoutineViewState.Compose(
+    onRoutineNameChange: (String) -> Unit,
+    onStartTimeOffsetChange: (Long) -> Unit,
+    onRoutineSave: () -> Unit
+) {
+    when (this) {
+        RoutineViewState.Idle -> {
+        }
+        is RoutineViewState.Data -> {
+            RoutineFormScene(
+                routine = routine,
+                errors = errors,
+                onRoutineNameChange = onRoutineNameChange,
+                onStartTimeOffsetChange = onStartTimeOffsetChange,
+                onRoutineSave = onRoutineSave
+            )
+        }
+    }.exhaustive
 }

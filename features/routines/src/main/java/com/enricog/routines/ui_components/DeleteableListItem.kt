@@ -75,7 +75,7 @@ internal fun DeletableListItem(
             }
         }
         Surface(
-            modifier = modifier
+            modifier = Modifier
                 .fillMaxWidth()
                 .offset { IntOffset(swipeState.offset.value.roundToInt(), 0) },
             shape = MaterialTheme.commonShapes.listItem,
