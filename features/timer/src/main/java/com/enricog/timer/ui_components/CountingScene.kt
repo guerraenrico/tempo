@@ -30,6 +30,7 @@ internal const val SegmentNameTestTag = "SegmentNameTestTag"
 @Composable
 internal fun CountingScene(state: TimerViewState.Counting, timerActions: TimerActions) {
     val configuration = AmbientConfiguration.current
+    val oneThirdScreenOffset = configuration.screenHeightDp / 3
     val middleScreenOffset = configuration.screenHeightDp / 4
 
     val count = state.step.count
@@ -40,7 +41,8 @@ internal fun CountingScene(state: TimerViewState.Counting, timerActions: TimerAc
         toState = state.isRoutineCompleted
     )
 
-    val offset = lerp((-middleScreenOffset).dp, 0.dp, transition[Offset])
+    val timerOffset = lerp((-oneThirdScreenOffset).dp, 0.dp, transition[Offset])
+    val actionBarOffset = lerp((-middleScreenOffset).dp, 0.dp, transition[Offset])
 
     Column(
         modifier = Modifier
@@ -60,15 +62,14 @@ internal fun CountingScene(state: TimerViewState.Counting, timerActions: TimerAc
             timeInSeconds = count.timeInSeconds,
             modifier = Modifier
                 .scale(transition[ScaleProp])
-                .offset(y = offset)
+                .offset(y = timerOffset)
         )
-        Spacer(modifier = Modifier.height(40.dp))
 
         ActionsBar(
             isTimeRunning = count.isRunning,
             isRoutineCompleted = state.isRoutineCompleted,
             timerActions = timerActions,
-            modifier = Modifier.offset(y = offset)
+            modifier = Modifier.offset(y = actionBarOffset + 40.dp)
         )
     }
 }
@@ -105,15 +106,15 @@ private val Offset = FloatPropKey("Offset")
 
 private fun routineCompletedTransitionDefinition(): TransitionDefinition<Boolean> {
     return transitionDefinition {
-        state(name = true) { // completed
-            this[AlphaProp] = 0f
-            this[ScaleProp] = 0.5f
-            this[Offset] = 0f
-        }
         state(name = false) { // not completed
             this[AlphaProp] = 1f
             this[ScaleProp] = 1f
             this[Offset] = 1f
+        }
+        state(name = true) { // completed
+            this[AlphaProp] = 0f
+            this[ScaleProp] = 0.5f
+            this[Offset] = 0f
         }
         transition(fromState = false, toState = true) {
             AlphaProp using spring()
