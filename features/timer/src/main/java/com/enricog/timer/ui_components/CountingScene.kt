@@ -9,7 +9,10 @@ import androidx.compose.foundation.layout.*
 import androidx.compose.material.MaterialTheme
 import androidx.compose.material.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
+import androidx.compose.runtime.getValue
+import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.alpha
@@ -22,6 +25,9 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.lerp
 import com.enricog.timer.models.TimerActions
 import com.enricog.timer.models.TimerViewState
+import com.enricog.ui_components.common.button.TempoButton
+import com.enricog.ui_components.common.dialog.TempoDialogAction
+import com.enricog.ui_components.common.dialog.TempoDialogAlert
 
 internal const val CountingSceneTestTag = "CountingSceneTestTag"
 internal const val StepTitleTestTag = "StepTitleTestTag"
@@ -44,6 +50,8 @@ internal fun CountingScene(state: TimerViewState.Counting, timerActions: TimerAc
     val timerOffset = lerp((-oneThirdScreenOffset).dp, 0.dp, transition[Offset])
     val actionBarOffset = lerp((-middleScreenOffset).dp, 0.dp, transition[Offset])
 
+    var dialogOpen by remember { mutableStateOf(false) }
+
     Column(
         modifier = Modifier
             .fillMaxSize()
@@ -51,6 +59,20 @@ internal fun CountingScene(state: TimerViewState.Counting, timerActions: TimerAc
         verticalArrangement = Arrangement.Center,
         horizontalAlignment = Alignment.CenterHorizontally
     ) {
+        TempoButton(
+            onClick = { dialogOpen = true },
+            text = "close"
+        )
+        if (dialogOpen) {
+            TempoDialogAlert(
+                title = "Alert",
+                description = "alert description",
+                positiveAction = TempoDialogAction("ok") { dialogOpen = false },
+                negativeAction = null,
+                onDismiss = { dialogOpen = false },
+                isCancellable = true
+            )
+        }
         Title(
             stepTitle = stringResource(state.stepTitleId),
             segmentName = state.segmentName,
