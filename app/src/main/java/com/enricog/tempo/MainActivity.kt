@@ -2,6 +2,7 @@ package com.enricog.tempo
 
 import android.os.Bundle
 import androidx.appcompat.app.AppCompatActivity
+import androidx.compose.runtime.onDispose
 import androidx.compose.ui.platform.setContent
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.rememberNavController
@@ -38,12 +39,8 @@ internal class MainActivity : AppCompatActivity() {
                     }
                 }
 
+                onDispose { navigator.navController = null }
             }
         }
-    }
-
-    override fun onDestroy() {
-        super.onDestroy()
-        navigator.navController = null
     }
 }
