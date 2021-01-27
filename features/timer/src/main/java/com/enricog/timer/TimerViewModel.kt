@@ -85,6 +85,11 @@ internal class TimerViewModel @ViewModelInject constructor(
         stopCounting()
     }
 
+    override fun onCloseButtonClick() {
+        stopCounting()
+        navigationActions.backToRoutines()
+    }
+
     private fun onCountCompleted() {
         viewModelScope.launch {
             delay(1000)

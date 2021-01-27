@@ -20,6 +20,7 @@ class ActionsBarKtTest {
         override fun onRestartSegmentButtonClick() {}
         override fun onResetButtonClick() {}
         override fun onDoneButtonClick() {}
+        override fun onCloseButtonClick() {}
     }
 
     @Test

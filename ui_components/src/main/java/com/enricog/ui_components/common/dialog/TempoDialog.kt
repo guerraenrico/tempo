@@ -7,7 +7,6 @@ import androidx.compose.material.MaterialTheme
 import androidx.compose.material.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.draw.clip
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.window.AndroidDialogProperties
 import androidx.compose.ui.window.Dialog
@@ -26,7 +25,7 @@ fun TempoDialogAlert(
     TempoDialogBase(onDismiss = onDismiss, isCancellable = isCancellable) {
         Column(
             modifier = Modifier
-                .fillMaxWidth(0.75f)
+                .fillMaxWidth(0.8f)
                 .background(
                     color = MaterialTheme.colors.background,
                     shape = RoundedCornerShape(16.dp)
@@ -57,7 +56,7 @@ fun TempoDialogAlert(
             ) {
                 if (negativeAction != null) {
                     TempoButton(onClick = negativeAction.onClick, text = negativeAction.text)
-                    Spacer(modifier = Modifier.preferredHeight(16.dp))
+                    Spacer(modifier = Modifier.preferredWidth(16.dp))
                 }
                 TempoButton(onClick = positiveAction.onClick, text = positiveAction.text)
             }

@@ -8,11 +8,7 @@ import androidx.compose.animation.transition
 import androidx.compose.foundation.layout.*
 import androidx.compose.material.MaterialTheme
 import androidx.compose.material.Text
-import androidx.compose.runtime.Composable
-import androidx.compose.runtime.mutableStateOf
-import androidx.compose.runtime.remember
-import androidx.compose.runtime.getValue
-import androidx.compose.runtime.setValue
+import androidx.compose.runtime.*
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.alpha
@@ -20,12 +16,14 @@ import androidx.compose.ui.draw.scale
 import androidx.compose.ui.platform.AmbientConfiguration
 import androidx.compose.ui.platform.testTag
 import androidx.compose.ui.res.stringResource
+import androidx.compose.ui.res.vectorResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.lerp
+import com.enricog.timer.R
 import com.enricog.timer.models.TimerActions
 import com.enricog.timer.models.TimerViewState
-import com.enricog.ui_components.common.button.TempoButton
+import com.enricog.ui_components.common.button.TempoIconButton
 import com.enricog.ui_components.common.dialog.TempoDialogAction
 import com.enricog.ui_components.common.dialog.TempoDialogAlert
 
@@ -46,7 +44,6 @@ internal fun CountingScene(state: TimerViewState.Counting, timerActions: TimerAc
         definition = transitionDefinition,
         toState = state.isRoutineCompleted
     )
-
     val timerOffset = lerp((-oneThirdScreenOffset).dp, 0.dp, transition[Offset])
     val actionBarOffset = lerp((-middleScreenOffset).dp, 0.dp, transition[Offset])
 
@@ -55,45 +52,64 @@ internal fun CountingScene(state: TimerViewState.Counting, timerActions: TimerAc
     Column(
         modifier = Modifier
             .fillMaxSize()
-            .testTag(CountingSceneTestTag),
-        verticalArrangement = Arrangement.Center,
-        horizontalAlignment = Alignment.CenterHorizontally
+            .testTag(CountingSceneTestTag)
     ) {
-        TempoButton(
-            onClick = { dialogOpen = true },
-            text = "close"
-        )
+        Row(
+            modifier = Modifier.fillMaxWidth()
+        ) {
+            TempoIconButton(
+                onClick = { dialogOpen = true },
+                icon = vectorResource(R.drawable.ic_timer_close),
+                drawShadow = false
+            )
+        }
+        Column(
+            modifier = Modifier
+                .fillMaxSize(),
+            verticalArrangement = Arrangement.Center,
+            horizontalAlignment = Alignment.CenterHorizontally
+        ) {
+            Title(
+                stepTitle = stringResource(state.stepTitleId),
+                segmentName = state.segmentName,
+                modifier = Modifier.alpha(transition[AlphaProp])
+            )
+
+            Clock(
+                backgroundColor = state.clockBackgroundColor,
+                timeInSeconds = count.timeInSeconds,
+                modifier = Modifier
+                    .scale(transition[ScaleProp])
+                    .offset(y = timerOffset)
+            )
+
+            ActionsBar(
+                isTimeRunning = count.isRunning,
+                isRoutineCompleted = state.isRoutineCompleted,
+                timerActions = timerActions,
+                modifier = Modifier.offset(y = actionBarOffset + 40.dp)
+            )
+        }
+
         if (dialogOpen) {
             TempoDialogAlert(
-                title = "Alert",
-                description = "alert description",
-                positiveAction = TempoDialogAction("ok") { dialogOpen = false },
-                negativeAction = null,
+                title = stringResource(R.string.dialog_exit_time_title),
+                description = stringResource(R.string.dialog_exit_time_description),
+                positiveAction = TempoDialogAction(
+                    text = stringResource(R.string.dialog_exit_time_action_positive),
+                    onClick = timerActions::onCloseButtonClick
+                ),
+                negativeAction = TempoDialogAction(
+                    text = stringResource(R.string.dialog_exit_time_action_negative),
+                    onClick = { dialogOpen = false }
+                ),
                 onDismiss = { dialogOpen = false },
                 isCancellable = true
             )
         }
-        Title(
-            stepTitle = stringResource(state.stepTitleId),
-            segmentName = state.segmentName,
-            modifier = Modifier.alpha(transition[AlphaProp])
-        )
-
-        Clock(
-            backgroundColor = state.clockBackgroundColor,
-            timeInSeconds = count.timeInSeconds,
-            modifier = Modifier
-                .scale(transition[ScaleProp])
-                .offset(y = timerOffset)
-        )
-
-        ActionsBar(
-            isTimeRunning = count.isRunning,
-            isRoutineCompleted = state.isRoutineCompleted,
-            timerActions = timerActions,
-            modifier = Modifier.offset(y = actionBarOffset + 40.dp)
-        )
     }
+
+
 }
 
 @Composable

@@ -5,4 +5,5 @@ interface TimerActions {
     fun onRestartSegmentButtonClick()
     fun onResetButtonClick()
     fun onDoneButtonClick()
+    fun onCloseButtonClick()
 }

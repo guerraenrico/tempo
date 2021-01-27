@@ -44,8 +44,8 @@ class SegmentStateConverterTest {
         val expected = SegmentViewState.Data(
             segment = Segment.EMPTY,
             errors = mapOf(
-                SegmentField.Name to R.string.field_error_message_routine_name_blank,
-                SegmentField.TimeInSeconds to R.string.field_error_message_routine_start_time_offset_invalid
+                SegmentField.Name to R.string.field_error_message_segment_name_blank,
+                SegmentField.TimeInSeconds to R.string.field_error_message_segment_time_invalid
             ),
             timeTypes = emptyList()
         )

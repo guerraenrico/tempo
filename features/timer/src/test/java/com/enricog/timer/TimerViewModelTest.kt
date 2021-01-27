@@ -235,6 +235,18 @@ class TimerViewModelTest {
             verify { windowScreenManager.toggleKeepScreenOnFlag(enable = false) }
         }
 
+    @Test
+    fun `test onCloseButtonClick should go backToRoutines`() = coroutineRule {
+        every { reducer.toggleTimeRunning(any()) } returns TimerState.Idle
+
+        val sut = buildSut().apply { load(configuration) }
+
+        advanceUntilIdle()
+        sut.onCloseButtonClick()
+
+        verify { navigationActions.backToRoutines() }
+    }
+
     private fun buildSut(): TimerViewModel {
         return TimerViewModel(
             dispatchers = coroutineRule.dispatchers,
