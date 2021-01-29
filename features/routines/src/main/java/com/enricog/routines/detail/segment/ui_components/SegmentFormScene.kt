@@ -68,7 +68,8 @@ internal fun SegmentFormScene(
                 .padding(MaterialTheme.dimensions.spaceM),
             onClick = onSegmentConfirmed,
             color = TempoButtonColor.Confirm,
-            text = stringResource(R.string.button_save)
+            text = stringResource(R.string.button_save),
+            contentDescription = stringResource(R.string.content_description_button_save_segment)
         )
     }
 }

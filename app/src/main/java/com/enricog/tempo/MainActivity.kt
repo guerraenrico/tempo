@@ -27,11 +27,7 @@ internal class MainActivity : AppCompatActivity() {
                 val navController = rememberNavController()
                 navigator.navController = navController
 
-                ProvideTempoAmbient(
-                    viewModelFactory = defaultViewModelProviderFactory,
-                    application = application,
-                    navController = navController
-                ) {
+                ProvideTempoAmbient {
 
                     NavHost(navController = navController, startDestination = "routinesNav") {
                         RoutinesNavigation()

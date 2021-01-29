@@ -11,14 +11,13 @@ import com.enricog.core.extensions.exhaustive
 import com.enricog.entities.routines.TimeType
 import com.enricog.routines.detail.segment.models.SegmentViewState
 import com.enricog.routines.detail.segment.ui_components.SegmentFormScene
-import com.enricog.ui_components.ambients.navViewModel
 import com.enricog.ui_components.common.toolbar.TempoToolbar
 
 @Composable
 internal fun SegmentScreen(
     routineId: Long,
     segmentId: Long,
-    viewModel: SegmentViewModel = navViewModel()
+    viewModel: SegmentViewModel
 ) {
     onActive { viewModel.load(routineId = routineId, segmentId = segmentId) }
     val viewState by viewModel.viewState.collectAsState(SegmentViewState.Idle)

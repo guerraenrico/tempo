@@ -11,4 +11,10 @@
     <string name="dialog_exit_time_description">Do you want to exit?</string>
     <string name="dialog_exit_time_action_positive">Yes</string>
     <string name="dialog_exit_time_action_negative">No</string>
+
+    <string name="content_description_button_reset_routine">Restart routine</string>
+    <string name="content_description_button_done_routine">Routine completed, exit</string>
+    <string name="content_description_dialog_quite_routine_button_positive">Yes, quit routine</string>
+    <string name="content_description_dialog_quite_routine_button_negative">No, continue routine</string>
+
 </resources>

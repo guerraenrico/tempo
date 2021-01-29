@@ -7,6 +7,7 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.platform.testTag
+import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.res.vectorResource
 import com.enricog.core.extensions.exhaustive
 import com.enricog.entities.routines.Segment
@@ -76,7 +77,8 @@ internal fun RoutineSummaryScene(
             onClick = onRoutineStart,
             icon = vectorResource(R.drawable.ic_routine_play),
             color = TempoButtonColor.Accent,
-            size = startRoutineButtonSize
+            size = startRoutineButtonSize,
+            contentDescription = stringResource(R.string.content_description_button_start_routine)
         )
     }
 }

@@ -70,15 +70,16 @@ private fun DoneActions(
         onClick = onResetButtonClick,
         text = stringResource(R.string.button_reset),
         color = TempoButtonColor.Normal,
-        modifier = Modifier.testTag(ButtonResetTestTag)
-
+        modifier = Modifier.testTag(ButtonResetTestTag),
+        contentDescription = stringResource(R.string.content_description_button_reset_routine)
     )
     Spacer(modifier = Modifier.width(20.dp))
     TempoButton(
         onClick = onDoneButtonClick,
         text = stringResource(R.string.button_done),
         color = TempoButtonColor.Accent,
-        modifier = Modifier.testTag(ButtonDoneTestTag)
+        modifier = Modifier.testTag(ButtonDoneTestTag),
+        contentDescription = stringResource(R.string.content_description_button_done_routine)
     )
 }
 

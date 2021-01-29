@@ -8,6 +8,7 @@ import androidx.compose.material.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.platform.testTag
+import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.res.vectorResource
 import com.enricog.routines.R
 import com.enricog.ui_components.common.button.TempoButtonColor
@@ -51,7 +52,8 @@ internal fun RoutineSection(
             size = TempoIconButtonSize.Small,
             icon = vectorResource(R.drawable.ic_routine_edit),
             color = TempoButtonColor.TransparentSecondary,
-            drawShadow = false
+            drawShadow = false,
+            contentDescription = stringResource(R.string.content_description_button_edit_routine)
         )
     }
 }

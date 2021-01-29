@@ -10,13 +10,12 @@ import androidx.compose.ui.Modifier
 import com.enricog.entities.routines.Segment
 import com.enricog.routines.detail.summary.models.RoutineSummaryViewState
 import com.enricog.routines.detail.summary.ui_components.RoutineSummaryScene
-import com.enricog.ui_components.ambients.navViewModel
 import com.enricog.ui_components.common.toolbar.TempoToolbar
 
 @Composable
 internal fun RoutineSummaryScreen(
     routineId: Long,
-    viewModel: RoutineSummaryViewModel = navViewModel()
+    viewModel: RoutineSummaryViewModel
 ) {
     onActive { viewModel.load(routineId) }
     val viewState by viewModel.viewState.collectAsState(RoutineSummaryViewState.Idle)

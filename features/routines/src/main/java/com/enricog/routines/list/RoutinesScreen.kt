@@ -13,11 +13,10 @@ import com.enricog.routines.R
 import com.enricog.routines.list.models.RoutinesViewState
 import com.enricog.routines.list.ui_components.EmptyScene
 import com.enricog.routines.list.ui_components.RoutinesScene
-import com.enricog.ui_components.ambients.navViewModel
 import com.enricog.ui_components.common.toolbar.TempoToolbar
 
 @Composable
-internal fun RoutinesScreen(viewModel: RoutinesViewModel = navViewModel()) {
+internal fun RoutinesScreen(viewModel: RoutinesViewModel) {
     val viewState by viewModel.viewState.collectAsState(RoutinesViewState.Idle)
     Column(
         modifier = Modifier.fillMaxSize()

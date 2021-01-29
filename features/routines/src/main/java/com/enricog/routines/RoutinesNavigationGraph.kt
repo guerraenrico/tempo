@@ -13,6 +13,7 @@ import com.enricog.routines.navigation.RoutinesNavigationConstants.Routine
 import com.enricog.routines.navigation.RoutinesNavigationConstants.RoutineSummary
 import com.enricog.routines.navigation.RoutinesNavigationConstants.Routines
 import com.enricog.routines.navigation.RoutinesNavigationConstants.Segment
+import com.enricog.ui_components.ambients.navViewModel
 
 fun NavGraphBuilder.RoutinesNavigation() {
     navigation(
@@ -23,7 +24,9 @@ fun NavGraphBuilder.RoutinesNavigation() {
             route = Routines.routeName,
             arguments = emptyList()
         ) {
-            RoutinesScreen()
+            RoutinesScreen(
+                viewModel = navViewModel(it)
+            )
         }
 
         composable(
@@ -31,8 +34,11 @@ fun NavGraphBuilder.RoutinesNavigation() {
             arguments = listOf(navArgument(RoutineSummary.routeIdParamName) {
                 type = NavType.LongType; defaultValue = 0L
             })
-        ) { navBackStackEntry ->
-            RoutineSummaryScreen(navBackStackEntry.arguments!!.getLong(Routine.routeIdParamName))
+        ) {
+            RoutineSummaryScreen(
+                routineId = it.arguments!!.getLong(Routine.routeIdParamName),
+                viewModel = navViewModel(it)
+            )
         }
 
         composable(
@@ -40,8 +46,11 @@ fun NavGraphBuilder.RoutinesNavigation() {
             arguments = listOf(navArgument(Routine.routeIdParamName) {
                 type = NavType.LongType; defaultValue = 0L
             })
-        ) { navBackStackEntry ->
-            RoutineScreen(navBackStackEntry.arguments!!.getLong(Routine.routeIdParamName))
+        ) {
+            RoutineScreen(
+                routineId = it.arguments!!.getLong(Routine.routeIdParamName),
+                viewModel = navViewModel(it)
+            )
         }
 
         composable(
@@ -54,10 +63,11 @@ fun NavGraphBuilder.RoutinesNavigation() {
                     type = NavType.LongType; defaultValue = 0L
                 }
             )
-        ) { navBackStackEntry ->
+        ) {
             SegmentScreen(
-                navBackStackEntry.arguments!!.getLong(Segment.routeIdParamName),
-                navBackStackEntry.arguments!!.getLong(Segment.segmentIdParamName),
+                routineId = it.arguments!!.getLong(Segment.routeIdParamName),
+                segmentId = it.arguments!!.getLong(Segment.segmentIdParamName),
+                viewModel = navViewModel(it)
             )
         }
     }
