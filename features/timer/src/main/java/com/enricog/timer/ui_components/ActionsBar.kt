@@ -88,7 +88,8 @@ private fun RestartButton(onClick: () -> Unit) {
     TempoIconButton(
         onClick = onClick,
         icon = vectorResource(R.drawable.ic_timer_restart),
-        modifier = Modifier.testTag(ButtonRestartTestTag)
+        modifier = Modifier.testTag(ButtonRestartTestTag),
+        contentDescription = stringResource(R.string.content_description_button_restart_routine_segment)
     )
 }
 
@@ -102,6 +103,7 @@ private fun StartStopButton(isRunning: Boolean, onClick: () -> Unit) {
     TempoIconButton(
         onClick = onClick,
         icon = vectorResource(icon),
-        modifier = Modifier.testTag(ButtonStartStopTestTag)
+        modifier = Modifier.testTag(ButtonStartStopTestTag),
+        contentDescription = stringResource(R.string.content_description_button_stop_routine_segment)
     )
 }

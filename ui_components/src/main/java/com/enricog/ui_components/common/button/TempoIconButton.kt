@@ -30,13 +30,13 @@ fun TempoIconButton(
         onClick = onClick,
         modifier = modifier
             .shadow(shadowSize, shape = CircleShape)
-            .background(color = color.backgroundColor(enabled), shape = CircleShape)
+            .background(color = color.backgroundColor(enabled).value, shape = CircleShape)
             .size(size = size.box),
         enabled = enabled
     ) {
         Icon(
             imageVector = icon,
-            tint = color.contentColor(enabled),
+            tint = color.contentColor(enabled).value,
             modifier = Modifier.size(size.icon),
             contentDescription = contentDescription
         )

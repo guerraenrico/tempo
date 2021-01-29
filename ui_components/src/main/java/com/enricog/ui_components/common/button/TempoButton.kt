@@ -33,7 +33,7 @@ fun TempoButton(
             if (icon != null) {
                 Icon(
                     imageVector = icon,
-                    tint = color.contentColor(enabled),
+                    tint = color.contentColor(enabled).value,
                     contentDescription = contentDescription,
                     modifier = Modifier.size(14.dp)
                 )
@@ -41,7 +41,7 @@ fun TempoButton(
             Text(
                 text = text,
                 style = MaterialTheme.typography.button,
-                color = color.contentColor(enabled)
+                color = color.contentColor(enabled).value
             )
         }
     }

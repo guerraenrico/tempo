@@ -9,7 +9,6 @@ import androidx.navigation.compose.rememberNavController
 import com.enricog.routines.RoutinesNavigation
 import com.enricog.tempo.navigation.Navigator
 import com.enricog.timer.TimerNavigation
-import com.enricog.ui_components.ambients.ProvideTempoAmbient
 import com.enricog.ui_components.resources.TempoTheme
 import dagger.hilt.android.AndroidEntryPoint
 import javax.inject.Inject
@@ -27,12 +26,9 @@ internal class MainActivity : AppCompatActivity() {
                 val navController = rememberNavController()
                 navigator.navController = navController
 
-                ProvideTempoAmbient {
-
-                    NavHost(navController = navController, startDestination = "routinesNav") {
-                        RoutinesNavigation()
-                        TimerNavigation()
-                    }
+                NavHost(navController = navController, startDestination = "routinesNav") {
+                    RoutinesNavigation()
+                    TimerNavigation()
                 }
 
                 onDispose { navigator.navController = null }

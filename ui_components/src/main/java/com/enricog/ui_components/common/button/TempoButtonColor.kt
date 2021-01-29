@@ -1,6 +1,9 @@
 package com.enricog.ui_components.common.button
 
 import androidx.compose.material.ButtonColors
+import androidx.compose.runtime.Composable
+import androidx.compose.runtime.State
+import androidx.compose.runtime.rememberUpdatedState
 import androidx.compose.ui.graphics.Color
 import com.enricog.ui_components.resources.*
 
@@ -11,12 +14,14 @@ abstract class TempoButtonColors : ButtonColors {
     abstract val enabledContentColor: Color
     abstract val disabledContentColor: Color
 
-    override fun backgroundColor(enabled: Boolean): Color {
-        return if (enabled) enabledBackgroundColor else disabledBackgroundColor
+    @Composable
+    override fun backgroundColor(enabled: Boolean): State<Color> {
+        return rememberUpdatedState(if (enabled) enabledBackgroundColor else disabledBackgroundColor)
     }
 
-    override fun contentColor(enabled: Boolean): Color {
-        return if (enabled) enabledContentColor else disabledContentColor
+    @Composable
+    override fun contentColor(enabled: Boolean): State<Color> {
+        return rememberUpdatedState(if (enabled) enabledContentColor else disabledContentColor)
     }
 }
 
