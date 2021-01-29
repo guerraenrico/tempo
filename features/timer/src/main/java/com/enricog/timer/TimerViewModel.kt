@@ -1,7 +1,6 @@
 package com.enricog.timer
 
 import androidx.annotation.VisibleForTesting
-import androidx.hilt.lifecycle.ViewModelInject
 import androidx.lifecycle.viewModelScope
 import com.enricog.base_android.viewmodel.BaseViewModel
 import com.enricog.core.coroutine.dispatchers.CoroutineDispatchers
@@ -13,10 +12,13 @@ import com.enricog.timer.models.TimerState
 import com.enricog.timer.models.TimerViewState
 import com.enricog.timer.navigation.TimerNavigationActions
 import com.enricog.timer.usecase.TimerUseCase
+import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
+import javax.inject.Inject
 
-internal class TimerViewModel @ViewModelInject constructor(
+@HiltViewModel
+internal class TimerViewModel @Inject constructor(
     dispatchers: CoroutineDispatchers,
     converter: TimerStateConverter,
     private val navigationActions: TimerNavigationActions,
