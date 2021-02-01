@@ -30,7 +30,7 @@ object Libs {
         private const val coroutineVersion = "1.4.2"
 
         const val coroutines = "org.jetbrains.kotlinx:kotlinx-coroutines-android:$coroutineVersion"
-        const val stdlib = "org.jetbrains.kotlin:kotlin-stdlib:$version"
+        const val stdlib = "org.jetbrains.kotlin:kotlin-stdlib-jdk8:$version"
 
         object Test {
             const val coroutines = "org.jetbrains.kotlinx:kotlinx-coroutines-test:$coroutineVersion"

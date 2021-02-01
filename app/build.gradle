@@ -55,16 +55,12 @@ android {
         sourceCompatibility Versions.java
         targetCompatibility Versions.java
     }
-    kotlinOptions {
-        jvmTarget = Versions.jvmTarget
-        useIR = true
-    }
+
     buildFeatures {
         compose true
     }
     composeOptions {
         kotlinCompilerExtensionVersion Libs.AndroidX.Compose.version
-        kotlinCompilerVersion Libs.Kotlin.version
     }
 }
 
@@ -97,6 +93,7 @@ dependencies {
     kapt Libs.Hilt.androidCompiler
     implementation Libs.Hilt.lifecycleViewModel
     kapt Libs.Hilt.compiler
+    implementation Libs.Hilt.navigation
 
     // Firebase
     implementation platform(Libs.Firebase.bom)

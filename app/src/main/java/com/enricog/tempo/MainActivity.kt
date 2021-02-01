@@ -3,10 +3,9 @@ package com.enricog.tempo
 import android.os.Bundle
 import android.view.WindowManager
 import androidx.activity.ComponentActivity
-import androidx.appcompat.app.AppCompatActivity
 import androidx.compose.runtime.onDispose
 import androidx.compose.ui.platform.setContent
-import androidx.lifecycle.coroutineScope
+import androidx.lifecycle.lifecycleScope
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.rememberNavController
 import com.enricog.core.coroutine.dispatchers.CoroutineDispatchers
@@ -38,7 +37,6 @@ internal class MainActivity : ComponentActivity() {
         setContent {
             TempoTheme {
                 val navController = rememberNavController()
-                navigator.navController = navController
 
                 NavHost(navController = navController, startDestination = "routinesNav") {
                     RoutinesNavigation()
@@ -50,9 +48,9 @@ internal class MainActivity : ComponentActivity() {
         }
 
         windowScreenManager.keepScreenOn
-            .onEach(::toggleKeepScreenOnFlag)
+            .onEach { toggleKeepScreenOnFlag(it) }
             .flowOn(dispatchers.main)
-            .launchIn(lifecycle.coroutineScope)
+            .launchIn(lifecycleScope)
     }
 
     private fun toggleKeepScreenOnFlag(enable: Boolean) {

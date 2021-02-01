@@ -22,16 +22,12 @@ android {
         sourceCompatibility Versions.java
         targetCompatibility Versions.java
     }
-    kotlinOptions {
-        jvmTarget = Versions.jvmTarget
-        useIR = true
-    }
+
     buildFeatures {
         compose true
     }
     composeOptions {
         kotlinCompilerExtensionVersion Libs.AndroidX.Compose.version
-        kotlinCompilerVersion Libs.Kotlin.version
     }
 
     packagingOptions {
