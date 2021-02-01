@@ -1,7 +1,8 @@
 package com.enricog.routines.detail.summary.ui_components
 
-import androidx.compose.foundation.ScrollableColumn
 import androidx.compose.foundation.layout.*
+import androidx.compose.foundation.lazy.LazyColumn
+import androidx.compose.foundation.lazy.itemsIndexed
 import androidx.compose.material.MaterialTheme
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
@@ -38,13 +39,12 @@ internal fun RoutineSummaryScene(
             .fillMaxSize()
             .testTag(RoutineSummarySceneTestTag)
     ) {
-
-        ScrollableColumn(
+        LazyColumn(
             modifier = Modifier.fillMaxSize(),
             verticalArrangement = Arrangement.spacedBy(MaterialTheme.dimensions.spaceM),
             contentPadding = PaddingValues(MaterialTheme.dimensions.spaceM)
         ) {
-            summaryItems.mapIndexed { index, item ->
+            itemsIndexed(summaryItems) { index, item ->
                 when (item) {
                     is RoutineSummaryItem.RoutineInfo -> {
                         RoutineSection(
