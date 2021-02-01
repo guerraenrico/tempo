@@ -3,7 +3,7 @@ package com.enricog.tempo
 import android.os.Bundle
 import android.view.WindowManager
 import androidx.activity.ComponentActivity
-import androidx.compose.runtime.onDispose
+import androidx.compose.runtime.DisposableEffect
 import androidx.compose.ui.platform.setContent
 import androidx.lifecycle.lifecycleScope
 import androidx.navigation.compose.NavHost
@@ -43,7 +43,10 @@ internal class MainActivity : ComponentActivity() {
                     TimerNavigation()
                 }
 
-                onDispose { navigator.navController = null }
+                DisposableEffect(navController) {
+                    navigator.navController = navController
+                    onDispose { navigator.navController = null }
+                }
             }
         }
 
