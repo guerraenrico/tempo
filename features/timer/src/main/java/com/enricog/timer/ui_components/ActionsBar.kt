@@ -70,15 +70,16 @@ private fun DoneActions(
         onClick = onResetButtonClick,
         text = stringResource(R.string.button_reset),
         color = TempoButtonColor.Normal,
-        modifier = Modifier.testTag(ButtonResetTestTag)
-
+        modifier = Modifier.testTag(ButtonResetTestTag),
+        contentDescription = stringResource(R.string.content_description_button_reset_routine)
     )
     Spacer(modifier = Modifier.width(20.dp))
     TempoButton(
         onClick = onDoneButtonClick,
         text = stringResource(R.string.button_done),
         color = TempoButtonColor.Accent,
-        modifier = Modifier.testTag(ButtonDoneTestTag)
+        modifier = Modifier.testTag(ButtonDoneTestTag),
+        contentDescription = stringResource(R.string.content_description_button_done_routine)
     )
 }
 
@@ -87,7 +88,8 @@ private fun RestartButton(onClick: () -> Unit) {
     TempoIconButton(
         onClick = onClick,
         icon = vectorResource(R.drawable.ic_timer_restart),
-        modifier = Modifier.testTag(ButtonRestartTestTag)
+        modifier = Modifier.testTag(ButtonRestartTestTag),
+        contentDescription = stringResource(R.string.content_description_button_restart_routine_segment)
     )
 }
 
@@ -101,6 +103,7 @@ private fun StartStopButton(isRunning: Boolean, onClick: () -> Unit) {
     TempoIconButton(
         onClick = onClick,
         icon = vectorResource(icon),
-        modifier = Modifier.testTag(ButtonStartStopTestTag)
+        modifier = Modifier.testTag(ButtonStartStopTestTag),
+        contentDescription = stringResource(R.string.content_description_button_stop_routine_segment)
     )
 }

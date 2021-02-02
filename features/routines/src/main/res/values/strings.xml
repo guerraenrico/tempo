@@ -25,4 +25,11 @@
     <string name="chip_time_type_stopwatch_name">Stopwatch</string>
 
     <string name="label_delete">DELETE</string>
+
+    <string name="content_description_button_create_routine">Create a new routine</string>
+    <string name="content_description_button_save_routine">Save routine</string>
+    <string name="content_description_button_save_segment">Save segment</string>
+    <string name="content_description_button_edit_routine">Edit routine</string>
+    <string name="content_description_button_start_routine">Start routine</string>
+    <string name="content_description_button_add_segment">Add a new segment</string>
 </resources>

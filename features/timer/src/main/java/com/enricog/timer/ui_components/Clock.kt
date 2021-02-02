@@ -1,6 +1,6 @@
 package com.enricog.timer.ui_components
 
-import androidx.compose.animation.animateAsState
+import androidx.compose.animation.animateColorAsState
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.shape.CircleShape
@@ -32,7 +32,7 @@ private val clockShadowSize = 20.dp
 
 @Composable
 internal fun Clock(backgroundColor: Color, timeInSeconds: Long, modifier: Modifier = Modifier) {
-    val animatedBackgroundColor by animateAsState(backgroundColor)
+    val animatedBackgroundColor by animateColorAsState(backgroundColor)
 
     Box(modifier = modifier) {
         Shadow(size = clockShadowSize) {

@@ -16,22 +16,30 @@ import androidx.compose.ui.unit.dp
 fun TempoIconButton(
     onClick: () -> Unit,
     icon: ImageVector,
+    contentDescription: String,
     modifier: Modifier = Modifier,
     color: TempoButtonColor = TempoButtonColor.Normal,
     size: TempoIconButtonSize = TempoIconButtonSize.Normal,
     drawShadow: Boolean = true,
     enabled: Boolean = true
 ) {
+    require(contentDescription.isNotBlank()) { "contentDescription cannot be blank" }
+
     val shadowSize = if (drawShadow) size.shadow else 0.dp
     IconButton(
         onClick = onClick,
         modifier = modifier
             .shadow(shadowSize, shape = CircleShape)
-            .background(color = color.backgroundColor(enabled), shape = CircleShape)
+            .background(color = color.backgroundColor(enabled).value, shape = CircleShape)
             .size(size = size.box),
         enabled = enabled
     ) {
-        Icon(icon.copy(defaultHeight = size.icon, defaultWidth = size.icon), tint = color.contentColor(enabled))
+        Icon(
+            imageVector = icon,
+            tint = color.contentColor(enabled).value,
+            modifier = Modifier.size(size.icon),
+            contentDescription = contentDescription
+        )
     }
 }
 

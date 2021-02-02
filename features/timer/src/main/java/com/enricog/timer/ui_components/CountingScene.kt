@@ -60,7 +60,8 @@ internal fun CountingScene(state: TimerViewState.Counting, timerActions: TimerAc
             TempoIconButton(
                 onClick = { dialogOpen = true },
                 icon = vectorResource(R.drawable.ic_timer_close),
-                drawShadow = false
+                drawShadow = false,
+                contentDescription = stringResource(R.string.content_description_button_exit_routine)
             )
         }
         Column(
@@ -97,11 +98,13 @@ internal fun CountingScene(state: TimerViewState.Counting, timerActions: TimerAc
                 description = stringResource(R.string.dialog_exit_time_description),
                 positiveAction = TempoDialogAction(
                     text = stringResource(R.string.dialog_exit_time_action_positive),
-                    onClick = timerActions::onCloseButtonClick
+                    onClick = timerActions::onCloseButtonClick,
+                    contentDescription = stringResource(R.string.content_description_dialog_quite_routine_button_positive)
                 ),
                 negativeAction = TempoDialogAction(
                     text = stringResource(R.string.dialog_exit_time_action_negative),
-                    onClick = { dialogOpen = false }
+                    onClick = { dialogOpen = false },
+                    contentDescription = stringResource(R.string.content_description_dialog_quite_routine_button_negative)
                 ),
                 onDismiss = { dialogOpen = false },
                 isCancellable = true

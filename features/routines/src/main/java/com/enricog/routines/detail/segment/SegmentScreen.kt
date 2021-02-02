@@ -3,24 +3,26 @@ package com.enricog.routines.detail.segment
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.DisposableEffect
 import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
-import androidx.compose.runtime.onActive
 import androidx.compose.ui.Modifier
 import com.enricog.core.extensions.exhaustive
 import com.enricog.entities.routines.TimeType
 import com.enricog.routines.detail.segment.models.SegmentViewState
 import com.enricog.routines.detail.segment.ui_components.SegmentFormScene
-import com.enricog.ui_components.ambients.navViewModel
 import com.enricog.ui_components.common.toolbar.TempoToolbar
 
 @Composable
 internal fun SegmentScreen(
     routineId: Long,
     segmentId: Long,
-    viewModel: SegmentViewModel = navViewModel()
+    viewModel: SegmentViewModel
 ) {
-    onActive { viewModel.load(routineId = routineId, segmentId = segmentId) }
+    DisposableEffect(routineId, segmentId) {
+        viewModel.load(routineId = routineId, segmentId = segmentId)
+        onDispose { }
+    }
     val viewState by viewModel.viewState.collectAsState(SegmentViewState.Idle)
     Column(modifier = Modifier.fillMaxSize()) {
         TempoToolbar(onBack = viewModel::onSegmentBack)

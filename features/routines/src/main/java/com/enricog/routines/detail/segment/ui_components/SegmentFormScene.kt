@@ -1,8 +1,9 @@
 package com.enricog.routines.detail.segment.ui_components
 
-import androidx.compose.foundation.ScrollableColumn
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.*
+import androidx.compose.foundation.rememberScrollState
+import androidx.compose.foundation.verticalScroll
 import androidx.compose.material.MaterialTheme
 import androidx.compose.material.Text
 import androidx.compose.runtime.Composable
@@ -39,10 +40,11 @@ internal fun SegmentFormScene(
             .fillMaxSize()
             .background(MaterialTheme.colors.background)
     ) {
-        ScrollableColumn(
+        Column(
             modifier = Modifier
                 .fillMaxWidth()
                 .weight(1f)
+                .verticalScroll(rememberScrollState(0f))
         ) {
             SegmentNameTextField(
                 value = segment.name,
@@ -68,7 +70,8 @@ internal fun SegmentFormScene(
                 .padding(MaterialTheme.dimensions.spaceM),
             onClick = onSegmentConfirmed,
             color = TempoButtonColor.Confirm,
-            text = stringResource(R.string.button_save)
+            text = stringResource(R.string.button_save),
+            contentDescription = stringResource(R.string.content_description_button_save_segment)
         )
     }
 }

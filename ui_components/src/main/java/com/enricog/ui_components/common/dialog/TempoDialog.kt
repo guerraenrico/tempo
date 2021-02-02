@@ -12,7 +12,6 @@ import androidx.compose.ui.window.AndroidDialogProperties
 import androidx.compose.ui.window.Dialog
 import com.enricog.ui_components.common.button.TempoButton
 
-
 @Composable
 fun TempoDialogAlert(
     title: String,
@@ -55,10 +54,18 @@ fun TempoDialogAlert(
                 horizontalArrangement = Arrangement.End
             ) {
                 if (negativeAction != null) {
-                    TempoButton(onClick = negativeAction.onClick, text = negativeAction.text)
+                    TempoButton(
+                        onClick = negativeAction.onClick,
+                        text = negativeAction.text,
+                        contentDescription = negativeAction.contentDescription
+                    )
                     Spacer(modifier = Modifier.preferredWidth(16.dp))
                 }
-                TempoButton(onClick = positiveAction.onClick, text = positiveAction.text)
+                TempoButton(
+                    onClick = positiveAction.onClick,
+                    text = positiveAction.text,
+                    contentDescription = positiveAction.contentDescription
+                )
             }
         }
     }

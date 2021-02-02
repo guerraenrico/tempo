@@ -9,7 +9,6 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.gesture.scrollorientationlocking.Orientation
-import androidx.compose.ui.layout.WithConstraints
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.IntOffset
@@ -33,7 +32,7 @@ internal fun DeletableListItem(
     modifier: Modifier = Modifier,
     onDelete: () -> Unit,
     content: @Composable () -> Unit,
-) = WithConstraints {
+) = BoxWithConstraints {
     val width = constraints.maxWidth.toFloat()
     val openWidth = width * 0.3f
 

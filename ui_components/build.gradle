@@ -17,16 +17,12 @@ android {
         sourceCompatibility Versions.java
         targetCompatibility Versions.java
     }
-    kotlinOptions {
-        jvmTarget = Versions.jvmTarget
-        useIR = true
-    }
+
     buildFeatures {
         compose true
     }
     composeOptions {
         kotlinCompilerExtensionVersion Libs.AndroidX.Compose.version
-        kotlinCompilerVersion Libs.Kotlin.version
     }
 }
 
@@ -41,6 +37,5 @@ dependencies {
     implementation Libs.AndroidX.Compose.material
     implementation Libs.AndroidX.Compose.navigation
 
-    // Hilt FIXME: remove when https://github.com/google/dagger/issues/2166 is solved
-    implementation Libs.Hilt.lifecycleViewModel
+    implementation Libs.Hilt.navigation
 }

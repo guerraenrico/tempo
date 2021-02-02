@@ -1,12 +1,14 @@
 package com.enricog.routines.detail.summary.ui_components
 
-import androidx.compose.foundation.ScrollableColumn
 import androidx.compose.foundation.layout.*
+import androidx.compose.foundation.lazy.LazyColumn
+import androidx.compose.foundation.lazy.itemsIndexed
 import androidx.compose.material.MaterialTheme
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.platform.testTag
+import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.res.vectorResource
 import com.enricog.core.extensions.exhaustive
 import com.enricog.entities.routines.Segment
@@ -37,13 +39,12 @@ internal fun RoutineSummaryScene(
             .fillMaxSize()
             .testTag(RoutineSummarySceneTestTag)
     ) {
-
-        ScrollableColumn(
+        LazyColumn(
             modifier = Modifier.fillMaxSize(),
             verticalArrangement = Arrangement.spacedBy(MaterialTheme.dimensions.spaceM),
             contentPadding = PaddingValues(MaterialTheme.dimensions.spaceM)
         ) {
-            summaryItems.mapIndexed { index, item ->
+            itemsIndexed(summaryItems) { index, item ->
                 when (item) {
                     is RoutineSummaryItem.RoutineInfo -> {
                         RoutineSection(
@@ -76,7 +77,8 @@ internal fun RoutineSummaryScene(
             onClick = onRoutineStart,
             icon = vectorResource(R.drawable.ic_routine_play),
             color = TempoButtonColor.Accent,
-            size = startRoutineButtonSize
+            size = startRoutineButtonSize,
+            contentDescription = stringResource(R.string.content_description_button_start_routine)
         )
     }
 }

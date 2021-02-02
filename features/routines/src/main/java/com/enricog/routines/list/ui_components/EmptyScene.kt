@@ -36,7 +36,8 @@ internal fun EmptyScene(onCreateSegmentClick: () -> Unit) {
         TempoButton(
             onClick = onCreateSegmentClick,
             text = stringResource(R.string.button_create_routine),
-            color = TempoButtonColor.Accent
+            color = TempoButtonColor.Accent,
+            contentDescription = stringResource(R.string.content_description_button_create_routine)
         )
     }
 }

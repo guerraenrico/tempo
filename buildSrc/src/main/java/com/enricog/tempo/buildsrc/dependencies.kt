@@ -26,11 +26,11 @@ object Versions {
 object Libs {
 
     object Kotlin {
-        const val version = "1.4.21"
+        const val version = "1.4.21-2"
         private const val coroutineVersion = "1.4.2"
 
         const val coroutines = "org.jetbrains.kotlinx:kotlinx-coroutines-android:$coroutineVersion"
-        const val stdlib = "org.jetbrains.kotlin:kotlin-stdlib:$version"
+        const val stdlib = "org.jetbrains.kotlin:kotlin-stdlib-jdk8:$version"
 
         object Test {
             const val coroutines = "org.jetbrains.kotlinx:kotlinx-coroutines-test:$coroutineVersion"
@@ -56,7 +56,7 @@ object Libs {
         }
 
         object Compose {
-            const val version = "1.0.0-alpha10"
+            const val version = "1.0.0-alpha11"
 
             const val runtime = "androidx.compose.runtime:runtime:$version"
             const val foundation = "androidx.compose.foundation:foundation:$version"
@@ -70,7 +70,7 @@ object Libs {
             const val test = "androidx.compose.ui:ui-test:$version"
             const val uiTest = "androidx.compose.ui:ui-test-junit4:$version"
 
-            const val navigation = "androidx.navigation:navigation-compose:1.0.0-alpha05"
+            const val navigation = "androidx.navigation:navigation-compose:1.0.0-alpha06"
         }
     }
 
@@ -86,11 +86,14 @@ object Libs {
     }
 
     object Hilt {
-        const val androidVersion = "2.28.3-alpha"
-        private const val version = "1.0.0-alpha02"
+        const val androidVersion = "2.31.2-alpha"
+        private const val version = "1.0.0-alpha03"
 
         const val android = "com.google.dagger:hilt-android:$androidVersion"
         const val androidCompiler = "com.google.dagger:hilt-android-compiler:$androidVersion"
+
+        // TODO replace with hilt-navigation-compose when out
+        const val navigation = "androidx.hilt:hilt-navigation:$version"
 
         const val lifecycleViewModel = "androidx.hilt:hilt-lifecycle-viewmodel:$version"
         const val compiler = "androidx.hilt:hilt-compiler:$version"

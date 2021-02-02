@@ -1,10 +1,11 @@
 package com.enricog.routines.detail.routine.ui_components
 
-import androidx.compose.foundation.ScrollableColumn
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.rememberScrollState
+import androidx.compose.foundation.verticalScroll
 import androidx.compose.material.MaterialTheme
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
@@ -34,10 +35,11 @@ internal fun RoutineFormScene(
             .fillMaxSize()
             .testTag(RoutineFormSceneTestTag)
     ) {
-        ScrollableColumn(
-            modifier = Modifier.fillMaxWidth()
+        Column(
+            modifier = Modifier
+                .fillMaxWidth()
                 .weight(1f)
-
+                .verticalScroll(rememberScrollState(initial = 0f))
         ) {
             RoutineNameTextField(
                 value = routine.name,
@@ -58,7 +60,8 @@ internal fun RoutineFormScene(
                 .padding(MaterialTheme.dimensions.spaceM),
             onClick = onRoutineSave,
             color = TempoButtonColor.Confirm,
-            text = stringResource(R.string.button_save)
+            text = stringResource(R.string.button_save),
+            contentDescription = stringResource(R.string.content_description_button_save_routine)
         )
     }
 }

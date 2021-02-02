@@ -1,6 +1,5 @@
 package com.enricog.routines.detail.segment
 
-import androidx.hilt.lifecycle.ViewModelInject
 import androidx.lifecycle.viewModelScope
 import com.enricog.base_android.viewmodel.BaseViewModel
 import com.enricog.base_android.viewmodel.ViewModelConfiguration
@@ -13,9 +12,12 @@ import com.enricog.routines.detail.segment.models.SegmentState
 import com.enricog.routines.detail.segment.models.SegmentViewState
 import com.enricog.routines.detail.segment.usecase.SegmentUseCase
 import com.enricog.routines.navigation.RoutinesNavigationActions
+import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.launch
+import javax.inject.Inject
 
-internal class SegmentViewModel @ViewModelInject constructor(
+@HiltViewModel
+internal class SegmentViewModel @Inject constructor(
     dispatchers: CoroutineDispatchers,
     converter: SegmentStateConverter,
     private val reducer: SegmentReducer,

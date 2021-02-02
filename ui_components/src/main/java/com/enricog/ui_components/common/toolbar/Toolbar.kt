@@ -8,6 +8,7 @@ import androidx.compose.runtime.Composable
 import androidx.compose.runtime.Providers
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.res.vectorResource
 import androidx.compose.ui.unit.dp
 import com.enricog.ui_components.R
@@ -33,7 +34,10 @@ fun TempoToolbar(
             ) {
                 if (onBack != null) {
                     IconButton(onClick = onBack) {
-                        Icon(imageVector = vectorResource(R.drawable.ic_back))
+                        Icon(
+                            imageVector = vectorResource(R.drawable.ic_back),
+                            contentDescription = stringResource(R.string.content_description_toolbar_button_back)
+                        )
                     }
                 }
                 if (title != null) {

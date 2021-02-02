@@ -58,9 +58,10 @@ internal fun SegmentSectionTitle(
             },
             onClick = onAddSegmentClick,
             size = TempoIconButtonSize.Small,
-            icon = vectorResource(R.drawable.ic_segment_add),
+            icon = vectorResource(R.drawable.ic_add),
             color = TempoButtonColor.TransparentPrimary,
-            drawShadow = false
+            drawShadow = false,
+            contentDescription = stringResource(R.string.content_description_button_add_segment)
         )
 
         if (item.error != null) {

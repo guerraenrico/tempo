@@ -1,5 +1,6 @@
 package com.enricog.ui_components.common.button
 
+import androidx.compose.foundation.layout.size
 import androidx.compose.material.*
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.Providers
@@ -12,10 +13,14 @@ fun TempoButton(
     onClick: () -> Unit,
     modifier: Modifier = Modifier,
     text: String,
+    contentDescription: String,
     icon: ImageVector? = null,
     color: TempoButtonColor = TempoButtonColor.Normal,
     enabled: Boolean = true
 ) {
+    require(contentDescription.isNotBlank()) { "contentDescription cannot be blank" }
+    require(text.isNotBlank()) { "text cannot be blank" }
+
     Providers(
         AmbientElevationOverlay provides null
     ) {
@@ -27,14 +32,16 @@ fun TempoButton(
         ) {
             if (icon != null) {
                 Icon(
-                    imageVector = icon.copy(defaultHeight = 14.dp, defaultWidth = 14.dp),
-                    tint = color.contentColor(enabled)
+                    imageVector = icon,
+                    tint = color.contentColor(enabled).value,
+                    contentDescription = contentDescription,
+                    modifier = Modifier.size(14.dp)
                 )
             }
             Text(
                 text = text,
                 style = MaterialTheme.typography.button,
-                color = color.contentColor(enabled)
+                color = color.contentColor(enabled).value
             )
         }
     }

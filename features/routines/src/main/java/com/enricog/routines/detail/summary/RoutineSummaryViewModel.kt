@@ -1,6 +1,5 @@
 package com.enricog.routines.detail.summary
 
-import androidx.hilt.lifecycle.ViewModelInject
 import androidx.lifecycle.viewModelScope
 import com.enricog.base_android.viewmodel.BaseViewModel
 import com.enricog.core.coroutine.dispatchers.CoroutineDispatchers
@@ -9,10 +8,13 @@ import com.enricog.routines.detail.summary.models.RoutineSummaryState
 import com.enricog.routines.detail.summary.models.RoutineSummaryViewState
 import com.enricog.routines.detail.summary.usecase.RoutineSummaryUseCase
 import com.enricog.routines.navigation.RoutinesNavigationActions
+import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.launchIn
 import kotlinx.coroutines.flow.onEach
+import javax.inject.Inject
 
-internal class RoutineSummaryViewModel @ViewModelInject constructor(
+@HiltViewModel
+internal class RoutineSummaryViewModel @Inject constructor(
     dispatchers: CoroutineDispatchers,
     converter: RoutineSummaryStateConverter,
     private val navigationActions: RoutinesNavigationActions,
