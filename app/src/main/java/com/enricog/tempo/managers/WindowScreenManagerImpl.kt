@@ -5,8 +5,7 @@ import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.MutableStateFlow
 import javax.inject.Inject
 
-internal class WindowScreenManagerImpl @Inject constructor(
-) : WindowScreenManager {
+internal class WindowScreenManagerImpl @Inject constructor() : WindowScreenManager {
 
     private val flag = MutableStateFlow(false)
 
