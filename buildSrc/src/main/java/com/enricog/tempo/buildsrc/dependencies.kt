@@ -2,9 +2,6 @@
 
 package com.enricog.tempo.buildsrc
 
-import org.gradle.api.JavaVersion
-
-
 object Versions {
     private const val versionMajor = 1
     private const val versionMinor = 0
@@ -19,7 +16,6 @@ object Versions {
     const val minSdk = 24
     const val targetSdk = 30
 
-    val java = JavaVersion.VERSION_1_8
     const val jvmTarget = "1.8"
 }
 
