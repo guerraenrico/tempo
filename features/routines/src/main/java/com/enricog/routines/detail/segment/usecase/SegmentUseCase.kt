@@ -32,5 +32,4 @@ internal class SegmentUseCase @Inject constructor(
         val updatedRoutine = routine.copy(segments = updatedSegments)
         routineDataSource.update(updatedRoutine)
     }
-
 }

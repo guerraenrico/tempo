@@ -14,5 +14,4 @@ internal abstract class ManagersModule {
     @Binds
     @Singleton
     abstract fun provideWindowScreenManager(impl: WindowScreenManagerImpl): WindowScreenManager
-
 }

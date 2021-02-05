@@ -37,5 +37,4 @@ internal abstract class TempoDatabase : RoomDatabase() {
             ).build()
         }
     }
-
 }

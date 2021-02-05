@@ -31,9 +31,11 @@ fun NavGraphBuilder.RoutinesNavigation() {
 
         composable(
             route = RoutineSummary.routeName,
-            arguments = listOf(navArgument(RoutineSummary.routeIdParamName) {
-                type = NavType.LongType; defaultValue = 0L
-            })
+            arguments = listOf(
+                navArgument(RoutineSummary.routeIdParamName) {
+                    type = NavType.LongType; defaultValue = 0L
+                }
+            )
         ) {
             RoutineSummaryScreen(
                 routineId = it.arguments!!.getLong(Routine.routeIdParamName),
@@ -43,9 +45,11 @@ fun NavGraphBuilder.RoutinesNavigation() {
 
         composable(
             route = Routine.routeName,
-            arguments = listOf(navArgument(Routine.routeIdParamName) {
-                type = NavType.LongType; defaultValue = 0L
-            })
+            arguments = listOf(
+                navArgument(Routine.routeIdParamName) {
+                    type = NavType.LongType; defaultValue = 0L
+                }
+            )
         ) {
             RoutineScreen(
                 routineId = it.arguments!!.getLong(Routine.routeIdParamName),

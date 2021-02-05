@@ -5,17 +5,22 @@ import com.enricog.base_test.entities.routines.EMPTY
 import com.enricog.entities.routines.Routine
 import com.enricog.entities.routines.Segment
 import com.enricog.entities.routines.TimeType
-import com.enricog.timer.models.*
+import com.enricog.timer.models.Count
+import com.enricog.timer.models.SegmentStep
+import com.enricog.timer.models.SegmentStepType
+import com.enricog.timer.models.TimerConfiguration
+import com.enricog.timer.models.TimerState
+import com.enricog.timer.models.TimerViewState
 import com.enricog.timer.navigation.TimerNavigationActions
 import com.enricog.timer.usecase.TimerUseCase
 import io.mockk.coEvery
 import io.mockk.every
 import io.mockk.mockk
 import io.mockk.verify
+import kotlin.test.assertTrue
 import org.junit.Before
 import org.junit.Rule
 import org.junit.Test
-import kotlin.test.assertTrue
 
 class TimerViewModelTest {
 

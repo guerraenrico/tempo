@@ -26,7 +26,8 @@ class RoutineScreenKtTest {
                 viewState.Compose(
                     onRoutineNameChange = {},
                     onStartTimeOffsetChange = {},
-                    onRoutineSave = {})
+                    onRoutineSave = {}
+                )
             }
         }
 
@@ -42,7 +43,8 @@ class RoutineScreenKtTest {
                 viewState.Compose(
                     onRoutineNameChange = {},
                     onStartTimeOffsetChange = {},
-                    onRoutineSave = {})
+                    onRoutineSave = {}
+                )
             }
         }
 

@@ -3,8 +3,8 @@ package com.enricog.routines.list
 import com.enricog.base_test.entities.routines.EMPTY
 import com.enricog.entities.routines.Routine
 import com.enricog.routines.list.models.RoutinesState
-import org.junit.Test
 import kotlin.test.assertEquals
+import org.junit.Test
 
 class RoutinesReducerTest {
 
@@ -29,5 +29,4 @@ class RoutinesReducerTest {
 
         assertEquals(expected, result)
     }
-
 }

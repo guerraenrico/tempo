@@ -4,8 +4,8 @@ import com.enricog.base_test.entities.routines.EMPTY
 import com.enricog.entities.routines.Routine
 import com.enricog.routines.detail.routine.models.RoutineField
 import com.enricog.routines.detail.routine.models.RoutineFieldError
-import org.junit.Test
 import kotlin.test.assertEquals
+import org.junit.Test
 
 class RoutineValidatorTest {
 
@@ -34,5 +34,4 @@ class RoutineValidatorTest {
 
         assertEquals(expected, result)
     }
-
 }

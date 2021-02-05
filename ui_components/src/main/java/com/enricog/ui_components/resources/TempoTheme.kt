@@ -15,4 +15,3 @@ fun TempoTheme(content: @Composable () -> Unit) {
         }
     }
 }
-

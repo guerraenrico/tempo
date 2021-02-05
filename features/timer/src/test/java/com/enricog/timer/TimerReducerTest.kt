@@ -8,8 +8,8 @@ import com.enricog.timer.models.Count
 import com.enricog.timer.models.SegmentStep
 import com.enricog.timer.models.SegmentStepType
 import com.enricog.timer.models.TimerState
-import org.junit.Test
 import kotlin.test.assertEquals
+import org.junit.Test
 
 class TimerReducerTest {
 
@@ -153,7 +153,6 @@ class TimerReducerTest {
         assertEquals(expected, result)
     }
 
-
     @Test
     fun `test progressTime should progress by timerType#progress when segmentStepType is not STARTING`() {
         val state = TimerState.Counting(
@@ -273,7 +272,6 @@ class TimerReducerTest {
 
         assertEquals(expected, result)
     }
-
 
     @Test
     fun `test toggleTimeRunning should return the same state when count is completed`() {

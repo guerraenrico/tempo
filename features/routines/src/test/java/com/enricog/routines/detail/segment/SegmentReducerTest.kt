@@ -7,8 +7,8 @@ import com.enricog.entities.routines.TimeType
 import com.enricog.routines.detail.segment.models.SegmentField
 import com.enricog.routines.detail.segment.models.SegmentFieldError
 import com.enricog.routines.detail.segment.models.SegmentState
-import org.junit.Test
 import kotlin.test.assertEquals
+import org.junit.Test
 
 class SegmentReducerTest {
 

@@ -13,7 +13,7 @@ import com.enricog.ui_components.common.toolbar.TempoToolbar
 internal fun RoutineScreen(routineId: Long, viewModel: RoutineViewModel) {
     DisposableEffect(routineId) {
         viewModel.load(routineId)
-        onDispose {  }
+        onDispose { }
     }
     val viewState by viewModel.viewState.collectAsState(RoutineViewState.Idle)
     Column(

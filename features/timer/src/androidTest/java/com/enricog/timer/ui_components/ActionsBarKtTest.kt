@@ -9,7 +9,6 @@ import com.enricog.ui_components.resources.TempoTheme
 import org.junit.Rule
 import org.junit.Test
 
-
 class ActionsBarKtTest {
 
     @get:Rule

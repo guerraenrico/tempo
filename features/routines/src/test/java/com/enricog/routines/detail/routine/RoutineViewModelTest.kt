@@ -168,5 +168,4 @@ class RoutineViewModelTest {
             routineUseCase = routineUseCase
         )
     }
-
 }

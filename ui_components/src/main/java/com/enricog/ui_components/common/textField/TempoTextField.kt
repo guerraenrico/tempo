@@ -25,7 +25,6 @@ private val textFieldStyle: TextStyle = TextStyle(
     fontSize = 20.sp
 )
 
-
 @Composable
 fun TempoTextField(
     value: String,

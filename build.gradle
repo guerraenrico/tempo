@@ -5,6 +5,9 @@ buildscript {
     repositories {
         google()
         jcenter()
+        maven {
+            url "https://plugins.gradle.org/m2/"
+        }
     }
     dependencies {
         classpath 'com.android.tools.build:gradle:7.0.0-alpha05'
@@ -13,6 +16,8 @@ buildscript {
 
         classpath 'com.google.gms:google-services:4.3.5'
         classpath 'com.google.firebase:firebase-crashlytics-gradle:2.4.1'
+
+        classpath "org.jlleitschuh.gradle:ktlint-gradle:9.4.1"
 
         // NOTE: Do not place your application dependencies here; they belong
         // in the individual module build.gradle files
@@ -62,7 +67,26 @@ allprojects {
             jvmTarget = Versions.jvmTarget
         }
     }
+
+    apply plugin: "org.jlleitschuh.gradle.ktlint"
+    ktlint {
+        version = "0.40.0"
+        debug = true
+        verbose = true
+        android = true
+        outputToConsole = true
+        outputColorName = "RED"
+        ignoreFailures = true
+        disabledRules = [
+                "max-line-length"
+        ]
+        reporters {
+            reporter "plain"
+            reporter "checkstyle"
+        }
+    }
 }
+
 
 task clean(type: Delete) {
     delete rootProject.buildDir

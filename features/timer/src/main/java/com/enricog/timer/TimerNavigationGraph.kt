@@ -12,9 +12,11 @@ fun NavGraphBuilder.TimerNavigation() {
     navigation(startDestination = TimerNavigationConstants.routeName, route = "timer") {
         composable(
             route = TimerNavigationConstants.routeName,
-            arguments = listOf(navArgument(TimerNavigationConstants.routeIdParamName) {
-                type = NavType.LongType; nullable = false
-            })
+            arguments = listOf(
+                navArgument(TimerNavigationConstants.routeIdParamName) {
+                    type = NavType.LongType; nullable = false
+                }
+            )
         ) { navBackStackEntry ->
             TimerScreen(
                 navBackStackEntry.arguments!!.getLong(TimerNavigationConstants.routeIdParamName),

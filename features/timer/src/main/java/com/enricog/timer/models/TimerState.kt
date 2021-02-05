@@ -22,12 +22,12 @@ internal sealed class TimerState {
 
         val isRoutineCompleted: Boolean
             get() = routine.segments.indexOf(runningSegment) == routine.segments.size - 1 &&
-                    step.type == SegmentStepType.IN_PROGRESS &&
-                    step.count.isCompleted
+                step.type == SegmentStepType.IN_PROGRESS &&
+                step.count.isCompleted
 
         val isStopwatchRunning: Boolean
             get() = runningSegment.type == TimeType.STOPWATCH &&
-                    step.type == SegmentStepType.IN_PROGRESS &&
-                    isCountRunning
+                step.type == SegmentStepType.IN_PROGRESS &&
+                isCountRunning
     }
 }

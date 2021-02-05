@@ -17,5 +17,4 @@ internal interface SegmentDao {
 
     @Delete
     suspend fun delete(vararg segment: InternalSegment)
-
 }

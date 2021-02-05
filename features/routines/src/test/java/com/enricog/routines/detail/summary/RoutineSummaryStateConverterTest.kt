@@ -6,9 +6,9 @@ import com.enricog.entities.routines.Routine
 import com.enricog.entities.routines.Segment
 import com.enricog.routines.R
 import com.enricog.routines.detail.summary.models.*
+import kotlin.test.assertEquals
 import org.junit.Rule
 import org.junit.Test
-import kotlin.test.assertEquals
 
 class RoutineSummaryStateConverterTest {
 

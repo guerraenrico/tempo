@@ -18,5 +18,4 @@ internal object OffsetDateTimeConverter {
     fun toDateTime(offsetDateTime: String): OffsetDateTime {
         return OffsetDateTime.parse(offsetDateTime)
     }
-
 }

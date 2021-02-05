@@ -5,8 +5,8 @@ import com.enricog.entities.routines.Segment
 import com.enricog.entities.routines.TimeType
 import com.enricog.routines.detail.segment.models.SegmentField
 import com.enricog.routines.detail.segment.models.SegmentFieldError
-import org.junit.Test
 import kotlin.test.assertEquals
+import org.junit.Test
 
 class SegmentValidatorTest {
 
@@ -57,5 +57,4 @@ class SegmentValidatorTest {
 
         assertEquals(expected, result)
     }
-
 }

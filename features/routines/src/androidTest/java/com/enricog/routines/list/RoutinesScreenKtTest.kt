@@ -25,7 +25,8 @@ class RoutinesScreenKtTest {
                 viewState.Compose(
                     onCreateRoutineClick = {},
                     onRoutineClick = {},
-                    onRoutineDelete = {})
+                    onRoutineDelete = {}
+                )
             }
         }
 
@@ -44,7 +45,8 @@ class RoutinesScreenKtTest {
                 viewState.Compose(
                     onCreateRoutineClick = {},
                     onRoutineClick = {},
-                    onRoutineDelete = {})
+                    onRoutineDelete = {}
+                )
             }
         }
 
@@ -63,7 +65,8 @@ class RoutinesScreenKtTest {
                 viewState.Compose(
                     onCreateRoutineClick = {},
                     onRoutineClick = {},
-                    onRoutineDelete = {})
+                    onRoutineDelete = {}
+                )
             }
         }
 
@@ -72,5 +75,4 @@ class RoutinesScreenKtTest {
         onNodeWithTag(EmptySceneTestTag).assertDoesNotExist()
         onNodeWithTag(RoutinesSceneTestTag).assertIsDisplayed()
     }
-
 }

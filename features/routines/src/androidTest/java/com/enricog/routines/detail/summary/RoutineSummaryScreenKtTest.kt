@@ -25,7 +25,8 @@ class RoutineSummaryScreenKtTest {
                     onSegmentSelected = {},
                     onSegmentDelete = {},
                     onRoutineStart = {},
-                    onRoutineEdit = {})
+                    onRoutineEdit = {}
+                )
             }
         }
 
@@ -45,7 +46,8 @@ class RoutineSummaryScreenKtTest {
                     onSegmentSelected = {},
                     onSegmentDelete = {},
                     onRoutineStart = {},
-                    onRoutineEdit = {})
+                    onRoutineEdit = {}
+                )
             }
         }
 

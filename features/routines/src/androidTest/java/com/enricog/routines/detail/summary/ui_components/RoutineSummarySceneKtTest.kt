@@ -43,5 +43,4 @@ class RoutineSummarySceneKtTest {
         onNodeWithTag(SegmentSectionTitleTestTag).assertIsDisplayed()
         onNodeWithTag(SegmentItemTestTag).assertIsDisplayed()
     }
-
 }

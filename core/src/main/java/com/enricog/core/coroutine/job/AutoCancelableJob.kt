@@ -1,8 +1,8 @@
 package com.enricog.core.coroutine.job
 
-import kotlinx.coroutines.Job
 import kotlin.properties.ReadWriteProperty
 import kotlin.reflect.KProperty
+import kotlinx.coroutines.Job
 
 internal class AutoCancelableJob : ReadWriteProperty<Any, Job?> {
 

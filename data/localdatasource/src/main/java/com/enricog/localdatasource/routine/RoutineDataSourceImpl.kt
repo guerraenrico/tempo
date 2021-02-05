@@ -5,10 +5,10 @@ import com.enricog.datasource.RoutineDataSource
 import com.enricog.entities.routines.Routine
 import com.enricog.localdatasource.TempoDatabase
 import com.enricog.localdatasource.routine.model.toInternal
-import kotlinx.coroutines.flow.Flow
-import kotlinx.coroutines.flow.map
 import java.time.OffsetDateTime
 import javax.inject.Inject
+import kotlinx.coroutines.flow.Flow
+import kotlinx.coroutines.flow.map
 
 @SuppressLint("NewApi")
 internal class RoutineDataSourceImpl @Inject constructor(

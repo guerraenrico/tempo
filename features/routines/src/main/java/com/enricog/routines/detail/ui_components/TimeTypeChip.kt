@@ -56,7 +56,6 @@ internal fun TimeTypeChip(
             )
         )
     }
-
 }
 
 private fun TimeType.color(isSelected: Boolean): Color {

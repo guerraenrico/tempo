@@ -61,4 +61,3 @@ sealed class TempoButtonColor : TempoButtonColors() {
         override val disabledContentColor: Color = grey100
     }
 }
-

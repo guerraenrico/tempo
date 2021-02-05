@@ -2,8 +2,8 @@ package com.enricog.routines.detail.summary.usecase
 
 import com.enricog.datasource.RoutineDataSource
 import com.enricog.entities.routines.Routine
-import kotlinx.coroutines.flow.Flow
 import javax.inject.Inject
+import kotlinx.coroutines.flow.Flow
 
 internal class RoutineSummaryUseCase @Inject constructor(
     private val routineDataSource: RoutineDataSource

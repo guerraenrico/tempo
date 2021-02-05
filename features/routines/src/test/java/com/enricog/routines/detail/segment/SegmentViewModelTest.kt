@@ -172,5 +172,4 @@ class SegmentViewModelTest {
             navigationActions = navigationActions
         )
     }
-
 }

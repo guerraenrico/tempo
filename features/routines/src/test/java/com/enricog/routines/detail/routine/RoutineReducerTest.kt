@@ -5,8 +5,8 @@ import com.enricog.entities.routines.Routine
 import com.enricog.routines.detail.routine.models.RoutineField
 import com.enricog.routines.detail.routine.models.RoutineFieldError
 import com.enricog.routines.detail.routine.models.RoutineState
-import org.junit.Test
 import kotlin.test.assertEquals
+import org.junit.Test
 
 class RoutineReducerTest {
 
@@ -63,7 +63,6 @@ class RoutineReducerTest {
 
         assertEquals(expected, result)
     }
-
 
     @Test
     fun `should apply routine errors`() {

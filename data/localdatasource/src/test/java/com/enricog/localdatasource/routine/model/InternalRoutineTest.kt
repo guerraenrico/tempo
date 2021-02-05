@@ -3,9 +3,9 @@ package com.enricog.localdatasource.routine.model
 import com.enricog.entities.routines.Routine
 import com.enricog.entities.routines.Segment
 import com.enricog.entities.routines.TimeType
+import java.time.OffsetDateTime
 import org.junit.Assert.assertEquals
 import org.junit.Test
-import java.time.OffsetDateTime
 
 class InternalRoutineTest {
 
@@ -75,10 +75,8 @@ class InternalRoutineTest {
             )
         )
 
-
         val result = internalRoutine.toEntity(internalSegments)
 
         assertEquals(expected, result)
     }
-
 }

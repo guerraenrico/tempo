@@ -41,7 +41,5 @@ class ClockKtTest {
 
         onNodeWithTag(ClockTestTag).assertIsDisplayed()
         onNodeWithTag(ClockTimeTextTestTag).assertTextEquals("01:30")
-
     }
-
 }

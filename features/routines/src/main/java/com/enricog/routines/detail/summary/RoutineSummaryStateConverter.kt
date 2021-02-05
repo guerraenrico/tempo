@@ -28,9 +28,11 @@ internal class RoutineSummaryStateConverter @Inject constructor() :
                 )
             )
 
-            addAll(routine.segments.map {
-                RoutineSummaryItem.SegmentItem(segment = it)
-            })
+            addAll(
+                routine.segments.map {
+                    RoutineSummaryItem.SegmentItem(segment = it)
+                }
+            )
         }
         return RoutineSummaryViewState.Data(items = items)
     }
@@ -41,5 +43,4 @@ internal class RoutineSummaryStateConverter @Inject constructor() :
                 RoutineSummaryFieldError.NoSegments -> R.string.field_error_message_routine_no_segments
             }
         }
-
 }

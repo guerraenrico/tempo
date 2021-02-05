@@ -13,8 +13,8 @@ import com.enricog.routines.detail.segment.models.SegmentViewState
 import com.enricog.routines.detail.segment.usecase.SegmentUseCase
 import com.enricog.routines.navigation.RoutinesNavigationActions
 import dagger.hilt.android.lifecycle.HiltViewModel
-import kotlinx.coroutines.launch
 import javax.inject.Inject
+import kotlinx.coroutines.launch
 
 @HiltViewModel
 internal class SegmentViewModel @Inject constructor(
@@ -71,5 +71,4 @@ internal class SegmentViewModel @Inject constructor(
     fun onSegmentBack() = runWhen<SegmentState.Data> {
         navigationActions.routinesBack()
     }
-
 }

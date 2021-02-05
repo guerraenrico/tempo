@@ -9,9 +9,9 @@ import com.enricog.routines.list.models.RoutinesViewState
 import com.enricog.routines.list.usecase.RoutinesUseCase
 import com.enricog.routines.navigation.RoutinesNavigationActions
 import dagger.hilt.android.lifecycle.HiltViewModel
+import javax.inject.Inject
 import kotlinx.coroutines.flow.launchIn
 import kotlinx.coroutines.flow.onEach
-import javax.inject.Inject
 
 @HiltViewModel
 internal class RoutinesViewModel @Inject constructor(

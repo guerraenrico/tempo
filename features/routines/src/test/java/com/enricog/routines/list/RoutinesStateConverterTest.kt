@@ -3,10 +3,9 @@ package com.enricog.routines.list
 import com.enricog.base_test.coroutine.CoroutineRule
 import com.enricog.routines.list.models.RoutinesState
 import com.enricog.routines.list.models.RoutinesViewState
+import kotlin.test.assertEquals
 import org.junit.Rule
 import org.junit.Test
-import kotlin.test.assertEquals
-
 
 class RoutinesStateConverterTest {
 
@@ -44,5 +43,4 @@ class RoutinesStateConverterTest {
 
         assertEquals(viewState, result)
     }
-
 }

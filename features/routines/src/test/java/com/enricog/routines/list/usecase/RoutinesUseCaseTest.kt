@@ -7,11 +7,11 @@ import com.enricog.entities.routines.Routine
 import io.mockk.coEvery
 import io.mockk.coVerify
 import io.mockk.mockk
+import kotlin.test.assertEquals
 import kotlinx.coroutines.flow.first
 import kotlinx.coroutines.flow.flowOf
 import org.junit.Rule
 import org.junit.Test
-import kotlin.test.assertEquals
 
 class RoutinesUseCaseTest {
 
@@ -40,5 +40,4 @@ class RoutinesUseCaseTest {
 
         coVerify { routineDataSource.delete(routine) }
     }
-
 }

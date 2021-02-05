@@ -2,7 +2,11 @@ package com.enricog.timer.ui_components
 
 import androidx.compose.animation.animateColorAsState
 import androidx.compose.foundation.background
-import androidx.compose.foundation.layout.*
+import androidx.compose.foundation.layout.Arrangement
+import androidx.compose.foundation.layout.Box
+import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.height
+import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.material.Text
 import androidx.compose.runtime.Composable
@@ -48,9 +52,7 @@ internal fun Clock(backgroundColor: Color, timeInSeconds: Long, modifier: Modifi
                 TimeText(timeInSeconds = timeInSeconds)
             }
         }
-
     }
-
 }
 
 @Composable

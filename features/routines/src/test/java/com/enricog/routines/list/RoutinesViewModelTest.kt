@@ -83,7 +83,6 @@ class RoutinesViewModelTest {
             coVerify { routinesUseCase.delete(routine) }
         }
 
-
     private fun buildSut(): RoutinesViewModel {
         return RoutinesViewModel(
             dispatchers = coroutineRule.dispatchers,
@@ -93,5 +92,4 @@ class RoutinesViewModelTest {
             routinesUseCase = routinesUseCase
         )
     }
-
 }

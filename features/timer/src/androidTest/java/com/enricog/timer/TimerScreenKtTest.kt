@@ -42,7 +42,8 @@ class TimerScreenKtTest {
                     timeInSeconds = 1,
                     isRunning = true,
                     isCompleted = false
-                ), type = SegmentStepType.STARTING
+                ),
+                type = SegmentStepType.STARTING
             ),
             clockBackgroundColor = Color.Blue,
             isRoutineCompleted = false

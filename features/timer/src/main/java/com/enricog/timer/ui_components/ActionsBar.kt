@@ -46,7 +46,6 @@ internal fun ActionsBar(
                 onStartStopButtonClick = timerActions::onStartStopButtonClick
             )
         }
-
     }
 }
 

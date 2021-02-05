@@ -27,7 +27,8 @@ class SegmentScreenKtTest {
                     onSegmentNameChange = {},
                     onSegmentTimeChange = {},
                     onSegmentTimeTypeChange = {},
-                    onSegmentConfirmed = {})
+                    onSegmentConfirmed = {}
+                )
             }
         }
 
@@ -48,7 +49,8 @@ class SegmentScreenKtTest {
                     onSegmentNameChange = {},
                     onSegmentTimeChange = {},
                     onSegmentTimeTypeChange = {},
-                    onSegmentConfirmed = {})
+                    onSegmentConfirmed = {}
+                )
             }
         }
 

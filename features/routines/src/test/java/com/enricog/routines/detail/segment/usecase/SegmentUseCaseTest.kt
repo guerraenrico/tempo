@@ -8,9 +8,9 @@ import com.enricog.entities.routines.Segment
 import io.mockk.coEvery
 import io.mockk.coVerify
 import io.mockk.mockk
+import kotlin.test.assertEquals
 import org.junit.Rule
 import org.junit.Test
-import kotlin.test.assertEquals
 
 class SegmentUseCaseTest {
 
@@ -36,7 +36,7 @@ class SegmentUseCaseTest {
     fun `should add segment to routine#segment and update routine when saving new segment`() = coroutineRule {
         val routine = Routine.EMPTY.copy(segments = emptyList())
         val segment = Segment.EMPTY.copy(id = 0)
-        val updatedRoutine =  Routine.EMPTY.copy(
+        val updatedRoutine = Routine.EMPTY.copy(
             segments = listOf(Segment.EMPTY.copy(id = 0))
         )
         coEvery { routineDataSource.update(any()) } returns 1
@@ -52,7 +52,7 @@ class SegmentUseCaseTest {
             segments = listOf(Segment.EMPTY.copy(id = 1, name = "name1"))
         )
         val segment = Segment.EMPTY.copy(id = 1, name = "name2")
-        val updatedRoutine =  Routine.EMPTY.copy(
+        val updatedRoutine = Routine.EMPTY.copy(
             segments = listOf(Segment.EMPTY.copy(id = 1, name = "name2"))
         )
         coEvery { routineDataSource.update(any()) } returns 1
@@ -61,5 +61,4 @@ class SegmentUseCaseTest {
 
         coVerify { routineDataSource.update(updatedRoutine) }
     }
-
 }

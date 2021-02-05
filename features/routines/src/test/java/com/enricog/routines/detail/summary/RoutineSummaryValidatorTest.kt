@@ -5,8 +5,8 @@ import com.enricog.entities.routines.Routine
 import com.enricog.entities.routines.Segment
 import com.enricog.routines.detail.summary.models.RoutineSummaryField
 import com.enricog.routines.detail.summary.models.RoutineSummaryFieldError
-import org.junit.Test
 import kotlin.test.assertEquals
+import org.junit.Test
 
 class RoutineSummaryValidatorTest {
 

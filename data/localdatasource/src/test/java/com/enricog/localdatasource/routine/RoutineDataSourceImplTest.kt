@@ -12,6 +12,9 @@ import com.enricog.localdatasource.TempoDatabase
 import com.enricog.localdatasource.routine.model.InternalRoutine
 import com.enricog.localdatasource.routine.model.InternalRoutineWithSegments
 import com.enricog.localdatasource.routine.model.InternalSegment
+import java.io.IOException
+import java.time.OffsetDateTime
+import java.time.temporal.ChronoUnit
 import kotlinx.coroutines.flow.first
 import org.junit.After
 import org.junit.Assert.assertEquals
@@ -21,9 +24,6 @@ import org.junit.Test
 import org.junit.runner.RunWith
 import org.robolectric.RobolectricTestRunner
 import org.robolectric.annotation.Config
-import java.io.IOException
-import java.time.OffsetDateTime
-import java.time.temporal.ChronoUnit
 
 @RunWith(RobolectricTestRunner::class)
 @Config(sdk = [28])

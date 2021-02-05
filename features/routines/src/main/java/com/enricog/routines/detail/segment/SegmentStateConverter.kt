@@ -32,5 +32,4 @@ internal class SegmentStateConverter @Inject constructor() :
                 SegmentFieldError.InvalidSegmentTime -> R.string.field_error_message_segment_time_invalid
             }
         }
-
 }

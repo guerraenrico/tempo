@@ -54,5 +54,4 @@ internal class Navigator @Inject constructor() : RoutinesNavigationActions, Time
             popUpTo(TimerNavigationConstants.routeName) { inclusive = true }
         }
     }
-
 }

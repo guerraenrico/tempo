@@ -1,8 +1,8 @@
 package com.enricog.core.coroutine.dispatchers
 
+import javax.inject.Inject
 import kotlinx.coroutines.CoroutineDispatcher
 import kotlinx.coroutines.Dispatchers
-import javax.inject.Inject
 
 internal class CoroutineDispatchersImpl @Inject constructor() : CoroutineDispatchers {
 

@@ -110,5 +110,4 @@ class CountingSceneKtTest {
         onNodeWithTag(StepTitleTestTag).assertTextEquals("GO")
         onNodeWithTag(SegmentNameTestTag).assertTextEquals("segment name")
     }
-
 }

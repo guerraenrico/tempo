@@ -25,5 +25,4 @@ object LocalDataSourceModule {
     internal fun provideRoutineDataSource(impl: RoutineDataSourceImpl): RoutineDataSource {
         return impl
     }
-
 }

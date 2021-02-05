@@ -8,9 +8,9 @@ import com.enricog.routines.detail.routine.models.RoutineField
 import com.enricog.routines.detail.routine.models.RoutineFieldError
 import com.enricog.routines.detail.routine.models.RoutineState
 import com.enricog.routines.detail.routine.models.RoutineViewState
+import kotlin.test.assertEquals
 import org.junit.Rule
 import org.junit.Test
-import kotlin.test.assertEquals
 
 class RoutineStateConverterTest {
 
@@ -50,5 +50,4 @@ class RoutineStateConverterTest {
 
         assertEquals(expected, result)
     }
-
 }

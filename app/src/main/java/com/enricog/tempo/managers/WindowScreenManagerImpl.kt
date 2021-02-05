@@ -1,9 +1,9 @@
 package com.enricog.tempo.managers
 
 import com.enricog.timer.WindowScreenManager
+import javax.inject.Inject
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.MutableStateFlow
-import javax.inject.Inject
 
 internal class WindowScreenManagerImpl @Inject constructor() : WindowScreenManager {
 
@@ -15,5 +15,4 @@ internal class WindowScreenManagerImpl @Inject constructor() : WindowScreenManag
     override fun toggleKeepScreenOnFlag(enable: Boolean) {
         flag.value = enable
     }
-
 }

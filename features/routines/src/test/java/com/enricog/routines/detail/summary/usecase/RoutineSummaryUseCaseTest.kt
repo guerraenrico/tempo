@@ -5,11 +5,11 @@ import com.enricog.base_test.entities.routines.EMPTY
 import com.enricog.datasource.RoutineDataSource
 import com.enricog.entities.routines.Routine
 import io.mockk.*
+import kotlin.test.assertEquals
 import kotlinx.coroutines.flow.first
 import kotlinx.coroutines.flow.flowOf
 import org.junit.Rule
 import org.junit.Test
-import kotlin.test.assertEquals
 
 class RoutineSummaryUseCaseTest {
 

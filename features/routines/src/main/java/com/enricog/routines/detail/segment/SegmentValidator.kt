@@ -18,5 +18,4 @@ internal class SegmentValidator @Inject constructor() {
             }
         }
     }
-
 }
