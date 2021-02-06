@@ -10,6 +10,7 @@
 - Dependency injection with [Hilt](https://dagger.dev/hilt/)
 - Single activity application
 - 100% of the UI using [Jetpack Compose](https://developer.android.com/jetpack/compose)
+- Uses [ktlin](https://github.com/pinterest/ktlint) with [ktlint-gradle](https://github.com/jlleitschuh/ktlint-gradle)
 
 ### Screenshot
 
