@@ -3,9 +3,9 @@ package com.enricog.base_android.viewmodel
 import app.cash.turbine.test
 import com.enricog.base_test.coroutine.CoroutineRule
 import com.enricog.core.coroutine.dispatchers.CoroutineDispatchers
+import kotlin.test.assertEquals
 import org.junit.Rule
 import org.junit.Test
-import kotlin.test.assertEquals
 
 class BaseViewModelTest {
 

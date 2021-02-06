@@ -5,7 +5,15 @@ import androidx.compose.runtime.Composable
 import androidx.compose.runtime.State
 import androidx.compose.runtime.rememberUpdatedState
 import androidx.compose.ui.graphics.Color
-import com.enricog.ui_components.resources.*
+import com.enricog.ui_components.resources.blue500
+import com.enricog.ui_components.resources.blue600
+import com.enricog.ui_components.resources.darkBlue200
+import com.enricog.ui_components.resources.darkBlue500
+import com.enricog.ui_components.resources.darkBlue600
+import com.enricog.ui_components.resources.green500
+import com.enricog.ui_components.resources.green600
+import com.enricog.ui_components.resources.grey100
+import com.enricog.ui_components.resources.white
 
 abstract class TempoButtonColors : ButtonColors {
     abstract val enabledBackgroundColor: Color

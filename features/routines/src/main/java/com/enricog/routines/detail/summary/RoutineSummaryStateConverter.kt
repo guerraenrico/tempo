@@ -2,7 +2,11 @@ package com.enricog.routines.detail.summary
 
 import com.enricog.base_android.viewmodel.StateConverter
 import com.enricog.routines.R
-import com.enricog.routines.detail.summary.models.*
+import com.enricog.routines.detail.summary.models.RoutineSummaryField
+import com.enricog.routines.detail.summary.models.RoutineSummaryFieldError
+import com.enricog.routines.detail.summary.models.RoutineSummaryItem
+import com.enricog.routines.detail.summary.models.RoutineSummaryState
+import com.enricog.routines.detail.summary.models.RoutineSummaryViewState
 import javax.inject.Inject
 
 internal class RoutineSummaryStateConverter @Inject constructor() :

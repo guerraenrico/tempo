@@ -5,7 +5,11 @@ import androidx.compose.ui.test.assertIsDisplayed
 import androidx.compose.ui.test.junit4.createComposeRule
 import androidx.compose.ui.test.onNodeWithTag
 import com.enricog.base_test.compose.invoke
-import com.enricog.timer.models.*
+import com.enricog.timer.models.Count
+import com.enricog.timer.models.SegmentStep
+import com.enricog.timer.models.SegmentStepType
+import com.enricog.timer.models.TimerActions
+import com.enricog.timer.models.TimerViewState
 import com.enricog.timer.ui_components.CountingSceneTestTag
 import org.junit.Rule
 import org.junit.Test

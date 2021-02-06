@@ -5,7 +5,11 @@ import com.enricog.base_test.entities.routines.EMPTY
 import com.enricog.entities.routines.Routine
 import com.enricog.entities.routines.Segment
 import com.enricog.routines.R
-import com.enricog.routines.detail.summary.models.*
+import com.enricog.routines.detail.summary.models.RoutineSummaryField
+import com.enricog.routines.detail.summary.models.RoutineSummaryFieldError
+import com.enricog.routines.detail.summary.models.RoutineSummaryItem
+import com.enricog.routines.detail.summary.models.RoutineSummaryState
+import com.enricog.routines.detail.summary.models.RoutineSummaryViewState
 import kotlin.test.assertEquals
 import org.junit.Rule
 import org.junit.Test
