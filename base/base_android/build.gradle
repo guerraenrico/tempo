@@ -30,4 +30,12 @@ dependencies {
     implementation Libs.Kotlin.coroutines
     implementation Libs.Lifecycle.viewModelKtx
     implementation Libs.AndroidX.fragmentKtx
+
+    // Test
+    testImplementation project(":base:base_test")
+    testImplementation Libs.Kotlin.Test.coroutines
+    testImplementation Libs.Kotlin.Test.kotlin
+    testImplementation Libs.Test.junit
+    testImplementation Libs.Test.flow
+    testImplementation Libs.Mockk.lib
 }

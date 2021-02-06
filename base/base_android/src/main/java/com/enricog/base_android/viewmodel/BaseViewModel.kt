@@ -24,8 +24,7 @@ open class BaseViewModel<ViewModelState : Any, ViewState : Any>(
         }
 
     private val viewStateFlow = MutableStateFlow<ViewState?>(null)
-    val viewState: Flow<ViewState>
-        get() = viewStateFlow.filterNotNull()
+    val viewState: Flow<ViewState> = viewStateFlow.asStateFlow().filterNotNull()
 
     init {
         viewModelStateFlow
