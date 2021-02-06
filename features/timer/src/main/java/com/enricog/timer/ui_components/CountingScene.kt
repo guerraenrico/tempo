@@ -1,10 +1,7 @@
 package com.enricog.timer.ui_components
 
-import androidx.compose.animation.core.FloatPropKey
-import androidx.compose.animation.core.TransitionDefinition
-import androidx.compose.animation.core.spring
-import androidx.compose.animation.core.transitionDefinition
-import androidx.compose.animation.transition
+import androidx.compose.animation.core.animateFloat
+import androidx.compose.animation.core.updateTransition
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
@@ -50,13 +47,15 @@ internal fun CountingScene(state: TimerViewState.Counting, timerActions: TimerAc
 
     val count = state.step.count
 
-    val transitionDefinition = remember { routineCompletedTransitionDefinition() }
-    val transition = transition(
-        definition = transitionDefinition,
-        toState = state.isRoutineCompleted
-    )
-    val timerOffset = lerp((-oneThirdScreenOffset).dp, 0.dp, transition[Offset])
-    val actionBarOffset = lerp((-middleScreenOffset).dp, 0.dp, transition[Offset])
+    val alpha by updateTransition(targetState = state.isRoutineCompleted)
+        .animateFloat { if (it) 0f else 1f }
+    val offset by updateTransition(targetState = state.isRoutineCompleted)
+        .animateFloat { if (it) 0f else 1f }
+    val scale by updateTransition(targetState = state.isRoutineCompleted)
+        .animateFloat { if (it) 0.5f else 1f }
+
+    val timerOffset = lerp((-oneThirdScreenOffset).dp, 0.dp, offset)
+    val actionBarOffset = lerp((-middleScreenOffset).dp, 0.dp, offset)
 
     var dialogOpen by remember { mutableStateOf(false) }
 
@@ -84,14 +83,14 @@ internal fun CountingScene(state: TimerViewState.Counting, timerActions: TimerAc
             Title(
                 stepTitle = stringResource(state.stepTitleId),
                 segmentName = state.segmentName,
-                modifier = Modifier.alpha(transition[AlphaProp])
+                modifier = Modifier.alpha(alpha)
             )
 
             Clock(
                 backgroundColor = state.clockBackgroundColor,
                 timeInSeconds = count.timeInSeconds,
                 modifier = Modifier
-                    .scale(transition[ScaleProp])
+                    .scale(scale)
                     .offset(y = timerOffset)
             )
 
@@ -146,34 +145,5 @@ private fun Title(
             modifier = Modifier.testTag(SegmentNameTestTag)
         )
         Spacer(modifier = Modifier.height(40.dp))
-    }
-}
-
-private val AlphaProp = FloatPropKey("Alpha")
-private val ScaleProp = FloatPropKey("Scale")
-private val Offset = FloatPropKey("Offset")
-
-private fun routineCompletedTransitionDefinition(): TransitionDefinition<Boolean> {
-    return transitionDefinition {
-        state(name = false) { // not completed
-            this[AlphaProp] = 1f
-            this[ScaleProp] = 1f
-            this[Offset] = 1f
-        }
-        state(name = true) { // completed
-            this[AlphaProp] = 0f
-            this[ScaleProp] = 0.5f
-            this[Offset] = 0f
-        }
-        transition(fromState = false, toState = true) {
-            AlphaProp using spring()
-            ScaleProp using spring()
-            Offset using spring()
-        }
-        transition(fromState = true, toState = false) {
-            AlphaProp using spring()
-            ScaleProp using spring()
-            Offset using spring()
-        }
     }
 }
