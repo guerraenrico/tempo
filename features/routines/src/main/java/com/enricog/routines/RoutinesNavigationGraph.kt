@@ -1,5 +1,6 @@
 package com.enricog.routines
 
+import androidx.lifecycle.viewmodel.compose.viewModel
 import androidx.navigation.NavGraphBuilder
 import androidx.navigation.NavType
 import androidx.navigation.compose.composable
@@ -13,7 +14,6 @@ import com.enricog.routines.navigation.RoutinesNavigationConstants.Routine
 import com.enricog.routines.navigation.RoutinesNavigationConstants.RoutineSummary
 import com.enricog.routines.navigation.RoutinesNavigationConstants.Routines
 import com.enricog.routines.navigation.RoutinesNavigationConstants.Segment
-import com.enricog.ui_components.ambients.navViewModel
 
 fun NavGraphBuilder.RoutinesNavigation() {
     navigation(
@@ -25,7 +25,7 @@ fun NavGraphBuilder.RoutinesNavigation() {
             arguments = emptyList()
         ) {
             RoutinesScreen(
-                viewModel = navViewModel(it)
+                viewModel = viewModel()
             )
         }
 
@@ -39,7 +39,7 @@ fun NavGraphBuilder.RoutinesNavigation() {
         ) {
             RoutineSummaryScreen(
                 routineId = it.arguments!!.getLong(Routine.routeIdParamName),
-                viewModel = navViewModel(it)
+                viewModel = viewModel()
             )
         }
 
@@ -53,7 +53,7 @@ fun NavGraphBuilder.RoutinesNavigation() {
         ) {
             RoutineScreen(
                 routineId = it.arguments!!.getLong(Routine.routeIdParamName),
-                viewModel = navViewModel(it)
+                viewModel = viewModel()
             )
         }
 
@@ -71,7 +71,7 @@ fun NavGraphBuilder.RoutinesNavigation() {
             SegmentScreen(
                 routineId = it.arguments!!.getLong(Segment.routeIdParamName),
                 segmentId = it.arguments!!.getLong(Segment.segmentIdParamName),
-                viewModel = navViewModel(it)
+                viewModel = viewModel()
             )
         }
     }

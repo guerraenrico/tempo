@@ -55,6 +55,7 @@ dependencies {
     implementation Libs.AndroidX.Compose.material
     implementation Libs.AndroidX.Compose.tooling
     implementation Libs.AndroidX.Compose.navigation
+    implementation Libs.AndroidX.Compose.viewModel
 
     // Hilt
     implementation Libs.Hilt.android

@@ -21,10 +21,10 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.alpha
 import androidx.compose.ui.draw.scale
-import androidx.compose.ui.platform.AmbientConfiguration
+import androidx.compose.ui.platform.LocalConfiguration
 import androidx.compose.ui.platform.testTag
+import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
-import androidx.compose.ui.res.vectorResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.lerp
@@ -41,7 +41,7 @@ internal const val SegmentNameTestTag = "SegmentNameTestTag"
 
 @Composable
 internal fun CountingScene(state: TimerViewState.Counting, timerActions: TimerActions) {
-    val configuration = AmbientConfiguration.current
+    val configuration = LocalConfiguration.current
     val oneThirdScreenOffset = configuration.screenHeightDp / 3
     val middleScreenOffset = configuration.screenHeightDp / 4
 
@@ -69,7 +69,7 @@ internal fun CountingScene(state: TimerViewState.Counting, timerActions: TimerAc
         ) {
             TempoIconButton(
                 onClick = { dialogOpen = true },
-                icon = vectorResource(R.drawable.ic_timer_close),
+                icon = painterResource(R.drawable.ic_timer_close),
                 drawShadow = false,
                 contentDescription = stringResource(R.string.content_description_button_exit_routine)
             )

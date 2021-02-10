@@ -1,15 +1,15 @@
 package com.enricog.routines.detail.summary.ui_components
 
-import androidx.compose.foundation.layout.ConstraintLayout
-import androidx.compose.foundation.layout.Dimension
+import androidx.constraintlayout.compose.ConstraintLayout
+import androidx.constraintlayout.compose.Dimension
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.material.MaterialTheme
 import androidx.compose.material.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.platform.testTag
+import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
-import androidx.compose.ui.res.vectorResource
 import androidx.compose.ui.unit.sp
 import com.enricog.routines.R
 import com.enricog.routines.detail.summary.models.RoutineSummaryItem
@@ -58,7 +58,7 @@ internal fun SegmentSectionTitle(
             },
             onClick = onAddSegmentClick,
             size = TempoIconButtonSize.Small,
-            icon = vectorResource(R.drawable.ic_add),
+            icon = painterResource(R.drawable.ic_add),
             color = TempoButtonColor.TransparentPrimary,
             drawShadow = false,
             contentDescription = stringResource(R.string.content_description_button_add_segment)

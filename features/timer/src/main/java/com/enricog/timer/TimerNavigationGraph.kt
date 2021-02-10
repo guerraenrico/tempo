@@ -1,12 +1,12 @@
 package com.enricog.timer
 
+import androidx.lifecycle.viewmodel.compose.viewModel
 import androidx.navigation.NavGraphBuilder
 import androidx.navigation.NavType
 import androidx.navigation.compose.composable
 import androidx.navigation.compose.navArgument
 import androidx.navigation.compose.navigation
 import com.enricog.timer.navigation.TimerNavigationConstants
-import com.enricog.ui_components.ambients.navViewModel
 
 fun NavGraphBuilder.TimerNavigation() {
     navigation(startDestination = TimerNavigationConstants.routeName, route = "timer") {
@@ -19,8 +19,8 @@ fun NavGraphBuilder.TimerNavigation() {
             )
         ) { navBackStackEntry ->
             TimerScreen(
-                navBackStackEntry.arguments!!.getLong(TimerNavigationConstants.routeIdParamName),
-                navViewModel(navBackStackEntry)
+                routineId = navBackStackEntry.arguments!!.getLong(TimerNavigationConstants.routeIdParamName),
+                viewModel = viewModel()
             )
         }
     }

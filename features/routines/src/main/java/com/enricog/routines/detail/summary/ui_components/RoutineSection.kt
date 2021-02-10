@@ -1,15 +1,15 @@
 package com.enricog.routines.detail.summary.ui_components
 
-import androidx.compose.foundation.layout.ConstraintLayout
-import androidx.compose.foundation.layout.Dimension
+import androidx.constraintlayout.compose.ConstraintLayout
+import androidx.constraintlayout.compose.Dimension
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.material.MaterialTheme
 import androidx.compose.material.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.platform.testTag
+import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
-import androidx.compose.ui.res.vectorResource
 import com.enricog.routines.R
 import com.enricog.ui_components.common.button.TempoButtonColor
 import com.enricog.ui_components.common.button.TempoIconButton
@@ -50,7 +50,7 @@ internal fun RoutineSection(
             },
             onClick = onEditRoutine,
             size = TempoIconButtonSize.Small,
-            icon = vectorResource(R.drawable.ic_routine_edit),
+            icon = painterResource(R.drawable.ic_routine_edit),
             color = TempoButtonColor.TransparentSecondary,
             drawShadow = false,
             contentDescription = stringResource(R.string.content_description_button_edit_routine)

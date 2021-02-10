@@ -2,9 +2,9 @@ package com.enricog.ui_components.resources
 
 import androidx.compose.material.MaterialTheme
 import androidx.compose.runtime.Composable
-import androidx.compose.runtime.ComposableContract
 import androidx.compose.runtime.Immutable
-import androidx.compose.runtime.staticAmbientOf
+import androidx.compose.runtime.ReadOnlyComposable
+import androidx.compose.runtime.compositionLocalOf
 import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.dp
 
@@ -27,10 +27,10 @@ internal val defaultDimensions = Dimensions(
     spaceXXL = 40.dp
 )
 
-internal val AmbientDimensions = staticAmbientOf { defaultDimensions }
+internal val LocalDimensions = compositionLocalOf { defaultDimensions }
 
 @Suppress("unused")
 val MaterialTheme.dimensions: Dimensions
     @Composable
-    @ComposableContract(readonly = true)
-    get() = AmbientDimensions.current
+    @ReadOnlyComposable
+    get() = LocalDimensions.current

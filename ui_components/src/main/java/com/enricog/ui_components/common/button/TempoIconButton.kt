@@ -8,14 +8,14 @@ import androidx.compose.material.IconButton
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.shadow
-import androidx.compose.ui.graphics.vector.ImageVector
+import androidx.compose.ui.graphics.painter.Painter
 import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.dp
 
 @Composable
 fun TempoIconButton(
     onClick: () -> Unit,
-    icon: ImageVector,
+    icon: Painter,
     contentDescription: String,
     modifier: Modifier = Modifier,
     color: TempoButtonColor = TempoButtonColor.Normal,
@@ -35,7 +35,7 @@ fun TempoIconButton(
         enabled = enabled
     ) {
         Icon(
-            imageVector = icon,
+            painter = icon,
             tint = color.contentColor(enabled).value,
             modifier = Modifier.size(size.icon),
             contentDescription = contentDescription
