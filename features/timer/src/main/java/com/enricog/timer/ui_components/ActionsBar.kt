@@ -9,8 +9,8 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.platform.testTag
+import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
-import androidx.compose.ui.res.vectorResource
 import androidx.compose.ui.unit.dp
 import com.enricog.timer.R
 import com.enricog.timer.models.TimerActions
@@ -90,7 +90,7 @@ private fun DoneActions(
 private fun RestartButton(onClick: () -> Unit) {
     TempoIconButton(
         onClick = onClick,
-        icon = vectorResource(R.drawable.ic_timer_restart),
+        icon = painterResource(R.drawable.ic_timer_restart),
         modifier = Modifier.testTag(ButtonRestartTestTag),
         contentDescription = stringResource(R.string.content_description_button_restart_routine_segment)
     )
@@ -105,7 +105,7 @@ private fun StartStopButton(isRunning: Boolean, onClick: () -> Unit) {
     }
     TempoIconButton(
         onClick = onClick,
-        icon = vectorResource(icon),
+        icon = painterResource(icon),
         modifier = Modifier.testTag(ButtonStartStopTestTag),
         contentDescription = stringResource(R.string.content_description_button_stop_routine_segment)
     )

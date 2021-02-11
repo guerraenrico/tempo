@@ -1,18 +1,18 @@
-package com.enricog.ui_components.ambients
+package com.enricog.ui_components.navigation
 
 import androidx.compose.runtime.Composable
-import androidx.compose.ui.platform.AmbientContext
-import androidx.compose.ui.viewinterop.viewModel
+import androidx.compose.ui.platform.LocalContext
 import androidx.hilt.navigation.HiltViewModelFactory
 import androidx.lifecycle.ViewModel
+import androidx.lifecycle.viewmodel.compose.viewModel
 import androidx.navigation.NavBackStackEntry
 
 @Composable
 inline fun <reified VM : ViewModel> navViewModel(navBackStackEntry: NavBackStackEntry): VM {
     return viewModel(
         factory = HiltViewModelFactory(
-            AmbientContext.current,
-            navBackStackEntry
+            context = LocalContext.current,
+            navBackStackEntry = navBackStackEntry
         )
     )
 }

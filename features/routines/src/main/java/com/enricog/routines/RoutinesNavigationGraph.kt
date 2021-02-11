@@ -13,7 +13,7 @@ import com.enricog.routines.navigation.RoutinesNavigationConstants.Routine
 import com.enricog.routines.navigation.RoutinesNavigationConstants.RoutineSummary
 import com.enricog.routines.navigation.RoutinesNavigationConstants.Routines
 import com.enricog.routines.navigation.RoutinesNavigationConstants.Segment
-import com.enricog.ui_components.ambients.navViewModel
+import com.enricog.ui_components.navigation.navViewModel
 
 fun NavGraphBuilder.RoutinesNavigation() {
     navigation(

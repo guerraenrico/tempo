@@ -15,8 +15,8 @@ import androidx.compose.material.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
-import androidx.compose.ui.window.AndroidDialogProperties
 import androidx.compose.ui.window.Dialog
+import androidx.compose.ui.window.DialogProperties
 import com.enricog.ui_components.common.button.TempoButton
 
 @Composable
@@ -86,7 +86,7 @@ private fun TempoDialogBase(
 ) {
     Dialog(
         onDismissRequest = onDismiss,
-        properties = AndroidDialogProperties(
+        properties = DialogProperties(
             dismissOnBackPress = isCancellable,
             dismissOnClickOutside = isCancellable
         ),
