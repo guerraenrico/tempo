@@ -6,7 +6,7 @@ object Versions {
     private const val versionMajor = 1
     private const val versionMinor = 0
     private const val versionPatch = 0
-    private const val versionBuild = 0
+    private const val versionBuild = 1
 
     const val appVersionCode: Int =
         versionMajor * 1000000 + versionMinor * 10000 + versionPatch * 100 + versionBuild
