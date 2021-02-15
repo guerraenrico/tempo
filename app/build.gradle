@@ -8,9 +8,15 @@ plugins {
     id 'dagger.hilt.android.plugin'
     id 'com.google.gms.google-services'
     id 'com.google.firebase.crashlytics'
+
+    id 'com.github.triplet.play'
 }
 
 apply from: "$rootDir/../config.gradle"
+
+play {
+    serviceAccountCredentials.set(file(serviceAccountFile))
+}
 
 android {
     compileSdkVersion Versions.compileSdk
