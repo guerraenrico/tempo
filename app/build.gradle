@@ -16,6 +16,7 @@ apply from: "$rootDir/../config.gradle"
 
 play {
     serviceAccountCredentials.set(file(serviceAccountFile))
+    releaseName.set("${Versions.appVersionCode} (${Versions.appVersionName})")
 }
 
 android {
