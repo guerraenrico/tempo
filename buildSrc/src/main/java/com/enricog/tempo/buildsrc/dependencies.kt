@@ -6,7 +6,7 @@ object Versions {
     private const val versionMajor = 1
     private const val versionMinor = 0
     private const val versionPatch = 0
-    private const val versionBuild = 1
+    private const val versionBuild = 2
 
     const val appVersionCode: Int =
         versionMajor * 1000000 + versionMinor * 10000 + versionPatch * 100 + versionBuild
@@ -83,7 +83,7 @@ object Libs {
     }
 
     object Hilt {
-        const val androidVersion = "2.31.2-alpha"
+        const val androidVersion = "2.32-alpha"
         private const val version = "1.0.0-alpha03"
 
         const val android = "com.google.dagger:hilt-android:$androidVersion"

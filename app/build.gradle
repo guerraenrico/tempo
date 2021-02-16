@@ -8,9 +8,16 @@ plugins {
     id 'dagger.hilt.android.plugin'
     id 'com.google.gms.google-services'
     id 'com.google.firebase.crashlytics'
+
+    id 'com.github.triplet.play'
 }
 
 apply from: "$rootDir/../config.gradle"
+
+play {
+    serviceAccountCredentials.set(file(serviceAccountFile))
+    releaseName.set("${Versions.appVersionCode} (${Versions.appVersionName})")
+}
 
 android {
     compileSdkVersion Versions.compileSdk
@@ -64,6 +71,7 @@ android {
         compose true
     }
     composeOptions {
+        kotlinCompilerVersion Libs.Kotlin.version
         kotlinCompilerExtensionVersion Libs.AndroidX.Compose.version
     }
 }
