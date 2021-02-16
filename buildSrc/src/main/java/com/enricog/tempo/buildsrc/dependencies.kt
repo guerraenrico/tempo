@@ -83,7 +83,7 @@ object Libs {
     }
 
     object Hilt {
-        const val androidVersion = "2.31.2-alpha"
+        const val androidVersion = "2.32-alpha"
         private const val version = "1.0.0-alpha03"
 
         const val android = "com.google.dagger:hilt-android:$androidVersion"
