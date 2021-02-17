@@ -78,5 +78,6 @@ dependencies {
     androidTestImplementation Libs.AndroidX.Test.core
     androidTestImplementation Libs.AndroidX.Test.rules
     androidTestImplementation Libs.AndroidX.Compose.uiTest
+    androidTestImplementation Libs.AndroidX.Compose.activity
 
 }

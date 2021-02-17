@@ -14,7 +14,7 @@ buildscript {
         classpath "com.google.dagger:hilt-android-gradle-plugin:${Libs.Hilt.androidVersion}"
 
         classpath 'com.google.gms:google-services:4.3.5'
-        classpath 'com.google.firebase:firebase-crashlytics-gradle:2.4.1'
+        classpath 'com.google.firebase:firebase-crashlytics-gradle:2.5.0'
 
         classpath "org.jlleitschuh.gradle:ktlint-gradle:9.4.1"
 
@@ -38,6 +38,7 @@ allprojects {
             content {
                 includeModule("org.jetbrains.kotlinx", "kotlinx-collections-immutable-jvm")
                 includeModule("com.linkedin.dexmaker", "dexmaker")
+                includeModule("org.jetbrains.trove4j", "trove4j")
             }
         }
     }
@@ -52,6 +53,11 @@ subprojects {
             if (group == 'org.jetbrains.kotlin' && module == 'kotlin-stdlib-jdk7') {
                 // Force kotlin-stdlib module version
                 details.useTarget Libs.Kotlin.stdlib
+            }
+
+            if (group == 'androidx.activity' && module == 'activity-compose') {
+                // FIXME Force activity-compose version; next compose release should fix this
+                details.useTarget Libs.AndroidX.Compose.activity
             }
         }
     }

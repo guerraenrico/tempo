@@ -40,7 +40,7 @@ object Libs {
         const val appCompat = "androidx.appcompat:appcompat:1.2.0"
 
         object Test {
-            const val junitKtx = "androidx.test.ext:junit-ktx:1.1.2-rc01"
+            const val junitKtx = "androidx.test.ext:junit-ktx:1.1.2"
 
             private const val version = "1.2.0"
             const val core = "androidx.test:core:$version"
@@ -72,7 +72,7 @@ object Libs {
     }
 
     object Google {
-        const val material = "com.google.android.material:material:1.2.0-beta01"
+        const val material = "com.google.android.material:material:1.2.0"
     }
 
     object Lifecycle {
@@ -119,7 +119,7 @@ object Libs {
     }
 
     object Firebase {
-        private const val version = "26.3.0"
+        private const val version = "26.5.0"
 
         const val bom = "com.google.firebase:firebase-bom:$version"
         const val crashlytics = "com.google.firebase:firebase-crashlytics-ktx"
@@ -136,7 +136,7 @@ object Libs {
     const val Robolectric = "org.robolectric:robolectric:4.3.1"
 
     object Mockk {
-        private const val version = "1.10.0"
+        private const val version = "1.10.6"
 
         const val lib = "io.mockk:mockk:$version"
         const val android = "io.mockk:mockk-android:$version"
