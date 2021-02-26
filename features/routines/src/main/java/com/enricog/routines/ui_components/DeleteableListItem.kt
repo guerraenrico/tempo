@@ -2,6 +2,7 @@ package com.enricog.routines.ui_components
 
 import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
+import androidx.compose.foundation.gestures.Orientation
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.BoxWithConstraints
 import androidx.compose.foundation.layout.fillMaxHeight
@@ -18,7 +19,6 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
-import androidx.compose.ui.gesture.scrollorientationlocking.Orientation
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.IntOffset
@@ -29,8 +29,6 @@ import com.enricog.routines.ui_components.SwipeableState.OPEN
 import com.enricog.ui_components.resources.commonShapes
 import com.enricog.ui_components.resources.dimensions
 import kotlin.math.roundToInt
-
-// FIXME the swipe state is remembered for deleted items; deleted item's state is applied to the one below
 
 private enum class SwipeableState {
     CLOSE,
@@ -68,10 +66,7 @@ internal fun DeletableListItem(
                     .fillMaxWidth(0.5f)
                     .clip(MaterialTheme.commonShapes.listItem)
                     .background(MaterialTheme.colors.error)
-                    .clickable {
-                        onDelete()
-                        swipeState.snapTo(CLOSE)
-                    },
+                    .clickable { onDelete() },
                 contentAlignment = Alignment.CenterEnd
             ) {
                 Text(
@@ -86,7 +81,7 @@ internal fun DeletableListItem(
         Surface(
             modifier = Modifier
                 .fillMaxWidth()
-                .offset { IntOffset(swipeState.offset.value.roundToInt(), 0) },
+                .offset { IntOffset(x = swipeState.offset.value.roundToInt(), y = 0) },
             shape = MaterialTheme.commonShapes.listItem,
             content = content
         )

@@ -18,7 +18,6 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.platform.testTag
 import androidx.compose.ui.text.AnnotatedString
 import androidx.compose.ui.text.SpanStyle
-import androidx.compose.ui.text.SpanStyleRange
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.BaselineShift
 import androidx.compose.ui.text.style.TextAlign
@@ -87,7 +86,7 @@ private fun buildTimeText(timeInSeconds: Long): AnnotatedString {
 
     val timeBuilder = StringBuilder()
     var format = "%01d"
-    val spanStyles = mutableListOf<SpanStyleRange>()
+    val spanStyles = mutableListOf<AnnotatedString.Range<SpanStyle>>()
     var from = 0
     var to = 0
 
@@ -95,19 +94,19 @@ private fun buildTimeText(timeInSeconds: Long): AnnotatedString {
         format = "%02d"
         val minutesString = String.format(format, minutes)
         to = minutesString.length
-        spanStyles.add(SpanStyleRange(NumberStyle, 0, to))
+        spanStyles.add(AnnotatedString.Range(NumberStyle, 0, to))
         timeBuilder.append(minutesString)
 
         from = to
         to += 1
-        spanStyles.add(SpanStyleRange(SeparatorStyle, from, to))
+        spanStyles.add(AnnotatedString.Range(SeparatorStyle, from, to))
         timeBuilder.append(":")
         from += 1
     }
     val secondsString = String.format(format, seconds)
     to += secondsString.length
     timeBuilder.append(secondsString)
-    spanStyles.add(SpanStyleRange(NumberStyle, from, to))
+    spanStyles.add(AnnotatedString.Range(NumberStyle, from, to))
 
     return AnnotatedString(text = timeBuilder.toString(), spanStyles = spanStyles)
 }

@@ -39,7 +39,7 @@ internal fun RoutineFormScene(
             modifier = Modifier
                 .fillMaxWidth()
                 .weight(1f)
-                .verticalScroll(rememberScrollState(initial = 0f))
+                .verticalScroll(rememberScrollState(initial = 0))
         ) {
             RoutineNameTextField(
                 value = routine.name,

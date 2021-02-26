@@ -7,7 +7,7 @@ import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
-import androidx.compose.foundation.layout.preferredHeight
+import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.itemsIndexed
 import androidx.compose.material.MaterialTheme
@@ -51,7 +51,16 @@ internal fun RoutineSummaryScene(
             verticalArrangement = Arrangement.spacedBy(MaterialTheme.dimensions.spaceM),
             contentPadding = PaddingValues(MaterialTheme.dimensions.spaceM)
         ) {
-            itemsIndexed(summaryItems) { index, item ->
+            itemsIndexed(
+                items = summaryItems,
+                key = { _, item ->
+                    when (item) {
+                        is RoutineSummaryItem.RoutineInfo -> item.hashCode()
+                        is RoutineSummaryItem.SegmentSectionTitle -> item.hashCode()
+                        is RoutineSummaryItem.SegmentItem -> item.segment.id
+                    }.exhaustive
+                }
+            ) { index, item ->
                 when (item) {
                     is RoutineSummaryItem.RoutineInfo -> {
                         RoutineSection(
@@ -72,7 +81,7 @@ internal fun RoutineSummaryScene(
                     }
                 }.exhaustive
                 if (index == summaryItems.size - 1) {
-                    Spacer(Modifier.preferredHeight(segmentListBottomSpace))
+                    Spacer(Modifier.width(segmentListBottomSpace))
                 }
             }
         }

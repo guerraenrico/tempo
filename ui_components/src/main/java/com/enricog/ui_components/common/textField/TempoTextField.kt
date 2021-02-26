@@ -117,12 +117,12 @@ private fun TempoTextFieldBase(
             label = labelText,
             leadingIcon = leadingIcon,
             trailingIcon = trailingIcon,
-            isErrorValue = errorMessage != null,
+            isError = errorMessage != null,
             visualTransformation = visualTransformation,
             keyboardOptions = keyboardOptions,
             singleLine = singleLine,
             maxLines = maxLines,
-            backgroundColor = MaterialTheme.colors.surface
+            // backgroundColor = MaterialTheme.colors.surface
         )
         if (errorMessage != null) {
             Text(

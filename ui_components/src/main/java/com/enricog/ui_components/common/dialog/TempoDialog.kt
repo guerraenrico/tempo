@@ -6,9 +6,9 @@ import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxWidth
+import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
-import androidx.compose.foundation.layout.preferredHeight
-import androidx.compose.foundation.layout.preferredWidth
+import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.MaterialTheme
 import androidx.compose.material.Text
@@ -47,7 +47,7 @@ fun TempoDialogAlert(
                     style = MaterialTheme.typography.h1,
                     color = MaterialTheme.colors.onSurface
                 )
-                Spacer(modifier = Modifier.preferredHeight(10.dp))
+                Spacer(modifier = Modifier.height(10.dp))
                 Text(
                     text = description,
                     style = MaterialTheme.typography.body1,
@@ -66,7 +66,7 @@ fun TempoDialogAlert(
                         text = negativeAction.text,
                         contentDescription = negativeAction.contentDescription
                     )
-                    Spacer(modifier = Modifier.preferredWidth(16.dp))
+                    Spacer(modifier = Modifier.width(16.dp))
                 }
                 TempoButton(
                     onClick = positiveAction.onClick,

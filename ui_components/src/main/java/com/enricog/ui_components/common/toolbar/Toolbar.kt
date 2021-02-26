@@ -10,7 +10,7 @@ import androidx.compose.material.MaterialTheme
 import androidx.compose.material.Text
 import androidx.compose.material.TopAppBar
 import androidx.compose.runtime.Composable
-import androidx.compose.runtime.Providers
+import androidx.compose.runtime.CompositionLocalProvider
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.painterResource
@@ -25,7 +25,7 @@ fun TempoToolbar(
     onBack: (() -> Unit)? = null,
     title: String? = null
 ) {
-    Providers(
+    CompositionLocalProvider(
         LocalElevationOverlay provides null
     ) {
         TopAppBar(
