@@ -50,7 +50,7 @@ internal fun SegmentFormScene(
             modifier = Modifier
                 .fillMaxWidth()
                 .weight(1f)
-                .verticalScroll(rememberScrollState(0f))
+                .verticalScroll(rememberScrollState(0))
         ) {
             SegmentNameTextField(
                 value = segment.name,

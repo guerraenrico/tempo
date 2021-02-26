@@ -7,7 +7,7 @@ import androidx.compose.material.LocalElevationOverlay
 import androidx.compose.material.MaterialTheme
 import androidx.compose.material.Text
 import androidx.compose.runtime.Composable
-import androidx.compose.runtime.Providers
+import androidx.compose.runtime.CompositionLocalProvider
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.vector.ImageVector
 import androidx.compose.ui.unit.dp
@@ -25,7 +25,7 @@ fun TempoButton(
     require(contentDescription.isNotBlank()) { "contentDescription cannot be blank" }
     require(text.isNotBlank()) { "text cannot be blank" }
 
-    Providers(
+    CompositionLocalProvider(
         LocalElevationOverlay provides null
     ) {
         Button(
