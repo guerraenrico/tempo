@@ -12,10 +12,8 @@ plugins {
     id 'com.github.triplet.play'
 }
 
-apply from: "$rootDir/../config.gradle"
-
 play {
-    serviceAccountCredentials.set(file(serviceAccountFile))
+    serviceAccountCredentials.set(file(getEnvValue("TEMPO_SERVICE_ACCOUNT_FILE_PATH", rootDir)))
     releaseName.set("${Versions.appVersionCode} (${Versions.appVersionName})")
 }
 
@@ -34,10 +32,10 @@ android {
 
     signingConfigs {
         release {
-            storeFile file(keyStoreFile)
-            storePassword keyStorePassword
-            keyAlias alias
-            keyPassword aliasKeyPassword
+            storeFile file("$rootDir/release/keystore.jks")
+            storePassword getEnvValue("TEMPO_KEY_STORE_PASSWORD", "")
+            keyAlias getEnvValue("TEMPO_KEY_ALIAS", "")
+            keyPassword getEnvValue("TEMPO_KEY_ALIAS_PASSWORD", "")
         }
     }
 
