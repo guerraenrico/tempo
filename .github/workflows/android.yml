@@ -8,7 +8,7 @@ on:
 jobs:
 
   tests:
-    runs-on: ubuntu-latest
+    runs-on: macOS-latest
 
     steps:
 
@@ -31,8 +31,17 @@ jobs:
         env:
           ENCRYPT_KEY: ${{ secrets.TEMPO_ENCRYPT_KEY }}
 
-      - name: Run tests with Gradle
+      - name: Build project
+        run: ./gradlew build --stacktrace
+
+      - name: Run unit-tests
         run: ./gradlew test testDebugUnitTest
+
+      - name: Espresso Checks
+        uses: reactivecircus/android-emulator-runner@v2.14.3
+        with:
+          api-level: 30
+          script: ./gradlew connectedAndroidTest
 
       - name: Clean secrets
         if: always()
