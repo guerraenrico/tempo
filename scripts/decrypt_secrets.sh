@@ -11,8 +11,8 @@ decrypt() {
 
 if [ ! -z "$ENCRYPT_KEY" ]
 then
-  # decrypt ${ENCRYPT_KEY} release/app-release.gpg release/app-release.jks
-  # decrypt ${ENCRYPT_KEY} release/play-account.gpg release/play-account.json
+  decrypt ${ENCRYPT_KEY} release/keystore.gpg release/keystore.jks
+  decrypt ${ENCRYPT_KEY} release/service_account.gpg release/service_account.json
   decrypt ${ENCRYPT_KEY} app/google-services.gpg app/google-services.json
 else
   echo "ENCRYPT_KEY is empty"

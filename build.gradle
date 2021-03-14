@@ -107,10 +107,12 @@ task clean(type: Delete) {
     delete rootProject.buildDir
 }
 
-static String getEnvValue(varName, defaultValue) {
-    def value = System.getenv(varName)
+Object getPropValue(varName, defaultValue) {
+    def value = project.properties[varName]
     if (value == null) {
-        value = defaultValue
+        Properties properties = new Properties()
+        properties.load(project.rootProject.file('config.properties').newDataInputStream())
+        value = properties.getProperty(varName) ?: defaultValue
     }
     return value
 }

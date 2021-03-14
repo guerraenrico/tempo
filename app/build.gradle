@@ -13,7 +13,7 @@ plugins {
 }
 
 play {
-    serviceAccountCredentials.set(file(getEnvValue("TEMPO_SERVICE_ACCOUNT_FILE_PATH", rootDir)))
+    serviceAccountCredentials.set(file(getPropValue("SERVICE_ACCOUNT_FILE_PATH", "")))
     releaseName.set("${Versions.appVersionCode} (${Versions.appVersionName})")
 }
 
@@ -32,10 +32,10 @@ android {
 
     signingConfigs {
         release {
-            storeFile file("$rootDir/release/keystore.jks")
-            storePassword getEnvValue("TEMPO_KEY_STORE_PASSWORD", "")
-            keyAlias getEnvValue("TEMPO_KEY_ALIAS", "")
-            keyPassword getEnvValue("TEMPO_KEY_ALIAS_PASSWORD", "")
+            storeFile file(getPropValue("KEY_STORE_FILE_PATH", ""))
+            storePassword getPropValue("KEY_STORE_PASSWORD", "")
+            keyAlias getPropValue("KEY_ALIAS", "")
+            keyPassword getPropValue("KEY_ALIAS_PASSWORD", "")
         }
     }
 
