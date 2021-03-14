@@ -37,7 +37,7 @@ jobs:
       - name: Run unit-tests
         run: ./gradlew test testDebugUnitTest
 
-      - name: Espresso Checks
+      - name: Run instrument-tests
         uses: reactivecircus/android-emulator-runner@v2.14.3
         with:
           api-level: 30
