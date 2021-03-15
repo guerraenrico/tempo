@@ -1,7 +1,5 @@
 #!/bin/sh
 
-mkdir $HOME/release
-
 decrypt() {
   PASSPHRASE=$1
   INPUT=$2
