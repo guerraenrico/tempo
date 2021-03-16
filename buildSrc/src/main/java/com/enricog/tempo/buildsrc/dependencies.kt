@@ -129,7 +129,7 @@ object Libs {
     // Test
 
     object Test {
-        const val junit = "junit:junit:4.13"
+        const val junit = "junit:junit:4.12"
         const val flow = "app.cash.turbine:turbine:0.3.0"
     }
 

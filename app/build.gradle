@@ -12,10 +12,8 @@ plugins {
     id 'com.github.triplet.play'
 }
 
-apply from: "$rootDir/../config.gradle"
-
 play {
-    serviceAccountCredentials.set(file(serviceAccountFile))
+    serviceAccountCredentials.set(file(getPropValue("SERVICE_ACCOUNT_FILE_PATH", "")))
     releaseName.set("${Versions.appVersionCode} (${Versions.appVersionName})")
 }
 
@@ -34,10 +32,10 @@ android {
 
     signingConfigs {
         release {
-            storeFile file(keyStoreFile)
-            storePassword keyStorePassword
-            keyAlias alias
-            keyPassword aliasKeyPassword
+            storeFile file(getPropValue("KEY_STORE_FILE_PATH", ""))
+            storePassword getPropValue("KEY_STORE_PASSWORD", "")
+            keyAlias getPropValue("KEY_ALIAS", "")
+            keyPassword getPropValue("KEY_ALIAS_PASSWORD", "")
         }
     }
 
