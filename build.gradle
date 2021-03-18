@@ -9,12 +9,12 @@ buildscript {
         maven { url "https://oss.sonatype.org/content/repositories/snapshots" }
     }
     dependencies {
-        classpath 'com.android.tools.build:gradle:4.2.0-beta05'
+        classpath 'com.android.tools.build:gradle:4.2.0-beta06'
         classpath "org.jetbrains.kotlin:kotlin-gradle-plugin:${Libs.Kotlin.version}"
         classpath "com.google.dagger:hilt-android-gradle-plugin:${Libs.Hilt.androidVersion}"
 
         classpath 'com.google.gms:google-services:4.3.5'
-        classpath 'com.google.firebase:firebase-crashlytics-gradle:2.5.0'
+        classpath 'com.google.firebase:firebase-crashlytics-gradle:2.5.1'
 
         classpath "org.jlleitschuh.gradle:ktlint-gradle:9.4.1"
 
@@ -36,6 +36,7 @@ allprojects {
         mavenCentral()
         // TODO: remove when this are migrated to mavenCentral
         jcenter() {
+            //noinspection JcenterRepositoryObsolete
             content {
                 includeModule("org.jetbrains.kotlinx", "kotlinx-collections-immutable-jvm")
                 includeModule("com.linkedin.dexmaker", "dexmaker")
@@ -54,11 +55,6 @@ subprojects {
             if (group == 'org.jetbrains.kotlin' && module == 'kotlin-stdlib-jdk7') {
                 // Force kotlin-stdlib module version
                 details.useTarget Libs.Kotlin.stdlib
-            }
-
-            if (group == 'androidx.activity' && module == 'activity-compose') {
-                // FIXME Force activity-compose version; next compose release should fix this
-                details.useTarget Libs.AndroidX.Compose.activity
             }
         }
     }
