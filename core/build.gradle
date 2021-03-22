@@ -30,7 +30,6 @@ dependencies {
     kapt Libs.Hilt.androidCompiler
     kapt Libs.Hilt.compiler
 
-    testImplementation project(":base:base_test")
     testImplementation Libs.Kotlin.Test.coroutines
     testImplementation Libs.Kotlin.Test.kotlin
     testImplementation Libs.Test.junit

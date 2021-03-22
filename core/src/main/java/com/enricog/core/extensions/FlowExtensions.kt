@@ -10,9 +10,12 @@ import kotlinx.coroutines.flow.produceIn
 import kotlinx.coroutines.isActive
 import kotlinx.coroutines.selects.whileSelect
 
-fun <T> Flow<T>.chunked(timeMillis: Long): Flow<List<T>> =
+fun <T> Flow<T>.chunked(maxSize: Int, timeMillis: Long): Flow<List<T>> =
     flow {
         coroutineScope {
+            require(maxSize > 0)
+            require(timeMillis > 0)
+
             val upstreamChannel = this@chunked
                 .buffer(capacity = BUFFERED)
                 .produceIn(this)
@@ -22,14 +25,18 @@ fun <T> Flow<T>.chunked(timeMillis: Long): Flow<List<T>> =
 
                 try {
                     whileSelect {
-                        onTimeout(timeMillis) {
-                            false // stop when time run out
+                        // Start time if chunk is not empty
+                        if (chunk.isNotEmpty()) {
+                            onTimeout(timeMillis) {
+                                false // stop when time run out
+                            }
                         }
+                        // Should be receiveOrClosed when boxing issues are fixed
                         upstreamChannel.onReceive {
                             if (it != null) {
                                 chunk.add(it)
                             }
-                            true // continue always
+                            chunk.size < maxSize // stop if reached max size
                         }
                     }
                 } catch (e: ClosedReceiveChannelException) {
