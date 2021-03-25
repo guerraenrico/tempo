@@ -21,7 +21,7 @@ fun <T> Flow<T>.chunked(maxSize: Int, timeMillis: Long): Flow<List<T>> =
                 .produceIn(this)
 
             while (isActive) { // this loop goes over each chunk
-                val chunk = mutableListOf<T>() // current chunk
+                val chunk = ArrayList<T>(maxSize) // current chunk
 
                 try {
                     whileSelect {
