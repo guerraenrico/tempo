@@ -49,7 +49,7 @@ object Libs {
         }
 
         object Compose {
-            const val version = "1.0.0-beta02"
+            const val version = "1.0.0-beta03"
 
             const val runtime = "androidx.compose.runtime:runtime:$version"
             const val foundation = "androidx.compose.foundation:foundation:$version"
@@ -76,7 +76,7 @@ object Libs {
     }
 
     object Lifecycle {
-        private const val version = "2.3.0"
+        private const val version = "2.3.1"
 
         const val viewModelKtx = "androidx.lifecycle:lifecycle-viewmodel-ktx:$version"
         const val commonJava8 = "androidx.lifecycle:lifecycle-common-java8:$version"
@@ -118,7 +118,7 @@ object Libs {
     }
 
     object Firebase {
-        private const val version = "26.7.0"
+        private const val version = "26.8.0"
 
         const val bom = "com.google.firebase:firebase-bom:$version"
         const val crashlytics = "com.google.firebase:firebase-crashlytics-ktx"
