@@ -21,11 +21,12 @@ internal const val SegmentSectionTitleTestTag = "SegmentSectionTitleTestTag"
 
 @Composable
 internal fun SegmentSectionTitle(
+    modifier: Modifier = Modifier,
     item: RoutineSummaryItem.SegmentSectionTitle,
     onAddSegmentClick: () -> Unit
 ) {
     ConstraintLayout(
-        modifier = Modifier
+        modifier = modifier
             .testTag(SegmentSectionTitleTestTag)
             .fillMaxWidth()
     ) {
