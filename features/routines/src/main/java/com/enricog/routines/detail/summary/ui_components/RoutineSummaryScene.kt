@@ -34,6 +34,7 @@ import com.enricog.ui_components.common.button.TempoIconButtonSize
 import com.enricog.ui_components.resources.dimensions
 
 internal const val RoutineSummarySceneTestTag = "RoutineSummaryScene"
+internal const val RoutineSummaryColumnTestTag = "RoutineSummaryColumn"
 
 @Composable
 internal fun RoutineSummaryScene(
@@ -57,7 +58,9 @@ internal fun RoutineSummaryScene(
 
         LazyColumn(
             state = listState,
-            modifier = Modifier.fillMaxSize(),
+            modifier = Modifier
+                .testTag(RoutineSummaryColumnTestTag)
+                .fillMaxSize(),
             verticalArrangement = Arrangement.spacedBy(MaterialTheme.dimensions.spaceM),
             contentPadding = PaddingValues(MaterialTheme.dimensions.spaceM)
         ) {
