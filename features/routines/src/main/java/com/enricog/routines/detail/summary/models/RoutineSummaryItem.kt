@@ -15,4 +15,6 @@ internal sealed class RoutineSummaryItem {
     data class SegmentItem(
         val segment: Segment
     ) : RoutineSummaryItem()
+
+    object Space : RoutineSummaryItem()
 }

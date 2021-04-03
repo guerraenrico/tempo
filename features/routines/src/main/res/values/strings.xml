@@ -5,6 +5,7 @@
     <string name="description_no_routines">No routines saved.\nGet started by creating a new one.</string>
 
     <string name="button_create_routine">Create Routine</string>
+    <string name="button_add_segment">Add Segment</string>
     <string name="button_save">Save</string>
 
     <string name="field_label_routine_name">Routine name</string>

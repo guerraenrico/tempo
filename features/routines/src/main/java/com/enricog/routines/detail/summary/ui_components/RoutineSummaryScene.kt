@@ -1,17 +1,24 @@
 package com.enricog.routines.detail.summary.ui_components
 
+import androidx.compose.animation.AnimatedVisibility
+import androidx.compose.animation.fadeIn
+import androidx.compose.animation.fadeOut
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
+import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
-import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.lazy.LazyColumn
-import androidx.compose.foundation.lazy.itemsIndexed
+import androidx.compose.foundation.lazy.items
+import androidx.compose.foundation.lazy.rememberLazyListState
 import androidx.compose.material.MaterialTheme
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.derivedStateOf
+import androidx.compose.runtime.getValue
+import androidx.compose.runtime.remember
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.platform.testTag
@@ -27,6 +34,7 @@ import com.enricog.ui_components.common.button.TempoIconButtonSize
 import com.enricog.ui_components.resources.dimensions
 
 internal const val RoutineSummarySceneTestTag = "RoutineSummaryScene"
+internal const val RoutineSummaryColumnTestTag = "RoutineSummaryColumn"
 
 @Composable
 internal fun RoutineSummaryScene(
@@ -40,50 +48,69 @@ internal fun RoutineSummaryScene(
     val startRoutineButtonSize = TempoIconButtonSize.Large
     val startRoutinePadding = MaterialTheme.dimensions.spaceM
     val segmentListBottomSpace = startRoutinePadding + startRoutineButtonSize.box
+    val listState = rememberLazyListState()
 
     Box(
         modifier = Modifier
             .fillMaxSize()
             .testTag(RoutineSummarySceneTestTag)
     ) {
+
         LazyColumn(
-            modifier = Modifier.fillMaxSize(),
+            state = listState,
+            modifier = Modifier
+                .testTag(RoutineSummaryColumnTestTag)
+                .fillMaxSize(),
             verticalArrangement = Arrangement.spacedBy(MaterialTheme.dimensions.spaceM),
             contentPadding = PaddingValues(MaterialTheme.dimensions.spaceM)
         ) {
-            itemsIndexed(
+            items(
                 items = summaryItems,
-                key = { _, item ->
+                key = { item ->
                     when (item) {
                         is RoutineSummaryItem.RoutineInfo -> item.hashCode()
                         is RoutineSummaryItem.SegmentSectionTitle -> item.hashCode()
                         is RoutineSummaryItem.SegmentItem -> item.segment.id
+                        RoutineSummaryItem.Space -> item.hashCode()
                     }.exhaustive
                 }
-            ) { index, item ->
+            ) { item ->
                 when (item) {
-                    is RoutineSummaryItem.RoutineInfo -> {
+                    is RoutineSummaryItem.RoutineInfo ->
                         RoutineSection(
                             routineName = item.routineName,
                             onEditRoutine = onRoutineEdit
                         )
-                    }
-                    is RoutineSummaryItem.SegmentSectionTitle -> {
-                        SegmentSectionTitle(item, onSegmentAdd)
-                    }
-                    is RoutineSummaryItem.SegmentItem -> {
+                    is RoutineSummaryItem.SegmentSectionTitle ->
+                        SegmentSectionTitle(item = item, onAddSegmentClick = onSegmentAdd)
+                    is RoutineSummaryItem.SegmentItem ->
                         SegmentItem(
                             segment = item.segment,
                             onClick = onSegmentSelected,
                             onDelete = onSegmentDelete,
                             modifier = Modifier.fillMaxWidth()
                         )
-                    }
+                    RoutineSummaryItem.Space ->
+                        Spacer(Modifier.height(segmentListBottomSpace))
                 }.exhaustive
-                if (index == summaryItems.size - 1) {
-                    Spacer(Modifier.width(segmentListBottomSpace))
-                }
             }
+        }
+
+        val showHeaderAddSegment by remember {
+            derivedStateOf {
+                listState.firstVisibleItemIndex > summaryItems.indexOfFirst { it is RoutineSummaryItem.SegmentSectionTitle }
+            }
+        }
+        AnimatedVisibility(
+            visible = showHeaderAddSegment,
+            enter = fadeIn(),
+            exit = fadeOut()
+        ) {
+            HeaderAddSegment(
+                modifier = Modifier
+                    .align(Alignment.TopCenter),
+                onAddSegmentClick = onSegmentAdd
+            )
         }
 
         TempoIconButton(

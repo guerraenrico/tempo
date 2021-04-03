@@ -37,6 +37,7 @@ internal class RoutineSummaryStateConverter @Inject constructor() :
                     RoutineSummaryItem.SegmentItem(segment = it)
                 }
             )
+            add(RoutineSummaryItem.Space)
         }
         return RoutineSummaryViewState.Data(items = items)
     }

@@ -50,7 +50,8 @@ class RoutineSummaryStateConverterTest {
                     error = RoutineSummaryField.Segments to R.string.field_error_message_routine_no_segments
                 ),
                 RoutineSummaryItem.SegmentItem(segment = Segment.EMPTY.copy(id = 1)),
-                RoutineSummaryItem.SegmentItem(segment = Segment.EMPTY.copy(id = 2))
+                RoutineSummaryItem.SegmentItem(segment = Segment.EMPTY.copy(id = 2)),
+                RoutineSummaryItem.Space
             )
         )
 
