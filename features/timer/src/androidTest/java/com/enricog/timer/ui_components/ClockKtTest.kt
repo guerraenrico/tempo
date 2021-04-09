@@ -5,6 +5,7 @@ import androidx.compose.ui.test.assertIsDisplayed
 import androidx.compose.ui.test.assertTextEquals
 import androidx.compose.ui.test.junit4.createComposeRule
 import androidx.compose.ui.test.onNodeWithTag
+import androidx.compose.ui.unit.dp
 import com.enricog.base_test.compose.invoke
 import com.enricog.ui_components.resources.TempoTheme
 import org.junit.Rule
@@ -21,7 +22,7 @@ class ClockKtTest {
         val timeInSeconds = 10L
         setContent {
             TempoTheme {
-                Clock(backgroundColor = color, timeInSeconds = timeInSeconds)
+                Clock(backgroundColor = color, timeInSeconds = timeInSeconds, size = 200.dp)
             }
         }
 
@@ -35,7 +36,7 @@ class ClockKtTest {
         val timeInSeconds = 90L
         setContent {
             TempoTheme {
-                Clock(backgroundColor = color, timeInSeconds = timeInSeconds)
+                Clock(backgroundColor = color, timeInSeconds = timeInSeconds, size = 200.dp)
             }
         }
 

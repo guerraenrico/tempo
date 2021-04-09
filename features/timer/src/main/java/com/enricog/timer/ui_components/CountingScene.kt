@@ -1,8 +1,8 @@
 package com.enricog.timer.ui_components
 
+import android.content.res.Configuration.ORIENTATION_PORTRAIT
 import androidx.compose.animation.core.animateFloat
 import androidx.compose.animation.core.updateTransition
-import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
@@ -28,6 +28,8 @@ import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.lerp
+import androidx.compose.ui.unit.min
+import androidx.constraintlayout.compose.ConstraintLayout
 import com.enricog.timer.R
 import com.enricog.timer.models.TimerActions
 import com.enricog.timer.models.TimerViewState
@@ -42,9 +44,13 @@ internal const val SegmentNameTestTag = "SegmentNameTestTag"
 @Composable
 internal fun CountingScene(state: TimerViewState.Counting, timerActions: TimerActions) {
     val configuration = LocalConfiguration.current
-    val oneThirdScreenOffset = configuration.screenHeightDp / 3
-    val middleScreenOffset = configuration.screenHeightDp / 4
 
+    val screenHeight = configuration.screenHeightDp.dp
+    val screenWidth = configuration.screenWidthDp.dp
+    val orientation = configuration.orientation
+
+    val upOffset = screenHeight / 4
+    val clockSize = min(screenHeight, screenWidth) / 2
     val count = state.step.count
 
     val alpha by updateTransition(targetState = state.isRoutineCompleted)
@@ -54,8 +60,8 @@ internal fun CountingScene(state: TimerViewState.Counting, timerActions: TimerAc
     val scale by updateTransition(targetState = state.isRoutineCompleted)
         .animateFloat { if (it) 0.5f else 1f }
 
-    val timerOffset = lerp((-oneThirdScreenOffset).dp, 0.dp, offset)
-    val actionBarOffset = lerp((-middleScreenOffset).dp, 0.dp, offset)
+    val timerOffset = lerp((-upOffset), 0.dp, offset)
+    val actionBarOffset = lerp((-upOffset), 0.dp, offset)
 
     var dialogOpen by remember { mutableStateOf(false) }
 
@@ -74,31 +80,60 @@ internal fun CountingScene(state: TimerViewState.Counting, timerActions: TimerAc
                 contentDescription = stringResource(R.string.content_description_button_exit_routine)
             )
         }
-        Column(
-            modifier = Modifier
-                .fillMaxSize(),
-            verticalArrangement = Arrangement.Center,
-            horizontalAlignment = Alignment.CenterHorizontally
+        ConstraintLayout(
+            modifier = Modifier.fillMaxSize(),
         ) {
+            val (title, clock, actionBar) = createRefs()
+
             Title(
+                modifier = Modifier
+                    .alpha(alpha)
+                    .constrainAs(title) {
+                        top.linkTo(parent.top)
+                        start.linkTo(parent.start)
+                        if (orientation == ORIENTATION_PORTRAIT) {
+                            end.linkTo(parent.end)
+                            bottom.linkTo(clock.top)
+                        } else {
+                            end.linkTo(clock.start)
+                            bottom.linkTo(parent.bottom)
+                        }
+                    },
                 stepTitle = stringResource(state.stepTitleId),
-                segmentName = state.segmentName,
-                modifier = Modifier.alpha(alpha)
+                segmentName = state.segmentName
             )
 
             Clock(
                 backgroundColor = state.clockBackgroundColor,
                 timeInSeconds = count.timeInSeconds,
+                size = clockSize,
                 modifier = Modifier
-                    .scale(scale)
                     .offset(y = timerOffset)
+                    .scale(scale)
+                    .constrainAs(clock) {
+                        if (orientation == ORIENTATION_PORTRAIT) {
+                            top.linkTo(title.bottom)
+                        } else {
+                            top.linkTo(parent.top)
+                        }
+                        start.linkTo(parent.start)
+                        end.linkTo(parent.end)
+                        bottom.linkTo(actionBar.top)
+                    }
             )
 
             ActionsBar(
                 isTimeRunning = count.isRunning,
                 isRoutineCompleted = state.isRoutineCompleted,
                 timerActions = timerActions,
-                modifier = Modifier.offset(y = actionBarOffset + 40.dp)
+                modifier = Modifier
+                    .offset(y = actionBarOffset)
+                    .constrainAs(actionBar) {
+                        top.linkTo(clock.bottom)
+                        start.linkTo(parent.start)
+                        end.linkTo(parent.end)
+                        bottom.linkTo(parent.bottom)
+                    }
             )
         }
 

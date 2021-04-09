@@ -32,7 +32,8 @@ internal fun TimerViewState.Compose(timerActions: TimerActions) {
     when (this) {
         TimerViewState.Idle -> {
         }
-        is TimerViewState.Counting ->
+        is TimerViewState.Counting ->{
             CountingScene(state = this, timerActions = timerActions)
+        }
     }.exhaustive
 }
