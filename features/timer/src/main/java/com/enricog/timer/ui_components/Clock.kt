@@ -21,7 +21,7 @@ import androidx.compose.ui.text.SpanStyle
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.BaselineShift
 import androidx.compose.ui.text.style.TextAlign
-import androidx.compose.ui.unit.dp
+import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.sp
 import com.enricog.ui_components.common.shadow.Shadow
 import com.enricog.ui_components.resources.FontFamilyMono
@@ -30,21 +30,18 @@ import com.enricog.ui_components.resources.white
 internal const val ClockTestTag = "ClockTestTag"
 internal const val ClockTimeTextTestTag = "ClockTimeTextTestTag"
 
-private val clockSize = 220.dp
-private val clockShadowSize = 20.dp
-
 @Composable
-internal fun Clock(backgroundColor: Color, timeInSeconds: Long, modifier: Modifier = Modifier) {
+internal fun Clock(modifier: Modifier = Modifier, backgroundColor: Color, timeInSeconds: Long, size: Dp) {
     val animatedBackgroundColor by animateColorAsState(backgroundColor)
 
     Box(modifier = modifier) {
-        Shadow(size = clockShadowSize) {
+        Shadow(size = size / 100 * 10) {
             Column(
                 modifier = Modifier
                     .testTag(ClockTestTag)
                     .background(color = animatedBackgroundColor, shape = CircleShape)
-                    .height(clockSize)
-                    .width(clockSize),
+                    .height(size)
+                    .width(size),
                 verticalArrangement = Arrangement.Center,
                 horizontalAlignment = Alignment.CenterHorizontally,
             ) {
