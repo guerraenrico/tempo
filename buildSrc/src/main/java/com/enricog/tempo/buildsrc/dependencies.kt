@@ -22,7 +22,7 @@ object Versions {
 object Libs {
 
     object Kotlin {
-        const val version = "1.4.31"
+        const val version = "1.4.32"
         private const val coroutineVersion = "1.4.2"
 
         const val coroutines = "org.jetbrains.kotlinx:kotlinx-coroutines-android:$coroutineVersion"
@@ -49,7 +49,7 @@ object Libs {
         }
 
         object Compose {
-            const val version = "1.0.0-beta03"
+            const val version = "1.0.0-beta04"
 
             const val runtime = "androidx.compose.runtime:runtime:$version"
             const val foundation = "androidx.compose.foundation:foundation:$version"
@@ -63,10 +63,10 @@ object Libs {
             const val test = "androidx.compose.ui:ui-test:$version"
             const val uiTest = "androidx.compose.ui:ui-test-junit4:$version"
 
-            const val activity = "androidx.activity:activity-compose:1.3.0-alpha04"
+            const val activity = "androidx.activity:activity-compose:1.3.0-alpha06"
 
-            const val navigation = "androidx.navigation:navigation-compose:1.0.0-alpha09"
-            const val viewModel = "androidx.lifecycle:lifecycle-viewmodel-compose:1.0.0-alpha03"
+            const val navigation = "androidx.navigation:navigation-compose:1.0.0-alpha10"
+            const val viewModel = "androidx.lifecycle:lifecycle-viewmodel-compose:1.0.0-alpha04"
             const val constraintLayout = "androidx.constraintlayout:constraintlayout-compose:1.0.0-alpha05"
         }
     }
@@ -89,7 +89,7 @@ object Libs {
         const val android = "com.google.dagger:hilt-android:$androidVersion"
         const val androidCompiler = "com.google.dagger:hilt-android-compiler:$androidVersion"
 
-        const val navigation = "androidx.hilt:hilt-navigation-compose:1.0.0-alpha01"
+        const val navigation = "androidx.hilt:hilt-navigation-compose:1.0.0-alpha02"
 
         const val lifecycleViewModel = "androidx.hilt:hilt-lifecycle-viewmodel:1.0.0-alpha03"
         const val compiler = "androidx.hilt:hilt-compiler:$version"
