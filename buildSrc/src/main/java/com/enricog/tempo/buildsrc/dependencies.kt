@@ -89,7 +89,7 @@ object Libs {
         const val android = "com.google.dagger:hilt-android:$androidVersion"
         const val androidCompiler = "com.google.dagger:hilt-android-compiler:$androidVersion"
 
-        const val navigation = "androidx.hilt:hilt-navigation-compose:1.0.0-alpha02"
+        const val navigation = "androidx.hilt:hilt-navigation-compose:1.0.0-alpha01"
 
         const val lifecycleViewModel = "androidx.hilt:hilt-lifecycle-viewmodel:1.0.0-alpha03"
         const val compiler = "androidx.hilt:hilt-compiler:$version"
@@ -129,7 +129,7 @@ object Libs {
 
     object Test {
         const val junit = "junit:junit:4.12"
-        const val flow = "app.cash.turbine:turbine:0.3.0"
+        const val flow = "app.cash.turbine:turbine:0.4.1"
     }
 
     const val Robolectric = "org.robolectric:robolectric:4.3.1"
