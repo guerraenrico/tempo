@@ -28,6 +28,7 @@ import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.lerp
+import androidx.compose.ui.unit.max
 import androidx.compose.ui.unit.min
 import androidx.constraintlayout.compose.ConstraintLayout
 import com.enricog.timer.R
@@ -48,9 +49,10 @@ internal fun CountingScene(state: TimerViewState.Counting, timerActions: TimerAc
     val screenHeight = configuration.screenHeightDp.dp
     val screenWidth = configuration.screenWidthDp.dp
     val orientation = configuration.orientation
+    val minClockSize = 200.dp
 
     val upOffset = screenHeight / 4
-    val clockSize = min(screenHeight, screenWidth) / 2
+    val clockSize = max(minClockSize, min(screenHeight, screenWidth) / 2)
     val count = state.step.count
 
     val alpha by updateTransition(targetState = state.isRoutineCompleted)
