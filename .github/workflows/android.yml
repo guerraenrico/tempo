@@ -42,9 +42,10 @@ jobs:
         run: ./gradlew test testDebugUnitTest
 
       - name: Run instrument-tests
-        uses: reactivecircus/android-emulator-runner@v2.14.3
+        uses: reactivecircus/android-emulator-runner@v2.15.0
         with:
-          api-level: 29
+          api-level: 30
+          target: playstore
           arch: x86_64
           script: ./gradlew connectedAndroidTest
 
