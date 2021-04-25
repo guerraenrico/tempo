@@ -49,7 +49,7 @@ object Libs {
         }
 
         object Compose {
-            const val version = "1.0.0-beta04"
+            const val version = "1.0.0-beta05"
 
             const val runtime = "androidx.compose.runtime:runtime:$version"
             const val foundation = "androidx.compose.foundation:foundation:$version"
@@ -63,7 +63,7 @@ object Libs {
             const val test = "androidx.compose.ui:ui-test:$version"
             const val uiTest = "androidx.compose.ui:ui-test-junit4:$version"
 
-            const val activity = "androidx.activity:activity-compose:1.3.0-alpha06"
+            const val activity = "androidx.activity:activity-compose:1.3.0-alpha07"
 
             const val navigation = "androidx.navigation:navigation-compose:1.0.0-alpha10"
             const val viewModel = "androidx.lifecycle:lifecycle-viewmodel-compose:1.0.0-alpha04"
@@ -83,7 +83,7 @@ object Libs {
     }
 
     object Hilt {
-        const val androidVersion = "2.33-beta"
+        const val androidVersion = "2.35"
         private const val version = "1.0.0-beta01"
 
         const val android = "com.google.dagger:hilt-android:$androidVersion"
@@ -97,7 +97,7 @@ object Libs {
     }
 
     object Room {
-        private const val version = "2.2.6"
+        private const val version = "2.3.0"
 
         const val runtime = "androidx.room:room-runtime:$version"
         const val compiler = "androidx.room:room-compiler:$version"
@@ -118,7 +118,7 @@ object Libs {
     }
 
     object Firebase {
-        private const val version = "26.8.0"
+        private const val version = "27.1.0"
 
         const val bom = "com.google.firebase:firebase-bom:$version"
         const val crashlytics = "com.google.firebase:firebase-crashlytics-ktx"
