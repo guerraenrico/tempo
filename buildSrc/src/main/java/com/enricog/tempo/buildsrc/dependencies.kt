@@ -91,8 +91,6 @@ object Libs {
 
         const val navigation = "androidx.hilt:hilt-navigation-compose:1.0.0-alpha01"
 
-        const val lifecycleViewModel = "androidx.hilt:hilt-lifecycle-viewmodel:1.0.0-alpha03"
-        const val compiler = "androidx.hilt:hilt-compiler:$version"
         const val work = "androidx.hilt:hilt-work:$version"
     }
 
