@@ -23,7 +23,7 @@ object Libs {
 
     object Kotlin {
         const val version = "1.4.32"
-        private const val coroutineVersion = "1.4.2"
+        private const val coroutineVersion = "1.4.3"
 
         const val coroutines = "org.jetbrains.kotlinx:kotlinx-coroutines-android:$coroutineVersion"
         const val stdlib = "org.jetbrains.kotlin:kotlin-stdlib-jdk8:$version"
@@ -63,7 +63,7 @@ object Libs {
             const val test = "androidx.compose.ui:ui-test:$version"
             const val uiTest = "androidx.compose.ui:ui-test-junit4:$version"
 
-            const val activity = "androidx.activity:activity-compose:1.3.0-alpha07"
+            const val activity = "androidx.activity:activity-compose:1.3.0-alpha06"
 
             const val navigation = "androidx.navigation:navigation-compose:1.0.0-alpha10"
             const val viewModel = "androidx.lifecycle:lifecycle-viewmodel-compose:1.0.0-alpha04"

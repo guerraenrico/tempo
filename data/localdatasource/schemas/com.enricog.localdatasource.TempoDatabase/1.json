@@ -2,7 +2,7 @@
   "formatVersion": 1,
   "database": {
     "version": 1,
-    "identityHash": "579cd5096d7d15e105062a7021b574e2",
+    "identityHash": "b9b13ada2c656e5052ffcf5b66da2eb7",
     "entities": [
       {
         "tableName": "Routines",
@@ -50,7 +50,7 @@
       },
       {
         "tableName": "Segments",
-        "createSql": "CREATE TABLE IF NOT EXISTS `${TABLE_NAME}` (`segmentId` INTEGER PRIMARY KEY AUTOINCREMENT NOT NULL, `routineId_fk` INTEGER NOT NULL, `name` TEXT NOT NULL, `timeInSeconds` INTEGER NOT NULL, `type` TEXT NOT NULL)",
+        "createSql": "CREATE TABLE IF NOT EXISTS `${TABLE_NAME}` (`segmentId` INTEGER PRIMARY KEY AUTOINCREMENT NOT NULL, `routineId_fk` INTEGER NOT NULL, `name` TEXT NOT NULL, `timeInSeconds` INTEGER NOT NULL, `type` TEXT NOT NULL, FOREIGN KEY(`routineId_fk`) REFERENCES `Routines`(`routineId`) ON UPDATE NO ACTION ON DELETE CASCADE )",
         "fields": [
           {
             "fieldPath": "id",
@@ -90,13 +90,25 @@
           "autoGenerate": true
         },
         "indices": [],
-        "foreignKeys": []
+        "foreignKeys": [
+          {
+            "table": "Routines",
+            "onDelete": "CASCADE",
+            "onUpdate": "NO ACTION",
+            "columns": [
+              "routineId_fk"
+            ],
+            "referencedColumns": [
+              "routineId"
+            ]
+          }
+        ]
       }
     ],
     "views": [],
     "setupQueries": [
       "CREATE TABLE IF NOT EXISTS room_master_table (id INTEGER PRIMARY KEY,identity_hash TEXT)",
-      "INSERT OR REPLACE INTO room_master_table (id,identity_hash) VALUES(42, '579cd5096d7d15e105062a7021b574e2')"
+      "INSERT OR REPLACE INTO room_master_table (id,identity_hash) VALUES(42, 'b9b13ada2c656e5052ffcf5b66da2eb7')"
     ]
   }
 }

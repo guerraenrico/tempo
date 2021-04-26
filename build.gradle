@@ -34,15 +34,6 @@ allprojects {
     repositories {
         google()
         mavenCentral()
-        // TODO: remove when this are migrated to mavenCentral
-        jcenter() {
-            //noinspection JcenterRepositoryObsolete
-            content {
-                includeModule("org.jetbrains.kotlinx", "kotlinx-collections-immutable-jvm")
-                includeModule("com.linkedin.dexmaker", "dexmaker")
-                includeModule("org.jetbrains.trove4j", "trove4j")
-            }
-        }
     }
 }
 

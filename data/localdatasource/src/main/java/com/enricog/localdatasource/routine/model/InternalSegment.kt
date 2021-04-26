@@ -8,15 +8,17 @@ import androidx.room.PrimaryKey
 import com.enricog.entities.routines.Segment
 import com.enricog.entities.routines.TimeType
 
-@Entity(tableName = "Segments")
-internal data class InternalSegment(
-    @PrimaryKey(autoGenerate = true) @ColumnInfo(name = "segmentId") val id: Long,
-    @ForeignKey(
+@Entity(
+    tableName = "Segments",
+    foreignKeys = [ForeignKey(
         entity = InternalRoutine::class,
         parentColumns = ["routineId"],
         childColumns = ["routineId_fk"],
         onDelete = CASCADE
-    )
+    )]
+)
+internal data class InternalSegment(
+    @PrimaryKey(autoGenerate = true) @ColumnInfo(name = "segmentId") val id: Long,
     @ColumnInfo(name = "routineId_fk")
     val routineId: Long,
     @ColumnInfo(name = "name") val name: String,
