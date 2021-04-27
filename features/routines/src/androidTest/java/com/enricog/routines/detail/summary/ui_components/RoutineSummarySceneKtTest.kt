@@ -5,9 +5,7 @@ import androidx.compose.ui.test.assertIsDisplayed
 import androidx.compose.ui.test.height
 import androidx.compose.ui.test.junit4.createComposeRule
 import androidx.compose.ui.test.onNodeWithTag
-import androidx.compose.ui.test.onRoot
 import androidx.compose.ui.test.performGesture
-import androidx.compose.ui.test.printToLog
 import androidx.compose.ui.test.swipe
 import androidx.compose.ui.test.top
 import androidx.compose.ui.test.width
@@ -86,8 +84,6 @@ class RoutineSummarySceneKtTest {
         }
 
         waitForIdle()
-
-        onRoot().printToLog("TAG")
 
         onNodeWithTag(RoutineSummaryColumnTestTag).performGesture {
             val edgeFuzzFactor = 0.083f

@@ -23,7 +23,7 @@ object Libs {
 
     object Kotlin {
         const val version = "1.4.32"
-        private const val coroutineVersion = "1.4.2"
+        private const val coroutineVersion = "1.4.3"
 
         const val coroutines = "org.jetbrains.kotlinx:kotlinx-coroutines-android:$coroutineVersion"
         const val stdlib = "org.jetbrains.kotlin:kotlin-stdlib-jdk8:$version"
@@ -49,7 +49,7 @@ object Libs {
         }
 
         object Compose {
-            const val version = "1.0.0-beta04"
+            const val version = "1.0.0-beta05"
 
             const val runtime = "androidx.compose.runtime:runtime:$version"
             const val foundation = "androidx.compose.foundation:foundation:$version"
@@ -83,7 +83,7 @@ object Libs {
     }
 
     object Hilt {
-        const val androidVersion = "2.33-beta"
+        const val androidVersion = "2.35"
         private const val version = "1.0.0-beta01"
 
         const val android = "com.google.dagger:hilt-android:$androidVersion"
@@ -91,13 +91,11 @@ object Libs {
 
         const val navigation = "androidx.hilt:hilt-navigation-compose:1.0.0-alpha01"
 
-        const val lifecycleViewModel = "androidx.hilt:hilt-lifecycle-viewmodel:1.0.0-alpha03"
-        const val compiler = "androidx.hilt:hilt-compiler:$version"
         const val work = "androidx.hilt:hilt-work:$version"
     }
 
     object Room {
-        private const val version = "2.2.6"
+        private const val version = "2.3.0"
 
         const val runtime = "androidx.room:room-runtime:$version"
         const val compiler = "androidx.room:room-compiler:$version"
@@ -118,7 +116,7 @@ object Libs {
     }
 
     object Firebase {
-        private const val version = "26.8.0"
+        private const val version = "27.1.0"
 
         const val bom = "com.google.firebase:firebase-bom:$version"
         const val crashlytics = "com.google.firebase:firebase-crashlytics-ktx"
