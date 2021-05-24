@@ -1,24 +1,26 @@
 package com.enricog.timer
 
 import androidx.annotation.VisibleForTesting
+import androidx.lifecycle.SavedStateHandle
 import androidx.lifecycle.viewModelScope
 import com.enricog.base_android.viewmodel.BaseViewModel
 import com.enricog.core.coroutine.dispatchers.CoroutineDispatchers
 import com.enricog.core.coroutine.job.autoCancelableJob
 import com.enricog.entities.routines.Routine
 import com.enricog.timer.models.TimerActions
-import com.enricog.timer.models.TimerConfiguration
 import com.enricog.timer.models.TimerState
 import com.enricog.timer.models.TimerViewState
 import com.enricog.timer.navigation.TimerNavigationActions
+import com.enricog.timer.navigation.TimerNavigationConstants
 import com.enricog.timer.usecase.TimerUseCase
 import dagger.hilt.android.lifecycle.HiltViewModel
-import javax.inject.Inject
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
+import javax.inject.Inject
 
 @HiltViewModel
 internal class TimerViewModel @Inject constructor(
+    savedStateHandle: SavedStateHandle,
     dispatchers: CoroutineDispatchers,
     converter: TimerStateConverter,
     private val navigationActions: TimerNavigationActions,
@@ -26,11 +28,10 @@ internal class TimerViewModel @Inject constructor(
     private val timerUseCase: TimerUseCase,
     private val windowScreenManager: WindowScreenManager
 ) : BaseViewModel<TimerState, TimerViewState>(
-        initialState = TimerState.Idle,
-        converter = converter,
-        dispatchers = dispatchers
-    ),
-    TimerActions {
+    initialState = TimerState.Idle,
+    converter = converter,
+    dispatchers = dispatchers
+), TimerActions {
 
     @VisibleForTesting(otherwise = VisibleForTesting.PRIVATE)
     internal var countingJob by autoCancelableJob()
@@ -39,9 +40,14 @@ internal class TimerViewModel @Inject constructor(
 
     private var startJob by autoCancelableJob()
 
-    fun load(configuration: TimerConfiguration) {
+    init {
+        val routineId = savedStateHandle.get<Long>(TimerNavigationConstants.routeIdParamName)!!
+        load(routineId)
+    }
+
+    private fun load(routineId: Long) {
         loadJob = viewModelScope.launch {
-            val routine = timerUseCase.get(configuration.routineId)
+            val routine = timerUseCase.get(routineId)
             start(routine)
         }
     }

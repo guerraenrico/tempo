@@ -1,5 +1,6 @@
 package com.enricog.routines.detail.routine
 
+import androidx.lifecycle.SavedStateHandle
 import androidx.lifecycle.viewModelScope
 import com.enricog.base_android.viewmodel.BaseViewModel
 import com.enricog.base_android.viewmodel.ViewModelConfiguration
@@ -10,12 +11,14 @@ import com.enricog.routines.detail.routine.models.RoutineState
 import com.enricog.routines.detail.routine.models.RoutineViewState
 import com.enricog.routines.detail.routine.usecase.RoutineUseCase
 import com.enricog.routines.navigation.RoutinesNavigationActions
+import com.enricog.routines.navigation.RoutinesNavigationConstants.Routine.routeIdParamName
 import dagger.hilt.android.lifecycle.HiltViewModel
 import javax.inject.Inject
 import kotlinx.coroutines.launch
 
 @HiltViewModel
 internal class RoutineViewModel @Inject constructor(
+    savedStateHandle: SavedStateHandle,
     dispatchers: CoroutineDispatchers,
     converter: RoutineStateConverter,
     private val navigationActions: RoutinesNavigationActions,
@@ -31,7 +34,12 @@ internal class RoutineViewModel @Inject constructor(
 
     private var startRoutineJob by autoCancelableJob()
 
-    fun load(routineId: Long) {
+    init {
+        val routineId = savedStateHandle.get<Long>(routeIdParamName)!!
+        load(routineId)
+    }
+
+    private fun load(routineId: Long) {
         viewModelScope.launch {
             val routine = routineUseCase.get(routineId)
             state = reducer.setup(routine)

@@ -1,5 +1,6 @@
 package com.enricog.routines.detail.summary
 
+import androidx.lifecycle.SavedStateHandle
 import androidx.lifecycle.viewModelScope
 import com.enricog.base_android.viewmodel.BaseViewModel
 import com.enricog.core.coroutine.dispatchers.CoroutineDispatchers
@@ -8,13 +9,15 @@ import com.enricog.routines.detail.summary.models.RoutineSummaryState
 import com.enricog.routines.detail.summary.models.RoutineSummaryViewState
 import com.enricog.routines.detail.summary.usecase.RoutineSummaryUseCase
 import com.enricog.routines.navigation.RoutinesNavigationActions
+import com.enricog.routines.navigation.RoutinesNavigationConstants.RoutineSummary.routeIdParamName
 import dagger.hilt.android.lifecycle.HiltViewModel
-import javax.inject.Inject
 import kotlinx.coroutines.flow.launchIn
 import kotlinx.coroutines.flow.onEach
+import javax.inject.Inject
 
 @HiltViewModel
 internal class RoutineSummaryViewModel @Inject constructor(
+    savedStateHandle: SavedStateHandle,
     dispatchers: CoroutineDispatchers,
     converter: RoutineSummaryStateConverter,
     private val navigationActions: RoutinesNavigationActions,
@@ -27,7 +30,12 @@ internal class RoutineSummaryViewModel @Inject constructor(
     initialState = RoutineSummaryState.Idle,
 ) {
 
-    fun load(routineId: Long) {
+    init {
+        val routineId = savedStateHandle.get<Long>(routeIdParamName)!!
+        load(routineId)
+    }
+
+    private fun load(routineId: Long) {
         routineSummaryUseCase.get(routineId)
             .onEach { routine -> state = reducer.setup(routine = routine) }
             .launchIn(viewModelScope)

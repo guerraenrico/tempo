@@ -3,7 +3,6 @@ package com.enricog.routines.detail.routine
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.runtime.Composable
-import androidx.compose.runtime.DisposableEffect
 import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
 import androidx.compose.ui.Modifier
@@ -13,11 +12,7 @@ import com.enricog.routines.detail.routine.ui_components.RoutineFormScene
 import com.enricog.ui_components.common.toolbar.TempoToolbar
 
 @Composable
-internal fun RoutineScreen(routineId: Long, viewModel: RoutineViewModel) {
-    DisposableEffect(routineId) {
-        viewModel.load(routineId)
-        onDispose { }
-    }
+internal fun RoutineScreen(viewModel: RoutineViewModel) {
     val viewState by viewModel.viewState.collectAsState(RoutineViewState.Idle)
     Column(
         modifier = Modifier.fillMaxSize()

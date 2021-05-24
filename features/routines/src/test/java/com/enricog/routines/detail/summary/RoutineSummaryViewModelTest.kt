@@ -1,5 +1,6 @@
 package com.enricog.routines.detail.summary
 
+import androidx.lifecycle.SavedStateHandle
 import com.enricog.base_test.coroutine.CoroutineRule
 import com.enricog.base_test.entities.routines.EMPTY
 import com.enricog.entities.routines.Routine
@@ -10,6 +11,7 @@ import com.enricog.routines.detail.summary.models.RoutineSummaryState
 import com.enricog.routines.detail.summary.models.RoutineSummaryViewState
 import com.enricog.routines.detail.summary.usecase.RoutineSummaryUseCase
 import com.enricog.routines.navigation.RoutinesNavigationActions
+import com.enricog.routines.navigation.RoutinesNavigationConstants.RoutineSummary.routeIdParamName
 import io.mockk.Called
 import io.mockk.coEvery
 import io.mockk.coVerify
@@ -31,6 +33,7 @@ class RoutineSummaryViewModelTest {
     private val reducer: RoutineSummaryReducer = mockk()
     private val routineSummaryUseCase: RoutineSummaryUseCase = mockk(relaxUnitFun = true)
     private val validator: RoutineSummaryValidator = mockk()
+    private val savedStateHandle = SavedStateHandle(mapOf(routeIdParamName to 1L))
 
     @Before
     fun setup() {
@@ -44,7 +47,6 @@ class RoutineSummaryViewModelTest {
     @Test
     fun `should get routine on load`() = coroutineRule {
         val sut = buildSut()
-        sut.load(routineId = 1)
 
         verify { routineSummaryUseCase.get(routineId = 1) }
     }
@@ -57,7 +59,6 @@ class RoutineSummaryViewModelTest {
         )
         every { reducer.setup(routine = any()) } returns state
         val sut = buildSut()
-        sut.load(routineId = 1)
         advanceUntilIdle()
 
         sut.onSegmentAdd()
@@ -73,7 +74,6 @@ class RoutineSummaryViewModelTest {
         )
         every { reducer.setup(routine = any()) } returns state
         val sut = buildSut()
-        sut.load(routineId = 1)
         advanceUntilIdle()
 
         sut.onSegmentSelected(Segment.EMPTY.copy(id = 2))
@@ -88,7 +88,6 @@ class RoutineSummaryViewModelTest {
         every { reducer.setup(routine = any()) } returns state
         every { reducer.deleteSegment(state = any(), segment = any()) } returns state
         val sut = buildSut()
-        sut.load(routineId = 1)
         advanceUntilIdle()
 
         sut.onSegmentDelete(segment = segment)
@@ -104,7 +103,6 @@ class RoutineSummaryViewModelTest {
         every { reducer.setup(routine = any()) } returns state
         every { validator.validate(routine = any()) } returns emptyMap()
         val sut = buildSut()
-        sut.load(routineId = 1)
         advanceUntilIdle()
 
         sut.onRoutineStart()
@@ -126,7 +124,6 @@ class RoutineSummaryViewModelTest {
         every { reducer.applyRoutineErrors(state = any(), errors = any()) } returns state
         every { validator.validate(routine = any()) } returns errors
         val sut = buildSut()
-        sut.load(routineId = 1)
         advanceUntilIdle()
 
         sut.onRoutineStart()
@@ -146,7 +143,6 @@ class RoutineSummaryViewModelTest {
         )
         every { reducer.setup(routine = any()) } returns state
         val sut = buildSut()
-        sut.load(routineId = 1)
         advanceUntilIdle()
 
         sut.onRoutineEdit()
@@ -165,6 +161,7 @@ class RoutineSummaryViewModelTest {
 
     private fun buildSut(): RoutineSummaryViewModel {
         return RoutineSummaryViewModel(
+            savedStateHandle = savedStateHandle,
             dispatchers = coroutineRule.dispatchers,
             converter = converter,
             navigationActions = navigationActions,

@@ -1,5 +1,6 @@
 package com.enricog.routines.detail.routine
 
+import androidx.lifecycle.SavedStateHandle
 import com.enricog.base_test.coroutine.CoroutineRule
 import com.enricog.base_test.entities.routines.EMPTY
 import com.enricog.entities.routines.Routine
@@ -9,6 +10,7 @@ import com.enricog.routines.detail.routine.models.RoutineState
 import com.enricog.routines.detail.routine.models.RoutineViewState
 import com.enricog.routines.detail.routine.usecase.RoutineUseCase
 import com.enricog.routines.navigation.RoutinesNavigationActions
+import com.enricog.routines.navigation.RoutinesNavigationConstants.Routine.routeIdParamName
 import io.mockk.Called
 import io.mockk.coEvery
 import io.mockk.coVerify
@@ -29,6 +31,7 @@ class RoutineViewModelTest {
     private val reducer: RoutineReducer = mockk()
     private val validator: RoutineValidator = mockk()
     private val routineUseCase: RoutineUseCase = mockk()
+    private val savedStateHandle = SavedStateHandle(mapOf(routeIdParamName to 1L))
 
     @Before
     fun setup() {
@@ -46,9 +49,7 @@ class RoutineViewModelTest {
         every {
             reducer.setup(routine = any())
         } returns RoutineState.Data(routine = routine, errors = emptyMap())
-        val sut = buildSut()
-
-        sut.load(routineId = 1)
+        buildSut()
 
         coVerify {
             routineUseCase.get(routineId = 1)
@@ -62,7 +63,6 @@ class RoutineViewModelTest {
         every { reducer.setup(routine = any()) } returns state
         every { reducer.updateRoutineName(state = any(), text = any()) } returns state
         val sut = buildSut()
-        sut.load(routineId = 1)
         advanceUntilIdle()
 
         sut.onRoutineNameTextChange(text = "name")
@@ -76,7 +76,6 @@ class RoutineViewModelTest {
         every { reducer.setup(routine = any()) } returns state
         every { reducer.updateRoutineStartTimeOffset(state = any(), seconds = any()) } returns state
         val sut = buildSut()
-        sut.load(routineId = 1)
         advanceUntilIdle()
 
         sut.onRoutineStartTimeOffsetChange(seconds = 10)
@@ -87,7 +86,6 @@ class RoutineViewModelTest {
     @Test
     fun `should navigate back onRoutineBack`() = coroutineRule {
         val sut = buildSut()
-        sut.load(routineId = 1)
         advanceUntilIdle()
 
         sut.onRoutineBack()
@@ -105,7 +103,6 @@ class RoutineViewModelTest {
         every { reducer.applyRoutineErrors(state = any(), errors = any()) } returns state
         every { validator.validate(routine = any()) } returns errors
         val sut = buildSut()
-        sut.load(routineId = 1)
         advanceUntilIdle()
 
         sut.onRoutineSave()
@@ -126,7 +123,6 @@ class RoutineViewModelTest {
             every { validator.validate(routine = any()) } returns emptyMap()
             coEvery { routineUseCase.save(routine = any()) } returns 1
             val sut = buildSut()
-            sut.load(routineId = 0)
             advanceUntilIdle()
 
             sut.onRoutineSave()
@@ -149,7 +145,6 @@ class RoutineViewModelTest {
             every { validator.validate(routine = any()) } returns emptyMap()
             coEvery { routineUseCase.save(routine = any()) } returns 1
             val sut = buildSut()
-            sut.load(routineId = 1)
             advanceUntilIdle()
 
             sut.onRoutineSave()
@@ -165,6 +160,7 @@ class RoutineViewModelTest {
 
     private fun buildSut(): RoutineViewModel {
         return RoutineViewModel(
+            savedStateHandle = savedStateHandle,
             dispatchers = coroutineRule.dispatchers,
             converter = converter,
             navigationActions = navigationActions,

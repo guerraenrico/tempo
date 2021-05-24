@@ -1,5 +1,6 @@
 package com.enricog.timer
 
+import androidx.lifecycle.SavedStateHandle
 import com.enricog.base_test.coroutine.CoroutineRule
 import com.enricog.base_test.entities.routines.EMPTY
 import com.enricog.entities.routines.Routine
@@ -8,19 +9,19 @@ import com.enricog.entities.routines.TimeType
 import com.enricog.timer.models.Count
 import com.enricog.timer.models.SegmentStep
 import com.enricog.timer.models.SegmentStepType
-import com.enricog.timer.models.TimerConfiguration
 import com.enricog.timer.models.TimerState
 import com.enricog.timer.models.TimerViewState
 import com.enricog.timer.navigation.TimerNavigationActions
+import com.enricog.timer.navigation.TimerNavigationConstants
 import com.enricog.timer.usecase.TimerUseCase
 import io.mockk.coEvery
 import io.mockk.every
 import io.mockk.mockk
 import io.mockk.verify
-import kotlin.test.assertTrue
 import org.junit.Before
 import org.junit.Rule
 import org.junit.Test
+import kotlin.test.assertTrue
 
 class TimerViewModelTest {
 
@@ -30,7 +31,9 @@ class TimerViewModelTest {
     private val converter: TimerStateConverter = mockk()
     private val reducer: TimerReducer = mockk()
     private val timerUseCase: TimerUseCase = mockk()
-    private val configuration = TimerConfiguration(routineId = 1)
+    private val savedStateHandle = SavedStateHandle(
+        mapOf(TimerNavigationConstants.routeIdParamName to 1L)
+    )
     private val navigationActions: TimerNavigationActions = mockk(relaxUnitFun = true)
     private val windowScreenManager: WindowScreenManager = mockk(relaxUnitFun = true)
 
@@ -45,7 +48,7 @@ class TimerViewModelTest {
     fun `test onStartStopButtonClick`() = coroutineRule {
         every { reducer.toggleTimeRunning(any()) } returns TimerState.Idle
 
-        val sut = buildSut().apply { load(configuration) }
+        val sut = buildSut()
 
         advanceUntilIdle()
         sut.onStartStopButtonClick()
@@ -58,7 +61,7 @@ class TimerViewModelTest {
         every { reducer.restartTime(any()) } returns TimerState.Idle
         every { reducer.toggleTimeRunning(any()) } returns TimerState.Idle
 
-        val sut = buildSut().apply { load(configuration) }
+        val sut = buildSut()
 
         advanceUntilIdle()
         sut.onRestartSegmentButtonClick()
@@ -80,7 +83,7 @@ class TimerViewModelTest {
         every { reducer.toggleTimeRunning(any()) } returns countingState
         every { reducer.nextStep(any()) } returns countingState
 
-        val sut = buildSut().apply { load(configuration) }
+        val sut = buildSut()
 
         advanceUntilIdle()
         sut.onResetButtonClick()
@@ -101,7 +104,7 @@ class TimerViewModelTest {
         every { reducer.progressTime(any()) } returns TimerState.Idle
         every { reducer.toggleTimeRunning(any()) } returns countingState
 
-        buildSut().apply { load(configuration) }
+        buildSut()
 
         advanceUntilIdle()
 
@@ -130,7 +133,7 @@ class TimerViewModelTest {
         every { reducer.progressTime(any()) } returns countingStateCompleted
         every { reducer.toggleTimeRunning(any()) } returns countingStateInitial
 
-        val sut = buildSut().apply { load(configuration) }
+        val sut = buildSut()
 
         advanceUntilIdle()
 
@@ -143,7 +146,7 @@ class TimerViewModelTest {
     fun `test onDoneButtonClick should go backToRoutines`() = coroutineRule {
         every { reducer.toggleTimeRunning(any()) } returns TimerState.Idle
 
-        val sut = buildSut().apply { load(configuration) }
+        val sut = buildSut()
 
         advanceUntilIdle()
         sut.onDoneButtonClick()
@@ -174,7 +177,7 @@ class TimerViewModelTest {
             every { reducer.progressTime(countingStateRunning) } returns TimerState.Idle
             every { reducer.toggleTimeRunning(any()) } returns countingStateInitial
 
-            buildSut().apply { load(configuration) }
+            buildSut()
 
             advanceUntilIdle()
 
@@ -203,7 +206,7 @@ class TimerViewModelTest {
             every { reducer.progressTime(any()) } returns countingStateNotRunning
             every { reducer.toggleTimeRunning(any()) } returns countingStateInitial
 
-            buildSut().apply { load(configuration) }
+            buildSut()
 
             advanceUntilIdle()
 
@@ -233,7 +236,7 @@ class TimerViewModelTest {
             every { reducer.toggleTimeRunning(any()) } returns countingStateInitial
             every { reducer.nextStep(any()) } returns TimerState.Idle
 
-            buildSut().apply { load(configuration) }
+            buildSut()
 
             advanceUntilIdle()
 
@@ -244,7 +247,7 @@ class TimerViewModelTest {
     fun `test onCloseButtonClick should go backToRoutines`() = coroutineRule {
         every { reducer.toggleTimeRunning(any()) } returns TimerState.Idle
 
-        val sut = buildSut().apply { load(configuration) }
+        val sut = buildSut()
 
         advanceUntilIdle()
         sut.onCloseButtonClick()
@@ -254,6 +257,7 @@ class TimerViewModelTest {
 
     private fun buildSut(): TimerViewModel {
         return TimerViewModel(
+            savedStateHandle = savedStateHandle,
             dispatchers = coroutineRule.dispatchers,
             converter = converter,
             reducer = reducer,

@@ -1,5 +1,6 @@
 package com.enricog.routines.detail.segment
 
+import androidx.lifecycle.SavedStateHandle
 import androidx.lifecycle.viewModelScope
 import com.enricog.base_android.viewmodel.BaseViewModel
 import com.enricog.base_android.viewmodel.ViewModelConfiguration
@@ -12,12 +13,15 @@ import com.enricog.routines.detail.segment.models.SegmentState
 import com.enricog.routines.detail.segment.models.SegmentViewState
 import com.enricog.routines.detail.segment.usecase.SegmentUseCase
 import com.enricog.routines.navigation.RoutinesNavigationActions
+import com.enricog.routines.navigation.RoutinesNavigationConstants.Segment.routeIdParamName
+import com.enricog.routines.navigation.RoutinesNavigationConstants.Segment.segmentIdParamName
 import dagger.hilt.android.lifecycle.HiltViewModel
-import javax.inject.Inject
 import kotlinx.coroutines.launch
+import javax.inject.Inject
 
 @HiltViewModel
 internal class SegmentViewModel @Inject constructor(
+    savedStateHandle: SavedStateHandle,
     dispatchers: CoroutineDispatchers,
     converter: SegmentStateConverter,
     private val reducer: SegmentReducer,
@@ -33,7 +37,13 @@ internal class SegmentViewModel @Inject constructor(
 
     private var saveJob by autoCancelableJob()
 
-    fun load(routineId: Long, segmentId: Long) {
+    init {
+        val routineId = savedStateHandle.get<Long>(routeIdParamName)!!
+        val segmentId = savedStateHandle.get<Long>(segmentIdParamName)!!
+        load(routineId, segmentId)
+    }
+
+    private fun load(routineId: Long, segmentId: Long) {
         viewModelScope.launch {
             val routine = segmentUseCase.get(routineId = routineId)
             state = reducer.setup(routine = routine, segmentId = segmentId)

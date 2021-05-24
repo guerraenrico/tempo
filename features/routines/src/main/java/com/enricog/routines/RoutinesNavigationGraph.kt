@@ -24,9 +24,7 @@ fun NavGraphBuilder.RoutinesNavigation() {
             route = Routines.routeName,
             arguments = emptyList()
         ) {
-            RoutinesScreen(
-                viewModel = navViewModel(it)
-            )
+            RoutinesScreen(viewModel = navViewModel(it))
         }
 
         composable(
@@ -37,10 +35,7 @@ fun NavGraphBuilder.RoutinesNavigation() {
                 }
             )
         ) {
-            RoutineSummaryScreen(
-                routineId = it.arguments!!.getLong(Routine.routeIdParamName),
-                viewModel = navViewModel(it)
-            )
+            RoutineSummaryScreen(viewModel = navViewModel(it))
         }
 
         composable(
@@ -51,10 +46,7 @@ fun NavGraphBuilder.RoutinesNavigation() {
                 }
             )
         ) {
-            RoutineScreen(
-                routineId = it.arguments!!.getLong(Routine.routeIdParamName),
-                viewModel = navViewModel(it)
-            )
+            RoutineScreen(viewModel = navViewModel(it))
         }
 
         composable(
@@ -68,11 +60,7 @@ fun NavGraphBuilder.RoutinesNavigation() {
                 }
             )
         ) {
-            SegmentScreen(
-                routineId = it.arguments!!.getLong(Segment.routeIdParamName),
-                segmentId = it.arguments!!.getLong(Segment.segmentIdParamName),
-                viewModel = navViewModel(it)
-            )
+            SegmentScreen(viewModel = navViewModel(it))
         }
     }
 }

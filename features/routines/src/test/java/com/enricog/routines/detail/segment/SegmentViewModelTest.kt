@@ -1,5 +1,6 @@
 package com.enricog.routines.detail.segment
 
+import androidx.lifecycle.SavedStateHandle
 import com.enricog.base_test.coroutine.CoroutineRule
 import com.enricog.base_test.entities.routines.EMPTY
 import com.enricog.entities.routines.Routine
@@ -11,6 +12,8 @@ import com.enricog.routines.detail.segment.models.SegmentState
 import com.enricog.routines.detail.segment.models.SegmentViewState
 import com.enricog.routines.detail.segment.usecase.SegmentUseCase
 import com.enricog.routines.navigation.RoutinesNavigationActions
+import com.enricog.routines.navigation.RoutinesNavigationConstants.Segment.routeIdParamName
+import com.enricog.routines.navigation.RoutinesNavigationConstants.Segment.segmentIdParamName
 import io.mockk.Called
 import io.mockk.coEvery
 import io.mockk.coVerify
@@ -31,6 +34,12 @@ class SegmentViewModelTest {
     private val segmentUseCase: SegmentUseCase = mockk(relaxUnitFun = true)
     private val validator: SegmentValidator = mockk()
     private val navigationActions: RoutinesNavigationActions = mockk(relaxUnitFun = true)
+    private val savedStateHandle = SavedStateHandle(
+        mapOf(
+            routeIdParamName to 1L,
+            segmentIdParamName to 2L
+        )
+    )
 
     @Before
     fun setup() {
@@ -49,9 +58,8 @@ class SegmentViewModelTest {
     @Test
     fun `should get routine and set segment on load `() = coroutineRule {
         coEvery { segmentUseCase.get(routineId = any()) } returns Routine.EMPTY
-        val sut = buildSut()
+        buildSut()
 
-        sut.load(routineId = 1, segmentId = 2)
         advanceUntilIdle()
 
         coVerify {
@@ -71,7 +79,6 @@ class SegmentViewModelTest {
         every { reducer.setup(routine = any(), segmentId = any()) } returns state
         every { reducer.updateSegmentName(state = any(), text = any()) } returns state
         val sut = buildSut()
-        sut.load(routineId = 1, segmentId = 2)
         advanceUntilIdle()
 
         sut.onSegmentNameTextChange(text = "name")
@@ -90,7 +97,6 @@ class SegmentViewModelTest {
         every { reducer.setup(routine = any(), segmentId = any()) } returns state
         every { reducer.updateSegmentTime(state = any(), seconds = any()) } returns state
         val sut = buildSut()
-        sut.load(routineId = 1, segmentId = 2)
         advanceUntilIdle()
 
         sut.onSegmentTimeChange(seconds = 10)
@@ -109,7 +115,6 @@ class SegmentViewModelTest {
         every { reducer.setup(routine = any(), segmentId = any()) } returns state
         every { reducer.updateSegmentTimeType(state = any(), timeType = any()) } returns state
         val sut = buildSut()
-        sut.load(routineId = 1, segmentId = 2)
         advanceUntilIdle()
 
         sut.onSegmentTypeChange(timeType = TimeType.STOPWATCH)
@@ -132,7 +137,6 @@ class SegmentViewModelTest {
         every { reducer.applySegmentErrors(state = any(), errors = any()) } returns state
         every { validator.validate(any()) } returns errors
         val sut = buildSut()
-        sut.load(routineId = 1, segmentId = 2)
         advanceUntilIdle()
 
         sut.onSegmentConfirmed()
@@ -155,7 +159,6 @@ class SegmentViewModelTest {
         every { reducer.setup(routine = any(), segmentId = any()) } returns state
         every { validator.validate(any()) } returns emptyMap()
         val sut = buildSut()
-        sut.load(routineId = 1, segmentId = 2)
         advanceUntilIdle()
 
         sut.onSegmentConfirmed()
@@ -169,6 +172,7 @@ class SegmentViewModelTest {
 
     private fun buildSut(): SegmentViewModel {
         return SegmentViewModel(
+            savedStateHandle = savedStateHandle,
             dispatchers = coroutineRule.dispatchers,
             converter = converter,
             reducer = reducer,
