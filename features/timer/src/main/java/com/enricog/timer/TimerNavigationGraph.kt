@@ -4,7 +4,7 @@ import androidx.navigation.NavGraphBuilder
 import androidx.navigation.NavType
 import androidx.navigation.compose.composable
 import androidx.navigation.compose.navArgument
-import androidx.navigation.compose.navigation
+import androidx.navigation.navigation
 import com.enricog.timer.navigation.TimerNavigationConstants
 import com.enricog.ui_components.navigation.navViewModel
 
