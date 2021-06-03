@@ -23,7 +23,7 @@ object Libs {
 
     object Kotlin {
         const val version = "1.5.10"
-        private const val coroutineVersion = "1.4.3"
+        private const val coroutineVersion = "1.5.0"
 
         const val coroutines = "org.jetbrains.kotlinx:kotlinx-coroutines-android:$coroutineVersion"
         const val stdlib = "org.jetbrains.kotlin:kotlin-stdlib-jdk8:$version"
@@ -127,7 +127,7 @@ object Libs {
 
     object Test {
         const val junit = "junit:junit:4.12"
-        const val flow = "app.cash.turbine:turbine:0.4.1"
+        const val flow = "app.cash.turbine:turbine:0.5.2"
     }
 
     const val Robolectric = "org.robolectric:robolectric:4.3.1"
