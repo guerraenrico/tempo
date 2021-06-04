@@ -1,8 +1,6 @@
 package com.enricog.tempo.navigation
 
 import androidx.navigation.NavController
-import androidx.navigation.compose.navigate
-import androidx.navigation.compose.popUpTo
 import com.enricog.routines.navigation.RoutinesNavigationActions
 import com.enricog.routines.navigation.RoutinesNavigationConstants
 import com.enricog.routines.navigation.RoutinesNavigationConstants.Routine

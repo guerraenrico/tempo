@@ -46,7 +46,7 @@ class RoutineSummaryViewModelTest {
 
     @Test
     fun `should get routine on load`() = coroutineRule {
-        val sut = buildSut()
+        buildSut()
 
         verify { routineSummaryUseCase.get(routineId = 1) }
     }

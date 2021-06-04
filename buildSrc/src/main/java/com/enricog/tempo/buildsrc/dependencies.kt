@@ -22,8 +22,8 @@ object Versions {
 object Libs {
 
     object Kotlin {
-        const val version = "1.4.32"
-        private const val coroutineVersion = "1.4.3"
+        const val version = "1.5.10"
+        private const val coroutineVersion = "1.5.0"
 
         const val coroutines = "org.jetbrains.kotlinx:kotlinx-coroutines-android:$coroutineVersion"
         const val stdlib = "org.jetbrains.kotlin:kotlin-stdlib-jdk8:$version"
@@ -42,14 +42,14 @@ object Libs {
         object Test {
             const val junitKtx = "androidx.test.ext:junit-ktx:1.1.2"
 
-            private const val version = "1.2.0"
+            private const val version = "1.3.0"
             const val core = "androidx.test:core:$version"
             const val rules = "androidx.test:rules:$version"
             const val archCore = "androidx.arch.core:core-testing:2.1.0"
         }
 
         object Compose {
-            const val version = "1.0.0-beta06"
+            const val version = "1.0.0-beta08"
 
             const val runtime = "androidx.compose.runtime:runtime:$version"
             const val foundation = "androidx.compose.foundation:foundation:$version"
@@ -63,11 +63,11 @@ object Libs {
             const val test = "androidx.compose.ui:ui-test:$version"
             const val uiTest = "androidx.compose.ui:ui-test-junit4:$version"
 
-            const val activity = "androidx.activity:activity-compose:1.3.0-alpha06"
+            const val activity = "androidx.activity:activity-compose:1.3.0-beta01"
 
-            const val navigation = "androidx.navigation:navigation-compose:1.0.0-alpha10"
-            const val viewModel = "androidx.lifecycle:lifecycle-viewmodel-compose:1.0.0-alpha04"
-            const val constraintLayout = "androidx.constraintlayout:constraintlayout-compose:1.0.0-alpha06"
+            const val navigation = "androidx.navigation:navigation-compose:2.4.0-alpha02"
+            const val viewModel = "androidx.lifecycle:lifecycle-viewmodel-compose:1.0.0-alpha06"
+            const val constraintLayout = "androidx.constraintlayout:constraintlayout-compose:1.0.0-alpha07"
         }
     }
 
@@ -84,12 +84,12 @@ object Libs {
 
     object Hilt {
         const val androidVersion = "2.35.1"
-        private const val version = "1.0.0-beta01"
+        private const val version = "1.0.0"
 
         const val android = "com.google.dagger:hilt-android:$androidVersion"
         const val androidCompiler = "com.google.dagger:hilt-android-compiler:$androidVersion"
 
-        const val navigation = "androidx.hilt:hilt-navigation-compose:1.0.0-alpha01"
+        const val navigation = "androidx.hilt:hilt-navigation-compose:1.0.0-alpha02"
 
         const val work = "androidx.hilt:hilt-work:$version"
     }
@@ -127,7 +127,7 @@ object Libs {
 
     object Test {
         const val junit = "junit:junit:4.12"
-        const val flow = "app.cash.turbine:turbine:0.4.1"
+        const val flow = "app.cash.turbine:turbine:0.5.2"
     }
 
     const val Robolectric = "org.robolectric:robolectric:4.3.1"

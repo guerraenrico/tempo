@@ -4,7 +4,7 @@ import androidx.navigation.NavGraphBuilder
 import androidx.navigation.NavType
 import androidx.navigation.compose.composable
 import androidx.navigation.compose.navArgument
-import androidx.navigation.compose.navigation
+import androidx.navigation.navigation
 import com.enricog.routines.detail.routine.RoutineScreen
 import com.enricog.routines.detail.segment.SegmentScreen
 import com.enricog.routines.detail.summary.RoutineSummaryScreen
