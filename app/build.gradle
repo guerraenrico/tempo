@@ -72,6 +72,10 @@ android {
         kotlinCompilerVersion Libs.Kotlin.version
         kotlinCompilerExtensionVersion Libs.AndroidX.Compose.version
     }
+
+    hilt {
+        enableAggregatingTask = true
+    }
 }
 
 dependencies {
