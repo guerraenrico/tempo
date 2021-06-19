@@ -49,7 +49,7 @@ object Libs {
         }
 
         object Compose {
-            const val version = "1.0.0-beta08"
+            const val version = "1.0.0-beta09"
 
             const val runtime = "androidx.compose.runtime:runtime:$version"
             const val foundation = "androidx.compose.foundation:foundation:$version"
@@ -63,10 +63,10 @@ object Libs {
             const val test = "androidx.compose.ui:ui-test:$version"
             const val uiTest = "androidx.compose.ui:ui-test-junit4:$version"
 
-            const val activity = "androidx.activity:activity-compose:1.3.0-beta01"
+            const val activity = "androidx.activity:activity-compose:1.3.0-beta02"
 
-            const val navigation = "androidx.navigation:navigation-compose:2.4.0-alpha02"
-            const val viewModel = "androidx.lifecycle:lifecycle-viewmodel-compose:1.0.0-alpha06"
+            const val navigation = "androidx.navigation:navigation-compose:2.4.0-alpha03"
+            const val viewModel = "androidx.lifecycle:lifecycle-viewmodel-compose:1.0.0-alpha07"
             const val constraintLayout = "androidx.constraintlayout:constraintlayout-compose:1.0.0-alpha07"
         }
     }
@@ -83,13 +83,13 @@ object Libs {
     }
 
     object Hilt {
-        const val androidVersion = "2.35.1"
+        const val androidVersion = "2.37"
         private const val version = "1.0.0"
 
         const val android = "com.google.dagger:hilt-android:$androidVersion"
         const val androidCompiler = "com.google.dagger:hilt-android-compiler:$androidVersion"
 
-        const val navigation = "androidx.hilt:hilt-navigation-compose:1.0.0-alpha02"
+        const val navigation = "androidx.hilt:hilt-navigation-compose:1.0.0-alpha03"
 
         const val work = "androidx.hilt:hilt-work:$version"
     }
@@ -116,7 +116,7 @@ object Libs {
     }
 
     object Firebase {
-        private const val version = "28.0.1"
+        private const val version = "28.1.0"
 
         const val bom = "com.google.firebase:firebase-bom:$version"
         const val crashlytics = "com.google.firebase:firebase-crashlytics-ktx"
