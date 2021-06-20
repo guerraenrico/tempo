@@ -102,9 +102,7 @@ private fun TempoTextFieldBase(
     singleLine: Boolean,
     maxLines: Int,
 ) {
-    val labelText: @Composable (() -> Unit)? = if (label != null) {
-        @Composable { Text(label) }
-    } else null
+    val composableLabel: @Composable (() -> Unit)? = label?.let { @Composable { Text(label) } }
 
     Column(
         modifier = modifier
@@ -114,7 +112,7 @@ private fun TempoTextFieldBase(
             onValueChange = onValueChange,
             modifier = Modifier.fillMaxSize(),
             textStyle = textFieldStyle.merge(textStyle),
-            label = labelText,
+            label = composableLabel,
             leadingIcon = leadingIcon,
             trailingIcon = trailingIcon,
             isError = errorMessage != null,
