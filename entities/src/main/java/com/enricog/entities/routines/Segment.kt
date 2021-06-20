@@ -1,9 +1,12 @@
 package com.enricog.entities.routines
 
+import com.enricog.entities.Seconds
+import com.enricog.entities.seconds
+
 data class Segment(
     val id: Long,
     val name: String,
-    val timeInSeconds: Long,
+    val time: Seconds,
     val type: TimeType
 ) {
     companion object {
@@ -12,7 +15,7 @@ data class Segment(
                 return Segment(
                     id = 0,
                     name = "",
-                    timeInSeconds = 0,
+                    time = 0.seconds,
                     type = TimeType.TIMER
                 )
             }

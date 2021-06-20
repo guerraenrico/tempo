@@ -16,8 +16,10 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.platform.testTag
 import androidx.compose.ui.res.stringResource
+import com.enricog.entities.Seconds
 import com.enricog.entities.routines.Segment
 import com.enricog.entities.routines.TimeType
+import com.enricog.entities.seconds
 import com.enricog.routines.R
 import com.enricog.routines.detail.segment.models.SegmentField
 import com.enricog.routines.detail.ui_components.TimeTypeChip
@@ -36,7 +38,7 @@ internal fun SegmentFormScene(
     errors: Map<SegmentField, Int>,
     timeTypes: List<TimeType>,
     onSegmentNameChange: (String) -> Unit,
-    onSegmentTimeChange: (Long) -> Unit,
+    onSegmentTimeChange: (Seconds) -> Unit,
     onSegmentTimeTypeChange: (TimeType) -> Unit,
     onSegmentConfirmed: () -> Unit
 ) {
@@ -59,8 +61,8 @@ internal fun SegmentFormScene(
             )
             // TODO hide/disable time field if type selected is stopwatch
             SegmentTimeField(
-                value = segment.timeInSeconds,
-                onValueChange = onSegmentTimeChange,
+                value = segment.time.value,
+                onValueChange = { onSegmentTimeChange(it.seconds) },
                 errorMessageResourceId = errors[SegmentField.TimeInSeconds],
             )
             SelectableTimeType(

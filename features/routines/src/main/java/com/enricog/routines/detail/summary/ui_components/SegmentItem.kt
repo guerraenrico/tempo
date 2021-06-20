@@ -69,7 +69,7 @@ internal fun SegmentItem(
                         end.linkTo(parent.end)
                         bottom.linkTo(parent.bottom)
                     },
-                text = "${segment.timeInSeconds}s",
+                text = "${segment.time.value}s",
                 style = MaterialTheme.typography.h3
             )
         }

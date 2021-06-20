@@ -13,7 +13,7 @@ class RoutineValidatorTest {
 
     @Test
     fun `should return error when routine name is blank`() {
-        val routine = Routine.EMPTY.copy(name = "", startTimeOffsetInSeconds = 0)
+        val routine = Routine.EMPTY.copy(name = "", startTimeOffset = 0)
         val expected: Map<RoutineField, RoutineFieldError> = mapOf(
             RoutineField.Name to RoutineFieldError.BlankRoutineName,
         )
@@ -25,7 +25,7 @@ class RoutineValidatorTest {
 
     @Test
     fun `should return error when routine startTimeOffsetInSeconds is less than 0`() {
-        val routine = Routine.EMPTY.copy(name = "name", startTimeOffsetInSeconds = -1)
+        val routine = Routine.EMPTY.copy(name = "name", startTimeOffset = -1)
         val expected: Map<RoutineField, RoutineFieldError> = mapOf(
             RoutineField.StartTimeOffsetInSeconds to RoutineFieldError.InvalidRoutineStartTimeOffset,
         )

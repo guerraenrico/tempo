@@ -30,7 +30,7 @@ class RoutineUseCaseTest {
 
         assertEquals(0L, result.id)
         assertEquals("", result.name)
-        assertEquals(0L, result.startTimeOffsetInSeconds)
+        assertEquals(0L, result.startTimeOffset)
         assertEquals(emptyList(), result.segments)
         verify { routineDataSource wasNot Called }
     }

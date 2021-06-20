@@ -1,8 +1,10 @@
 package com.enricog.timer
 
+import com.enricog.entities.Seconds
 import com.enricog.entities.routines.Routine
 import com.enricog.entities.routines.Segment
 import com.enricog.entities.routines.TimeType
+import com.enricog.entities.seconds
 import com.enricog.timer.models.Count
 import com.enricog.timer.models.SegmentStep
 import com.enricog.timer.models.SegmentStepType
@@ -13,15 +15,15 @@ internal class TimerReducer @Inject constructor() {
 
     fun setup(routine: Routine): TimerState {
         val segment = routine.segments.first()
-        val (type, timeInSeconds) = getStepTypeAndTime(
+        val (type, time) = getStepTypeAndTime(
             segment = segment,
-            startTimeOffsetInSeconds = routine.startTimeOffsetInSeconds
+            startTimeOffset = routine.startTimeOffset
         )
         return TimerState.Counting(
             routine = routine,
             runningSegment = routine.segments.first(),
             step = SegmentStep(
-                count = Count.idle(timeInSeconds = timeInSeconds),
+                count = Count.idle(seconds = time),
                 type = type
             )
         )
@@ -33,20 +35,20 @@ internal class TimerReducer @Inject constructor() {
         val step = state.step
         val runningSegment = state.runningSegment
         val goal = when {
-            step.type == SegmentStepType.STARTING -> 0L
-            runningSegment.type == TimeType.STOPWATCH -> -1L
-            else -> 0L
+            step.type == SegmentStepType.STARTING -> 0.seconds
+            runningSegment.type == TimeType.STOPWATCH -> (-1).seconds
+            else -> 0.seconds
         }
         val progress = when (step.type) {
-            SegmentStepType.STARTING -> -1L
+            SegmentStepType.STARTING -> (-1).seconds
             else -> runningSegment.type.progress
         }
-        val timeInSeconds = step.count.timeInSeconds + progress
-        val isCompleted = goal == timeInSeconds
+        val seconds = step.count.seconds + progress
+        val isCompleted = goal == seconds
         return state.copy(
             step = step.copy(
                 count = step.count.copy(
-                    timeInSeconds = timeInSeconds,
+                    seconds = seconds,
                     isCompleted = isCompleted
                 )
             )
@@ -70,11 +72,11 @@ internal class TimerReducer @Inject constructor() {
         val step = state.step
         val routine = state.routine
         val runningSegment = state.runningSegment
-        val timeInSeconds = when (step.type) {
-            SegmentStepType.STARTING -> routine.startTimeOffsetInSeconds
-            SegmentStepType.IN_PROGRESS -> runningSegment.timeInSeconds
+        val time = when (step.type) {
+            SegmentStepType.STARTING -> routine.startTimeOffset
+            SegmentStepType.IN_PROGRESS -> runningSegment.time
         }
-        return state.copy(step = step.copy(count = Count.idle(timeInSeconds = timeInSeconds)))
+        return state.copy(step = step.copy(count = Count.idle(seconds = time)))
     }
 
     fun nextStep(state: TimerState): TimerState {
@@ -87,7 +89,7 @@ internal class TimerReducer @Inject constructor() {
             SegmentStepType.STARTING -> {
                 state.copy(
                     step = SegmentStep(
-                        count = Count.start(runningSegment.timeInSeconds),
+                        count = Count.start(runningSegment.time),
                         type = SegmentStepType.IN_PROGRESS
                     )
                 )
@@ -96,14 +98,14 @@ internal class TimerReducer @Inject constructor() {
                 val routine = state.routine
                 val indexRunningSegment = routine.segments.indexOf(runningSegment)
                 val segment = routine.segments[indexRunningSegment + 1]
-                val (type, timeInSeconds) = getStepTypeAndTime(
+                val (type, time) = getStepTypeAndTime(
                     segment = segment,
-                    startTimeOffsetInSeconds = routine.startTimeOffsetInSeconds
+                    startTimeOffset = routine.startTimeOffset
                 )
                 state.copy(
                     runningSegment = segment,
                     step = SegmentStep(
-                        count = Count.start(timeInSeconds = timeInSeconds),
+                        count = Count.start(seconds = time),
                         type = type
                     )
                 )
@@ -113,12 +115,12 @@ internal class TimerReducer @Inject constructor() {
 
     private fun getStepTypeAndTime(
         segment: Segment,
-        startTimeOffsetInSeconds: Long
-    ): Pair<SegmentStepType, Long> {
-        return if (segment.type != TimeType.REST && startTimeOffsetInSeconds > 0) {
-            SegmentStepType.STARTING to startTimeOffsetInSeconds
+        startTimeOffset: Seconds
+    ): Pair<SegmentStepType, Seconds> {
+        return if (segment.type != TimeType.REST && startTimeOffset > 0.seconds) {
+            SegmentStepType.STARTING to startTimeOffset
         } else {
-            SegmentStepType.IN_PROGRESS to segment.timeInSeconds
+            SegmentStepType.IN_PROGRESS to segment.time
         }
     }
 }

@@ -11,7 +11,9 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.platform.testTag
 import androidx.compose.ui.res.stringResource
+import com.enricog.entities.Seconds
 import com.enricog.entities.routines.Routine
+import com.enricog.entities.seconds
 import com.enricog.routines.R
 import com.enricog.routines.detail.routine.models.RoutineField
 import com.enricog.ui_components.common.button.TempoButton
@@ -27,7 +29,7 @@ internal fun RoutineFormScene(
     routine: Routine,
     errors: Map<RoutineField, Int>,
     onRoutineNameChange: (String) -> Unit,
-    onStartTimeOffsetChange: (Long) -> Unit,
+    onStartTimeOffsetChange: (Seconds) -> Unit,
     onRoutineSave: () -> Unit
 ) {
     Column(
@@ -48,7 +50,7 @@ internal fun RoutineFormScene(
             )
 
             RoutineStartTimeOffsetField(
-                value = routine.startTimeOffsetInSeconds,
+                seconds = routine.startTimeOffset,
                 onValueChange = onStartTimeOffsetChange,
                 errorMessageResourceId = errors[RoutineField.StartTimeOffsetInSeconds]
             )
@@ -91,8 +93,8 @@ private fun RoutineNameTextField(
 
 @Composable
 private fun RoutineStartTimeOffsetField(
-    value: Long,
-    onValueChange: (Long) -> Unit,
+    seconds: Seconds,
+    onValueChange: (Seconds) -> Unit,
     errorMessageResourceId: Int?
 ) {
     val errorMessage: String? = if (errorMessageResourceId != null) {
@@ -101,8 +103,8 @@ private fun RoutineStartTimeOffsetField(
         null
     }
     TempoNumberField(
-        value = value,
-        onValueChange = onValueChange,
+        value = seconds.value,
+        onValueChange = { onValueChange(it.seconds) },
         modifier = Modifier
             .fillMaxWidth()
             .padding(MaterialTheme.dimensions.spaceM),

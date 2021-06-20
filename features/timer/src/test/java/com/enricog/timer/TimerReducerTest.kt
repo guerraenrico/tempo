@@ -19,14 +19,14 @@ class TimerReducerTest {
     fun `test setup should set SegmentStep#type to SegmentStepType#STARTING when Routine#startTimeOffsetInSeconds is more than 0`() {
         val segment = Segment.EMPTY
         val routine = Routine.EMPTY.copy(
-            startTimeOffsetInSeconds = 10,
+            startTimeOffset = 10,
             segments = listOf(segment)
         )
         val expected = TimerState.Counting(
             routine = routine,
             runningSegment = segment,
             step = SegmentStep(
-                count = Count.idle(timeInSeconds = routine.startTimeOffsetInSeconds),
+                count = Count.idle(timeInSeconds = routine.startTimeOffset),
                 type = SegmentStepType.STARTING
             )
         )
@@ -40,14 +40,14 @@ class TimerReducerTest {
     fun `test setup should set SegmentStep#type to SegmentStepType#IN_PROGRESS when Routine#startTimeOffsetInSeconds is 0`() {
         val segment = Segment.EMPTY
         val routine = Routine.EMPTY.copy(
-            startTimeOffsetInSeconds = 0,
+            startTimeOffset = 0,
             segments = listOf(segment)
         )
         val expected = TimerState.Counting(
             routine = routine,
             runningSegment = segment,
             step = SegmentStep(
-                count = Count.idle(timeInSeconds = routine.startTimeOffsetInSeconds),
+                count = Count.idle(timeInSeconds = routine.startTimeOffset),
                 type = SegmentStepType.IN_PROGRESS
             )
         )
@@ -404,7 +404,7 @@ class TimerReducerTest {
     @Test
     fun `test restartTime should set count timeInSeconds with startTimeOffsetInSeconds when SegmentStepType#STARTING`() {
         val state = TimerState.Counting(
-            routine = Routine.EMPTY.copy(startTimeOffsetInSeconds = 10),
+            routine = Routine.EMPTY.copy(startTimeOffset = 10),
             runningSegment = Segment.EMPTY.copy(timeInSeconds = 99),
             step = SegmentStep(
                 count = Count(timeInSeconds = 5, isRunning = true, isCompleted = false),
@@ -412,7 +412,7 @@ class TimerReducerTest {
             )
         )
         val expected = TimerState.Counting(
-            routine = Routine.EMPTY.copy(startTimeOffsetInSeconds = 10),
+            routine = Routine.EMPTY.copy(startTimeOffset = 10),
             runningSegment = Segment.EMPTY.copy(timeInSeconds = 99),
             step = SegmentStep(
                 count = Count(timeInSeconds = 10, isRunning = false, isCompleted = false),
@@ -449,7 +449,7 @@ class TimerReducerTest {
     fun `test nextStep should move to next segment`() {
         val segment = Segment.EMPTY.copy(timeInSeconds = 10, type = TimeType.TIMER)
         val routine = Routine.EMPTY.copy(
-            startTimeOffsetInSeconds = 5,
+            startTimeOffset = 5,
             segments = listOf(Segment.EMPTY, segment)
         )
         val state = TimerState.Counting(
@@ -522,7 +522,7 @@ class TimerReducerTest {
     fun `test nextStep should set next segment with segmentStepType STARTING when segmentStepType is IN_PROGRESS`() {
         val state = TimerState.Counting(
             routine = Routine.EMPTY.copy(
-                startTimeOffsetInSeconds = 5,
+                startTimeOffset = 5,
                 segments = listOf(
                     Segment.EMPTY.copy(id = 1), Segment.EMPTY.copy(id = 2)
                 )
@@ -535,7 +535,7 @@ class TimerReducerTest {
         )
         val expected = TimerState.Counting(
             routine = Routine.EMPTY.copy(
-                startTimeOffsetInSeconds = 5,
+                startTimeOffset = 5,
                 segments = listOf(
                     Segment.EMPTY.copy(id = 1), Segment.EMPTY.copy(id = 2)
                 )
@@ -556,7 +556,7 @@ class TimerReducerTest {
     fun `test nextStep should set next segment with segmentStepType IN_PROGRESS when the next segment timeType is REST (skip STARTIING)`() {
         val state = TimerState.Counting(
             routine = Routine.EMPTY.copy(
-                startTimeOffsetInSeconds = 5,
+                startTimeOffset = 5,
                 segments = listOf(
                     Segment.EMPTY.copy(id = 1, timeInSeconds = 10, type = TimeType.TIMER),
                     Segment.EMPTY.copy(id = 2, timeInSeconds = 20, type = TimeType.REST)
@@ -570,7 +570,7 @@ class TimerReducerTest {
         )
         val expected = TimerState.Counting(
             routine = Routine.EMPTY.copy(
-                startTimeOffsetInSeconds = 5,
+                startTimeOffset = 5,
                 segments = listOf(
                     Segment.EMPTY.copy(id = 1, timeInSeconds = 10, type = TimeType.TIMER),
                     Segment.EMPTY.copy(id = 2, timeInSeconds = 20, type = TimeType.REST)

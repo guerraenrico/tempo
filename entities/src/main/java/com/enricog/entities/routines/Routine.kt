@@ -1,11 +1,13 @@
 package com.enricog.entities.routines
 
+import com.enricog.entities.Seconds
+import com.enricog.entities.seconds
 import java.time.OffsetDateTime
 
 data class Routine(
     val id: Long,
     val name: String,
-    val startTimeOffsetInSeconds: Long,
+    val startTimeOffset: Seconds,
     val createdAt: OffsetDateTime,
     val updatedAt: OffsetDateTime,
     val segments: List<Segment>
@@ -17,7 +19,7 @@ data class Routine(
                 return Routine(
                     id = 0,
                     name = "",
-                    startTimeOffsetInSeconds = 0,
+                    startTimeOffset = 0.seconds,
                     createdAt = now,
                     updatedAt = now,
                     segments = emptyList()

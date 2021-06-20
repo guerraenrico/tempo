@@ -5,7 +5,6 @@ import androidx.room.TypeConverter
 import java.time.OffsetDateTime
 
 internal object OffsetDateTimeConverter {
-
     @TypeConverter
     @JvmStatic
     fun fromDateTime(offsetDateTime: OffsetDateTime): String {

@@ -107,7 +107,7 @@ internal fun CountingScene(state: TimerViewState.Counting, timerActions: TimerAc
 
             Clock(
                 backgroundColor = state.clockBackgroundColor,
-                timeInSeconds = count.timeInSeconds,
+                seconds = count.seconds,
                 size = clockSize,
                 modifier = Modifier
                     .offset(y = timerOffset)

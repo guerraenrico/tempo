@@ -31,7 +31,7 @@ class InternalRoutineWithSegmentsTest {
         val expected = Routine(
             id = 1,
             name = "name",
-            startTimeOffsetInSeconds = 2,
+            startTimeOffset = 2,
             createdAt = now,
             updatedAt = now,
             segments = listOf(

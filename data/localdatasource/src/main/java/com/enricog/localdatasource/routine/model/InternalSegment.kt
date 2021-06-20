@@ -7,6 +7,7 @@ import androidx.room.ForeignKey.CASCADE
 import androidx.room.PrimaryKey
 import com.enricog.entities.routines.Segment
 import com.enricog.entities.routines.TimeType
+import com.enricog.entities.seconds
 
 @Entity(
     tableName = "Segments",
@@ -26,7 +27,7 @@ internal data class InternalSegment(
     @ColumnInfo(name = "type") val type: TimeType
 ) {
     fun toEntity(): Segment {
-        return Segment(id = id, name = name, timeInSeconds = timeInSeconds, type = type)
+        return Segment(id = id, name = name, time = timeInSeconds.seconds, type = type)
     }
 }
 
@@ -35,7 +36,7 @@ internal fun Segment.toInternal(routineId: Long): InternalSegment {
         id = id,
         routineId = routineId,
         name = name,
-        timeInSeconds = timeInSeconds,
+        timeInSeconds = time.value,
         type = type
     )
 }

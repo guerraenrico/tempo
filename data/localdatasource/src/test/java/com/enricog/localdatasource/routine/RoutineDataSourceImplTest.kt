@@ -73,7 +73,7 @@ class RoutineDataSourceImplTest {
         val routine = Routine(
             id = 1,
             name = "name",
-            startTimeOffsetInSeconds = 10,
+            startTimeOffset = 10,
             createdAt = now,
             updatedAt = now,
             segments = listOf(
@@ -115,7 +115,7 @@ class RoutineDataSourceImplTest {
         val expected = Routine(
             id = 1,
             name = "name",
-            startTimeOffsetInSeconds = 10,
+            startTimeOffset = 10,
             createdAt = now,
             updatedAt = now,
             segments = listOf(
@@ -156,7 +156,7 @@ class RoutineDataSourceImplTest {
         val expected = Routine(
             id = 1,
             name = "name",
-            startTimeOffsetInSeconds = 10,
+            startTimeOffset = 10,
             createdAt = now,
             updatedAt = now,
             segments = listOf(
@@ -184,7 +184,7 @@ class RoutineDataSourceImplTest {
         val routine = Routine(
             id = 0,
             name = "name",
-            startTimeOffsetInSeconds = 10,
+            startTimeOffset = 10,
             createdAt = max,
             updatedAt = max,
             segments = listOf(
@@ -199,7 +199,7 @@ class RoutineDataSourceImplTest {
         val expected = Routine(
             id = 1,
             name = "name",
-            startTimeOffsetInSeconds = 10,
+            startTimeOffset = 10,
             createdAt = now,
             updatedAt = now,
             segments = listOf(
@@ -241,7 +241,7 @@ class RoutineDataSourceImplTest {
         val routine = Routine(
             id = 1,
             name = "name2",
-            startTimeOffsetInSeconds = 10,
+            startTimeOffset = 10,
             createdAt = max,
             updatedAt = now,
             segments = listOf(
@@ -286,7 +286,7 @@ class RoutineDataSourceImplTest {
         val routine = Routine(
             id = 1,
             name = "name2",
-            startTimeOffsetInSeconds = 10,
+            startTimeOffset = 10,
             createdAt = max,
             updatedAt = now,
             segments = listOf(
@@ -331,7 +331,7 @@ class RoutineDataSourceImplTest {
         val routine = Routine(
             id = 1,
             name = "name2",
-            startTimeOffsetInSeconds = 10,
+            startTimeOffset = 10,
             createdAt = max,
             updatedAt = now,
             segments = emptyList()
@@ -362,7 +362,7 @@ class RoutineDataSourceImplTest {
         val routine = Routine(
             id = 1,
             name = "name2",
-            startTimeOffsetInSeconds = 10,
+            startTimeOffset = 10,
             createdAt = max,
             updatedAt = max,
             segments = listOf(
@@ -377,7 +377,7 @@ class RoutineDataSourceImplTest {
         val expected = Routine(
             id = 1,
             name = "name2",
-            startTimeOffsetInSeconds = 10,
+            startTimeOffset = 10,
             createdAt = max,
             updatedAt = now,
             segments = listOf(
@@ -421,7 +421,7 @@ class RoutineDataSourceImplTest {
         val routine = Routine(
             id = 1,
             name = "name2",
-            startTimeOffsetInSeconds = 10,
+            startTimeOffset = 10,
             createdAt = max,
             updatedAt = max,
             segments = listOf(
@@ -436,7 +436,7 @@ class RoutineDataSourceImplTest {
         val expected = Routine(
             id = 1,
             name = "name2",
-            startTimeOffsetInSeconds = 10,
+            startTimeOffset = 10,
             createdAt = max,
             updatedAt = now,
             segments = listOf(
@@ -488,7 +488,7 @@ class RoutineDataSourceImplTest {
         val routine = Routine(
             id = 1,
             name = "name2",
-            startTimeOffsetInSeconds = 10,
+            startTimeOffset = 10,
             createdAt = max,
             updatedAt = max,
             segments = listOf(
@@ -509,7 +509,7 @@ class RoutineDataSourceImplTest {
         val expected = Routine(
             id = 1,
             name = "name2",
-            startTimeOffsetInSeconds = 10,
+            startTimeOffset = 10,
             createdAt = max,
             updatedAt = now,
             segments = listOf(
@@ -559,7 +559,7 @@ class RoutineDataSourceImplTest {
         val routine = Routine(
             id = 1,
             name = "name",
-            startTimeOffsetInSeconds = 10,
+            startTimeOffset = 10,
             createdAt = now,
             updatedAt = now,
             segments = listOf(
@@ -586,7 +586,7 @@ class RoutineDataSourceImplTest {
     private fun assertRoutineEquals(expected: Routine, actual: Routine) {
         assertEquals(expected.id, actual.id)
         assertEquals(expected.name, actual.name)
-        assertEquals(expected.startTimeOffsetInSeconds, actual.startTimeOffsetInSeconds)
+        assertEquals(expected.startTimeOffset, actual.startTimeOffset)
         assertEquals(
             expected.createdAt.truncatedTo(ChronoUnit.HOURS),
             actual.createdAt.truncatedTo(ChronoUnit.HOURS)

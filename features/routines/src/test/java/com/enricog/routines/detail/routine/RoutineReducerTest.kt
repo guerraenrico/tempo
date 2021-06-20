@@ -46,14 +46,14 @@ class RoutineReducerTest {
     @Test
     fun `should update routine start time offset and remove field start time offset error`() {
         val state = RoutineState.Data(
-            routine = Routine.EMPTY.copy(startTimeOffsetInSeconds = 0),
+            routine = Routine.EMPTY.copy(startTimeOffset = 0),
             errors = mapOf(
                 RoutineField.Name to RoutineFieldError.BlankRoutineName,
                 RoutineField.StartTimeOffsetInSeconds to RoutineFieldError.InvalidRoutineStartTimeOffset
             )
         )
         val expected = RoutineState.Data(
-            routine = Routine.EMPTY.copy(startTimeOffsetInSeconds = 10),
+            routine = Routine.EMPTY.copy(startTimeOffset = 10),
             errors = mapOf(
                 RoutineField.Name to RoutineFieldError.BlankRoutineName,
             )

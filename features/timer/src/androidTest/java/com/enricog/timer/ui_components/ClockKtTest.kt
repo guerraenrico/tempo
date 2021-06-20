@@ -22,7 +22,7 @@ class ClockKtTest {
         val timeInSeconds = 10L
         setContent {
             TempoTheme {
-                Clock(backgroundColor = color, timeInSeconds = timeInSeconds, size = 200.dp)
+                Clock(backgroundColor = color, seconds = timeInSeconds, size = 200.dp)
             }
         }
 
@@ -36,7 +36,7 @@ class ClockKtTest {
         val timeInSeconds = 90L
         setContent {
             TempoTheme {
-                Clock(backgroundColor = color, timeInSeconds = timeInSeconds, size = 200.dp)
+                Clock(backgroundColor = color, seconds = timeInSeconds, size = 200.dp)
             }
         }
 

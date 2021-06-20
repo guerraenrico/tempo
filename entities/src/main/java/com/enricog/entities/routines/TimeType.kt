@@ -1,7 +1,10 @@
 package com.enricog.entities.routines
 
-enum class TimeType(val progress: Long) {
-    STOPWATCH(progress = 1),
-    TIMER(progress = -1),
-    REST(progress = -1)
+import com.enricog.entities.Seconds
+import com.enricog.entities.seconds
+
+enum class TimeType(val progress: Seconds) {
+    STOPWATCH(progress = 1.seconds),
+    TIMER(progress = (-1).seconds),
+    REST(progress = (-1).seconds)
 }
