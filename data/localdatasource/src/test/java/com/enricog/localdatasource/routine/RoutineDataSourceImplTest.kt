@@ -8,6 +8,7 @@ import com.enricog.base_test.coroutine.CoroutineRule
 import com.enricog.entities.routines.Routine
 import com.enricog.entities.routines.Segment
 import com.enricog.entities.routines.TimeType
+import com.enricog.entities.seconds
 import com.enricog.localdatasource.TempoDatabase
 import com.enricog.localdatasource.routine.model.InternalRoutine
 import com.enricog.localdatasource.routine.model.InternalRoutineWithSegments
@@ -73,14 +74,14 @@ class RoutineDataSourceImplTest {
         val routine = Routine(
             id = 1,
             name = "name",
-            startTimeOffset = 10,
+            startTimeOffset = 10.seconds,
             createdAt = now,
             updatedAt = now,
             segments = listOf(
                 Segment(
                     id = 1,
                     name = "name",
-                    timeInSeconds = 40,
+                    time = 40.seconds,
                     type = TimeType.TIMER
                 )
             )
@@ -115,14 +116,14 @@ class RoutineDataSourceImplTest {
         val expected = Routine(
             id = 1,
             name = "name",
-            startTimeOffset = 10,
+            startTimeOffset = 10.seconds,
             createdAt = now,
             updatedAt = now,
             segments = listOf(
                 Segment(
                     id = 1,
                     name = "name",
-                    timeInSeconds = 40,
+                    time = 40.seconds,
                     type = TimeType.TIMER
                 )
             )
@@ -156,14 +157,14 @@ class RoutineDataSourceImplTest {
         val expected = Routine(
             id = 1,
             name = "name",
-            startTimeOffset = 10,
+            startTimeOffset = 10.seconds,
             createdAt = now,
             updatedAt = now,
             segments = listOf(
                 Segment(
                     id = 1,
                     name = "name",
-                    timeInSeconds = 40,
+                    time = 40.seconds,
                     type = TimeType.TIMER
                 )
             )
@@ -184,14 +185,14 @@ class RoutineDataSourceImplTest {
         val routine = Routine(
             id = 0,
             name = "name",
-            startTimeOffset = 10,
+            startTimeOffset = 10.seconds,
             createdAt = max,
             updatedAt = max,
             segments = listOf(
                 Segment(
                     id = 1,
                     name = "name",
-                    timeInSeconds = 40,
+                    time = 40.seconds,
                     type = TimeType.TIMER
                 )
             )
@@ -199,14 +200,14 @@ class RoutineDataSourceImplTest {
         val expected = Routine(
             id = 1,
             name = "name",
-            startTimeOffset = 10,
+            startTimeOffset = 10.seconds,
             createdAt = now,
             updatedAt = now,
             segments = listOf(
                 Segment(
                     id = 1,
                     name = "name",
-                    timeInSeconds = 40,
+                    time = 40.seconds,
                     type = TimeType.TIMER
                 )
             )
@@ -241,14 +242,14 @@ class RoutineDataSourceImplTest {
         val routine = Routine(
             id = 1,
             name = "name2",
-            startTimeOffset = 10,
+            startTimeOffset = 10.seconds,
             createdAt = max,
             updatedAt = now,
             segments = listOf(
                 Segment(
                     id = 1,
                     name = "name",
-                    timeInSeconds = 40,
+                    time = 40.seconds,
                     type = TimeType.TIMER
                 )
             )
@@ -286,14 +287,14 @@ class RoutineDataSourceImplTest {
         val routine = Routine(
             id = 1,
             name = "name2",
-            startTimeOffset = 10,
+            startTimeOffset = 10.seconds,
             createdAt = max,
             updatedAt = now,
             segments = listOf(
                 Segment(
                     id = 1,
                     name = "name2",
-                    timeInSeconds = 40,
+                    time = 40.seconds,
                     type = TimeType.TIMER
                 )
             )
@@ -331,7 +332,7 @@ class RoutineDataSourceImplTest {
         val routine = Routine(
             id = 1,
             name = "name2",
-            startTimeOffset = 10,
+            startTimeOffset = 10.seconds,
             createdAt = max,
             updatedAt = now,
             segments = emptyList()
@@ -362,14 +363,14 @@ class RoutineDataSourceImplTest {
         val routine = Routine(
             id = 1,
             name = "name2",
-            startTimeOffset = 10,
+            startTimeOffset = 10.seconds,
             createdAt = max,
             updatedAt = max,
             segments = listOf(
                 Segment(
                     id = 0,
                     name = "name",
-                    timeInSeconds = 40,
+                    time = 40.seconds,
                     type = TimeType.TIMER
                 )
             )
@@ -377,14 +378,14 @@ class RoutineDataSourceImplTest {
         val expected = Routine(
             id = 1,
             name = "name2",
-            startTimeOffset = 10,
+            startTimeOffset = 10.seconds,
             createdAt = max,
             updatedAt = now,
             segments = listOf(
                 Segment(
                     id = 1,
                     name = "name",
-                    timeInSeconds = 40,
+                    time = 40.seconds,
                     type = TimeType.TIMER
                 )
             )
@@ -421,14 +422,14 @@ class RoutineDataSourceImplTest {
         val routine = Routine(
             id = 1,
             name = "name2",
-            startTimeOffset = 10,
+            startTimeOffset = 10.seconds,
             createdAt = max,
             updatedAt = max,
             segments = listOf(
                 Segment(
                     id = 0,
                     name = "name2",
-                    timeInSeconds = 40,
+                    time = 40.seconds,
                     type = TimeType.TIMER
                 )
             )
@@ -436,14 +437,14 @@ class RoutineDataSourceImplTest {
         val expected = Routine(
             id = 1,
             name = "name2",
-            startTimeOffset = 10,
+            startTimeOffset = 10.seconds,
             createdAt = max,
             updatedAt = now,
             segments = listOf(
                 Segment(
                     id = 2,
                     name = "name2",
-                    timeInSeconds = 40,
+                    time = 40.seconds,
                     type = TimeType.TIMER
                 )
             )
@@ -488,20 +489,20 @@ class RoutineDataSourceImplTest {
         val routine = Routine(
             id = 1,
             name = "name2",
-            startTimeOffset = 10,
+            startTimeOffset = 10.seconds,
             createdAt = max,
             updatedAt = max,
             segments = listOf(
                 Segment(
                     id = 2,
                     name = "name2_mod",
-                    timeInSeconds = 40,
+                    time = 40.seconds,
                     type = TimeType.TIMER
                 ),
                 Segment(
                     id = 0,
                     name = "name3",
-                    timeInSeconds = 40,
+                    time = 40.seconds,
                     type = TimeType.TIMER
                 )
             )
@@ -509,20 +510,20 @@ class RoutineDataSourceImplTest {
         val expected = Routine(
             id = 1,
             name = "name2",
-            startTimeOffset = 10,
+            startTimeOffset = 10.seconds,
             createdAt = max,
             updatedAt = now,
             segments = listOf(
                 Segment(
                     id = 2,
                     name = "name2_mod",
-                    timeInSeconds = 40,
+                    time = 40.seconds,
                     type = TimeType.TIMER
                 ),
                 Segment(
                     id = 3,
                     name = "name3",
-                    timeInSeconds = 40,
+                    time = 40.seconds,
                     type = TimeType.TIMER
                 )
             )
@@ -559,14 +560,14 @@ class RoutineDataSourceImplTest {
         val routine = Routine(
             id = 1,
             name = "name",
-            startTimeOffset = 10,
+            startTimeOffset = 10.seconds,
             createdAt = now,
             updatedAt = now,
             segments = listOf(
                 Segment(
                     id = 1,
                     name = "name",
-                    timeInSeconds = 40,
+                    time = 40.seconds,
                     type = TimeType.TIMER
                 )
             )

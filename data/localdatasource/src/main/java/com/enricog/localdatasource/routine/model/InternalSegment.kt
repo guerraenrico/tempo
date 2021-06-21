@@ -20,8 +20,7 @@ import com.enricog.entities.seconds
 )
 internal data class InternalSegment(
     @PrimaryKey(autoGenerate = true) @ColumnInfo(name = "segmentId") val id: Long,
-    @ColumnInfo(name = "routineId_fk")
-    val routineId: Long,
+    @ColumnInfo(name = "routineId_fk") val routineId: Long,
     @ColumnInfo(name = "name") val name: String,
     @ColumnInfo(name = "timeInSeconds") val timeInSeconds: Long,
     @ColumnInfo(name = "type") val type: TimeType
