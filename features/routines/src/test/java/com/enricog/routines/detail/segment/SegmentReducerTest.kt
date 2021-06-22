@@ -4,6 +4,7 @@ import com.enricog.base_test.entities.routines.EMPTY
 import com.enricog.entities.routines.Routine
 import com.enricog.entities.routines.Segment
 import com.enricog.entities.routines.TimeType
+import com.enricog.entities.seconds
 import com.enricog.routines.detail.segment.models.SegmentField
 import com.enricog.routines.detail.segment.models.SegmentFieldError
 import com.enricog.routines.detail.segment.models.SegmentState
@@ -86,7 +87,7 @@ class SegmentReducerTest {
                 segments = emptyList()
             ),
             segment = Segment.EMPTY.copy(
-                timeInSeconds = 0,
+                time = 0.seconds,
                 type = TimeType.TIMER
             ),
             errors = mapOf(
@@ -100,7 +101,7 @@ class SegmentReducerTest {
                 segments = emptyList()
             ),
             segment = Segment.EMPTY.copy(
-                timeInSeconds = 10,
+                time = 10.seconds,
                 type = TimeType.TIMER
             ),
             errors = mapOf(
@@ -109,7 +110,7 @@ class SegmentReducerTest {
             timeTypes = listOf(TimeType.TIMER, TimeType.REST, TimeType.STOPWATCH)
         )
 
-        val result = sut.updateSegmentTime(state = state, seconds = 10)
+        val result = sut.updateSegmentTime(state = state, seconds = 10.seconds)
 
         assertEquals(expected, result)
     }
@@ -121,7 +122,7 @@ class SegmentReducerTest {
                 segments = emptyList()
             ),
             segment = Segment.EMPTY.copy(
-                timeInSeconds = 10,
+                time = 10.seconds,
                 type = TimeType.STOPWATCH
             ),
             errors = mapOf(
@@ -135,7 +136,7 @@ class SegmentReducerTest {
                 segments = emptyList()
             ),
             segment = Segment.EMPTY.copy(
-                timeInSeconds = 0,
+                time = 0.seconds,
                 type = TimeType.STOPWATCH
             ),
             errors = mapOf(
@@ -144,7 +145,7 @@ class SegmentReducerTest {
             timeTypes = listOf(TimeType.TIMER, TimeType.REST, TimeType.STOPWATCH)
         )
 
-        val result = sut.updateSegmentTime(state = state, seconds = 10)
+        val result = sut.updateSegmentTime(state = state, seconds = 10.seconds)
 
         assertEquals(expected, result)
     }
@@ -156,8 +157,8 @@ class SegmentReducerTest {
                 segments = emptyList()
             ),
             segment = Segment.EMPTY.copy(
-                timeInSeconds = 10,
-                type = TimeType.TIMER
+                type = TimeType.TIMER,
+                time = 10.seconds
             ),
             errors = emptyMap(),
             timeTypes = listOf(TimeType.TIMER, TimeType.REST, TimeType.STOPWATCH)
@@ -167,7 +168,7 @@ class SegmentReducerTest {
                 segments = emptyList()
             ),
             segment = Segment.EMPTY.copy(
-                timeInSeconds = 10,
+                time = 10.seconds,
                 type = TimeType.REST
             ),
             errors = emptyMap(),
@@ -186,7 +187,7 @@ class SegmentReducerTest {
                 segments = emptyList()
             ),
             segment = Segment.EMPTY.copy(
-                timeInSeconds = 10,
+                time = 10.seconds,
                 type = TimeType.TIMER
             ),
             errors = emptyMap(),
@@ -197,7 +198,7 @@ class SegmentReducerTest {
                 segments = emptyList()
             ),
             segment = Segment.EMPTY.copy(
-                timeInSeconds = 0,
+                time = 0.seconds,
                 type = TimeType.STOPWATCH
             ),
             errors = emptyMap(),

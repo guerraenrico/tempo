@@ -4,6 +4,7 @@ import com.enricog.base_test.coroutine.CoroutineRule
 import com.enricog.base_test.entities.routines.EMPTY
 import com.enricog.datasource.RoutineDataSource
 import com.enricog.entities.routines.Routine
+import com.enricog.entities.seconds
 import io.mockk.Called
 import io.mockk.coEvery
 import io.mockk.coVerify
@@ -30,7 +31,7 @@ class RoutineUseCaseTest {
 
         assertEquals(0L, result.id)
         assertEquals("", result.name)
-        assertEquals(0L, result.startTimeOffset)
+        assertEquals(0.seconds, result.startTimeOffset)
         assertEquals(emptyList(), result.segments)
         verify { routineDataSource wasNot Called }
     }
