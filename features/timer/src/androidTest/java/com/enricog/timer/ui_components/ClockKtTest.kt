@@ -7,6 +7,7 @@ import androidx.compose.ui.test.junit4.createComposeRule
 import androidx.compose.ui.test.onNodeWithTag
 import androidx.compose.ui.unit.dp
 import com.enricog.base_test.compose.invoke
+import com.enricog.entities.seconds
 import com.enricog.ui_components.resources.TempoTheme
 import org.junit.Rule
 import org.junit.Test
@@ -19,10 +20,10 @@ class ClockKtTest {
     @Test
     fun shouldShowClockWitSeconds() = composeRule {
         val color = Color.Red
-        val timeInSeconds = 10L
+        val time = 10.seconds
         setContent {
             TempoTheme {
-                Clock(backgroundColor = color, seconds = timeInSeconds, size = 200.dp)
+                Clock(backgroundColor = color, seconds = time, size = 200.dp)
             }
         }
 
@@ -33,10 +34,10 @@ class ClockKtTest {
     @Test
     fun shouldShowClockWitMinutesAndSeconds() = composeRule {
         val color = Color.Red
-        val timeInSeconds = 90L
+        val time = 90.seconds
         setContent {
             TempoTheme {
-                Clock(backgroundColor = color, seconds = timeInSeconds, size = 200.dp)
+                Clock(backgroundColor = color, seconds = time, size = 200.dp)
             }
         }
 
