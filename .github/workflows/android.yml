@@ -63,6 +63,8 @@ jobs:
         uses: reactivecircus/android-emulator-runner@v2.18.0
         with:
           api-level: 30
+          target: playstore
+          arch: x86_64
           force-avd-creation: false
           emulator-options: -no-window -gpu swiftshader_indirect -noaudio -no-boot-anim -camera-back none
           disable-animations: false
@@ -73,10 +75,10 @@ jobs:
         with:
           api-level: 30
           target: playstore
+          arch: x86_64
           force-avd-creation: false
           emulator-options: -no-snapshot-save -no-window -gpu swiftshader_indirect -noaudio -no-boot-anim -camera-back none
           disable-animations: true
-          arch: x86_64
           script: ./gradlew connectedAndroidTest
 
       - name: Clean secrets
