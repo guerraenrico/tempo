@@ -12,8 +12,16 @@ import com.enricog.localdatasource.routine.dao.SegmentDao
 import com.enricog.localdatasource.routine.model.InternalRoutine
 import com.enricog.localdatasource.routine.model.InternalSegment
 
-@Database(entities = [InternalRoutine::class, InternalSegment::class], version = 1)
-@TypeConverters(TimeTypeConverter::class, OffsetDateTimeConverter::class)
+@Database(
+    entities = [
+        InternalRoutine::class,
+        InternalSegment::class,
+    ], version = 1
+)
+@TypeConverters(
+    TimeTypeConverter::class,
+    OffsetDateTimeConverter::class,
+)
 internal abstract class TempoDatabase : RoomDatabase() {
 
     abstract fun routineDao(): RoutineDao

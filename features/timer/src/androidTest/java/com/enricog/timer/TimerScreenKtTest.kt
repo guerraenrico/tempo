@@ -5,6 +5,7 @@ import androidx.compose.ui.test.assertIsDisplayed
 import androidx.compose.ui.test.junit4.createComposeRule
 import androidx.compose.ui.test.onNodeWithTag
 import com.enricog.base_test.compose.invoke
+import com.enricog.entities.seconds
 import com.enricog.timer.models.Count
 import com.enricog.timer.models.SegmentStep
 import com.enricog.timer.models.SegmentStepType
@@ -43,7 +44,7 @@ class TimerScreenKtTest {
             segmentName = "segment name",
             step = SegmentStep(
                 count = Count(
-                    timeInSeconds = 1,
+                    seconds = 1.seconds,
                     isRunning = true,
                     isCompleted = false
                 ),

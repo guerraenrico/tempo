@@ -2,6 +2,7 @@ package com.enricog.localdatasource.routine.model
 
 import com.enricog.entities.routines.Segment
 import com.enricog.entities.routines.TimeType
+import com.enricog.entities.seconds
 import org.junit.Assert.assertEquals
 import org.junit.Test
 
@@ -13,7 +14,7 @@ class InternalSegmentTest {
         val segment = Segment(
             id = 2,
             name = "name",
-            timeInSeconds = 3,
+            time = 3.seconds,
             type = TimeType.TIMER
         )
         val expected = InternalSegment(
@@ -41,7 +42,7 @@ class InternalSegmentTest {
         val expected = Segment(
             id = 1,
             name = "name",
-            timeInSeconds = 3,
+            time = 3.seconds,
             type = TimeType.TIMER
         )
 

@@ -6,6 +6,7 @@ import com.enricog.base_android.viewmodel.BaseViewModel
 import com.enricog.base_android.viewmodel.ViewModelConfiguration
 import com.enricog.core.coroutine.dispatchers.CoroutineDispatchers
 import com.enricog.core.coroutine.job.autoCancelableJob
+import com.enricog.entities.Seconds
 import com.enricog.entities.routines.Routine
 import com.enricog.routines.detail.routine.models.RoutineState
 import com.enricog.routines.detail.routine.models.RoutineViewState
@@ -50,7 +51,7 @@ internal class RoutineViewModel @Inject constructor(
         state = reducer.updateRoutineName(stateData, text)
     }
 
-    fun onRoutineStartTimeOffsetChange(seconds: Long) = runWhen<RoutineState.Data> { stateData ->
+    fun onRoutineStartTimeOffsetChange(seconds: Seconds) = runWhen<RoutineState.Data> { stateData ->
         state = reducer.updateRoutineStartTimeOffset(stateData, seconds)
     }
 

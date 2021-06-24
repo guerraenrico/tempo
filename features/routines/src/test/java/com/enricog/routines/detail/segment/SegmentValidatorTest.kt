@@ -3,6 +3,7 @@ package com.enricog.routines.detail.segment
 import com.enricog.base_test.entities.routines.EMPTY
 import com.enricog.entities.routines.Segment
 import com.enricog.entities.routines.TimeType
+import com.enricog.entities.seconds
 import com.enricog.routines.detail.segment.models.SegmentField
 import com.enricog.routines.detail.segment.models.SegmentFieldError
 import kotlin.test.assertEquals
@@ -16,7 +17,7 @@ class SegmentValidatorTest {
     fun `should return error when segment name is blank`() {
         val segment = Segment.EMPTY.copy(
             name = "",
-            timeInSeconds = 10,
+            time = 10.seconds,
             type = TimeType.TIMER
         )
         val expected = mapOf<SegmentField, SegmentFieldError>(
@@ -32,7 +33,7 @@ class SegmentValidatorTest {
     fun `should return error when segment time is less or equal to zero and type is not TimeType#STOPWATCH`() {
         val segment = Segment.EMPTY.copy(
             name = "name",
-            timeInSeconds = 0,
+            time = 0.seconds,
             type = TimeType.TIMER
         )
         val expected = mapOf<SegmentField, SegmentFieldError>(
@@ -48,7 +49,7 @@ class SegmentValidatorTest {
     fun `should not return error when segment time is less or equal to zero and type is TimeType#STOPWATCH`() {
         val segment = Segment.EMPTY.copy(
             name = "name",
-            timeInSeconds = 0,
+            time = 0.seconds,
             type = TimeType.STOPWATCH
         )
         val expected = emptyMap<SegmentField, SegmentFieldError>()

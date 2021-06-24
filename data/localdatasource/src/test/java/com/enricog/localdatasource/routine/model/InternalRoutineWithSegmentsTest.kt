@@ -3,6 +3,7 @@ package com.enricog.localdatasource.routine.model
 import com.enricog.entities.routines.Routine
 import com.enricog.entities.routines.Segment
 import com.enricog.entities.routines.TimeType
+import com.enricog.entities.seconds
 import java.time.OffsetDateTime
 import org.junit.Assert
 import org.junit.Test
@@ -31,14 +32,14 @@ class InternalRoutineWithSegmentsTest {
         val expected = Routine(
             id = 1,
             name = "name",
-            startTimeOffsetInSeconds = 2,
+            startTimeOffset = 2.seconds,
             createdAt = now,
             updatedAt = now,
             segments = listOf(
                 Segment(
                     id = 3,
                     name = "name",
-                    timeInSeconds = 4,
+                    time = 4.seconds,
                     type = TimeType.TIMER
                 )
             )

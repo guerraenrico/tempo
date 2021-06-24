@@ -3,6 +3,7 @@ package com.enricog.localdatasource.routine.model
 import com.enricog.entities.routines.Routine
 import com.enricog.entities.routines.Segment
 import com.enricog.entities.routines.TimeType
+import com.enricog.entities.seconds
 import java.time.OffsetDateTime
 import org.junit.Assert.assertEquals
 import org.junit.Test
@@ -15,14 +16,14 @@ class InternalRoutineTest {
         val routine = Routine(
             id = 1,
             name = "name",
-            startTimeOffsetInSeconds = 2,
+            startTimeOffset = 2.seconds,
             createdAt = now,
             updatedAt = now,
             segments = listOf(
                 Segment(
                     id = 3,
                     name = "name",
-                    timeInSeconds = 4,
+                    time = 4.seconds,
                     type = TimeType.TIMER
                 )
             )
@@ -35,9 +36,9 @@ class InternalRoutineTest {
             updatedAt = now
         )
 
-        val result = routine.toInternal()
+        val actual = routine.toInternal()
 
-        assertEquals(expected, result)
+        assertEquals(expected, actual)
     }
 
     @Test
@@ -62,21 +63,21 @@ class InternalRoutineTest {
         val expected = Routine(
             id = 1,
             name = "name",
-            startTimeOffsetInSeconds = 2,
+            startTimeOffset = 2.seconds,
             createdAt = now,
             updatedAt = now,
             segments = listOf(
                 Segment(
                     id = 3,
                     name = "name",
-                    timeInSeconds = 4,
+                    time = 4.seconds,
                     type = TimeType.TIMER
                 )
             )
         )
 
-        val result = internalRoutine.toEntity(internalSegments)
+        val actual = internalRoutine.toEntity(internalSegments)
 
-        assertEquals(expected, result)
+        assertEquals(expected, actual)
     }
 }

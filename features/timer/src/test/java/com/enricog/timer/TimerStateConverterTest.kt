@@ -5,6 +5,7 @@ import com.enricog.base_test.entities.routines.EMPTY
 import com.enricog.entities.routines.Routine
 import com.enricog.entities.routines.Segment
 import com.enricog.entities.routines.TimeType
+import com.enricog.entities.seconds
 import com.enricog.timer.models.Count
 import com.enricog.timer.models.SegmentStep
 import com.enricog.timer.models.SegmentStepType
@@ -38,13 +39,13 @@ class TimerStateConverterTest {
             routine = Routine.EMPTY,
             runningSegment = Segment.EMPTY.copy(name = "segment name", type = TimeType.REST),
             step = SegmentStep(
-                count = Count(timeInSeconds = 5, isRunning = true, isCompleted = true),
+                count = Count(seconds = 5.seconds, isRunning = true, isCompleted = true),
                 type = SegmentStepType.IN_PROGRESS
             )
         )
         val expected = TimerViewState.Counting(
             step = SegmentStep(
-                count = Count(timeInSeconds = 5, isRunning = true, isCompleted = true),
+                count = Count(seconds = 5.seconds, isRunning = true, isCompleted = true),
                 type = SegmentStepType.IN_PROGRESS
             ),
             stepTitleId = R.string.title_segment_time_type_rest,
@@ -64,13 +65,13 @@ class TimerStateConverterTest {
             routine = Routine.EMPTY,
             runningSegment = Segment.EMPTY.copy(name = "segment name", type = TimeType.REST),
             step = SegmentStep(
-                count = Count(timeInSeconds = 5, isRunning = true, isCompleted = true),
+                count = Count(seconds = 5.seconds, isRunning = true, isCompleted = true),
                 type = SegmentStepType.STARTING
             )
         )
         val expected = TimerViewState.Counting(
             step = SegmentStep(
-                count = Count(timeInSeconds = 5, isRunning = true, isCompleted = true),
+                count = Count(seconds = 5.seconds, isRunning = true, isCompleted = true),
                 type = SegmentStepType.STARTING
             ),
             stepTitleId = R.string.title_segment_time_type_rest,
@@ -90,13 +91,13 @@ class TimerStateConverterTest {
             routine = Routine.EMPTY,
             runningSegment = Segment.EMPTY.copy(name = "segment name", type = TimeType.REST),
             step = SegmentStep(
-                count = Count(timeInSeconds = 5, isRunning = true, isCompleted = true),
+                count = Count(seconds = 5.seconds, isRunning = true, isCompleted = true),
                 type = SegmentStepType.IN_PROGRESS
             )
         )
         val expected = TimerViewState.Counting(
             step = SegmentStep(
-                count = Count(timeInSeconds = 5, isRunning = true, isCompleted = true),
+                count = Count(seconds = 5.seconds, isRunning = true, isCompleted = true),
                 type = SegmentStepType.IN_PROGRESS
             ),
             stepTitleId = R.string.title_segment_time_type_rest,
@@ -116,13 +117,13 @@ class TimerStateConverterTest {
             routine = Routine.EMPTY,
             runningSegment = Segment.EMPTY.copy(name = "segment name", type = TimeType.TIMER),
             step = SegmentStep(
-                count = Count(timeInSeconds = 5, isRunning = true, isCompleted = true),
+                count = Count(seconds = 5.seconds, isRunning = true, isCompleted = true),
                 type = SegmentStepType.IN_PROGRESS
             )
         )
         val expected = TimerViewState.Counting(
             step = SegmentStep(
-                count = Count(timeInSeconds = 5, isRunning = true, isCompleted = true),
+                count = Count(seconds = 5.seconds, isRunning = true, isCompleted = true),
                 type = SegmentStepType.IN_PROGRESS
             ),
             stepTitleId = R.string.title_segment_step_type_in_progress,
@@ -142,13 +143,13 @@ class TimerStateConverterTest {
             routine = Routine.EMPTY,
             runningSegment = Segment.EMPTY.copy(name = "segment name", type = TimeType.STOPWATCH),
             step = SegmentStep(
-                count = Count(timeInSeconds = 5, isRunning = true, isCompleted = true),
+                count = Count(seconds = 5.seconds, isRunning = true, isCompleted = true),
                 type = SegmentStepType.IN_PROGRESS
             )
         )
         val expected = TimerViewState.Counting(
             step = SegmentStep(
-                count = Count(timeInSeconds = 5, isRunning = true, isCompleted = true),
+                count = Count(seconds = 5.seconds, isRunning = true, isCompleted = true),
                 type = SegmentStepType.IN_PROGRESS
             ),
             stepTitleId = R.string.title_segment_step_type_in_progress,

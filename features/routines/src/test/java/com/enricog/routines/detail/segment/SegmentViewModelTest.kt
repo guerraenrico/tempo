@@ -6,6 +6,7 @@ import com.enricog.base_test.entities.routines.EMPTY
 import com.enricog.entities.routines.Routine
 import com.enricog.entities.routines.Segment
 import com.enricog.entities.routines.TimeType
+import com.enricog.entities.seconds
 import com.enricog.routines.detail.segment.models.SegmentField
 import com.enricog.routines.detail.segment.models.SegmentFieldError
 import com.enricog.routines.detail.segment.models.SegmentState
@@ -95,13 +96,13 @@ class SegmentViewModelTest {
             timeTypes = emptyList()
         )
         every { reducer.setup(routine = any(), segmentId = any()) } returns state
-        every { reducer.updateSegmentTime(state = any(), seconds = any()) } returns state
+        every { reducer.updateSegmentTime(state = any(), seconds = 10.seconds) } returns state
         val sut = buildSut()
         advanceUntilIdle()
 
-        sut.onSegmentTimeChange(seconds = 10)
+        sut.onSegmentTimeChange(seconds = 10.seconds)
 
-        verify { reducer.updateSegmentTime(state = state, seconds = 10) }
+        verify { reducer.updateSegmentTime(state = state, seconds = 10.seconds) }
     }
 
     @Test

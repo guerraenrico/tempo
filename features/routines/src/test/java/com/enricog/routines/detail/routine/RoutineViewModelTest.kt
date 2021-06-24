@@ -4,6 +4,7 @@ import androidx.lifecycle.SavedStateHandle
 import com.enricog.base_test.coroutine.CoroutineRule
 import com.enricog.base_test.entities.routines.EMPTY
 import com.enricog.entities.routines.Routine
+import com.enricog.entities.seconds
 import com.enricog.routines.detail.routine.models.RoutineField
 import com.enricog.routines.detail.routine.models.RoutineFieldError
 import com.enricog.routines.detail.routine.models.RoutineState
@@ -74,13 +75,13 @@ class RoutineViewModelTest {
     fun `should update routine startTimeOffset onRoutineStartTimeOffsetChange`() = coroutineRule {
         val state = RoutineState.Data(routine = Routine.EMPTY, errors = emptyMap())
         every { reducer.setup(routine = any()) } returns state
-        every { reducer.updateRoutineStartTimeOffset(state = any(), seconds = any()) } returns state
+        every { reducer.updateRoutineStartTimeOffset(state = any(), seconds = 10.seconds) } returns state
         val sut = buildSut()
         advanceUntilIdle()
 
-        sut.onRoutineStartTimeOffsetChange(seconds = 10)
+        sut.onRoutineStartTimeOffsetChange(seconds = 10.seconds)
 
-        verify { reducer.updateRoutineStartTimeOffset(state = state, seconds = 10) }
+        verify { reducer.updateRoutineStartTimeOffset(state = state, seconds = 10.seconds) }
     }
 
     @Test

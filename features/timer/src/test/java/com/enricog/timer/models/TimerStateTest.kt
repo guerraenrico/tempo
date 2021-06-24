@@ -3,6 +3,7 @@ package com.enricog.timer.models
 import com.enricog.base_test.entities.routines.EMPTY
 import com.enricog.entities.routines.Routine
 import com.enricog.entities.routines.Segment
+import com.enricog.entities.seconds
 import kotlin.test.assertFalse
 import kotlin.test.assertTrue
 import org.junit.Test
@@ -15,7 +16,7 @@ class TimerStateTest {
             routine = Routine.EMPTY,
             runningSegment = Segment.EMPTY,
             step = SegmentStep(
-                count = Count(timeInSeconds = 10, isRunning = true, isCompleted = false),
+                count = Count(seconds = 10.seconds, isRunning = true, isCompleted = false),
                 type = SegmentStepType.STARTING
             )
         )
@@ -25,7 +26,7 @@ class TimerStateTest {
             routine = Routine.EMPTY,
             runningSegment = Segment.EMPTY,
             step = SegmentStep(
-                count = Count(timeInSeconds = 10, isRunning = true, isCompleted = true),
+                count = Count(seconds = 10.seconds, isRunning = true, isCompleted = true),
                 type = SegmentStepType.STARTING
             )
         )
@@ -35,7 +36,7 @@ class TimerStateTest {
             routine = Routine.EMPTY,
             runningSegment = Segment.EMPTY,
             step = SegmentStep(
-                count = Count(timeInSeconds = 10, isRunning = false, isCompleted = true),
+                count = Count(seconds = 10.seconds, isRunning = false, isCompleted = true),
                 type = SegmentStepType.STARTING
             )
         )
@@ -45,7 +46,7 @@ class TimerStateTest {
             routine = Routine.EMPTY,
             runningSegment = Segment.EMPTY,
             step = SegmentStep(
-                count = Count(timeInSeconds = 10, isRunning = false, isCompleted = false),
+                count = Count(seconds = 10.seconds, isRunning = false, isCompleted = false),
                 type = SegmentStepType.STARTING
             )
         )
@@ -58,7 +59,7 @@ class TimerStateTest {
             routine = Routine.EMPTY,
             runningSegment = Segment.EMPTY,
             step = SegmentStep(
-                count = Count(timeInSeconds = 10, isRunning = true, isCompleted = true),
+                count = Count(seconds = 10.seconds, isRunning = true, isCompleted = true),
                 type = SegmentStepType.STARTING
             )
         )
@@ -68,7 +69,7 @@ class TimerStateTest {
             routine = Routine.EMPTY,
             runningSegment = Segment.EMPTY,
             step = SegmentStep(
-                count = Count(timeInSeconds = 10, isRunning = true, isCompleted = false),
+                count = Count(seconds = 10.seconds, isRunning = true, isCompleted = false),
                 type = SegmentStepType.STARTING
             )
         )
@@ -85,7 +86,7 @@ class TimerStateTest {
             ),
             runningSegment = Segment.EMPTY.copy(id = 2),
             step = SegmentStep(
-                count = Count(timeInSeconds = 0, isRunning = true, isCompleted = true),
+                count = Count(seconds = 0.seconds, isRunning = true, isCompleted = true),
                 type = SegmentStepType.IN_PROGRESS
             )
         )
@@ -99,7 +100,7 @@ class TimerStateTest {
             ),
             runningSegment = Segment.EMPTY.copy(id = 1),
             step = SegmentStep(
-                count = Count(timeInSeconds = 0, isRunning = true, isCompleted = true),
+                count = Count(seconds = 0.seconds, isRunning = true, isCompleted = true),
                 type = SegmentStepType.IN_PROGRESS
             )
         )
@@ -113,7 +114,7 @@ class TimerStateTest {
             ),
             runningSegment = Segment.EMPTY.copy(id = 2),
             step = SegmentStep(
-                count = Count(timeInSeconds = 0, isRunning = true, isCompleted = true),
+                count = Count(seconds = 0.seconds, isRunning = true, isCompleted = true),
                 type = SegmentStepType.STARTING
             )
         )
@@ -127,7 +128,7 @@ class TimerStateTest {
             ),
             runningSegment = Segment.EMPTY.copy(id = 2),
             step = SegmentStep(
-                count = Count(timeInSeconds = 0, isRunning = true, isCompleted = false),
+                count = Count(seconds = 0.seconds, isRunning = true, isCompleted = false),
                 type = SegmentStepType.IN_PROGRESS
             )
         )

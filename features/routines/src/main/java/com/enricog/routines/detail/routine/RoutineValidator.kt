@@ -1,6 +1,7 @@
 package com.enricog.routines.detail.routine
 
 import com.enricog.entities.routines.Routine
+import com.enricog.entities.seconds
 import com.enricog.routines.detail.routine.models.RoutineField
 import com.enricog.routines.detail.routine.models.RoutineFieldError
 import javax.inject.Inject
@@ -12,7 +13,7 @@ internal class RoutineValidator @Inject constructor() {
             if (routine.name.isBlank()) {
                 put(RoutineField.Name, RoutineFieldError.BlankRoutineName)
             }
-            if (routine.startTimeOffsetInSeconds < 0) {
+            if (routine.startTimeOffset < 0.seconds) {
                 put(
                     RoutineField.StartTimeOffsetInSeconds,
                     RoutineFieldError.InvalidRoutineStartTimeOffset

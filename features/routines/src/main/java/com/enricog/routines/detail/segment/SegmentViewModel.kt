@@ -6,6 +6,7 @@ import com.enricog.base_android.viewmodel.BaseViewModel
 import com.enricog.base_android.viewmodel.ViewModelConfiguration
 import com.enricog.core.coroutine.dispatchers.CoroutineDispatchers
 import com.enricog.core.coroutine.job.autoCancelableJob
+import com.enricog.entities.Seconds
 import com.enricog.entities.routines.Routine
 import com.enricog.entities.routines.Segment
 import com.enricog.entities.routines.TimeType
@@ -54,7 +55,7 @@ internal class SegmentViewModel @Inject constructor(
         state = reducer.updateSegmentName(state = stateData, text = text)
     }
 
-    fun onSegmentTimeChange(seconds: Long) = runWhen<SegmentState.Data> { stateData ->
+    fun onSegmentTimeChange(seconds: Seconds) = runWhen<SegmentState.Data> { stateData ->
         state = reducer.updateSegmentTime(state = stateData, seconds = seconds)
     }
 

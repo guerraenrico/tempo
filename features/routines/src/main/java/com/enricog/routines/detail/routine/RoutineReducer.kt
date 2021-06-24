@@ -1,5 +1,6 @@
 package com.enricog.routines.detail.routine
 
+import com.enricog.entities.Seconds
 import com.enricog.entities.routines.Routine
 import com.enricog.routines.detail.routine.models.RoutineField
 import com.enricog.routines.detail.routine.models.RoutineFieldError
@@ -21,8 +22,8 @@ internal class RoutineReducer @Inject constructor() {
         return state.copy(routine = routine, errors = errors)
     }
 
-    fun updateRoutineStartTimeOffset(state: RoutineState.Data, seconds: Long): RoutineState.Data {
-        val routine = state.routine.copy(startTimeOffsetInSeconds = seconds)
+    fun updateRoutineStartTimeOffset(state: RoutineState.Data, seconds: Seconds): RoutineState.Data {
+        val routine = state.routine.copy(startTimeOffset = seconds)
         val errors = state.errors.filterKeys { it != RoutineField.StartTimeOffsetInSeconds }
         return state.copy(routine = routine, errors = errors)
     }

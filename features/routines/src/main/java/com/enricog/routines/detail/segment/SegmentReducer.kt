@@ -1,8 +1,10 @@
 package com.enricog.routines.detail.segment
 
+import com.enricog.entities.Seconds
 import com.enricog.entities.routines.Routine
 import com.enricog.entities.routines.Segment
 import com.enricog.entities.routines.TimeType
+import com.enricog.entities.seconds
 import com.enricog.routines.detail.segment.models.SegmentField
 import com.enricog.routines.detail.segment.models.SegmentFieldError
 import com.enricog.routines.detail.segment.models.SegmentState
@@ -31,14 +33,14 @@ internal class SegmentReducer @Inject constructor() {
         )
     }
 
-    fun updateSegmentTime(state: SegmentState.Data, seconds: Long): SegmentState.Data {
-        val timeInSeconds = if (state.segment.type == TimeType.STOPWATCH) {
-            0L
+    fun updateSegmentTime(state: SegmentState.Data, seconds: Seconds): SegmentState.Data {
+        val time = if (state.segment.type == TimeType.STOPWATCH) {
+            0.seconds
         } else {
             seconds
         }
 
-        val segment = state.segment.copy(timeInSeconds = timeInSeconds)
+        val segment = state.segment.copy(time = time)
         val errors = state.errors.filterKeys { it != SegmentField.TimeInSeconds }
         return state.copy(
             segment = segment,
@@ -47,15 +49,15 @@ internal class SegmentReducer @Inject constructor() {
     }
 
     fun updateSegmentTimeType(state: SegmentState.Data, timeType: TimeType): SegmentState.Data {
-        val timeInSeconds = if (timeType == TimeType.STOPWATCH) {
-            0L
+        val time = if (timeType == TimeType.STOPWATCH) {
+            0.seconds
         } else {
-            state.segment.timeInSeconds
+            state.segment.time
         }
 
         val segment = state.segment.copy(
             type = timeType,
-            timeInSeconds = timeInSeconds
+            time = time
         )
         return state.copy(segment = segment)
     }

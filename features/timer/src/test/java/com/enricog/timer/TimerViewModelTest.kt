@@ -6,6 +6,7 @@ import com.enricog.base_test.entities.routines.EMPTY
 import com.enricog.entities.routines.Routine
 import com.enricog.entities.routines.Segment
 import com.enricog.entities.routines.TimeType
+import com.enricog.entities.seconds
 import com.enricog.timer.models.Count
 import com.enricog.timer.models.SegmentStep
 import com.enricog.timer.models.SegmentStepType
@@ -75,7 +76,7 @@ class TimerViewModelTest {
             routine = Routine.EMPTY,
             runningSegment = Segment.EMPTY,
             step = SegmentStep(
-                count = Count(timeInSeconds = 5, isRunning = true, isCompleted = true),
+                count = Count(seconds = 5.seconds, isRunning = true, isCompleted = true),
                 type = SegmentStepType.IN_PROGRESS
             )
         )
@@ -97,7 +98,7 @@ class TimerViewModelTest {
             routine = Routine.EMPTY,
             runningSegment = Segment.EMPTY,
             step = SegmentStep(
-                count = Count(timeInSeconds = 5, isRunning = true, isCompleted = false),
+                count = Count(seconds = 5.seconds, isRunning = true, isCompleted = false),
                 type = SegmentStepType.STARTING
             )
         )
@@ -117,7 +118,7 @@ class TimerViewModelTest {
             routine = Routine.EMPTY,
             runningSegment = Segment.EMPTY,
             step = SegmentStep(
-                count = Count(timeInSeconds = 5, isRunning = true, isCompleted = false),
+                count = Count(seconds = 5.seconds, isRunning = true, isCompleted = false),
                 type = SegmentStepType.STARTING
             )
         )
@@ -125,7 +126,7 @@ class TimerViewModelTest {
             routine = Routine.EMPTY,
             runningSegment = Segment.EMPTY,
             step = SegmentStep(
-                count = Count(timeInSeconds = 5, isRunning = true, isCompleted = true),
+                count = Count(seconds = 5.seconds, isRunning = true, isCompleted = true),
                 type = SegmentStepType.STARTING
             )
         )
@@ -161,7 +162,7 @@ class TimerViewModelTest {
                 routine = Routine.EMPTY,
                 runningSegment = Segment.EMPTY,
                 step = SegmentStep(
-                    count = Count(timeInSeconds = 5, isRunning = true, isCompleted = false),
+                    count = Count(seconds = 5.seconds, isRunning = true, isCompleted = false),
                     type = SegmentStepType.STARTING
                 )
             )
@@ -169,7 +170,7 @@ class TimerViewModelTest {
                 routine = Routine.EMPTY,
                 runningSegment = Segment.EMPTY.copy(name = "segment name", type = TimeType.REST),
                 step = SegmentStep(
-                    count = Count(timeInSeconds = 5, isRunning = true, isCompleted = false),
+                    count = Count(seconds = 5.seconds, isRunning = true, isCompleted = false),
                     type = SegmentStepType.IN_PROGRESS
                 )
             )
@@ -191,7 +192,7 @@ class TimerViewModelTest {
                 routine = Routine.EMPTY,
                 runningSegment = Segment.EMPTY,
                 step = SegmentStep(
-                    count = Count(timeInSeconds = 5, isRunning = true, isCompleted = false),
+                    count = Count(seconds = 5.seconds, isRunning = true, isCompleted = false),
                     type = SegmentStepType.STARTING
                 )
             )
@@ -199,7 +200,7 @@ class TimerViewModelTest {
                 routine = Routine.EMPTY,
                 runningSegment = Segment.EMPTY.copy(name = "segment name", type = TimeType.REST),
                 step = SegmentStep(
-                    count = Count(timeInSeconds = 5, isRunning = false, isCompleted = false),
+                    count = Count(seconds = 5.seconds, isRunning = false, isCompleted = false),
                     type = SegmentStepType.IN_PROGRESS
                 )
             )
@@ -220,7 +221,7 @@ class TimerViewModelTest {
                 routine = Routine.EMPTY,
                 runningSegment = Segment.EMPTY,
                 step = SegmentStep(
-                    count = Count(timeInSeconds = 5, isRunning = true, isCompleted = false),
+                    count = Count(seconds = 5.seconds, isRunning = true, isCompleted = false),
                     type = SegmentStepType.STARTING
                 )
             )
@@ -228,7 +229,7 @@ class TimerViewModelTest {
                 routine = Routine.EMPTY,
                 runningSegment = Segment.EMPTY.copy(name = "segment name", type = TimeType.REST),
                 step = SegmentStep(
-                    count = Count(timeInSeconds = 5, isRunning = false, isCompleted = true),
+                    count = Count(seconds = 5.seconds, isRunning = false, isCompleted = true),
                     type = SegmentStepType.IN_PROGRESS
                 )
             )

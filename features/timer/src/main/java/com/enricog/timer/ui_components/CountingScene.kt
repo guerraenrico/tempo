@@ -55,11 +55,11 @@ internal fun CountingScene(state: TimerViewState.Counting, timerActions: TimerAc
     val clockSize = max(minClockSize, min(screenHeight, screenWidth) / 2)
     val count = state.step.count
 
-    val alpha by updateTransition(targetState = state.isRoutineCompleted)
+    val alpha by updateTransition(targetState = state.isRoutineCompleted, label = "alpha")
         .animateFloat { if (it) 0f else 1f }
-    val offset by updateTransition(targetState = state.isRoutineCompleted)
+    val offset by updateTransition(targetState = state.isRoutineCompleted, label = "offset")
         .animateFloat { if (it) 0f else 1f }
-    val scale by updateTransition(targetState = state.isRoutineCompleted)
+    val scale by updateTransition(targetState = state.isRoutineCompleted, label = "scale")
         .animateFloat { if (it) 0.5f else 1f }
 
     val timerOffset = lerp((-upOffset), 0.dp, offset)
@@ -107,7 +107,7 @@ internal fun CountingScene(state: TimerViewState.Counting, timerActions: TimerAc
 
             Clock(
                 backgroundColor = state.clockBackgroundColor,
-                timeInSeconds = count.timeInSeconds,
+                seconds = count.seconds,
                 size = clockSize,
                 modifier = Modifier
                     .offset(y = timerOffset)

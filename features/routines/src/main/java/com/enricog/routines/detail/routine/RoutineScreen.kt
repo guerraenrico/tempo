@@ -7,6 +7,7 @@ import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
 import androidx.compose.ui.Modifier
 import com.enricog.core.extensions.exhaustive
+import com.enricog.entities.Seconds
 import com.enricog.routines.detail.routine.models.RoutineViewState
 import com.enricog.routines.detail.routine.ui_components.RoutineFormScene
 import com.enricog.ui_components.common.toolbar.TempoToolbar
@@ -29,7 +30,7 @@ internal fun RoutineScreen(viewModel: RoutineViewModel) {
 @Composable
 internal fun RoutineViewState.Compose(
     onRoutineNameChange: (String) -> Unit,
-    onStartTimeOffsetChange: (Long) -> Unit,
+    onStartTimeOffsetChange: (Seconds) -> Unit,
     onRoutineSave: () -> Unit
 ) {
     when (this) {
