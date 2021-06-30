@@ -13,14 +13,13 @@ import androidx.compose.ui.text.AnnotatedString
 import androidx.compose.ui.text.SpanStyle
 import androidx.compose.ui.text.TextStyle
 import androidx.compose.ui.text.font.FontWeight
+import androidx.compose.ui.text.input.KeyboardType
 import androidx.compose.ui.text.input.TextFieldValue
-import androidx.compose.ui.text.style.BaselineShift
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.sp
 import com.enricog.entities.Seconds
 import com.enricog.entities.seconds
 import com.enricog.ui_components.resources.FontFamilyDefault
-import com.enricog.ui_components.resources.FontFamilyMono
 import com.enricog.ui_components.resources.dimensions
 import com.enricog.ui_components.resources.white
 
@@ -28,7 +27,7 @@ private val textFieldStyle: TextStyle = TextStyle(
     fontFamily = FontFamilyDefault,
     fontWeight = FontWeight.Bold,
     color = white,
-    fontSize = 20.sp
+    fontSize = 26.sp
 )
 
 @Preview
@@ -64,7 +63,7 @@ fun TempoTimeField(
             textStyle = textFieldStyle,
             label = composableLabel,
             isError = errorMessage != null,
-            keyboardOptions = keyboardOptions,
+            keyboardOptions = keyboardOptions.copy(keyboardType = KeyboardType.Number),
             singleLine = true,
             maxLines = 1
         )
@@ -80,25 +79,10 @@ fun TempoTimeField(
     }
 }
 
-private val NumberStyle = SpanStyle(
-    color = white,
-    fontSize = 65.sp,
-    fontFamily = FontFamilyMono,
-    fontWeight = FontWeight.ExtraBold,
-)
-
-private val SeparatorStyle = SpanStyle(
-    color = white,
-    fontSize = 30.sp,
-    fontFamily = FontFamilyMono,
-    fontWeight = FontWeight.ExtraBold,
-    baselineShift = BaselineShift(0.8f),
-    letterSpacing = 2.sp
-)
-
 private fun buildTimeText(timeInSeconds: Long): AnnotatedString {
     val minutes = timeInSeconds / 60
     val seconds = timeInSeconds - (minutes * 60)
+    val spannableStyle = textFieldStyle.toSpanStyle()
 
     val timeBuilder = StringBuilder()
     var format = "%01d"
@@ -110,19 +94,19 @@ private fun buildTimeText(timeInSeconds: Long): AnnotatedString {
         format = "%02d"
         val minutesString = String.format(format, minutes)
         to = minutesString.length
-        spanStyles.add(AnnotatedString.Range(NumberStyle, 0, to))
+        spanStyles.add(AnnotatedString.Range(spannableStyle, 0, to))
         timeBuilder.append(minutesString)
 
         from = to
         to += 1
-        spanStyles.add(AnnotatedString.Range(SeparatorStyle, from, to))
+        spanStyles.add(AnnotatedString.Range(spannableStyle, from, to))
         timeBuilder.append(":")
         from += 1
     }
     val secondsString = String.format(format, seconds)
     to += secondsString.length
     timeBuilder.append(secondsString)
-    spanStyles.add(AnnotatedString.Range(NumberStyle, from, to))
+    spanStyles.add(AnnotatedString.Range(spannableStyle, from, to))
 
     return AnnotatedString(text = timeBuilder.toString(), spanStyles = spanStyles)
 }
