@@ -1,5 +1,6 @@
 package com.enricog.entities
 
+import kotlin.math.pow
 import kotlin.time.Duration
 import kotlin.time.DurationUnit
 import kotlin.time.toDuration
@@ -31,7 +32,7 @@ value class Seconds private constructor(private val duration: Duration) {
 
             val length = values.size
             val seconds = (0..2).fold(0L) { accumulator, i ->
-                accumulator + extractValue(length - i) * (60 * i)
+                accumulator + extractValue(length - i) * (60.0.pow(i)).toLong()
             }
             return Seconds(seconds.toDuration(DurationUnit.SECONDS))
         }
