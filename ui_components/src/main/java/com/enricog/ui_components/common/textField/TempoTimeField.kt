@@ -8,13 +8,17 @@ import androidx.compose.material.MaterialTheme
 import androidx.compose.material.Text
 import androidx.compose.material.TextField
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.remember
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.text.AnnotatedString
 import androidx.compose.ui.text.SpanStyle
+import androidx.compose.ui.text.TextRange
 import androidx.compose.ui.text.TextStyle
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.input.KeyboardType
+import androidx.compose.ui.text.input.OffsetMapping
 import androidx.compose.ui.text.input.TextFieldValue
+import androidx.compose.ui.text.input.TransformedText
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.sp
 import com.enricog.entities.Seconds
@@ -39,6 +43,8 @@ private fun TempoTimeFieldPreview() {
     )
 }
 
+private val numericRegex = Regex("^[0-9]+\$|^\$|^\\s\$")
+
 @Composable
 fun TempoTimeField(
     seconds: Seconds,
@@ -49,9 +55,14 @@ fun TempoTimeField(
     keyboardOptions: KeyboardOptions = KeyboardOptions.Default
 ) {
     val composableLabel: @Composable (() -> Unit)? = label?.let { @Composable { Text(label) } }
-    val textFieldValue = TextFieldValue(buildTimeText(seconds.value))
+    val textFieldValue = remember(seconds) {
+        val text = seconds.value.toString()
+        TextFieldValue(text, selection = TextRange(text.length))
+    }
     val textFieldValueToSeconds = { value: TextFieldValue ->
-        onValueChange(value.text.toLong().seconds)
+        if (numericRegex.matches(value.text)) {
+            onValueChange(value.text.seconds)
+        }
     }
     Column(
         modifier = modifier
@@ -59,6 +70,16 @@ fun TempoTimeField(
         TextField(
             value = textFieldValue,
             onValueChange = textFieldValueToSeconds,
+            visualTransformation = { text ->
+                val textTime = buildTimeText(text.text.replace(":", "").toLong())
+                TransformedText(
+                    textTime,
+                    object : OffsetMapping {
+                        override fun originalToTransformed(offset: Int): Int = textTime.length
+                        override fun transformedToOriginal(offset: Int): Int = textTime.length
+                    }
+                )
+            },
             modifier = Modifier.fillMaxWidth(),
             textStyle = textFieldStyle,
             label = composableLabel,
@@ -80,29 +101,25 @@ fun TempoTimeField(
 }
 
 private fun buildTimeText(timeInSeconds: Long): AnnotatedString {
-    val minutes = timeInSeconds / 60
-    val seconds = timeInSeconds - (minutes * 60)
+    val minutes = timeInSeconds / 100
+    val seconds = timeInSeconds - (minutes * 100)
     val spannableStyle = textFieldStyle.toSpanStyle()
 
     val timeBuilder = StringBuilder()
-    var format = "%01d"
     val spanStyles = mutableListOf<AnnotatedString.Range<SpanStyle>>()
-    var from = 0
-    var to = 0
 
-    if (minutes > 0) {
-        format = "%02d"
-        val minutesString = String.format(format, minutes)
-        to = minutesString.length
-        spanStyles.add(AnnotatedString.Range(spannableStyle, 0, to))
-        timeBuilder.append(minutesString)
+    val format = "%02d"
+    val minutesString = String.format(format, minutes)
+    var to = minutesString.length
+    spanStyles.add(AnnotatedString.Range(spannableStyle, 0, to))
+    timeBuilder.append(minutesString)
 
-        from = to
-        to += 1
-        spanStyles.add(AnnotatedString.Range(spannableStyle, from, to))
-        timeBuilder.append(":")
-        from += 1
-    }
+    var from = to
+    to += 1
+    spanStyles.add(AnnotatedString.Range(spannableStyle, from, to))
+    timeBuilder.append(":")
+    from += 1
+
     val secondsString = String.format(format, seconds)
     to += secondsString.length
     timeBuilder.append(secondsString)

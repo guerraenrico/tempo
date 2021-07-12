@@ -65,9 +65,19 @@ class SecondsTest {
     }
 
     @Test
-    fun `test String to seconds when represent minutes (double digit) and seconds`() {
+    fun `test String to seconds when represent minutes (double digit with 0) and seconds`() {
         val value = "01:23"
         val expected = 83L
+
+        val actual = value.seconds
+
+        assertEquals(expected, actual.value)
+    }
+
+    @Test
+    fun `test String to seconds when represent minutes (double digit) and seconds`() {
+        val value = "12:34"
+        val expected = 754L
 
         val actual = value.seconds
 
