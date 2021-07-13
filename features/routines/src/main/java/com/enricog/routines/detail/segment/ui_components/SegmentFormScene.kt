@@ -19,14 +19,13 @@ import androidx.compose.ui.res.stringResource
 import com.enricog.entities.Seconds
 import com.enricog.entities.routines.Segment
 import com.enricog.entities.routines.TimeType
-import com.enricog.entities.seconds
 import com.enricog.routines.R
 import com.enricog.routines.detail.segment.models.SegmentField
 import com.enricog.routines.detail.ui_components.TimeTypeChip
 import com.enricog.ui_components.common.button.TempoButton
 import com.enricog.ui_components.common.button.TempoButtonColor
-import com.enricog.ui_components.common.textField.TempoNumberField
 import com.enricog.ui_components.common.textField.TempoTextField
+import com.enricog.ui_components.common.textField.TempoTimeField
 import com.enricog.ui_components.modifiers.horizontalListItemSpacing
 import com.enricog.ui_components.resources.dimensions
 
@@ -61,8 +60,8 @@ internal fun SegmentFormScene(
             )
             // TODO hide/disable time field if type selected is stopwatch
             SegmentTimeField(
-                value = segment.time.value,
-                onValueChange = { onSegmentTimeChange(it.seconds) },
+                seconds = segment.time,
+                onValueChange = onSegmentTimeChange,
                 errorMessageResourceId = errors[SegmentField.TimeInSeconds],
             )
             SelectableTimeType(
@@ -109,8 +108,8 @@ private fun SegmentNameTextField(
 
 @Composable
 private fun SegmentTimeField(
-    value: Long,
-    onValueChange: (Long) -> Unit,
+    seconds: Seconds,
+    onValueChange: (Seconds) -> Unit,
     errorMessageResourceId: Int?
 ) {
     val errorMessage: String? = if (errorMessageResourceId != null) {
@@ -118,15 +117,14 @@ private fun SegmentTimeField(
     } else {
         null
     }
-    TempoNumberField(
-        value = value,
+    TempoTimeField(
+        seconds = seconds,
         onValueChange = onValueChange,
         modifier = Modifier
             .fillMaxWidth()
             .padding(MaterialTheme.dimensions.spaceM),
         label = stringResource(R.string.field_label_segment_time),
-        errorMessage = errorMessage,
-        singleLine = true
+        errorMessage = errorMessage
     )
 }
 
