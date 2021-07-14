@@ -11,7 +11,6 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.text.TextStyle
 import androidx.compose.ui.text.font.FontWeight
-import androidx.compose.ui.text.input.KeyboardType
 import androidx.compose.ui.text.input.VisualTransformation
 import androidx.compose.ui.unit.sp
 import com.enricog.ui_components.resources.FontFamilyDefault
@@ -57,37 +56,6 @@ fun TempoTextField(
 }
 
 @Composable
-fun TempoNumberField(
-    value: Long,
-    onValueChange: (Long) -> Unit,
-    modifier: Modifier = Modifier,
-    textStyle: TextStyle = textFieldStyle,
-    label: String? = null,
-    leadingIcon: @Composable (() -> Unit)? = null,
-    trailingIcon: @Composable (() -> Unit)? = null,
-    errorMessage: String? = null,
-    visualTransformation: VisualTransformation = VisualTransformation.None,
-    keyboardOptions: KeyboardOptions = KeyboardOptions.Default,
-    singleLine: Boolean = true,
-    maxLines: Int = 1,
-) {
-    TempoTextFieldBase(
-        value = value.toString(),
-        onValueChange = { onValueChange(it.toLongOrNull() ?: 0) },
-        modifier = modifier,
-        textStyle = textStyle,
-        label = label,
-        leadingIcon = leadingIcon,
-        trailingIcon = trailingIcon,
-        errorMessage = errorMessage,
-        visualTransformation = visualTransformation,
-        keyboardOptions = keyboardOptions.copy(keyboardType = KeyboardType.Number),
-        singleLine = singleLine,
-        maxLines = maxLines
-    )
-}
-
-@Composable
 private fun TempoTextFieldBase(
     value: String,
     onValueChange: (String) -> Unit,
@@ -120,7 +88,6 @@ private fun TempoTextFieldBase(
             keyboardOptions = keyboardOptions,
             singleLine = singleLine,
             maxLines = maxLines,
-            // backgroundColor = MaterialTheme.colors.surface
         )
         if (errorMessage != null) {
             Text(
