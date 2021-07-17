@@ -13,13 +13,12 @@ import androidx.compose.ui.platform.testTag
 import androidx.compose.ui.res.stringResource
 import com.enricog.entities.Seconds
 import com.enricog.entities.routines.Routine
-import com.enricog.entities.seconds
 import com.enricog.routines.R
 import com.enricog.routines.detail.routine.models.RoutineField
 import com.enricog.ui_components.common.button.TempoButton
 import com.enricog.ui_components.common.button.TempoButtonColor
-import com.enricog.ui_components.common.textField.TempoNumberField
 import com.enricog.ui_components.common.textField.TempoTextField
+import com.enricog.ui_components.common.textField.TempoTimeField
 import com.enricog.ui_components.resources.dimensions
 
 internal const val RoutineFormSceneTestTag = "RoutineFormSceneTestTag"
@@ -102,14 +101,13 @@ private fun RoutineStartTimeOffsetField(
     } else {
         null
     }
-    TempoNumberField(
-        value = seconds.value,
-        onValueChange = { onValueChange(it.seconds) },
+    TempoTimeField(
+        seconds = seconds,
+        onValueChange = onValueChange,
         modifier = Modifier
             .fillMaxWidth()
             .padding(MaterialTheme.dimensions.spaceM),
         label = stringResource(R.string.field_label_routine_start_time_offset),
         errorMessage = errorMessage,
-        singleLine = true
     )
 }
