@@ -1,6 +1,10 @@
 package com.enricog.ui_components.resources
 
-import androidx.compose.material.*
+import androidx.compose.material.Colors
+import androidx.compose.material.MaterialTheme
+import androidx.compose.material.Shapes
+import androidx.compose.material.Surface
+import androidx.compose.material.Typography
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.ReadOnlyComposable
 
@@ -16,6 +20,7 @@ fun TempoTheme(content: @Composable () -> Unit) {
     }
 }
 
+@Suppress("unused")
 object TempoTheme {
     val colors: Colors
         @Composable
