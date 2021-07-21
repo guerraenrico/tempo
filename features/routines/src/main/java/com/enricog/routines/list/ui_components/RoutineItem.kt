@@ -3,14 +3,13 @@ package com.enricog.routines.list.ui_components
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.padding
-import androidx.compose.material.MaterialTheme
 import androidx.compose.material.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.platform.testTag
 import com.enricog.entities.routines.Routine
 import com.enricog.routines.ui_components.DeletableListItem
-import com.enricog.ui_components.resources.dimensions
+import com.enricog.ui_components.resources.TempoTheme
 
 internal const val RoutineItemTestTag = "RoutineItemTestTag"
 
@@ -32,9 +31,9 @@ internal fun RoutineItem(
                 .clickable { onClick(routine) }
         ) {
             Text(
-                modifier = Modifier.padding(MaterialTheme.dimensions.spaceM),
+                modifier = Modifier.padding(TempoTheme.dimensions.spaceM),
                 text = routine.name,
-                style = MaterialTheme.typography.h2
+                style = TempoTheme.typography.h2
             )
         }
     }

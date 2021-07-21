@@ -6,13 +6,13 @@ import androidx.compose.foundation.layout.width
 import androidx.compose.material.Button
 import androidx.compose.material.Icon
 import androidx.compose.material.LocalElevationOverlay
-import androidx.compose.material.MaterialTheme
 import androidx.compose.material.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.CompositionLocalProvider
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.painter.Painter
 import androidx.compose.ui.unit.dp
+import com.enricog.ui_components.resources.TempoTheme
 
 @Composable
 fun TempoButton(
@@ -47,7 +47,7 @@ fun TempoButton(
             }
             Text(
                 text = text,
-                style = MaterialTheme.typography.button,
+                style = TempoTheme.typography.button,
                 color = color.contentColor(enabled).value
             )
         }

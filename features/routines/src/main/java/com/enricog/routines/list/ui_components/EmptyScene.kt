@@ -1,12 +1,6 @@
 package com.enricog.routines.list.ui_components
 
-import androidx.compose.foundation.layout.Arrangement
-import androidx.compose.foundation.layout.Column
-import androidx.compose.foundation.layout.Spacer
-import androidx.compose.foundation.layout.fillMaxSize
-import androidx.compose.foundation.layout.height
-import androidx.compose.foundation.layout.padding
-import androidx.compose.material.MaterialTheme
+import androidx.compose.foundation.layout.*
 import androidx.compose.material.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
@@ -18,7 +12,7 @@ import androidx.compose.ui.unit.dp
 import com.enricog.routines.R
 import com.enricog.ui_components.common.button.TempoButton
 import com.enricog.ui_components.common.button.TempoButtonColor
-import com.enricog.ui_components.resources.dimensions
+import com.enricog.ui_components.resources.TempoTheme
 
 internal const val EmptySceneTestTag = "EmptySceneTestTag"
 
@@ -28,13 +22,13 @@ internal fun EmptyScene(onCreateSegmentClick: () -> Unit) {
         modifier = Modifier
             .testTag(EmptySceneTestTag)
             .fillMaxSize()
-            .padding(MaterialTheme.dimensions.spaceM),
+            .padding(TempoTheme.dimensions.spaceM),
         verticalArrangement = Arrangement.Center,
         horizontalAlignment = Alignment.CenterHorizontally
     ) {
         Text(
             text = stringResource(R.string.description_no_routines),
-            style = MaterialTheme.typography.h3,
+            style = TempoTheme.typography.h3,
             textAlign = TextAlign.Center
         )
         Spacer(modifier = Modifier.height(40.dp))

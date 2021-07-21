@@ -1,19 +1,18 @@
 package com.enricog.routines.detail.summary.ui_components
 
 import androidx.compose.foundation.clickable
-import androidx.constraintlayout.compose.ConstraintLayout
-import androidx.constraintlayout.compose.Dimension
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
-import androidx.compose.material.MaterialTheme
 import androidx.compose.material.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.platform.testTag
+import androidx.constraintlayout.compose.ConstraintLayout
+import androidx.constraintlayout.compose.Dimension
 import com.enricog.entities.routines.Segment
 import com.enricog.routines.detail.ui_components.TimeTypeChip
 import com.enricog.routines.ui_components.DeletableListItem
-import com.enricog.ui_components.resources.dimensions
+import com.enricog.ui_components.resources.TempoTheme
 
 internal const val SegmentItemTestTag = "SegmentItemTestTag"
 
@@ -32,7 +31,7 @@ internal fun SegmentItem(
         ConstraintLayout(
             modifier = Modifier.fillMaxWidth()
                 .clickable { onClick(segment) }
-                .padding(MaterialTheme.dimensions.spaceM)
+                .padding(TempoTheme.dimensions.spaceM)
         ) {
             val (name, type, time) = createRefs()
 
@@ -46,7 +45,7 @@ internal fun SegmentItem(
                         width = Dimension.fillToConstraints
                     },
                 text = segment.name,
-                style = MaterialTheme.typography.h2
+                style = TempoTheme.typography.h2
             )
 
             TimeTypeChip(
@@ -56,7 +55,7 @@ internal fun SegmentItem(
                         start.linkTo(parent.start)
                         bottom.linkTo(parent.bottom)
                     }
-                    .padding(top = MaterialTheme.dimensions.spaceM),
+                    .padding(top = TempoTheme.dimensions.spaceM),
                 value = segment.type,
                 isSelected = true
             )
@@ -70,7 +69,7 @@ internal fun SegmentItem(
                         bottom.linkTo(parent.bottom)
                     },
                 text = "${segment.time.value}s",
-                style = MaterialTheme.typography.h3
+                style = TempoTheme.typography.h3
             )
         }
     }

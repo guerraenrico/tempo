@@ -4,7 +4,6 @@ import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.text.KeyboardOptions
-import androidx.compose.material.MaterialTheme
 import androidx.compose.material.Text
 import androidx.compose.material.TextField
 import androidx.compose.runtime.Composable
@@ -24,7 +23,7 @@ import androidx.compose.ui.unit.sp
 import com.enricog.entities.Seconds
 import com.enricog.entities.seconds
 import com.enricog.ui_components.resources.FontFamilyDefault
-import com.enricog.ui_components.resources.dimensions
+import com.enricog.ui_components.resources.TempoTheme
 import com.enricog.ui_components.resources.white
 
 private val textFieldStyle: TextStyle = TextStyle(
@@ -90,11 +89,11 @@ fun TempoTimeField(
         )
         if (errorMessage != null) {
             Text(
-                modifier = Modifier.padding(top = MaterialTheme.dimensions.spaceS),
+                modifier = Modifier.padding(top = TempoTheme.dimensions.spaceS),
                 text = errorMessage,
-                style = MaterialTheme.typography.caption,
+                style = TempoTheme.typography.caption,
                 maxLines = 1,
-                color = MaterialTheme.colors.error
+                color = TempoTheme.colors.error
             )
         }
     }

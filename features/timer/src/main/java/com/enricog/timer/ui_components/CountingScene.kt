@@ -3,20 +3,9 @@ package com.enricog.timer.ui_components
 import android.content.res.Configuration.ORIENTATION_PORTRAIT
 import androidx.compose.animation.core.animateFloat
 import androidx.compose.animation.core.updateTransition
-import androidx.compose.foundation.layout.Column
-import androidx.compose.foundation.layout.Row
-import androidx.compose.foundation.layout.Spacer
-import androidx.compose.foundation.layout.fillMaxSize
-import androidx.compose.foundation.layout.fillMaxWidth
-import androidx.compose.foundation.layout.height
-import androidx.compose.foundation.layout.offset
-import androidx.compose.material.MaterialTheme
+import androidx.compose.foundation.layout.*
 import androidx.compose.material.Text
-import androidx.compose.runtime.Composable
-import androidx.compose.runtime.getValue
-import androidx.compose.runtime.mutableStateOf
-import androidx.compose.runtime.remember
-import androidx.compose.runtime.setValue
+import androidx.compose.runtime.*
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.alpha
@@ -37,6 +26,7 @@ import com.enricog.timer.models.TimerViewState
 import com.enricog.ui_components.common.button.TempoIconButton
 import com.enricog.ui_components.common.dialog.TempoDialogAction
 import com.enricog.ui_components.common.dialog.TempoDialogAlert
+import com.enricog.ui_components.resources.TempoTheme
 
 internal const val CountingSceneTestTag = "CountingSceneTestTag"
 internal const val StepTitleTestTag = "StepTitleTestTag"
@@ -172,13 +162,13 @@ private fun Title(
     ) {
         Text(
             text = stepTitle,
-            style = MaterialTheme.typography.h3,
+            style = TempoTheme.typography.h3,
             modifier = Modifier.testTag(StepTitleTestTag)
         )
         Spacer(modifier = Modifier.height(10.dp))
         Text(
             text = segmentName,
-            style = MaterialTheme.typography.h1.copy(fontWeight = FontWeight.Normal),
+            style = TempoTheme.typography.h1.copy(fontWeight = FontWeight.Normal),
             modifier = Modifier.testTag(SegmentNameTestTag)
         )
         Spacer(modifier = Modifier.height(40.dp))

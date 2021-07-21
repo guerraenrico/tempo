@@ -1,14 +1,8 @@
 package com.enricog.routines.detail.summary.ui_components
 
-import androidx.compose.foundation.layout.Box
-import androidx.compose.foundation.layout.Spacer
-import androidx.compose.foundation.layout.fillMaxWidth
-import androidx.compose.foundation.layout.padding
-import androidx.compose.foundation.layout.size
-import androidx.compose.foundation.layout.width
+import androidx.compose.foundation.layout.*
 import androidx.compose.material.Button
 import androidx.compose.material.Icon
-import androidx.compose.material.MaterialTheme
 import androidx.compose.material.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
@@ -22,7 +16,7 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import com.enricog.routines.R
 import com.enricog.ui_components.common.button.TempoButtonColor
-import com.enricog.ui_components.resources.dimensions
+import com.enricog.ui_components.resources.TempoTheme
 import com.enricog.ui_components.resources.white
 
 internal const val HeaderAddSegmentButtonTestTag = "HeaderAddSegmentButton"
@@ -43,7 +37,7 @@ internal fun HeaderAddSegment(
     Box(
         modifier = modifier
             .fillMaxWidth()
-            .padding(MaterialTheme.dimensions.spaceS)
+            .padding(TempoTheme.dimensions.spaceS)
     ) {
         Button(
             onClick = onAddSegmentClick,
