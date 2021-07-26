@@ -20,7 +20,6 @@ internal fun RoutineItem(
     onClick: (Routine) -> Unit,
     onDelete: (Routine) -> Unit
 ) {
-
     DeletableListItem(
         modifier = modifier
             .testTag(RoutineItemTestTag),

@@ -14,9 +14,7 @@ fun TempoTheme(content: @Composable () -> Unit) {
         colors = defaultThemeColors,
         typography = defaultTypography,
     ) {
-        Surface(color = TempoTheme.colors.background) {
-            content()
-        }
+        Surface(color = TempoTheme.colors.background, content = content)
     }
 }
 

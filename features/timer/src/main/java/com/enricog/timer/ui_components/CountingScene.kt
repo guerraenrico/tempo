@@ -46,11 +46,11 @@ internal fun CountingScene(state: TimerViewState.Counting, timerActions: TimerAc
     val count = state.step.count
 
     val alpha by updateTransition(targetState = state.isRoutineCompleted, label = "alpha")
-        .animateFloat { if (it) 0f else 1f }
+        .animateFloat(label = "alpha") { if (it) 0f else 1f }
     val offset by updateTransition(targetState = state.isRoutineCompleted, label = "offset")
-        .animateFloat { if (it) 0f else 1f }
+        .animateFloat(label = "offset") { if (it) 0f else 1f }
     val scale by updateTransition(targetState = state.isRoutineCompleted, label = "scale")
-        .animateFloat { if (it) 0.5f else 1f }
+        .animateFloat(label = "scale") { if (it) 0.5f else 1f }
 
     val timerOffset = lerp((-upOffset), 0.dp, offset)
     val actionBarOffset = lerp((-upOffset), 0.dp, offset)
