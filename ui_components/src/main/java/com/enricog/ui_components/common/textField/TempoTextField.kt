@@ -3,6 +3,7 @@ package com.enricog.ui_components.common.textField
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.text.KeyboardActions
 import androidx.compose.foundation.text.KeyboardOptions
 import androidx.compose.material.Text
 import androidx.compose.material.TextField
@@ -35,6 +36,7 @@ fun TempoTextField(
     errorMessage: String? = null,
     visualTransformation: VisualTransformation = VisualTransformation.None,
     keyboardOptions: KeyboardOptions = KeyboardOptions.Default,
+    keyboardActions: KeyboardActions = KeyboardActions.Default,
     singleLine: Boolean = false,
     maxLines: Int = Int.MAX_VALUE,
 ) {
@@ -49,6 +51,7 @@ fun TempoTextField(
         errorMessage = errorMessage,
         visualTransformation = visualTransformation,
         keyboardOptions = keyboardOptions,
+        keyboardActions = keyboardActions,
         singleLine = singleLine,
         maxLines = maxLines
     )
@@ -66,6 +69,7 @@ private fun TempoTextFieldBase(
     errorMessage: String?,
     visualTransformation: VisualTransformation,
     keyboardOptions: KeyboardOptions,
+    keyboardActions: KeyboardActions,
     singleLine: Boolean,
     maxLines: Int,
 ) {
@@ -85,6 +89,7 @@ private fun TempoTextFieldBase(
             isError = errorMessage != null,
             visualTransformation = visualTransformation,
             keyboardOptions = keyboardOptions,
+            keyboardActions = keyboardActions,
             singleLine = singleLine,
             maxLines = maxLines,
         )

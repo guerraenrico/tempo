@@ -3,6 +3,7 @@ package com.enricog.ui_components.common.textField
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.text.KeyboardActions
 import androidx.compose.foundation.text.KeyboardOptions
 import androidx.compose.material.Text
 import androidx.compose.material.TextField
@@ -51,7 +52,8 @@ fun TempoTimeField(
     modifier: Modifier = Modifier,
     label: String? = null,
     errorMessage: String? = null,
-    keyboardOptions: KeyboardOptions = KeyboardOptions.Default
+    keyboardOptions: KeyboardOptions = KeyboardOptions.Default,
+    keyboardActions: KeyboardActions = KeyboardActions.Default
 ) {
     val composableLabel: @Composable (() -> Unit)? = label?.let { @Composable { Text(label) } }
     val textFieldValue = remember(seconds) {
@@ -84,6 +86,7 @@ fun TempoTimeField(
             label = composableLabel,
             isError = errorMessage != null,
             keyboardOptions = keyboardOptions.copy(keyboardType = KeyboardType.Number),
+            keyboardActions = keyboardActions,
             singleLine = true,
             maxLines = 1
         )
