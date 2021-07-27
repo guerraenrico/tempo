@@ -1,19 +1,19 @@
 package com.enricog.routines.detail.summary.ui_components
 
-import androidx.constraintlayout.compose.ConstraintLayout
-import androidx.constraintlayout.compose.Dimension
 import androidx.compose.foundation.layout.fillMaxWidth
-import androidx.compose.material.MaterialTheme
 import androidx.compose.material.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.platform.testTag
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
+import androidx.constraintlayout.compose.ConstraintLayout
+import androidx.constraintlayout.compose.Dimension
 import com.enricog.routines.R
 import com.enricog.ui_components.common.button.TempoButtonColor
 import com.enricog.ui_components.common.button.TempoIconButton
 import com.enricog.ui_components.common.button.TempoIconButtonSize
+import com.enricog.ui_components.resources.TempoTheme
 
 internal const val RoutineSectionTestTag = "RoutineSectionTestTag"
 
@@ -37,7 +37,7 @@ internal fun RoutineSection(
                 width = Dimension.fillToConstraints
             },
             text = routineName,
-            style = MaterialTheme.typography.h1
+            style = TempoTheme.typography.h1
         )
 
         TempoIconButton(

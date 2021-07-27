@@ -1,16 +1,9 @@
 package com.enricog.routines.detail.segment.ui_components
 
 import androidx.compose.foundation.background
-import androidx.compose.foundation.layout.Column
-import androidx.compose.foundation.layout.Row
-import androidx.compose.foundation.layout.Spacer
-import androidx.compose.foundation.layout.fillMaxSize
-import androidx.compose.foundation.layout.fillMaxWidth
-import androidx.compose.foundation.layout.height
-import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.verticalScroll
-import androidx.compose.material.MaterialTheme
 import androidx.compose.material.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
@@ -27,7 +20,7 @@ import com.enricog.ui_components.common.button.TempoButtonColor
 import com.enricog.ui_components.common.textField.TempoTextField
 import com.enricog.ui_components.common.textField.TempoTimeField
 import com.enricog.ui_components.modifiers.horizontalListItemSpacing
-import com.enricog.ui_components.resources.dimensions
+import com.enricog.ui_components.resources.TempoTheme
 
 internal const val SegmentFormSceneTestTag = "SegmentFormSceneTestTag"
 
@@ -45,7 +38,7 @@ internal fun SegmentFormScene(
         modifier = Modifier
             .testTag(SegmentFormSceneTestTag)
             .fillMaxSize()
-            .background(MaterialTheme.colors.background)
+            .background(TempoTheme.colors.background)
     ) {
         Column(
             modifier = Modifier
@@ -74,7 +67,7 @@ internal fun SegmentFormScene(
         TempoButton(
             modifier = Modifier
                 .fillMaxWidth()
-                .padding(MaterialTheme.dimensions.spaceM),
+                .padding(TempoTheme.dimensions.spaceM),
             onClick = onSegmentConfirmed,
             color = TempoButtonColor.Confirm,
             text = stringResource(R.string.button_save),
@@ -99,7 +92,7 @@ private fun SegmentNameTextField(
         onValueChange = onTextChange,
         modifier = Modifier
             .fillMaxWidth()
-            .padding(MaterialTheme.dimensions.spaceM),
+            .padding(TempoTheme.dimensions.spaceM),
         label = stringResource(R.string.field_label_segment_name),
         errorMessage = errorMessage,
         singleLine = true
@@ -122,7 +115,7 @@ private fun SegmentTimeField(
         onValueChange = onValueChange,
         modifier = Modifier
             .fillMaxWidth()
-            .padding(MaterialTheme.dimensions.spaceM),
+            .padding(TempoTheme.dimensions.spaceM),
         label = stringResource(R.string.field_label_segment_time),
         errorMessage = errorMessage
     )
@@ -137,13 +130,13 @@ private fun SelectableTimeType(
     Column(
         modifier = Modifier
             .fillMaxWidth()
-            .padding(MaterialTheme.dimensions.spaceM)
+            .padding(TempoTheme.dimensions.spaceM)
     ) {
         Text(
             text = stringResource(R.string.field_label_segment_type),
-            style = MaterialTheme.typography.body2
+            style = TempoTheme.typography.body2
         )
-        Spacer(Modifier.height(MaterialTheme.dimensions.spaceM))
+        Spacer(Modifier.height(TempoTheme.dimensions.spaceM))
         Row {
             timeTypes.mapIndexed { index, timeType ->
                 TimeTypeChip(
@@ -152,7 +145,7 @@ private fun SelectableTimeType(
                     onSelect = onSelectChange,
                     modifier = Modifier.horizontalListItemSpacing(
                         itemPosition = index,
-                        spacing = MaterialTheme.dimensions.spaceS,
+                        spacing = TempoTheme.dimensions.spaceS,
                         includeEdge = false
                     )
                 )

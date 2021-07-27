@@ -1,9 +1,6 @@
 package com.enricog.ui_components.resources
 
-import androidx.compose.material.MaterialTheme
-import androidx.compose.runtime.Composable
 import androidx.compose.runtime.Immutable
-import androidx.compose.runtime.ReadOnlyComposable
 import androidx.compose.runtime.compositionLocalOf
 import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.dp
@@ -28,9 +25,3 @@ internal val defaultDimensions = Dimensions(
 )
 
 internal val LocalDimensions = compositionLocalOf { defaultDimensions }
-
-@Suppress("unused")
-val MaterialTheme.dimensions: Dimensions
-    @Composable
-    @ReadOnlyComposable
-    get() = LocalDimensions.current

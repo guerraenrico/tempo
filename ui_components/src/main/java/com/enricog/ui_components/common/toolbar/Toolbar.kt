@@ -6,7 +6,6 @@ import androidx.compose.foundation.layout.padding
 import androidx.compose.material.Icon
 import androidx.compose.material.IconButton
 import androidx.compose.material.LocalElevationOverlay
-import androidx.compose.material.MaterialTheme
 import androidx.compose.material.Text
 import androidx.compose.material.TopAppBar
 import androidx.compose.runtime.Composable
@@ -17,7 +16,7 @@ import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
 import com.enricog.ui_components.R
-import com.enricog.ui_components.resources.dimensions
+import com.enricog.ui_components.resources.TempoTheme
 
 @Composable
 fun TempoToolbar(
@@ -31,7 +30,7 @@ fun TempoToolbar(
         TopAppBar(
             modifier = modifier,
             elevation = 0.dp,
-            backgroundColor = MaterialTheme.colors.background
+            backgroundColor = TempoTheme.colors.background
         ) {
             Row(
                 modifier = Modifier.fillMaxSize(),
@@ -48,9 +47,9 @@ fun TempoToolbar(
                 if (title != null) {
                     Text(
                         text = title,
-                        style = MaterialTheme.typography.h1,
+                        style = TempoTheme.typography.h1,
                         maxLines = 1,
-                        modifier = Modifier.padding(start = MaterialTheme.dimensions.spaceM),
+                        modifier = Modifier.padding(start = TempoTheme.dimensions.spaceM),
                     )
                 }
             }

@@ -3,18 +3,10 @@ package com.enricog.routines.detail.summary.ui_components
 import androidx.compose.animation.AnimatedVisibility
 import androidx.compose.animation.fadeIn
 import androidx.compose.animation.fadeOut
-import androidx.compose.foundation.layout.Arrangement
-import androidx.compose.foundation.layout.Box
-import androidx.compose.foundation.layout.PaddingValues
-import androidx.compose.foundation.layout.Spacer
-import androidx.compose.foundation.layout.fillMaxSize
-import androidx.compose.foundation.layout.fillMaxWidth
-import androidx.compose.foundation.layout.height
-import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.items
 import androidx.compose.foundation.lazy.rememberLazyListState
-import androidx.compose.material.MaterialTheme
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.derivedStateOf
 import androidx.compose.runtime.getValue
@@ -31,7 +23,7 @@ import com.enricog.routines.detail.summary.models.RoutineSummaryItem
 import com.enricog.ui_components.common.button.TempoButtonColor
 import com.enricog.ui_components.common.button.TempoIconButton
 import com.enricog.ui_components.common.button.TempoIconButtonSize
-import com.enricog.ui_components.resources.dimensions
+import com.enricog.ui_components.resources.TempoTheme
 
 internal const val RoutineSummarySceneTestTag = "RoutineSummaryScene"
 internal const val RoutineSummaryColumnTestTag = "RoutineSummaryColumn"
@@ -46,7 +38,7 @@ internal fun RoutineSummaryScene(
     onRoutineEdit: () -> Unit
 ) {
     val startRoutineButtonSize = TempoIconButtonSize.Large
-    val startRoutinePadding = MaterialTheme.dimensions.spaceM
+    val startRoutinePadding = TempoTheme.dimensions.spaceM
     val segmentListBottomSpace = startRoutinePadding + startRoutineButtonSize.box
     val listState = rememberLazyListState()
 
@@ -61,8 +53,8 @@ internal fun RoutineSummaryScene(
             modifier = Modifier
                 .testTag(RoutineSummaryColumnTestTag)
                 .fillMaxSize(),
-            verticalArrangement = Arrangement.spacedBy(MaterialTheme.dimensions.spaceM),
-            contentPadding = PaddingValues(MaterialTheme.dimensions.spaceM)
+            verticalArrangement = Arrangement.spacedBy(TempoTheme.dimensions.spaceM),
+            contentPadding = PaddingValues(TempoTheme.dimensions.spaceM)
         ) {
             items(
                 items = summaryItems,

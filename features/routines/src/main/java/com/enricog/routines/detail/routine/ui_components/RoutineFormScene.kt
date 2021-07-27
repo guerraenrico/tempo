@@ -6,7 +6,6 @@ import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.verticalScroll
-import androidx.compose.material.MaterialTheme
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.platform.testTag
@@ -19,7 +18,7 @@ import com.enricog.ui_components.common.button.TempoButton
 import com.enricog.ui_components.common.button.TempoButtonColor
 import com.enricog.ui_components.common.textField.TempoTextField
 import com.enricog.ui_components.common.textField.TempoTimeField
-import com.enricog.ui_components.resources.dimensions
+import com.enricog.ui_components.resources.TempoTheme
 
 internal const val RoutineFormSceneTestTag = "RoutineFormSceneTestTag"
 
@@ -58,7 +57,7 @@ internal fun RoutineFormScene(
         TempoButton(
             modifier = Modifier
                 .fillMaxWidth()
-                .padding(MaterialTheme.dimensions.spaceM),
+                .padding(TempoTheme.dimensions.spaceM),
             onClick = onRoutineSave,
             color = TempoButtonColor.Confirm,
             text = stringResource(R.string.button_save),
@@ -83,7 +82,7 @@ private fun RoutineNameTextField(
         onValueChange = onTextChange,
         modifier = Modifier
             .fillMaxWidth()
-            .padding(MaterialTheme.dimensions.spaceM),
+            .padding(TempoTheme.dimensions.spaceM),
         label = stringResource(R.string.field_label_routine_name),
         errorMessage = errorMessage,
         singleLine = true
@@ -106,7 +105,7 @@ private fun RoutineStartTimeOffsetField(
         onValueChange = onValueChange,
         modifier = Modifier
             .fillMaxWidth()
-            .padding(MaterialTheme.dimensions.spaceM),
+            .padding(TempoTheme.dimensions.spaceM),
         label = stringResource(R.string.field_label_routine_start_time_offset),
         errorMessage = errorMessage,
     )
