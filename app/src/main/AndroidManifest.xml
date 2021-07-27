@@ -14,7 +14,8 @@
         <activity
             android:name="com.enricog.tempo.MainActivity"
             android:label="@string/app_name"
-            android:theme="@style/Theme.Tempo">
+            android:theme="@style/Theme.Tempo"
+            android:exported="true">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
