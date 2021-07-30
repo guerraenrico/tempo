@@ -3,12 +3,19 @@ package com.enricog.routines.detail.segment.ui_components
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.rememberScrollState
+import androidx.compose.foundation.text.KeyboardActions
+import androidx.compose.foundation.text.KeyboardOptions
 import androidx.compose.foundation.verticalScroll
 import androidx.compose.material.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.remember
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.focus.FocusRequester
+import androidx.compose.ui.focus.focusRequester
+import androidx.compose.ui.platform.LocalSoftwareKeyboardController
 import androidx.compose.ui.platform.testTag
 import androidx.compose.ui.res.stringResource
+import androidx.compose.ui.text.input.ImeAction
 import com.enricog.entities.Seconds
 import com.enricog.entities.routines.Segment
 import com.enricog.entities.routines.TimeType
@@ -19,6 +26,7 @@ import com.enricog.ui_components.common.button.TempoButton
 import com.enricog.ui_components.common.button.TempoButtonColor
 import com.enricog.ui_components.common.textField.TempoTextField
 import com.enricog.ui_components.common.textField.TempoTimeField
+import com.enricog.ui_components.extensions.stringResourceOrNull
 import com.enricog.ui_components.modifiers.horizontalListItemSpacing
 import com.enricog.ui_components.resources.TempoTheme
 
@@ -34,6 +42,8 @@ internal fun SegmentFormScene(
     onSegmentTimeTypeChange: (TimeType) -> Unit,
     onSegmentConfirmed: () -> Unit
 ) {
+    val keyboardController = LocalSoftwareKeyboardController.current
+    val (segmentNameRef, segmentTimeRef) = remember { FocusRequester.createRefs() }
     Column(
         modifier = Modifier
             .testTag(SegmentFormSceneTestTag)
@@ -46,16 +56,35 @@ internal fun SegmentFormScene(
                 .weight(1f)
                 .verticalScroll(rememberScrollState(0))
         ) {
-            SegmentNameTextField(
+            TempoTextField(
                 value = segment.name,
-                onTextChange = onSegmentNameChange,
-                errorMessageResourceId = errors[SegmentField.Name]
+                onValueChange = onSegmentNameChange,
+                modifier = Modifier
+                    .fillMaxWidth()
+                    .padding(TempoTheme.dimensions.spaceM)
+                    .focusRequester(segmentNameRef),
+                label = stringResource(R.string.field_label_segment_name),
+                errorMessage = stringResourceOrNull(id = errors[SegmentField.Name]),
+                singleLine = true,
+                keyboardOptions = KeyboardOptions(imeAction = ImeAction.Next),
+                keyboardActions = KeyboardActions(
+                    onNext = { segmentTimeRef.requestFocus() }
+                )
             )
             // TODO hide/disable time field if type selected is stopwatch
-            SegmentTimeField(
+            TempoTimeField(
                 seconds = segment.time,
                 onValueChange = onSegmentTimeChange,
-                errorMessageResourceId = errors[SegmentField.TimeInSeconds],
+                modifier = Modifier
+                    .fillMaxWidth()
+                    .padding(TempoTheme.dimensions.spaceM)
+                    .focusRequester(segmentTimeRef),
+                label = stringResource(R.string.field_label_segment_time),
+                errorMessage = stringResourceOrNull(errors[SegmentField.TimeInSeconds]),
+                keyboardOptions = KeyboardOptions(imeAction = ImeAction.Done),
+                keyboardActions = KeyboardActions(
+                    onDone = { keyboardController?.hide() }
+                )
             )
             SelectableTimeType(
                 timeTypes = timeTypes,
@@ -74,51 +103,6 @@ internal fun SegmentFormScene(
             contentDescription = stringResource(R.string.content_description_button_save_segment)
         )
     }
-}
-
-@Composable
-private fun SegmentNameTextField(
-    value: String,
-    onTextChange: (String) -> Unit,
-    errorMessageResourceId: Int?
-) {
-    val errorMessage: String? = if (errorMessageResourceId != null) {
-        stringResource(errorMessageResourceId)
-    } else {
-        null
-    }
-    TempoTextField(
-        value = value,
-        onValueChange = onTextChange,
-        modifier = Modifier
-            .fillMaxWidth()
-            .padding(TempoTheme.dimensions.spaceM),
-        label = stringResource(R.string.field_label_segment_name),
-        errorMessage = errorMessage,
-        singleLine = true
-    )
-}
-
-@Composable
-private fun SegmentTimeField(
-    seconds: Seconds,
-    onValueChange: (Seconds) -> Unit,
-    errorMessageResourceId: Int?
-) {
-    val errorMessage: String? = if (errorMessageResourceId != null) {
-        stringResource(errorMessageResourceId)
-    } else {
-        null
-    }
-    TempoTimeField(
-        seconds = seconds,
-        onValueChange = onValueChange,
-        modifier = Modifier
-            .fillMaxWidth()
-            .padding(TempoTheme.dimensions.spaceM),
-        label = stringResource(R.string.field_label_segment_time),
-        errorMessage = errorMessage
-    )
 }
 
 @Composable

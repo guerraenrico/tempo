@@ -61,6 +61,7 @@ subprojects {
                     "-Xuse-experimental=kotlin.ExperimentalStdlibApi",
                     "-Xuse-experimental=androidx.compose.material.ExperimentalMaterialApi",
                     "-Xuse-experimental=androidx.compose.foundation.ExperimentalFoundationApi",
+                    "-Xuse-experimental=androidx.compose.ui.ExperimentalComposeUiApi",
                     "-Xuse-experimental=androidx.compose.animation.ExperimentalAnimationApi",
                     "-Xopt-in=kotlinx.coroutines.FlowPreview",
 
