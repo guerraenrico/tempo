@@ -13,6 +13,7 @@ import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.window.Dialog
 import androidx.compose.ui.window.DialogProperties
@@ -88,8 +89,30 @@ private fun TempoDialogBase(
         onDismissRequest = onDismiss,
         properties = DialogProperties(
             dismissOnBackPress = isCancellable,
-            dismissOnClickOutside = isCancellable
+            dismissOnClickOutside = isCancellable,
+            usePlatformDefaultWidth = false
         ),
         content = content
+    )
+}
+
+@Preview
+@Composable
+private fun Preview() {
+    TempoDialogAlert(
+        title = "title",
+        description = "description",
+        positiveAction = TempoDialogAction(
+            text = "positive",
+            contentDescription = "positive",
+            onClick = {}
+        ),
+        negativeAction = TempoDialogAction(
+            text = "negative",
+            contentDescription = "negative",
+            onClick = {}
+        ),
+        onDismiss = { },
+        isCancellable = false
     )
 }
