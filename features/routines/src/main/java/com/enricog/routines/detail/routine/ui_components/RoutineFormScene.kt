@@ -64,9 +64,7 @@ internal fun RoutineFormScene(
                 singleLine = true,
                 keyboardOptions = KeyboardOptions(imeAction = ImeAction.Next),
                 keyboardActions = KeyboardActions(
-                    onNext = {
-                        routineStartTimeRef.requestFocus()
-                    }
+                    onNext = { routineStartTimeRef.requestFocus() }
                 )
             )
 
