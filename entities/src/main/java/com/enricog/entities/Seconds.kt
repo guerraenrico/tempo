@@ -51,7 +51,9 @@ value class Seconds private constructor(private val duration: Duration) {
     }
 
     override fun toString(): String {
-        return duration.toString()
+        val minutes = value / 60
+        val seconds = value - (minutes * 60)
+        return "$minutes:$seconds"
     }
 }
 
