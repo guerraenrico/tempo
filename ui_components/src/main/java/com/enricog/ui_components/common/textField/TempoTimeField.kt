@@ -47,13 +47,10 @@ fun TempoTimeField(
     val (minRef, secsRef) = remember { FocusRequester.createRefs() }
 
     val textFieldMinuteValue = remember(seconds) {
-        val minutes = seconds.value / 60
-        getFormattedTextFieldValue(minutes)
+        getFormattedTextFieldValue(seconds.minutes)
     }
     val textFieldSecondsValue = remember(seconds) {
-        val minutes = seconds.value / 60
-        val secs = seconds.value - (minutes * 60)
-        getFormattedTextFieldValue(secs)
+        getFormattedTextFieldValue(seconds.secondsRemainingInMinute)
     }
     val textFieldMinutesChangeCallback = { value: TextFieldValue ->
         if (numericRegex.matches(value.text)) {
