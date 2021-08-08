@@ -34,6 +34,10 @@ internal class SegmentReducer @Inject constructor() {
     }
 
     fun updateSegmentTime(state: SegmentState.Data, seconds: Seconds): SegmentState.Data {
+        if (seconds > MAX_TIME_SECONDS) {
+            return state
+        }
+
         val time = if (state.segment.type == TimeType.STOPWATCH) {
             0.seconds
         } else {
@@ -67,5 +71,9 @@ internal class SegmentReducer @Inject constructor() {
         errors: Map<SegmentField, SegmentFieldError>
     ): SegmentState.Data {
         return state.copy(errors = errors)
+    }
+
+    companion object {
+        private val MAX_TIME_SECONDS = 3600.seconds
     }
 }
