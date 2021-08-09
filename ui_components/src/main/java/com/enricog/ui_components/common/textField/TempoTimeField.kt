@@ -42,6 +42,9 @@ fun TempoTimeField(
     imeAction: ImeAction = ImeAction.Default,
     keyboardActions: KeyboardActions = KeyboardActions.Default
 ) {
+
+    val (minRef, secsRef) = remember { FocusRequester.createRefs() }
+
     fun getFormattedTextFieldValue(value: Long): TextFieldValue {
         val format = "%02d"
         val text = String.format(format, value)
@@ -60,8 +63,6 @@ fun TempoTimeField(
         }
     }
 
-    val (minRef, secsRef) = remember { FocusRequester.createRefs() }
-
     val textFieldMinuteValue = remember(seconds) {
         getFormattedTextFieldValue(seconds.minutes)
     }
@@ -73,6 +74,9 @@ fun TempoTimeField(
     }
     val textFieldSecondsChangeCallback = { value: TextFieldValue ->
         onTextFieldChang(textFieldMinuteValue, value)
+        if (value.text == "0" && seconds.secondsRemainingInMinute == 0L) {
+            minRef.requestFocus()
+        }
     }
     Column(
         modifier = modifier
