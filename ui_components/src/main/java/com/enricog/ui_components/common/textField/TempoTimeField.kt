@@ -24,9 +24,10 @@ import com.enricog.entities.Seconds
 import com.enricog.entities.seconds
 import com.enricog.ui_components.resources.TempoTheme
 
-private val numericRegex = Regex("^[0-9]+\$|^\$|^\\s\$")
-private val fieldWidth = 70.dp
-private val textStyle = tempoTextFieldBaseStyle.copy(textAlign = TextAlign.Center)
+private val NUMERIC_REGEX = Regex("^[0-9]+\$|^\$|^\\s\$")
+private val FIElD_WIDTH = 70.dp
+private val TEXT_STYLE = tempoTextFieldBaseStyle.copy(textAlign = TextAlign.Center)
+private val MAX_TIME_SECONDS = 3600.seconds
 
 @Composable
 fun TempoTimeField(
@@ -44,6 +45,18 @@ fun TempoTimeField(
         return TextFieldValue(text = text, selection = TextRange(text.length))
     }
 
+    fun onTextFieldChang(
+        minutesTextFieldValue: TextFieldValue,
+        secondsTextFieldValue: TextFieldValue
+    ) {
+        if (minutesTextFieldValue.text.matches(NUMERIC_REGEX) && secondsTextFieldValue.text.matches(NUMERIC_REGEX)) {
+            val value = "${minutesTextFieldValue.text}:${secondsTextFieldValue.text}".seconds
+            if (value <= MAX_TIME_SECONDS) {
+                onValueChange(value)
+            }
+        }
+    }
+
     val (minRef, secsRef) = remember { FocusRequester.createRefs() }
 
     val textFieldMinuteValue = remember(seconds) {
@@ -53,14 +66,10 @@ fun TempoTimeField(
         getFormattedTextFieldValue(seconds.secondsRemainingInMinute)
     }
     val textFieldMinutesChangeCallback = { value: TextFieldValue ->
-        if (numericRegex.matches(value.text)) {
-            onValueChange("${value.text}:${textFieldSecondsValue.text}".seconds)
-        }
+        onTextFieldChang(value, textFieldSecondsValue)
     }
     val textFieldSecondsChangeCallback = { value: TextFieldValue ->
-        if (numericRegex.matches(value.text)) {
-            onValueChange("${textFieldMinuteValue.text}:${value.text}".seconds)
-        }
+        onTextFieldChang(textFieldMinuteValue, value)
     }
     Column(
         modifier = modifier
@@ -79,9 +88,9 @@ fun TempoTimeField(
                 value = textFieldMinuteValue,
                 onValueChange = textFieldMinutesChangeCallback,
                 modifier = Modifier
-                    .width(fieldWidth)
+                    .width(FIElD_WIDTH)
                     .focusRequester(minRef),
-                textStyle = textStyle,
+                textStyle = TEXT_STYLE,
                 label = null,
                 leadingIcon = null,
                 trailingIcon = null,
@@ -99,9 +108,9 @@ fun TempoTimeField(
                 value = textFieldSecondsValue,
                 onValueChange = textFieldSecondsChangeCallback,
                 modifier = Modifier
-                    .width(fieldWidth)
+                    .width(FIElD_WIDTH)
                     .focusRequester(secsRef),
-                textStyle = textStyle,
+                textStyle = TEXT_STYLE,
                 label = null,
                 leadingIcon = null,
                 trailingIcon = null,
