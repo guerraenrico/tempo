@@ -3,4 +3,6 @@
 
     <string name="content_description_toolbar_button_back">Go back</string>
 
+    <string name="label_minutes">min</string>
+    <string name="label_seconds">secs</string>
 </resources>

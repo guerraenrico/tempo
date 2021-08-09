@@ -4,6 +4,7 @@ import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.width
+import androidx.compose.foundation.shape.ZeroCornerSize
 import androidx.compose.foundation.text.KeyboardActions
 import androidx.compose.foundation.text.KeyboardOptions
 import androidx.compose.material.Text
@@ -12,6 +13,7 @@ import androidx.compose.runtime.remember
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.focus.FocusRequester
 import androidx.compose.ui.focus.focusRequester
+import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.TextRange
 import androidx.compose.ui.text.input.ImeAction
 import androidx.compose.ui.text.input.KeyboardType
@@ -22,6 +24,7 @@ import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import com.enricog.entities.Seconds
 import com.enricog.entities.seconds
+import com.enricog.ui_components.R
 import com.enricog.ui_components.resources.TempoTheme
 
 private val NUMERIC_REGEX = Regex("^[0-9]+\$|^\$|^\\s\$")
@@ -91,7 +94,7 @@ fun TempoTimeField(
                     .width(FIElD_WIDTH)
                     .focusRequester(minRef),
                 textStyle = TEXT_STYLE,
-                label = null,
+                label = stringResource(id = R.string.label_minutes),
                 leadingIcon = null,
                 trailingIcon = null,
                 errorMessage = errorMessage,
@@ -102,7 +105,8 @@ fun TempoTimeField(
                 keyboardActions = KeyboardActions(onNext = { secsRef.requestFocus() }),
                 singleLine = true,
                 maxLines = 1,
-                visualTransformation = VisualTransformation.None
+                visualTransformation = VisualTransformation.None,
+                shape = TempoTheme.shapes.small.copy(bottomEnd = ZeroCornerSize, bottomStart = ZeroCornerSize, topEnd = ZeroCornerSize)
             )
             TempoTextFieldBase(
                 value = textFieldSecondsValue,
@@ -111,7 +115,7 @@ fun TempoTimeField(
                     .width(FIElD_WIDTH)
                     .focusRequester(secsRef),
                 textStyle = TEXT_STYLE,
-                label = null,
+                label = stringResource(id = R.string.label_seconds),
                 leadingIcon = null,
                 trailingIcon = null,
                 errorMessage = errorMessage,
@@ -122,7 +126,8 @@ fun TempoTimeField(
                 keyboardActions = keyboardActions,
                 singleLine = true,
                 maxLines = 1,
-                visualTransformation = VisualTransformation.None
+                visualTransformation = VisualTransformation.None,
+                shape = TempoTheme.shapes.small.copy(bottomEnd = ZeroCornerSize, bottomStart = ZeroCornerSize, topStart = ZeroCornerSize)
             )
         }
     }
