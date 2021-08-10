@@ -42,7 +42,6 @@ fun TempoTimeField(
     imeAction: ImeAction = ImeAction.Default,
     keyboardActions: KeyboardActions = KeyboardActions.Default
 ) {
-
     val (minRef, secsRef) = remember { FocusRequester.createRefs() }
 
     fun getFormattedTextFieldValue(value: Long): TextFieldValue {
@@ -55,7 +54,10 @@ fun TempoTimeField(
         minutesTextFieldValue: TextFieldValue,
         secondsTextFieldValue: TextFieldValue
     ) {
-        if (minutesTextFieldValue.text.matches(NUMERIC_REGEX) && secondsTextFieldValue.text.matches(NUMERIC_REGEX)) {
+        if (
+            minutesTextFieldValue.text.matches(NUMERIC_REGEX) &&
+            secondsTextFieldValue.text.matches(NUMERIC_REGEX)
+        ) {
             val value = "${minutesTextFieldValue.text}:${secondsTextFieldValue.text}".seconds
             if (value <= MAX_TIME_SECONDS) {
                 onValueChange(value)
@@ -110,7 +112,11 @@ fun TempoTimeField(
                 singleLine = true,
                 maxLines = 1,
                 visualTransformation = VisualTransformation.None,
-                shape = TempoTheme.shapes.small.copy(bottomEnd = ZeroCornerSize, bottomStart = ZeroCornerSize, topEnd = ZeroCornerSize)
+                shape = TempoTheme.shapes.small.copy(
+                    bottomEnd = ZeroCornerSize,
+                    bottomStart = ZeroCornerSize,
+                    topEnd = ZeroCornerSize
+                )
             )
             TempoTextFieldBase(
                 value = textFieldSecondsValue,
@@ -131,7 +137,11 @@ fun TempoTimeField(
                 singleLine = true,
                 maxLines = 1,
                 visualTransformation = VisualTransformation.None,
-                shape = TempoTheme.shapes.small.copy(bottomEnd = ZeroCornerSize, bottomStart = ZeroCornerSize, topStart = ZeroCornerSize)
+                shape = TempoTheme.shapes.small.copy(
+                    bottomEnd = ZeroCornerSize,
+                    bottomStart = ZeroCornerSize,
+                    topStart = ZeroCornerSize
+                )
             )
         }
     }
