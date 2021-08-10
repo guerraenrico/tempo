@@ -95,6 +95,36 @@ class SecondsTest {
     }
 
     @Test
+    fun `test toString minutes`() {
+        val value = 130.seconds
+        val expected = "2:10"
+
+        val actual = value.toString()
+
+        assertEquals(expected, actual)
+    }
+
+    @Test
+    fun `test toString seconds`() {
+        val value = 45.seconds
+        val expected = "0:45"
+
+        val actual = value.toString()
+
+        assertEquals(expected, actual)
+    }
+
+    @Test
+    fun `test toString minutes double digit`() {
+        val value = 500.seconds
+        val expected = "8:20"
+
+        val actual = value.toString()
+
+        assertEquals(expected, actual)
+    }
+
+    @Test
     fun `test plus`() {
         val value1 = 120.seconds
         val value2 = 50.seconds
@@ -116,4 +146,21 @@ class SecondsTest {
         assertEquals(expected, actual)
     }
 
+    @Test
+    fun `test minutes`() {
+        val value = 500.seconds
+        val expected = 8L
+
+        val actual = value.minutes
+        assertEquals(expected, actual)
+    }
+
+    @Test
+    fun `test secondsRemainingInMinute`() {
+        val value = 500.seconds
+        val expected = 20L
+
+        val actual = value.secondsRemainingInMinute
+        assertEquals(expected, actual)
+    }
 }

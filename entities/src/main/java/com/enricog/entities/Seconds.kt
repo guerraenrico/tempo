@@ -11,6 +11,12 @@ value class Seconds private constructor(private val duration: Duration) {
     val value: Long
         get() = duration.inWholeSeconds
 
+    val minutes: Long
+        get() = value / 60
+
+    val secondsRemainingInMinute: Long
+        get() = value - (minutes * 60)
+
     companion object {
         private const val TIME_SEPARATOR = ":"
         private const val DEFAULT_TIME_VALUE = "0"
@@ -51,7 +57,7 @@ value class Seconds private constructor(private val duration: Duration) {
     }
 
     override fun toString(): String {
-        return duration.toString()
+        return "$minutes:$secondsRemainingInMinute"
     }
 }
 

@@ -81,7 +81,7 @@ internal fun SegmentFormScene(
                     .focusRequester(segmentTimeRef),
                 label = stringResource(R.string.field_label_segment_time),
                 errorMessage = stringResourceOrNull(errors[SegmentField.TimeInSeconds]),
-                keyboardOptions = KeyboardOptions(imeAction = ImeAction.Done),
+                imeAction = ImeAction.Done,
                 keyboardActions = KeyboardActions(
                     onDone = { keyboardController?.hide() }
                 )

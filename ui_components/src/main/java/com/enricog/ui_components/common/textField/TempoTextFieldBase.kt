@@ -3,12 +3,14 @@ package com.enricog.ui_components.common.textField
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.shape.ZeroCornerSize
 import androidx.compose.foundation.text.KeyboardActions
 import androidx.compose.foundation.text.KeyboardOptions
 import androidx.compose.material.Text
 import androidx.compose.material.TextField
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.graphics.Shape
 import androidx.compose.ui.text.TextStyle
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.input.TextFieldValue
@@ -40,6 +42,7 @@ internal fun TempoTextFieldBase(
     keyboardActions: KeyboardActions,
     singleLine: Boolean,
     maxLines: Int,
+    shape: Shape = TempoTheme.shapes.small.copy(bottomEnd = ZeroCornerSize, bottomStart = ZeroCornerSize),
 ) {
     val composableLabel: @Composable (() -> Unit)? = label?.let { @Composable { Text(label) } }
     Column(
@@ -59,6 +62,7 @@ internal fun TempoTextFieldBase(
             keyboardActions = keyboardActions,
             singleLine = singleLine,
             maxLines = maxLines,
+            shape = shape
         )
         if (errorMessage != null) {
             Text(
