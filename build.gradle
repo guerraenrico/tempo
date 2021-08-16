@@ -9,16 +9,16 @@ buildscript {
         maven { url "https://oss.sonatype.org/content/repositories/snapshots" }
     }
     dependencies {
-        classpath 'com.android.tools.build:gradle:4.2.2'
+        classpath 'com.android.tools.build:gradle:7.0.0'
         classpath "org.jetbrains.kotlin:kotlin-gradle-plugin:${Libs.Kotlin.version}"
         classpath "com.google.dagger:hilt-android-gradle-plugin:${Libs.Hilt.androidVersion}"
 
-        classpath 'com.google.gms:google-services:4.3.8'
+        classpath 'com.google.gms:google-services:4.3.10'
         classpath 'com.google.firebase:firebase-crashlytics-gradle:2.7.1'
 
-        classpath "org.jlleitschuh.gradle:ktlint-gradle:9.4.1"
+        classpath "org.jlleitschuh.gradle:ktlint-gradle:10.1.0"
 
-        classpath 'com.github.triplet.gradle:play-publisher:3.2.0-agp4.2'
+        classpath 'com.github.triplet.gradle:play-publisher:3.6.0'
 
         // NOTE: Do not place your application dependencies here; they belong
         // in the individual module build.gradle files
@@ -77,7 +77,7 @@ subprojects {
 
     apply plugin: "org.jlleitschuh.gradle.ktlint"
     ktlint {
-        version = "0.40.0"
+        version = "0.41.0"
         debug = true
         verbose = true
         android = true
