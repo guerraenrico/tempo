@@ -43,16 +43,20 @@ internal class RoutineViewModel @Inject constructor(
     private fun load(routineId: Long) {
         viewModelScope.launch {
             val routine = routineUseCase.get(routineId)
-            state = reducer.setup(routine)
+            updateState { reducer.setup(routine) }
         }
     }
 
-    fun onRoutineNameTextChange(text: String) = runWhen<RoutineState.Data> { stateData ->
-        state = reducer.updateRoutineName(stateData, text)
+    fun onRoutineNameTextChange(text: String) {
+        updateStateWhen<RoutineState.Data> {
+            reducer.updateRoutineName(it, text)
+        }
     }
 
-    fun onRoutineStartTimeOffsetChange(seconds: Seconds) = runWhen<RoutineState.Data> { stateData ->
-        state = reducer.updateRoutineStartTimeOffset(stateData, seconds)
+    fun onRoutineStartTimeOffsetChange(seconds: Seconds) {
+        updateStateWhen<RoutineState.Data> {
+            reducer.updateRoutineStartTimeOffset(it, seconds)
+        }
     }
 
     fun onRoutineBack() {
@@ -64,7 +68,9 @@ internal class RoutineViewModel @Inject constructor(
         if (errors.isEmpty()) {
             save(stateData.routine)
         } else {
-            state = reducer.applyRoutineErrors(stateData, errors)
+            updateStateWhen<RoutineState.Data> {
+                reducer.applyRoutineErrors(it, errors)
+            }
         }
     }
 

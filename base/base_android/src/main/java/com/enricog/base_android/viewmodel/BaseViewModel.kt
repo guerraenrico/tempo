@@ -5,16 +5,7 @@ import androidx.lifecycle.viewModelScope
 import com.enricog.core.coroutine.dispatchers.CoroutineDispatchers
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.FlowPreview
-import kotlinx.coroutines.flow.Flow
-import kotlinx.coroutines.flow.MutableStateFlow
-import kotlinx.coroutines.flow.asStateFlow
-import kotlinx.coroutines.flow.debounce
-import kotlinx.coroutines.flow.distinctUntilChanged
-import kotlinx.coroutines.flow.filterNotNull
-import kotlinx.coroutines.flow.flowOn
-import kotlinx.coroutines.flow.launchIn
-import kotlinx.coroutines.flow.map
-import kotlinx.coroutines.flow.onEach
+import kotlinx.coroutines.flow.*
 import kotlinx.coroutines.launch
 
 @OptIn(FlowPreview::class)
@@ -26,11 +17,8 @@ open class BaseViewModel<ViewModelState : Any, ViewState : Any>(
 ) : ViewModel() {
 
     private val viewModelStateFlow = MutableStateFlow(initialState)
-    protected var state: ViewModelState
+    protected val state: ViewModelState
         get() = viewModelStateFlow.value
-        set(value) {
-            viewModelStateFlow.value = value
-        }
 
     private val viewStateFlow = MutableStateFlow<ViewState?>(null)
     val viewState: Flow<ViewState> = viewStateFlow.asStateFlow().filterNotNull()
@@ -58,6 +46,20 @@ open class BaseViewModel<ViewModelState : Any, ViewState : Any>(
         (state as? T)?.let {
             viewModelScope.launch {
                 block(it)
+            }
+        }
+    }
+
+    protected fun updateState(block: (ViewModelState) -> ViewModelState): ViewModelState {
+        return viewModelStateFlow.updateAndGet(block)
+    }
+
+    protected inline fun <reified T : ViewModelState> updateStateWhen(crossinline block: (T) -> T): ViewModelState {
+        return updateState {
+            if (it is T) {
+                block(it)
+            } else {
+                it
             }
         }
     }

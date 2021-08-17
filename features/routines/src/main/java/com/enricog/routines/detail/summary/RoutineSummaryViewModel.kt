@@ -13,6 +13,7 @@ import com.enricog.routines.navigation.RoutinesNavigationConstants.RoutineSummar
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.launchIn
 import kotlinx.coroutines.flow.onEach
+import kotlinx.coroutines.launch
 import javax.inject.Inject
 
 @HiltViewModel
@@ -37,7 +38,9 @@ internal class RoutineSummaryViewModel @Inject constructor(
 
     private fun load(routineId: Long) {
         routineSummaryUseCase.get(routineId)
-            .onEach { routine -> state = reducer.setup(routine = routine) }
+            .onEach { routine ->
+                updateState { reducer.setup(routine = routine) }
+            }
             .launchIn(viewModelScope)
     }
 
@@ -49,10 +52,15 @@ internal class RoutineSummaryViewModel @Inject constructor(
         navigationActions.goToSegment(routineId = stateData.routine.id, segmentId = segment.id)
     }
 
-    fun onSegmentDelete(segment: Segment) = launchWhen<RoutineSummaryState.Data> { stateData ->
-        val newState = reducer.deleteSegment(state = stateData, segment = segment)
-        state = newState
-        routineSummaryUseCase.update(routine = newState.routine)
+    fun onSegmentDelete(segment: Segment) {
+        viewModelScope.launch {
+            val newState = updateStateWhen<RoutineSummaryState.Data> {
+                reducer.deleteSegment(state = it, segment = segment)
+            }
+            if (newState is RoutineSummaryState.Data) {
+                routineSummaryUseCase.update(routine = newState.routine)
+            }
+        }
     }
 
     fun onRoutineStart() = runWhen<RoutineSummaryState.Data> { stateData ->
@@ -60,7 +68,9 @@ internal class RoutineSummaryViewModel @Inject constructor(
         if (errors.isEmpty()) {
             navigationActions.goToTimer(routineId = stateData.routine.id)
         } else {
-            state = reducer.applyRoutineErrors(state = stateData, errors = errors)
+            updateStateWhen<RoutineSummaryState.Data> {
+                reducer.applyRoutineErrors(state = it, errors = errors)
+            }
         }
     }
 
