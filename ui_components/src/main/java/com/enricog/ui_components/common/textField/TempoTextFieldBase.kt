@@ -42,7 +42,10 @@ internal fun TempoTextFieldBase(
     keyboardActions: KeyboardActions,
     singleLine: Boolean,
     maxLines: Int,
-    shape: Shape = TempoTheme.shapes.small.copy(bottomEnd = ZeroCornerSize, bottomStart = ZeroCornerSize),
+    shape: Shape = TempoTheme.shapes.small.copy(
+        bottomEnd = ZeroCornerSize,
+        bottomStart = ZeroCornerSize
+    ),
 ) {
     val composableLabel: @Composable (() -> Unit)? = label?.let { @Composable { Text(label) } }
     Column(
@@ -65,13 +68,18 @@ internal fun TempoTextFieldBase(
             shape = shape
         )
         if (errorMessage != null) {
-            Text(
-                modifier = Modifier.padding(top = TempoTheme.dimensions.spaceS),
-                text = errorMessage,
-                style = TempoTheme.typography.caption,
-                maxLines = 1,
-                color = TempoTheme.colors.error
-            )
+            TempoTextFieldBaseErrorText(errorMessage)
         }
     }
+}
+
+@Composable
+internal fun TempoTextFieldBaseErrorText(message: String) {
+    Text(
+        modifier = Modifier.padding(top = TempoTheme.dimensions.spaceS),
+        text = message,
+        style = TempoTheme.typography.caption,
+        maxLines = 1,
+        color = TempoTheme.colors.error
+    )
 }
