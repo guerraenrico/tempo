@@ -54,20 +54,20 @@ internal class TimerViewModel @Inject constructor(
 
     private fun start(routine: Routine) {
         startJob = viewModelScope.launch {
-            state = reducer.setup(routine)
+            updateState { reducer.setup(routine) }
 
             delay(1000)
 
-            state = reducer.toggleTimeRunning(state)
+            updateState { reducer.toggleTimeRunning(it) }
         }
     }
 
     override fun onStartStopButtonClick() {
-        state = reducer.toggleTimeRunning(state)
+        updateState { reducer.toggleTimeRunning(it) }
     }
 
     override fun onRestartSegmentButtonClick() {
-        state = reducer.restartTime(state)
+        updateState { reducer.restartTime(it) }
     }
 
     override fun onResetButtonClick() = runWhen<TimerState.Counting> { state ->
@@ -102,7 +102,7 @@ internal class TimerViewModel @Inject constructor(
     private fun onCountCompleted() {
         viewModelScope.launch {
             delay(1000)
-            state = reducer.nextStep(state)
+            updateState { reducer.nextStep(it) }
         }
     }
 
@@ -112,7 +112,7 @@ internal class TimerViewModel @Inject constructor(
         countingJob = viewModelScope.launch {
             while (true) {
                 delay(1000)
-                state = reducer.progressTime(state)
+                updateState { reducer.progressTime(it) }
             }
         }
     }
@@ -123,7 +123,7 @@ internal class TimerViewModel @Inject constructor(
 
     private fun toggleKeepScreenOn(currentState: TimerState) {
         val enableKeepScreenOn = currentState is TimerState.Counting &&
-            currentState.isCountRunning && !currentState.isRoutineCompleted
+                currentState.isCountRunning && !currentState.isRoutineCompleted
         windowScreenManager.toggleKeepScreenOnFlag(enableKeepScreenOn)
     }
 }

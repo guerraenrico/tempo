@@ -47,28 +47,38 @@ internal class SegmentViewModel @Inject constructor(
     private fun load(routineId: Long, segmentId: Long) {
         viewModelScope.launch {
             val routine = segmentUseCase.get(routineId = routineId)
-            state = reducer.setup(routine = routine, segmentId = segmentId)
+            updateState { reducer.setup(routine = routine, segmentId = segmentId) }
         }
     }
 
-    fun onSegmentNameTextChange(text: String) = runWhen<SegmentState.Data> { stateData ->
-        state = reducer.updateSegmentName(state = stateData, text = text)
+    fun onSegmentNameTextChange(text: String) {
+        updateStateWhen<SegmentState.Data> { stateData ->
+            reducer.updateSegmentName(state = stateData, text = text)
+        }
     }
 
-    fun onSegmentTimeChange(seconds: Seconds) = runWhen<SegmentState.Data> { stateData ->
-        state = reducer.updateSegmentTime(state = stateData, seconds = seconds)
+    fun onSegmentTimeChange(seconds: Seconds) {
+        updateStateWhen<SegmentState.Data> { stateData ->
+            reducer.updateSegmentTime(state = stateData, seconds = seconds)
+        }
     }
 
-    fun onSegmentTypeChange(timeType: TimeType) = runWhen<SegmentState.Data> { stateData ->
-        state = reducer.updateSegmentTimeType(state = stateData, timeType = timeType)
+    fun onSegmentTypeChange(timeType: TimeType) {
+        updateStateWhen<SegmentState.Data> { stateData ->
+            reducer.updateSegmentTimeType(state = stateData, timeType = timeType)
+        }
     }
 
-    fun onSegmentConfirmed() = runWhen<SegmentState.Data> { stateData ->
-        val errors = validator.validate(segment = stateData.segment)
-        if (errors.isEmpty()) {
-            save(routine = stateData.routine, segment = stateData.segment)
-        } else {
-            state = reducer.applySegmentErrors(state = stateData, errors = errors)
+    fun onSegmentConfirmed() {
+        runWhen<SegmentState.Data> { stateData ->
+            val errors = validator.validate(segment = stateData.segment)
+            if (errors.isEmpty()) {
+                save(routine = stateData.routine, segment = stateData.segment)
+            } else {
+                updateStateWhen<SegmentState.Data> {
+                    reducer.applySegmentErrors(state = it, errors = errors)
+                }
+            }
         }
     }
 

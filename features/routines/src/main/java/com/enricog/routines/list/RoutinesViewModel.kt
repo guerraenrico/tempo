@@ -32,7 +32,7 @@ internal class RoutinesViewModel @Inject constructor(
 
     private fun load() {
         routinesUseCase.getAll()
-            .onEach { routines -> state = reducer.setup(routines) }
+            .onEach { routines -> updateState { reducer.setup(routines) } }
             .launchIn(viewModelScope)
     }
 

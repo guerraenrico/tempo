@@ -41,15 +41,15 @@ class BaseViewModelTest {
         dispatchers = dispatchers
     ) {
         fun setState(value: TestState) {
-            state = value
+            updateState { value }
         }
 
         fun runSetState(value: TestState) = runWhen<TestState.Data> {
-            state = value
+            updateState { value }
         }
 
         fun launchSetState(value: TestState) = launchWhen<TestState.Data> {
-            state = value
+            updateState { value }
         }
     }
 
