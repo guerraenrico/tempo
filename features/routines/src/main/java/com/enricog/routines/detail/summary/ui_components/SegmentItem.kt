@@ -7,11 +7,15 @@ import androidx.compose.material.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.platform.testTag
+import androidx.compose.ui.tooling.preview.Preview
 import androidx.constraintlayout.compose.ConstraintLayout
 import androidx.constraintlayout.compose.Dimension
 import com.enricog.entities.routines.Segment
+import com.enricog.entities.routines.TimeType
+import com.enricog.entities.seconds
 import com.enricog.routines.detail.ui_components.TimeTypeChip
 import com.enricog.routines.ui_components.DeletableListItem
+import com.enricog.ui_components.extensions.format
 import com.enricog.ui_components.resources.TempoTheme
 
 internal const val SegmentItemTestTag = "SegmentItemTestTag"
@@ -29,7 +33,8 @@ internal fun SegmentItem(
         onDelete = { onDelete(segment) }
     ) {
         ConstraintLayout(
-            modifier = Modifier.fillMaxWidth()
+            modifier = Modifier
+                .fillMaxWidth()
                 .clickable { onClick(segment) }
                 .padding(TempoTheme.dimensions.spaceM)
         ) {
@@ -68,9 +73,25 @@ internal fun SegmentItem(
                         end.linkTo(parent.end)
                         bottom.linkTo(parent.bottom)
                     },
-                text = "${segment.time.value}s",
+                text = segment.time.format(),
                 style = TempoTheme.typography.h3
             )
         }
     }
+}
+
+@Preview
+@Composable
+private fun SegmentItemPreview() {
+    SegmentItem(
+        modifier = Modifier,
+        segment = Segment(
+            id = 0L,
+            name = "Segment name",
+            time = 100.seconds,
+            type = TimeType.REST
+        ),
+        onClick = {},
+        onDelete = {}
+    )
 }
