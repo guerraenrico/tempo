@@ -12,4 +12,10 @@ java {
 
 dependencies {
     implementation Libs.Kotlin.stdlib
+
+    testImplementation Libs.Test.junit
+}
+
+task testDebugUnitTest() {
+    dependsOn test
 }
