@@ -2,6 +2,7 @@ package com.enricog.routines.detail.routine
 
 import com.enricog.base_test.entities.routines.EMPTY
 import com.enricog.entities.routines.Routine
+import com.enricog.entities.routines.Routine.Companion.MAX_START_TIME_OFFSET
 import com.enricog.entities.seconds
 import com.enricog.routines.detail.routine.models.RoutineField
 import com.enricog.routines.detail.routine.models.RoutineFieldError
@@ -61,6 +62,24 @@ class RoutineReducerTest {
         )
 
         val result = sut.updateRoutineStartTimeOffset(state = state, seconds = 10.seconds)
+
+        assertEquals(expected, result)
+    }
+
+    @Test
+    fun `should return same state when seconds a more than max`() {
+        val expected = RoutineState.Data(
+            routine = Routine.EMPTY.copy(startTimeOffset = 0.seconds),
+            errors = mapOf(
+                RoutineField.Name to RoutineFieldError.BlankRoutineName,
+                RoutineField.StartTimeOffsetInSeconds to RoutineFieldError.InvalidRoutineStartTimeOffset
+            )
+        )
+
+        val result = sut.updateRoutineStartTimeOffset(
+            state = expected,
+            seconds = MAX_START_TIME_OFFSET + 1.seconds
+        )
 
         assertEquals(expected, result)
     }
