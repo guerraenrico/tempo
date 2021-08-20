@@ -5,4 +5,7 @@
 
     <string name="label_minutes">min</string>
     <string name="label_seconds">secs</string>
+
+    <string name="label_minutes_acronym">m</string>
+    <string name="label_seconds_acronym">s</string>
 </resources>

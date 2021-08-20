@@ -103,7 +103,7 @@ fun TempoTimeField(
                 label = stringResource(id = R.string.label_minutes),
                 leadingIcon = null,
                 trailingIcon = null,
-                errorMessage = errorMessage,
+                errorMessage = null,
                 keyboardOptions = KeyboardOptions(
                     keyboardType = KeyboardType.Number,
                     imeAction = ImeAction.Next
@@ -128,7 +128,7 @@ fun TempoTimeField(
                 label = stringResource(id = R.string.label_seconds),
                 leadingIcon = null,
                 trailingIcon = null,
-                errorMessage = errorMessage,
+                errorMessage = null,
                 keyboardOptions = KeyboardOptions(
                     keyboardType = KeyboardType.Number,
                     imeAction = imeAction
@@ -143,6 +143,9 @@ fun TempoTimeField(
                     topStart = ZeroCornerSize
                 )
             )
+        }
+        if (errorMessage != null) {
+            TempoTextFieldBaseErrorText(errorMessage)
         }
     }
 }

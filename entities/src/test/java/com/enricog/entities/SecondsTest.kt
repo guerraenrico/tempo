@@ -3,6 +3,7 @@ package com.enricog.entities
 import org.junit.Assert.assertEquals
 import org.junit.Test
 
+
 class SecondsTest {
 
     @Test
