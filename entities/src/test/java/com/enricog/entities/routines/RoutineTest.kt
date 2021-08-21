@@ -29,6 +29,23 @@ class RoutineTest {
         )
     }
 
+    @Test
+    fun `on instantiation should throw exception when start offset time is less than zero`() {
+        val startTimeOffset = (-1).seconds
+
+        exceptionRule.expect(IllegalArgumentException::class.java)
+        exceptionRule.expectMessage("startTimeOffset must be positive")
+
+        Routine(
+            id = 0,
+            name = "",
+            startTimeOffset = startTimeOffset,
+            createdAt = OffsetDateTime.MAX,
+            updatedAt = OffsetDateTime.MAX,
+            segments = emptyList()
+        )
+    }
+
     @Suppress("UnusedDataClassCopyResult")
     @Test
     fun `on copy should throw exception when start offset time is more than max`() {
@@ -36,6 +53,25 @@ class RoutineTest {
 
         exceptionRule.expect(IllegalArgumentException::class.java)
         exceptionRule.expectMessage("startTimeOffset value exceed the maximum value")
+
+        val routine = Routine(
+            id = 0,
+            name = "",
+            startTimeOffset = 50.seconds,
+            createdAt = OffsetDateTime.MAX,
+            updatedAt = OffsetDateTime.MAX,
+            segments = emptyList()
+        )
+        routine.copy(startTimeOffset = startTimeOffset)
+    }
+
+    @Suppress("UnusedDataClassCopyResult")
+    @Test
+    fun `on copy should throw exception when start offset time is less that zero`() {
+        val startTimeOffset = (-1).seconds
+
+        exceptionRule.expect(IllegalArgumentException::class.java)
+        exceptionRule.expectMessage("startTimeOffset must be positive")
 
         val routine = Routine(
             id = 0,

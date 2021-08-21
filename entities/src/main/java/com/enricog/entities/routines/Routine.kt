@@ -17,6 +17,9 @@ data class Routine(
         require(value = startTimeOffset <= MAX_START_TIME_OFFSET) {
             "startTimeOffset value exceed the maximum value"
         }
+        require(value = startTimeOffset >= 0.seconds) {
+            "startTimeOffset must be positive"
+        }
     }
 
     companion object {
