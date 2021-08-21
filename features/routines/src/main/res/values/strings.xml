@@ -9,7 +9,7 @@
     <string name="button_save">Save</string>
 
     <string name="field_label_routine_name">Routine name</string>
-    <string name="field_label_routine_start_time_offset">Start segment after</string>
+    <string name="field_label_routine_start_time_offset">Delay between each segment</string>
     <string name="field_label_routine_segments">SEGMENTS</string>
     <string name="field_label_segment_name">Segment name</string>
     <string name="field_label_segment_time">Duration</string>
