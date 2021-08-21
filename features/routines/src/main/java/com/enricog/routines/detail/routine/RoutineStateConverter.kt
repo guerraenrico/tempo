@@ -25,10 +25,7 @@ internal class RoutineStateConverter @Inject constructor() :
     }
 
     private val RoutineFieldError.stringResourceId: Int
-        get() {
-            return when (this) {
-                RoutineFieldError.BlankRoutineName -> R.string.field_error_message_routine_name_blank
-                RoutineFieldError.InvalidRoutineStartTimeOffset -> R.string.field_error_message_routine_start_time_offset_invalid
-            }
+        get() = when (this) {
+            RoutineFieldError.BlankRoutineName -> R.string.field_error_message_routine_name_blank
         }
 }

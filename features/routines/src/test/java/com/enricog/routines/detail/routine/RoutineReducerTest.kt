@@ -28,16 +28,11 @@ class RoutineReducerTest {
     fun `should update routine name and remove field name error`() {
         val state = RoutineState.Data(
             routine = Routine.EMPTY.copy(name = ""),
-            errors = mapOf(
-                RoutineField.Name to RoutineFieldError.BlankRoutineName,
-                RoutineField.StartTimeOffsetInSeconds to RoutineFieldError.InvalidRoutineStartTimeOffset
-            )
+            errors = mapOf(RoutineField.Name to RoutineFieldError.BlankRoutineName)
         )
         val expected = RoutineState.Data(
             routine = Routine.EMPTY.copy(name = "name"),
-            errors = mapOf(
-                RoutineField.StartTimeOffsetInSeconds to RoutineFieldError.InvalidRoutineStartTimeOffset
-            )
+            errors = emptyMap()
         )
 
         val result = sut.updateRoutineName(state = state, text = "name")
@@ -51,7 +46,6 @@ class RoutineReducerTest {
             routine = Routine.EMPTY.copy(startTimeOffset = 0.seconds),
             errors = mapOf(
                 RoutineField.Name to RoutineFieldError.BlankRoutineName,
-                RoutineField.StartTimeOffsetInSeconds to RoutineFieldError.InvalidRoutineStartTimeOffset
             )
         )
         val expected = RoutineState.Data(
@@ -72,7 +66,6 @@ class RoutineReducerTest {
             routine = Routine.EMPTY.copy(startTimeOffset = 0.seconds),
             errors = mapOf(
                 RoutineField.Name to RoutineFieldError.BlankRoutineName,
-                RoutineField.StartTimeOffsetInSeconds to RoutineFieldError.InvalidRoutineStartTimeOffset
             )
         )
 
@@ -86,9 +79,8 @@ class RoutineReducerTest {
 
     @Test
     fun `should apply routine errors`() {
-        val errors = mapOf(
+        val errors = mapOf<RoutineField, RoutineFieldError>(
             RoutineField.Name to RoutineFieldError.BlankRoutineName,
-            RoutineField.StartTimeOffsetInSeconds to RoutineFieldError.InvalidRoutineStartTimeOffset
         )
         val state = RoutineState.Data(
             routine = Routine.EMPTY.copy(name = ""),

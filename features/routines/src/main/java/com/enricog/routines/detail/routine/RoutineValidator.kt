@@ -13,12 +13,6 @@ internal class RoutineValidator @Inject constructor() {
             if (routine.name.isBlank()) {
                 put(RoutineField.Name, RoutineFieldError.BlankRoutineName)
             }
-            if (routine.startTimeOffset < 0.seconds) {
-                put(
-                    RoutineField.StartTimeOffsetInSeconds,
-                    RoutineFieldError.InvalidRoutineStartTimeOffset
-                )
-            }
         }
     }
 }

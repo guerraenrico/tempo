@@ -16,7 +16,6 @@
     <string name="field_label_segment_type">Timer type</string>
 
     <string name="field_error_message_routine_name_blank">Routine name must not be blank</string>
-    <string name="field_error_message_routine_start_time_offset_invalid">Start time offset must be a number greater or equal zero</string>
     <string name="field_error_message_routine_no_segments">Create a new segment</string>
     <string name="field_error_message_segment_name_blank">Segment name must not be blank</string>
     <string name="field_error_message_segment_time_invalid">Timer must be a number greater than 0</string>
