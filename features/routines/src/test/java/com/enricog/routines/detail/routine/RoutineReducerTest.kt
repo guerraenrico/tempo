@@ -2,6 +2,7 @@ package com.enricog.routines.detail.routine
 
 import com.enricog.base_test.entities.routines.EMPTY
 import com.enricog.entities.routines.Routine
+import com.enricog.entities.routines.Routine.Companion.MAX_START_TIME_OFFSET
 import com.enricog.entities.seconds
 import com.enricog.routines.detail.routine.models.RoutineField
 import com.enricog.routines.detail.routine.models.RoutineFieldError
@@ -27,16 +28,11 @@ class RoutineReducerTest {
     fun `should update routine name and remove field name error`() {
         val state = RoutineState.Data(
             routine = Routine.EMPTY.copy(name = ""),
-            errors = mapOf(
-                RoutineField.Name to RoutineFieldError.BlankRoutineName,
-                RoutineField.StartTimeOffsetInSeconds to RoutineFieldError.InvalidRoutineStartTimeOffset
-            )
+            errors = mapOf(RoutineField.Name to RoutineFieldError.BlankRoutineName)
         )
         val expected = RoutineState.Data(
             routine = Routine.EMPTY.copy(name = "name"),
-            errors = mapOf(
-                RoutineField.StartTimeOffsetInSeconds to RoutineFieldError.InvalidRoutineStartTimeOffset
-            )
+            errors = emptyMap()
         )
 
         val result = sut.updateRoutineName(state = state, text = "name")
@@ -50,7 +46,6 @@ class RoutineReducerTest {
             routine = Routine.EMPTY.copy(startTimeOffset = 0.seconds),
             errors = mapOf(
                 RoutineField.Name to RoutineFieldError.BlankRoutineName,
-                RoutineField.StartTimeOffsetInSeconds to RoutineFieldError.InvalidRoutineStartTimeOffset
             )
         )
         val expected = RoutineState.Data(
@@ -66,10 +61,26 @@ class RoutineReducerTest {
     }
 
     @Test
+    fun `should return same state when seconds a more than max`() {
+        val expected = RoutineState.Data(
+            routine = Routine.EMPTY.copy(startTimeOffset = 0.seconds),
+            errors = mapOf(
+                RoutineField.Name to RoutineFieldError.BlankRoutineName,
+            )
+        )
+
+        val result = sut.updateRoutineStartTimeOffset(
+            state = expected,
+            seconds = MAX_START_TIME_OFFSET + 1.seconds
+        )
+
+        assertEquals(expected, result)
+    }
+
+    @Test
     fun `should apply routine errors`() {
-        val errors = mapOf(
+        val errors = mapOf<RoutineField, RoutineFieldError>(
             RoutineField.Name to RoutineFieldError.BlankRoutineName,
-            RoutineField.StartTimeOffsetInSeconds to RoutineFieldError.InvalidRoutineStartTimeOffset
         )
         val state = RoutineState.Data(
             routine = Routine.EMPTY.copy(name = ""),

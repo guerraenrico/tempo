@@ -35,14 +35,12 @@ class RoutineStateConverterTest {
             routine = Routine.EMPTY,
             errors = mapOf(
                 RoutineField.Name to RoutineFieldError.BlankRoutineName,
-                RoutineField.StartTimeOffsetInSeconds to RoutineFieldError.InvalidRoutineStartTimeOffset
             )
         )
         val expected = RoutineViewState.Data(
             routine = Routine.EMPTY,
             errors = mapOf(
                 RoutineField.Name to R.string.field_error_message_routine_name_blank,
-                RoutineField.StartTimeOffsetInSeconds to R.string.field_error_message_routine_start_time_offset_invalid
             )
         )
 

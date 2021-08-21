@@ -9,6 +9,13 @@ data class Segment(
     val time: Seconds,
     val type: TimeType
 ) {
+
+    init {
+        require(value = time >= 0.seconds) {
+            "time must be positive"
+        }
+    }
+
     companion object {
         val NEW: Segment
             get() {
