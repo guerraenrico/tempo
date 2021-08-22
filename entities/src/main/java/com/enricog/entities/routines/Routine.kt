@@ -25,12 +25,13 @@ data class Routine(
     companion object {
         val NEW: Routine
             get() {
+                val now = OffsetDateTime.now()
                 return Routine(
                     id = 0,
                     name = "",
                     startTimeOffset = 0.seconds,
-                    createdAt = OffsetDateTime.MAX,
-                    updatedAt = OffsetDateTime.MAX,
+                    createdAt = now,
+                    updatedAt = now,
                     segments = emptyList()
                 )
             }
