@@ -1,65 +1,36 @@
 package com.enricog.routines
 
 import androidx.navigation.NavGraphBuilder
-import androidx.navigation.NavType
-import androidx.navigation.compose.composable
-import androidx.navigation.compose.navArgument
 import androidx.navigation.navigation
+import com.enricog.navigation.extensions.navViewModel
+import com.enricog.navigation.routes.RoutinesRoute
 import com.enricog.routines.detail.routine.RoutineScreen
 import com.enricog.routines.detail.segment.SegmentScreen
 import com.enricog.routines.detail.summary.RoutineSummaryScreen
 import com.enricog.routines.list.RoutinesScreen
-import com.enricog.routines.navigation.RoutinesNavigationConstants.Routine
-import com.enricog.routines.navigation.RoutinesNavigationConstants.RoutineSummary
-import com.enricog.routines.navigation.RoutinesNavigationConstants.Routines
-import com.enricog.routines.navigation.RoutinesNavigationConstants.Segment
-import com.enricog.ui_components.navigation.navViewModel
+import com.enricog.navigation.routes.RoutineRoute.compose as composeRoutine
+import com.enricog.navigation.routes.RoutineSummaryRoute.compose as composeRoutineSummary
+import com.enricog.navigation.routes.RoutinesRoute.compose as composeRoutines
+import com.enricog.navigation.routes.SegmentRoute.compose as composeSegment
 
 fun NavGraphBuilder.RoutinesNavigation() {
     navigation(
-        startDestination = Routines.routeName,
+        startDestination = RoutinesRoute.name,
         route = "routinesNav"
     ) {
-        composable(
-            route = Routines.routeName,
-            arguments = emptyList()
-        ) {
+        composeRoutines {
             RoutinesScreen(viewModel = navViewModel(it))
         }
 
-        composable(
-            route = RoutineSummary.routeName,
-            arguments = listOf(
-                navArgument(RoutineSummary.routeIdParamName) {
-                    type = NavType.LongType; defaultValue = 0L
-                }
-            )
-        ) {
+        composeRoutineSummary {
             RoutineSummaryScreen(viewModel = navViewModel(it))
         }
 
-        composable(
-            route = Routine.routeName,
-            arguments = listOf(
-                navArgument(Routine.routeIdParamName) {
-                    type = NavType.LongType; defaultValue = 0L
-                }
-            )
-        ) {
+        composeRoutine {
             RoutineScreen(viewModel = navViewModel(it))
         }
 
-        composable(
-            route = Segment.routeName,
-            arguments = listOf(
-                navArgument(Segment.routeIdParamName) {
-                    type = NavType.LongType; defaultValue = 0L
-                },
-                navArgument(Segment.segmentIdParamName) {
-                    type = NavType.LongType; defaultValue = 0L
-                }
-            )
-        ) {
+        composeSegment {
             SegmentScreen(viewModel = navViewModel(it))
         }
     }

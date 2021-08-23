@@ -10,7 +10,7 @@ import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.rememberNavController
 import com.enricog.core.coroutine.dispatchers.CoroutineDispatchers
 import com.enricog.routines.RoutinesNavigation
-import com.enricog.tempo.navigation.Navigator
+import com.enricog.tempo.navigation.NavigatorImpl
 import com.enricog.timer.TimerNavigation
 import com.enricog.timer.WindowScreenManager
 import com.enricog.ui_components.resources.TempoTheme
@@ -24,7 +24,7 @@ import kotlinx.coroutines.flow.onEach
 internal class MainActivity : ComponentActivity() {
 
     @Inject
-    lateinit var navigator: Navigator
+    lateinit var navigator: NavigatorImpl
 
     @Inject
     lateinit var windowScreenManager: WindowScreenManager

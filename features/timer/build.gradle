@@ -45,6 +45,7 @@ dependencies {
     implementation project(":ui_components")
     implementation project(":entities")
     implementation project(":data:datasource")
+    implementation project(":navigation")
 
     implementation Libs.AndroidX.appCompat
     implementation Libs.AndroidX.coreKtx
