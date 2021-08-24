@@ -8,7 +8,7 @@ import androidx.navigation.NavType
 import androidx.navigation.compose.composable
 import androidx.navigation.compose.navArgument
 import androidx.navigation.navOptions
-import com.enricog.navigation.RouteNavigation
+import com.enricog.navigation.NavigationAction
 import com.enricog.navigation.routes.RoutineRoute.Params.routineId
 
 object RoutineRoute : Route<RoutineRouteInput> {
@@ -33,7 +33,7 @@ object RoutineRoute : Route<RoutineRouteInput> {
     override fun navigate(
         input: RoutineRouteInput,
         optionsBuilder: (NavOptionsBuilder.() -> Unit)?
-    ): RouteNavigation {
+    ): NavigationAction {
         val route = buildString {
             append("routine/edit")
             if (input.routineId != null) {
@@ -41,7 +41,7 @@ object RoutineRoute : Route<RoutineRouteInput> {
             }
         }
         val options = optionsBuilder?.let { navOptions(it) }
-        return RouteNavigation(route = route, navOptions = options)
+        return NavigationAction.GoTo(route = route, navOptions = options)
     }
 }
 

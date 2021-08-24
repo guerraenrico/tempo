@@ -1,9 +1,9 @@
 package com.enricog.routines.navigation
 
 internal interface RoutinesNavigationActions {
-    fun routinesBack()
-    fun goToRoutineSummary(routineId: Long)
-    fun goToRoutine(routineId: Long?)
-    fun goToSegment(routineId: Long, segmentId: Long?)
-    fun goToTimer(routineId: Long)
+    suspend fun routinesBack()
+    suspend fun goToRoutineSummary(routineId: Long)
+    suspend fun goToRoutine(routineId: Long?)
+    suspend fun goToSegment(routineId: Long, segmentId: Long?)
+    suspend fun goToTimer(routineId: Long)
 }

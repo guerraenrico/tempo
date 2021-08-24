@@ -5,7 +5,7 @@ import androidx.navigation.NavBackStackEntry
 import androidx.navigation.NavGraphBuilder
 import androidx.navigation.NavOptionsBuilder
 import androidx.navigation.compose.composable
-import com.enricog.navigation.RouteNavigation
+import com.enricog.navigation.NavigationAction
 
 object RoutinesRoute : Route<RoutinesRouteInput> {
     override val name: String = "routines"
@@ -21,8 +21,8 @@ object RoutinesRoute : Route<RoutinesRouteInput> {
     override fun navigate(
         input: RoutinesRouteInput,
         optionsBuilder: (NavOptionsBuilder.() -> Unit)?
-    ): RouteNavigation {
-        return RouteNavigation(route = "routines", navOptions = null)
+    ): NavigationAction {
+        return NavigationAction.GoTo(route = "routines", navOptions = null)
     }
 }
 

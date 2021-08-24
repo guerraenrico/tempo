@@ -8,7 +8,7 @@ import androidx.navigation.NavType
 import androidx.navigation.compose.composable
 import androidx.navigation.compose.navArgument
 import androidx.navigation.navOptions
-import com.enricog.navigation.RouteNavigation
+import com.enricog.navigation.NavigationAction
 import com.enricog.navigation.routes.TimerRoute.Params.routineId
 
 object TimerRoute : Route<TimerRouteInput> {
@@ -33,10 +33,10 @@ object TimerRoute : Route<TimerRouteInput> {
     override fun navigate(
         input: TimerRouteInput,
         optionsBuilder: (NavOptionsBuilder.() -> Unit)?
-    ): RouteNavigation {
+    ): NavigationAction {
         val route = "timer/${input.routineId}"
         val options = optionsBuilder?.let { navOptions(it) }
-        return RouteNavigation(route = route, navOptions = options)
+        return NavigationAction.GoTo(route = route, navOptions = options)
     }
 }
 

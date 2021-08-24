@@ -1,6 +1,9 @@
 package com.enricog.navigation
 
+import kotlinx.coroutines.flow.Flow
+
 interface Navigator {
-    fun goBack()
-    fun goTo(routeNavigation: RouteNavigation)
+    val actions: Flow<NavigationAction>
+
+    suspend fun navigate(action: NavigationAction)
 }

@@ -1,22 +1,17 @@
 package com.enricog.tempo.navigation
 
-import androidx.navigation.NavController
+import com.enricog.navigation.NavigationAction
 import com.enricog.navigation.Navigator
-import com.enricog.navigation.RouteNavigation
 import javax.inject.Inject
+import kotlinx.coroutines.flow.Flow
+import kotlinx.coroutines.flow.MutableSharedFlow
 
 internal class NavigatorImpl @Inject constructor() : Navigator {
 
-    var navController: NavController? = null
+    private val _actions = MutableSharedFlow<NavigationAction>()
+    override val actions: Flow<NavigationAction> = _actions
 
-    override fun goBack() {
-        navController?.popBackStack()
-    }
-
-    override fun goTo(routeNavigation: RouteNavigation) {
-        navController?.navigate(
-            route = routeNavigation.route,
-            navOptions = routeNavigation.navOptions
-        )
+    override suspend fun navigate(action: NavigationAction) {
+        _actions.emit(action)
     }
 }

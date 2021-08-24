@@ -8,7 +8,7 @@ import androidx.navigation.NavType
 import androidx.navigation.compose.composable
 import androidx.navigation.compose.navArgument
 import androidx.navigation.navOptions
-import com.enricog.navigation.RouteNavigation
+import com.enricog.navigation.NavigationAction
 import com.enricog.navigation.routes.SegmentRoute.Params.routeId
 import com.enricog.navigation.routes.SegmentRoute.Params.segmentId
 
@@ -38,7 +38,7 @@ object SegmentRoute : Route<SegmentRouteInput> {
     override fun navigate(
         input: SegmentRouteInput,
         optionsBuilder: (NavOptionsBuilder.() -> Unit)?
-    ): RouteNavigation {
+    ): NavigationAction {
         val route = buildString {
             append("routine/${input.routineId}/segment/edit")
             if (input.segmentId != null) {
@@ -46,7 +46,7 @@ object SegmentRoute : Route<SegmentRouteInput> {
             }
         }
         val options = optionsBuilder?.let { navOptions(it) }
-        return RouteNavigation(route = route, navOptions = options)
+        return NavigationAction.GoTo(route = route, navOptions = options)
     }
 }
 

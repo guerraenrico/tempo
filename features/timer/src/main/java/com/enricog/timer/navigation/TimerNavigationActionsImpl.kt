@@ -10,10 +10,10 @@ internal class TimerNavigationActionsImpl @Inject constructor(
     private val navigator: Navigator
 ) : TimerNavigationActions {
 
-    override fun backToRoutines() {
+    override suspend fun backToRoutines() {
         val routeNavigation = RoutinesRoute.navigate(RoutinesRouteInput) {
             popUpTo(TimerRoute.name) { inclusive = true }
         }
-        navigator.goTo(routeNavigation)
+        navigator.navigate(routeNavigation)
     }
 }
