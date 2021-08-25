@@ -1,19 +1,17 @@
 package com.enricog.tempo.navigation
 
 import com.enricog.navigation.Navigator
+import dagger.Binds
 import dagger.Module
-import dagger.Provides
 import dagger.hilt.InstallIn
 import dagger.hilt.components.SingletonComponent
 import javax.inject.Singleton
 
 @InstallIn(SingletonComponent::class)
 @Module
-internal object NavigationModule {
+internal abstract class NavigationModule {
 
-    @Provides
+    @Binds
     @Singleton
-    fun provideNavigator(): Navigator {
-        return NavigatorImpl()
-    }
+    abstract fun provideNavigator(impl: NavigatorImpl): Navigator
 }

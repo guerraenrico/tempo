@@ -10,12 +10,12 @@ import com.enricog.entities.Seconds
 import com.enricog.entities.routines.Routine
 import com.enricog.entities.routines.Segment
 import com.enricog.entities.routines.TimeType
+import com.enricog.navigation.routes.SegmentRoute
+import com.enricog.navigation.routes.SegmentRouteInput
 import com.enricog.routines.detail.segment.models.SegmentState
 import com.enricog.routines.detail.segment.models.SegmentViewState
 import com.enricog.routines.detail.segment.usecase.SegmentUseCase
 import com.enricog.routines.navigation.RoutinesNavigationActions
-import com.enricog.routines.navigation.RoutinesNavigationConstants.Segment.routeIdParamName
-import com.enricog.routines.navigation.RoutinesNavigationConstants.Segment.segmentIdParamName
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.launch
 import javax.inject.Inject
@@ -39,15 +39,14 @@ internal class SegmentViewModel @Inject constructor(
     private var saveJob by autoCancelableJob()
 
     init {
-        val routineId = savedStateHandle.get<Long>(routeIdParamName)!!
-        val segmentId = savedStateHandle.get<Long>(segmentIdParamName)!!
-        load(routineId, segmentId)
+        val input = SegmentRoute.extractInput(savedStateHandle)
+        load(input)
     }
 
-    private fun load(routineId: Long, segmentId: Long) {
+    private fun load(input: SegmentRouteInput) {
         viewModelScope.launch {
-            val routine = segmentUseCase.get(routineId = routineId)
-            updateState { reducer.setup(routine = routine, segmentId = segmentId) }
+            val routine = segmentUseCase.get(routineId = input.routineId)
+            updateState { reducer.setup(routine = routine, segmentId = input.segmentId!!) }
         }
     }
 
@@ -89,7 +88,7 @@ internal class SegmentViewModel @Inject constructor(
         }
     }
 
-    fun onSegmentBack() = runWhen<SegmentState.Data> {
+    fun onSegmentBack() = launchWhen<SegmentState.Data> {
         navigationActions.routinesBack()
     }
 }

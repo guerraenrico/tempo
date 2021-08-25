@@ -1,6 +1,5 @@
 package com.enricog.routines.navigation
 
-import com.enricog.navigation.NavigationAction
 import com.enricog.navigation.NavigationAction.GoBack
 import com.enricog.navigation.Navigator
 import com.enricog.navigation.routes.RoutineRoute

@@ -5,11 +5,12 @@ import androidx.lifecycle.viewModelScope
 import com.enricog.base_android.viewmodel.BaseViewModel
 import com.enricog.core.coroutine.dispatchers.CoroutineDispatchers
 import com.enricog.entities.routines.Segment
+import com.enricog.navigation.routes.RoutineSummaryRoute
+import com.enricog.navigation.routes.RoutineSummaryRouteInput
 import com.enricog.routines.detail.summary.models.RoutineSummaryState
 import com.enricog.routines.detail.summary.models.RoutineSummaryViewState
 import com.enricog.routines.detail.summary.usecase.RoutineSummaryUseCase
 import com.enricog.routines.navigation.RoutinesNavigationActions
-import com.enricog.routines.navigation.RoutinesNavigationConstants.RoutineSummary.routeIdParamName
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.launchIn
 import kotlinx.coroutines.flow.onEach
@@ -32,23 +33,23 @@ internal class RoutineSummaryViewModel @Inject constructor(
 ) {
 
     init {
-        val routineId = savedStateHandle.get<Long>(routeIdParamName)!!
-        load(routineId)
+        val input = RoutineSummaryRoute.extractInput(savedStateHandle)
+        load(input)
     }
 
-    private fun load(routineId: Long) {
-        routineSummaryUseCase.get(routineId)
+    private fun load(input: RoutineSummaryRouteInput) {
+        routineSummaryUseCase.get(input.routineId)
             .onEach { routine ->
                 updateState { reducer.setup(routine = routine) }
             }
             .launchIn(viewModelScope)
     }
 
-    fun onSegmentAdd() = runWhen<RoutineSummaryState.Data> { stateData ->
+    fun onSegmentAdd() = launchWhen<RoutineSummaryState.Data> { stateData ->
         navigationActions.goToSegment(routineId = stateData.routine.id, segmentId = null)
     }
 
-    fun onSegmentSelected(segment: Segment) = runWhen<RoutineSummaryState.Data> { stateData ->
+    fun onSegmentSelected(segment: Segment) = launchWhen<RoutineSummaryState.Data> { stateData ->
         navigationActions.goToSegment(routineId = stateData.routine.id, segmentId = segment.id)
     }
 
@@ -63,7 +64,7 @@ internal class RoutineSummaryViewModel @Inject constructor(
         }
     }
 
-    fun onRoutineStart() = runWhen<RoutineSummaryState.Data> { stateData ->
+    fun onRoutineStart() = launchWhen<RoutineSummaryState.Data> { stateData ->
         val errors = validator.validate(routine = stateData.routine)
         if (errors.isEmpty()) {
             navigationActions.goToTimer(routineId = stateData.routine.id)
@@ -74,11 +75,11 @@ internal class RoutineSummaryViewModel @Inject constructor(
         }
     }
 
-    fun onRoutineEdit() = runWhen<RoutineSummaryState.Data> { stateData ->
+    fun onRoutineEdit() = launchWhen<RoutineSummaryState.Data> { stateData ->
         navigationActions.goToRoutine(routineId = stateData.routine.id)
     }
 
-    fun onBack() {
+    fun onBack() = launch {
         navigationActions.routinesBack()
     }
 }

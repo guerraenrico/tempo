@@ -1,6 +1,7 @@
 package com.enricog.navigation.routes
 
 import androidx.compose.runtime.Composable
+import androidx.lifecycle.SavedStateHandle
 import androidx.navigation.NavBackStackEntry
 import androidx.navigation.NavGraphBuilder
 import androidx.navigation.NavOptionsBuilder
@@ -37,6 +38,10 @@ object TimerRoute : Route<TimerRouteInput> {
         val route = "timer/${input.routineId}"
         val options = optionsBuilder?.let { navOptions(it) }
         return NavigationAction.GoTo(route = route, navOptions = options)
+    }
+
+    override fun extractInput(savedStateHandle: SavedStateHandle): TimerRouteInput {
+        return TimerRouteInput(routineId = savedStateHandle.get<Long>(routineId)!!)
     }
 }
 

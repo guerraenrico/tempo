@@ -1,6 +1,7 @@
 package com.enricog.navigation.routes
 
 import androidx.compose.runtime.Composable
+import androidx.lifecycle.SavedStateHandle
 import androidx.navigation.NavBackStackEntry
 import androidx.navigation.NavGraphBuilder
 import androidx.navigation.NavOptionsBuilder
@@ -42,6 +43,10 @@ object RoutineRoute : Route<RoutineRouteInput> {
         }
         val options = optionsBuilder?.let { navOptions(it) }
         return NavigationAction.GoTo(route = route, navOptions = options)
+    }
+
+    override fun extractInput(savedStateHandle: SavedStateHandle): RoutineRouteInput {
+        return RoutineRouteInput(routineId = savedStateHandle.get<Long>(routineId)!!)
     }
 }
 

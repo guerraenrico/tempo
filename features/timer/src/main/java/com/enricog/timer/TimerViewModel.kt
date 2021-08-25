@@ -7,11 +7,12 @@ import com.enricog.base_android.viewmodel.BaseViewModel
 import com.enricog.core.coroutine.dispatchers.CoroutineDispatchers
 import com.enricog.core.coroutine.job.autoCancelableJob
 import com.enricog.entities.routines.Routine
+import com.enricog.navigation.routes.TimerRoute
+import com.enricog.navigation.routes.TimerRouteInput
 import com.enricog.timer.models.TimerActions
 import com.enricog.timer.models.TimerState
 import com.enricog.timer.models.TimerViewState
 import com.enricog.timer.navigation.TimerNavigationActions
-import com.enricog.timer.navigation.TimerNavigationConstants
 import com.enricog.timer.usecase.TimerUseCase
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.delay
@@ -41,13 +42,13 @@ internal class TimerViewModel @Inject constructor(
     private var startJob by autoCancelableJob()
 
     init {
-        val routineId = savedStateHandle.get<Long>(TimerNavigationConstants.routeIdParamName)!!
-        load(routineId)
+        val input = TimerRoute.extractInput(savedStateHandle)
+        load(input)
     }
 
-    private fun load(routineId: Long) {
+    private fun load(input: TimerRouteInput) {
         loadJob = viewModelScope.launch {
-            val routine = timerUseCase.get(routineId)
+            val routine = timerUseCase.get(input.routineId)
             start(routine)
         }
     }
@@ -74,7 +75,7 @@ internal class TimerViewModel @Inject constructor(
         start(state.routine)
     }
 
-    override fun onDoneButtonClick() {
+    override fun onDoneButtonClick() = launch {
         navigationActions.backToRoutines()
     }
 
@@ -94,7 +95,7 @@ internal class TimerViewModel @Inject constructor(
         stopCounting()
     }
 
-    override fun onCloseButtonClick() {
+    override fun onCloseButtonClick() = launch {
         stopCounting()
         navigationActions.backToRoutines()
     }

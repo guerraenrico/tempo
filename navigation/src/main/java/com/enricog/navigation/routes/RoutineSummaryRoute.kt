@@ -1,6 +1,7 @@
 package com.enricog.navigation.routes
 
 import androidx.compose.runtime.Composable
+import androidx.lifecycle.SavedStateHandle
 import androidx.navigation.NavBackStackEntry
 import androidx.navigation.NavGraphBuilder
 import androidx.navigation.NavOptionsBuilder
@@ -37,6 +38,12 @@ object RoutineSummaryRoute : Route<RoutineSummaryRouteInput> {
         val route = "routine/${input.routineId}/summary"
         val options = optionsBuilder?.let { navOptions(it) }
         return NavigationAction.GoTo(route = route, navOptions = options)
+    }
+
+    override fun extractInput(savedStateHandle: SavedStateHandle): RoutineSummaryRouteInput {
+        return RoutineSummaryRouteInput(
+            routineId = savedStateHandle.get<Long>(routineId)!!
+        )
     }
 }
 

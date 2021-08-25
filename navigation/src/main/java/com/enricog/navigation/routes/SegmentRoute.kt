@@ -1,6 +1,7 @@
 package com.enricog.navigation.routes
 
 import androidx.compose.runtime.Composable
+import androidx.lifecycle.SavedStateHandle
 import androidx.navigation.NavBackStackEntry
 import androidx.navigation.NavGraphBuilder
 import androidx.navigation.NavOptionsBuilder
@@ -47,6 +48,13 @@ object SegmentRoute : Route<SegmentRouteInput> {
         }
         val options = optionsBuilder?.let { navOptions(it) }
         return NavigationAction.GoTo(route = route, navOptions = options)
+    }
+
+    override fun extractInput(savedStateHandle: SavedStateHandle): SegmentRouteInput {
+        return SegmentRouteInput(
+            routineId = savedStateHandle.get<Long>(routeId)!!,
+            segmentId = savedStateHandle.get<Long>(segmentId)!!
+        )
     }
 }
 

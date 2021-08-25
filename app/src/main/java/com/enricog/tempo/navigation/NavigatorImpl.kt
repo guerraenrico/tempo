@@ -9,6 +9,7 @@ import kotlinx.coroutines.flow.MutableSharedFlow
 internal class NavigatorImpl @Inject constructor() : Navigator {
 
     private val _actions = MutableSharedFlow<NavigationAction>()
+
     override val actions: Flow<NavigationAction> = _actions
 
     override suspend fun navigate(action: NavigationAction) {

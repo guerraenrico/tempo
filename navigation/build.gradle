@@ -38,6 +38,7 @@ dependencies {
     implementation Libs.Kotlin.coroutines
 
     implementation Libs.AndroidX.Compose.navigation
+    implementation Libs.AndroidX.Compose.runtime
     implementation Libs.Hilt.navigation
 
     testImplementation Libs.Kotlin.Test.coroutines
