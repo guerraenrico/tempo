@@ -11,7 +11,6 @@ import com.enricog.routines.detail.summary.models.RoutineSummaryState
 import com.enricog.routines.detail.summary.models.RoutineSummaryViewState
 import com.enricog.routines.detail.summary.usecase.RoutineSummaryUseCase
 import com.enricog.routines.navigation.RoutinesNavigationActions
-import com.enricog.routines.navigation.RoutinesNavigationConstants.RoutineSummary.routeIdParamName
 import io.mockk.Called
 import io.mockk.coEvery
 import io.mockk.coVerify
@@ -33,7 +32,7 @@ class RoutineSummaryViewModelTest {
     private val reducer: RoutineSummaryReducer = mockk()
     private val routineSummaryUseCase: RoutineSummaryUseCase = mockk(relaxUnitFun = true)
     private val validator: RoutineSummaryValidator = mockk()
-    private val savedStateHandle = SavedStateHandle(mapOf(routeIdParamName to 1L))
+    private val savedStateHandle = SavedStateHandle(mapOf("routineId" to 1L))
 
     @Before
     fun setup() {
@@ -63,7 +62,7 @@ class RoutineSummaryViewModelTest {
 
         sut.onSegmentAdd()
 
-        verify { navigationActions.goToSegment(routineId = 1, segmentId = null) }
+        coVerify { navigationActions.goToSegment(routineId = 1, segmentId = null) }
     }
 
     @Test
@@ -78,7 +77,7 @@ class RoutineSummaryViewModelTest {
 
         sut.onSegmentSelected(Segment.EMPTY.copy(id = 2))
 
-        verify { navigationActions.goToSegment(routineId = 1, segmentId = 2) }
+        coVerify { navigationActions.goToSegment(routineId = 1, segmentId = 2) }
     }
 
     @Test
@@ -107,7 +106,7 @@ class RoutineSummaryViewModelTest {
 
         sut.onRoutineStart()
 
-        verify {
+        coVerify {
             validator.validate(routine = routine)
             navigationActions.goToTimer(routineId = 1)
         }
@@ -147,7 +146,7 @@ class RoutineSummaryViewModelTest {
 
         sut.onRoutineEdit()
 
-        verify { navigationActions.goToRoutine(routineId = 1) }
+        coVerify { navigationActions.goToRoutine(routineId = 1) }
     }
 
     @Test
@@ -156,7 +155,7 @@ class RoutineSummaryViewModelTest {
 
         sut.onBack()
 
-        verify { navigationActions.routinesBack() }
+        coVerify { navigationActions.routinesBack() }
     }
 
     private fun buildSut(): RoutineSummaryViewModel {

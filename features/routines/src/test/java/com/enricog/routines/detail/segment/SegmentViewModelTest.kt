@@ -13,8 +13,6 @@ import com.enricog.routines.detail.segment.models.SegmentState
 import com.enricog.routines.detail.segment.models.SegmentViewState
 import com.enricog.routines.detail.segment.usecase.SegmentUseCase
 import com.enricog.routines.navigation.RoutinesNavigationActions
-import com.enricog.routines.navigation.RoutinesNavigationConstants.Segment.routeIdParamName
-import com.enricog.routines.navigation.RoutinesNavigationConstants.Segment.segmentIdParamName
 import io.mockk.Called
 import io.mockk.coEvery
 import io.mockk.coVerify
@@ -37,8 +35,8 @@ class SegmentViewModelTest {
     private val navigationActions: RoutinesNavigationActions = mockk(relaxUnitFun = true)
     private val savedStateHandle = SavedStateHandle(
         mapOf(
-            routeIdParamName to 1L,
-            segmentIdParamName to 2L
+            "routineId" to 1L,
+            "segmentId" to 2L
         )
     )
 

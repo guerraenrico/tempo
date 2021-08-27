@@ -13,9 +13,9 @@ import com.enricog.timer.models.SegmentStepType
 import com.enricog.timer.models.TimerState
 import com.enricog.timer.models.TimerViewState
 import com.enricog.timer.navigation.TimerNavigationActions
-import com.enricog.timer.navigation.TimerNavigationConstants
 import com.enricog.timer.usecase.TimerUseCase
 import io.mockk.coEvery
+import io.mockk.coVerify
 import io.mockk.every
 import io.mockk.mockk
 import io.mockk.verify
@@ -32,9 +32,7 @@ class TimerViewModelTest {
     private val converter: TimerStateConverter = mockk()
     private val reducer: TimerReducer = mockk()
     private val timerUseCase: TimerUseCase = mockk()
-    private val savedStateHandle = SavedStateHandle(
-        mapOf(TimerNavigationConstants.routeIdParamName to 1L)
-    )
+    private val savedStateHandle = SavedStateHandle(mapOf("routineId" to 1L))
     private val navigationActions: TimerNavigationActions = mockk(relaxUnitFun = true)
     private val windowScreenManager: WindowScreenManager = mockk(relaxUnitFun = true)
 
@@ -152,7 +150,7 @@ class TimerViewModelTest {
         advanceUntilIdle()
         sut.onDoneButtonClick()
 
-        verify { navigationActions.backToRoutines() }
+        coVerify { navigationActions.backToRoutines() }
     }
 
     @Test
@@ -253,7 +251,7 @@ class TimerViewModelTest {
         advanceUntilIdle()
         sut.onCloseButtonClick()
 
-        verify { navigationActions.backToRoutines() }
+        coVerify { navigationActions.backToRoutines() }
     }
 
     private fun buildSut(): TimerViewModel {

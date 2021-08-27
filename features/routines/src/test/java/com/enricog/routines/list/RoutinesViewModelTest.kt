@@ -11,7 +11,6 @@ import io.mockk.coEvery
 import io.mockk.coVerify
 import io.mockk.every
 import io.mockk.mockk
-import io.mockk.verify
 import kotlinx.coroutines.flow.flowOf
 import org.junit.Before
 import org.junit.Rule
@@ -56,7 +55,7 @@ class RoutinesViewModelTest {
 
             sut.onCreateRoutineClick()
 
-            verify { navigationActions.goToRoutine(routineId = null) }
+            coVerify { navigationActions.goToRoutine(routineId = null) }
         }
 
     @Test
@@ -69,7 +68,7 @@ class RoutinesViewModelTest {
 
             sut.onRoutineClick(routine)
 
-            verify { navigationActions.goToRoutineSummary(routineId = 1) }
+            coVerify { navigationActions.goToRoutineSummary(routineId = 1) }
         }
 
     @Test

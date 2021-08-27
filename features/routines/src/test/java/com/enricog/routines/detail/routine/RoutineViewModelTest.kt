@@ -11,7 +11,6 @@ import com.enricog.routines.detail.routine.models.RoutineState
 import com.enricog.routines.detail.routine.models.RoutineViewState
 import com.enricog.routines.detail.routine.usecase.RoutineUseCase
 import com.enricog.routines.navigation.RoutinesNavigationActions
-import com.enricog.routines.navigation.RoutinesNavigationConstants.Routine.routeIdParamName
 import io.mockk.Called
 import io.mockk.coEvery
 import io.mockk.coVerify
@@ -32,7 +31,7 @@ class RoutineViewModelTest {
     private val reducer: RoutineReducer = mockk()
     private val validator: RoutineValidator = mockk()
     private val routineUseCase: RoutineUseCase = mockk()
-    private val savedStateHandle = SavedStateHandle(mapOf(routeIdParamName to 1L))
+    private val savedStateHandle = SavedStateHandle(mapOf("routineId" to 1L))
 
     @Before
     fun setup() {
@@ -91,7 +90,7 @@ class RoutineViewModelTest {
 
         sut.onRoutineBack()
 
-        verify { navigationActions.routinesBack() }
+        coVerify { navigationActions.routinesBack() }
     }
 
     @Test
@@ -128,7 +127,7 @@ class RoutineViewModelTest {
 
             sut.onRoutineSave()
 
-            verify {
+            coVerify {
                 validator.validate(routine = routine)
                 navigationActions.goToRoutineSummary(routineId = 1)
             }
@@ -150,7 +149,7 @@ class RoutineViewModelTest {
 
             sut.onRoutineSave()
 
-            verify {
+            coVerify {
                 validator.validate(routine = routine)
                 navigationActions.routinesBack()
             }
