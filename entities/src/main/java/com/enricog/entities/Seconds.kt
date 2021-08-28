@@ -17,6 +17,22 @@ value class Seconds private constructor(private val duration: Duration) {
     val secondsRemainingInMinute: Long
         get() = value - (minutes * 60)
 
+    operator fun plus(other: Seconds): Seconds {
+        return Seconds(duration + other.duration)
+    }
+
+    operator fun minus(other: Seconds): Seconds {
+        return Seconds(duration - other.duration)
+    }
+
+    operator fun compareTo(other: Seconds): Int {
+        return duration.compareTo(other.duration)
+    }
+
+    override fun toString(): String {
+        return "$minutes:$secondsRemainingInMinute"
+    }
+
     companion object {
         private const val TIME_SEPARATOR = ":"
         private const val DEFAULT_TIME_VALUE = "0"
@@ -42,22 +58,6 @@ value class Seconds private constructor(private val duration: Duration) {
             }
             return Seconds(seconds.toDuration(DurationUnit.SECONDS))
         }
-    }
-
-    operator fun plus(other: Seconds): Seconds {
-        return Seconds(duration + other.duration)
-    }
-
-    operator fun minus(other: Seconds): Seconds {
-        return Seconds(duration - other.duration)
-    }
-
-    operator fun compareTo(other: Seconds): Int {
-        return duration.compareTo(other.duration)
-    }
-
-    override fun toString(): String {
-        return "$minutes:$secondsRemainingInMinute"
     }
 }
 
