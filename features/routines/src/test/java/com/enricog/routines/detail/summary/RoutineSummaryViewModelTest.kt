@@ -155,7 +155,7 @@ class RoutineSummaryViewModelTest {
 
         sut.onBack()
 
-        coVerify { navigationActions.routinesBack() }
+        coVerify { navigationActions.goBackToRoutines() }
     }
 
     private fun buildSut(): RoutineSummaryViewModel {
