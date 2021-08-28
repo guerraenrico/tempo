@@ -50,7 +50,7 @@ class RoutineRouteTest {
 
     @Test
     fun `test extractInput without routine id`() {
-        val savedStateHandle = SavedStateHandle(mapOf())
+        val savedStateHandle = SavedStateHandle(emptyMap())
         val expected = RoutineRouteInput(routineId = 0)
 
         val actual = RoutineRoute.extractInput(savedStateHandle = savedStateHandle)
