@@ -47,4 +47,4 @@ object RoutineSummaryRoute : Route<RoutineSummaryRouteInput> {
     }
 }
 
-class RoutineSummaryRouteInput(val routineId: Long) : RouteInput
+data class RoutineSummaryRouteInput(val routineId: Long) : RouteInput
