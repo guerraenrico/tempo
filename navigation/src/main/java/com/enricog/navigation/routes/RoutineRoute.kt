@@ -24,7 +24,8 @@ object RoutineRoute : Route<RoutineRouteInput> {
             route = name,
             arguments = listOf(
                 navArgument(routineId) {
-                    type = NavType.LongType; defaultValue = 0L
+                    type = NavType.LongType
+                    defaultValue = 0L
                 }
             ),
             content = content
@@ -46,8 +47,8 @@ object RoutineRoute : Route<RoutineRouteInput> {
     }
 
     override fun extractInput(savedStateHandle: SavedStateHandle): RoutineRouteInput {
-        return RoutineRouteInput(routineId = savedStateHandle.get<Long>(routineId)!!)
+        return RoutineRouteInput(routineId = savedStateHandle.get<Long>(routineId) ?: 0)
     }
 }
 
-class RoutineRouteInput(val routineId: Long?) : RouteInput
+data class RoutineRouteInput(val routineId: Long?) : RouteInput
