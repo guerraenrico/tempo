@@ -12,6 +12,7 @@ import com.enricog.timer.models.SegmentStep
 import com.enricog.timer.models.SegmentStepType
 import com.enricog.timer.models.TimerState
 import com.enricog.timer.models.TimerViewState
+import com.enricog.timer.navigation.TimerNavigationActions
 import com.enricog.timer.usecase.TimerUseCase
 import io.mockk.coEvery
 import io.mockk.coVerify
