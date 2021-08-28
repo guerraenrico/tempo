@@ -45,4 +45,4 @@ object TimerRoute : Route<TimerRouteInput> {
     }
 }
 
-class TimerRouteInput(val routineId: Long) : RouteInput
+data class TimerRouteInput(val routineId: Long) : RouteInput
