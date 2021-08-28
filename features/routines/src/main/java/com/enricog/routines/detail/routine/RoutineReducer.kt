@@ -3,7 +3,6 @@ package com.enricog.routines.detail.routine
 import com.enricog.entities.Seconds
 import com.enricog.entities.routines.Routine
 import com.enricog.entities.routines.Routine.Companion.MAX_START_TIME_OFFSET
-import com.enricog.entities.seconds
 import com.enricog.routines.detail.routine.models.RoutineField
 import com.enricog.routines.detail.routine.models.RoutineFieldError
 import com.enricog.routines.detail.routine.models.RoutineState

@@ -14,6 +14,10 @@ value class ID private constructor(private val id: Long) {
         return id.compareTo(other.id)
     }
 
+    fun toLong(): Long {
+        return id
+    }
+
     override fun toString(): String {
         return "ID: $id"
     }
@@ -31,8 +35,8 @@ value class ID private constructor(private val id: Long) {
     }
 }
 
-val Long.id: ID
+val Long.asID: ID
     get() = ID.from(this)
 
-val Int.id: ID
+val Int.asID: ID
     get() = ID.from(this.toLong())

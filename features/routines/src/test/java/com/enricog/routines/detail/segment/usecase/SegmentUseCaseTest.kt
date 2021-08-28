@@ -3,6 +3,7 @@ package com.enricog.routines.detail.segment.usecase
 import com.enricog.base_test.coroutine.CoroutineRule
 import com.enricog.base_test.entities.routines.EMPTY
 import com.enricog.datasource.RoutineDataSource
+import com.enricog.entities.asID
 import com.enricog.entities.routines.Routine
 import com.enricog.entities.routines.Segment
 import io.mockk.coEvery
@@ -26,20 +27,20 @@ class SegmentUseCaseTest {
         val routine = Routine.EMPTY
         coEvery { routineDataSource.get(any()) } returns routine
 
-        val result = sut.get(1)
+        val result = sut.get(1.asID)
 
         assertEquals(routine, result)
-        coVerify { routineDataSource.get(1) }
+        coVerify { routineDataSource.get(1.asID) }
     }
 
     @Test
     fun `should add segment to routine#segment and update routine when saving new segment`() = coroutineRule {
         val routine = Routine.EMPTY.copy(segments = emptyList())
-        val segment = Segment.EMPTY.copy(id = 0)
+        val segment = Segment.EMPTY.copy(id = 0.asID)
         val updatedRoutine = Routine.EMPTY.copy(
-            segments = listOf(Segment.EMPTY.copy(id = 0))
+            segments = listOf(Segment.EMPTY.copy(id = 0.asID))
         )
-        coEvery { routineDataSource.update(any()) } returns 1
+        coEvery { routineDataSource.update(any()) } returns 1.asID
 
         sut.save(routine = routine, segment = segment)
 
@@ -49,13 +50,13 @@ class SegmentUseCaseTest {
     @Test
     fun `should update segment in routine#segment and update routine when saving existing segment`() = coroutineRule {
         val routine = Routine.EMPTY.copy(
-            segments = listOf(Segment.EMPTY.copy(id = 1, name = "name1"))
+            segments = listOf(Segment.EMPTY.copy(id = 1.asID, name = "name1"))
         )
-        val segment = Segment.EMPTY.copy(id = 1, name = "name2")
+        val segment = Segment.EMPTY.copy(id = 1.asID, name = "name2")
         val updatedRoutine = Routine.EMPTY.copy(
-            segments = listOf(Segment.EMPTY.copy(id = 1, name = "name2"))
+            segments = listOf(Segment.EMPTY.copy(id = 1.asID, name = "name2"))
         )
-        coEvery { routineDataSource.update(any()) } returns 1
+        coEvery { routineDataSource.update(any()) } returns 1.asID
 
         sut.save(routine = routine, segment = segment)
 

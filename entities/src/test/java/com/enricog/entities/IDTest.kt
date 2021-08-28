@@ -11,7 +11,7 @@ class IDTest {
     fun `test Long to ID`() {
         val expected = ID.from(value = 1L)
 
-        val actual = 1L.id
+        val actual = 1L.asID
 
         assertEquals(expected, actual)
     }
@@ -20,21 +20,21 @@ class IDTest {
     fun `test Int to ID`() {
         val expected = ID.from(value = 1L)
 
-        val actual = 1.id
+        val actual = 1.asID
 
         assertEquals(expected, actual)
     }
 
     @Test
     fun `test isNew is true when value equal to zero`() {
-        val id = 0.id
+        val id = 0.asID
 
         assertTrue(id.isNew)
     }
 
     @Test
     fun `test isNew is false when value higher than zero`() {
-        val id = 1.id
+        val id = 1.asID
 
         assertFalse(id.isNew)
     }
@@ -44,6 +44,16 @@ class IDTest {
         val id = ID.new()
 
         assertTrue(id.isNew)
+    }
+
+    @Test
+    fun `test toLong`() {
+        val expected = 1L
+        val id = 1.asID
+
+        val actual = id.toLong()
+
+        assertEquals(expected, actual)
     }
 
     @Test(expected = IllegalArgumentException::class)

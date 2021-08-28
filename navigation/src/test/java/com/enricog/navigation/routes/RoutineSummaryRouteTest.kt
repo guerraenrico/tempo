@@ -2,6 +2,7 @@ package com.enricog.navigation.routes
 
 import androidx.lifecycle.SavedStateHandle
 import androidx.navigation.navOptions
+import com.enricog.entities.asID
 import com.enricog.navigation.NavigationAction
 import kotlin.test.assertEquals
 import org.junit.Test
@@ -18,7 +19,7 @@ class RoutineSummaryRouteTest {
 
     @Test
     fun `test navigate`() {
-        val input = RoutineSummaryRouteInput(routineId = 1)
+        val input = RoutineSummaryRouteInput(routineId = 1.asID)
         val navOptions = navOptions {}
         val expected = NavigationAction.GoTo(route = "routine/1/summary", navOptions = navOptions)
 
@@ -30,7 +31,7 @@ class RoutineSummaryRouteTest {
     @Test
     fun `test extractInput with routine id`() {
         val savedStateHandle = SavedStateHandle(mapOf("routineId" to 1L))
-        val expected = RoutineSummaryRouteInput(routineId = 1)
+        val expected = RoutineSummaryRouteInput(routineId = 1.asID)
 
         val actual = RoutineSummaryRoute.extractInput(savedStateHandle = savedStateHandle)
 

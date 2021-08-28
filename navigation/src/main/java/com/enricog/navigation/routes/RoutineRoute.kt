@@ -9,6 +9,7 @@ import androidx.navigation.NavType
 import androidx.navigation.compose.composable
 import androidx.navigation.compose.navArgument
 import androidx.navigation.navOptions
+import com.enricog.entities.ID
 import com.enricog.navigation.NavigationAction
 import com.enricog.navigation.routes.RoutineRoute.Params.routineId
 
@@ -36,19 +37,15 @@ object RoutineRoute : Route<RoutineRouteInput> {
         input: RoutineRouteInput,
         optionsBuilder: (NavOptionsBuilder.() -> Unit)?
     ): NavigationAction {
-        val route = buildString {
-            append("routine/edit")
-            if (input.routineId != null) {
-                append("?routineId=${input.routineId}")
-            }
-        }
+        val route = "routine/edit?routineId=${input.routineId.toLong()}"
         val options = optionsBuilder?.let { navOptions(it) }
         return NavigationAction.GoTo(route = route, navOptions = options)
     }
 
     override fun extractInput(savedStateHandle: SavedStateHandle): RoutineRouteInput {
-        return RoutineRouteInput(routineId = savedStateHandle.get<Long>(routineId) ?: 0)
+        val id = ID.from(savedStateHandle.get<Long>(routineId)!!)
+        return RoutineRouteInput(routineId = id)
     }
 }
 
-data class RoutineRouteInput(val routineId: Long?) : RouteInput
+data class RoutineRouteInput(val routineId: ID) : RouteInput

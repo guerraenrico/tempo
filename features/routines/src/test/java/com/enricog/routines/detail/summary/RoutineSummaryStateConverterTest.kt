@@ -2,6 +2,7 @@ package com.enricog.routines.detail.summary
 
 import com.enricog.base_test.coroutine.CoroutineRule
 import com.enricog.base_test.entities.routines.EMPTY
+import com.enricog.entities.asID
 import com.enricog.entities.routines.Routine
 import com.enricog.entities.routines.Segment
 import com.enricog.routines.R
@@ -37,8 +38,8 @@ class RoutineSummaryStateConverterTest {
             routine = Routine.EMPTY.copy(
                 name = "routineName",
                 segments = listOf(
-                    Segment.EMPTY.copy(id = 1),
-                    Segment.EMPTY.copy(id = 2),
+                    Segment.EMPTY.copy(id = 1.asID),
+                    Segment.EMPTY.copy(id = 2.asID),
                 )
             ),
             errors = mapOf(RoutineSummaryField.Segments to RoutineSummaryFieldError.NoSegments)
@@ -49,8 +50,8 @@ class RoutineSummaryStateConverterTest {
                 RoutineSummaryItem.SegmentSectionTitle(
                     error = RoutineSummaryField.Segments to R.string.field_error_message_routine_no_segments
                 ),
-                RoutineSummaryItem.SegmentItem(segment = Segment.EMPTY.copy(id = 1)),
-                RoutineSummaryItem.SegmentItem(segment = Segment.EMPTY.copy(id = 2)),
+                RoutineSummaryItem.SegmentItem(segment = Segment.EMPTY.copy(id = 1.asID)),
+                RoutineSummaryItem.SegmentItem(segment = Segment.EMPTY.copy(id = 2.asID)),
                 RoutineSummaryItem.Space
             )
         )

@@ -1,5 +1,6 @@
 package com.enricog.routines.navigation
 
+import com.enricog.entities.ID
 import com.enricog.navigation.NavigationAction.GoBack
 import com.enricog.navigation.Navigator
 import com.enricog.navigation.routes.RoutineRoute
@@ -21,7 +22,7 @@ internal class RoutinesNavigationActions @Inject constructor(
         navigator.navigate(GoBack)
     }
 
-    suspend fun goToRoutineSummary(routineId: Long) {
+    suspend fun goToRoutineSummary(routineId: ID) {
         val routeNavigation = RoutineSummaryRoute.navigate(
             input = RoutineSummaryRouteInput(routineId = routineId),
             optionsBuilder = {
@@ -31,7 +32,7 @@ internal class RoutinesNavigationActions @Inject constructor(
         navigator.navigate(routeNavigation)
     }
 
-    suspend fun goToRoutine(routineId: Long?) {
+    suspend fun goToRoutine(routineId: ID) {
         val routeNavigation = RoutineRoute.navigate(
             input = RoutineRouteInput(routineId = routineId),
             optionsBuilder = null
@@ -39,7 +40,7 @@ internal class RoutinesNavigationActions @Inject constructor(
         navigator.navigate(routeNavigation)
     }
 
-    suspend fun goToSegment(routineId: Long, segmentId: Long?) {
+    suspend fun goToSegment(routineId: ID, segmentId: ID) {
         val routeNavigation = SegmentRoute.navigate(
             input = SegmentRouteInput(routineId = routineId, segmentId = segmentId),
             optionsBuilder = null
@@ -47,7 +48,7 @@ internal class RoutinesNavigationActions @Inject constructor(
         navigator.navigate(routeNavigation)
     }
 
-    suspend fun goToTimer(routineId: Long) {
+    suspend fun goToTimer(routineId: ID) {
         val routeNavigation = TimerRoute.navigate(
             input = TimerRouteInput(routineId = routineId),
             optionsBuilder = {

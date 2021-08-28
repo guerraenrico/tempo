@@ -1,5 +1,6 @@
 package com.enricog.routines.detail.segment
 
+import com.enricog.entities.ID
 import com.enricog.entities.Seconds
 import com.enricog.entities.routines.Routine
 import com.enricog.entities.routines.Segment
@@ -14,7 +15,7 @@ internal class SegmentReducer @Inject constructor() {
 
     private val timeTypes = listOf(TimeType.TIMER, TimeType.REST, TimeType.STOPWATCH)
 
-    fun setup(routine: Routine, segmentId: Long): SegmentState {
+    fun setup(routine: Routine, segmentId: ID): SegmentState {
         val segment = routine.segments.find { it.id == segmentId } ?: Segment.NEW
         return SegmentState.Data(
             routine = routine,

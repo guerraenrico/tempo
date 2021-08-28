@@ -1,6 +1,7 @@
 package com.enricog.timer
 
 import com.enricog.base_test.entities.routines.EMPTY
+import com.enricog.entities.asID
 import com.enricog.entities.routines.Routine
 import com.enricog.entities.routines.Segment
 import com.enricog.entities.routines.TimeType
@@ -525,10 +526,10 @@ class TimerReducerTest {
             routine = Routine.EMPTY.copy(
                 startTimeOffset = 5.seconds,
                 segments = listOf(
-                    Segment.EMPTY.copy(id = 1), Segment.EMPTY.copy(id = 2)
+                    Segment.EMPTY.copy(id = 1.asID), Segment.EMPTY.copy(id = 2.asID)
                 )
             ),
-            runningSegment = Segment.EMPTY.copy(id = 1),
+            runningSegment = Segment.EMPTY.copy(id = 1.asID),
             step = SegmentStep(
                 count = Count(seconds = 0.seconds, isRunning = true, isCompleted = true),
                 type = SegmentStepType.IN_PROGRESS
@@ -538,10 +539,10 @@ class TimerReducerTest {
             routine = Routine.EMPTY.copy(
                 startTimeOffset = 5.seconds,
                 segments = listOf(
-                    Segment.EMPTY.copy(id = 1), Segment.EMPTY.copy(id = 2)
+                    Segment.EMPTY.copy(id = 1.asID), Segment.EMPTY.copy(id = 2.asID)
                 )
             ),
-            runningSegment = Segment.EMPTY.copy(id = 2),
+            runningSegment = Segment.EMPTY.copy(id = 2.asID),
             step = SegmentStep(
                 count = Count.start(seconds = 5.seconds),
                 type = SegmentStepType.STARTING
@@ -559,11 +560,11 @@ class TimerReducerTest {
             routine = Routine.EMPTY.copy(
                 startTimeOffset = 5.seconds,
                 segments = listOf(
-                    Segment.EMPTY.copy(id = 1, time = 10.seconds, type = TimeType.TIMER),
-                    Segment.EMPTY.copy(id = 2, time = 20.seconds, type = TimeType.REST)
+                    Segment.EMPTY.copy(id = 1.asID, time = 10.seconds, type = TimeType.TIMER),
+                    Segment.EMPTY.copy(id = 2.asID, time = 20.seconds, type = TimeType.REST)
                 )
             ),
-            runningSegment = Segment.EMPTY.copy(id = 1, time = 10.seconds, type = TimeType.TIMER),
+            runningSegment = Segment.EMPTY.copy(id = 1.asID, time = 10.seconds, type = TimeType.TIMER),
             step = SegmentStep(
                 count = Count(seconds = 0.seconds, isRunning = true, isCompleted = true),
                 type = SegmentStepType.IN_PROGRESS
@@ -573,11 +574,11 @@ class TimerReducerTest {
             routine = Routine.EMPTY.copy(
                 startTimeOffset = 5.seconds,
                 segments = listOf(
-                    Segment.EMPTY.copy(id = 1, time = 10.seconds, type = TimeType.TIMER),
-                    Segment.EMPTY.copy(id = 2, time = 20.seconds, type = TimeType.REST)
+                    Segment.EMPTY.copy(id = 1.asID, time = 10.seconds, type = TimeType.TIMER),
+                    Segment.EMPTY.copy(id = 2.asID, time = 20.seconds, type = TimeType.REST)
                 )
             ),
-            runningSegment = Segment.EMPTY.copy(id = 2, time = 20.seconds, type = TimeType.REST),
+            runningSegment = Segment.EMPTY.copy(id = 2.asID, time = 20.seconds, type = TimeType.REST),
             step = SegmentStep(
                 count = Count.start(seconds = 20.seconds),
                 type = SegmentStepType.IN_PROGRESS

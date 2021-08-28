@@ -1,6 +1,7 @@
 package com.enricog.routines.detail.summary
 
 import com.enricog.base_test.entities.routines.EMPTY
+import com.enricog.entities.asID
 import com.enricog.entities.routines.Routine
 import com.enricog.entities.routines.Segment
 import com.enricog.routines.detail.summary.models.RoutineSummaryField
@@ -28,8 +29,8 @@ class RoutineSummaryReducerTest {
         val state = RoutineSummaryState.Data(
             routine = Routine.EMPTY.copy(
                 segments = listOf(
-                    Segment.EMPTY.copy(id = 1),
-                    Segment.EMPTY.copy(id = 2)
+                    Segment.EMPTY.copy(id = 1.asID),
+                    Segment.EMPTY.copy(id = 2.asID)
                 )
             ),
             errors = emptyMap()
@@ -37,13 +38,13 @@ class RoutineSummaryReducerTest {
         val expected = RoutineSummaryState.Data(
             routine = Routine.EMPTY.copy(
                 segments = listOf(
-                    Segment.EMPTY.copy(id = 2)
+                    Segment.EMPTY.copy(id = 2.asID)
                 )
             ),
             errors = emptyMap()
         )
 
-        val result = sut.deleteSegment(state, Segment.EMPTY.copy(id = 1))
+        val result = sut.deleteSegment(state, Segment.EMPTY.copy(id = 1.asID))
 
         assertEquals(expected, result)
     }
@@ -55,13 +56,13 @@ class RoutineSummaryReducerTest {
         )
         val state = RoutineSummaryState.Data(
             routine = Routine.EMPTY.copy(
-                segments = listOf(Segment.EMPTY.copy(id = 1))
+                segments = listOf(Segment.EMPTY.copy(id = 1.asID))
             ),
             errors = emptyMap()
         )
         val expected = RoutineSummaryState.Data(
             routine = Routine.EMPTY.copy(
-                segments = listOf(Segment.EMPTY.copy(id = 1))
+                segments = listOf(Segment.EMPTY.copy(id = 1.asID))
             ),
             errors = errors
         )

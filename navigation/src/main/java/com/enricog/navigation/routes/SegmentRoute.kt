@@ -9,6 +9,7 @@ import androidx.navigation.NavType
 import androidx.navigation.compose.composable
 import androidx.navigation.compose.navArgument
 import androidx.navigation.navOptions
+import com.enricog.entities.ID
 import com.enricog.navigation.NavigationAction
 import com.enricog.navigation.routes.SegmentRoute.Params.routineId
 import com.enricog.navigation.routes.SegmentRoute.Params.segmentId
@@ -40,22 +41,19 @@ object SegmentRoute : Route<SegmentRouteInput> {
         input: SegmentRouteInput,
         optionsBuilder: (NavOptionsBuilder.() -> Unit)?
     ): NavigationAction {
-        val route = buildString {
-            append("routine/${input.routineId}/segment/edit")
-            if (input.segmentId != null) {
-                append("?segmentId=${input.segmentId}")
-            }
-        }
+        val route = "routine/${input.routineId.toLong()}/segment/edit?segmentId=${input.segmentId.toLong()}"
         val options = optionsBuilder?.let { navOptions(it) }
         return NavigationAction.GoTo(route = route, navOptions = options)
     }
 
     override fun extractInput(savedStateHandle: SavedStateHandle): SegmentRouteInput {
+        val routineId = ID.from(savedStateHandle.get<Long>(routineId)!!)
+        val segmentId = ID.from(savedStateHandle.get<Long>(segmentId)!!)
         return SegmentRouteInput(
-            routineId = savedStateHandle.get<Long>(routineId)!!,
-            segmentId = savedStateHandle.get<Long>(segmentId) ?: 0
+            routineId = routineId,
+            segmentId = segmentId
         )
     }
 }
 
-data class SegmentRouteInput(val routineId: Long, val segmentId: Long?) : RouteInput
+data class SegmentRouteInput(val routineId: ID, val segmentId: ID) : RouteInput

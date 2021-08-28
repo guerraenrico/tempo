@@ -2,6 +2,7 @@ package com.enricog.localdatasource.routine
 
 import android.annotation.SuppressLint
 import com.enricog.datasource.RoutineDataSource
+import com.enricog.entities.ID
 import com.enricog.entities.routines.Routine
 import com.enricog.localdatasource.TempoDatabase
 import com.enricog.localdatasource.routine.model.toInternal
@@ -20,16 +21,16 @@ internal class RoutineDataSourceImpl @Inject constructor(
             .map { list -> list.map { it.toEntity() } }
     }
 
-    override fun observe(id: Long): Flow<Routine> {
-        return database.routineDao().observe(id)
+    override fun observe(id: ID): Flow<Routine> {
+        return database.routineDao().observe(id.toLong())
             .map { it.toEntity() }
     }
 
-    override suspend fun get(id: Long): Routine {
-        return database.routineDao().get(id).toEntity()
+    override suspend fun get(id: ID): Routine {
+        return database.routineDao().get(id.toLong()).toEntity()
     }
 
-    override suspend fun create(routine: Routine): Long {
+    override suspend fun create(routine: Routine): ID {
         val now = OffsetDateTime.now()
         val routineToCreate = routine.copy(
             createdAt = now,
@@ -41,18 +42,21 @@ internal class RoutineDataSourceImpl @Inject constructor(
 
         val internalSegments = routine.segments.map { it.toInternal(routineId) }
         database.segmentDao().insert(*internalSegments.toTypedArray())
-        return routineId
+        return ID.from(routineId)
     }
 
-    override suspend fun update(routine: Routine): Long {
-        val currentRoutine = database.routineDao().get(routine.id)
-        val currentInternalSegments = routine.segments.map { it.toInternal(routine.id) }
+    override suspend fun update(routine: Routine): ID {
+        val savedRoutine = database.routineDao().get(routine.id.toLong())
 
-        val addedSegments = currentInternalSegments.filter { it.id == 0L }
-        val deletedSegments = currentRoutine.segments.filter { currentSegment ->
-            currentInternalSegments.none { currentSegment.id == it.id }
+        val addedSegments =  routine.segments
+            .filter { it.isNew }
+            .map { it.toInternal(routine.id.toLong()) }
+        val deletedSegments = savedRoutine.segments.filter { savedSegment ->
+            routine.segments.none { savedSegment.id == it.id.toLong() }
         }
-        val updatedSegments = currentInternalSegments.filter { it.id > 0 }
+        val updatedSegments = routine.segments
+            .filter { !it.isNew }
+            .map { it.toInternal(routine.id.toLong()) }
 
         if (addedSegments.isNotEmpty()) {
             database.segmentDao().insert(*addedSegments.toTypedArray())

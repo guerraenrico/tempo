@@ -10,6 +10,7 @@ import androidx.compose.ui.platform.testTag
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.constraintlayout.compose.ConstraintLayout
 import androidx.constraintlayout.compose.Dimension
+import com.enricog.entities.asID
 import com.enricog.entities.routines.Segment
 import com.enricog.entities.routines.TimeType
 import com.enricog.entities.seconds
@@ -86,7 +87,7 @@ private fun SegmentItemPreview() {
     SegmentItem(
         modifier = Modifier,
         segment = Segment(
-            id = 0L,
+            id = 0.asID,
             name = "Segment name",
             time = 100.seconds,
             type = TimeType.REST

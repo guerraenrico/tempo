@@ -1,5 +1,6 @@
 package com.enricog.entities.routines
 
+import com.enricog.entities.asID
 import com.enricog.entities.seconds
 import org.junit.Rule
 import org.junit.Test
@@ -17,7 +18,7 @@ class SegmentTest {
         exceptionRule.expectMessage("time must be positive")
 
         Segment(
-            id = 0,
+            id = 0.asID,
             name = "",
             time = time,
             type = TimeType.TIMER
@@ -33,7 +34,7 @@ class SegmentTest {
         exceptionRule.expectMessage("time must be positive")
 
         val segment = Segment(
-            id = 0,
+            id = 0.asID,
             name = "",
             time = 50.seconds,
             type = TimeType.TIMER
@@ -44,7 +45,7 @@ class SegmentTest {
     @Test
     fun `on instantiation should not throw any exception when all argument are valid`() {
         Segment(
-            id = 0,
+            id = 0.asID,
             name = "",
             time = 50.seconds,
             type = TimeType.TIMER
@@ -55,7 +56,7 @@ class SegmentTest {
     @Test
     fun `on copy should not throw any exception when all argument are valid`() {
         val segment = Segment(
-            id = 0,
+            id = 0.asID,
             name = "",
             time = 50.seconds,
             type = TimeType.TIMER

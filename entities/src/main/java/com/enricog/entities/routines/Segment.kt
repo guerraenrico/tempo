@@ -1,10 +1,11 @@
 package com.enricog.entities.routines
 
+import com.enricog.entities.ID
 import com.enricog.entities.Seconds
 import com.enricog.entities.seconds
 
 data class Segment(
-    val id: Long,
+    val id: ID,
     val name: String,
     val time: Seconds,
     val type: TimeType
@@ -20,7 +21,7 @@ data class Segment(
         val NEW: Segment
             get() {
                 return Segment(
-                    id = 0,
+                    id = ID.new(),
                     name = "",
                     time = 0.seconds,
                     type = TimeType.TIMER
@@ -29,5 +30,5 @@ data class Segment(
     }
 
     val isNew: Boolean
-        get() = id == 0L
+        get() = id.isNew
 }

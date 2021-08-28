@@ -1,11 +1,12 @@
 package com.enricog.entities.routines
 
+import com.enricog.entities.ID
 import com.enricog.entities.Seconds
 import com.enricog.entities.seconds
 import java.time.OffsetDateTime
 
 data class Routine(
-    val id: Long,
+    val id: ID,
     val name: String,
     val startTimeOffset: Seconds,
     val createdAt: OffsetDateTime,
@@ -27,7 +28,7 @@ data class Routine(
             get() {
                 val now = OffsetDateTime.now()
                 return Routine(
-                    id = 0,
+                    id = ID.new(),
                     name = "",
                     startTimeOffset = 0.seconds,
                     createdAt = now,
@@ -40,5 +41,5 @@ data class Routine(
     }
 
     val isNew: Boolean
-        get() = id == 0L
+        get() = id.isNew
 }

@@ -46,7 +46,7 @@ internal class SegmentViewModel @Inject constructor(
     private fun load(input: SegmentRouteInput) {
         viewModelScope.launch {
             val routine = segmentUseCase.get(routineId = input.routineId)
-            updateState { reducer.setup(routine = routine, segmentId = input.segmentId!!) }
+            updateState { reducer.setup(routine = routine, segmentId = input.segmentId) }
         }
     }
 

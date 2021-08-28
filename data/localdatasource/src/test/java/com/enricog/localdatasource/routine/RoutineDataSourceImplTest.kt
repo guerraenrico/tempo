@@ -5,6 +5,7 @@ import androidx.arch.core.executor.testing.InstantTaskExecutorRule
 import androidx.room.Room
 import androidx.test.core.app.ApplicationProvider
 import com.enricog.base_test.coroutine.CoroutineRule
+import com.enricog.entities.asID
 import com.enricog.entities.routines.Routine
 import com.enricog.entities.routines.Segment
 import com.enricog.entities.routines.TimeType
@@ -72,14 +73,14 @@ class RoutineDataSourceImplTest {
             updatedAt = now
         )
         val routine = Routine(
-            id = 1,
+            id = 1.asID,
             name = "name",
             startTimeOffset = 10.seconds,
             createdAt = now,
             updatedAt = now,
             segments = listOf(
                 Segment(
-                    id = 1,
+                    id = 1.asID,
                     name = "name",
                     time = 40.seconds,
                     type = TimeType.TIMER
@@ -114,14 +115,14 @@ class RoutineDataSourceImplTest {
             updatedAt = now
         )
         val expected = Routine(
-            id = 1,
+            id = 1.asID,
             name = "name",
             startTimeOffset = 10.seconds,
             createdAt = now,
             updatedAt = now,
             segments = listOf(
                 Segment(
-                    id = 1,
+                    id = 1.asID,
                     name = "name",
                     time = 40.seconds,
                     type = TimeType.TIMER
@@ -132,7 +133,7 @@ class RoutineDataSourceImplTest {
         database.routineDao().insert(internalRoutine)
         database.segmentDao().insert(internalSegment)
 
-        val result = sut.observe(1).first()
+        val result = sut.observe(1.asID).first()
 
         assertEquals(expected, result)
     }
@@ -155,14 +156,14 @@ class RoutineDataSourceImplTest {
             updatedAt = now
         )
         val expected = Routine(
-            id = 1,
+            id = 1.asID,
             name = "name",
             startTimeOffset = 10.seconds,
             createdAt = now,
             updatedAt = now,
             segments = listOf(
                 Segment(
-                    id = 1,
+                    id = 1.asID,
                     name = "name",
                     time = 40.seconds,
                     type = TimeType.TIMER
@@ -173,7 +174,7 @@ class RoutineDataSourceImplTest {
         database.routineDao().insert(internalRoutine)
         database.segmentDao().insert(internalSegment)
 
-        val result = sut.get(1)
+        val result = sut.get(1.asID)
 
         assertEquals(expected, result)
     }
@@ -183,14 +184,14 @@ class RoutineDataSourceImplTest {
         val max = OffsetDateTime.MIN
         val now = OffsetDateTime.now()
         val routine = Routine(
-            id = 0,
+            id = 0.asID,
             name = "name",
             startTimeOffset = 10.seconds,
             createdAt = max,
             updatedAt = max,
             segments = listOf(
                 Segment(
-                    id = 1,
+                    id = 1.asID,
                     name = "name",
                     time = 40.seconds,
                     type = TimeType.TIMER
@@ -198,14 +199,14 @@ class RoutineDataSourceImplTest {
             )
         )
         val expected = Routine(
-            id = 1,
+            id = 1.asID,
             name = "name",
             startTimeOffset = 10.seconds,
             createdAt = now,
             updatedAt = now,
             segments = listOf(
                 Segment(
-                    id = 1,
+                    id = 1.asID,
                     name = "name",
                     time = 40.seconds,
                     type = TimeType.TIMER
@@ -215,9 +216,9 @@ class RoutineDataSourceImplTest {
 
         val routineId = sut.create(routine)
 
-        assertEquals(routineId, 1L)
+        assertEquals(routineId, 1.asID)
         // Assert that has been saved correctly
-        val result = sut.get(1)
+        val result = sut.get(1.asID)
         assertRoutineEquals(expected, result)
     }
 
@@ -240,14 +241,14 @@ class RoutineDataSourceImplTest {
             updatedAt = max
         )
         val routine = Routine(
-            id = 1,
+            id = 1.asID,
             name = "name2",
             startTimeOffset = 10.seconds,
             createdAt = max,
             updatedAt = now,
             segments = listOf(
                 Segment(
-                    id = 1,
+                    id = 1.asID,
                     name = "name",
                     time = 40.seconds,
                     type = TimeType.TIMER
@@ -260,9 +261,9 @@ class RoutineDataSourceImplTest {
 
         val routineId = sut.update(routine)
 
-        assertEquals(routineId, 1L)
+        assertEquals(routineId, 1.asID)
         // Assert that has been saved correctly
-        val result = sut.get(1)
+        val result = sut.get(1.asID)
         assertRoutineEquals(routine, result)
     }
 
@@ -285,14 +286,14 @@ class RoutineDataSourceImplTest {
             updatedAt = max
         )
         val routine = Routine(
-            id = 1,
+            id = 1.asID,
             name = "name2",
             startTimeOffset = 10.seconds,
             createdAt = max,
             updatedAt = now,
             segments = listOf(
                 Segment(
-                    id = 1,
+                    id = 1.asID,
                     name = "name2",
                     time = 40.seconds,
                     type = TimeType.TIMER
@@ -305,9 +306,9 @@ class RoutineDataSourceImplTest {
 
         val routineId = sut.update(routine)
 
-        assertEquals(routineId, 1L)
+        assertEquals(routineId, 1.asID)
         // Assert that has been saved correctly
-        val result = sut.get(1)
+        val result = sut.get(1.asID)
         assertRoutineEquals(routine, result)
     }
 
@@ -330,7 +331,7 @@ class RoutineDataSourceImplTest {
             updatedAt = max
         )
         val routine = Routine(
-            id = 1,
+            id = 1.asID,
             name = "name2",
             startTimeOffset = 10.seconds,
             createdAt = max,
@@ -343,9 +344,9 @@ class RoutineDataSourceImplTest {
 
         val routineId = sut.update(routine)
 
-        assertEquals(routineId, 1L)
+        assertEquals(routineId, 1.asID)
         // Assert that has been saved correctly
-        val result = sut.get(1)
+        val result = sut.get(1.asID)
         assertRoutineEquals(routine, result)
     }
 
@@ -361,14 +362,14 @@ class RoutineDataSourceImplTest {
             updatedAt = max
         )
         val routine = Routine(
-            id = 1,
+            id = 1.asID,
             name = "name2",
             startTimeOffset = 10.seconds,
             createdAt = max,
             updatedAt = max,
             segments = listOf(
                 Segment(
-                    id = 0,
+                    id = 0.asID,
                     name = "name",
                     time = 40.seconds,
                     type = TimeType.TIMER
@@ -376,14 +377,14 @@ class RoutineDataSourceImplTest {
             )
         )
         val expected = Routine(
-            id = 1,
+            id = 1.asID,
             name = "name2",
             startTimeOffset = 10.seconds,
             createdAt = max,
             updatedAt = now,
             segments = listOf(
                 Segment(
-                    id = 1,
+                    id = 1.asID,
                     name = "name",
                     time = 40.seconds,
                     type = TimeType.TIMER
@@ -395,9 +396,9 @@ class RoutineDataSourceImplTest {
 
         val routineId = sut.update(routine)
 
-        assertEquals(routineId, 1L)
+        assertEquals(routineId, 1.asID)
         // Assert that has been saved correctly
-        val result = sut.get(1)
+        val result = sut.get(1.asID)
         assertRoutineEquals(expected, result)
     }
 
@@ -420,14 +421,14 @@ class RoutineDataSourceImplTest {
             updatedAt = max
         )
         val routine = Routine(
-            id = 1,
+            id = 1.asID,
             name = "name2",
             startTimeOffset = 10.seconds,
             createdAt = max,
             updatedAt = max,
             segments = listOf(
                 Segment(
-                    id = 0,
+                    id = 0.asID,
                     name = "name2",
                     time = 40.seconds,
                     type = TimeType.TIMER
@@ -435,14 +436,14 @@ class RoutineDataSourceImplTest {
             )
         )
         val expected = Routine(
-            id = 1,
+            id = 1.asID,
             name = "name2",
             startTimeOffset = 10.seconds,
             createdAt = max,
             updatedAt = now,
             segments = listOf(
                 Segment(
-                    id = 2,
+                    id = 2.asID,
                     name = "name2",
                     time = 40.seconds,
                     type = TimeType.TIMER
@@ -455,9 +456,9 @@ class RoutineDataSourceImplTest {
 
         val routineId = sut.update(routine)
 
-        assertEquals(routineId, 1L)
+        assertEquals(routineId, 1.asID)
         // Assert that has been saved correctly
-        val result = sut.get(1)
+        val result = sut.get(1.asID)
         assertRoutineEquals(expected, result)
     }
 
@@ -487,20 +488,20 @@ class RoutineDataSourceImplTest {
             updatedAt = max
         )
         val routine = Routine(
-            id = 1,
+            id = 1.asID,
             name = "name2",
             startTimeOffset = 10.seconds,
             createdAt = max,
             updatedAt = max,
             segments = listOf(
                 Segment(
-                    id = 2,
+                    id = 2.asID,
                     name = "name2_mod",
                     time = 40.seconds,
                     type = TimeType.TIMER
                 ),
                 Segment(
-                    id = 0,
+                    id = 0.asID,
                     name = "name3",
                     time = 40.seconds,
                     type = TimeType.TIMER
@@ -508,20 +509,20 @@ class RoutineDataSourceImplTest {
             )
         )
         val expected = Routine(
-            id = 1,
+            id = 1.asID,
             name = "name2",
             startTimeOffset = 10.seconds,
             createdAt = max,
             updatedAt = now,
             segments = listOf(
                 Segment(
-                    id = 2,
+                    id = 2.asID,
                     name = "name2_mod",
                     time = 40.seconds,
                     type = TimeType.TIMER
                 ),
                 Segment(
-                    id = 3,
+                    id = 3.asID,
                     name = "name3",
                     time = 40.seconds,
                     type = TimeType.TIMER
@@ -534,9 +535,9 @@ class RoutineDataSourceImplTest {
 
         val routineId = sut.update(routine)
 
-        assertEquals(routineId, 1L)
+        assertEquals(routineId, 1.asID)
         // Assert that has been saved correctly
-        val result = sut.get(1)
+        val result = sut.get(1.asID)
         assertRoutineEquals(expected, result)
     }
 
@@ -558,14 +559,14 @@ class RoutineDataSourceImplTest {
             updatedAt = now
         )
         val routine = Routine(
-            id = 1,
+            id = 1.asID,
             name = "name",
             startTimeOffset = 10.seconds,
             createdAt = now,
             updatedAt = now,
             segments = listOf(
                 Segment(
-                    id = 1,
+                    id = 1.asID,
                     name = "name",
                     time = 40.seconds,
                     type = TimeType.TIMER

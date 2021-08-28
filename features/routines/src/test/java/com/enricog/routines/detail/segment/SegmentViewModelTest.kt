@@ -3,6 +3,7 @@ package com.enricog.routines.detail.segment
 import androidx.lifecycle.SavedStateHandle
 import com.enricog.base_test.coroutine.CoroutineRule
 import com.enricog.base_test.entities.routines.EMPTY
+import com.enricog.entities.asID
 import com.enricog.entities.routines.Routine
 import com.enricog.entities.routines.Segment
 import com.enricog.entities.routines.TimeType
@@ -62,8 +63,8 @@ class SegmentViewModelTest {
         advanceUntilIdle()
 
         coVerify {
-            segmentUseCase.get(routineId = 1)
-            reducer.setup(routine = Routine.EMPTY, segmentId = 2)
+            segmentUseCase.get(routineId = 1.asID)
+            reducer.setup(routine = Routine.EMPTY, segmentId = 2.asID)
         }
     }
 

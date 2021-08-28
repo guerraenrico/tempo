@@ -1,5 +1,6 @@
 package com.enricog.entities.routines
 
+import com.enricog.entities.asID
 import com.enricog.entities.routines.Routine.Companion.MAX_START_TIME_OFFSET
 import com.enricog.entities.seconds
 import java.time.OffsetDateTime
@@ -20,7 +21,7 @@ class RoutineTest {
         exceptionRule.expectMessage("startTimeOffset value exceed the maximum value")
 
         Routine(
-            id = 0,
+            id = 0.asID,
             name = "",
             startTimeOffset = startTimeOffset,
             createdAt = OffsetDateTime.MAX,
@@ -37,7 +38,7 @@ class RoutineTest {
         exceptionRule.expectMessage("startTimeOffset must be positive")
 
         Routine(
-            id = 0,
+            id = 0.asID,
             name = "",
             startTimeOffset = startTimeOffset,
             createdAt = OffsetDateTime.MAX,
@@ -55,7 +56,7 @@ class RoutineTest {
         exceptionRule.expectMessage("startTimeOffset value exceed the maximum value")
 
         val routine = Routine(
-            id = 0,
+            id = 0.asID,
             name = "",
             startTimeOffset = 50.seconds,
             createdAt = OffsetDateTime.MAX,
@@ -74,7 +75,7 @@ class RoutineTest {
         exceptionRule.expectMessage("startTimeOffset must be positive")
 
         val routine = Routine(
-            id = 0,
+            id = 0.asID,
             name = "",
             startTimeOffset = 50.seconds,
             createdAt = OffsetDateTime.MAX,
@@ -87,7 +88,7 @@ class RoutineTest {
     @Test
     fun `on instantiation should not throw any exception when all argument are valid`() {
         Routine(
-            id = 0,
+            id = 0.asID,
             name = "",
             startTimeOffset = MAX_START_TIME_OFFSET,
             createdAt = OffsetDateTime.MAX,
@@ -100,7 +101,7 @@ class RoutineTest {
     @Test
     fun `on copy should not throw any exception when all argument are valid`() {
         val routine = Routine(
-            id = 0,
+            id = 0.asID,
             name = "",
             startTimeOffset = 50.seconds,
             createdAt = OffsetDateTime.MAX,

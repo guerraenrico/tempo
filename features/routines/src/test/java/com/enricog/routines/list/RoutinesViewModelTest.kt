@@ -2,6 +2,8 @@ package com.enricog.routines.list
 
 import com.enricog.base_test.coroutine.CoroutineRule
 import com.enricog.base_test.entities.routines.EMPTY
+import com.enricog.entities.ID
+import com.enricog.entities.asID
 import com.enricog.entities.routines.Routine
 import com.enricog.routines.list.models.RoutinesState
 import com.enricog.routines.list.models.RoutinesViewState
@@ -55,20 +57,20 @@ class RoutinesViewModelTest {
 
             sut.onCreateRoutineClick()
 
-            coVerify { navigationActions.goToRoutine(routineId = null) }
+            coVerify { navigationActions.goToRoutine(routineId = ID.new()) }
         }
 
     @Test
     fun `test onRoutineClick should navigate to routine summary`() =
         coroutineRule {
-            val routine = Routine.EMPTY.copy(id = 1)
+            val routine = Routine.EMPTY.copy(id = 1.asID)
 
             val sut = buildSut()
             advanceUntilIdle()
 
             sut.onRoutineClick(routine)
 
-            coVerify { navigationActions.goToRoutineSummary(routineId = 1) }
+            coVerify { navigationActions.goToRoutineSummary(routineId = 1.asID) }
         }
 
     @Test

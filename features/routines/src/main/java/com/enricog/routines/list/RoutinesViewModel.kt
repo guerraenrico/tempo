@@ -3,6 +3,7 @@ package com.enricog.routines.list
 import androidx.lifecycle.viewModelScope
 import com.enricog.base_android.viewmodel.BaseViewModel
 import com.enricog.core.coroutine.dispatchers.CoroutineDispatchers
+import com.enricog.entities.ID
 import com.enricog.entities.routines.Routine
 import com.enricog.routines.list.models.RoutinesState
 import com.enricog.routines.list.models.RoutinesViewState
@@ -37,7 +38,7 @@ internal class RoutinesViewModel @Inject constructor(
     }
 
     fun onCreateRoutineClick() = launch {
-        navigationActions.goToRoutine(routineId = null)
+        navigationActions.goToRoutine(routineId = ID.new())
     }
 
     fun onRoutineClick(routine: Routine) = launch {

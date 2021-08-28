@@ -4,6 +4,7 @@ import androidx.lifecycle.SavedStateHandle
 import androidx.lifecycle.viewModelScope
 import com.enricog.base_android.viewmodel.BaseViewModel
 import com.enricog.core.coroutine.dispatchers.CoroutineDispatchers
+import com.enricog.entities.ID
 import com.enricog.entities.routines.Segment
 import com.enricog.navigation.routes.RoutineSummaryRoute
 import com.enricog.navigation.routes.RoutineSummaryRouteInput
@@ -46,7 +47,7 @@ internal class RoutineSummaryViewModel @Inject constructor(
     }
 
     fun onSegmentAdd() = launchWhen<RoutineSummaryState.Data> { stateData ->
-        navigationActions.goToSegment(routineId = stateData.routine.id, segmentId = null)
+        navigationActions.goToSegment(routineId = stateData.routine.id, segmentId = ID.new())
     }
 
     fun onSegmentSelected(segment: Segment) = launchWhen<RoutineSummaryState.Data> { stateData ->

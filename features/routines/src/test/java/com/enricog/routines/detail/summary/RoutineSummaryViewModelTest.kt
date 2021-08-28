@@ -3,6 +3,8 @@ package com.enricog.routines.detail.summary
 import androidx.lifecycle.SavedStateHandle
 import com.enricog.base_test.coroutine.CoroutineRule
 import com.enricog.base_test.entities.routines.EMPTY
+import com.enricog.entities.ID
+import com.enricog.entities.asID
 import com.enricog.entities.routines.Routine
 import com.enricog.entities.routines.Segment
 import com.enricog.routines.detail.summary.models.RoutineSummaryField
@@ -47,13 +49,13 @@ class RoutineSummaryViewModelTest {
     fun `should get routine on load`() = coroutineRule {
         buildSut()
 
-        verify { routineSummaryUseCase.get(routineId = 1) }
+        verify { routineSummaryUseCase.get(routineId = 1.asID) }
     }
 
     @Test
     fun `should goToSegment on add new segment`() = coroutineRule {
         val state = RoutineSummaryState.Data(
-            routine = Routine.EMPTY.copy(id = 1),
+            routine = Routine.EMPTY.copy(id = 1.asID),
             errors = emptyMap()
         )
         every { reducer.setup(routine = any()) } returns state
@@ -62,28 +64,28 @@ class RoutineSummaryViewModelTest {
 
         sut.onSegmentAdd()
 
-        coVerify { navigationActions.goToSegment(routineId = 1, segmentId = null) }
+        coVerify { navigationActions.goToSegment(routineId = 1.asID, segmentId = ID.new()) }
     }
 
     @Test
     fun `should goToSegment on segment selected`() = coroutineRule {
         val state = RoutineSummaryState.Data(
-            routine = Routine.EMPTY.copy(id = 1),
+            routine = Routine.EMPTY.copy(id = 1.asID),
             errors = emptyMap()
         )
         every { reducer.setup(routine = any()) } returns state
         val sut = buildSut()
         advanceUntilIdle()
 
-        sut.onSegmentSelected(Segment.EMPTY.copy(id = 2))
+        sut.onSegmentSelected(Segment.EMPTY.copy(id = 2.asID))
 
-        coVerify { navigationActions.goToSegment(routineId = 1, segmentId = 2) }
+        coVerify { navigationActions.goToSegment(routineId = 1.asID, segmentId = 2.asID) }
     }
 
     @Test
     fun `should update state and routine when segment is deleted`() = coroutineRule {
         val state = RoutineSummaryState.Data(routine = Routine.EMPTY, errors = emptyMap())
-        val segment = Segment.EMPTY.copy(id = 1)
+        val segment = Segment.EMPTY.copy(id = 1.asID)
         every { reducer.setup(routine = any()) } returns state
         every { reducer.deleteSegment(state = any(), segment = any()) } returns state
         val sut = buildSut()
@@ -97,7 +99,7 @@ class RoutineSummaryViewModelTest {
 
     @Test
     fun `should goToTimer when starting routine without errors`() = coroutineRule {
-        val routine = Routine.EMPTY.copy(id = 1)
+        val routine = Routine.EMPTY.copy(id = 1.asID)
         val state = RoutineSummaryState.Data(routine = routine, errors = emptyMap())
         every { reducer.setup(routine = any()) } returns state
         every { validator.validate(routine = any()) } returns emptyMap()
@@ -108,13 +110,13 @@ class RoutineSummaryViewModelTest {
 
         coVerify {
             validator.validate(routine = routine)
-            navigationActions.goToTimer(routineId = 1)
+            navigationActions.goToTimer(routineId = 1.asID)
         }
     }
 
     @Test
     fun `should apply errors to state when starting routine with errors`() = coroutineRule {
-        val routine = Routine.EMPTY.copy(id = 1)
+        val routine = Routine.EMPTY.copy(id = 1.asID)
         val errors = mapOf<RoutineSummaryField, RoutineSummaryFieldError>(
             RoutineSummaryField.Segments to RoutineSummaryFieldError.NoSegments
         )
@@ -137,7 +139,7 @@ class RoutineSummaryViewModelTest {
     @Test
     fun `should goToRoutine on edit routine`() = coroutineRule {
         val state = RoutineSummaryState.Data(
-            routine = Routine.EMPTY.copy(id = 1),
+            routine = Routine.EMPTY.copy(id = 1.asID),
             errors = emptyMap()
         )
         every { reducer.setup(routine = any()) } returns state
@@ -146,7 +148,7 @@ class RoutineSummaryViewModelTest {
 
         sut.onRoutineEdit()
 
-        coVerify { navigationActions.goToRoutine(routineId = 1) }
+        coVerify { navigationActions.goToRoutine(routineId = 1.asID) }
     }
 
     @Test
