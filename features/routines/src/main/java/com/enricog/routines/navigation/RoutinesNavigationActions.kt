@@ -1,57 +1,59 @@
 package com.enricog.routines.navigation
 
-interface RoutinesNavigationActions {
-    fun routinesBack()
-    fun goToRoutineSummary(routineId: Long)
-    fun goToRoutine(routineId: Long?)
-    fun goToSegment(routineId: Long, segmentId: Long?)
-    fun goToTimer(routineId: Long)
-}
+import com.enricog.navigation.NavigationAction.GoBack
+import com.enricog.navigation.Navigator
+import com.enricog.navigation.routes.RoutineRoute
+import com.enricog.navigation.routes.RoutineRouteInput
+import com.enricog.navigation.routes.RoutineSummaryRoute
+import com.enricog.navigation.routes.RoutineSummaryRouteInput
+import com.enricog.navigation.routes.RoutinesRoute
+import com.enricog.navigation.routes.SegmentRoute
+import com.enricog.navigation.routes.SegmentRouteInput
+import com.enricog.navigation.routes.TimerRoute
+import com.enricog.navigation.routes.TimerRouteInput
+import javax.inject.Inject
 
-object RoutinesNavigationConstants {
-    object Routines {
-        const val routeName = "routines"
+internal class RoutinesNavigationActions @Inject constructor(
+    private val navigator: Navigator
+) {
+
+    suspend fun goBack() {
+        navigator.navigate(GoBack)
     }
 
-    object RoutineSummary {
-        const val routeIdParamName = "routineId"
-
-        const val routeName = "routine/{$routeIdParamName}/summary"
-
-        fun applyRouteId(routineId: Long): String {
-            return "routine/$routineId/summary"
-        }
-    }
-
-    object Routine {
-        const val routeIdParamName = "routineId"
-
-        const val routeName = "routine/edit?routineId={$routeIdParamName}"
-
-        fun applyRouteId(routineId: Long?): String {
-            return buildString {
-                append("routine/edit")
-                if (routineId != null) {
-                    append("?routineId=$routineId")
-                }
+    suspend fun goToRoutineSummary(routineId: Long) {
+        val routeNavigation = RoutineSummaryRoute.navigate(
+            input = RoutineSummaryRouteInput(routineId = routineId),
+            optionsBuilder = {
+                popUpTo(RoutinesRoute.name) { inclusive = false }
             }
-        }
+        )
+        navigator.navigate(routeNavigation)
     }
 
-    object Segment {
-        const val routeIdParamName = "routineId"
-        const val segmentIdParamName = "segmentId"
+    suspend fun goToRoutine(routineId: Long?) {
+        val routeNavigation = RoutineRoute.navigate(
+            input = RoutineRouteInput(routineId = routineId),
+            optionsBuilder = null
+        )
+        navigator.navigate(routeNavigation)
+    }
 
-        const val routeName =
-            "routine/{$routeIdParamName}/segment/edit?segmentId={$segmentIdParamName}"
+    suspend fun goToSegment(routineId: Long, segmentId: Long?) {
+        val routeNavigation = SegmentRoute.navigate(
+            input = SegmentRouteInput(routineId = routineId, segmentId = segmentId),
+            optionsBuilder = null
+        )
+        navigator.navigate(routeNavigation)
+    }
 
-        fun applyRouteId(routineId: Long, segmentId: Long?): String {
-            return buildString {
-                append("routine/$routineId/segment/edit")
-                if (segmentId != null) {
-                    append("?segmentId=$segmentId")
-                }
+    suspend fun goToTimer(routineId: Long) {
+        val routeNavigation = TimerRoute.navigate(
+            input = TimerRouteInput(routineId = routineId),
+            optionsBuilder = {
+                popUpTo(RoutinesRoute.name) { inclusive = true }
             }
-        }
+        )
+        navigator.navigate(routeNavigation)
     }
 }

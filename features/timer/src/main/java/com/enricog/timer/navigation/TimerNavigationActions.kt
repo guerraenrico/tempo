@@ -1,15 +1,19 @@
 package com.enricog.timer.navigation
 
-interface TimerNavigationActions {
-    fun backToRoutines()
-}
+import com.enricog.navigation.Navigator
+import com.enricog.navigation.routes.RoutinesRoute
+import com.enricog.navigation.routes.RoutinesRouteInput
+import com.enricog.navigation.routes.TimerRoute
+import javax.inject.Inject
 
-object TimerNavigationConstants {
-    const val routeIdParamName = "routineId"
+internal class TimerNavigationActions @Inject constructor(
+    private val navigator: Navigator
+) {
 
-    const val routeName = "timer/{$routeIdParamName}"
-
-    fun applyRouteId(routineId: Long): String {
-        return "timer/$routineId"
+    suspend fun backToRoutines() {
+        val routeNavigation = RoutinesRoute.navigate(RoutinesRouteInput) {
+            popUpTo(TimerRoute.name) { inclusive = true }
+        }
+        navigator.navigate(routeNavigation)
     }
 }

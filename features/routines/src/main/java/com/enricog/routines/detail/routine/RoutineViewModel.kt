@@ -8,14 +8,15 @@ import com.enricog.core.coroutine.dispatchers.CoroutineDispatchers
 import com.enricog.core.coroutine.job.autoCancelableJob
 import com.enricog.entities.Seconds
 import com.enricog.entities.routines.Routine
+import com.enricog.navigation.routes.RoutineRoute
+import com.enricog.navigation.routes.RoutineRouteInput
 import com.enricog.routines.detail.routine.models.RoutineState
 import com.enricog.routines.detail.routine.models.RoutineViewState
 import com.enricog.routines.detail.routine.usecase.RoutineUseCase
 import com.enricog.routines.navigation.RoutinesNavigationActions
-import com.enricog.routines.navigation.RoutinesNavigationConstants.Routine.routeIdParamName
 import dagger.hilt.android.lifecycle.HiltViewModel
-import javax.inject.Inject
 import kotlinx.coroutines.launch
+import javax.inject.Inject
 
 @HiltViewModel
 internal class RoutineViewModel @Inject constructor(
@@ -36,13 +37,13 @@ internal class RoutineViewModel @Inject constructor(
     private var startRoutineJob by autoCancelableJob()
 
     init {
-        val routineId = savedStateHandle.get<Long>(routeIdParamName)!!
-        load(routineId)
+        val input = RoutineRoute.extractInput(savedStateHandle)
+        load(input)
     }
 
-    private fun load(routineId: Long) {
+    private fun load(input: RoutineRouteInput) {
         viewModelScope.launch {
-            val routine = routineUseCase.get(routineId)
+            val routine = routineUseCase.get(input.routineId!!)
             updateState { reducer.setup(routine) }
         }
     }
@@ -59,8 +60,8 @@ internal class RoutineViewModel @Inject constructor(
         }
     }
 
-    fun onRoutineBack() {
-        navigationActions.routinesBack()
+    fun onRoutineBack() = launch {
+        navigationActions.goBack()
     }
 
     fun onRoutineSave() = runWhen<RoutineState.Data> { stateData ->
@@ -81,7 +82,7 @@ internal class RoutineViewModel @Inject constructor(
             if (routine.isNew) {
                 navigationActions.goToRoutineSummary(routineId = routineId)
             } else {
-                navigationActions.routinesBack()
+                navigationActions.goBack()
             }
         }
     }

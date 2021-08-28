@@ -1,24 +1,13 @@
 package com.enricog.timer
 
 import androidx.navigation.NavGraphBuilder
-import androidx.navigation.NavType
-import androidx.navigation.compose.composable
-import androidx.navigation.compose.navArgument
 import androidx.navigation.navigation
-import com.enricog.timer.navigation.TimerNavigationConstants
-import com.enricog.ui_components.navigation.navViewModel
+import com.enricog.navigation.extensions.navViewModel
+import com.enricog.navigation.routes.TimerRoute
+import com.enricog.navigation.routes.TimerRoute.compose
 
 fun NavGraphBuilder.TimerNavigation() {
-    navigation(startDestination = TimerNavigationConstants.routeName, route = "timer") {
-        composable(
-            route = TimerNavigationConstants.routeName,
-            arguments = listOf(
-                navArgument(TimerNavigationConstants.routeIdParamName) {
-                    type = NavType.LongType; nullable = false
-                }
-            )
-        ) { navBackStackEntry ->
-            TimerScreen(viewModel = navViewModel(navBackStackEntry))
-        }
+    navigation(startDestination = TimerRoute.name, route = "timer") {
+        compose { TimerScreen(viewModel = navViewModel(it)) }
     }
 }

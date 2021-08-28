@@ -1,4 +1,4 @@
-package com.enricog.ui_components.navigation
+package com.enricog.navigation.extensions
 
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.platform.LocalContext

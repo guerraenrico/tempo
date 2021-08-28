@@ -40,6 +40,10 @@ open class BaseViewModel<ViewModelState : Any, ViewState : Any>(
         (state as? T)?.let(block)
     }
 
+    protected fun launch(block: suspend CoroutineScope.() -> Unit) {
+        viewModelScope.launch(block = block)
+    }
+
     protected inline fun <reified T : ViewModelState> launchWhen(
         noinline block: suspend CoroutineScope.(T) -> Unit
     ) {
