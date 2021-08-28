@@ -10,22 +10,22 @@ import androidx.navigation.compose.composable
 import androidx.navigation.compose.navArgument
 import androidx.navigation.navOptions
 import com.enricog.navigation.NavigationAction
-import com.enricog.navigation.routes.SegmentRoute.Params.routeId
+import com.enricog.navigation.routes.SegmentRoute.Params.routineId
 import com.enricog.navigation.routes.SegmentRoute.Params.segmentId
 
 object SegmentRoute : Route<SegmentRouteInput> {
     private object Params {
-        const val routeId = "routineId"
+        const val routineId = "routineId"
         const val segmentId = "segmentId"
     }
 
-    override val name = "routine/{$routeId}/segment/edit?segmentId={$segmentId}"
+    override val name = "routine/{$routineId}/segment/edit?segmentId={$segmentId}"
 
     override fun NavGraphBuilder.compose(content: @Composable (NavBackStackEntry) -> Unit) {
         composable(
             route = name,
             arguments = listOf(
-                navArgument(routeId) {
+                navArgument(routineId) {
                     type = NavType.LongType; defaultValue = 0L
                 },
                 navArgument(segmentId) {
@@ -52,10 +52,10 @@ object SegmentRoute : Route<SegmentRouteInput> {
 
     override fun extractInput(savedStateHandle: SavedStateHandle): SegmentRouteInput {
         return SegmentRouteInput(
-            routineId = savedStateHandle.get<Long>(routeId)!!,
-            segmentId = savedStateHandle.get<Long>(segmentId)!!
+            routineId = savedStateHandle.get<Long>(routineId)!!,
+            segmentId = savedStateHandle.get<Long>(segmentId) ?: 0
         )
     }
 }
 
-class SegmentRouteInput(val routineId: Long, val segmentId: Long?) : RouteInput
+data class SegmentRouteInput(val routineId: Long, val segmentId: Long?) : RouteInput
