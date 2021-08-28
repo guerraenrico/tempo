@@ -80,6 +80,6 @@ internal class RoutineSummaryViewModel @Inject constructor(
     }
 
     fun onBack() = launch {
-        navigationActions.goBackToRoutines()
+        navigationActions.goBack()
     }
 }

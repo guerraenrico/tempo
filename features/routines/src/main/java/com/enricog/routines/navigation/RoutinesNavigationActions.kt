@@ -17,7 +17,7 @@ internal class RoutinesNavigationActions @Inject constructor(
     private val navigator: Navigator
 ) {
 
-    suspend fun goBackToRoutines() {
+    suspend fun goBack() {
         navigator.navigate(GoBack)
     }
 

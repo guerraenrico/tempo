@@ -30,7 +30,7 @@ class RoutinesNavigationActionsTest {
     fun `test routinesBack`() = coroutineRule {
         val expected = GoBack
 
-        sut.goBackToRoutines()
+        sut.goBack()
 
         coVerify { navigator.navigate(expected) }
     }

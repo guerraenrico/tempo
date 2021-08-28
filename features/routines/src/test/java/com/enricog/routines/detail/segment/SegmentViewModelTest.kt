@@ -164,7 +164,7 @@ class SegmentViewModelTest {
 
         coVerify {
             segmentUseCase.save(routine = Routine.EMPTY, segment = Segment.EMPTY)
-            navigationActions.goBackToRoutines()
+            navigationActions.goBack()
         }
         verify(exactly = 0) { reducer.applySegmentErrors(state = any(), errors = any()) }
     }

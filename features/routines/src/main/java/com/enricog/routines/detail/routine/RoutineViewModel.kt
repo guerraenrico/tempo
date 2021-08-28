@@ -61,7 +61,7 @@ internal class RoutineViewModel @Inject constructor(
     }
 
     fun onRoutineBack() = launch {
-        navigationActions.goBackToRoutines()
+        navigationActions.goBack()
     }
 
     fun onRoutineSave() = runWhen<RoutineState.Data> { stateData ->
@@ -82,7 +82,7 @@ internal class RoutineViewModel @Inject constructor(
             if (routine.isNew) {
                 navigationActions.goToRoutineSummary(routineId = routineId)
             } else {
-                navigationActions.goBackToRoutines()
+                navigationActions.goBack()
             }
         }
     }

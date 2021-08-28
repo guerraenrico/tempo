@@ -90,7 +90,7 @@ class RoutineViewModelTest {
 
         sut.onRoutineBack()
 
-        coVerify { navigationActions.goBackToRoutines() }
+        coVerify { navigationActions.goBack() }
     }
 
     @Test
@@ -151,7 +151,7 @@ class RoutineViewModelTest {
 
             coVerify {
                 validator.validate(routine = routine)
-                navigationActions.goBackToRoutines()
+                navigationActions.goBack()
             }
             verify(exactly = 0) {
                 reducer.applyRoutineErrors(state = any(), errors = any())

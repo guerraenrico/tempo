@@ -84,11 +84,11 @@ internal class SegmentViewModel @Inject constructor(
     private fun save(routine: Routine, segment: Segment) {
         saveJob = viewModelScope.launch {
             segmentUseCase.save(routine = routine, segment = segment)
-            navigationActions.goBackToRoutines()
+            navigationActions.goBack()
         }
     }
 
     fun onSegmentBack() = launchWhen<SegmentState.Data> {
-        navigationActions.goBackToRoutines()
+        navigationActions.goBack()
     }
 }
