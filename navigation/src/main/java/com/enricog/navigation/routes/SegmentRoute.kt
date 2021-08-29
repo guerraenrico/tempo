@@ -27,10 +27,10 @@ object SegmentRoute : Route<SegmentRouteInput> {
             route = name,
             arguments = listOf(
                 navArgument(routineId) {
-                    type = NavType.LongType; defaultValue = 0L
+                    type = NavType.LongType
                 },
                 navArgument(segmentId) {
-                    type = NavType.LongType; defaultValue = 0L
+                    type = NavType.LongType
                 }
             ),
             content = content

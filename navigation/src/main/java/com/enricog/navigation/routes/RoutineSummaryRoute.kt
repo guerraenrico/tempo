@@ -26,7 +26,6 @@ object RoutineSummaryRoute : Route<RoutineSummaryRouteInput> {
             arguments = listOf(
                 navArgument(routineId) {
                     type = NavType.LongType
-                    defaultValue = 0L
                 }
             ),
             content = content

@@ -25,7 +25,7 @@ object TimerRoute : Route<TimerRouteInput> {
             route = name,
             arguments = listOf(
                 navArgument(routineId) {
-                    type = NavType.LongType; nullable = false
+                    type = NavType.LongType
                 }
             ),
             content = content
