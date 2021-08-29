@@ -3,6 +3,7 @@ package com.enricog.localdatasource.routine.model
 import androidx.room.ColumnInfo
 import androidx.room.Entity
 import androidx.room.PrimaryKey
+import com.enricog.entities.ID
 import com.enricog.entities.routines.Routine
 import com.enricog.entities.seconds
 import java.time.OffsetDateTime
@@ -17,7 +18,7 @@ internal data class InternalRoutine(
 ) {
     fun toEntity(segments: List<InternalSegment>): Routine {
         return Routine(
-            id = id,
+            id = ID.from(id),
             name = name,
             startTimeOffset = startTimeOffsetInSeconds.seconds,
             createdAt = createdAt,
@@ -29,7 +30,7 @@ internal data class InternalRoutine(
 
 internal fun Routine.toInternal(): InternalRoutine {
     return InternalRoutine(
-        id = id,
+        id = id.toLong(),
         name = name,
         startTimeOffsetInSeconds = startTimeOffset.value,
         createdAt = createdAt,

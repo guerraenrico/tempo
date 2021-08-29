@@ -2,6 +2,7 @@ package com.enricog.navigation.routes
 
 import androidx.lifecycle.SavedStateHandle
 import androidx.navigation.navOptions
+import com.enricog.entities.asID
 import com.enricog.navigation.NavigationAction
 import kotlin.test.assertEquals
 import org.junit.Test
@@ -17,8 +18,8 @@ class TimerRouteTest {
     }
 
     @Test
-    fun `test navigate with routine id`() {
-        val input = TimerRouteInput(routineId = 1)
+    fun `test navigate`() {
+        val input = TimerRouteInput(routineId = 1.asID)
         val navOptions = navOptions {}
         val expected = NavigationAction.GoTo(route = "timer/1", navOptions = navOptions)
 
@@ -28,9 +29,9 @@ class TimerRouteTest {
     }
 
     @Test
-    fun `test extractInput with routine id`() {
+    fun `test extractInput`() {
         val savedStateHandle = SavedStateHandle(mapOf("routineId" to 1L))
-        val expected = TimerRouteInput(routineId = 1)
+        val expected = TimerRouteInput(routineId = 1.asID)
 
         val actual = TimerRoute.extractInput(savedStateHandle = savedStateHandle)
 

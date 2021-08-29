@@ -1,5 +1,6 @@
 package com.enricog.localdatasource.routine.model
 
+import com.enricog.entities.asID
 import com.enricog.entities.routines.Routine
 import com.enricog.entities.routines.Segment
 import com.enricog.entities.routines.TimeType
@@ -14,14 +15,14 @@ class InternalRoutineTest {
     fun testMappingToInternal() {
         val now = OffsetDateTime.now()
         val routine = Routine(
-            id = 1,
+            id = 1.asID,
             name = "name",
             startTimeOffset = 2.seconds,
             createdAt = now,
             updatedAt = now,
             segments = listOf(
                 Segment(
-                    id = 3,
+                    id = 3.asID,
                     name = "name",
                     time = 4.seconds,
                     type = TimeType.TIMER
@@ -61,14 +62,14 @@ class InternalRoutineTest {
             updatedAt = now
         )
         val expected = Routine(
-            id = 1,
+            id = 1.asID,
             name = "name",
             startTimeOffset = 2.seconds,
             createdAt = now,
             updatedAt = now,
             segments = listOf(
                 Segment(
-                    id = 3,
+                    id = 3.asID,
                     name = "name",
                     time = 4.seconds,
                     type = TimeType.TIMER

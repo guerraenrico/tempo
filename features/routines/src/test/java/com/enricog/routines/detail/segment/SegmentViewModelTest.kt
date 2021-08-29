@@ -3,6 +3,7 @@ package com.enricog.routines.detail.segment
 import androidx.lifecycle.SavedStateHandle
 import com.enricog.base_test.coroutine.CoroutineRule
 import com.enricog.base_test.entities.routines.EMPTY
+import com.enricog.entities.asID
 import com.enricog.entities.routines.Routine
 import com.enricog.entities.routines.Segment
 import com.enricog.entities.routines.TimeType
@@ -43,6 +44,8 @@ class SegmentViewModelTest {
     @Before
     fun setup() {
         coEvery { segmentUseCase.get(routineId = any()) } returns Routine.EMPTY
+        // needed because right now mockk doesn't fully support value classes see https://github.com/mockk/mockk/issues/152
+        coEvery { segmentUseCase.save(routine = any(), segment = any()) } returns Unit
         coEvery { converter.convert(state = any()) } returns SegmentViewState.Idle
         every {
             reducer.setup(routine = any(), segmentId = any())
@@ -62,8 +65,8 @@ class SegmentViewModelTest {
         advanceUntilIdle()
 
         coVerify {
-            segmentUseCase.get(routineId = 1)
-            reducer.setup(routine = Routine.EMPTY, segmentId = 2)
+            segmentUseCase.get(routineId = 1.asID)
+            reducer.setup(routine = Routine.EMPTY, segmentId = 2.asID)
         }
     }
 

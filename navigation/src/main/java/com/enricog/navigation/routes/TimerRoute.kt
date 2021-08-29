@@ -9,6 +9,7 @@ import androidx.navigation.NavType
 import androidx.navigation.compose.composable
 import androidx.navigation.compose.navArgument
 import androidx.navigation.navOptions
+import com.enricog.entities.ID
 import com.enricog.navigation.NavigationAction
 import com.enricog.navigation.routes.TimerRoute.Params.routineId
 
@@ -24,7 +25,7 @@ object TimerRoute : Route<TimerRouteInput> {
             route = name,
             arguments = listOf(
                 navArgument(routineId) {
-                    type = NavType.LongType; nullable = false
+                    type = NavType.LongType
                 }
             ),
             content = content
@@ -35,14 +36,15 @@ object TimerRoute : Route<TimerRouteInput> {
         input: TimerRouteInput,
         optionsBuilder: (NavOptionsBuilder.() -> Unit)?
     ): NavigationAction {
-        val route = "timer/${input.routineId}"
+        val route = "timer/${input.routineId.toLong()}"
         val options = optionsBuilder?.let { navOptions(it) }
         return NavigationAction.GoTo(route = route, navOptions = options)
     }
 
     override fun extractInput(savedStateHandle: SavedStateHandle): TimerRouteInput {
-        return TimerRouteInput(routineId = savedStateHandle.get<Long>(routineId)!!)
+        val id = ID.from(savedStateHandle.get<Long>(routineId)!!)
+        return TimerRouteInput(routineId = id)
     }
 }
 
-data class TimerRouteInput(val routineId: Long) : RouteInput
+data class TimerRouteInput(val routineId: ID) : RouteInput

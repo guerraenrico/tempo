@@ -1,6 +1,7 @@
 package com.enricog.routines.detail.segment
 
 import com.enricog.base_test.entities.routines.EMPTY
+import com.enricog.entities.asID
 import com.enricog.entities.routines.Routine
 import com.enricog.entities.routines.Segment
 import com.enricog.entities.routines.TimeType
@@ -17,7 +18,7 @@ class SegmentReducerTest {
 
     @Test
     fun `should setup state with existing segment`() {
-        val segment = Segment.EMPTY.copy(id = 1)
+        val segment = Segment.EMPTY.copy(id = 1.asID)
         val routine = Routine.EMPTY.copy(
             segments = listOf(segment)
         )
@@ -28,7 +29,7 @@ class SegmentReducerTest {
             timeTypes = listOf(TimeType.TIMER, TimeType.REST, TimeType.STOPWATCH)
         )
 
-        val result = sut.setup(routine = routine, segmentId = 1)
+        val result = sut.setup(routine = routine, segmentId = 1.asID)
 
         assertEquals(expected, result)
     }
@@ -46,7 +47,7 @@ class SegmentReducerTest {
             timeTypes = listOf(TimeType.TIMER, TimeType.REST, TimeType.STOPWATCH)
         )
 
-        val result = sut.setup(routine = routine, segmentId = 0)
+        val result = sut.setup(routine = routine, segmentId = 0.asID)
 
         assertEquals(expected, result)
     }

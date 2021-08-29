@@ -3,6 +3,7 @@ package com.enricog.routines.detail.summary.usecase
 import com.enricog.base_test.coroutine.CoroutineRule
 import com.enricog.base_test.entities.routines.EMPTY
 import com.enricog.datasource.RoutineDataSource
+import com.enricog.entities.asID
 import com.enricog.entities.routines.Routine
 import io.mockk.coEvery
 import io.mockk.coVerify
@@ -29,16 +30,16 @@ class RoutineSummaryUseCaseTest {
         val routine = Routine.EMPTY
         every { routineDataSource.observe(any()) } returns flowOf(routine)
 
-        val result = sut.get(routineId = 1).first()
+        val result = sut.get(routineId = 1.asID).first()
 
         assertEquals(routine, result)
-        verify { routineDataSource.observe(id = 1) }
+        verify { routineDataSource.observe(id = 1.asID) }
     }
 
     @Test
     fun `should update routine`() = coroutineRule {
         val routine = Routine.EMPTY
-        coEvery { routineDataSource.update(any()) } returns 1
+        coEvery { routineDataSource.update(any()) } returns 1.asID
 
         sut.update(routine)
 

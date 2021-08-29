@@ -35,6 +35,8 @@ class RoutinesUseCaseTest {
     @Test
     fun `test delete`() = coroutineRule {
         val routine = Routine.EMPTY
+        // needed because right now mockk doesn't fully support value classes see https://github.com/mockk/mockk/issues/152
+        coEvery { routineDataSource.delete(any()) } returns Unit
 
         sut.delete(routine)
 

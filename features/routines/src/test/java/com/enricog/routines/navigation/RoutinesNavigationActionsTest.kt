@@ -1,6 +1,7 @@
 package com.enricog.routines.navigation
 
 import com.enricog.base_test.coroutine.CoroutineRule
+import com.enricog.entities.asID
 import com.enricog.navigation.NavigationAction.GoBack
 import com.enricog.navigation.Navigator
 import com.enricog.navigation.routes.RoutineRoute
@@ -38,13 +39,13 @@ class RoutinesNavigationActionsTest {
     @Test
     fun `test goToRoutineSummary`() = coroutineRule {
         val expected = RoutineSummaryRoute.navigate(
-            input = RoutineSummaryRouteInput(routineId = 1),
+            input = RoutineSummaryRouteInput(routineId = 1.asID),
             optionsBuilder = {
                 popUpTo(RoutinesRoute.name) { inclusive = false }
             }
         )
 
-        sut.goToRoutineSummary(routineId = 1)
+        sut.goToRoutineSummary(routineId = 1.asID)
 
         coVerify { navigator.navigate(expected) }
     }
@@ -52,11 +53,11 @@ class RoutinesNavigationActionsTest {
     @Test
     fun `test goToRoutine`() = coroutineRule {
         val expected = RoutineRoute.navigate(
-            input = RoutineRouteInput(routineId = 1),
+            input = RoutineRouteInput(routineId = 1.asID),
             optionsBuilder = null
         )
 
-        sut.goToRoutine(routineId = 1)
+        sut.goToRoutine(routineId = 1.asID)
 
         coVerify { navigator.navigate(expected) }
     }
@@ -64,11 +65,11 @@ class RoutinesNavigationActionsTest {
     @Test
     fun `test goToSegment`() = coroutineRule {
         val expected = SegmentRoute.navigate(
-            input = SegmentRouteInput(routineId = 1, segmentId = 2),
+            input = SegmentRouteInput(routineId = 1.asID, segmentId = 2.asID),
             optionsBuilder = null
         )
 
-        sut.goToSegment(routineId = 1, segmentId = 2)
+        sut.goToSegment(routineId = 1.asID, segmentId = 2.asID)
 
         coVerify { navigator.navigate(expected) }
     }
@@ -76,13 +77,13 @@ class RoutinesNavigationActionsTest {
     @Test
     fun `test goToTimer`() = coroutineRule {
         val expected = TimerRoute.navigate(
-            input = TimerRouteInput(routineId = 1),
+            input = TimerRouteInput(routineId = 1.asID),
             optionsBuilder = {
                 popUpTo(RoutinesRoute.name) { inclusive = true }
             }
         )
 
-        sut.goToTimer(routineId = 1)
+        sut.goToTimer(routineId = 1.asID)
 
         coVerify { navigator.navigate(expected) }
     }

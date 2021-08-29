@@ -43,7 +43,7 @@ internal class RoutineViewModel @Inject constructor(
 
     private fun load(input: RoutineRouteInput) {
         viewModelScope.launch {
-            val routine = routineUseCase.get(input.routineId!!)
+            val routine = routineUseCase.get(input.routineId)
             updateState { reducer.setup(routine) }
         }
     }

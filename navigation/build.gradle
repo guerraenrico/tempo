@@ -35,6 +35,8 @@ android {
 
 
 dependencies {
+    implementation project(":entities")
+    
     implementation Libs.Kotlin.coroutines
 
     implementation Libs.AndroidX.Compose.navigation

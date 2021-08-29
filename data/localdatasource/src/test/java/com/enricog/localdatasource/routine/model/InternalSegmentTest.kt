@@ -1,5 +1,6 @@
 package com.enricog.localdatasource.routine.model
 
+import com.enricog.entities.asID
 import com.enricog.entities.routines.Segment
 import com.enricog.entities.routines.TimeType
 import com.enricog.entities.seconds
@@ -12,7 +13,7 @@ class InternalSegmentTest {
     fun testMappingToInternal() {
         val routineId = 1L
         val segment = Segment(
-            id = 2,
+            id = 2.asID,
             name = "name",
             time = 3.seconds,
             type = TimeType.TIMER
@@ -40,7 +41,7 @@ class InternalSegmentTest {
             type = TimeType.TIMER
         )
         val expected = Segment(
-            id = 1,
+            id = 1.asID,
             name = "name",
             time = 3.seconds,
             type = TimeType.TIMER

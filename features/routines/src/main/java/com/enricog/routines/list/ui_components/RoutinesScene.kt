@@ -38,7 +38,7 @@ internal fun RoutinesScene(
         ) {
             items(
                 items = routines,
-                key = { routine -> routine.id }
+                key = { routine -> routine.id.toLong() }
             ) { routine ->
                 RoutineItem(
                     modifier = Modifier.fillMaxWidth(),

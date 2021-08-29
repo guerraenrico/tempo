@@ -62,7 +62,7 @@ internal fun RoutineSummaryScene(
                     when (item) {
                         is RoutineSummaryItem.RoutineInfo -> item.hashCode()
                         is RoutineSummaryItem.SegmentSectionTitle -> item.hashCode()
-                        is RoutineSummaryItem.SegmentItem -> item.segment.id
+                        is RoutineSummaryItem.SegmentItem -> item.segment.id.toLong()
                         RoutineSummaryItem.Space -> item.hashCode()
                     }.exhaustive
                 }

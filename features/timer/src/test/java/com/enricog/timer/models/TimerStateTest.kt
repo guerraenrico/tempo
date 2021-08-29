@@ -1,6 +1,7 @@
 package com.enricog.timer.models
 
 import com.enricog.base_test.entities.routines.EMPTY
+import com.enricog.entities.asID
 import com.enricog.entities.routines.Routine
 import com.enricog.entities.routines.Segment
 import com.enricog.entities.seconds
@@ -81,10 +82,10 @@ class TimerStateTest {
         var sut = TimerState.Counting(
             routine = Routine.EMPTY.copy(
                 segments = listOf(
-                    Segment.EMPTY.copy(id = 1), Segment.EMPTY.copy(id = 2)
+                    Segment.EMPTY.copy(id = 1.asID), Segment.EMPTY.copy(id = 2.asID)
                 )
             ),
-            runningSegment = Segment.EMPTY.copy(id = 2),
+            runningSegment = Segment.EMPTY.copy(id = 2.asID),
             step = SegmentStep(
                 count = Count(seconds = 0.seconds, isRunning = true, isCompleted = true),
                 type = SegmentStepType.IN_PROGRESS
@@ -95,10 +96,10 @@ class TimerStateTest {
         sut = TimerState.Counting(
             routine = Routine.EMPTY.copy(
                 segments = listOf(
-                    Segment.EMPTY.copy(id = 1), Segment.EMPTY.copy(id = 2)
+                    Segment.EMPTY.copy(id = 1.asID), Segment.EMPTY.copy(id = 2.asID)
                 )
             ),
-            runningSegment = Segment.EMPTY.copy(id = 1),
+            runningSegment = Segment.EMPTY.copy(id = 1.asID),
             step = SegmentStep(
                 count = Count(seconds = 0.seconds, isRunning = true, isCompleted = true),
                 type = SegmentStepType.IN_PROGRESS
@@ -109,10 +110,10 @@ class TimerStateTest {
         sut = TimerState.Counting(
             routine = Routine.EMPTY.copy(
                 segments = listOf(
-                    Segment.EMPTY.copy(id = 1), Segment.EMPTY.copy(id = 2)
+                    Segment.EMPTY.copy(id = 1.asID), Segment.EMPTY.copy(id = 2.asID)
                 )
             ),
-            runningSegment = Segment.EMPTY.copy(id = 2),
+            runningSegment = Segment.EMPTY.copy(id = 2.asID),
             step = SegmentStep(
                 count = Count(seconds = 0.seconds, isRunning = true, isCompleted = true),
                 type = SegmentStepType.STARTING
@@ -123,10 +124,10 @@ class TimerStateTest {
         sut = TimerState.Counting(
             routine = Routine.EMPTY.copy(
                 segments = listOf(
-                    Segment.EMPTY.copy(id = 1), Segment.EMPTY.copy(id = 2)
+                    Segment.EMPTY.copy(id = 1.asID), Segment.EMPTY.copy(id = 2.asID)
                 )
             ),
-            runningSegment = Segment.EMPTY.copy(id = 2),
+            runningSegment = Segment.EMPTY.copy(id = 2.asID),
             step = SegmentStep(
                 count = Count(seconds = 0.seconds, isRunning = true, isCompleted = false),
                 type = SegmentStepType.IN_PROGRESS
