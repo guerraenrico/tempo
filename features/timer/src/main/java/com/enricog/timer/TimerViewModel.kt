@@ -13,9 +13,11 @@ import com.enricog.timer.models.TimerActions
 import com.enricog.timer.models.TimerState
 import com.enricog.timer.models.TimerViewState
 import com.enricog.timer.navigation.TimerNavigationActions
+import com.enricog.timer.service.RoutineRunner
 import com.enricog.timer.usecase.TimerUseCase
 import dagger.hilt.android.lifecycle.HiltViewModel
-import kotlinx.coroutines.delay
+import kotlinx.coroutines.flow.launchIn
+import kotlinx.coroutines.flow.onEach
 import kotlinx.coroutines.launch
 import javax.inject.Inject
 
@@ -25,7 +27,7 @@ internal class TimerViewModel @Inject constructor(
     dispatchers: CoroutineDispatchers,
     converter: TimerStateConverter,
     private val navigationActions: TimerNavigationActions,
-    private val reducer: TimerReducer,
+    private val routineRunner: RoutineRunner,
     private val timerUseCase: TimerUseCase,
     private val windowScreenManager: WindowScreenManager
 ) : BaseViewModel<TimerState, TimerViewState>(
@@ -39,9 +41,12 @@ internal class TimerViewModel @Inject constructor(
 
     private var loadJob by autoCancelableJob()
 
-    private var startJob by autoCancelableJob()
 
     init {
+        routineRunner.state
+            .onEach { newState -> updateState { newState } }
+            .launchIn(viewModelScope)
+
         val input = TimerRoute.extractInput(savedStateHandle)
         load(input)
     }
@@ -54,21 +59,15 @@ internal class TimerViewModel @Inject constructor(
     }
 
     private fun start(routine: Routine) {
-        startJob = viewModelScope.launch {
-            updateState { reducer.setup(routine) }
-
-            delay(1000)
-
-            updateState { reducer.toggleTimeRunning(it) }
-        }
+        routineRunner.start(routine)
     }
 
     override fun onStartStopButtonClick() {
-        updateState { reducer.toggleTimeRunning(it) }
+        routineRunner.toggleTimeRunning()
     }
 
     override fun onRestartSegmentButtonClick() {
-        updateState { reducer.restartTime(it) }
+        routineRunner.restart()
     }
 
     override fun onResetButtonClick() = runWhen<TimerState.Counting> { state ->
@@ -81,45 +80,11 @@ internal class TimerViewModel @Inject constructor(
 
     override fun onStateUpdated(currentState: TimerState) {
         toggleKeepScreenOn(currentState)
-        if (currentState is TimerState.Counting) {
-            if (currentState.isCountRunning) {
-                startCounting()
-                return
-            }
-            if (currentState.isCountCompleted) {
-                stopCounting()
-                onCountCompleted()
-                return
-            }
-        }
-        stopCounting()
     }
 
     override fun onCloseButtonClick() = launch {
-        stopCounting()
+        routineRunner.stop()
         navigationActions.backToRoutines()
-    }
-
-    private fun onCountCompleted() {
-        viewModelScope.launch {
-            delay(1000)
-            updateState { reducer.nextStep(it) }
-        }
-    }
-
-    private fun startCounting() {
-        if (countingJob?.isActive == true) return
-
-        countingJob = viewModelScope.launch {
-            while (true) {
-                delay(1000)
-                updateState { reducer.progressTime(it) }
-            }
-        }
-    }
-
-    private fun stopCounting() {
-        countingJob?.cancel()
     }
 
     private fun toggleKeepScreenOn(currentState: TimerState) {
