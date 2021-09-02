@@ -14,6 +14,7 @@ import com.enricog.timer.models.TimerState
 import com.enricog.timer.models.TimerViewState
 import com.enricog.timer.navigation.TimerNavigationActions
 import com.enricog.timer.service.RoutineRunner
+import com.enricog.timer.service.TimerWorkerLauncher
 import com.enricog.timer.usecase.TimerUseCase
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.launchIn
@@ -29,7 +30,8 @@ internal class TimerViewModel @Inject constructor(
     private val navigationActions: TimerNavigationActions,
     private val routineRunner: RoutineRunner,
     private val timerUseCase: TimerUseCase,
-    private val windowScreenManager: WindowScreenManager
+    private val windowScreenManager: WindowScreenManager,
+    private val timerWorkerLauncher: TimerWorkerLauncher
 ) : BaseViewModel<TimerState, TimerViewState>(
     initialState = TimerState.Idle,
     converter = converter,
@@ -40,7 +42,6 @@ internal class TimerViewModel @Inject constructor(
     internal var countingJob by autoCancelableJob()
 
     private var loadJob by autoCancelableJob()
-
 
     init {
         routineRunner.state
@@ -85,6 +86,10 @@ internal class TimerViewModel @Inject constructor(
     override fun onCloseButtonClick() = launch {
         routineRunner.stop()
         navigationActions.backToRoutines()
+    }
+
+    override fun onAppInBackground() {
+        timerWorkerLauncher.launch()
     }
 
     private fun toggleKeepScreenOn(currentState: TimerState) {

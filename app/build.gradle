@@ -94,6 +94,10 @@ dependencies {
     kapt Libs.Room.compiler
     implementation Libs.Room.ktx
 
+    // WorkManager
+    implementation Libs.WorkManager.runtime
+    implementation Libs.Hilt.work
+
     // Compose
     implementation Libs.AndroidX.Compose.ui
     implementation Libs.AndroidX.Compose.material

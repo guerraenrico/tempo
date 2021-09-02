@@ -60,6 +60,11 @@ dependencies {
     implementation Libs.AndroidX.Compose.viewModel
     implementation Libs.AndroidX.Compose.constraintLayout
 
+    // WorkManager
+    implementation Libs.WorkManager.runtime
+    implementation Libs.Hilt.work
+    kapt Libs.Hilt.compiler
+
     // Hilt
     implementation Libs.Hilt.android
     kapt Libs.Hilt.androidCompiler

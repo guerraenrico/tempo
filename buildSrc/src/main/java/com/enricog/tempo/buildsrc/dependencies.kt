@@ -68,7 +68,8 @@ object Libs {
 
             const val navigation = "androidx.navigation:navigation-compose:2.4.0-alpha05"
             const val viewModel = "androidx.lifecycle:lifecycle-viewmodel-compose:1.0.0-alpha07"
-            const val constraintLayout = "androidx.constraintlayout:constraintlayout-compose:1.0.0-beta02"
+            const val constraintLayout =
+                "androidx.constraintlayout:constraintlayout-compose:1.0.0-beta02"
         }
     }
 
@@ -89,6 +90,7 @@ object Libs {
 
         const val android = "com.google.dagger:hilt-android:$androidVersion"
         const val androidCompiler = "com.google.dagger:hilt-android-compiler:$androidVersion"
+        const val compiler = "androidx.hilt:hilt-compiler:$version"
 
         const val navigation = "androidx.hilt:hilt-navigation-compose:1.0.0-alpha03"
 
@@ -101,6 +103,12 @@ object Libs {
         const val runtime = "androidx.room:room-runtime:$version"
         const val compiler = "androidx.room:room-compiler:$version"
         const val ktx = "androidx.room:room-ktx:$version"
+    }
+
+    object WorkManager {
+        private const val version = "2.6.0"
+
+        const val runtime = "androidx.work:work-runtime-ktx:$version"
     }
 
     const val Timber = "com.jakewharton.timber:timber:4.7.1"

@@ -6,4 +6,5 @@ interface TimerActions {
     fun onResetButtonClick()
     fun onDoneButtonClick()
     fun onCloseButtonClick()
+    fun onAppInBackground()
 }
