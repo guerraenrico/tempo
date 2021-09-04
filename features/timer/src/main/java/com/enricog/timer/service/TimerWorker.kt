@@ -1,5 +1,6 @@
 package com.enricog.timer.service
 
+import android.app.Notification
 import android.app.NotificationChannel
 import android.app.NotificationManager
 import android.content.Context
@@ -16,6 +17,7 @@ import com.enricog.timer.models.TimerState
 import dagger.assisted.Assisted
 import dagger.assisted.AssistedInject
 import kotlinx.coroutines.flow.collect
+import kotlinx.coroutines.flow.debounce
 
 @HiltWorker
 internal class TimerWorker @AssistedInject constructor(
@@ -36,16 +38,16 @@ internal class TimerWorker @AssistedInject constructor(
     }
 
     override suspend fun doWork(): Result {
+        setForeground(ForegroundInfo(NOTIFICATION_ID, createNotification(TimerState.Idle)))
+
         routineRunner.state
             .collect { newState ->
-                val foregroundInfo = createForegroundInfo(newState)
-                setForeground(foregroundInfo)
+                notificationManager.notify(NOTIFICATION_ID, createNotification(newState))
             }
         return Result.success()
     }
 
-    private fun createForegroundInfo(state: TimerState): ForegroundInfo {
-        val id = applicationContext.getString(R.string.timer_notification_id)
+    private fun createNotification(state: TimerState): Notification {
         val title = when (state) {
             TimerState.Idle -> applicationContext.getString(R.string.title_segment_step_type_starting)
             is TimerState.Counting -> state.runningSegment.name
@@ -61,17 +63,16 @@ internal class TimerWorker @AssistedInject constructor(
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
             createChannel()
         }
-
-        val notification = NotificationCompat.Builder(applicationContext, id)
+        return NotificationCompat.Builder(applicationContext, channelId)
+            .setOngoing(true)
+            .setOnlyAlertOnce(true)
             .setSmallIcon(R.drawable.ic_notification)
             .setContentTitle(title)
             .setTicker(title)
             .setContentText(content)
-            .setOngoing(true)
             .addAction(0, "Stop", intent)
             .build()
 
-        return ForegroundInfo(R.string.timer_notification_id, notification)
     }
 
     @RequiresApi(Build.VERSION_CODES.O)
@@ -84,5 +85,6 @@ internal class TimerWorker @AssistedInject constructor(
 
     companion object {
         const val NAME = "TimerWorker"
+        private val NOTIFICATION_ID = R.id.timer_notification_id
     }
 }

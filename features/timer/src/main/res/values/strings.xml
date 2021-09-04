@@ -3,7 +3,6 @@
     <string name="timer_notification_channel_id" translatable="false">tempo_timer_notification</string>
     <string name="timer_notification_channel_name" translatable="false">Tempo Timer</string>
     <string name="timer_notification_channel_description" translatable="false">Notification to run Tempo timer in background</string>
-    <string name="timer_notification_id" translatable="false">tempo_timer_notification</string>
 
     <string name="button_done">DONE</string>
     <string name="button_reset">RESET</string>

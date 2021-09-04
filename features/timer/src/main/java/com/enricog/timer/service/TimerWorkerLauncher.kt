@@ -1,6 +1,7 @@
 package com.enricog.timer.service
 
 import android.content.Context
+import androidx.work.Constraints
 import androidx.work.ExistingWorkPolicy
 import androidx.work.OneTimeWorkRequestBuilder
 import androidx.work.WorkManager
@@ -14,6 +15,8 @@ internal class TimerWorkerLauncher @Inject constructor(
 ) {
     fun launch() {
         val timerWorker = OneTimeWorkRequestBuilder<TimerWorker>()
+            .setConstraints(Constraints.Builder()
+                .build())
             .build()
         WorkManager.getInstance(context).enqueueUniqueWork(
             TimerWorker.NAME,
