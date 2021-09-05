@@ -4,7 +4,9 @@ import android.app.Notification
 import android.app.NotificationChannel
 import android.app.NotificationManager
 import android.content.Context
+import android.content.pm.ServiceInfo
 import android.os.Build
+import android.os.PowerManager
 import androidx.annotation.RequiresApi
 import androidx.core.app.NotificationCompat
 import androidx.hilt.work.HiltWorker
@@ -17,11 +19,10 @@ import com.enricog.timer.models.TimerState
 import dagger.assisted.Assisted
 import dagger.assisted.AssistedInject
 import kotlinx.coroutines.flow.collect
-import kotlinx.coroutines.flow.debounce
 
 @HiltWorker
 internal class TimerWorker @AssistedInject constructor(
-    @Assisted context: Context,
+    @Assisted private val context: Context,
     @Assisted workerParams: WorkerParameters,
     private val routineRunner: RoutineRunner
 ) : CoroutineWorker(context, workerParams) {
@@ -33,18 +34,35 @@ internal class TimerWorker @AssistedInject constructor(
     private val notificationManager =
         context.getSystemService(Context.NOTIFICATION_SERVICE) as NotificationManager
 
-    init {
-        print("")
+    override suspend fun doWork(): Result {
+//        val wakeLock = (context.getSystemService(Context.POWER_SERVICE) as PowerManager)
+//            .newWakeLock(PowerManager.PARTIAL_WAKE_LOCK, "TimerWorker::lock")
+//        wakeLock.acquire(10*60*1000L /*10 minutes*/)
+
+        try {
+            setForeground(createForegroundInfo(TimerState.Idle))
+            routineRunner.state
+                .collect { newState ->
+                    notificationManager.notify(NOTIFICATION_ID, createNotification(newState))
+                }
+        } finally {
+//            wakeLock.release()
+        }
+
+        return Result.success()
     }
 
-    override suspend fun doWork(): Result {
-        setForeground(ForegroundInfo(NOTIFICATION_ID, createNotification(TimerState.Idle)))
-
-        routineRunner.state
-            .collect { newState ->
-                notificationManager.notify(NOTIFICATION_ID, createNotification(newState))
-            }
-        return Result.success()
+    private fun createForegroundInfo(state: TimerState): ForegroundInfo {
+        val notification = createNotification(state)
+        return if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.Q) {
+            ForegroundInfo(
+                NOTIFICATION_ID,
+                notification,
+                ServiceInfo.FOREGROUND_SERVICE_TYPE_MEDIA_PLAYBACK
+            )
+        } else {
+            ForegroundInfo(NOTIFICATION_ID, notification)
+        }
     }
 
     private fun createNotification(state: TimerState): Notification {
@@ -58,7 +76,7 @@ internal class TimerWorker @AssistedInject constructor(
         }
 
         val intent = WorkManager.getInstance(applicationContext)
-            .createCancelPendingIntent(getId())
+            .createCancelPendingIntent(id)
 
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
             createChannel()
@@ -72,12 +90,11 @@ internal class TimerWorker @AssistedInject constructor(
             .setContentText(content)
             .addAction(0, "Stop", intent)
             .build()
-
     }
 
     @RequiresApi(Build.VERSION_CODES.O)
     private fun createChannel() {
-        val importance = NotificationManager.IMPORTANCE_LOW
+        val importance = NotificationManager.IMPORTANCE_HIGH
         val channel = NotificationChannel(channelId, channelName, importance)
         channel.description = channelDescription
         notificationManager.createNotificationChannel(channel)

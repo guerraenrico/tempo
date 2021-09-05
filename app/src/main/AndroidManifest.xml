@@ -4,6 +4,7 @@
     package="com.enricog.tempo">
 
     <uses-permission android:name="android.permission.FOREGROUND_SERVICE"/>
+    <uses-permission android:name="android.permission.WAKE_LOCK" />
 
     <application
         android:name=".TempoApplication"
@@ -33,6 +34,11 @@
             android:authorities="${applicationId}.androidx-startup"
             tools:node="remove">
         </provider>
+
+<!--        <service-->
+<!--            android:name="androidx.work.impl.foreground.SystemForegroundService"-->
+<!--            android:foregroundServiceType="mediaPlayback"-->
+<!--            tools:node="merge" />-->
 
     </application>
 

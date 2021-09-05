@@ -24,25 +24,26 @@ import java.lang.IllegalArgumentException
 import javax.inject.Inject
 
 @AndroidEntryPoint
-internal class TimerService: Service() {
+internal class TimerService : Service() {
 
     @Inject
-    @ApplicationContext lateinit var context: Context
+    @ApplicationContext
+    lateinit var context: Context
 
     @Inject
-    @ApplicationCoroutineScope lateinit var scope: CoroutineScope
+    @ApplicationCoroutineScope
+    lateinit var scope: CoroutineScope
 
     @Inject
     lateinit var routineRunner: RoutineRunner
 
+    private val channelId by lazy { context.getString(R.string.timer_notification_channel_id) }
+    private val channelName by lazy { context.getString(R.string.timer_notification_channel_name) }
+    private val channelDescription by lazy { context.getString(R.string.timer_notification_channel_description) }
 
-    private val channelId = context.getString(R.string.timer_notification_channel_id)
-    private val channelName = context.getString(R.string.timer_notification_channel_name)
-    private val channelDescription =
-        context.getString(R.string.timer_notification_channel_description)
-
-    private val notificationManager =
+    private val notificationManager by lazy {
         context.getSystemService(NOTIFICATION_SERVICE) as NotificationManager
+    }
 
     private var serviceJob by autoCancelableJob()
 
@@ -69,6 +70,11 @@ internal class TimerService: Service() {
             startForeground(NOTIFICATION_ID, notification)
         }
         start()
+    }
+
+    override fun onDestroy() {
+        super.onDestroy()
+        stop()
     }
 
     private fun start() {

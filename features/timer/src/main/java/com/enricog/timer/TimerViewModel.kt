@@ -89,7 +89,8 @@ internal class TimerViewModel @Inject constructor(
     }
 
     override fun onAppInBackground() {
-        timerWorkerLauncher.launch()
+//        timerWorkerLauncher.launch()
+        timerWorkerLauncher.launchService()
     }
 
     private fun toggleKeepScreenOn(currentState: TimerState) {
