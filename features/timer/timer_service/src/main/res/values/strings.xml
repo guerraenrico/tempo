@@ -1,0 +1,8 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="timer_service_notification_channel_id" translatable="false">tempo_timer_notification</string>
+    <string name="timer_service_notification_channel_name" translatable="false">Tempo Timer</string>
+    <string name="timer_service_notification_channel_description" translatable="false">Notification to run Tempo timer in background</string>
+
+    <string name="timer_service_title_segment_step_type_starting">STARTING</string>
+</resources>

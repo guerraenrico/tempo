@@ -1,0 +1,60 @@
+import com.enricog.tempo.buildsrc.Libs
+import com.enricog.tempo.buildsrc.Versions
+
+plugins {
+    id 'com.android.library'
+    id 'kotlin-android'
+    id 'kotlin-parcelize'
+    id 'kotlin-kapt'
+    id 'dagger.hilt.android.plugin'
+}
+
+android {
+    compileSdkVersion Versions.compileSdk
+
+    defaultConfig {
+        minSdkVersion Versions.minSdk
+
+        testInstrumentationRunner 'androidx.test.runner.AndroidJUnitRunner'
+    }
+
+    compileOptions {
+        sourceCompatibility JavaVersion.VERSION_1_8
+        targetCompatibility JavaVersion.VERSION_1_8
+    }
+
+    packagingOptions {
+        exclude "META-INF/licenses/**"
+        exclude "META-INF/AL2.0"
+        exclude "META-INF/LGPL2.1"
+    }
+}
+
+
+dependencies {
+    implementation project(":core")
+    implementation project(":entities")
+    implementation project(":data:datasource")
+
+    implementation Libs.AndroidX.appCompat
+    implementation Libs.AndroidX.coreKtx
+    implementation Libs.AndroidX.Media.session
+
+    // WorkManager
+    implementation Libs.WorkManager.runtime
+    implementation Libs.Hilt.work
+    kapt Libs.Hilt.compiler
+
+    // Hilt
+    implementation Libs.Hilt.android
+    kapt Libs.Hilt.androidCompiler
+    implementation Libs.Hilt.navigation
+
+    // Test
+    testImplementation project(":base:base_test")
+    testImplementation Libs.Kotlin.Test.coroutines
+    testImplementation Libs.Kotlin.Test.kotlin
+    testImplementation Libs.Test.junit
+    testImplementation Libs.Test.flow
+    testImplementation Libs.Mockk.lib
+}

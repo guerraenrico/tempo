@@ -39,6 +39,14 @@ object Libs {
 
         const val appCompat = "androidx.appcompat:appcompat:1.3.1"
 
+        object Media {
+            private const val version = "1.1.3"
+
+            const val session = "androidx.media2:media2-session:$version"
+        }
+
+
+
         object Test {
             const val junitKtx = "androidx.test.ext:junit-ktx:1.1.2"
 

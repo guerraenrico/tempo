@@ -24,6 +24,8 @@
             <option value="$PROJECT_DIR$/features" />
             <option value="$PROJECT_DIR$/features/routines" />
             <option value="$PROJECT_DIR$/features/timer" />
+            <option value="$PROJECT_DIR$/features/timer/timer_screen" />
+            <option value="$PROJECT_DIR$/features/timer/timer_service" />
             <option value="$PROJECT_DIR$/navigation" />
             <option value="$PROJECT_DIR$/ui_components" />
           </set>
