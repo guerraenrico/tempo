@@ -20,7 +20,6 @@ import dagger.hilt.android.qualifiers.ApplicationContext
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.flow.collect
 import kotlinx.coroutines.launch
-import java.lang.IllegalArgumentException
 import javax.inject.Inject
 
 @AndroidEntryPoint
@@ -36,6 +35,8 @@ internal class TimerService : Service() {
 
     @Inject
     lateinit var routineRunner: RoutineRunner
+
+    private var isStarted = false
 
     private val channelId by lazy { context.getString(R.string.timer_notification_channel_id) }
     private val channelName by lazy { context.getString(R.string.timer_notification_channel_name) }
@@ -53,7 +54,7 @@ internal class TimerService : Service() {
             TimerServiceActions.STOP.name -> stop()
             else -> throw IllegalArgumentException("${intent?.action} is not a valid TimerService action")
         }
-        return START_STICKY
+        return START_NOT_STICKY
     }
 
 
@@ -78,6 +79,8 @@ internal class TimerService : Service() {
     }
 
     private fun start() {
+        if (isStarted) return
+        isStarted = true
         serviceJob = scope.launch {
             routineRunner.state.collect { state ->
                 val notification = createNotification(state)
@@ -106,7 +109,9 @@ internal class TimerService : Service() {
             .setContentTitle(title)
             .setTicker(title)
             .setContentText(content)
-            .setOngoing(true)
+            .setPriority(NotificationCompat.PRIORITY_DEFAULT)
+            .setCategory(NotificationCompat.CATEGORY_STOPWATCH)
+            .setGroup(NOTIFICATION_GROUP)
             .build()
     }
 
@@ -119,14 +124,16 @@ internal class TimerService : Service() {
     }
 
     private fun stop() {
+        isStarted = false
         serviceJob?.cancel()
     }
 
     companion object {
         private val NOTIFICATION_ID = R.id.timer_notification_id
+        private const val NOTIFICATION_GROUP = "com.enricog.tempo"
     }
 }
 
 internal enum class TimerServiceActions {
-    START, STOP
+    START, STOP,
 }
