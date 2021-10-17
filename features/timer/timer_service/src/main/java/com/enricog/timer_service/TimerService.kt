@@ -3,19 +3,26 @@ package com.enricog.timer_service
 import android.app.Notification
 import android.app.NotificationChannel
 import android.app.NotificationManager
+import android.app.PendingIntent
 import android.app.Service
 import android.content.Context
 import android.content.Intent
 import android.content.pm.ServiceInfo
 import android.os.Build
+import android.os.Bundle
 import android.os.IBinder
+import android.support.v4.media.MediaBrowserCompat
 import androidx.annotation.RequiresApi
 import androidx.core.app.NotificationCompat
+import androidx.media.MediaBrowserServiceCompat
 import com.enricog.core.coroutine.job.autoCancelableJob
 import com.enricog.core.coroutine.scope.ApplicationCoroutineScope
-import com.enricog.timer_service.controller.TimerControllerImpl
+import com.enricog.timer_service.controller.TimerController
 import com.enricog.timer_service.models.TimerState
+import dagger.hilt.EntryPoint
+import dagger.hilt.InstallIn
 import dagger.hilt.android.AndroidEntryPoint
+import dagger.hilt.android.components.ServiceComponent
 import dagger.hilt.android.qualifiers.ApplicationContext
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.flow.collect
@@ -34,7 +41,7 @@ internal class TimerService : Service() {
     lateinit var scope: CoroutineScope
 
     @Inject
-    lateinit var timerController: TimerControllerImpl
+    lateinit var timerController: TimerController
 
     private var isStarted = false
 
@@ -109,10 +116,32 @@ internal class TimerService : Service() {
             .setContentTitle(title)
             .setTicker(title)
             .setContentText(content)
+            .addAction(
+                NotificationCompat.Action.Builder(
+                    R.drawable.media_session_service_notification_ic_play,
+                    "Stop",
+                    buildPendingIntent(context, TimerServiceActions.STOP.name)
+                ).build()
+            )
             .setPriority(NotificationCompat.PRIORITY_DEFAULT)
             .setCategory(NotificationCompat.CATEGORY_STOPWATCH)
             .setGroup(NOTIFICATION_GROUP)
             .build()
+    }
+
+    private fun buildPendingIntent(context: Context, action: String): PendingIntent {
+        val intent = Intent(context, TimerService::class.java)
+        intent.action = action
+        return if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
+            PendingIntent.getForegroundService(
+                context,
+                0,
+                intent,
+                PendingIntent.FLAG_CANCEL_CURRENT
+            )
+        } else {
+            PendingIntent.getService(context, 0, intent, PendingIntent.FLAG_CANCEL_CURRENT)
+        }
     }
 
     @RequiresApi(Build.VERSION_CODES.O)
