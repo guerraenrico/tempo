@@ -10,7 +10,7 @@ buildscript {
     }
     dependencies {
         classpath 'com.android.tools.build:gradle:7.0.3'
-        classpath "org.jetbrains.kotlin:kotlin-gradle-plugin:1.5.20"
+        classpath "org.jetbrains.kotlin:kotlin-gradle-plugin:${Libs.Kotlin.version}"
         classpath "com.google.dagger:hilt-android-gradle-plugin:${Libs.Hilt.androidVersion}"
 
         classpath 'com.google.gms:google-services:4.3.10'
@@ -55,14 +55,10 @@ subprojects {
             freeCompilerArgs += [
                     // Enable experimental coroutines APIs, including Flow
                     "-Xopt-in=kotlin.RequiresOptIn",
-                    "-Xuse-experimental=kotlinx.coroutines.ExperimentalCoroutinesApi",
-                    "-Xuse-experimental=kotlin.contracts.ExperimentalContracts",
-                    "-Xuse-experimental=kotlin.time.ExperimentalTime",
-                    "-Xuse-experimental=kotlin.ExperimentalStdlibApi",
-                    "-Xuse-experimental=androidx.compose.material.ExperimentalMaterialApi",
-                    "-Xuse-experimental=androidx.compose.foundation.ExperimentalFoundationApi",
-                    "-Xuse-experimental=androidx.compose.ui.ExperimentalComposeUiApi",
-                    "-Xuse-experimental=androidx.compose.animation.ExperimentalAnimationApi",
+                    "-Xopt-in=kotlinx.coroutines.ExperimentalCoroutinesApi",
+                    "-Xopt-in=kotlin.contracts.ExperimentalContracts",
+                    "-Xopt-in=kotlin.time.ExperimentalTime",
+                    "-Xopt-in=kotlin.ExperimentalStdlibApi",
                     "-Xopt-in=kotlinx.coroutines.FlowPreview",
 
                     "-Xskip-prerelease-check",

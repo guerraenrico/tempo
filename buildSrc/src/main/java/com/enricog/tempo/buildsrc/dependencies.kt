@@ -45,8 +45,6 @@ object Libs {
             const val session = "androidx.media2:media2-session:$version"
         }
 
-
-
         object Test {
             const val junitKtx = "androidx.test.ext:junit-ktx:1.1.2"
 
@@ -133,7 +131,7 @@ object Libs {
     }
 
     object Firebase {
-        private const val version = "28.3.0"
+        private const val version = "28.4.2"
 
         const val bom = "com.google.firebase:firebase-bom:$version"
         const val crashlytics = "com.google.firebase:firebase-crashlytics-ktx"

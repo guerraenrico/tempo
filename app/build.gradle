@@ -70,7 +70,6 @@ android {
     }
 
     composeOptions {
-        kotlinCompilerVersion Libs.Kotlin.version
         kotlinCompilerExtensionVersion Libs.AndroidX.Compose.version
     }
 }
@@ -109,7 +108,6 @@ dependencies {
     // Hilt
     implementation Libs.Hilt.android
     kapt Libs.Hilt.androidCompiler
-    implementation Libs.Hilt.navigation
 
     // Firebase
     implementation platform(Libs.Firebase.bom)

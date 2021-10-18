@@ -27,7 +27,6 @@ android {
         compose true
     }
     composeOptions {
-        kotlinCompilerVersion Libs.Kotlin.version
         kotlinCompilerExtensionVersion Libs.AndroidX.Compose.version
     }
 
@@ -69,7 +68,6 @@ dependencies {
     // Hilt
     implementation Libs.Hilt.android
     kapt Libs.Hilt.androidCompiler
-    implementation Libs.Hilt.navigation
 
     // Test
     testImplementation project(":base:base_test")
