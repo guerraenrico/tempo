@@ -38,18 +38,6 @@ allprojects {
 }
 
 subprojects {
-    configurations.configureEach {
-        resolutionStrategy.eachDependency { DependencyResolveDetails details ->
-            def group = details.requested.group
-            def module = details.requested.module.name
-
-            if (group == 'org.jetbrains.kotlin' && module == 'kotlin-stdlib-jdk7') {
-                // Force kotlin-stdlib module version
-                details.useTarget Libs.Kotlin.stdlib
-            }
-        }
-    }
-
     tasks.withType(org.jetbrains.kotlin.gradle.tasks.KotlinCompile).all {
         kotlinOptions {
             freeCompilerArgs += [
