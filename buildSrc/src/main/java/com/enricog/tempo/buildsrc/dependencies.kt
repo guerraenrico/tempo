@@ -39,12 +39,6 @@ object Libs {
 
         const val appCompat = "androidx.appcompat:appcompat:1.3.1"
 
-        object Media {
-            private const val version = "1.1.3"
-
-            const val session = "androidx.media2:media2-session:$version"
-        }
-
         object Test {
             const val junitKtx = "androidx.test.ext:junit-ktx:1.1.2"
 
@@ -108,12 +102,6 @@ object Libs {
         const val runtime = "androidx.room:room-runtime:$version"
         const val compiler = "androidx.room:room-compiler:$version"
         const val ktx = "androidx.room:room-ktx:$version"
-    }
-
-    object WorkManager {
-        private const val version = "2.6.0"
-
-        const val runtime = "androidx.work:work-runtime-ktx:$version"
     }
 
     const val Timber = "com.jakewharton.timber:timber:4.7.1"
