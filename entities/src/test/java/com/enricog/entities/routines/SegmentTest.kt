@@ -1,5 +1,6 @@
 package com.enricog.entities.routines
 
+import com.enricog.entities.Rank
 import com.enricog.entities.asID
 import com.enricog.entities.seconds
 import org.junit.Rule
@@ -21,7 +22,8 @@ class SegmentTest {
             id = 0.asID,
             name = "",
             time = time,
-            type = TimeType.TIMER
+            type = TimeType.TIMER,
+            rank = Rank.NOT_SET
         )
     }
 
@@ -37,7 +39,8 @@ class SegmentTest {
             id = 0.asID,
             name = "",
             time = 50.seconds,
-            type = TimeType.TIMER
+            type = TimeType.TIMER,
+            rank = Rank.NOT_SET
         )
         segment.copy(time = time)
     }
@@ -48,7 +51,8 @@ class SegmentTest {
             id = 0.asID,
             name = "",
             time = 50.seconds,
-            type = TimeType.TIMER
+            type = TimeType.TIMER,
+            rank = Rank.NOT_SET
         )
     }
 
@@ -59,7 +63,8 @@ class SegmentTest {
             id = 0.asID,
             name = "",
             time = 50.seconds,
-            type = TimeType.TIMER
+            type = TimeType.TIMER,
+            rank = Rank.NOT_SET
         )
         segment.copy(time = 0.seconds)
     }
