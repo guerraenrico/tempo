@@ -19,19 +19,18 @@ data class Segment(
         }
     }
 
-    companion object {
-        val NEW: Segment
-            get() {
-                return Segment(
-                    id = ID.new(),
-                    name = "",
-                    time = 0.seconds,
-                    type = TimeType.TIMER,
-                    rank = Rank.NOT_SET
-                )
-            }
-    }
-
     val isNew: Boolean
         get() = id.isNew
+
+    companion object {
+        fun create(rank: Rank): Segment {
+            return Segment(
+                id = ID.new(),
+                name = "",
+                time = 0.seconds,
+                type = TimeType.TIMER,
+                rank = rank
+            )
+        }
+    }
 }

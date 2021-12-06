@@ -7,18 +7,36 @@ import org.junit.Test
 class RankTest {
 
     @Test
-    fun `calculate rank between min and max`() {
-        val rank1 = Rank.MIN
-        val rank2 = Rank.MAX
+    fun `calculateFist should return middle rank`() {
         val expected = Rank.from("mzzz")
 
-        val actual = Rank.calculate(rank1 = rank1, rank2 = rank2)
+        val actual = Rank.calculateFist()
 
         assertEquals(expected, actual)
     }
 
     @Test
-    fun `calculate rank between`() {
+    fun `calculateTop should return the rank between the top most rank and the one indicated`() {
+        val rank = Rank.from("cccc")
+        val expected = Rank.from("bbbb")
+
+        val actual = Rank.calculateTop(rank = rank)
+
+        assertEquals(expected, actual)
+    }
+
+    @Test
+    fun `calculateBottom should return the rank between the bottom most rank and the one indicated`() {
+        val rank = Rank.from("cccc")
+        val expected = Rank.from("obba")
+
+        val actual = Rank.calculateBottom(rank = rank)
+
+        assertEquals(expected, actual)
+    }
+
+    @Test
+    fun `calculate should return a rank between two ranks`() {
         val rank1 = Rank.from("aaaa")
         val rank2 = Rank.from("cccc")
         val expected = Rank.from("bbbb")

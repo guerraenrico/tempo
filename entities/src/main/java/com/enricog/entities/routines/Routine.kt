@@ -1,6 +1,7 @@
 package com.enricog.entities.routines
 
 import com.enricog.entities.ID
+import com.enricog.entities.Rank
 import com.enricog.entities.Seconds
 import com.enricog.entities.seconds
 import java.time.OffsetDateTime
@@ -23,6 +24,16 @@ data class Routine(
         }
     }
 
+    val isNew: Boolean
+        get() = id.isNew
+
+    fun getNewSegmentRank(): Rank {
+        return when {
+            segments.isEmpty() -> Rank.calculateFist()
+            else -> Rank.calculateBottom(segments.first().rank)
+        }
+    }
+
     companion object {
         val NEW: Routine
             get() {
@@ -39,7 +50,4 @@ data class Routine(
 
         val MAX_START_TIME_OFFSET = 60.seconds
     }
-
-    val isNew: Boolean
-        get() = id.isNew
 }

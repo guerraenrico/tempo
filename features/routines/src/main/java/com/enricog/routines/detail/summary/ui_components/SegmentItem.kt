@@ -10,6 +10,7 @@ import androidx.compose.ui.platform.testTag
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.constraintlayout.compose.ConstraintLayout
 import androidx.constraintlayout.compose.Dimension
+import com.enricog.entities.Rank
 import com.enricog.entities.asID
 import com.enricog.entities.routines.Segment
 import com.enricog.entities.routines.TimeType
@@ -90,7 +91,8 @@ private fun SegmentItemPreview() {
             id = 0.asID,
             name = "Segment name",
             time = 100.seconds,
-            type = TimeType.REST
+            type = TimeType.REST,
+            rank = Rank.from(value = "aaaa")
         ),
         onClick = {},
         onDelete = {}

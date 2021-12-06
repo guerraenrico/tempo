@@ -1,6 +1,7 @@
 package com.enricog.routines.detail.segment
 
 import com.enricog.base_test.entities.routines.EMPTY
+import com.enricog.entities.Rank
 import com.enricog.entities.asID
 import com.enricog.entities.routines.Routine
 import com.enricog.entities.routines.Segment
@@ -9,8 +10,8 @@ import com.enricog.entities.seconds
 import com.enricog.routines.detail.segment.models.SegmentField
 import com.enricog.routines.detail.segment.models.SegmentFieldError
 import com.enricog.routines.detail.segment.models.SegmentState
-import kotlin.test.assertEquals
 import org.junit.Test
+import kotlin.test.assertEquals
 
 class SegmentReducerTest {
 
@@ -36,7 +37,7 @@ class SegmentReducerTest {
 
     @Test
     fun `should setup state with new segment`() {
-        val segment = Segment.NEW
+        val segment = Segment.create(Rank.from("mzzz"))
         val routine = Routine.EMPTY.copy(
             segments = emptyList()
         )
