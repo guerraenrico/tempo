@@ -19,9 +19,11 @@ value class Rank private constructor(private val value: String) {
     }
 
     companion object {
-        private const val RANK_LENGTH = 4
-        private val MIN = Rank(value = "aaaa")
-        private val MAX = Rank(value = "zzzz")
+        private const val RANK_LENGTH = 6
+        private const val MIN_CHAR = 'a'
+        private const val MAX_CHAR = 'z'
+        private val MIN_RANK = Rank(value = "aaaaaa")
+        private val MAX_RANK = Rank(value = "zzzzzz")
 
         private const val ALPHABET_SIZE = 26
 
@@ -33,21 +35,21 @@ value class Rank private constructor(private val value: String) {
          * Calculate the rank of the very first item of the list.
          */
         fun calculateFist(): Rank {
-            return calculate(rank1 = MIN, rank2 = MAX)
+            return calculate(rank1 = MIN_RANK, rank2 = MAX_RANK)
         }
 
         /**
          * Calculate the rank for the fist item of the list.
          */
         fun calculateTop(rank: Rank): Rank {
-            return calculate(rank1 = MIN, rank2 = rank)
+            return calculate(rank1 = MIN_RANK, rank2 = rank)
         }
 
         /**
          * Calculate the rank for the last item of the list.
          */
         fun calculateBottom(rank: Rank): Rank {
-            return calculate(rank1 = rank, rank2 = MAX)
+            return calculate(rank1 = rank, rank2 = MAX_RANK)
         }
 
         /**
@@ -76,7 +78,7 @@ value class Rank private constructor(private val value: String) {
             }
 
             if (diff <= 1) {
-                return from(rank1.value + Char('a'.code + ALPHABET_SIZE / 2).toString())
+                return from(rank1.value + Char(MIN_CHAR.code + ALPHABET_SIZE / 2).toString())
             }
 
             diff /= 2
@@ -89,7 +91,7 @@ value class Rank private constructor(private val value: String) {
                     var elementCode = rank1.value
                         .codePointAt(RANK_LENGTH - i - 1) + diffInSymbols + offset
                     offset = 0
-                    if (elementCode > 'z'.code) {
+                    if (elementCode > MAX_CHAR.code) {
                         offset++
                         elementCode -= ALPHABET_SIZE
                     }
