@@ -10,7 +10,7 @@ import com.enricog.localdatasource.routine.model.InternalSegment
 @Dao
 internal interface SegmentDao {
 
-    @Query("SELECT * FROM Segments")
+    @Query("SELECT * FROM Segments ORDER BY rank DESC")
     suspend fun getAll(): List<InternalSegment>
 
     @Insert

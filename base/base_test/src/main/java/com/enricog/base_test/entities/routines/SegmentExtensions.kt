@@ -12,5 +12,5 @@ val Segment.Companion.EMPTY: Segment
         name = "",
         time = 0.seconds,
         type = TimeType.TIMER,
-        rank = Rank.from(value = "aaaa")
+        rank = Rank.from(value = "aaaaaa")
     )

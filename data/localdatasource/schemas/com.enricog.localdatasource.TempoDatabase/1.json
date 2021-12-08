@@ -2,7 +2,7 @@
   "formatVersion": 1,
   "database": {
     "version": 1,
-    "identityHash": "b9b13ada2c656e5052ffcf5b66da2eb7",
+    "identityHash": "746c1da151fc7983b592a4f164bbd541",
     "entities": [
       {
         "tableName": "Routines",
@@ -50,7 +50,7 @@
       },
       {
         "tableName": "Segments",
-        "createSql": "CREATE TABLE IF NOT EXISTS `${TABLE_NAME}` (`segmentId` INTEGER PRIMARY KEY AUTOINCREMENT NOT NULL, `routineId_fk` INTEGER NOT NULL, `name` TEXT NOT NULL, `timeInSeconds` INTEGER NOT NULL, `type` TEXT NOT NULL, FOREIGN KEY(`routineId_fk`) REFERENCES `Routines`(`routineId`) ON UPDATE NO ACTION ON DELETE CASCADE )",
+        "createSql": "CREATE TABLE IF NOT EXISTS `${TABLE_NAME}` (`segmentId` INTEGER PRIMARY KEY AUTOINCREMENT NOT NULL, `routineId_fk` INTEGER NOT NULL, `name` TEXT NOT NULL, `timeInSeconds` INTEGER NOT NULL, `type` TEXT NOT NULL, `rank` TEXT NOT NULL, FOREIGN KEY(`routineId_fk`) REFERENCES `Routines`(`routineId`) ON UPDATE NO ACTION ON DELETE CASCADE )",
         "fields": [
           {
             "fieldPath": "id",
@@ -81,6 +81,12 @@
             "columnName": "type",
             "affinity": "TEXT",
             "notNull": true
+          },
+          {
+            "fieldPath": "rank",
+            "columnName": "rank",
+            "affinity": "TEXT",
+            "notNull": true
           }
         ],
         "primaryKey": {
@@ -108,7 +114,7 @@
     "views": [],
     "setupQueries": [
       "CREATE TABLE IF NOT EXISTS room_master_table (id INTEGER PRIMARY KEY,identity_hash TEXT)",
-      "INSERT OR REPLACE INTO room_master_table (id,identity_hash) VALUES(42, 'b9b13ada2c656e5052ffcf5b66da2eb7')"
+      "INSERT OR REPLACE INTO room_master_table (id,identity_hash) VALUES(42, '746c1da151fc7983b592a4f164bbd541')"
     ]
   }
 }

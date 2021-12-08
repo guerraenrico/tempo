@@ -37,7 +37,7 @@ class SegmentReducerTest {
 
     @Test
     fun `should setup state with new segment`() {
-        val segment = Segment.create(Rank.from("mzzz"))
+        val segment = Segment.create(Rank.from("mzzzzz"))
         val routine = Routine.EMPTY.copy(
             segments = emptyList()
         )

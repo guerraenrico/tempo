@@ -23,7 +23,7 @@ class SegmentTest {
             name = "",
             time = time,
             type = TimeType.TIMER,
-            rank = Rank.from("aaaa")
+            rank = Rank.from("aaaaaa")
         )
     }
 
@@ -40,7 +40,7 @@ class SegmentTest {
             name = "",
             time = 50.seconds,
             type = TimeType.TIMER,
-            rank = Rank.from("aaaa")
+            rank = Rank.from("aaaaaa")
         )
         segment.copy(time = time)
     }
@@ -52,7 +52,7 @@ class SegmentTest {
             name = "",
             time = 50.seconds,
             type = TimeType.TIMER,
-            rank = Rank.from("aaaa")
+            rank = Rank.from("aaaaaa")
         )
     }
 
@@ -64,7 +64,7 @@ class SegmentTest {
             name = "",
             time = 50.seconds,
             type = TimeType.TIMER,
-            rank = Rank.from("aaaa")
+            rank = Rank.from("aaaaaa")
         )
         segment.copy(time = 0.seconds)
     }
