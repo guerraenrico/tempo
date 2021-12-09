@@ -3,7 +3,7 @@ package com.enricog.entities
 import kotlin.math.pow
 
 @JvmInline
-value class Rank private constructor(private val value: String) {
+value class Rank private constructor(private val value: String) : Comparable<Rank> {
 
     init {
         require(value.isNotBlank()) { "Rank cannot be empty" }
@@ -14,7 +14,7 @@ value class Rank private constructor(private val value: String) {
         return value
     }
 
-    operator fun compareTo(other: Rank): Int {
+    override operator fun compareTo(other: Rank): Int {
         return value.compareTo(other.value)
     }
 

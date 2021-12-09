@@ -34,3 +34,11 @@ data class Segment(
         }
     }
 }
+
+fun List<Segment>.sortedByRank(): List<Segment> {
+    return sortedBy { it.rank }
+}
+
+fun List<Segment>.sortedByRankDescending(): List<Segment> {
+    return sortedByDescending { it.rank }
+}

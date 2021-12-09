@@ -6,7 +6,7 @@ import kotlin.time.DurationUnit
 import kotlin.time.toDuration
 
 @JvmInline
-value class Seconds private constructor(private val duration: Duration) {
+value class Seconds private constructor(private val duration: Duration) : Comparable<Seconds> {
 
     val value: Long
         get() = duration.inWholeSeconds
@@ -25,7 +25,7 @@ value class Seconds private constructor(private val duration: Duration) {
         return Seconds(duration - other.duration)
     }
 
-    operator fun compareTo(other: Seconds): Int {
+    override operator fun compareTo(other: Seconds): Int {
         return duration.compareTo(other.duration)
     }
 
