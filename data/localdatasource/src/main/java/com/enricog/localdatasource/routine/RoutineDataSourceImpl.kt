@@ -5,11 +5,14 @@ import com.enricog.datasource.RoutineDataSource
 import com.enricog.entities.ID
 import com.enricog.entities.routines.Routine
 import com.enricog.localdatasource.TempoDatabase
+import com.enricog.localdatasource.routine.model.InternalRoutineWithSegments
 import com.enricog.localdatasource.routine.model.toInternal
-import java.time.OffsetDateTime
-import javax.inject.Inject
+import kotlinx.coroutines.NonCancellable
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.map
+import kotlinx.coroutines.withContext
+import java.time.OffsetDateTime
+import javax.inject.Inject
 
 @SuppressLint("NewApi")
 internal class RoutineDataSourceImpl @Inject constructor(
@@ -18,19 +21,19 @@ internal class RoutineDataSourceImpl @Inject constructor(
 
     override fun observeAll(): Flow<List<Routine>> {
         return database.routineDao().observeAll()
-            .map { list -> list.map { it.toEntity() } }
+            .map { list -> list.map(InternalRoutineWithSegments::toEntity) }
     }
 
     override fun observe(id: ID): Flow<Routine> {
         return database.routineDao().observe(id.toLong())
-            .map { it.toEntity() }
+            .map(InternalRoutineWithSegments::toEntity)
     }
 
     override suspend fun get(id: ID): Routine {
         return database.routineDao().get(id.toLong()).toEntity()
     }
 
-    override suspend fun create(routine: Routine): ID {
+    override suspend fun create(routine: Routine): ID = withContext(NonCancellable) {
         val now = OffsetDateTime.now()
         val routineToCreate = routine.copy(
             createdAt = now,
@@ -42,13 +45,13 @@ internal class RoutineDataSourceImpl @Inject constructor(
 
         val internalSegments = routine.segments.map { it.toInternal(routineId) }
         database.segmentDao().insert(*internalSegments.toTypedArray())
-        return ID.from(routineId)
+        ID.from(routineId)
     }
 
-    override suspend fun update(routine: Routine): ID {
+    override suspend fun update(routine: Routine): ID = withContext(NonCancellable) {
         val savedRoutine = database.routineDao().get(routine.id.toLong())
 
-        val addedSegments =  routine.segments
+        val addedSegments = routine.segments
             .filter { it.isNew }
             .map { it.toInternal(routine.id.toLong()) }
         val deletedSegments = savedRoutine.segments.filter { savedSegment ->
@@ -71,10 +74,10 @@ internal class RoutineDataSourceImpl @Inject constructor(
         val now = OffsetDateTime.now()
         val routineToUpdate = routine.copy(updatedAt = now)
         database.routineDao().update(routineToUpdate.toInternal())
-        return routine.id
+        routine.id
     }
 
-    override suspend fun delete(routine: Routine) {
+    override suspend fun delete(routine: Routine) = withContext(NonCancellable) {
         val internalRoutine = routine.toInternal()
         database.routineDao().delete(internalRoutine)
     }
