@@ -78,11 +78,9 @@ internal class RoutineViewModel @Inject constructor(
     private fun save(routine: Routine) {
         startRoutineJob = viewModelScope.launch {
             val routineId = routineUseCase.save(routine)
-
-            if (routine.isNew) {
-                navigationActions.goToRoutineSummary(routineId = routineId)
-            } else {
-                navigationActions.goBack()
+            when {
+                routine.isNew -> navigationActions.goToRoutineSummary(routineId = routineId)
+                else -> navigationActions.goBack()
             }
         }
     }
