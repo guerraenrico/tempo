@@ -114,7 +114,6 @@ internal fun RoutineSummaryScene(
                             modifier = Modifier
                                 .fillMaxWidth()
                                 .graphicsLayer {
-
                                     translationY = itemDragOffset.takeIf { isDragged } ?: 0f
                                     scaleX = 1.05f.takeIf { isDragged } ?: 1f
                                     scaleY = 1.05f.takeIf { isDragged } ?: 1f
