@@ -1,6 +1,7 @@
 package com.enricog.ui_components.modifiers
 
 import androidx.compose.foundation.gestures.detectDragGesturesAfterLongPress
+import androidx.compose.foundation.gestures.scrollBy
 import androidx.compose.foundation.lazy.LazyListItemInfo
 import androidx.compose.foundation.lazy.LazyListState
 import androidx.compose.runtime.getValue
@@ -10,6 +11,8 @@ import androidx.compose.runtime.setValue
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.composed
 import androidx.compose.ui.input.pointer.pointerInput
+import kotlinx.coroutines.coroutineScope
+import kotlinx.coroutines.launch
 
 fun Modifier.listDraggable(
     listState: LazyListState,
@@ -24,59 +27,85 @@ fun Modifier.listDraggable(
     var draggedItemCurrentIndex by remember { mutableStateOf<Int?>(null) }
 
     pointerInput(listState) {
-        detectDragGesturesAfterLongPress(
-            onDrag = { _, dragAmount ->
-                draggedItemOffset += dragAmount.y
+        coroutineScope {
+            detectDragGesturesAfterLongPress(
+                onDrag = { _, dragAmount ->
+                    draggedItemOffset += dragAmount.y
 
-                draggedItem?.let { item ->
-                    val startOffset = item.offset + draggedItemOffset
-                    val endOffset = item.offsetEnd + draggedItemOffset
+                    draggedItem?.let { item ->
+                        val startOffset = item.offset + draggedItemOffset
+                        val endOffset = item.offsetEnd + draggedItemOffset
 
-                    draggedItemCurrentIndex?.let { currentIndex ->
-                        listState.layoutInfo.visibleItemsInfo
-                            .getOrNull(currentIndex - listState.layoutInfo.visibleItemsInfo.first().index)
-                            ?.let { hoveredItem ->
-                                listState.layoutInfo.visibleItemsInfo
-                                    .filterNot { item ->
-                                        item.offsetEnd < startOffset || item.offset > endOffset || hoveredItem.index == item.index
-                                    }
-                                    .firstOrNull { item ->
-                                        val itemOffsetDelta = startOffset - hoveredItem.offset
-                                        when {
-                                            itemOffsetDelta > 0 -> (endOffset > (item.offset + item.size))
-                                            else -> startOffset < item.offset
+                        draggedItemCurrentIndex?.let { currentIndex ->
+                            listState.layoutInfo.visibleItemsInfo
+                                .getOrNull(currentIndex - listState.layoutInfo.visibleItemsInfo.first().index)
+                                ?.let { hoveredItem ->
+                                    listState.layoutInfo.visibleItemsInfo
+                                        .filterNot { item ->
+                                            item.offsetEnd < startOffset || item.offset > endOffset || hoveredItem.index == item.index
                                         }
-                                    }
-                                    ?.let { item ->
-                                        draggedItemCurrentIndex = item.index
-                                    }
-                            }
+                                        .firstOrNull { item ->
+                                            val itemOffsetDelta = startOffset - hoveredItem.offset
+                                            when {
+                                                itemOffsetDelta > 0 -> (endOffset > (item.offset + item.size))
+                                                else -> startOffset < item.offset
+                                            }
+                                        }
+                                        ?.let { item ->
+                                            draggedItemCurrentIndex = item.index
+                                        }
+                                }
+                        }
+
+                        launch {
+                            listState.checkForOverScroll(item, draggedItemOffset)
+                                .takeIf { it != 0f }
+                                ?.let { offset ->
+                                    listState.scrollBy(offset)
+                                }
+                        }
+
+                        onDrag(item.index, draggedItemOffset)
+                    }
+                },
+                onDragStart = { dragAmount ->
+                    draggedItem = listState.draggedItemInfo(dragAmount.y)?.also { item ->
+                        draggedItemCurrentIndex = item.index
+                        onDragStarted(item.index)
+                    }
+                },
+                onDragEnd = {
+                    withNonNull(draggedItem, draggedItemCurrentIndex) { item, currentIndex ->
+                        onDragStopped(item.index, currentIndex)
                     }
 
-                    onDrag(item.index, draggedItemOffset)
-                }
-            },
-            onDragStart = { dragAmount ->
-                draggedItem = listState.draggedItemInfo(dragAmount.y)?.also { item ->
-                    draggedItemCurrentIndex = item.index
-                    onDragStarted(item.index)
-                }
-            },
-            onDragEnd = {
-                withNonNull(draggedItem, draggedItemCurrentIndex) { item, currentIndex ->
-                    onDragStopped(item.index, currentIndex)
-                }
+                    draggedItemCurrentIndex = null
+                    draggedItem = null
+                },
+                onDragCancel = {
+                    onDragCancelled()
 
-                draggedItemCurrentIndex = null
-                draggedItem = null
-            },
-            onDragCancel = {
-                onDragCancelled()
+                    draggedItem = null
+                    draggedItemCurrentIndex = null
+                }
+            )
+        }
+    }
+}
 
-                draggedItem = null
-                draggedItemCurrentIndex = null
-            }
-        )
+fun LazyListState.checkForOverScroll(
+    draggedItem: LazyListItemInfo,
+    draggedItemOffset: Float
+): Float {
+    val startOffset = draggedItem.offset + draggedItemOffset
+    val endOffset = draggedItem.offsetEnd + draggedItemOffset
+
+    return when {
+        draggedItemOffset > 0 ->
+            (endOffset - layoutInfo.viewportEndOffset).takeIf { diff -> diff > 0 } ?: 0f
+        draggedItemOffset < 0 ->
+            (startOffset - layoutInfo.viewportStartOffset).takeIf { diff -> diff < 0 } ?: 0f
+        else -> 0f
     }
 }
 
