@@ -77,6 +77,10 @@ internal fun RoutineSummaryScene(
                     onDragStopped = { itemIndex: Int, newIndex: Int ->
                         itemDragOffset = 0f
                         indexDraggedItem = null
+                    },
+                    onDragCancelled = {
+                        itemDragOffset = 0f
+                        indexDraggedItem = null
                     }
                 ),
             verticalArrangement = spacedBy(dimensions.spaceM),
