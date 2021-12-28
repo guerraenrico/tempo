@@ -10,6 +10,8 @@ import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.composed
+import androidx.compose.ui.geometry.isUnspecified
+import androidx.compose.ui.input.pointer.consumeAllChanges
 import androidx.compose.ui.input.pointer.pointerInput
 import kotlinx.coroutines.coroutineScope
 import kotlinx.coroutines.launch
@@ -29,7 +31,18 @@ fun Modifier.listDraggable(
     pointerInput(listState) {
         coroutineScope {
             detectDragGesturesAfterLongPress(
-                onDrag = { _, dragAmount ->
+                onDrag = { change, dragAmount ->
+                    change.consumeAllChanges()
+
+                    if (dragAmount.isUnspecified) {
+                        draggedItemOffset = 0f
+                        draggedItem = null
+                        draggedItemCurrentIndex = null
+
+                        onDragCancelled()
+                        return@detectDragGesturesAfterLongPress
+                    }
+
                     draggedItemOffset += dragAmount.y
 
                     draggedItem?.let { item ->
@@ -57,15 +70,19 @@ fun Modifier.listDraggable(
                                 }
                         }
 
+                        onDrag(item.index, draggedItemOffset)
+
                         launch {
                             listState.checkForOverScroll(item, draggedItemOffset)
                                 .takeIf { it != 0f }
                                 ?.let { offset ->
-                                    listState.scrollBy(offset)
+                                    val consumed = listState.scrollBy(offset)
+                                    if (consumed > 0) {
+                                        draggedItemOffset += consumed
+                                        onDrag(item.index, draggedItemOffset)
+                                    }
                                 }
                         }
-
-                        onDrag(item.index, draggedItemOffset)
                     }
                 },
                 onDragStart = { dragAmount ->
@@ -79,12 +96,14 @@ fun Modifier.listDraggable(
                         onDragStopped(item.index, currentIndex)
                     }
 
+                    draggedItemOffset = 0f
                     draggedItemCurrentIndex = null
                     draggedItem = null
                 },
                 onDragCancel = {
                     onDragCancelled()
 
+                    draggedItemOffset = 0f
                     draggedItem = null
                     draggedItemCurrentIndex = null
                 }

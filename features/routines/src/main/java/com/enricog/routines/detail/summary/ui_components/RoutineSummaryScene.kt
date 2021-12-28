@@ -70,9 +70,11 @@ internal fun RoutineSummaryScene(
                 .fillMaxSize()
                 .listDraggable(
                     listState = listState,
-                    onDrag = { itemIndex: Int, offsetY: Float ->
-                        itemDragOffset = offsetY
+                    onDragStarted = { itemIndex: Int ->
                         indexDraggedItem = itemIndex
+                    },
+                    onDrag = { _, offsetY: Float ->
+                        itemDragOffset = offsetY
                     },
                     onDragStopped = { itemIndex: Int, newIndex: Int ->
                         itemDragOffset = 0f
