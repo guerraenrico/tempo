@@ -1,5 +1,6 @@
 package com.enricog.entities
 
+import java.lang.IllegalStateException
 import kotlin.math.pow
 
 @JvmInline
@@ -29,6 +30,16 @@ value class Rank private constructor(private val value: String) : Comparable<Ran
 
         fun from(value: String): Rank {
             return Rank(value)
+        }
+
+        fun calculate(rank1: Rank?, rank2: Rank?): Rank {
+            return when {
+                rank1 == null && rank2 != null -> calculateTop(rank2)
+                rank1 != null && rank2 == null -> calculateBottom(rank1)
+                rank1 != null && rank2 != null -> calculate(rank1, rank2)
+                rank1 == null && rank2 == null -> calculateFist()
+                else -> throw IllegalStateException("Is this life?")
+            }
         }
 
         /**

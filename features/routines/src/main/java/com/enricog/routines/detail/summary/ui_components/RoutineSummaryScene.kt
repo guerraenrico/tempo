@@ -46,6 +46,7 @@ internal fun RoutineSummaryScene(
     onSegmentAdd: () -> Unit,
     onSegmentSelected: (Segment) -> Unit,
     onSegmentDelete: (Segment) -> Unit,
+    onSegmentMoved: (Segment, Int) -> Unit,
     onRoutineStart: () -> Unit,
     onRoutineEdit: () -> Unit
 ) {
@@ -79,6 +80,11 @@ internal fun RoutineSummaryScene(
                     onDragStopped = { itemIndex: Int, newIndex: Int ->
                         itemDragOffset = 0f
                         indexDraggedItem = null
+
+                        val item = summaryItems[itemIndex]
+                        if (item is RoutineSummaryItem.SegmentItem) {
+                            onSegmentMoved(item.segment, newIndex)
+                        }
                     },
                     onDragCancelled = {
                         itemDragOffset = 0f
@@ -88,6 +94,7 @@ internal fun RoutineSummaryScene(
             verticalArrangement = spacedBy(dimensions.spaceM),
             contentPadding = PaddingValues(dimensions.spaceM)
         ) {
+            stickyHeader {  }
             itemsIndexed(
                 items = summaryItems,
                 key = { _, item ->

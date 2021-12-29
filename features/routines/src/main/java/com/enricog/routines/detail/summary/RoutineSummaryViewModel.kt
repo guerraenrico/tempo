@@ -5,7 +5,9 @@ import androidx.lifecycle.viewModelScope
 import com.enricog.base_android.viewmodel.BaseViewModel
 import com.enricog.core.coroutine.dispatchers.CoroutineDispatchers
 import com.enricog.entities.ID
+import com.enricog.entities.Rank
 import com.enricog.entities.routines.Segment
+import com.enricog.entities.routines.sortedByRank
 import com.enricog.navigation.routes.RoutineSummaryRoute
 import com.enricog.navigation.routes.RoutineSummaryRouteInput
 import com.enricog.routines.detail.summary.models.RoutineSummaryState
@@ -16,6 +18,7 @@ import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.launchIn
 import kotlinx.coroutines.flow.onEach
 import kotlinx.coroutines.launch
+import java.lang.IllegalStateException
 import javax.inject.Inject
 
 @HiltViewModel
@@ -62,6 +65,28 @@ internal class RoutineSummaryViewModel @Inject constructor(
             if (newState is RoutineSummaryState.Data) {
                 routineSummaryUseCase.update(routine = newState.routine)
             }
+        }
+    }
+
+    fun onSegmentMoved(segment: Segment, newIndex: Int) {
+        updateStateWhen<RoutineSummaryState.Data> { stateData ->
+            if (stateData.routine.segments.indexOf(segment) == newIndex) {
+                return@updateStateWhen stateData
+            }
+            val rank1 = stateData.routine.segments.getOrNull(newIndex - 1)?.rank
+            val rank2 = stateData.routine.segments.getOrNull(newIndex + 1)?.rank
+            val newRank = Rank.calculate(rank1 = rank1, rank2 = rank2)
+            val segments = stateData.routine.segments
+                .map {
+                    when (it) {
+                        segment -> it.copy(rank = newRank)
+                        else -> it
+                    }
+                }
+                .sortedByRank()
+
+            val routine = stateData.routine.copy(segments = segments)
+            stateData.copy(routine = routine)
         }
     }
 
