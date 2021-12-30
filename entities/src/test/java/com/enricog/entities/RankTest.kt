@@ -17,19 +17,6 @@ class RankTest {
     }
 
     @Test
-    fun `midddle`() {
-        val rank1 = Rank.from("yjtmzz")
-        val rank2 = Rank.from("zewtmz")
-        val expected = Rank.from("zhidtm")
-
-        val actual = Rank.calculate(rank1, rank2)
-
-        assertEquals(expected, actual)
-        assertTrue(rank1 < actual)
-        assertTrue(rank2 > actual)
-    }
-
-    @Test
     fun `calculateTop should return the rank between the top most rank and the one indicated`() {
         val rank = Rank.from("cccccc")
         val expected = Rank.from("bbbbbb")
@@ -58,6 +45,19 @@ class RankTest {
         val actual = Rank.calculate(rank1 = rank1, rank2 = rank2)
 
         assertEquals(expected, actual)
+    }
+
+    @Test
+    fun `calculate should return a rank between two ranks (not linear rank)`() {
+        val rank1 = Rank.from("yjtmzz")
+        val rank2 = Rank.from("zewtmz")
+        val expected = Rank.from("yuidgm")
+
+        val actual = Rank.calculate(rank1, rank2)
+
+        assertEquals(expected, actual)
+        assertTrue(rank1 < actual)
+        assertTrue(rank2 > actual)
     }
 
     @Test(expected = IllegalArgumentException::class)

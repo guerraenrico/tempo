@@ -75,7 +75,7 @@ value class Rank private constructor(private val value: String) : Comparable<Ran
             val codePoints2 = rank2.value.codePoints().toArray()
 
             var diff = 0.0
-            for (i in 0 until RANK_LENGTH) {
+            for (i in RANK_LENGTH - 1 downTo 0) {
                 val firstCode = codePoints1[i]
                 var secondCode = codePoints2[i]
 
