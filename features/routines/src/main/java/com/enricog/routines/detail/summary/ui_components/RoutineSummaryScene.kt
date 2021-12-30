@@ -58,6 +58,7 @@ internal fun RoutineSummaryScene(
     val segmentListBottomSpace = startRoutinePadding + startRoutineButtonSize.box
     val listState = rememberLazyListState()
 
+    // TODO can this be moved in a state object?
     var itemDragOffset by remember { mutableStateOf(0f) }
     var indexDraggedItem by remember { mutableStateOf<Int?>(null) }
     val isDragging = indexDraggedItem != null
@@ -73,7 +74,7 @@ internal fun RoutineSummaryScene(
                 .testTag(RoutineSummaryColumnTestTag)
                 .fillMaxSize()
                 .listDraggable(
-                    key = summaryItems,
+                    key = summaryItems, // TODO can this be removed? I think is messing with the list scroll state, For now this is needed because the summaryItems instance in the onDragStopped method is the wrong one
                     listState = listState,
                     onDragStarted = { itemIndex: Int, offsetY: Float ->
                         itemDragOffset = offsetY
@@ -88,7 +89,7 @@ internal fun RoutineSummaryScene(
 
                         val item = summaryItems[itemIndex]
                         if (item is RoutineSummaryItem.SegmentItem) {
-                            onSegmentMoved(item.segment, newIndex - 2)
+                            onSegmentMoved(item.segment, newIndex - 2) // TODO should remove this -2, is the number of non SegmentItem on top of the list
                         }
                     },
                     onDragCancelled = {

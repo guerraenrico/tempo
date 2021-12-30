@@ -24,6 +24,7 @@ fun Modifier.listDraggable(
     onDragCancelled: () -> Unit = {}
 ): Modifier = composed {
 
+    // TODO fine another way to represent the state, this is confusing and hard to track
     var draggedItemOffset by remember { mutableStateOf(0f) }
     var draggedItem by remember { mutableStateOf<LazyListItemInfo?>(null) }
     var draggedItemCurrentIndex by remember { mutableStateOf<Int?>(null) }
@@ -31,8 +32,7 @@ fun Modifier.listDraggable(
     pointerInput(key) {
         coroutineScope {
             detectDragGesturesAfterLongPress(
-                onDrag = { change, dragAmount ->
-
+                onDrag = { change, dragAmount -> // TODO do I need to consumeAllChanges? probably not
                     if (dragAmount.isUnspecified) {
                         draggedItemOffset = 0f
                         draggedItem = null
