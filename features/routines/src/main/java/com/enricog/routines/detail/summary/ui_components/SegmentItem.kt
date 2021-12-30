@@ -26,6 +26,7 @@ internal const val SegmentItemTestTag = "SegmentItemTestTag"
 internal fun SegmentItem(
     modifier: Modifier,
     segment: Segment,
+    enableClick: Boolean,
     onClick: (Segment) -> Unit,
     onDelete: (Segment) -> Unit
 ) {
@@ -37,7 +38,7 @@ internal fun SegmentItem(
         ConstraintLayout(
             modifier = Modifier
                 .fillMaxWidth()
-                .clickable { onClick(segment) }
+                .clickable(enabled = enableClick) { onClick(segment) }
                 .padding(TempoTheme.dimensions.spaceM)
         ) {
             val (name, type, time) = createRefs()
@@ -95,6 +96,7 @@ private fun SegmentItemPreview() {
             rank = Rank.from(value = "aaaa")
         ),
         onClick = {},
-        onDelete = {}
+        onDelete = {},
+        enableClick = true
     )
 }

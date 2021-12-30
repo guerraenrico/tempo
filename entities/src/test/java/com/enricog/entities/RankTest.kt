@@ -2,6 +2,7 @@ package com.enricog.entities
 
 import java.lang.IllegalArgumentException
 import org.junit.Assert.assertEquals
+import org.junit.Assert.assertTrue
 import org.junit.Test
 
 class RankTest {
@@ -13,6 +14,19 @@ class RankTest {
         val actual = Rank.calculateFist()
 
         assertEquals(expected, actual)
+    }
+
+    @Test
+    fun `midddle`() {
+        val rank1 = Rank.from("yjtmzz")
+        val rank2 = Rank.from("zewtmz")
+        val expected = Rank.from("zhidtm")
+
+        val actual = Rank.calculate(rank1, rank2)
+
+        assertEquals(expected, actual)
+        assertTrue(rank1 < actual)
+        assertTrue(rank2 > actual)
     }
 
     @Test

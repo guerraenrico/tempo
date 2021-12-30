@@ -11,14 +11,14 @@ import androidx.compose.runtime.setValue
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.composed
 import androidx.compose.ui.geometry.isUnspecified
-import androidx.compose.ui.input.pointer.consumeAllChanges
 import androidx.compose.ui.input.pointer.pointerInput
 import kotlinx.coroutines.coroutineScope
 import kotlinx.coroutines.launch
 
 fun Modifier.listDraggable(
+    key: Any,
     listState: LazyListState,
-    onDragStarted: (itemIndex: Int) -> Unit = {},
+    onDragStarted: (itemIndex: Int, offsetY: Float) -> Unit = { _, _ -> },
     onDrag: (itemIndex: Int, offsetY: Float) -> Unit = { _, _ -> },
     onDragStopped: (itemIndex: Int, newIndex: Int) -> Unit = { _, _ -> },
     onDragCancelled: () -> Unit = {}
@@ -28,11 +28,10 @@ fun Modifier.listDraggable(
     var draggedItem by remember { mutableStateOf<LazyListItemInfo?>(null) }
     var draggedItemCurrentIndex by remember { mutableStateOf<Int?>(null) }
 
-    pointerInput(listState) {
+    pointerInput(key) {
         coroutineScope {
             detectDragGesturesAfterLongPress(
                 onDrag = { change, dragAmount ->
-                    change.consumeAllChanges()
 
                     if (dragAmount.isUnspecified) {
                         draggedItemOffset = 0f
@@ -46,8 +45,8 @@ fun Modifier.listDraggable(
                     draggedItemOffset += dragAmount.y
 
                     draggedItem?.let { item ->
-                        val startOffset = item.offset + draggedItemOffset
-                        val endOffset = item.offsetEnd + draggedItemOffset
+                        val startOffset = draggedItemOffset
+                        val endOffset = item.size + draggedItemOffset
 
                         draggedItemCurrentIndex?.let { currentIndex ->
                             listState.layoutInfo.visibleItemsInfo
@@ -76,19 +75,17 @@ fun Modifier.listDraggable(
                             listState.checkForOverScroll(item, draggedItemOffset)
                                 .takeIf { it != 0f }
                                 ?.let { offset ->
-                                    val consumed = listState.scrollBy(offset)
-                                    if (consumed > 0) {
-                                        draggedItemOffset += consumed
-                                        onDrag(item.index, draggedItemOffset)
-                                    }
+                                    listState.scrollBy(offset)
                                 }
                         }
                     }
                 },
                 onDragStart = { dragAmount ->
                     draggedItem = listState.draggedItemInfo(dragAmount.y)?.also { item ->
-                        draggedItemCurrentIndex = item.index
-                        onDragStarted(item.index)
+                        val index = item.index
+                        draggedItemCurrentIndex = index
+                        draggedItemOffset += item.offset
+                        onDragStarted(index, draggedItemOffset)
                     }
                 },
                 onDragEnd = {
@@ -116,8 +113,8 @@ fun LazyListState.checkForOverScroll(
     draggedItem: LazyListItemInfo,
     draggedItemOffset: Float
 ): Float {
-    val startOffset = draggedItem.offset + draggedItemOffset
-    val endOffset = draggedItem.offsetEnd + draggedItemOffset
+    val startOffset = draggedItemOffset
+    val endOffset = draggedItem.size + draggedItemOffset
 
     return when {
         draggedItemOffset > 0 ->

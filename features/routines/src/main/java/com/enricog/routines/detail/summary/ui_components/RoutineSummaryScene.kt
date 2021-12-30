@@ -12,6 +12,7 @@ import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.lazy.LazyColumn
+import androidx.compose.foundation.lazy.LazyListState
 import androidx.compose.foundation.lazy.itemsIndexed
 import androidx.compose.foundation.lazy.rememberLazyListState
 import androidx.compose.runtime.Composable
@@ -19,9 +20,11 @@ import androidx.compose.runtime.derivedStateOf
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
+import androidx.compose.runtime.saveable.rememberSaveable
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.draw.alpha
 import androidx.compose.ui.graphics.graphicsLayer
 import androidx.compose.ui.platform.testTag
 import androidx.compose.ui.res.painterResource
@@ -57,21 +60,23 @@ internal fun RoutineSummaryScene(
 
     var itemDragOffset by remember { mutableStateOf(0f) }
     var indexDraggedItem by remember { mutableStateOf<Int?>(null) }
+    val isDragging = indexDraggedItem != null
 
     Box(
         modifier = Modifier
             .fillMaxSize()
             .testTag(RoutineSummarySceneTestTag)
     ) {
-
         LazyColumn(
             state = listState,
             modifier = Modifier
                 .testTag(RoutineSummaryColumnTestTag)
                 .fillMaxSize()
                 .listDraggable(
+                    key = summaryItems,
                     listState = listState,
-                    onDragStarted = { itemIndex: Int ->
+                    onDragStarted = { itemIndex: Int, offsetY: Float ->
+                        itemDragOffset = offsetY
                         indexDraggedItem = itemIndex
                     },
                     onDrag = { _, offsetY: Float ->
@@ -83,7 +88,7 @@ internal fun RoutineSummaryScene(
 
                         val item = summaryItems[itemIndex]
                         if (item is RoutineSummaryItem.SegmentItem) {
-                            onSegmentMoved(item.segment, newIndex)
+                            onSegmentMoved(item.segment, newIndex - 2)
                         }
                     },
                     onDragCancelled = {
@@ -94,7 +99,6 @@ internal fun RoutineSummaryScene(
             verticalArrangement = spacedBy(dimensions.spaceM),
             contentPadding = PaddingValues(dimensions.spaceM)
         ) {
-            stickyHeader {  }
             itemsIndexed(
                 items = summaryItems,
                 key = { _, item ->
@@ -118,16 +122,12 @@ internal fun RoutineSummaryScene(
                         val isDragged = index == indexDraggedItem
                         SegmentItem(
                             segment = item.segment,
+                            enableClick = !isDragging,
                             onClick = onSegmentSelected,
                             onDelete = onSegmentDelete,
                             modifier = Modifier
                                 .fillMaxWidth()
-                                .graphicsLayer {
-                                    translationY = itemDragOffset.takeIf { isDragged } ?: 0f
-                                    scaleX = 1.05f.takeIf { isDragged } ?: 1f
-                                    scaleY = 1.05f.takeIf { isDragged } ?: 1f
-                                }
-                                .zIndex(9999f.takeIf { isDragged } ?: 0f)
+                                .alpha(0.5f.takeIf { isDragged } ?: 1f)
                         )
                     }
                     RoutineSummaryItem.Space -> Spacer(Modifier.height(segmentListBottomSpace))
@@ -149,6 +149,24 @@ internal fun RoutineSummaryScene(
                 modifier = Modifier
                     .align(Alignment.TopCenter),
                 onAddSegmentClick = onSegmentAdd
+            )
+        }
+
+        indexDraggedItem?.let { itemIndex ->
+            val item = summaryItems[itemIndex] as? RoutineSummaryItem.SegmentItem ?: return@let
+            SegmentItem(
+                segment = item.segment,
+                enableClick = false,
+                onClick = onSegmentSelected,
+                onDelete = onSegmentDelete,
+                modifier = Modifier
+                    .fillMaxWidth()
+                    .graphicsLayer {
+                        translationY = itemDragOffset
+                        scaleX = 1.05f
+                        scaleY = 1.05f
+                    }
+                    .zIndex(9999f)
             )
         }
 

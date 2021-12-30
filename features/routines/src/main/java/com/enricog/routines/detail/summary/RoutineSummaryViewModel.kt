@@ -18,7 +18,6 @@ import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.launchIn
 import kotlinx.coroutines.flow.onEach
 import kotlinx.coroutines.launch
-import java.lang.IllegalStateException
 import javax.inject.Inject
 
 @HiltViewModel
@@ -70,17 +69,27 @@ internal class RoutineSummaryViewModel @Inject constructor(
 
     fun onSegmentMoved(segment: Segment, newIndex: Int) {
         updateStateWhen<RoutineSummaryState.Data> { stateData ->
-            if (stateData.routine.segments.indexOf(segment) == newIndex) {
+            val itemIndex = stateData.routine.segments.indexOf(segment)
+
+            if (itemIndex == newIndex || itemIndex < 0) {
                 return@updateStateWhen stateData
             }
-            val rank1 = stateData.routine.segments.getOrNull(newIndex - 1)?.rank
-            val rank2 = stateData.routine.segments.getOrNull(newIndex + 1)?.rank
+
+            val rank1 = when {
+                newIndex > itemIndex -> stateData.routine.segments.getOrNull(newIndex)?.rank
+                else -> stateData.routine.segments.getOrNull(newIndex - 1)?.rank
+            }
+            val rank2 = when {
+                newIndex > itemIndex -> stateData.routine.segments.getOrNull(newIndex + 1)?.rank
+                else -> stateData.routine.segments.getOrNull(newIndex)?.rank
+            }
             val newRank = Rank.calculate(rank1 = rank1, rank2 = rank2)
             val segments = stateData.routine.segments
                 .map {
-                    when (it) {
-                        segment -> it.copy(rank = newRank)
-                        else -> it
+                    if (it.id == segment.id) {
+                        it.copy(rank = newRank)
+                    } else {
+                        it
                     }
                 }
                 .sortedByRank()
