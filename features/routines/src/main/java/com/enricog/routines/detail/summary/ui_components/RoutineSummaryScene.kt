@@ -25,6 +25,7 @@ import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.alpha
+import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.graphicsLayer
 import androidx.compose.ui.platform.testTag
 import androidx.compose.ui.res.painterResource
@@ -38,6 +39,7 @@ import com.enricog.ui_components.common.button.TempoButtonColor
 import com.enricog.ui_components.common.button.TempoIconButton
 import com.enricog.ui_components.common.button.TempoIconButtonSize
 import com.enricog.ui_components.modifiers.listDraggable
+import com.enricog.ui_components.resources.TempoTheme
 import com.enricog.ui_components.resources.TempoTheme.dimensions
 
 internal const val RoutineSummarySceneTestTag = "RoutineSummaryScene"
@@ -89,7 +91,10 @@ internal fun RoutineSummaryScene(
 
                         val item = summaryItems[itemIndex]
                         if (item is RoutineSummaryItem.SegmentItem) {
-                            onSegmentMoved(item.segment, newIndex - 2) // TODO should remove this -2, is the number of non SegmentItem on top of the list
+                            onSegmentMoved(
+                                item.segment,
+                                newIndex - 2
+                            ) // TODO should remove this -2, is the number of non SegmentItem on top of the list
                         }
                     },
                     onDragCancelled = {
@@ -128,7 +133,7 @@ internal fun RoutineSummaryScene(
                             onDelete = onSegmentDelete,
                             modifier = Modifier
                                 .fillMaxWidth()
-                                .alpha(0.5f.takeIf { isDragged } ?: 1f)
+                                .alpha(0.4f.takeIf { isDragged } ?: 1f)
                         )
                     }
                     RoutineSummaryItem.Space -> Spacer(Modifier.height(segmentListBottomSpace))
@@ -142,7 +147,7 @@ internal fun RoutineSummaryScene(
             }
         }
         AnimatedVisibility(
-            visible = showHeaderAddSegment,
+            visible = showHeaderAddSegment && !isDragging,
             enter = fadeIn(),
             exit = fadeOut()
         ) {
@@ -153,33 +158,46 @@ internal fun RoutineSummaryScene(
             )
         }
 
-        indexDraggedItem?.let { itemIndex ->
-            val item = summaryItems[itemIndex] as? RoutineSummaryItem.SegmentItem ?: return@let
-            SegmentItem(
-                segment = item.segment,
-                enableClick = false,
-                onClick = onSegmentSelected,
-                onDelete = onSegmentDelete,
-                modifier = Modifier
-                    .fillMaxWidth()
-                    .graphicsLayer {
-                        translationY = itemDragOffset
-                        scaleX = 1.05f
-                        scaleY = 1.05f
-                    }
-                    .zIndex(9999f)
-            )
+        AnimatedVisibility(
+            visible = isDragging,
+            enter = fadeIn(),
+            exit = fadeOut(),
+            modifier = Modifier.padding(horizontal = dimensions.spaceM)
+        ) {
+            indexDraggedItem?.let { itemIndex ->
+                val item = summaryItems[itemIndex] as? RoutineSummaryItem.SegmentItem ?: return@let
+                SegmentItem(
+                    segment = item.segment,
+                    enableClick = false,
+                    onClick = onSegmentSelected,
+                    onDelete = onSegmentDelete,
+                    modifier = Modifier
+                        .fillMaxWidth()
+                        .graphicsLayer {
+                            translationY = itemDragOffset
+                            shadowElevation = 50f
+                        }
+                        .zIndex(9999f)
+                        .clip(TempoTheme.commonShapes.listItem)
+                )
+            }
         }
 
-        TempoIconButton(
-            modifier = Modifier
-                .align(Alignment.BottomCenter)
-                .padding(startRoutinePadding),
-            onClick = onRoutineStart,
-            icon = painterResource(R.drawable.ic_routine_play),
-            color = TempoButtonColor.Accent,
-            size = startRoutineButtonSize,
-            contentDescription = stringResource(R.string.content_description_button_start_routine)
-        )
+        AnimatedVisibility(
+            visible = !isDragging,
+            enter = fadeIn(),
+            exit = fadeOut(),
+            modifier = Modifier.align(Alignment.BottomCenter)
+        ) {
+            TempoIconButton(
+                modifier = Modifier
+                    .padding(startRoutinePadding),
+                onClick = onRoutineStart,
+                icon = painterResource(R.drawable.ic_routine_play),
+                color = TempoButtonColor.Accent,
+                size = startRoutineButtonSize,
+                contentDescription = stringResource(R.string.content_description_button_start_routine)
+            )
+        }
     }
 }
