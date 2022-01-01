@@ -19,9 +19,9 @@ fun Modifier.listDraggable(
     key: Any,
     listState: LazyListState,
     onDragStarted: (itemIndex: Int, offsetY: Float) -> Unit = { _, _ -> },
-    onDrag: (itemIndex: Int, offsetY: Float) -> Unit = { _, _ -> },
     onDragStopped: (itemIndex: Int, newIndex: Int) -> Unit = { _, _ -> },
-    onDragCancelled: () -> Unit = {}
+    onDragCancelled: () -> Unit = {},
+    onDrag: (itemIndex: Int, hoveredIndex: Int, offsetY: Float) -> Unit
 ): Modifier = composed {
 
     // TODO fine another way to represent the state, this is confusing and hard to track
@@ -44,35 +44,32 @@ fun Modifier.listDraggable(
 
                     draggedItemOffset += dragAmount.y
 
-                    draggedItem?.let { item ->
+                    withNonNull(draggedItem, draggedItemCurrentIndex) { item, currentIndex ->
                         val startOffset = draggedItemOffset
                         val endOffset = item.size + draggedItemOffset
+                        listState.visibleItems
+                            .getOrNull(currentIndex - listState.visibleItems.first().index)
+                            ?.let { currentHoveredItem ->
+                                listState.visibleItems
+                                    .filterNot { itemInfo ->
+                                        itemInfo.offsetEnd < startOffset || itemInfo.offset > endOffset || currentHoveredItem.index == itemInfo.index
+                                    }
+                                    .firstOrNull { itemInfo ->
+                                        val itemOffsetDelta = startOffset - currentHoveredItem.offset
+                                        when {
+                                            itemOffsetDelta > 0 -> endOffset > itemInfo.offsetEnd
+                                            else -> startOffset > itemInfo.offset && startOffset < itemInfo.offsetEnd
+                                        }
+                                    }
+                                    ?.let { itemInfo ->
+                                        draggedItemCurrentIndex = itemInfo.index
+                                    }
+                            }
 
-                        draggedItemCurrentIndex?.let { currentIndex ->
-                            listState.layoutInfo.visibleItemsInfo
-                                .getOrNull(currentIndex - listState.layoutInfo.visibleItemsInfo.first().index)
-                                ?.let { hoveredItem ->
-                                    listState.layoutInfo.visibleItemsInfo
-                                        .filterNot { item ->
-                                            item.offsetEnd < startOffset || item.offset > endOffset || hoveredItem.index == item.index
-                                        }
-                                        .firstOrNull { item ->
-                                            val itemOffsetDelta = startOffset - hoveredItem.offset
-                                            when {
-                                                itemOffsetDelta > 0 -> (endOffset > (item.offset + item.size))
-                                                else -> startOffset < item.offset
-                                            }
-                                        }
-                                        ?.let { item ->
-                                            draggedItemCurrentIndex = item.index
-                                        }
-                                }
-                        }
-
-                        onDrag(item.index, draggedItemOffset)
+                        onDrag(item.index, draggedItemCurrentIndex!!, draggedItemOffset)
 
                         launch {
-                            listState.checkForOverScroll(item, draggedItemOffset)
+                            listState.overScrollOffset(item, draggedItemOffset)
                                 .takeIf { it != 0f }
                                 ?.let { offset ->
                                     listState.scrollBy(offset)
@@ -83,6 +80,7 @@ fun Modifier.listDraggable(
                 onDragStart = { dragAmount ->
                     draggedItem = listState.draggedItemInfo(dragAmount.y)?.also { item ->
                         val index = item.index
+
                         draggedItemCurrentIndex = index
                         draggedItemOffset += item.offset
                         onDragStarted(index, draggedItemOffset)
@@ -109,7 +107,7 @@ fun Modifier.listDraggable(
     }
 }
 
-fun LazyListState.checkForOverScroll(
+fun LazyListState.overScrollOffset(
     draggedItem: LazyListItemInfo,
     draggedItemOffset: Float
 ): Float {
@@ -129,6 +127,9 @@ private fun LazyListState.draggedItemInfo(offsetY: Float): LazyListItemInfo? {
     return layoutInfo.visibleItemsInfo
         .firstOrNull { item -> offsetY.toInt() in item.offset..item.offsetEnd }
 }
+
+private val LazyListState.visibleItems: List<LazyListItemInfo>
+    get() = layoutInfo.visibleItemsInfo
 
 private val LazyListItemInfo.offsetEnd: Int
     get() = offset + size

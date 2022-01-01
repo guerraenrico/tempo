@@ -16,6 +16,7 @@ import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.itemsIndexed
 import androidx.compose.foundation.lazy.rememberLazyListState
+import androidx.compose.material.Colors
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.derivedStateOf
 import androidx.compose.runtime.getValue
@@ -24,8 +25,11 @@ import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.composed
 import androidx.compose.ui.draw.alpha
 import androidx.compose.ui.draw.clip
+import androidx.compose.ui.draw.drawBehind
+import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.graphicsLayer
 import androidx.compose.ui.platform.testTag
 import androidx.compose.ui.res.painterResource
@@ -62,6 +66,7 @@ internal fun RoutineSummaryScene(
 
     // TODO can this be moved in a state object?
     var itemDragOffset by remember { mutableStateOf(0f) }
+    var indexHoveredItem by remember { mutableStateOf<Int?>(null) }
     var indexDraggedItem by remember { mutableStateOf<Int?>(null) }
     val isDragging = indexDraggedItem != null
 
@@ -82,24 +87,27 @@ internal fun RoutineSummaryScene(
                         itemDragOffset = offsetY
                         indexDraggedItem = itemIndex
                     },
-                    onDrag = { _, offsetY: Float ->
+                    onDrag = { _, hoveredIndex: Int, offsetY: Float ->
+                        indexHoveredItem = hoveredIndex
                         itemDragOffset = offsetY
                     },
                     onDragStopped = { itemIndex: Int, newIndex: Int ->
                         itemDragOffset = 0f
                         indexDraggedItem = null
+                        indexHoveredItem = null
 
                         val item = summaryItems[itemIndex]
                         if (item is RoutineSummaryItem.SegmentItem) {
                             onSegmentMoved(
                                 item.segment,
-                                newIndex - 2
-                            ) // TODO should remove this -2, is the number of non SegmentItem on top of the list
+                                newIndex - 2 // TODO should remove this -2, is the number of non SegmentItem on top of the list
+                            )
                         }
                     },
                     onDragCancelled = {
                         itemDragOffset = 0f
                         indexDraggedItem = null
+                        indexHoveredItem = null
                     }
                 ),
             verticalArrangement = spacedBy(dimensions.spaceM),
@@ -133,6 +141,11 @@ internal fun RoutineSummaryScene(
                             onDelete = onSegmentDelete,
                             modifier = Modifier
                                 .fillMaxWidth()
+                                .drawBehind {
+                                    if (index == indexHoveredItem) {
+                                        drawRect(Color.Red)
+                                    }
+                                }
                                 .alpha(0.4f.takeIf { isDragged } ?: 1f)
                         )
                     }

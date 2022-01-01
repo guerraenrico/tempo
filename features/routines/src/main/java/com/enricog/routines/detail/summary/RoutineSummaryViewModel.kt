@@ -76,14 +76,8 @@ internal class RoutineSummaryViewModel @Inject constructor(
                 return@updateStateWhen stateData
             }
 
-            val rank1 = when {
-                newIndex > itemIndex -> stateData.routine.segments.getOrNull(newIndex)?.rank
-                else -> stateData.routine.segments.getOrNull(newIndex - 1)?.rank
-            }
-            val rank2 = when {
-                newIndex > itemIndex -> stateData.routine.segments.getOrNull(newIndex + 1)?.rank
-                else -> stateData.routine.segments.getOrNull(newIndex)?.rank
-            }
+            val rank1 = stateData.routine.segments.getOrNull(newIndex)?.rank
+            val rank2 = stateData.routine.segments.getOrNull(newIndex + 1)?.rank
             val newRank = Rank.calculate(rank1 = rank1, rank2 = rank2)
             val segments = stateData.routine.segments
                 .map {
