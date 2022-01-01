@@ -55,7 +55,7 @@ internal fun RoutineSummaryScene(
     onSegmentAdd: () -> Unit,
     onSegmentSelected: (Segment) -> Unit,
     onSegmentDelete: (Segment) -> Unit,
-    onSegmentMoved: (Segment, Int) -> Unit,
+    onSegmentMoved: (Segment, Segment?) -> Unit,
     onRoutineStart: () -> Unit,
     onRoutineEdit: () -> Unit
 ) {
@@ -91,17 +91,15 @@ internal fun RoutineSummaryScene(
                         indexHoveredItem = hoveredIndex
                         itemDragOffset = offsetY
                     },
-                    onDragStopped = { itemIndex: Int, newIndex: Int ->
+                    onDragStopped = { itemIndex: Int, hoveredIndex: Int ->
                         itemDragOffset = 0f
                         indexDraggedItem = null
                         indexHoveredItem = null
 
-                        val item = summaryItems[itemIndex]
-                        if (item is RoutineSummaryItem.SegmentItem) {
-                            onSegmentMoved(
-                                item.segment,
-                                newIndex - 2 // TODO should remove this -2, is the number of non SegmentItem on top of the list
-                            )
+                        val item = summaryItems[itemIndex] as? RoutineSummaryItem.SegmentItem
+                        val hoveredItem = summaryItems[hoveredIndex] as? RoutineSummaryItem.SegmentItem
+                        if (item != null) {
+                            onSegmentMoved(item.segment, hoveredItem?.segment)
                         }
                     },
                     onDragCancelled = {

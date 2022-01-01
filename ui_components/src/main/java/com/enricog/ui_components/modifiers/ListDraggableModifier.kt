@@ -19,12 +19,12 @@ fun Modifier.listDraggable(
     key: Any,
     listState: LazyListState,
     onDragStarted: (itemIndex: Int, offsetY: Float) -> Unit = { _, _ -> },
-    onDragStopped: (itemIndex: Int, newIndex: Int) -> Unit = { _, _ -> },
+    onDragStopped: (itemIndex: Int, hoveredIndex: Int) -> Unit = { _, _ -> },
     onDragCancelled: () -> Unit = {},
     onDrag: (itemIndex: Int, hoveredIndex: Int, offsetY: Float) -> Unit
 ): Modifier = composed {
 
-    // TODO fine another way to represent the state, this is confusing and hard to track
+    // TODO find another way to represent the state, this is confusing and hard to track
     var draggedItemOffset by remember { mutableStateOf(0f) }
     var draggedItem by remember { mutableStateOf<LazyListItemInfo?>(null) }
     var draggedItemCurrentIndex by remember { mutableStateOf<Int?>(null) }

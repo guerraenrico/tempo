@@ -32,7 +32,7 @@ internal fun RoutineSummaryViewState.Compose(
     onSegmentAdd: () -> Unit,
     onSegmentSelected: (Segment) -> Unit,
     onSegmentDelete: (Segment) -> Unit,
-    onSegmentMoved: (Segment, Int) -> Unit,
+    onSegmentMoved: (Segment, Segment?) -> Unit,
     onRoutineStart: () -> Unit,
     onRoutineEdit: () -> Unit
 ) {

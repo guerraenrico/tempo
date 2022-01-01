@@ -67,10 +67,11 @@ internal class RoutineSummaryViewModel @Inject constructor(
         }
     }
 
-    fun onSegmentMoved(segment: Segment, newIndex: Int) { // TODO make sense to have the segment instance and not the index? Should the viewModel calculate the nextIndex? That would mean that the nextIndex is referring to the index of the segment in the viewState (-2 logic explained in the other to do)
+    fun onSegmentMoved(segment: Segment, hoveredSegment: Segment?) { // TODO make sense to have the segment instance and not the index? Should the viewModel calculate the nextIndex? That would mean that the nextIndex is referring to the index of the segment in the viewState (-2 logic explained in the other to do)
         updateStateWhen<RoutineSummaryState.Data> { stateData ->
             // TODO move all this in a useCase and actually save the routine
             val itemIndex = stateData.routine.segments.indexOf(segment)
+            val newIndex = stateData.routine.segments.indexOf(hoveredSegment)
 
             if (itemIndex == newIndex || itemIndex < 0) {
                 return@updateStateWhen stateData
