@@ -87,13 +87,17 @@ fun Modifier.listDraggable(
                     }
                 },
                 onDragEnd = {
-                    withNonNull(draggedItem, draggedItemCurrentIndex) { item, currentIndex ->
-                        onDragStopped(item.index, currentIndex)
-                    }
+                    if (draggedItem?.index == draggedItemCurrentIndex) {
+                        onDragCancelled()
+                    } else {
+                        withNonNull(draggedItem, draggedItemCurrentIndex) { item, currentIndex ->
+                            onDragStopped(item.index, currentIndex)
+                        }
 
-                    draggedItemOffset = 0f
-                    draggedItemCurrentIndex = null
-                    draggedItem = null
+                        draggedItemOffset = 0f
+                        draggedItemCurrentIndex = null
+                        draggedItem = null
+                    }
                 },
                 onDragCancel = {
                     onDragCancelled()
