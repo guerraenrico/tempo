@@ -86,18 +86,12 @@ internal fun RoutineSummaryScene(
             )
         }
 
-        AnimatedVisibility(
-            visible = listDraggableState.isDragging,
-            enter = fadeIn(),
-            exit = fadeOut(),
-            modifier = Modifier.padding(horizontal = TempoTheme.dimensions.spaceM)
-        ) {
-            if (listDraggableState.isDragging) {
-                DraggedSegment(
-                    item = summaryItems[listDraggableState.draggedItem?.index!!] as SegmentItem,
-                    offset = listDraggableState.draggedItemOffsetY
-                )
-            }
+        if (listDraggableState.isDragging) {
+            DraggedSegment(
+                modifier = Modifier.padding(horizontal = TempoTheme.dimensions.spaceM),
+                item = summaryItems[listDraggableState.draggedItem?.index!!] as SegmentItem,
+                offset = listDraggableState.draggedItemOffsetY
+            )
         }
 
         AnimatedVisibility(

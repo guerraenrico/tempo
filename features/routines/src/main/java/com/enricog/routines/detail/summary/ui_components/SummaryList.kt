@@ -1,5 +1,6 @@
 package com.enricog.routines.detail.summary.ui_components
 
+import androidx.compose.animation.core.animateFloatAsState
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.foundation.layout.Spacer
@@ -14,6 +15,7 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.alpha
 import androidx.compose.ui.draw.drawBehind
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.graphics.graphicsLayer
 import androidx.compose.ui.platform.testTag
 import com.enricog.core.extensions.exhaustive
 import com.enricog.entities.routines.Segment
@@ -64,7 +66,15 @@ internal fun SummaryList(
                     SegmentSectionTitle(item = item, onAddSegmentClick = onSegmentAdd)
                 is RoutineSummaryItem.SegmentItem -> {
                     val isDragged = dragState.isDragging && index == dragState.draggedItem?.index
-                    val isHovered = dragState.isDragging && index == dragState.hoveredItemIndex
+                    val offsetY = dragState.hoveredItemIndex?.let {
+                        if (index > it) {
+                            dragState.draggedItem?.size?.toFloat() ?: 0f
+                        } else {
+                            0f
+                        }
+                    } ?: 0f
+
+                    val animate = animateFloatAsState(targetValue  =offsetY)
                     SegmentItem(
                         segment = item.segment,
                         enableClick = !dragState.isDragging,
@@ -72,10 +82,8 @@ internal fun SummaryList(
                         onDelete = onSegmentDelete,
                         modifier = Modifier
                             .fillMaxWidth()
-                            .drawBehind {
-                                if (isHovered) {
-                                    drawRect(Color.Red)
-                                }
+                            .graphicsLayer {
+                                translationY = animate.value
                             }
                             .alpha(0.4f.takeIf { isDragged } ?: 1f)
                     )
