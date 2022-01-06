@@ -19,6 +19,7 @@ import com.enricog.core.extensions.exhaustive
 import com.enricog.entities.routines.Segment
 import com.enricog.routines.detail.summary.models.RoutineSummaryItem
 import com.enricog.ui_components.common.button.TempoIconButtonSize
+import com.enricog.ui_components.modifiers.ListDraggableState
 import com.enricog.ui_components.resources.TempoTheme
 
 internal const val RoutineSummaryColumnTestTag = "RoutineSummaryColumn"
@@ -27,7 +28,7 @@ internal const val RoutineSummaryColumnTestTag = "RoutineSummaryColumn"
 internal fun SummaryList(
     modifier: Modifier = Modifier,
     listState: LazyListState,
-    dragState: SegmentDragState,
+    dragState: ListDraggableState,
     items: List<RoutineSummaryItem>,
     onSegmentAdd: () -> Unit,
     onSegmentSelected: (Segment) -> Unit,
@@ -62,8 +63,8 @@ internal fun SummaryList(
                 is RoutineSummaryItem.SegmentSectionTitle ->
                     SegmentSectionTitle(item = item, onAddSegmentClick = onSegmentAdd)
                 is RoutineSummaryItem.SegmentItem -> {
-                    val isDragged = dragState.isDragging && index == dragState.indexDraggedItem
-                    val isHovered = dragState.isDragging && index == dragState.indexHoveredItem
+                    val isDragged = dragState.isDragging && index == dragState.draggedItem?.index
+                    val isHovered = dragState.isDragging && index == dragState.hoveredItemIndex
                     SegmentItem(
                         segment = item.segment,
                         enableClick = !dragState.isDragging,
