@@ -14,9 +14,11 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.alpha
 import androidx.compose.ui.draw.drawBehind
+import androidx.compose.ui.draw.scale
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.graphicsLayer
 import androidx.compose.ui.platform.testTag
+import androidx.compose.ui.unit.dp
 import com.enricog.core.extensions.exhaustive
 import com.enricog.entities.routines.Segment
 import com.enricog.routines.detail.summary.models.RoutineSummaryItem
@@ -66,27 +68,42 @@ internal fun SummaryList(
                     SegmentSectionTitle(item = item, onAddSegmentClick = onSegmentAdd)
                 is RoutineSummaryItem.SegmentItem -> {
                     val isDragged = dragState.isDragging && index == dragState.draggedItem?.index
-                    val offsetY = dragState.hoveredItemIndex?.let {
-                        if (index > it) {
-                            dragState.draggedItem?.size?.toFloat() ?: 0f
-                        } else {
-                            0f
+                    val offsetY = dragState.hoveredItemIndex?.let { hoveredIndex ->
+                        val draggedIndex = dragState.draggedItem?.index ?: return@let 0f
+                        when {
+                            draggedIndex == hoveredIndex -> 0f
+                            index <= hoveredIndex && index > draggedIndex ->
+                                dragState.draggedItem?.size?.toFloat()?.times(-1)
+                            index > hoveredIndex && index < draggedIndex ->
+                                dragState.draggedItem?.size?.toFloat()?.times(1)
+                            else -> 0f
                         }
                     } ?: 0f
 
-                    val animate = animateFloatAsState(targetValue  =offsetY)
-                    SegmentItem(
-                        segment = item.segment,
-                        enableClick = !dragState.isDragging,
-                        onClick = onSegmentSelected,
-                        onDelete = onSegmentDelete,
-                        modifier = Modifier
-                            .fillMaxWidth()
-                            .graphicsLayer {
-                                translationY = animate.value
-                            }
-                            .alpha(0.4f.takeIf { isDragged } ?: 1f)
-                    )
+                    val animate = animateFloatAsState(targetValue = offsetY)
+                    if (!isDragged) {
+                        SegmentItem(
+                            segment = item.segment,
+                            enableClick = !dragState.isDragging,
+                            onClick = onSegmentSelected,
+                            onDelete = onSegmentDelete,
+                            modifier = Modifier
+                                .fillMaxWidth()
+                                .graphicsLayer {
+                                    translationY = if (dragState.isDragging) animate.value else offsetY
+                                }
+                        )
+                    } else {
+                        SegmentItem(
+                            segment = item.segment,
+                            enableClick = false,
+                            onClick = { },
+                            onDelete = { },
+                            modifier = Modifier
+                                .fillMaxWidth()
+                                .alpha(0f)
+                        )
+                    }
                 }
                 RoutineSummaryItem.Space -> Spacer(Modifier.height(TempoTheme.dimensions.spaceM + TempoIconButtonSize.Large.box))
             }.exhaustive

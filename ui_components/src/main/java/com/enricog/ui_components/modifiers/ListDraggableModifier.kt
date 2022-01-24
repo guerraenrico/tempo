@@ -26,12 +26,19 @@ import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.receiveAsFlow
 import kotlinx.coroutines.launch
 
+/**
+ * Create a [ListDraggableState] that will be remembered until the [key] will change.
+ * The [key] should be a value that changes when the list is updated, in this way a new [ListDraggableState]
+ * will be created and will work with the updated [listState].
+ * Usually the [key] parameter is the list of item displayed.
+ */
 @Composable
 fun rememberListDraggableState(
+    key: Any,
     scope: CoroutineScope = rememberCoroutineScope(),
     listState: LazyListState = rememberLazyListState()
 ): ListDraggableState {
-    return remember { ListDraggableState(listState = listState, scope = scope) }
+    return remember(key) { ListDraggableState(listState = listState, scope = scope) }
 }
 
 fun Modifier.listDraggable(
@@ -46,7 +53,7 @@ fun Modifier.listDraggable(
 ) {
     pointerInput(key) {
         detectDragGesturesAfterLongPress(
-            onDrag = { change, dragAmount -> // TODO do I need to consumeAllChanges? probably not
+            onDrag = { change, dragAmount ->
                 state.onDrag(dragAmount)
                 change.consumeAllChanges()
             },
@@ -110,16 +117,13 @@ class ListDraggableState(
                             itemInfo.offsetEnd < startOffset || itemInfo.offset > endOffset || currentHoveredItem.index == itemInfo.index
                         }
                         .firstOrNull { itemInfo ->
-                            val itemOffsetDelta =
-                                startOffset - currentHoveredItem.offset
+                            val itemOffsetDelta = startOffset - currentHoveredItem.offset
                             when {
                                 itemOffsetDelta > 0 -> endOffset > itemInfo.offsetEnd
                                 else -> startOffset > itemInfo.offset && startOffset < itemInfo.offsetEnd
                             }
                         }
-                        ?.let { itemInfo ->
-                            hoveredItemIndex = itemInfo.index
-                        }
+                        ?.let { itemInfo -> hoveredItemIndex = itemInfo.index }
                 }
 
             listState.overScrollOffset(item, draggedItemOffsetY)
@@ -135,8 +139,6 @@ class ListDraggableState(
             withNonNull(draggedItem, hoveredItemIndex) { item, hoveredIndex ->
                 itemMovedChannel.trySend(ItemMoved(item.index, hoveredIndex))
             }
-
-            clear()
         }
     }
 
