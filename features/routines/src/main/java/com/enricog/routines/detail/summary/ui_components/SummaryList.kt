@@ -73,9 +73,9 @@ internal fun SummaryList(
                         when {
                             draggedIndex == hoveredIndex -> 0f
                             index <= hoveredIndex && index > draggedIndex ->
-                                dragState.draggedItem?.size?.toFloat()?.times(-1)
+                                dragState.draggedItem?.size?.toFloat()!!.times(-1) - (TempoTheme.dimensions.spaceM.value * 2) -10f
                             index > hoveredIndex && index < draggedIndex ->
-                                dragState.draggedItem?.size?.toFloat()?.times(1)
+                                dragState.draggedItem?.size?.toFloat()!!.times(1) + (TempoTheme.dimensions.spaceM.value * 2) + 10f
                             else -> 0f
                         }
                     } ?: 0f
