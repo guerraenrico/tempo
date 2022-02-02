@@ -13,12 +13,9 @@ import androidx.compose.foundation.lazy.itemsIndexed
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.alpha
-import androidx.compose.ui.draw.drawBehind
-import androidx.compose.ui.draw.scale
-import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.graphicsLayer
+import androidx.compose.ui.platform.LocalDensity
 import androidx.compose.ui.platform.testTag
-import androidx.compose.ui.unit.dp
 import com.enricog.core.extensions.exhaustive
 import com.enricog.entities.routines.Segment
 import com.enricog.routines.detail.summary.models.RoutineSummaryItem
@@ -72,10 +69,10 @@ internal fun SummaryList(
                         val draggedIndex = dragState.draggedItem?.index ?: return@let 0f
                         when {
                             draggedIndex == hoveredIndex -> 0f
-                            index <= hoveredIndex && index > draggedIndex ->
-                                dragState.draggedItem?.size?.toFloat()!!.times(-1) - (TempoTheme.dimensions.spaceM.value * 2) -10f
-                            index > hoveredIndex && index < draggedIndex ->
-                                dragState.draggedItem?.size?.toFloat()!!.times(1) + (TempoTheme.dimensions.spaceM.value * 2) + 10f
+                            index in (draggedIndex + 1)..hoveredIndex ->
+                                (dragState.draggedItem?.size!! + (with(LocalDensity.current) { (TempoTheme.dimensions.spaceM).toPx()})).times(-1)
+                            index in (hoveredIndex + 1) until draggedIndex ->
+                                dragState.draggedItem?.size!! + (with(LocalDensity.current) { (TempoTheme.dimensions.spaceM).toPx()})
                             else -> 0f
                         }
                     } ?: 0f
