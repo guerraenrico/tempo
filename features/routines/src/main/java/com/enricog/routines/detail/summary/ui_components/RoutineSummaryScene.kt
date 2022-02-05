@@ -8,7 +8,6 @@ import androidx.compose.animation.slideOutVertically
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.padding
-import androidx.compose.foundation.lazy.rememberLazyListState
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.derivedStateOf
@@ -39,8 +38,7 @@ internal fun RoutineSummaryScene(
     onRoutineEdit: () -> Unit
 ) {
 
-    val listState = rememberLazyListState()
-    val listDraggableState = rememberListDraggableState(key = summaryItems, listState = listState)
+    val listDraggableState = rememberListDraggableState(key = summaryItems)
 
     LaunchedEffect(summaryItems) {
         listDraggableState.itemMovedEvent.collect { itemMoved ->
@@ -54,7 +52,7 @@ internal fun RoutineSummaryScene(
 
     val showHeaderAddSegment by remember {
         derivedStateOf {
-            listState.firstVisibleItemIndex > summaryItems.indexOfFirst { it is SegmentSectionTitle }
+            listDraggableState.firstVisibleItemIndex > summaryItems.indexOfFirst { it is SegmentSectionTitle }
         }
     }
 
@@ -65,7 +63,6 @@ internal fun RoutineSummaryScene(
     ) {
         SummaryList(
             modifier = Modifier.listDraggable(key = summaryItems, state = listDraggableState),
-            listState = listState,
             dragState = listDraggableState,
             items = summaryItems,
             onSegmentAdd = onSegmentAdd,

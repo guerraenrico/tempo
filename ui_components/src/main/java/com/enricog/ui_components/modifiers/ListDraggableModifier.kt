@@ -71,7 +71,7 @@ fun Modifier.listDraggable(
 }
 
 class ListDraggableState(
-    private val listState: LazyListState,
+    val listState: LazyListState,
     private val scope: CoroutineScope
 ) {
 
@@ -87,8 +87,14 @@ class ListDraggableState(
     val isDragging: Boolean
         get() = draggedItem != null
 
-    private val itemMovedChannel = Channel<ItemMoved>(capacity = 1, onBufferOverflow = BufferOverflow.DROP_OLDEST)
+    private val itemMovedChannel = Channel<ItemMoved>(
+        capacity = 1,
+        onBufferOverflow = BufferOverflow.DROP_OLDEST
+    )
     val itemMovedEvent: Flow<ItemMoved> = itemMovedChannel.receiveAsFlow()
+
+    val firstVisibleItemIndex: Int
+        get() = listState.firstVisibleItemIndex
 
     internal fun onDragStarted(dragAmount: Offset) {
         draggedItem = listState.draggedItemInfo(dragAmount.y)?.also { item ->
