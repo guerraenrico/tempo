@@ -4,6 +4,7 @@ import androidx.lifecycle.SavedStateHandle
 import com.enricog.base_test.coroutine.CoroutineRule
 import com.enricog.base_test.entities.routines.EMPTY
 import com.enricog.entities.ID
+import com.enricog.entities.Rank
 import com.enricog.entities.asID
 import com.enricog.entities.routines.Routine
 import com.enricog.entities.routines.Segment
@@ -11,6 +12,7 @@ import com.enricog.routines.detail.summary.models.RoutineSummaryField
 import com.enricog.routines.detail.summary.models.RoutineSummaryFieldError
 import com.enricog.routines.detail.summary.models.RoutineSummaryState
 import com.enricog.routines.detail.summary.models.RoutineSummaryViewState
+import com.enricog.routines.detail.summary.usecase.MoveSegmentUseCase
 import com.enricog.routines.detail.summary.usecase.RoutineSummaryUseCase
 import com.enricog.routines.navigation.RoutinesNavigationActions
 import io.mockk.Called
@@ -34,6 +36,7 @@ class RoutineSummaryViewModelTest {
     private val reducer: RoutineSummaryReducer = mockk()
     private val routineSummaryUseCase: RoutineSummaryUseCase = mockk(relaxUnitFun = true)
     private val validator: RoutineSummaryValidator = mockk()
+    private val moveSegmentUseCase: MoveSegmentUseCase = mockk()
     private val savedStateHandle = SavedStateHandle(mapOf("routineId" to 1L))
 
     @Before
@@ -95,6 +98,30 @@ class RoutineSummaryViewModelTest {
 
         verify { reducer.deleteSegment(state = state, segment = segment) }
         coVerify { routineSummaryUseCase.update(routine = Routine.EMPTY) }
+    }
+
+    @Test
+    fun `should move segment when segment is moved`() = coroutineRule {
+        val segment1 = Segment.EMPTY.copy(id = ID.from(1), rank = Rank.from("bbbbbb"))
+        val segment2 = Segment.EMPTY.copy(id = ID.from(2), rank = Rank.from("cccccc"))
+        val routine = Routine.EMPTY.copy(id = 1.asID, segments = listOf(segment1, segment2))
+        val state = RoutineSummaryState.Data(
+            routine = routine,
+            errors = emptyMap()
+        )
+        every { reducer.setup(routine = any()) } returns state
+        val sut = buildSut()
+        advanceUntilIdle()
+
+        sut.onSegmentMoved(segment = segment1, hoveredSegment = segment2)
+
+        coVerify {
+            moveSegmentUseCase(
+                routine = routine,
+                segment = segment1,
+                hoveredSegment = segment2
+            )
+        }
     }
 
     @Test
@@ -168,6 +195,7 @@ class RoutineSummaryViewModelTest {
             navigationActions = navigationActions,
             reducer = reducer,
             routineSummaryUseCase = routineSummaryUseCase,
+            moveSegmentUseCase = moveSegmentUseCase,
             validator = validator
         )
     }
