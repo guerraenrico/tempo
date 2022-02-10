@@ -9,7 +9,7 @@ buildscript {
         maven { url "https://oss.sonatype.org/content/repositories/snapshots" }
     }
     dependencies {
-        classpath 'com.android.tools.build:gradle:7.0.3'
+        classpath 'com.android.tools.build:gradle:7.0.4'
         classpath "org.jetbrains.kotlin:kotlin-gradle-plugin:${Libs.Kotlin.version}"
         classpath "com.google.dagger:hilt-android-gradle-plugin:${Libs.Hilt.androidVersion}"
 
@@ -50,7 +50,7 @@ subprojects {
                     "-Xuse-experimental=androidx.compose.material.ExperimentalMaterialApi",
                     "-Xuse-experimental=androidx.compose.foundation.ExperimentalFoundationApi",
                     "-Xuse-experimental=androidx.compose.ui.ExperimentalComposeUiApi",
-                    "-Xuse-experimental=androidx.compose.animation.ExperimentalAnimationApi",
+                    "-Xopt-in=androidx.compose.animation.ExperimentalAnimationApi",
                     "-Xopt-in=kotlinx.coroutines.FlowPreview",
 
                     "-Xskip-prerelease-check",

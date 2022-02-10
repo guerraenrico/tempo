@@ -20,6 +20,7 @@ internal fun RoutineSummaryScreen(viewModel: RoutineSummaryViewModel) {
             onSegmentAdd = viewModel::onSegmentAdd,
             onSegmentSelected = viewModel::onSegmentSelected,
             onSegmentDelete = viewModel::onSegmentDelete,
+            onSegmentMoved = viewModel::onSegmentMoved,
             onRoutineStart = viewModel::onRoutineStart,
             onRoutineEdit = viewModel::onRoutineEdit
         )
@@ -31,6 +32,7 @@ internal fun RoutineSummaryViewState.Compose(
     onSegmentAdd: () -> Unit,
     onSegmentSelected: (Segment) -> Unit,
     onSegmentDelete: (Segment) -> Unit,
+    onSegmentMoved: (Segment, Segment?) -> Unit,
     onRoutineStart: () -> Unit,
     onRoutineEdit: () -> Unit
 ) {
@@ -43,6 +45,7 @@ internal fun RoutineSummaryViewState.Compose(
                 onSegmentAdd = onSegmentAdd,
                 onSegmentSelected = onSegmentSelected,
                 onSegmentDelete = onSegmentDelete,
+                onSegmentMoved = onSegmentMoved,
                 onRoutineStart = onRoutineStart,
                 onRoutineEdit = onRoutineEdit
             )

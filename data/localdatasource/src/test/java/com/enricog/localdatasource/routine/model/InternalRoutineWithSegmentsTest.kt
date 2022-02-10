@@ -1,5 +1,6 @@
 package com.enricog.localdatasource.routine.model
 
+import com.enricog.entities.Rank
 import com.enricog.entities.asID
 import com.enricog.entities.routines.Routine
 import com.enricog.entities.routines.Segment
@@ -20,7 +21,8 @@ class InternalRoutineWithSegmentsTest {
                 routineId = 1,
                 name = "name",
                 timeInSeconds = 4,
-                type = TimeType.TIMER
+                type = TimeType.TIMER,
+                rank = "aaaaaa"
             )
         )
         val internalRoutine = InternalRoutine(
@@ -41,7 +43,8 @@ class InternalRoutineWithSegmentsTest {
                     id = 3.asID,
                     name = "name",
                     time = 4.seconds,
-                    type = TimeType.TIMER
+                    type = TimeType.TIMER,
+                    rank = Rank.from("aaaaaa")
                 )
             )
         )

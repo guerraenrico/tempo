@@ -12,18 +12,16 @@ internal class RoutineUseCase @Inject constructor(
 ) {
 
     suspend fun get(routineId: ID): Routine {
-        return if (routineId.isNew) {
-            Routine.NEW
-        } else {
-            routineDataSource.get(routineId)
+        return when {
+            routineId.isNew -> Routine.NEW
+            else -> routineDataSource.get(routineId)
         }
     }
 
     suspend fun save(routine: Routine): ID {
-        return if (routine.id.isNew) {
-            routineDataSource.create(routine)
-        } else {
-            routineDataSource.update(routine)
+        return when {
+            routine.id.isNew -> routineDataSource.create(routine)
+            else -> routineDataSource.update(routine)
         }
     }
 }

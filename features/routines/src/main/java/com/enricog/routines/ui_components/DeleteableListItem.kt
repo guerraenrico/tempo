@@ -29,7 +29,8 @@ internal fun DeletableListItem(
     modifier: Modifier = Modifier,
     onDelete: () -> Unit,
     content: @Composable () -> Unit,
-) = BoxWithConstraints {
+) = BoxWithConstraints(modifier = modifier) {
+
     val width = constraints.maxWidth.toFloat()
     val openWidth = width * 0.3f
 
@@ -37,7 +38,7 @@ internal fun DeletableListItem(
     val anchors = mutableMapOf(0f to CLOSE, -openWidth to OPEN)
 
     Box(
-        modifier = modifier
+        modifier = Modifier
             .swipeable(
                 state = swipeState,
                 anchors = anchors,

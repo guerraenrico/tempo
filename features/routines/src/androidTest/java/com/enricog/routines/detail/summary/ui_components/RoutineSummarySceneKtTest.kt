@@ -40,7 +40,8 @@ class RoutineSummarySceneKtTest {
                     onSegmentSelected = {},
                     onSegmentDelete = {},
                     onRoutineStart = {},
-                    onRoutineEdit = {}
+                    onRoutineEdit = {},
+                    onSegmentMoved = { _, _ -> }
                 )
             }
         }
@@ -79,7 +80,8 @@ class RoutineSummarySceneKtTest {
                     onSegmentSelected = {},
                     onSegmentDelete = {},
                     onRoutineStart = {},
-                    onRoutineEdit = {}
+                    onRoutineEdit = {},
+                    onSegmentMoved = { _, _ -> }
                 )
             }
         }

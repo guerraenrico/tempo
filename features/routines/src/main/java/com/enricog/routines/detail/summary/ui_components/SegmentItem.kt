@@ -10,6 +10,7 @@ import androidx.compose.ui.platform.testTag
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.constraintlayout.compose.ConstraintLayout
 import androidx.constraintlayout.compose.Dimension
+import com.enricog.entities.Rank
 import com.enricog.entities.asID
 import com.enricog.entities.routines.Segment
 import com.enricog.entities.routines.TimeType
@@ -25,6 +26,7 @@ internal const val SegmentItemTestTag = "SegmentItemTestTag"
 internal fun SegmentItem(
     modifier: Modifier,
     segment: Segment,
+    enableClick: Boolean,
     onClick: (Segment) -> Unit,
     onDelete: (Segment) -> Unit
 ) {
@@ -36,7 +38,7 @@ internal fun SegmentItem(
         ConstraintLayout(
             modifier = Modifier
                 .fillMaxWidth()
-                .clickable { onClick(segment) }
+                .clickable(enabled = enableClick) { onClick(segment) }
                 .padding(TempoTheme.dimensions.spaceM)
         ) {
             val (name, type, time) = createRefs()
@@ -90,9 +92,11 @@ private fun SegmentItemPreview() {
             id = 0.asID,
             name = "Segment name",
             time = 100.seconds,
-            type = TimeType.REST
+            type = TimeType.REST,
+            rank = Rank.from(value = "aaaa")
         ),
         onClick = {},
-        onDelete = {}
+        onDelete = {},
+        enableClick = true
     )
 }

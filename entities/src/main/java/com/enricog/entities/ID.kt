@@ -1,7 +1,7 @@
 package com.enricog.entities
 
 @JvmInline
-value class ID private constructor(private val id: Long) {
+value class ID private constructor(private val id: Long) : Comparable<ID> {
 
     init {
         require(id >= ID_NEW) { "id must have a value more or equals to 0" }
@@ -10,7 +10,7 @@ value class ID private constructor(private val id: Long) {
     val isNew: Boolean
         get() = id == ID_NEW
 
-    operator fun compareTo(other: ID): Int {
+    override operator fun compareTo(other: ID): Int {
         return id.compareTo(other.id)
     }
 

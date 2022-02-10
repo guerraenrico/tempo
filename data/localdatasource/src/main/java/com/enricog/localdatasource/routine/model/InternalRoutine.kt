@@ -5,6 +5,7 @@ import androidx.room.Entity
 import androidx.room.PrimaryKey
 import com.enricog.entities.ID
 import com.enricog.entities.routines.Routine
+import com.enricog.entities.routines.sortedByRank
 import com.enricog.entities.seconds
 import java.time.OffsetDateTime
 
@@ -23,7 +24,9 @@ internal data class InternalRoutine(
             startTimeOffset = startTimeOffsetInSeconds.seconds,
             createdAt = createdAt,
             updatedAt = updatedAt,
-            segments = segments.map { it.toEntity() }
+            segments = segments
+                .map { it.toEntity() }
+                .sortedByRank()
         )
     }
 }

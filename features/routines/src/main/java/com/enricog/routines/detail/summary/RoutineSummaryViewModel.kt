@@ -10,12 +10,12 @@ import com.enricog.navigation.routes.RoutineSummaryRoute
 import com.enricog.navigation.routes.RoutineSummaryRouteInput
 import com.enricog.routines.detail.summary.models.RoutineSummaryState
 import com.enricog.routines.detail.summary.models.RoutineSummaryViewState
+import com.enricog.routines.detail.summary.usecase.MoveSegmentUseCase
 import com.enricog.routines.detail.summary.usecase.RoutineSummaryUseCase
 import com.enricog.routines.navigation.RoutinesNavigationActions
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.launchIn
 import kotlinx.coroutines.flow.onEach
-import kotlinx.coroutines.launch
 import javax.inject.Inject
 
 @HiltViewModel
@@ -26,6 +26,7 @@ internal class RoutineSummaryViewModel @Inject constructor(
     private val navigationActions: RoutinesNavigationActions,
     private val reducer: RoutineSummaryReducer,
     private val routineSummaryUseCase: RoutineSummaryUseCase,
+    private val moveSegmentUseCase: MoveSegmentUseCase,
     private val validator: RoutineSummaryValidator
 ) : BaseViewModel<RoutineSummaryState, RoutineSummaryViewState>(
     dispatchers = dispatchers,
@@ -55,13 +56,19 @@ internal class RoutineSummaryViewModel @Inject constructor(
     }
 
     fun onSegmentDelete(segment: Segment) {
-        viewModelScope.launch {
+        launch {
             val newState = updateStateWhen<RoutineSummaryState.Data> {
                 reducer.deleteSegment(state = it, segment = segment)
             }
             if (newState is RoutineSummaryState.Data) {
                 routineSummaryUseCase.update(routine = newState.routine)
             }
+        }
+    }
+
+    fun onSegmentMoved(segment: Segment, hoveredSegment: Segment?) {
+        launchWhen<RoutineSummaryState.Data> { stateData ->
+            moveSegmentUseCase(stateData.routine, segment, hoveredSegment)
         }
     }
 

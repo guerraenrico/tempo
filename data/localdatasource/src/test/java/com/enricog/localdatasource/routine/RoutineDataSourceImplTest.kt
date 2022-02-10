@@ -5,6 +5,7 @@ import androidx.arch.core.executor.testing.InstantTaskExecutorRule
 import androidx.room.Room
 import androidx.test.core.app.ApplicationProvider
 import com.enricog.base_test.coroutine.CoroutineRule
+import com.enricog.entities.Rank
 import com.enricog.entities.asID
 import com.enricog.entities.routines.Routine
 import com.enricog.entities.routines.Segment
@@ -63,7 +64,8 @@ class RoutineDataSourceImplTest {
             routineId = 1,
             name = "name",
             timeInSeconds = 40,
-            type = TimeType.TIMER
+            type = TimeType.TIMER,
+            rank = "aaaaaa"
         )
         val internalRoutine = InternalRoutine(
             id = 1,
@@ -83,7 +85,8 @@ class RoutineDataSourceImplTest {
                     id = 1.asID,
                     name = "name",
                     time = 40.seconds,
-                    type = TimeType.TIMER
+                    type = TimeType.TIMER,
+                    Rank.from(value = "aaaaaa")
                 )
             )
         )
@@ -105,7 +108,8 @@ class RoutineDataSourceImplTest {
             routineId = 1,
             name = "name",
             timeInSeconds = 40,
-            type = TimeType.TIMER
+            type = TimeType.TIMER,
+            rank = "aaaaaa"
         )
         val internalRoutine = InternalRoutine(
             id = 1,
@@ -125,7 +129,8 @@ class RoutineDataSourceImplTest {
                     id = 1.asID,
                     name = "name",
                     time = 40.seconds,
-                    type = TimeType.TIMER
+                    type = TimeType.TIMER,
+                    rank = Rank.from(value = "aaaaaa")
                 )
             )
         )
@@ -146,7 +151,8 @@ class RoutineDataSourceImplTest {
             routineId = 1,
             name = "name",
             timeInSeconds = 40,
-            type = TimeType.TIMER
+            type = TimeType.TIMER,
+            rank = "aaaaaa"
         )
         val internalRoutine = InternalRoutine(
             id = 1,
@@ -166,7 +172,8 @@ class RoutineDataSourceImplTest {
                     id = 1.asID,
                     name = "name",
                     time = 40.seconds,
-                    type = TimeType.TIMER
+                    type = TimeType.TIMER,
+                    rank = Rank.from(value = "aaaaaa")
                 )
             )
         )
@@ -194,7 +201,8 @@ class RoutineDataSourceImplTest {
                     id = 1.asID,
                     name = "name",
                     time = 40.seconds,
-                    type = TimeType.TIMER
+                    type = TimeType.TIMER,
+                    rank = Rank.from(value = "aaaaaa")
                 )
             )
         )
@@ -209,7 +217,8 @@ class RoutineDataSourceImplTest {
                     id = 1.asID,
                     name = "name",
                     time = 40.seconds,
-                    type = TimeType.TIMER
+                    type = TimeType.TIMER,
+                    rank = Rank.from(value = "aaaaaa")
                 )
             )
         )
@@ -231,7 +240,8 @@ class RoutineDataSourceImplTest {
             routineId = 1,
             name = "name",
             timeInSeconds = 40,
-            type = TimeType.TIMER
+            type = TimeType.TIMER,
+            rank = "aaaaaa"
         )
         val internalRoutine = InternalRoutine(
             id = 1,
@@ -251,7 +261,8 @@ class RoutineDataSourceImplTest {
                     id = 1.asID,
                     name = "name",
                     time = 40.seconds,
-                    type = TimeType.TIMER
+                    type = TimeType.TIMER,
+                    rank = Rank.from(value = "aaaaaa")
                 )
             )
         )
@@ -276,7 +287,8 @@ class RoutineDataSourceImplTest {
             routineId = 1,
             name = "name",
             timeInSeconds = 40,
-            type = TimeType.TIMER
+            type = TimeType.TIMER,
+            rank = "aaaaaa"
         )
         val internalRoutine = InternalRoutine(
             id = 1,
@@ -296,7 +308,8 @@ class RoutineDataSourceImplTest {
                     id = 1.asID,
                     name = "name2",
                     time = 40.seconds,
-                    type = TimeType.TIMER
+                    type = TimeType.TIMER,
+                    rank = Rank.from(value = "aaaaaa")
                 )
             )
         )
@@ -321,7 +334,8 @@ class RoutineDataSourceImplTest {
             routineId = 1,
             name = "name",
             timeInSeconds = 40,
-            type = TimeType.TIMER
+            type = TimeType.TIMER,
+            rank = "aaaaaa"
         )
         val internalRoutine = InternalRoutine(
             id = 1,
@@ -372,7 +386,8 @@ class RoutineDataSourceImplTest {
                     id = 0.asID,
                     name = "name",
                     time = 40.seconds,
-                    type = TimeType.TIMER
+                    type = TimeType.TIMER,
+                    rank = Rank.from(value = "aaaaaa")
                 )
             )
         )
@@ -387,7 +402,8 @@ class RoutineDataSourceImplTest {
                     id = 1.asID,
                     name = "name",
                     time = 40.seconds,
-                    type = TimeType.TIMER
+                    type = TimeType.TIMER,
+                    rank = Rank.from(value = "aaaaaa")
                 )
             )
         )
@@ -411,7 +427,8 @@ class RoutineDataSourceImplTest {
             routineId = 1,
             name = "name",
             timeInSeconds = 40,
-            type = TimeType.TIMER
+            type = TimeType.TIMER,
+            rank = "aaaaaa"
         )
         val internalRoutine = InternalRoutine(
             id = 1,
@@ -431,7 +448,8 @@ class RoutineDataSourceImplTest {
                     id = 0.asID,
                     name = "name2",
                     time = 40.seconds,
-                    type = TimeType.TIMER
+                    type = TimeType.TIMER,
+                    rank = Rank.from(value = "aaaaaa")
                 )
             )
         )
@@ -446,7 +464,8 @@ class RoutineDataSourceImplTest {
                     id = 2.asID,
                     name = "name2",
                     time = 40.seconds,
-                    type = TimeType.TIMER
+                    type = TimeType.TIMER,
+                    rank = Rank.from(value = "aaaaaa")
                 )
             )
         )
@@ -471,14 +490,16 @@ class RoutineDataSourceImplTest {
             routineId = 1,
             name = "name",
             timeInSeconds = 40,
-            type = TimeType.TIMER
+            type = TimeType.TIMER,
+            rank = "aaaaaa"
         )
         val internalSegment2 = InternalSegment(
             id = 2,
             routineId = 1,
             name = "name2",
             timeInSeconds = 40,
-            type = TimeType.TIMER
+            type = TimeType.TIMER,
+            rank = "bbbbbb"
         )
         val internalRoutine = InternalRoutine(
             id = 1,
@@ -498,13 +519,15 @@ class RoutineDataSourceImplTest {
                     id = 2.asID,
                     name = "name2_mod",
                     time = 40.seconds,
-                    type = TimeType.TIMER
+                    type = TimeType.TIMER,
+                    rank = Rank.from(value = "aaaaaa")
                 ),
                 Segment(
                     id = 0.asID,
                     name = "name3",
                     time = 40.seconds,
-                    type = TimeType.TIMER
+                    type = TimeType.TIMER,
+                    rank = Rank.from(value = "bbbbbb")
                 )
             )
         )
@@ -519,13 +542,15 @@ class RoutineDataSourceImplTest {
                     id = 2.asID,
                     name = "name2_mod",
                     time = 40.seconds,
-                    type = TimeType.TIMER
+                    type = TimeType.TIMER,
+                    rank = Rank.from(value = "aaaaaa")
                 ),
                 Segment(
                     id = 3.asID,
                     name = "name3",
                     time = 40.seconds,
-                    type = TimeType.TIMER
+                    type = TimeType.TIMER,
+                    rank = Rank.from(value = "bbbbbb")
                 )
             )
         )
@@ -549,7 +574,8 @@ class RoutineDataSourceImplTest {
             routineId = 1,
             name = "name",
             timeInSeconds = 40,
-            type = TimeType.TIMER
+            type = TimeType.TIMER,
+            rank = "aaaaaa"
         )
         val internalRoutine = InternalRoutine(
             id = 1,
@@ -569,7 +595,8 @@ class RoutineDataSourceImplTest {
                     id = 1.asID,
                     name = "name",
                     time = 40.seconds,
-                    type = TimeType.TIMER
+                    type = TimeType.TIMER,
+                    rank = Rank.from(value = "aaaaaa")
                 )
             )
         )

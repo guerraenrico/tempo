@@ -1,5 +1,6 @@
 package com.enricog.routines.detail.segment.usecase
 
+import com.enricog.core.extensions.replace
 import com.enricog.datasource.RoutineDataSource
 import com.enricog.entities.ID
 import com.enricog.entities.routines.Routine
@@ -22,13 +23,7 @@ internal class SegmentUseCase @Inject constructor(
                 add(segment)
             }
         } else {
-            segments.map {
-                if (it.id == segment.id) {
-                    segment
-                } else {
-                    it
-                }
-            }
+            segments.replace(segment) { it.id == segment.id }
         }
         val updatedRoutine = routine.copy(segments = updatedSegments)
         routineDataSource.update(updatedRoutine)
