@@ -25,6 +25,7 @@ android {
         kotlinCompilerVersion Libs.Kotlin.version
         kotlinCompilerExtensionVersion Libs.AndroidX.Compose.version
     }
+    namespace 'com.enricog.ui_components'
 }
 
 dependencies {
