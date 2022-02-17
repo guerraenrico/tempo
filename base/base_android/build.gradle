@@ -8,6 +8,8 @@ plugins {
 }
 
 android {
+    namespace 'com.enricog.base_android'
+
     compileSdkVersion Versions.compileSdk
 
     defaultConfig {
@@ -18,8 +20,6 @@ android {
         sourceCompatibility JavaVersion.VERSION_1_8
         targetCompatibility JavaVersion.VERSION_1_8
     }
-    namespace 'com.enricog.base_android'
-
 }
 
 

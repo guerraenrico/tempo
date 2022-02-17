@@ -7,6 +7,8 @@ plugins {
 }
 
 android {
+    namespace 'com.enricog.base_test'
+
     compileSdkVersion Versions.compileSdk
 
     defaultConfig {
@@ -22,8 +24,6 @@ android {
             excludes += ['META-INF/AL2.0', 'META-INF/LGPL2.1']
         }
     }
-
-    namespace 'com.enricog.base_test'
 }
 
 

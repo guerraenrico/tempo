@@ -8,6 +8,8 @@ plugins {
 }
 
 android {
+    namespace 'com.enricog.localdatasource'
+
     compileSdkVersion Versions.compileSdk
 
     defaultConfig {
@@ -34,7 +36,6 @@ android {
             includeAndroidResources = true
         }
     }
-    namespace 'com.enricog.localdatasource'
 }
 
 
