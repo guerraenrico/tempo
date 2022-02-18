@@ -18,6 +18,8 @@ play {
 }
 
 android {
+    namespace 'com.enricog.tempo'
+
     compileSdkVersion Versions.compileSdk
 
     defaultConfig {

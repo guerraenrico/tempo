@@ -8,6 +8,8 @@ plugins {
 }
 
 android {
+    namespace 'com.enricog.localdatasource'
+
     compileSdkVersion Versions.compileSdk
 
     defaultConfig {
