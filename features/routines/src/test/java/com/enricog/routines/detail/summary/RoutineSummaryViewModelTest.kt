@@ -22,7 +22,6 @@ import io.mockk.every
 import io.mockk.mockk
 import io.mockk.verify
 import kotlinx.coroutines.flow.flowOf
-import kotlinx.coroutines.test.advanceUntilIdle
 import org.junit.Before
 import org.junit.Rule
 import org.junit.Test
@@ -64,7 +63,6 @@ class RoutineSummaryViewModelTest {
         )
         every { reducer.setup(routine = any()) } returns state
         val sut = buildSut()
-        advanceUntilIdle()
 
         sut.onSegmentAdd()
 
@@ -79,7 +77,6 @@ class RoutineSummaryViewModelTest {
         )
         every { reducer.setup(routine = any()) } returns state
         val sut = buildSut()
-        advanceUntilIdle()
 
         sut.onSegmentSelected(Segment.EMPTY.copy(id = 2.asID))
 
@@ -93,7 +90,6 @@ class RoutineSummaryViewModelTest {
         every { reducer.setup(routine = any()) } returns state
         every { reducer.deleteSegment(state = any(), segment = any()) } returns state
         val sut = buildSut()
-        advanceUntilIdle()
 
         sut.onSegmentDelete(segment = segment)
 
@@ -112,7 +108,6 @@ class RoutineSummaryViewModelTest {
         )
         every { reducer.setup(routine = any()) } returns state
         val sut = buildSut()
-        advanceUntilIdle()
 
         sut.onSegmentMoved(segment = segment1, hoveredSegment = segment2)
 
@@ -132,7 +127,6 @@ class RoutineSummaryViewModelTest {
         every { reducer.setup(routine = any()) } returns state
         every { validator.validate(routine = any()) } returns emptyMap()
         val sut = buildSut()
-        advanceUntilIdle()
 
         sut.onRoutineStart()
 
@@ -153,7 +147,6 @@ class RoutineSummaryViewModelTest {
         every { reducer.applyRoutineErrors(state = any(), errors = any()) } returns state
         every { validator.validate(routine = any()) } returns errors
         val sut = buildSut()
-        advanceUntilIdle()
 
         sut.onRoutineStart()
 
@@ -172,7 +165,6 @@ class RoutineSummaryViewModelTest {
         )
         every { reducer.setup(routine = any()) } returns state
         val sut = buildSut()
-        advanceUntilIdle()
 
         sut.onRoutineEdit()
 

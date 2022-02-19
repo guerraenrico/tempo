@@ -14,7 +14,6 @@ import io.mockk.coVerify
 import io.mockk.every
 import io.mockk.mockk
 import kotlinx.coroutines.flow.flowOf
-import kotlinx.coroutines.test.advanceUntilIdle
 import org.junit.Before
 import org.junit.Rule
 import org.junit.Test
@@ -42,7 +41,6 @@ class RoutinesViewModelTest {
         coEvery { routinesUseCase.getAll() } returns flowOf(routines)
 
         buildSut()
-        advanceUntilIdle()
 
         coVerify {
             routinesUseCase.getAll()
@@ -54,7 +52,6 @@ class RoutinesViewModelTest {
     fun `test onCreateRoutineClick should navigate to routine detail`() =
         coroutineRule {
             val sut = buildSut()
-            advanceUntilIdle()
 
             sut.onCreateRoutineClick()
 
@@ -67,7 +64,6 @@ class RoutinesViewModelTest {
             val routine = Routine.EMPTY.copy(id = 1.asID)
 
             val sut = buildSut()
-            advanceUntilIdle()
 
             sut.onRoutineClick(routine)
 
@@ -82,7 +78,6 @@ class RoutinesViewModelTest {
             every { reducer.setup(any()) } returns initialState
 
             val sut = buildSut()
-            advanceUntilIdle()
 
             sut.onRoutineDelete(routine)
 
