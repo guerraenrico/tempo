@@ -7,8 +7,10 @@ import kotlinx.coroutines.test.*
 import org.junit.rules.TestWatcher
 import org.junit.runner.Description
 
+private val testScheduler = TestCoroutineScheduler()
+
 class CoroutineRule(
-    private val testDispatcher: TestCoroutineDispatcher = TestCoroutineDispatcher()
+    private val testDispatcher: TestDispatcher = UnconfinedTestDispatcher(scheduler = testScheduler)
 ) : TestWatcher() {
 
     val dispatchers = object : CoroutineDispatchers {
@@ -17,19 +19,18 @@ class CoroutineRule(
         override val io: CoroutineDispatcher = testDispatcher
     }
 
-    override fun starting(description: Description?) {
+    override fun starting(description: Description) {
         super.starting(description)
         Dispatchers.setMain(testDispatcher)
     }
 
-    override fun finished(description: Description?) {
+    override fun finished(description: Description) {
         super.finished(description)
         Dispatchers.resetMain()
-        testDispatcher.cleanupTestCoroutines()
     }
 
-    operator fun invoke(block: suspend TestCoroutineScope.() -> Unit) {
-        testDispatcher.runBlockingTest {
+    operator fun invoke(block: suspend TestScope.() -> Unit) {
+        runTest {
             block()
         }
     }

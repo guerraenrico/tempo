@@ -19,7 +19,6 @@ import io.mockk.coVerify
 import io.mockk.every
 import io.mockk.mockk
 import io.mockk.verify
-import kotlinx.coroutines.test.advanceUntilIdle
 import org.junit.Before
 import org.junit.Ignore
 import org.junit.Rule
@@ -67,7 +66,6 @@ class RoutineViewModelTest {
         every { reducer.setup(routine = any()) } returns state
         every { reducer.updateRoutineName(state = any(), text = any()) } returns state
         val sut = buildSut()
-        advanceUntilIdle()
 
         sut.onRoutineNameTextChange(text = "name")
 
@@ -78,9 +76,13 @@ class RoutineViewModelTest {
     fun `should update routine startTimeOffset onRoutineStartTimeOffsetChange`() = coroutineRule {
         val state = RoutineState.Data(routine = Routine.EMPTY, errors = emptyMap())
         every { reducer.setup(routine = any()) } returns state
-        every { reducer.updateRoutineStartTimeOffset(state = any(), seconds = 10.seconds) } returns state
+        every {
+            reducer.updateRoutineStartTimeOffset(
+                state = any(),
+                seconds = 10.seconds
+            )
+        } returns state
         val sut = buildSut()
-        advanceUntilIdle()
 
         sut.onRoutineStartTimeOffsetChange(seconds = 10.seconds)
 
@@ -90,7 +92,6 @@ class RoutineViewModelTest {
     @Test
     fun `should navigate back onRoutineBack`() = coroutineRule {
         val sut = buildSut()
-        advanceUntilIdle()
 
         sut.onRoutineBack()
 
@@ -107,7 +108,6 @@ class RoutineViewModelTest {
         every { reducer.applyRoutineErrors(state = any(), errors = any()) } returns state
         every { validator.validate(routine = any()) } returns errors
         val sut = buildSut()
-        advanceUntilIdle()
 
         sut.onRoutineSave()
 
@@ -128,7 +128,6 @@ class RoutineViewModelTest {
             every { validator.validate(routine = any()) } returns emptyMap()
             coEvery { routineUseCase.save(routine = any()) } returns 1.asID
             val sut = buildSut()
-            advanceUntilIdle()
 
             sut.onRoutineSave()
 
@@ -151,7 +150,6 @@ class RoutineViewModelTest {
             every { validator.validate(routine = any()) } returns emptyMap()
             coEvery { routineUseCase.save(routine = any()) } returns 1.asID
             val sut = buildSut()
-            advanceUntilIdle()
 
             sut.onRoutineSave()
 

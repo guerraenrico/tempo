@@ -20,7 +20,6 @@ import io.mockk.coVerify
 import io.mockk.every
 import io.mockk.mockk
 import io.mockk.verify
-import kotlinx.coroutines.test.advanceUntilIdle
 import org.junit.Before
 import org.junit.Rule
 import org.junit.Test
@@ -63,8 +62,6 @@ class SegmentViewModelTest {
         coEvery { segmentUseCase.get(routineId = any()) } returns Routine.EMPTY
         buildSut()
 
-        advanceUntilIdle()
-
         coVerify {
             segmentUseCase.get(routineId = 1.asID)
             reducer.setup(routine = Routine.EMPTY, segmentId = 2.asID)
@@ -82,7 +79,6 @@ class SegmentViewModelTest {
         every { reducer.setup(routine = any(), segmentId = any()) } returns state
         every { reducer.updateSegmentName(state = any(), text = any()) } returns state
         val sut = buildSut()
-        advanceUntilIdle()
 
         sut.onSegmentNameTextChange(text = "name")
 
@@ -100,7 +96,6 @@ class SegmentViewModelTest {
         every { reducer.setup(routine = any(), segmentId = any()) } returns state
         every { reducer.updateSegmentTime(state = any(), seconds = 10.seconds) } returns state
         val sut = buildSut()
-        advanceUntilIdle()
 
         sut.onSegmentTimeChange(seconds = 10.seconds)
 
@@ -118,7 +113,6 @@ class SegmentViewModelTest {
         every { reducer.setup(routine = any(), segmentId = any()) } returns state
         every { reducer.updateSegmentTimeType(state = any(), timeType = any()) } returns state
         val sut = buildSut()
-        advanceUntilIdle()
 
         sut.onSegmentTypeChange(timeType = TimeType.STOPWATCH)
 
@@ -140,7 +134,6 @@ class SegmentViewModelTest {
         every { reducer.applySegmentErrors(state = any(), errors = any()) } returns state
         every { validator.validate(any()) } returns errors
         val sut = buildSut()
-        advanceUntilIdle()
 
         sut.onSegmentConfirmed()
 
@@ -162,7 +155,6 @@ class SegmentViewModelTest {
         every { reducer.setup(routine = any(), segmentId = any()) } returns state
         every { validator.validate(any()) } returns emptyMap()
         val sut = buildSut()
-        advanceUntilIdle()
 
         sut.onSegmentConfirmed()
 
