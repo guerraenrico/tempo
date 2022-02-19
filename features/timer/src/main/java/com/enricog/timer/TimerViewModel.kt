@@ -7,8 +7,8 @@ import com.enricog.base_android.viewmodel.BaseViewModel
 import com.enricog.core.coroutine.dispatchers.CoroutineDispatchers
 import com.enricog.core.coroutine.job.autoCancelableJob
 import com.enricog.entities.routines.Routine
-import com.enricog.navigation.routes.TimerRoute
-import com.enricog.navigation.routes.TimerRouteInput
+import com.enricog.navigation.api.routes.TimerRoute
+import com.enricog.navigation.api.routes.TimerRouteInput
 import com.enricog.timer.models.TimerActions
 import com.enricog.timer.models.TimerState
 import com.enricog.timer.models.TimerViewState

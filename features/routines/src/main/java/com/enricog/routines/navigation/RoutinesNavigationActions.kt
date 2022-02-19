@@ -1,17 +1,17 @@
 package com.enricog.routines.navigation
 
 import com.enricog.entities.ID
-import com.enricog.navigation.NavigationAction.GoBack
-import com.enricog.navigation.Navigator
-import com.enricog.navigation.routes.RoutineRoute
-import com.enricog.navigation.routes.RoutineRouteInput
-import com.enricog.navigation.routes.RoutineSummaryRoute
-import com.enricog.navigation.routes.RoutineSummaryRouteInput
-import com.enricog.navigation.routes.RoutinesRoute
-import com.enricog.navigation.routes.SegmentRoute
-import com.enricog.navigation.routes.SegmentRouteInput
-import com.enricog.navigation.routes.TimerRoute
-import com.enricog.navigation.routes.TimerRouteInput
+import com.enricog.navigation.api.NavigationAction.GoBack
+import com.enricog.navigation.api.Navigator
+import com.enricog.navigation.api.routes.RoutineRoute
+import com.enricog.navigation.api.routes.RoutineRouteInput
+import com.enricog.navigation.api.routes.RoutineSummaryRoute
+import com.enricog.navigation.api.routes.RoutineSummaryRouteInput
+import com.enricog.navigation.api.routes.RoutinesRoute
+import com.enricog.navigation.api.routes.SegmentRoute
+import com.enricog.navigation.api.routes.SegmentRouteInput
+import com.enricog.navigation.api.routes.TimerRoute
+import com.enricog.navigation.api.routes.TimerRouteInput
 import javax.inject.Inject
 
 internal class RoutinesNavigationActions @Inject constructor(
@@ -42,7 +42,10 @@ internal class RoutinesNavigationActions @Inject constructor(
 
     suspend fun goToSegment(routineId: ID, segmentId: ID) {
         val routeNavigation = SegmentRoute.navigate(
-            input = SegmentRouteInput(routineId = routineId, segmentId = segmentId),
+            input = SegmentRouteInput(
+                routineId = routineId,
+                segmentId = segmentId
+            ),
             optionsBuilder = null
         )
         navigator.navigate(routeNavigation)

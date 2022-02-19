@@ -1,7 +1,7 @@
 package com.enricog.tempo.navigation
 
-import com.enricog.navigation.NavigationAction
-import com.enricog.navigation.Navigator
+import com.enricog.navigation.api.NavigationAction
+import com.enricog.navigation.api.Navigator
 import javax.inject.Inject
 import kotlinx.coroutines.channels.BufferOverflow
 import kotlinx.coroutines.flow.Flow

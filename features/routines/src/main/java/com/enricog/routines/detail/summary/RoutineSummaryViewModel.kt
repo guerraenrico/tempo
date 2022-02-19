@@ -6,8 +6,8 @@ import com.enricog.base_android.viewmodel.BaseViewModel
 import com.enricog.core.coroutine.dispatchers.CoroutineDispatchers
 import com.enricog.entities.ID
 import com.enricog.entities.routines.Segment
-import com.enricog.navigation.routes.RoutineSummaryRoute
-import com.enricog.navigation.routes.RoutineSummaryRouteInput
+import com.enricog.navigation.api.routes.RoutineSummaryRoute
+import com.enricog.navigation.api.routes.RoutineSummaryRouteInput
 import com.enricog.routines.detail.summary.models.RoutineSummaryState
 import com.enricog.routines.detail.summary.models.RoutineSummaryViewState
 import com.enricog.routines.detail.summary.usecase.MoveSegmentUseCase

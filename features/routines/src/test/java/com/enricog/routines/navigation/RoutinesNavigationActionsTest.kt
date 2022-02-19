@@ -2,17 +2,17 @@ package com.enricog.routines.navigation
 
 import com.enricog.base_test.coroutine.CoroutineRule
 import com.enricog.entities.asID
-import com.enricog.navigation.NavigationAction.GoBack
-import com.enricog.navigation.Navigator
-import com.enricog.navigation.routes.RoutineRoute
-import com.enricog.navigation.routes.RoutineRouteInput
-import com.enricog.navigation.routes.RoutineSummaryRoute
-import com.enricog.navigation.routes.RoutineSummaryRouteInput
-import com.enricog.navigation.routes.RoutinesRoute
-import com.enricog.navigation.routes.SegmentRoute
-import com.enricog.navigation.routes.SegmentRouteInput
-import com.enricog.navigation.routes.TimerRoute
-import com.enricog.navigation.routes.TimerRouteInput
+import com.enricog.navigation.api.NavigationAction.GoBack
+import com.enricog.navigation.api.Navigator
+import com.enricog.navigation.api.routes.RoutineRoute
+import com.enricog.navigation.api.routes.RoutineRouteInput
+import com.enricog.navigation.api.routes.RoutineSummaryRoute
+import com.enricog.navigation.api.routes.RoutineSummaryRouteInput
+import com.enricog.navigation.api.routes.RoutinesRoute
+import com.enricog.navigation.api.routes.SegmentRoute
+import com.enricog.navigation.api.routes.SegmentRouteInput
+import com.enricog.navigation.api.routes.TimerRoute
+import com.enricog.navigation.api.routes.TimerRouteInput
 import io.mockk.coVerify
 import io.mockk.mockk
 import org.junit.Rule
@@ -65,7 +65,10 @@ class RoutinesNavigationActionsTest {
     @Test
     fun `test goToSegment`() = coroutineRule {
         val expected = SegmentRoute.navigate(
-            input = SegmentRouteInput(routineId = 1.asID, segmentId = 2.asID),
+            input = SegmentRouteInput(
+                routineId = 1.asID,
+                segmentId = 2.asID
+            ),
             optionsBuilder = null
         )
 
