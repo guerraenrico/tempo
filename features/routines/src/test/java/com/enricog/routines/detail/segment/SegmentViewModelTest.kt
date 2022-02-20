@@ -8,13 +8,13 @@ import com.enricog.entities.routines.Routine
 import com.enricog.entities.routines.Segment
 import com.enricog.entities.routines.TimeType
 import com.enricog.entities.seconds
+import com.enricog.navigation.testing.FakeNavigator
 import com.enricog.routines.detail.segment.models.SegmentField
 import com.enricog.routines.detail.segment.models.SegmentFieldError
 import com.enricog.routines.detail.segment.models.SegmentState
 import com.enricog.routines.detail.segment.models.SegmentViewState
 import com.enricog.routines.detail.segment.usecase.SegmentUseCase
 import com.enricog.routines.navigation.RoutinesNavigationActions
-import io.mockk.Called
 import io.mockk.coEvery
 import io.mockk.coVerify
 import io.mockk.every
@@ -29,11 +29,12 @@ class SegmentViewModelTest {
     @get:Rule
     val coroutineRule = CoroutineRule()
 
+    private val navigator = FakeNavigator()
+
     private val converter: SegmentStateConverter = mockk()
     private val reducer: SegmentReducer = mockk()
     private val segmentUseCase: SegmentUseCase = mockk(relaxUnitFun = true)
     private val validator: SegmentValidator = mockk()
-    private val navigationActions: RoutinesNavigationActions = mockk(relaxUnitFun = true)
     private val savedStateHandle = SavedStateHandle(
         mapOf(
             "routineId" to 1L,
@@ -137,10 +138,8 @@ class SegmentViewModelTest {
 
         sut.onSegmentConfirmed()
 
-        verify {
-            reducer.applySegmentErrors(state = state, errors = errors)
-            navigationActions wasNot Called
-        }
+        navigator.assertNoActions()
+        verify { reducer.applySegmentErrors(state = state, errors = errors) }
         coVerify(exactly = 0) { segmentUseCase.save(routine = any(), segment = any()) }
     }
 
@@ -158,9 +157,9 @@ class SegmentViewModelTest {
 
         sut.onSegmentConfirmed()
 
+        navigator.assertGoBack()
         coVerify {
             segmentUseCase.save(routine = Routine.EMPTY, segment = Segment.EMPTY)
-            navigationActions.goBack()
         }
         verify(exactly = 0) { reducer.applySegmentErrors(state = any(), errors = any()) }
     }
@@ -173,7 +172,7 @@ class SegmentViewModelTest {
             reducer = reducer,
             segmentUseCase = segmentUseCase,
             validator = validator,
-            navigationActions = navigationActions
+            navigationActions = RoutinesNavigationActions(navigator)
         )
     }
 }

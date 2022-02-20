@@ -48,7 +48,7 @@ dependencies {
     implementation project(":ui_components")
     implementation project(":entities")
     implementation project(":data:datasource")
-    implementation project(":navigation")
+    implementation project(":navigation:api")
 
     implementation Libs.AndroidX.appCompat
     implementation Libs.AndroidX.coreKtx
@@ -70,6 +70,7 @@ dependencies {
 
     // Test
     testImplementation project(":base:base_test")
+    testImplementation project(":navigation:testing")
     testImplementation Libs.Kotlin.Test.coroutines
     testImplementation Libs.Kotlin.Test.kotlin
     testImplementation Libs.Test.junit

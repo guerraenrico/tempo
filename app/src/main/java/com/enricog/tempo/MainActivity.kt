@@ -10,15 +10,14 @@ import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.rememberNavController
 import com.enricog.core.coroutine.dispatchers.CoroutineDispatchers
 import com.enricog.core.extensions.exhaustive
-import com.enricog.navigation.NavigationAction
-import com.enricog.navigation.Navigator
+import com.enricog.navigation.api.NavigationAction
+import com.enricog.navigation.api.Navigator
 import com.enricog.routines.RoutinesNavigation
 import com.enricog.timer.TimerNavigation
 import com.enricog.timer.WindowScreenManager
 import com.enricog.ui_components.resources.TempoTheme
 import dagger.hilt.android.AndroidEntryPoint
 import javax.inject.Inject
-import kotlinx.coroutines.flow.collect
 import kotlinx.coroutines.flow.flowOn
 import kotlinx.coroutines.flow.launchIn
 import kotlinx.coroutines.flow.onEach

@@ -10,8 +10,8 @@ import com.enricog.entities.Seconds
 import com.enricog.entities.routines.Routine
 import com.enricog.entities.routines.Segment
 import com.enricog.entities.routines.TimeType
-import com.enricog.navigation.routes.SegmentRoute
-import com.enricog.navigation.routes.SegmentRouteInput
+import com.enricog.navigation.api.routes.SegmentRoute
+import com.enricog.navigation.api.routes.SegmentRouteInput
 import com.enricog.routines.detail.segment.models.SegmentState
 import com.enricog.routines.detail.segment.models.SegmentViewState
 import com.enricog.routines.detail.segment.usecase.SegmentUseCase

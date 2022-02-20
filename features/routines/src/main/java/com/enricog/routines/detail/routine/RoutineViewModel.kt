@@ -8,8 +8,8 @@ import com.enricog.core.coroutine.dispatchers.CoroutineDispatchers
 import com.enricog.core.coroutine.job.autoCancelableJob
 import com.enricog.entities.Seconds
 import com.enricog.entities.routines.Routine
-import com.enricog.navigation.routes.RoutineRoute
-import com.enricog.navigation.routes.RoutineRouteInput
+import com.enricog.navigation.api.routes.RoutineRoute
+import com.enricog.navigation.api.routes.RoutineRouteInput
 import com.enricog.routines.detail.routine.models.RoutineState
 import com.enricog.routines.detail.routine.models.RoutineViewState
 import com.enricog.routines.detail.routine.usecase.RoutineUseCase

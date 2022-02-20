@@ -2,12 +2,14 @@ package com.enricog.core.extensions
 
 import app.cash.turbine.test
 import kotlin.test.assertEquals
+import kotlin.time.ExperimentalTime
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.flow.flow
 import kotlinx.coroutines.flow.launchIn
 import kotlinx.coroutines.runBlocking
 import org.junit.Test
 
+@OptIn(ExperimentalTime::class)
 class FlowExtensionsKtTest {
 
     @Test(expected = IllegalArgumentException::class)

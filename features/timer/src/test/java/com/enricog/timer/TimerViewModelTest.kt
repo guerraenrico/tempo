@@ -7,6 +7,9 @@ import com.enricog.entities.routines.Routine
 import com.enricog.entities.routines.Segment
 import com.enricog.entities.routines.TimeType
 import com.enricog.entities.seconds
+import com.enricog.navigation.api.routes.RoutinesRoute
+import com.enricog.navigation.api.routes.RoutinesRouteInput
+import com.enricog.navigation.testing.FakeNavigator
 import com.enricog.timer.models.Count
 import com.enricog.timer.models.SegmentStep
 import com.enricog.timer.models.SegmentStepType
@@ -30,11 +33,12 @@ class TimerViewModelTest {
     @get:Rule
     val coroutineRule = CoroutineRule()
 
+    private val navigator = FakeNavigator()
+
     private val converter: TimerStateConverter = mockk()
     private val reducer: TimerReducer = mockk()
     private val timerUseCase: TimerUseCase = mockk()
     private val savedStateHandle = SavedStateHandle(mapOf("routineId" to 1L))
-    private val navigationActions: TimerNavigationActions = mockk(relaxUnitFun = true)
     private val windowScreenManager: WindowScreenManager = mockk(relaxUnitFun = true)
 
     @Before
@@ -139,13 +143,16 @@ class TimerViewModelTest {
     }
 
     @Test
-    fun `test onDoneButtonClick should go backToRoutines`() = coroutineRule {
+    fun `test onDoneButtonClick should go to routines`() = coroutineRule {
         every { reducer.toggleTimeRunning(any()) } returns TimerState.Idle
         val sut = buildSut()
 
         sut.onDoneButtonClick()
 
-        coVerify { navigationActions.backToRoutines() }
+        navigator.assertGoTo(
+            route = RoutinesRoute,
+            input = RoutinesRouteInput
+        )
     }
 
     @Test
@@ -235,13 +242,16 @@ class TimerViewModelTest {
         }
 
     @Test
-    fun `test onCloseButtonClick should go backToRoutines`() = coroutineRule {
+    fun `test onCloseButtonClick should go to routines`() = coroutineRule {
         every { reducer.toggleTimeRunning(any()) } returns TimerState.Idle
         val sut = buildSut()
 
         sut.onCloseButtonClick()
 
-        coVerify { navigationActions.backToRoutines() }
+        navigator.assertGoTo(
+            route = RoutinesRoute,
+            input = RoutinesRouteInput
+        )
     }
 
     private fun buildSut(): TimerViewModel {
@@ -251,7 +261,7 @@ class TimerViewModelTest {
             converter = converter,
             reducer = reducer,
             timerUseCase = timerUseCase,
-            navigationActions = navigationActions,
+            navigationActions = TimerNavigationActions(navigator),
             windowScreenManager = windowScreenManager
         )
     }

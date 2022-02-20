@@ -1,6 +1,6 @@
 package com.enricog.tempo.navigation
 
-import com.enricog.navigation.Navigator
+import com.enricog.navigation.api.Navigator
 import dagger.Binds
 import dagger.Module
 import dagger.hilt.InstallIn
