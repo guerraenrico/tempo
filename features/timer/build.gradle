@@ -71,6 +71,7 @@ dependencies {
 
     // Test
     testImplementation project(":base:base_test")
+    testImplementation project(":navigation:testing")
     testImplementation Libs.Kotlin.Test.coroutines
     testImplementation Libs.Kotlin.Test.kotlin
     testImplementation Libs.Test.junit

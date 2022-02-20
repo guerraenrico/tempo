@@ -1,3 +1,4 @@
+import com.enricog.tempo.buildsrc.Libs
 import com.enricog.tempo.buildsrc.Versions
 
 plugins {
@@ -23,4 +24,11 @@ android {
 
 dependencies {
     implementation project(":navigation:api")
+
+    implementation Libs.Kotlin.coroutines
+
+    implementation Libs.Kotlin.Test.coroutines
+    implementation Libs.Kotlin.Test.kotlin
+    implementation Libs.Test.junit
+    implementation Libs.Test.flow
 }

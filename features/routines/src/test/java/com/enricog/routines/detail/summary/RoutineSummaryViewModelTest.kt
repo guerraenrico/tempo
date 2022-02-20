@@ -8,6 +8,13 @@ import com.enricog.entities.Rank
 import com.enricog.entities.asID
 import com.enricog.entities.routines.Routine
 import com.enricog.entities.routines.Segment
+import com.enricog.navigation.api.routes.RoutineRoute
+import com.enricog.navigation.api.routes.RoutineRouteInput
+import com.enricog.navigation.api.routes.SegmentRoute
+import com.enricog.navigation.api.routes.SegmentRouteInput
+import com.enricog.navigation.api.routes.TimerRoute
+import com.enricog.navigation.api.routes.TimerRouteInput
+import com.enricog.navigation.testing.FakeNavigator
 import com.enricog.routines.detail.summary.models.RoutineSummaryField
 import com.enricog.routines.detail.summary.models.RoutineSummaryFieldError
 import com.enricog.routines.detail.summary.models.RoutineSummaryState
@@ -15,7 +22,6 @@ import com.enricog.routines.detail.summary.models.RoutineSummaryViewState
 import com.enricog.routines.detail.summary.usecase.MoveSegmentUseCase
 import com.enricog.routines.detail.summary.usecase.RoutineSummaryUseCase
 import com.enricog.routines.navigation.RoutinesNavigationActions
-import io.mockk.Called
 import io.mockk.coEvery
 import io.mockk.coVerify
 import io.mockk.every
@@ -31,8 +37,9 @@ class RoutineSummaryViewModelTest {
     @get:Rule
     val coroutineRule = CoroutineRule()
 
+    private val navigator = FakeNavigator()
+
     private val converter: RoutineSummaryStateConverter = mockk()
-    private val navigationActions: RoutinesNavigationActions = mockk(relaxUnitFun = true)
     private val reducer: RoutineSummaryReducer = mockk()
     private val routineSummaryUseCase: RoutineSummaryUseCase = mockk(relaxUnitFun = true)
     private val validator: RoutineSummaryValidator = mockk()
@@ -66,7 +73,10 @@ class RoutineSummaryViewModelTest {
 
         sut.onSegmentAdd()
 
-        coVerify { navigationActions.goToSegment(routineId = 1.asID, segmentId = ID.new()) }
+        navigator.assertGoTo(
+            route = SegmentRoute,
+            input = SegmentRouteInput(routineId = 1.asID, segmentId = ID.new())
+        )
     }
 
     @Test
@@ -80,7 +90,10 @@ class RoutineSummaryViewModelTest {
 
         sut.onSegmentSelected(Segment.EMPTY.copy(id = 2.asID))
 
-        coVerify { navigationActions.goToSegment(routineId = 1.asID, segmentId = 2.asID) }
+        navigator.assertGoTo(
+            route = SegmentRoute,
+            input = SegmentRouteInput(routineId = 1.asID, segmentId = 2.asID)
+        )
     }
 
     @Test
@@ -132,8 +145,12 @@ class RoutineSummaryViewModelTest {
 
         coVerify {
             validator.validate(routine = routine)
-            navigationActions.goToTimer(routineId = 1.asID)
         }
+
+        navigator.assertGoTo(
+            route = TimerRoute,
+            input = TimerRouteInput(routineId = 1.asID)
+        )
     }
 
     @Test
@@ -153,8 +170,9 @@ class RoutineSummaryViewModelTest {
         verify {
             validator.validate(routine = routine)
             reducer.applyRoutineErrors(state = state, errors = errors)
-            navigationActions wasNot Called
         }
+
+        navigator.assertNoActions()
     }
 
     @Test
@@ -168,7 +186,10 @@ class RoutineSummaryViewModelTest {
 
         sut.onRoutineEdit()
 
-        coVerify { navigationActions.goToRoutine(routineId = 1.asID) }
+        navigator.assertGoTo(
+            route = RoutineRoute,
+            input = RoutineRouteInput(routineId = 1.asID)
+        )
     }
 
     @Test
@@ -177,7 +198,7 @@ class RoutineSummaryViewModelTest {
 
         sut.onBack()
 
-        coVerify { navigationActions.goBack() }
+        navigator.assertGoBack()
     }
 
     private fun buildSut(): RoutineSummaryViewModel {
@@ -185,7 +206,7 @@ class RoutineSummaryViewModelTest {
             savedStateHandle = savedStateHandle,
             dispatchers = coroutineRule.dispatchers,
             converter = converter,
-            navigationActions = navigationActions,
+            navigationActions = RoutinesNavigationActions(navigator),
             reducer = reducer,
             routineSummaryUseCase = routineSummaryUseCase,
             moveSegmentUseCase = moveSegmentUseCase,

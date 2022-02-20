@@ -5,6 +5,11 @@ import com.enricog.base_test.entities.routines.EMPTY
 import com.enricog.entities.ID
 import com.enricog.entities.asID
 import com.enricog.entities.routines.Routine
+import com.enricog.navigation.api.routes.RoutineRoute
+import com.enricog.navigation.api.routes.RoutineRouteInput
+import com.enricog.navigation.api.routes.RoutineSummaryRoute
+import com.enricog.navigation.api.routes.RoutineSummaryRouteInput
+import com.enricog.navigation.testing.FakeNavigator
 import com.enricog.routines.list.models.RoutinesState
 import com.enricog.routines.list.models.RoutinesViewState
 import com.enricog.routines.list.usecase.RoutinesUseCase
@@ -23,8 +28,9 @@ class RoutinesViewModelTest {
     @get:Rule
     val coroutineRule = CoroutineRule()
 
+    private val navigator = FakeNavigator()
+
     private val converter: RoutinesStateConverter = mockk()
-    private val navigationActions: RoutinesNavigationActions = mockk(relaxUnitFun = true)
     private val reducer: RoutinesReducer = mockk()
     private val routinesUseCase: RoutinesUseCase = mockk(relaxUnitFun = true)
 
@@ -49,25 +55,29 @@ class RoutinesViewModelTest {
     }
 
     @Test
-    fun `test onCreateRoutineClick should navigate to routine detail`() =
-        coroutineRule {
+    fun `test onCreateRoutineClick should navigate to routine detail`() = coroutineRule {
             val sut = buildSut()
 
             sut.onCreateRoutineClick()
 
-            coVerify { navigationActions.goToRoutine(routineId = ID.new()) }
+            navigator.assertGoTo(
+                route = RoutineRoute,
+                input = RoutineRouteInput(routineId = ID.new())
+            )
         }
 
     @Test
-    fun `test onRoutineClick should navigate to routine summary`() =
-        coroutineRule {
+    fun `test onRoutineClick should navigate to routine summary`() = coroutineRule {
             val routine = Routine.EMPTY.copy(id = 1.asID)
 
             val sut = buildSut()
 
             sut.onRoutineClick(routine)
 
-            coVerify { navigationActions.goToRoutineSummary(routineId = 1.asID) }
+            navigator.assertGoTo(
+                route = RoutineSummaryRoute,
+                input = RoutineSummaryRouteInput(routineId = 1.asID)
+            )
         }
 
     @Test
@@ -88,7 +98,7 @@ class RoutinesViewModelTest {
         return RoutinesViewModel(
             dispatchers = coroutineRule.dispatchers,
             converter = converter,
-            navigationActions = navigationActions,
+            navigationActions = RoutinesNavigationActions(navigator),
             reducer = reducer,
             routinesUseCase = routinesUseCase
         )

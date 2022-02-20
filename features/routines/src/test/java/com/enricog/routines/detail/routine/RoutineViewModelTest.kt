@@ -7,13 +7,15 @@ import com.enricog.entities.ID
 import com.enricog.entities.asID
 import com.enricog.entities.routines.Routine
 import com.enricog.entities.seconds
+import com.enricog.navigation.api.routes.RoutineSummaryRoute
+import com.enricog.navigation.api.routes.RoutineSummaryRouteInput
+import com.enricog.navigation.testing.FakeNavigator
 import com.enricog.routines.detail.routine.models.RoutineField
 import com.enricog.routines.detail.routine.models.RoutineFieldError
 import com.enricog.routines.detail.routine.models.RoutineState
 import com.enricog.routines.detail.routine.models.RoutineViewState
 import com.enricog.routines.detail.routine.usecase.RoutineUseCase
 import com.enricog.routines.navigation.RoutinesNavigationActions
-import io.mockk.Called
 import io.mockk.coEvery
 import io.mockk.coVerify
 import io.mockk.every
@@ -29,8 +31,9 @@ class RoutineViewModelTest {
     @get:Rule
     val coroutineRule = CoroutineRule()
 
+    private val navigator = FakeNavigator()
+
     private val converter: RoutineStateConverter = mockk()
-    private val navigationActions: RoutinesNavigationActions = mockk(relaxUnitFun = true)
     private val reducer: RoutineReducer = mockk()
     private val validator: RoutineValidator = mockk()
     private val routineUseCase: RoutineUseCase = mockk()
@@ -95,7 +98,7 @@ class RoutineViewModelTest {
 
         sut.onRoutineBack()
 
-        coVerify { navigationActions.goBack() }
+        navigator.assertGoBack()
     }
 
     @Test
@@ -114,8 +117,8 @@ class RoutineViewModelTest {
         verify {
             reducer.applyRoutineErrors(state = state, errors = errors)
             validator.validate(routine = Routine.EMPTY)
-            navigationActions wasNot Called
         }
+        navigator.assertNoActions()
     }
 
     @Test
@@ -131,13 +134,14 @@ class RoutineViewModelTest {
 
             sut.onRoutineSave()
 
-            coVerify {
-                validator.validate(routine = routine)
-                navigationActions.goToRoutineSummary(routineId = 1.asID)
-            }
+            coVerify { validator.validate(routine = routine) }
             verify(exactly = 0) {
                 reducer.applyRoutineErrors(state = any(), errors = any())
             }
+            navigator.assertGoTo(
+                route = RoutineSummaryRoute,
+                input = RoutineSummaryRouteInput(routineId = 1.asID)
+            )
         }
 
     @Test
@@ -153,13 +157,11 @@ class RoutineViewModelTest {
 
             sut.onRoutineSave()
 
-            coVerify {
-                validator.validate(routine = routine)
-                navigationActions.goBack()
-            }
+            coVerify { validator.validate(routine = routine) }
             verify(exactly = 0) {
                 reducer.applyRoutineErrors(state = any(), errors = any())
             }
+            navigator.assertGoBack()
         }
 
     private fun buildSut(): RoutineViewModel {
@@ -167,7 +169,7 @@ class RoutineViewModelTest {
             savedStateHandle = savedStateHandle,
             dispatchers = coroutineRule.dispatchers,
             converter = converter,
-            navigationActions = navigationActions,
+            navigationActions = RoutinesNavigationActions(navigator),
             reducer = reducer,
             validator = validator,
             routineUseCase = routineUseCase

@@ -6,7 +6,9 @@ import com.enricog.core.coroutine.dispatchers.CoroutineDispatchers
 import kotlin.test.assertEquals
 import org.junit.Rule
 import org.junit.Test
+import kotlin.time.ExperimentalTime
 
+@OptIn(ExperimentalTime::class)
 class BaseViewModelTest {
 
     @get:Rule
