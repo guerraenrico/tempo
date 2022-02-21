@@ -18,7 +18,7 @@ import androidx.compose.ui.geometry.isUnspecified
 import androidx.compose.ui.input.pointer.consumeAllChanges
 import androidx.compose.ui.input.pointer.pointerInput
 import androidx.compose.ui.platform.debugInspectorInfo
-import com.enricog.core.coroutine.job.autoCancelableJob
+import com.enricog.core.coroutines.job.autoCancelableJob
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.channels.BufferOverflow
 import kotlinx.coroutines.channels.Channel

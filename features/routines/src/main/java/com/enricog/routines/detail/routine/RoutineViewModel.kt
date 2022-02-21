@@ -4,8 +4,7 @@ import androidx.lifecycle.SavedStateHandle
 import androidx.lifecycle.viewModelScope
 import com.enricog.base.viewmodel.BaseViewModel
 import com.enricog.base.viewmodel.ViewModelConfiguration
-import com.enricog.core.coroutine.dispatchers.CoroutineDispatchers
-import com.enricog.core.coroutine.job.autoCancelableJob
+import com.enricog.core.coroutines.dispatchers.CoroutineDispatchers
 import com.enricog.entities.Seconds
 import com.enricog.entities.routines.Routine
 import com.enricog.navigation.api.routes.RoutineRoute
@@ -34,7 +33,7 @@ internal class RoutineViewModel @Inject constructor(
     configuration = ViewModelConfiguration(debounce = 0)
 ) {
 
-    private var startRoutineJob by autoCancelableJob()
+    private var startRoutineJob by com.enricog.core.coroutines.job.autoCancelableJob()
 
     init {
         val input = RoutineRoute.extractInput(savedStateHandle)

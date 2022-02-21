@@ -1,4 +1,4 @@
-package com.enricog.core.coroutine.job
+package com.enricog.core.coroutines.job
 
 import kotlin.properties.ReadWriteProperty
 import kotlin.reflect.KProperty

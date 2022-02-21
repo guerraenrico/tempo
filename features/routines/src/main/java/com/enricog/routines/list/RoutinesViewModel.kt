@@ -2,7 +2,7 @@ package com.enricog.routines.list
 
 import androidx.lifecycle.viewModelScope
 import com.enricog.base.viewmodel.BaseViewModel
-import com.enricog.core.coroutine.dispatchers.CoroutineDispatchers
+import com.enricog.core.coroutines.dispatchers.CoroutineDispatchers
 import com.enricog.entities.ID
 import com.enricog.entities.routines.Routine
 import com.enricog.routines.list.models.RoutinesState
@@ -10,9 +10,9 @@ import com.enricog.routines.list.models.RoutinesViewState
 import com.enricog.routines.list.usecase.RoutinesUseCase
 import com.enricog.routines.navigation.RoutinesNavigationActions
 import dagger.hilt.android.lifecycle.HiltViewModel
-import javax.inject.Inject
 import kotlinx.coroutines.flow.launchIn
 import kotlinx.coroutines.flow.onEach
+import javax.inject.Inject
 
 @HiltViewModel
 internal class RoutinesViewModel @Inject constructor(

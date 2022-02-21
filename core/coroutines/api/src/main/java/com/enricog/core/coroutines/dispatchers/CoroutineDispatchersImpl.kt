@@ -1,4 +1,4 @@
-package com.enricog.core.coroutine.dispatchers
+package com.enricog.core.coroutines.dispatchers
 
 import javax.inject.Inject
 import kotlinx.coroutines.CoroutineDispatcher

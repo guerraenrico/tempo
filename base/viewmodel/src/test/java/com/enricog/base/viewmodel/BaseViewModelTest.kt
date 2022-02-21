@@ -2,10 +2,10 @@ package com.enricog.base.viewmodel
 
 import app.cash.turbine.test
 import com.enricog.base_test.coroutine.CoroutineRule
-import com.enricog.core.coroutine.dispatchers.CoroutineDispatchers
-import kotlin.test.assertEquals
+import com.enricog.core.coroutines.dispatchers.CoroutineDispatchers
 import org.junit.Rule
 import org.junit.Test
+import kotlin.test.assertEquals
 import kotlin.time.ExperimentalTime
 
 @OptIn(ExperimentalTime::class)

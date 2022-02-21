@@ -4,8 +4,7 @@ import androidx.lifecycle.SavedStateHandle
 import androidx.lifecycle.viewModelScope
 import com.enricog.base.viewmodel.BaseViewModel
 import com.enricog.base.viewmodel.ViewModelConfiguration
-import com.enricog.core.coroutine.dispatchers.CoroutineDispatchers
-import com.enricog.core.coroutine.job.autoCancelableJob
+import com.enricog.core.coroutines.dispatchers.CoroutineDispatchers
 import com.enricog.entities.Seconds
 import com.enricog.entities.routines.Routine
 import com.enricog.entities.routines.Segment
@@ -36,7 +35,7 @@ internal class SegmentViewModel @Inject constructor(
     configuration = ViewModelConfiguration(debounce = 0)
 ) {
 
-    private var saveJob by autoCancelableJob()
+    private var saveJob by com.enricog.core.coroutines.job.autoCancelableJob()
 
     init {
         val input = SegmentRoute.extractInput(savedStateHandle)

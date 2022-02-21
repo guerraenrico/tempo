@@ -8,7 +8,7 @@ plugins {
 }
 
 android {
-    namespace 'com.enricog.base.viewmodel'
+    namespace 'com.enricog.core.coroutines'
 
     compileSdkVersion Versions.compileSdk
 
@@ -24,18 +24,14 @@ android {
 
 
 dependencies {
-    implementation project(":core:coroutines:api")
-
-    implementation Libs.AndroidX.appCompat
-    implementation Libs.AndroidX.coreKtx
     implementation Libs.Kotlin.coroutines
-    implementation Libs.Lifecycle.viewModelKtx
 
-    // Test
-    testImplementation project(":base:base_test")
+    // Hilt
+    implementation Libs.Hilt.android
+    kapt Libs.Hilt.androidCompiler
+
     testImplementation Libs.Kotlin.Test.coroutines
     testImplementation Libs.Kotlin.Test.kotlin
     testImplementation Libs.Test.junit
     testImplementation Libs.Test.flow
-    testImplementation Libs.Mockk.lib
 }

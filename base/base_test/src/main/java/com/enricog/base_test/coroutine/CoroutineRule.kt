@@ -1,6 +1,6 @@
 package com.enricog.base_test.coroutine
 
-import com.enricog.core.coroutine.dispatchers.CoroutineDispatchers
+import com.enricog.core.coroutines.dispatchers.CoroutineDispatchers
 import kotlinx.coroutines.CoroutineDispatcher
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.test.*

@@ -1,4 +1,4 @@
-package com.enricog.core.extensions
+package com.enricog.core.coroutines.extensions
 
 import kotlinx.coroutines.channels.Channel.Factory.BUFFERED
 import kotlinx.coroutines.channels.ClosedReceiveChannelException

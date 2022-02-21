@@ -79,6 +79,7 @@ android {
 
 dependencies {
     implementation project(":core")
+    implementation project(":core:coroutines:api")
     implementation project(':base:viewmodel')
     implementation project(":data:datasource")
     implementation project(":data:localdatasource")
