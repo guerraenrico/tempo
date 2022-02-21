@@ -1,8 +1,8 @@
 package com.enricog.timer
 
 import androidx.lifecycle.SavedStateHandle
-import com.enricog.base_test.coroutine.CoroutineRule
 import com.enricog.base_test.entities.routines.EMPTY
+import com.enricog.coroutines.testing.CoroutineRule
 import com.enricog.entities.routines.Routine
 import com.enricog.entities.routines.Segment
 import com.enricog.entities.routines.TimeType

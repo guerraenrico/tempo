@@ -1,6 +1,6 @@
 package com.enricog.routines.navigation
 
-import com.enricog.base_test.coroutine.CoroutineRule
+import com.enricog.coroutines.testing.CoroutineRule
 import com.enricog.entities.asID
 import com.enricog.navigation.api.NavigationAction.GoBack
 import com.enricog.navigation.api.Navigator

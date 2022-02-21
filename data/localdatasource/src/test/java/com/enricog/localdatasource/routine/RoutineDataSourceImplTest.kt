@@ -4,7 +4,7 @@ import android.content.Context
 import androidx.arch.core.executor.testing.InstantTaskExecutorRule
 import androidx.room.Room
 import androidx.test.core.app.ApplicationProvider
-import com.enricog.base_test.coroutine.CoroutineRule
+import com.enricog.coroutines.testing.CoroutineRule
 import com.enricog.entities.Rank
 import com.enricog.entities.asID
 import com.enricog.entities.routines.Routine

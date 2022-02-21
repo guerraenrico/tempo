@@ -55,6 +55,7 @@ dependencies {
     kapt Libs.Hilt.androidCompiler
 
     testImplementation project(":base:base_test")
+    testImplementation project(":core:coroutines:testing")
     testImplementation Libs.Kotlin.Test.coroutines
     testImplementation Libs.AndroidX.Test.core
     testImplementation Libs.AndroidX.Test.rules

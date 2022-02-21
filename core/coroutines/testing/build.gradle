@@ -7,7 +7,7 @@ plugins {
 }
 
 android {
-    namespace 'com.enricog.base_test'
+    namespace 'com.enricog.coroutines.testing'
 
     compileSdkVersion Versions.compileSdk
 
@@ -19,19 +19,11 @@ android {
         sourceCompatibility JavaVersion.VERSION_1_8
         targetCompatibility JavaVersion.VERSION_1_8
     }
-    packagingOptions {
-        resources {
-            excludes += ['META-INF/AL2.0', 'META-INF/LGPL2.1']
-        }
-    }
 }
 
 
 dependencies {
-    implementation project(":entities")
-
-    implementation Libs.AndroidX.appCompat
-    implementation Libs.AndroidX.coreKtx
-
-    implementation Libs.AndroidX.Compose.uiTest
+    implementation project(":core:coroutines:api")
+    implementation Libs.Kotlin.Test.coroutines
+    implementation Libs.Test.junit
 }

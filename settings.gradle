@@ -10,6 +10,7 @@ include ':base:viewmodel'
 include ':base:base_test'
 
 include ':core:coroutines:api'
+include ':core:coroutines:testing'
 
 include ':entities'
 

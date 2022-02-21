@@ -20,6 +20,7 @@
             <option value="$PROJECT_DIR$/core" />
             <option value="$PROJECT_DIR$/core/coroutines" />
             <option value="$PROJECT_DIR$/core/coroutines/api" />
+            <option value="$PROJECT_DIR$/core/coroutines/testing" />
             <option value="$PROJECT_DIR$/data" />
             <option value="$PROJECT_DIR$/data/datasource" />
             <option value="$PROJECT_DIR$/data/localdatasource" />

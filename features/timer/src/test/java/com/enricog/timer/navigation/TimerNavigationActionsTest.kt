@@ -1,6 +1,6 @@
 package com.enricog.timer.navigation
 
-import com.enricog.base_test.coroutine.CoroutineRule
+import com.enricog.coroutines.testing.CoroutineRule
 import com.enricog.navigation.api.Navigator
 import com.enricog.navigation.api.routes.RoutinesRoute
 import com.enricog.navigation.api.routes.RoutinesRouteInput

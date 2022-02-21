@@ -1,7 +1,7 @@
 package com.enricog.routines.list
 
-import com.enricog.base_test.coroutine.CoroutineRule
 import com.enricog.base_test.entities.routines.EMPTY
+import com.enricog.coroutines.testing.CoroutineRule
 import com.enricog.entities.ID
 import com.enricog.entities.asID
 import com.enricog.entities.routines.Routine
@@ -56,29 +56,29 @@ class RoutinesViewModelTest {
 
     @Test
     fun `test onCreateRoutineClick should navigate to routine detail`() = coroutineRule {
-            val sut = buildSut()
+        val sut = buildSut()
 
-            sut.onCreateRoutineClick()
+        sut.onCreateRoutineClick()
 
-            navigator.assertGoTo(
-                route = RoutineRoute,
-                input = RoutineRouteInput(routineId = ID.new())
-            )
-        }
+        navigator.assertGoTo(
+            route = RoutineRoute,
+            input = RoutineRouteInput(routineId = ID.new())
+        )
+    }
 
     @Test
     fun `test onRoutineClick should navigate to routine summary`() = coroutineRule {
-            val routine = Routine.EMPTY.copy(id = 1.asID)
+        val routine = Routine.EMPTY.copy(id = 1.asID)
 
-            val sut = buildSut()
+        val sut = buildSut()
 
-            sut.onRoutineClick(routine)
+        sut.onRoutineClick(routine)
 
-            navigator.assertGoTo(
-                route = RoutineSummaryRoute,
-                input = RoutineSummaryRouteInput(routineId = 1.asID)
-            )
-        }
+        navigator.assertGoTo(
+            route = RoutineSummaryRoute,
+            input = RoutineSummaryRouteInput(routineId = 1.asID)
+        )
+    }
 
     @Test
     fun `test onRoutineDelete should remove routine from state and from use case`() =

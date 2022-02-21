@@ -1,8 +1,8 @@
 package com.enricog.base.viewmodel
 
 import app.cash.turbine.test
-import com.enricog.base_test.coroutine.CoroutineRule
 import com.enricog.core.coroutines.dispatchers.CoroutineDispatchers
+import com.enricog.coroutines.testing.CoroutineRule
 import org.junit.Rule
 import org.junit.Test
 import kotlin.test.assertEquals
