@@ -6,7 +6,7 @@ import androidx.compose.runtime.Composable
 import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
 import androidx.compose.ui.Modifier
-import com.enricog.core.extensions.exhaustive
+import com.enricog.base.extensions.exhaustive
 import com.enricog.entities.Seconds
 import com.enricog.entities.routines.TimeType
 import com.enricog.routines.detail.segment.models.SegmentViewState

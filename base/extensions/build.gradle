@@ -4,11 +4,10 @@ import com.enricog.tempo.buildsrc.Versions
 plugins {
     id 'com.android.library'
     id 'kotlin-android'
-    id 'kotlin-kapt'
 }
 
 android {
-    namespace 'com.enricog.core'
+    namespace 'com.enricog.base.extensions'
 
     compileSdkVersion Versions.compileSdk
 
@@ -24,14 +23,6 @@ android {
 
 
 dependencies {
-    implementation Libs.Kotlin.coroutines
-
-    // Hilt
-    implementation Libs.Hilt.android
-    kapt Libs.Hilt.androidCompiler
-
-    testImplementation Libs.Kotlin.Test.coroutines
     testImplementation Libs.Kotlin.Test.kotlin
     testImplementation Libs.Test.junit
-    testImplementation Libs.Test.flow
 }

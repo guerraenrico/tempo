@@ -6,7 +6,7 @@ import androidx.compose.runtime.Composable
 import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
 import androidx.compose.ui.Modifier
-import com.enricog.core.extensions.exhaustive
+import com.enricog.base.extensions.exhaustive
 import com.enricog.timer.models.TimerActions
 import com.enricog.timer.models.TimerViewState
 import com.enricog.timer.ui_components.CountingScene

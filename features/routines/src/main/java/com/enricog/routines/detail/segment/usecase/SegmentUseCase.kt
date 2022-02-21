@@ -1,6 +1,6 @@
 package com.enricog.routines.detail.segment.usecase
 
-import com.enricog.core.extensions.replace
+import com.enricog.base.extensions.replace
 import com.enricog.datasource.RoutineDataSource
 import com.enricog.entities.ID
 import com.enricog.entities.routines.Routine

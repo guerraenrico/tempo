@@ -7,7 +7,7 @@ import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.stringResource
-import com.enricog.core.extensions.exhaustive
+import com.enricog.base.extensions.exhaustive
 import com.enricog.entities.routines.Routine
 import com.enricog.routines.R
 import com.enricog.routines.list.models.RoutinesViewState

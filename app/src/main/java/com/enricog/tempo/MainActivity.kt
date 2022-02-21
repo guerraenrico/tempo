@@ -8,8 +8,8 @@ import androidx.compose.runtime.LaunchedEffect
 import androidx.lifecycle.lifecycleScope
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.rememberNavController
+import com.enricog.base.extensions.exhaustive
 import com.enricog.core.coroutines.dispatchers.CoroutineDispatchers
-import com.enricog.core.extensions.exhaustive
 import com.enricog.navigation.api.NavigationAction
 import com.enricog.navigation.api.Navigator
 import com.enricog.routines.RoutinesNavigation

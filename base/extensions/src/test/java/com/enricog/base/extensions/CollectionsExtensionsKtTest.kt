@@ -1,4 +1,4 @@
-package com.enricog.core.extensions
+package com.enricog.base.extensions
 
 import org.junit.Assert.assertEquals
 import org.junit.Test

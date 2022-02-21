@@ -5,10 +5,10 @@ include ':ui_components'
 include ':features:routines'
 include ':features:timer'
 
+include ':base:extensions'
 include ':base:viewmodel'
 include ':base:base_test'
 
-include ':core'
 include ':core:coroutines:api'
 
 include ':entities'

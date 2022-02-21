@@ -1,4 +1,4 @@
-package com.enricog.core.extensions
+package com.enricog.base.extensions
 
 inline fun <T> Iterable<T>.replace(value: T, predicate: (T) -> Boolean): List<T> {
     return map {

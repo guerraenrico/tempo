@@ -14,7 +14,7 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.alpha
 import androidx.compose.ui.graphics.graphicsLayer
 import androidx.compose.ui.platform.testTag
-import com.enricog.core.extensions.exhaustive
+import com.enricog.base.extensions.exhaustive
 import com.enricog.entities.routines.Segment
 import com.enricog.routines.detail.summary.models.RoutineSummaryItem
 import com.enricog.ui_components.common.button.TempoIconButtonSize
