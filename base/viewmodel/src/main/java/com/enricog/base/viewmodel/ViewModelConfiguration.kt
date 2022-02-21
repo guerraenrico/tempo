@@ -1,3 +1,3 @@
-package com.enricog.base_android.viewmodel
+package com.enricog.base.viewmodel
 
 class ViewModelConfiguration(val debounce: Long)

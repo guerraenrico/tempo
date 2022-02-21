@@ -8,7 +8,7 @@ plugins {
 }
 
 android {
-    namespace 'com.enricog.base_android'
+    namespace 'com.enricog.base.viewmodel'
 
     compileSdkVersion Versions.compileSdk
 

@@ -3,7 +3,7 @@ package com.enricog.timer
 import androidx.annotation.VisibleForTesting
 import androidx.lifecycle.SavedStateHandle
 import androidx.lifecycle.viewModelScope
-import com.enricog.base_android.viewmodel.BaseViewModel
+import com.enricog.base.viewmodel.BaseViewModel
 import com.enricog.core.coroutine.dispatchers.CoroutineDispatchers
 import com.enricog.core.coroutine.job.autoCancelableJob
 import com.enricog.entities.routines.Routine

@@ -1,6 +1,6 @@
 package com.enricog.routines.detail.segment
 
-import com.enricog.base_android.viewmodel.StateConverter
+import com.enricog.base.viewmodel.StateConverter
 import com.enricog.routines.R
 import com.enricog.routines.detail.segment.models.SegmentFieldError
 import com.enricog.routines.detail.segment.models.SegmentState

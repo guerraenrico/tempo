@@ -2,8 +2,8 @@ package com.enricog.routines.detail.segment
 
 import androidx.lifecycle.SavedStateHandle
 import androidx.lifecycle.viewModelScope
-import com.enricog.base_android.viewmodel.BaseViewModel
-import com.enricog.base_android.viewmodel.ViewModelConfiguration
+import com.enricog.base.viewmodel.BaseViewModel
+import com.enricog.base.viewmodel.ViewModelConfiguration
 import com.enricog.core.coroutine.dispatchers.CoroutineDispatchers
 import com.enricog.core.coroutine.job.autoCancelableJob
 import com.enricog.entities.Seconds

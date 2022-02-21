@@ -79,7 +79,7 @@ android {
 
 dependencies {
     implementation project(":core")
-    implementation project(":base:base_android")
+    implementation project(':base:viewmodel')
     implementation project(":data:datasource")
     implementation project(":data:localdatasource")
     implementation project(":features:timer")

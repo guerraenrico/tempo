@@ -1,6 +1,6 @@
 package com.enricog.routines.list
 
-import com.enricog.base_android.viewmodel.StateConverter
+import com.enricog.base.viewmodel.StateConverter
 import com.enricog.routines.list.models.RoutinesState
 import com.enricog.routines.list.models.RoutinesViewState
 import javax.inject.Inject

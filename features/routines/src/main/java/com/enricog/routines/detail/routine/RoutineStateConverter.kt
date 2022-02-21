@@ -1,6 +1,6 @@
 package com.enricog.routines.detail.routine
 
-import com.enricog.base_android.viewmodel.StateConverter
+import com.enricog.base.viewmodel.StateConverter
 import com.enricog.routines.R
 import com.enricog.routines.detail.routine.models.RoutineFieldError
 import com.enricog.routines.detail.routine.models.RoutineState

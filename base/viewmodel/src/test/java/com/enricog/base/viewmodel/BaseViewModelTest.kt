@@ -1,4 +1,4 @@
-package com.enricog.base_android.viewmodel
+package com.enricog.base.viewmodel
 
 import app.cash.turbine.test
 import com.enricog.base_test.coroutine.CoroutineRule

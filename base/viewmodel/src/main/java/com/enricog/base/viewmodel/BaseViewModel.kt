@@ -1,4 +1,4 @@
-package com.enricog.base_android.viewmodel
+package com.enricog.base.viewmodel
 
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
