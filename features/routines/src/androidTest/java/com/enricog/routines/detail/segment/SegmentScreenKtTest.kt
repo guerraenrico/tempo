@@ -3,7 +3,7 @@ package com.enricog.routines.detail.segment
 import androidx.compose.ui.test.assertIsDisplayed
 import androidx.compose.ui.test.junit4.createComposeRule
 import androidx.compose.ui.test.onNodeWithTag
-import com.enricog.base_test.compose.invoke
+import com.enricog.compose.testing.invoke
 import com.enricog.base_test.entities.routines.EMPTY
 import com.enricog.entities.routines.Segment
 import com.enricog.routines.detail.segment.models.SegmentViewState

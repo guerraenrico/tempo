@@ -18,6 +18,8 @@
             <option value="$PROJECT_DIR$/base/viewmodel" />
             <option value="$PROJECT_DIR$/buildSrc" />
             <option value="$PROJECT_DIR$/core" />
+            <option value="$PROJECT_DIR$/core/compose" />
+            <option value="$PROJECT_DIR$/core/compose/testing" />
             <option value="$PROJECT_DIR$/core/coroutines" />
             <option value="$PROJECT_DIR$/core/coroutines/api" />
             <option value="$PROJECT_DIR$/core/coroutines/testing" />

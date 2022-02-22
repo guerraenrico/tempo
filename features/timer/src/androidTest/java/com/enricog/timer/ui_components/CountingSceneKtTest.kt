@@ -5,7 +5,7 @@ import androidx.compose.ui.test.assertIsDisplayed
 import androidx.compose.ui.test.assertTextEquals
 import androidx.compose.ui.test.junit4.createComposeRule
 import androidx.compose.ui.test.onNodeWithTag
-import com.enricog.base_test.compose.invoke
+import com.enricog.compose.testing.invoke
 import com.enricog.entities.seconds
 import com.enricog.timer.R
 import com.enricog.timer.models.Count

@@ -6,7 +6,7 @@ import androidx.compose.ui.test.assertTextEquals
 import androidx.compose.ui.test.junit4.createComposeRule
 import androidx.compose.ui.test.onNodeWithTag
 import androidx.compose.ui.unit.dp
-import com.enricog.base_test.compose.invoke
+import com.enricog.compose.testing.invoke
 import com.enricog.entities.seconds
 import com.enricog.ui_components.resources.TempoTheme
 import org.junit.Rule

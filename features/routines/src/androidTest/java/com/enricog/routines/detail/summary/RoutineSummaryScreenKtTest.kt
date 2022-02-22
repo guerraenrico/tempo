@@ -2,7 +2,7 @@ package com.enricog.routines.detail.summary
 
 import androidx.compose.ui.test.junit4.createComposeRule
 import androidx.compose.ui.test.onNodeWithTag
-import com.enricog.base_test.compose.invoke
+import com.enricog.compose.testing.invoke
 import com.enricog.routines.detail.summary.models.RoutineSummaryViewState
 import com.enricog.routines.detail.summary.ui_components.RoutineSummarySceneTestTag
 import com.enricog.ui_components.resources.TempoTheme

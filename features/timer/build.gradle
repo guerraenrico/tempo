@@ -80,7 +80,7 @@ dependencies {
     testImplementation Libs.Test.flow
     testImplementation Libs.Mockk.lib
 
-    androidTestImplementation project(":base:base_test")
+    androidTestImplementation project(":core:compose:testing")
     androidTestImplementation Libs.Test.junit
     androidTestImplementation Libs.AndroidX.Test.core
     androidTestImplementation Libs.AndroidX.Test.rules

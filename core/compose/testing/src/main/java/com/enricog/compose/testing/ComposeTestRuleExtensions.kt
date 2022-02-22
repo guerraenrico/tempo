@@ -1,4 +1,4 @@
-package com.enricog.base_test.compose
+package com.enricog.compose.testing
 
 import androidx.compose.ui.test.junit4.ComposeContentTestRule
 
