@@ -16,7 +16,7 @@ include ':core:coroutines:testing'
 
 include ':entities'
 
-include ':data:datasource'
+include ':data:api'
 include ':data:localdatasource'
 
 include ':navigation:api'

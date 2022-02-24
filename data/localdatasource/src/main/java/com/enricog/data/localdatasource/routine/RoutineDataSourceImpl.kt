@@ -1,7 +1,7 @@
 package com.enricog.data.localdatasource.routine
 
 import android.annotation.SuppressLint
-import com.enricog.data.datasource.RoutineDataSource
+import com.enricog.data.api.RoutineDataSource
 import com.enricog.entities.ID
 import com.enricog.entities.routines.Routine
 import com.enricog.data.localdatasource.TempoDatabase

@@ -1,4 +1,4 @@
-package com.enricog.data.datasource
+package com.enricog.data.api
 
 import com.enricog.entities.ID
 import com.enricog.entities.routines.Routine

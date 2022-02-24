@@ -2,7 +2,7 @@ package com.enricog.features.routines.detail.summary.usecase
 
 import com.enricog.base_test.entities.routines.EMPTY
 import com.enricog.core.coroutines.testing.CoroutineRule
-import com.enricog.data.datasource.RoutineDataSource
+import com.enricog.data.api.RoutineDataSource
 import com.enricog.entities.ID
 import com.enricog.entities.Rank
 import com.enricog.entities.routines.Routine

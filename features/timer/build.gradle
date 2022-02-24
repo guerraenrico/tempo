@@ -50,7 +50,7 @@ dependencies {
     implementation project(':base:viewmodel')
     implementation project(":ui_components")
     implementation project(":entities")
-    implementation project(":data:datasource")
+    implementation project(':data:api')
     implementation project(":navigation:api")
 
     implementation Libs.AndroidX.appCompat

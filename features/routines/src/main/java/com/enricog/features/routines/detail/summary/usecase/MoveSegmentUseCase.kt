@@ -1,6 +1,6 @@
 package com.enricog.features.routines.detail.summary.usecase
 
-import com.enricog.data.datasource.RoutineDataSource
+import com.enricog.data.api.RoutineDataSource
 import com.enricog.entities.Rank
 import com.enricog.entities.routines.Routine
 import com.enricog.entities.routines.Segment

@@ -81,7 +81,7 @@ dependencies {
     implementation project(":base:extensions")
     implementation project(":core:coroutines:api")
     implementation project(':base:viewmodel')
-    implementation project(":data:datasource")
+    implementation project(':data:api')
     implementation project(":data:localdatasource")
     implementation project(":features:timer")
     implementation project(":features:routines")

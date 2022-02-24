@@ -40,7 +40,7 @@ android {
 
 
 dependencies {
-    implementation project(":data:datasource")
+    implementation project(':data:api')
     implementation project(":entities")
 
     implementation Libs.Kotlin.coroutines
