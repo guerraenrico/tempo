@@ -23,7 +23,6 @@ import com.enricog.features.routines.detail.summary.models.RoutineSummaryItem.Se
 import com.enricog.core.compose.api.modifiers.listDraggable
 import com.enricog.core.compose.api.modifiers.rememberListDraggableState
 import com.enricog.ui_components.resources.TempoTheme
-import kotlinx.coroutines.flow.collect
 
 internal const val RoutineSummarySceneTestTag = "RoutineSummaryScene"
 

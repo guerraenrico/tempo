@@ -1,6 +1,6 @@
 package com.enricog.tempo.managers
 
-import com.enricog.timer.WindowScreenManager
+import com.enricog.features.timer.WindowScreenManager
 import javax.inject.Inject
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.MutableStateFlow

@@ -10,7 +10,7 @@ plugins {
 }
 
 android {
-    namespace 'com.enricog.timer'
+    namespace 'com.enricog.features.timer'
 
     compileSdkVersion Versions.compileSdk
 

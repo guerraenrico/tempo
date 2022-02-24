@@ -11,10 +11,10 @@ import androidx.navigation.compose.rememberNavController
 import com.enricog.base.extensions.exhaustive
 import com.enricog.core.coroutines.dispatchers.CoroutineDispatchers
 import com.enricog.features.routines.RoutinesNavigation
+import com.enricog.features.timer.TimerNavigation
+import com.enricog.features.timer.WindowScreenManager
 import com.enricog.navigation.api.NavigationAction
 import com.enricog.navigation.api.Navigator
-import com.enricog.timer.TimerNavigation
-import com.enricog.timer.WindowScreenManager
 import com.enricog.ui_components.resources.TempoTheme
 import dagger.hilt.android.AndroidEntryPoint
 import javax.inject.Inject
