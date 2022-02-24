@@ -9,7 +9,7 @@ plugins {
 }
 
 android {
-    namespace 'com.enricog.routines'
+    namespace 'com.enricog.features.routines'
 
     compileSdkVersion Versions.compileSdk
 
