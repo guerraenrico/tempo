@@ -7,7 +7,7 @@ plugins {
 }
 
 android {
-    namespace 'com.enricog.coroutines.testing'
+    namespace 'com.enricog.core.coroutines.testing'
 
     compileSdkVersion Versions.compileSdk
 

@@ -2,7 +2,7 @@ package com.enricog.timer
 
 import androidx.lifecycle.SavedStateHandle
 import com.enricog.base_test.entities.routines.EMPTY
-import com.enricog.coroutines.testing.CoroutineRule
+import com.enricog.core.coroutines.testing.CoroutineRule
 import com.enricog.entities.routines.Routine
 import com.enricog.entities.routines.Segment
 import com.enricog.entities.routines.TimeType
@@ -18,7 +18,6 @@ import com.enricog.timer.models.TimerViewState
 import com.enricog.timer.navigation.TimerNavigationActions
 import com.enricog.timer.usecase.TimerUseCase
 import io.mockk.coEvery
-import io.mockk.coVerify
 import io.mockk.every
 import io.mockk.mockk
 import io.mockk.verify

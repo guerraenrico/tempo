@@ -1,7 +1,7 @@
 package com.enricog.routines.detail.summary.usecase
 
 import com.enricog.base_test.entities.routines.EMPTY
-import com.enricog.coroutines.testing.CoroutineRule
+import com.enricog.core.coroutines.testing.CoroutineRule
 import com.enricog.datasource.RoutineDataSource
 import com.enricog.entities.asID
 import com.enricog.entities.routines.Routine

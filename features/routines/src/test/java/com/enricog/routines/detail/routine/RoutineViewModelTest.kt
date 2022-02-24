@@ -2,7 +2,7 @@ package com.enricog.routines.detail.routine
 
 import androidx.lifecycle.SavedStateHandle
 import com.enricog.base_test.entities.routines.EMPTY
-import com.enricog.coroutines.testing.CoroutineRule
+import com.enricog.core.coroutines.testing.CoroutineRule
 import com.enricog.entities.ID
 import com.enricog.entities.asID
 import com.enricog.entities.routines.Routine

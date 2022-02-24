@@ -1,6 +1,6 @@
 package com.enricog.routines.list
 
-import com.enricog.coroutines.testing.CoroutineRule
+import com.enricog.core.coroutines.testing.CoroutineRule
 import com.enricog.routines.list.models.RoutinesState
 import com.enricog.routines.list.models.RoutinesViewState
 import org.junit.Rule
