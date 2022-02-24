@@ -1,4 +1,4 @@
-package com.enricog.ui_components.extensions
+package com.enricog.core.compose.api.extensions
 
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.platform.LocalDensity

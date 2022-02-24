@@ -17,6 +17,7 @@ import androidx.compose.ui.platform.LocalSoftwareKeyboardController
 import androidx.compose.ui.platform.testTag
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.input.ImeAction
+import com.enricog.core.compose.api.extensions.stringResourceOrNull
 import com.enricog.entities.Seconds
 import com.enricog.entities.routines.Routine
 import com.enricog.routines.R
@@ -25,7 +26,6 @@ import com.enricog.ui_components.common.button.TempoButton
 import com.enricog.ui_components.common.button.TempoButtonColor
 import com.enricog.ui_components.common.textField.TempoTextField
 import com.enricog.ui_components.common.textField.TempoTimeField
-import com.enricog.ui_components.extensions.stringResourceOrNull
 import com.enricog.ui_components.resources.TempoTheme
 
 internal const val RoutineFormSceneTestTag = "RoutineFormSceneTestTag"

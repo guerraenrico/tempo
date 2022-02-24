@@ -15,11 +15,11 @@ import androidx.compose.ui.draw.alpha
 import androidx.compose.ui.graphics.graphicsLayer
 import androidx.compose.ui.platform.testTag
 import com.enricog.base.extensions.exhaustive
+import com.enricog.core.compose.api.extensions.toPx
 import com.enricog.entities.routines.Segment
 import com.enricog.routines.detail.summary.models.RoutineSummaryItem
 import com.enricog.ui_components.common.button.TempoIconButtonSize
-import com.enricog.ui_components.extensions.toPx
-import com.enricog.ui_components.modifiers.ListDraggableState
+import com.enricog.core.compose.api.modifiers.ListDraggableState
 import com.enricog.ui_components.resources.TempoTheme
 
 internal const val RoutineSummaryColumnTestTag = "RoutineSummaryColumn"

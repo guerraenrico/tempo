@@ -1,4 +1,4 @@
-package com.enricog.ui_components.modifiers
+package com.enricog.core.compose.api.modifiers
 
 import androidx.compose.foundation.gestures.detectDragGesturesAfterLongPress
 import androidx.compose.foundation.gestures.scrollBy

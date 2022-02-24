@@ -20,8 +20,8 @@ import com.enricog.entities.routines.Segment
 import com.enricog.routines.detail.summary.models.RoutineSummaryItem
 import com.enricog.routines.detail.summary.models.RoutineSummaryItem.SegmentItem
 import com.enricog.routines.detail.summary.models.RoutineSummaryItem.SegmentSectionTitle
-import com.enricog.ui_components.modifiers.listDraggable
-import com.enricog.ui_components.modifiers.rememberListDraggableState
+import com.enricog.core.compose.api.modifiers.listDraggable
+import com.enricog.core.compose.api.modifiers.rememberListDraggableState
 import com.enricog.ui_components.resources.TempoTheme
 import kotlinx.coroutines.flow.collect
 

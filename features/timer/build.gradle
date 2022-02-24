@@ -46,6 +46,7 @@ android {
 dependencies {
     implementation project(":base:extensions")
     implementation project(":core:coroutines:api")
+    implementation project(":core:compose:api")
     implementation project(':base:viewmodel')
     implementation project(":ui_components")
     implementation project(":entities")
