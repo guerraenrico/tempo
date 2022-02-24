@@ -1,12 +1,12 @@
-package com.enricog.localdatasource.routine
+package com.enricog.data.localdatasource.routine
 
 import android.annotation.SuppressLint
 import com.enricog.data.datasource.RoutineDataSource
 import com.enricog.entities.ID
 import com.enricog.entities.routines.Routine
-import com.enricog.localdatasource.TempoDatabase
-import com.enricog.localdatasource.routine.model.InternalRoutineWithSegments
-import com.enricog.localdatasource.routine.model.toInternal
+import com.enricog.data.localdatasource.TempoDatabase
+import com.enricog.data.localdatasource.routine.model.InternalRoutineWithSegments
+import com.enricog.data.localdatasource.routine.model.toInternal
 import kotlinx.coroutines.NonCancellable
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.map

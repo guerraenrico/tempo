@@ -1,5 +1,6 @@
-package com.enricog.localdatasource.routine.model
+package com.enricog.data.localdatasource.routine.model
 
+import com.enricog.base_test.entities.routines.RANDOM
 import com.enricog.entities.Rank
 import com.enricog.entities.asID
 import com.enricog.entities.routines.Routine
@@ -7,10 +8,42 @@ import com.enricog.entities.routines.Segment
 import com.enricog.entities.routines.TimeType
 import com.enricog.entities.seconds
 import java.time.OffsetDateTime
-import org.junit.Assert
+import org.junit.Assert.assertEquals
 import org.junit.Test
 
-class InternalRoutineWithSegmentsTest {
+class InternalRoutineTest {
+
+    @Test
+    fun testMappingToInternal() {
+        val now = OffsetDateTime.now()
+        val routine = Routine(
+            id = 1.asID,
+            name = "name",
+            startTimeOffset = 2.seconds,
+            createdAt = now,
+            updatedAt = now,
+            segments = listOf(
+                Segment(
+                    id = 3.asID,
+                    name = "name",
+                    time = 4.seconds,
+                    type = TimeType.TIMER,
+                    rank = Rank.RANDOM
+                )
+            )
+        )
+        val expected = InternalRoutine(
+            id = 1,
+            name = "name",
+            startTimeOffsetInSeconds = 2,
+            createdAt = now,
+            updatedAt = now
+        )
+
+        val actual = routine.toInternal()
+
+        assertEquals(expected, actual)
+    }
 
     @Test
     fun testMappingToEntity() {
@@ -48,13 +81,9 @@ class InternalRoutineWithSegmentsTest {
                 )
             )
         )
-        val internalRoutineWithSegments = InternalRoutineWithSegments(
-            routine = internalRoutine,
-            segments = internalSegments
-        )
 
-        val result = internalRoutineWithSegments.toEntity()
+        val actual = internalRoutine.toEntity(internalSegments)
 
-        Assert.assertEquals(expected, result)
+        assertEquals(expected, actual)
     }
 }

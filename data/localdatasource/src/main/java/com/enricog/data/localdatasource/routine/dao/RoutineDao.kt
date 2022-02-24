@@ -1,4 +1,4 @@
-package com.enricog.localdatasource.routine.dao
+package com.enricog.data.localdatasource.routine.dao
 
 import androidx.room.Dao
 import androidx.room.Delete
@@ -6,8 +6,8 @@ import androidx.room.Insert
 import androidx.room.Query
 import androidx.room.Transaction
 import androidx.room.Update
-import com.enricog.localdatasource.routine.model.InternalRoutine
-import com.enricog.localdatasource.routine.model.InternalRoutineWithSegments
+import com.enricog.data.localdatasource.routine.model.InternalRoutine
+import com.enricog.data.localdatasource.routine.model.InternalRoutineWithSegments
 import kotlinx.coroutines.flow.Flow
 
 @Dao

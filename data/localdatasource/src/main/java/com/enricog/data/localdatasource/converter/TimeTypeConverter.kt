@@ -1,4 +1,4 @@
-package com.enricog.localdatasource.converter
+package com.enricog.data.localdatasource.converter
 
 import androidx.room.TypeConverter
 import com.enricog.entities.routines.TimeType

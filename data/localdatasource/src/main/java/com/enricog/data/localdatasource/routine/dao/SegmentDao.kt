@@ -1,11 +1,11 @@
-package com.enricog.localdatasource.routine.dao
+package com.enricog.data.localdatasource.routine.dao
 
 import androidx.room.Dao
 import androidx.room.Delete
 import androidx.room.Insert
 import androidx.room.Query
 import androidx.room.Update
-import com.enricog.localdatasource.routine.model.InternalSegment
+import com.enricog.data.localdatasource.routine.model.InternalSegment
 
 @Dao
 internal interface SegmentDao {

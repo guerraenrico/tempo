@@ -1,16 +1,16 @@
-package com.enricog.localdatasource
+package com.enricog.data.localdatasource
 
 import android.content.Context
 import androidx.room.Database
 import androidx.room.Room
 import androidx.room.RoomDatabase
 import androidx.room.TypeConverters
-import com.enricog.localdatasource.converter.OffsetDateTimeConverter
-import com.enricog.localdatasource.converter.TimeTypeConverter
-import com.enricog.localdatasource.routine.dao.RoutineDao
-import com.enricog.localdatasource.routine.dao.SegmentDao
-import com.enricog.localdatasource.routine.model.InternalRoutine
-import com.enricog.localdatasource.routine.model.InternalSegment
+import com.enricog.data.localdatasource.converter.OffsetDateTimeConverter
+import com.enricog.data.localdatasource.converter.TimeTypeConverter
+import com.enricog.data.localdatasource.routine.dao.RoutineDao
+import com.enricog.data.localdatasource.routine.dao.SegmentDao
+import com.enricog.data.localdatasource.routine.model.InternalRoutine
+import com.enricog.data.localdatasource.routine.model.InternalSegment
 
 @Database(
     entities = [

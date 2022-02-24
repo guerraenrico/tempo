@@ -8,7 +8,7 @@ plugins {
 }
 
 android {
-    namespace 'com.enricog.localdatasource'
+    namespace 'com.enricog.data.localdatasource'
 
     compileSdkVersion Versions.compileSdk
 

@@ -1,4 +1,4 @@
-package com.enricog.localdatasource.converter
+package com.enricog.data.localdatasource.converter
 
 import android.annotation.SuppressLint
 import androidx.room.TypeConverter

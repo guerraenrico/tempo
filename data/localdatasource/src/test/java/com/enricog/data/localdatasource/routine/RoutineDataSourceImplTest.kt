@@ -1,4 +1,4 @@
-package com.enricog.localdatasource.routine
+package com.enricog.data.localdatasource.routine
 
 import android.content.Context
 import androidx.arch.core.executor.testing.InstantTaskExecutorRule
@@ -11,10 +11,10 @@ import com.enricog.entities.routines.Routine
 import com.enricog.entities.routines.Segment
 import com.enricog.entities.routines.TimeType
 import com.enricog.entities.seconds
-import com.enricog.localdatasource.TempoDatabase
-import com.enricog.localdatasource.routine.model.InternalRoutine
-import com.enricog.localdatasource.routine.model.InternalRoutineWithSegments
-import com.enricog.localdatasource.routine.model.InternalSegment
+import com.enricog.data.localdatasource.TempoDatabase
+import com.enricog.data.localdatasource.routine.model.InternalRoutine
+import com.enricog.data.localdatasource.routine.model.InternalRoutineWithSegments
+import com.enricog.data.localdatasource.routine.model.InternalSegment
 import java.io.IOException
 import java.time.OffsetDateTime
 import java.time.temporal.ChronoUnit

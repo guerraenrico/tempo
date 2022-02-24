@@ -1,4 +1,4 @@
-package com.enricog.localdatasource.routine.model
+package com.enricog.data.localdatasource.routine.model
 
 import com.enricog.entities.Rank
 import com.enricog.entities.asID
