@@ -3,7 +3,7 @@ package com.enricog.routines.detail.routine
 import androidx.compose.ui.test.assertIsDisplayed
 import androidx.compose.ui.test.junit4.createComposeRule
 import androidx.compose.ui.test.onNodeWithTag
-import com.enricog.compose.testing.invoke
+import com.enricog.core.compose.testing.invoke
 import com.enricog.base_test.entities.routines.EMPTY
 import com.enricog.entities.routines.Routine
 import com.enricog.routines.detail.routine.models.RoutineViewState

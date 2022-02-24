@@ -7,7 +7,7 @@ plugins {
 }
 
 android {
-    namespace 'com.enricog.compose.testing'
+    namespace 'com.enricog.core.compose.testing'
 
     compileSdkVersion Versions.compileSdk
 

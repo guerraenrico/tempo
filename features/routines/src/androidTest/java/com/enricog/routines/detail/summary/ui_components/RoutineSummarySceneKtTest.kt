@@ -9,7 +9,7 @@ import androidx.compose.ui.test.performGesture
 import androidx.compose.ui.test.swipe
 import androidx.compose.ui.test.top
 import androidx.compose.ui.test.width
-import com.enricog.compose.testing.invoke
+import com.enricog.core.compose.testing.invoke
 import com.enricog.base_test.entities.routines.EMPTY
 import com.enricog.entities.asID
 import com.enricog.entities.routines.Segment
