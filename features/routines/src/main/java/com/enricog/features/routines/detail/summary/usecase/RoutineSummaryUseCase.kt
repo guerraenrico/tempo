@@ -1,6 +1,6 @@
 package com.enricog.features.routines.detail.summary.usecase
 
-import com.enricog.datasource.RoutineDataSource
+import com.enricog.data.datasource.RoutineDataSource
 import com.enricog.entities.ID
 import com.enricog.entities.routines.Routine
 import kotlinx.coroutines.flow.Flow

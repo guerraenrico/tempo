@@ -1,6 +1,6 @@
 package com.enricog.features.timer.usecase
 
-import com.enricog.datasource.RoutineDataSource
+import com.enricog.data.datasource.RoutineDataSource
 import com.enricog.entities.ID
 import com.enricog.entities.routines.Routine
 import javax.inject.Inject
