@@ -2,9 +2,9 @@ package com.enricog.features.routines.detail.segment
 
 import com.enricog.entities.ID
 import com.enricog.entities.Seconds
-import com.enricog.entities.routines.Routine
-import com.enricog.entities.routines.Segment
-import com.enricog.entities.routines.TimeType
+import com.enricog.data.routines.api.entities.Routine
+import com.enricog.data.routines.api.entities.Segment
+import com.enricog.data.routines.api.entities.TimeType
 import com.enricog.entities.seconds
 import com.enricog.features.routines.detail.segment.models.SegmentField
 import com.enricog.features.routines.detail.segment.models.SegmentFieldError

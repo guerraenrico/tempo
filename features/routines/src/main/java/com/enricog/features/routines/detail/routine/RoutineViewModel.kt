@@ -6,7 +6,7 @@ import com.enricog.base.viewmodel.BaseViewModel
 import com.enricog.base.viewmodel.ViewModelConfiguration
 import com.enricog.core.coroutines.dispatchers.CoroutineDispatchers
 import com.enricog.entities.Seconds
-import com.enricog.entities.routines.Routine
+import com.enricog.data.routines.api.entities.Routine
 import com.enricog.navigation.api.routes.RoutineRoute
 import com.enricog.navigation.api.routes.RoutineRouteInput
 import com.enricog.features.routines.detail.routine.models.RoutineState

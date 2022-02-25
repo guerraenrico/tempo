@@ -32,7 +32,7 @@ dependencies {
     implementation Libs.Lifecycle.viewModelKtx
 
     // Test
-    testImplementation project(":base:base_test")
+    testImplementation project(':data:routines:testing')
     testImplementation project(":core:coroutines:testing")
     testImplementation Libs.Kotlin.Test.coroutines
     testImplementation Libs.Kotlin.Test.kotlin

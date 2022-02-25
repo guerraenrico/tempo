@@ -1,8 +1,8 @@
 package com.enricog.data.local
 
 import android.content.Context
-import com.enricog.data.api.RoutineDataSource
 import com.enricog.data.local.routine.RoutineDataSourceImpl
+import com.enricog.data.routines.api.RoutineDataSource
 import dagger.Module
 import dagger.Provides
 import dagger.hilt.InstallIn

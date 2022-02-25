@@ -7,7 +7,7 @@ import androidx.compose.material.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.platform.testTag
-import com.enricog.entities.routines.Routine
+import com.enricog.data.routines.api.entities.Routine
 import com.enricog.features.routines.ui_components.DeletableListItem
 import com.enricog.ui_components.resources.TempoTheme
 

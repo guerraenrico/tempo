@@ -1,8 +1,8 @@
 package com.enricog.features.timer.usecase
 
-import com.enricog.data.api.RoutineDataSource
+import com.enricog.data.routines.api.RoutineDataSource
+import com.enricog.data.routines.api.entities.Routine
 import com.enricog.entities.ID
-import com.enricog.entities.routines.Routine
 import javax.inject.Inject
 
 internal class TimerUseCase @Inject constructor(

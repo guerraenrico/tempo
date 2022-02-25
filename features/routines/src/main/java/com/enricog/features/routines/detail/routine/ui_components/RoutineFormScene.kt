@@ -19,7 +19,7 @@ import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.input.ImeAction
 import com.enricog.core.compose.api.extensions.stringResourceOrNull
 import com.enricog.entities.Seconds
-import com.enricog.entities.routines.Routine
+import com.enricog.data.routines.api.entities.Routine
 import com.enricog.features.routines.R
 import com.enricog.features.routines.detail.routine.models.RoutineField
 import com.enricog.ui_components.common.button.TempoButton

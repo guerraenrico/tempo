@@ -49,8 +49,7 @@ dependencies {
     implementation project(":core:compose:api")
     implementation project(':base:viewmodel')
     implementation project(":ui_components")
-    implementation project(":entities")
-    implementation project(':data:api')
+    implementation project(':data:routines:api')
     implementation project(":navigation:api")
 
     implementation Libs.AndroidX.appCompat
@@ -72,7 +71,7 @@ dependencies {
     implementation Libs.Hilt.navigation
 
     // Test
-    testImplementation project(":base:base_test")
+    testImplementation project(':data:routines:testing')
     testImplementation project(":core:coroutines:testing")
     testImplementation project(":navigation:testing")
     testImplementation Libs.Kotlin.Test.coroutines

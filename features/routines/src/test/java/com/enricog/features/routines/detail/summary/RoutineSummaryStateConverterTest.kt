@@ -1,10 +1,10 @@
 package com.enricog.features.routines.detail.summary
 
-import com.enricog.base_test.entities.routines.EMPTY
+import com.enricog.data.routines.testing.EMPTY
 import com.enricog.core.coroutines.testing.CoroutineRule
 import com.enricog.entities.asID
-import com.enricog.entities.routines.Routine
-import com.enricog.entities.routines.Segment
+import com.enricog.data.routines.api.entities.Routine
+import com.enricog.data.routines.api.entities.Segment
 import com.enricog.features.routines.R
 import com.enricog.features.routines.detail.summary.models.RoutineSummaryField
 import com.enricog.features.routines.detail.summary.models.RoutineSummaryFieldError

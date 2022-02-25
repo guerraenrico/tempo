@@ -15,7 +15,7 @@ import androidx.compose.ui.platform.testTag
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.sp
-import com.enricog.entities.routines.TimeType
+import com.enricog.data.routines.api.entities.TimeType
 import com.enricog.features.routines.R
 import com.enricog.ui_components.resources.TempoTheme
 import com.enricog.ui_components.resources.TimeTypeColors

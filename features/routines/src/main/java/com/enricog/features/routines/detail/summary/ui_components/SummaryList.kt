@@ -16,7 +16,7 @@ import androidx.compose.ui.graphics.graphicsLayer
 import androidx.compose.ui.platform.testTag
 import com.enricog.base.extensions.exhaustive
 import com.enricog.core.compose.api.extensions.toPx
-import com.enricog.entities.routines.Segment
+import com.enricog.data.routines.api.entities.Segment
 import com.enricog.features.routines.detail.summary.models.RoutineSummaryItem
 import com.enricog.ui_components.common.button.TempoIconButtonSize
 import com.enricog.core.compose.api.modifiers.ListDraggableState

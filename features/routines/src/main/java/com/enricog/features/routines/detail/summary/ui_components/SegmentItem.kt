@@ -12,8 +12,8 @@ import androidx.constraintlayout.compose.ConstraintLayout
 import androidx.constraintlayout.compose.Dimension
 import com.enricog.entities.Rank
 import com.enricog.entities.asID
-import com.enricog.entities.routines.Segment
-import com.enricog.entities.routines.TimeType
+import com.enricog.data.routines.api.entities.Segment
+import com.enricog.data.routines.api.entities.TimeType
 import com.enricog.entities.seconds
 import com.enricog.features.routines.detail.ui_components.TimeTypeChip
 import com.enricog.features.routines.ui_components.DeletableListItem

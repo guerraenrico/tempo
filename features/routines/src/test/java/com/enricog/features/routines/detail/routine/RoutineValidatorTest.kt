@@ -1,7 +1,7 @@
 package com.enricog.features.routines.detail.routine
 
-import com.enricog.base_test.entities.routines.EMPTY
-import com.enricog.entities.routines.Routine
+import com.enricog.data.routines.testing.EMPTY
+import com.enricog.data.routines.api.entities.Routine
 import com.enricog.entities.seconds
 import com.enricog.features.routines.detail.routine.models.RoutineField
 import com.enricog.features.routines.detail.routine.models.RoutineFieldError

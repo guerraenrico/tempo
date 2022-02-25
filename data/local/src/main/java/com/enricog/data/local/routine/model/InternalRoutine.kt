@@ -3,9 +3,9 @@ package com.enricog.data.local.routine.model
 import androidx.room.ColumnInfo
 import androidx.room.Entity
 import androidx.room.PrimaryKey
+import com.enricog.data.routines.api.entities.Routine
+import com.enricog.data.routines.api.entities.sortedByRank
 import com.enricog.entities.ID
-import com.enricog.entities.routines.Routine
-import com.enricog.entities.routines.sortedByRank
 import com.enricog.entities.seconds
 import java.time.OffsetDateTime
 

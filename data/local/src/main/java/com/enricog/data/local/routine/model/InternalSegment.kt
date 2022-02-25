@@ -5,10 +5,10 @@ import androidx.room.Entity
 import androidx.room.ForeignKey
 import androidx.room.ForeignKey.CASCADE
 import androidx.room.PrimaryKey
+import com.enricog.data.routines.api.entities.Segment
+import com.enricog.data.routines.api.entities.TimeType
 import com.enricog.entities.ID
 import com.enricog.entities.Rank
-import com.enricog.entities.routines.Segment
-import com.enricog.entities.routines.TimeType
 import com.enricog.entities.seconds
 
 @Entity(

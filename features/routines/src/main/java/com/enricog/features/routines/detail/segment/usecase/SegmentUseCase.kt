@@ -1,10 +1,10 @@
 package com.enricog.features.routines.detail.segment.usecase
 
 import com.enricog.base.extensions.replace
-import com.enricog.data.api.RoutineDataSource
+import com.enricog.data.routines.api.RoutineDataSource
 import com.enricog.entities.ID
-import com.enricog.entities.routines.Routine
-import com.enricog.entities.routines.Segment
+import com.enricog.data.routines.api.entities.Routine
+import com.enricog.data.routines.api.entities.Segment
 import javax.inject.Inject
 
 internal class SegmentUseCase @Inject constructor(

@@ -1,6 +1,6 @@
 package com.enricog.features.routines.detail.routine
 
-import com.enricog.entities.routines.Routine
+import com.enricog.data.routines.api.entities.Routine
 import com.enricog.features.routines.detail.routine.models.RoutineField
 import com.enricog.features.routines.detail.routine.models.RoutineFieldError
 import javax.inject.Inject

@@ -1,17 +1,17 @@
 package com.enricog.features.routines.detail.segment.usecase
 
-import com.enricog.base_test.entities.routines.EMPTY
 import com.enricog.core.coroutines.testing.CoroutineRule
-import com.enricog.data.api.RoutineDataSource
+import com.enricog.data.routines.api.RoutineDataSource
+import com.enricog.data.routines.api.entities.Routine
+import com.enricog.data.routines.api.entities.Segment
+import com.enricog.data.routines.testing.EMPTY
 import com.enricog.entities.asID
-import com.enricog.entities.routines.Routine
-import com.enricog.entities.routines.Segment
 import io.mockk.coEvery
 import io.mockk.coVerify
 import io.mockk.mockk
-import kotlin.test.assertEquals
 import org.junit.Rule
 import org.junit.Test
+import kotlin.test.assertEquals
 
 class SegmentUseCaseTest {
 
@@ -34,32 +34,34 @@ class SegmentUseCaseTest {
     }
 
     @Test
-    fun `should add segment to routine#segment and update routine when saving new segment`() = coroutineRule {
-        val routine = Routine.EMPTY.copy(segments = emptyList())
-        val segment = Segment.EMPTY.copy(id = 0.asID)
-        val updatedRoutine = Routine.EMPTY.copy(
-            segments = listOf(Segment.EMPTY.copy(id = 0.asID))
-        )
-        coEvery { routineDataSource.update(any()) } returns 1.asID
+    fun `should add segment to routine#segment and update routine when saving new segment`() =
+        coroutineRule {
+            val routine = Routine.EMPTY.copy(segments = emptyList())
+            val segment = Segment.EMPTY.copy(id = 0.asID)
+            val updatedRoutine = Routine.EMPTY.copy(
+                segments = listOf(Segment.EMPTY.copy(id = 0.asID))
+            )
+            coEvery { routineDataSource.update(any()) } returns 1.asID
 
-        sut.save(routine = routine, segment = segment)
+            sut.save(routine = routine, segment = segment)
 
-        coVerify { routineDataSource.update(updatedRoutine) }
-    }
+            coVerify { routineDataSource.update(updatedRoutine) }
+        }
 
     @Test
-    fun `should update segment in routine#segment and update routine when saving existing segment`() = coroutineRule {
-        val routine = Routine.EMPTY.copy(
-            segments = listOf(Segment.EMPTY.copy(id = 1.asID, name = "name1"))
-        )
-        val segment = Segment.EMPTY.copy(id = 1.asID, name = "name2")
-        val updatedRoutine = Routine.EMPTY.copy(
-            segments = listOf(Segment.EMPTY.copy(id = 1.asID, name = "name2"))
-        )
-        coEvery { routineDataSource.update(any()) } returns 1.asID
+    fun `should update segment in routine#segment and update routine when saving existing segment`() =
+        coroutineRule {
+            val routine = Routine.EMPTY.copy(
+                segments = listOf(Segment.EMPTY.copy(id = 1.asID, name = "name1"))
+            )
+            val segment = Segment.EMPTY.copy(id = 1.asID, name = "name2")
+            val updatedRoutine = Routine.EMPTY.copy(
+                segments = listOf(Segment.EMPTY.copy(id = 1.asID, name = "name2"))
+            )
+            coEvery { routineDataSource.update(any()) } returns 1.asID
 
-        sut.save(routine = routine, segment = segment)
+            sut.save(routine = routine, segment = segment)
 
-        coVerify { routineDataSource.update(updatedRoutine) }
-    }
+            coVerify { routineDataSource.update(updatedRoutine) }
+        }
 }

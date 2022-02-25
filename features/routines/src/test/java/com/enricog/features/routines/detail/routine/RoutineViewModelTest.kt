@@ -1,11 +1,11 @@
 package com.enricog.features.routines.detail.routine
 
 import androidx.lifecycle.SavedStateHandle
-import com.enricog.base_test.entities.routines.EMPTY
+import com.enricog.data.routines.testing.EMPTY
 import com.enricog.core.coroutines.testing.CoroutineRule
 import com.enricog.entities.ID
 import com.enricog.entities.asID
-import com.enricog.entities.routines.Routine
+import com.enricog.data.routines.api.entities.Routine
 import com.enricog.entities.seconds
 import com.enricog.navigation.api.routes.RoutineSummaryRoute
 import com.enricog.navigation.api.routes.RoutineSummaryRouteInput

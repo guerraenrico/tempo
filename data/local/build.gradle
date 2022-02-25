@@ -40,8 +40,7 @@ android {
 
 
 dependencies {
-    implementation project(':data:api')
-    implementation project(":entities")
+    implementation project(':data:routines:api')
 
     implementation Libs.Kotlin.coroutines
 
@@ -54,7 +53,7 @@ dependencies {
     implementation Libs.Hilt.android
     kapt Libs.Hilt.androidCompiler
 
-    testImplementation project(":base:base_test")
+    testImplementation project(':data:routines:testing')
     testImplementation project(":core:coroutines:testing")
     testImplementation Libs.Kotlin.Test.coroutines
     testImplementation Libs.AndroidX.Test.core

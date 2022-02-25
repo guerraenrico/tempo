@@ -1,11 +1,11 @@
 package com.enricog.features.routines.detail.routine.usecase
 
-import com.enricog.base_test.entities.routines.EMPTY
 import com.enricog.core.coroutines.testing.CoroutineRule
-import com.enricog.data.api.RoutineDataSource
+import com.enricog.data.routines.api.RoutineDataSource
+import com.enricog.data.routines.api.entities.Routine
+import com.enricog.data.routines.testing.EMPTY
 import com.enricog.entities.ID
 import com.enricog.entities.asID
-import com.enricog.entities.routines.Routine
 import com.enricog.entities.seconds
 import io.mockk.Called
 import io.mockk.coEvery
@@ -13,9 +13,9 @@ import io.mockk.coVerify
 import io.mockk.mockk
 import io.mockk.verify
 import org.junit.Ignore
-import kotlin.test.assertEquals
 import org.junit.Rule
 import org.junit.Test
+import kotlin.test.assertEquals
 
 class RoutineUseCaseTest {
 

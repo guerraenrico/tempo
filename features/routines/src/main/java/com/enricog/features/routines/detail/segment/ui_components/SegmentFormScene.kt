@@ -18,8 +18,8 @@ import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.input.ImeAction
 import com.enricog.core.compose.api.extensions.stringResourceOrNull
 import com.enricog.entities.Seconds
-import com.enricog.entities.routines.Segment
-import com.enricog.entities.routines.TimeType
+import com.enricog.data.routines.api.entities.Segment
+import com.enricog.data.routines.api.entities.TimeType
 import com.enricog.features.routines.R
 import com.enricog.features.routines.detail.segment.models.SegmentField
 import com.enricog.features.routines.detail.ui_components.TimeTypeChip

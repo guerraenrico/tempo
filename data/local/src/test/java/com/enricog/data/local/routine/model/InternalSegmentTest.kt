@@ -2,8 +2,8 @@ package com.enricog.data.local.routine.model
 
 import com.enricog.entities.Rank
 import com.enricog.entities.asID
-import com.enricog.entities.routines.Segment
-import com.enricog.entities.routines.TimeType
+import com.enricog.data.routines.api.entities.Segment
+import com.enricog.data.routines.api.entities.TimeType
 import com.enricog.entities.seconds
 import org.junit.Assert.assertEquals
 import org.junit.Test

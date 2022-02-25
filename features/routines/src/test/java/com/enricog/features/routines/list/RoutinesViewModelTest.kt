@@ -1,10 +1,10 @@
 package com.enricog.features.routines.list
 
-import com.enricog.base_test.entities.routines.EMPTY
+import com.enricog.data.routines.testing.EMPTY
 import com.enricog.core.coroutines.testing.CoroutineRule
 import com.enricog.entities.ID
 import com.enricog.entities.asID
-import com.enricog.entities.routines.Routine
+import com.enricog.data.routines.api.entities.Routine
 import com.enricog.navigation.api.routes.RoutineRoute
 import com.enricog.navigation.api.routes.RoutineRouteInput
 import com.enricog.navigation.api.routes.RoutineSummaryRoute

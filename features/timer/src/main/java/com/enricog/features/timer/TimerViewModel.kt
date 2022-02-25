@@ -5,14 +5,14 @@ import androidx.lifecycle.SavedStateHandle
 import androidx.lifecycle.viewModelScope
 import com.enricog.base.viewmodel.BaseViewModel
 import com.enricog.core.coroutines.dispatchers.CoroutineDispatchers
-import com.enricog.entities.routines.Routine
-import com.enricog.navigation.api.routes.TimerRoute
-import com.enricog.navigation.api.routes.TimerRouteInput
+import com.enricog.data.routines.api.entities.Routine
 import com.enricog.features.timer.models.TimerActions
 import com.enricog.features.timer.models.TimerState
 import com.enricog.features.timer.models.TimerViewState
 import com.enricog.features.timer.navigation.TimerNavigationActions
 import com.enricog.features.timer.usecase.TimerUseCase
+import com.enricog.navigation.api.routes.TimerRoute
+import com.enricog.navigation.api.routes.TimerRouteInput
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch

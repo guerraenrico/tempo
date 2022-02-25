@@ -1,7 +1,7 @@
 package com.enricog.features.routines.detail.segment.models
 
-import com.enricog.entities.routines.Segment
-import com.enricog.entities.routines.TimeType
+import com.enricog.data.routines.api.entities.Segment
+import com.enricog.data.routines.api.entities.TimeType
 
 internal sealed class SegmentViewState {
     object Idle : SegmentViewState()

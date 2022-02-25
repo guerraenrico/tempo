@@ -1,9 +1,9 @@
 package com.enricog.features.routines.list.usecase
 
-import com.enricog.base_test.entities.routines.EMPTY
 import com.enricog.core.coroutines.testing.CoroutineRule
-import com.enricog.data.api.RoutineDataSource
-import com.enricog.entities.routines.Routine
+import com.enricog.data.routines.api.RoutineDataSource
+import com.enricog.data.routines.api.entities.Routine
+import com.enricog.data.routines.testing.EMPTY
 import io.mockk.coEvery
 import io.mockk.coVerify
 import io.mockk.mockk

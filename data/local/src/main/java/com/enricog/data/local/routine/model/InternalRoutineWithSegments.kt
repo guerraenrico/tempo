@@ -2,7 +2,7 @@ package com.enricog.data.local.routine.model
 
 import androidx.room.Embedded
 import androidx.room.Relation
-import com.enricog.entities.routines.Routine
+import com.enricog.data.routines.api.entities.Routine
 
 internal data class InternalRoutineWithSegments(
     @Embedded val routine: InternalRoutine,

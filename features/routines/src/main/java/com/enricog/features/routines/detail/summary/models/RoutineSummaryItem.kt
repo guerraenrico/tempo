@@ -1,6 +1,6 @@
 package com.enricog.features.routines.detail.summary.models
 
-import com.enricog.entities.routines.Segment
+import com.enricog.data.routines.api.entities.Segment
 
 internal sealed class RoutineSummaryItem {
 

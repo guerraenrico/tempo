@@ -1,10 +1,10 @@
 package com.enricog.features.timer
 
-import com.enricog.base_test.entities.routines.EMPTY
+import com.enricog.data.routines.testing.EMPTY
 import com.enricog.core.coroutines.testing.CoroutineRule
-import com.enricog.entities.routines.Routine
-import com.enricog.entities.routines.Segment
-import com.enricog.entities.routines.TimeType
+import com.enricog.data.routines.api.entities.Routine
+import com.enricog.data.routines.api.entities.Segment
+import com.enricog.data.routines.api.entities.TimeType
 import com.enricog.entities.seconds
 import com.enricog.features.timer.models.Count
 import com.enricog.features.timer.models.SegmentStep

@@ -1,6 +1,6 @@
 package com.enricog.features.routines.detail.routine.models
 
-import com.enricog.entities.routines.Routine
+import com.enricog.data.routines.api.entities.Routine
 
 internal sealed class RoutineViewState {
     object Idle : RoutineViewState()

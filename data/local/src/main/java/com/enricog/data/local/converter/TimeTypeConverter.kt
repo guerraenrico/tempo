@@ -1,7 +1,7 @@
 package com.enricog.data.local.converter
 
 import androidx.room.TypeConverter
-import com.enricog.entities.routines.TimeType
+import com.enricog.data.routines.api.entities.TimeType
 
 internal object TimeTypeConverter {
     @TypeConverter

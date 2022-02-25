@@ -1,9 +1,9 @@
 package com.enricog.features.routines.detail.routine.usecase
 
 import android.annotation.SuppressLint
-import com.enricog.data.api.RoutineDataSource
+import com.enricog.data.routines.api.RoutineDataSource
+import com.enricog.data.routines.api.entities.Routine
 import com.enricog.entities.ID
-import com.enricog.entities.routines.Routine
 import javax.inject.Inject
 
 @SuppressLint("NewApi")

@@ -1,9 +1,9 @@
 package com.enricog.data.local.routine
 
 import android.annotation.SuppressLint
-import com.enricog.data.api.RoutineDataSource
+import com.enricog.data.routines.api.RoutineDataSource
 import com.enricog.entities.ID
-import com.enricog.entities.routines.Routine
+import com.enricog.data.routines.api.entities.Routine
 import com.enricog.data.local.TempoDatabase
 import com.enricog.data.local.routine.model.InternalRoutineWithSegments
 import com.enricog.data.local.routine.model.toInternal

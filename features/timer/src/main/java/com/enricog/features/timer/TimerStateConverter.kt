@@ -3,7 +3,7 @@ package com.enricog.features.timer
 import androidx.annotation.StringRes
 import androidx.compose.ui.graphics.Color
 import com.enricog.base.viewmodel.StateConverter
-import com.enricog.entities.routines.TimeType
+import com.enricog.data.routines.api.entities.TimeType
 import com.enricog.features.timer.models.SegmentStepType
 import com.enricog.features.timer.models.TimerState
 import com.enricog.features.timer.models.TimerViewState

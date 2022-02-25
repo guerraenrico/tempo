@@ -1,6 +1,6 @@
 package com.enricog.features.routines.list
 
-import com.enricog.entities.routines.Routine
+import com.enricog.data.routines.api.entities.Routine
 import com.enricog.features.routines.list.models.RoutinesState
 import javax.inject.Inject
 

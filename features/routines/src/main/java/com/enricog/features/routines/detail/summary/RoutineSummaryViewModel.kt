@@ -5,7 +5,7 @@ import androidx.lifecycle.viewModelScope
 import com.enricog.base.viewmodel.BaseViewModel
 import com.enricog.core.coroutines.dispatchers.CoroutineDispatchers
 import com.enricog.entities.ID
-import com.enricog.entities.routines.Segment
+import com.enricog.data.routines.api.entities.Segment
 import com.enricog.navigation.api.routes.RoutineSummaryRoute
 import com.enricog.navigation.api.routes.RoutineSummaryRouteInput
 import com.enricog.features.routines.detail.summary.models.RoutineSummaryState

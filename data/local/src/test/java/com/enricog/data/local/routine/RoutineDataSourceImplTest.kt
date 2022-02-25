@@ -7,9 +7,9 @@ import androidx.test.core.app.ApplicationProvider
 import com.enricog.core.coroutines.testing.CoroutineRule
 import com.enricog.entities.Rank
 import com.enricog.entities.asID
-import com.enricog.entities.routines.Routine
-import com.enricog.entities.routines.Segment
-import com.enricog.entities.routines.TimeType
+import com.enricog.data.routines.api.entities.Routine
+import com.enricog.data.routines.api.entities.Segment
+import com.enricog.data.routines.api.entities.TimeType
 import com.enricog.entities.seconds
 import com.enricog.data.local.TempoDatabase
 import com.enricog.data.local.routine.model.InternalRoutine
