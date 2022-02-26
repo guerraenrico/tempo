@@ -13,7 +13,6 @@
             <option value="$PROJECT_DIR$" />
             <option value="$PROJECT_DIR$/app" />
             <option value="$PROJECT_DIR$/base" />
-            <option value="$PROJECT_DIR$/base/base_test" />
             <option value="$PROJECT_DIR$/base/extensions" />
             <option value="$PROJECT_DIR$/base/viewmodel" />
             <option value="$PROJECT_DIR$/buildSrc" />

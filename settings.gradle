@@ -7,7 +7,6 @@ include ':features:timer'
 
 include ':base:extensions'
 include ':base:viewmodel'
-include ':base:base_test'
 
 include ':core:compose:testing'
 include ':core:compose:api'
