@@ -1,6 +1,6 @@
 package com.enricog.features.routines.list
 
-import com.enricog.data.routines.testing.EMPTY
+import com.enricog.data.routines.testing.entities.EMPTY
 import com.enricog.data.routines.api.entities.Routine
 import com.enricog.features.routines.list.models.RoutinesState
 import kotlin.test.assertEquals

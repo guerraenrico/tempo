@@ -1,4 +1,4 @@
-package com.enricog.data.routines.testing
+package com.enricog.data.routines.testing.entities
 
 import com.enricog.data.routines.api.entities.Routine
 import com.enricog.entities.asID

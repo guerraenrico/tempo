@@ -38,26 +38,23 @@ allprojects {
 }
 
 subprojects {
-    tasks.withType(org.jetbrains.kotlin.gradle.tasks.KotlinCompile).all {
+    tasks.withType(org.jetbrains.kotlin.gradle.tasks.KotlinCompile).configureEach {
         kotlinOptions {
-            freeCompilerArgs += [
-                    // Enable experimental coroutines APIs, including Flow
-                    "-Xopt-in=kotlin.RequiresOptIn",
-                    "-Xuse-experimental=kotlinx.coroutines.ExperimentalCoroutinesApi",
-                    "-Xuse-experimental=kotlin.contracts.ExperimentalContracts",
-                    "-Xuse-experimental=kotlin.time.ExperimentalTime",
-                    "-Xuse-experimental=kotlin.ExperimentalStdlibApi",
-                    "-Xuse-experimental=androidx.compose.material.ExperimentalMaterialApi",
-                    "-Xuse-experimental=androidx.compose.foundation.ExperimentalFoundationApi",
-                    "-Xuse-experimental=androidx.compose.ui.ExperimentalComposeUiApi",
-                    "-Xopt-in=androidx.compose.animation.ExperimentalAnimationApi",
-                    "-Xopt-in=kotlinx.coroutines.FlowPreview",
+            // Enable experimental coroutines APIs, including Flow
+            freeCompilerArgs += "-opt-in=kotlin.RequiresOptIn"
+            freeCompilerArgs += "-Xuse-experimental=kotlinx.coroutines.ExperimentalCoroutinesApi"
+            freeCompilerArgs += "-Xuse-experimental=kotlin.contracts.ExperimentalContracts"
+            freeCompilerArgs += "-Xuse-experimental=kotlin.time.ExperimentalTime"
+            freeCompilerArgs += "-Xuse-experimental=kotlin.ExperimentalStdlibApi"
+            freeCompilerArgs += "-Xuse-experimental=androidx.compose.material.ExperimentalMaterialApi"
+            freeCompilerArgs += "-Xuse-experimental=androidx.compose.foundation.ExperimentalFoundationApi"
+            freeCompilerArgs += "-Xuse-experimental=androidx.compose.ui.ExperimentalComposeUiApi"
+            freeCompilerArgs += "-opt-in=androidx.compose.animation.ExperimentalAnimationApi"
+            freeCompilerArgs += "-opt-in=kotlinx.coroutines.FlowPreview"
+            freeCompilerArgs += "-Xskip-prerelease-check"
 
-                    "-Xskip-prerelease-check",
-
-                    // "-P",
-                    // "plugin:androidx.compose.compiler.plugins.kotlin:suppressKotlinVersionCompatibilityCheck=true"
-            ]
+            // "-P",
+            // "plugin:androidx.compose.compiler.plugins.kotlin:suppressKotlinVersionCompatibilityCheck=true"
 
             jvmTarget = Versions.jvmTarget
         }

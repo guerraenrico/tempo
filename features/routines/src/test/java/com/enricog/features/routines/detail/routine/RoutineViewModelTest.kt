@@ -1,7 +1,7 @@
 package com.enricog.features.routines.detail.routine
 
 import androidx.lifecycle.SavedStateHandle
-import com.enricog.data.routines.testing.EMPTY
+import com.enricog.data.routines.testing.entities.EMPTY
 import com.enricog.core.coroutines.testing.CoroutineRule
 import com.enricog.entities.ID
 import com.enricog.entities.asID

@@ -4,7 +4,7 @@ import androidx.compose.ui.test.assertIsDisplayed
 import androidx.compose.ui.test.junit4.createComposeRule
 import androidx.compose.ui.test.onNodeWithTag
 import com.enricog.core.compose.testing.invoke
-import com.enricog.data.routines.testing.EMPTY
+import com.enricog.data.routines.testing.entities.EMPTY
 import com.enricog.data.routines.api.entities.Routine
 import com.enricog.features.routines.detail.routine.models.RoutineViewState
 import com.enricog.features.routines.detail.routine.ui_components.RoutineFormSceneTestTag

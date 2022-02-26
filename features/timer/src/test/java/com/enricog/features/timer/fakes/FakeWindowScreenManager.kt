@@ -1,12 +1,11 @@
-package com.enricog.tempo.managers
+package com.enricog.features.timer.fakes
 
 import com.enricog.features.timer.WindowScreenManager
-import javax.inject.Inject
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.asStateFlow
 
-internal class WindowScreenManagerImpl @Inject constructor() : WindowScreenManager {
+class FakeWindowScreenManager : WindowScreenManager {
 
     private val flag = MutableStateFlow(false)
 

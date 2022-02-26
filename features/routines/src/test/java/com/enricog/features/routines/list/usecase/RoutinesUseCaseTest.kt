@@ -3,7 +3,7 @@ package com.enricog.features.routines.list.usecase
 import com.enricog.core.coroutines.testing.CoroutineRule
 import com.enricog.data.routines.api.RoutineDataSource
 import com.enricog.data.routines.api.entities.Routine
-import com.enricog.data.routines.testing.EMPTY
+import com.enricog.data.routines.testing.entities.EMPTY
 import io.mockk.coEvery
 import io.mockk.coVerify
 import io.mockk.mockk

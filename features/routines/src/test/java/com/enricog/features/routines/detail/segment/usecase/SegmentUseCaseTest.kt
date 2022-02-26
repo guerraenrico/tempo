@@ -4,7 +4,7 @@ import com.enricog.core.coroutines.testing.CoroutineRule
 import com.enricog.data.routines.api.RoutineDataSource
 import com.enricog.data.routines.api.entities.Routine
 import com.enricog.data.routines.api.entities.Segment
-import com.enricog.data.routines.testing.EMPTY
+import com.enricog.data.routines.testing.entities.EMPTY
 import com.enricog.entities.asID
 import io.mockk.coEvery
 import io.mockk.coVerify

@@ -5,7 +5,7 @@ import com.enricog.entities.asID
 import com.enricog.data.routines.api.entities.Routine
 import com.enricog.data.routines.api.entities.Segment
 import com.enricog.data.routines.api.entities.TimeType
-import com.enricog.data.routines.testing.RANDOM
+import com.enricog.data.routines.testing.entities.RANDOM
 import com.enricog.entities.seconds
 import java.time.OffsetDateTime
 import org.junit.Assert.assertEquals

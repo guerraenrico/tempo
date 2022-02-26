@@ -78,7 +78,6 @@ dependencies {
     testImplementation Libs.Kotlin.Test.kotlin
     testImplementation Libs.Test.junit
     testImplementation Libs.Test.flow
-    testImplementation Libs.Mockk.lib
 
     androidTestImplementation project(":core:compose:testing")
     androidTestImplementation Libs.Test.junit
