@@ -15,6 +15,4 @@ dependencies {
     implementation Libs.Kotlin.coroutines
 
     implementation project(":base:extensions")
-    implementation project(":data:routines:api")
-    api project(":data:local:testing")
 }

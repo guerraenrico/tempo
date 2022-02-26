@@ -80,9 +80,8 @@ android {
 dependencies {
     implementation project(":base:extensions")
     implementation project(":core:coroutines:api")
-    implementation project(':base:viewmodel')
     implementation project(':data:routines:api')
-    implementation project(':data:local')
+    implementation project(':data:local:database')
     implementation project(":features:timer")
     implementation project(":features:routines")
     implementation project(":ui_components")

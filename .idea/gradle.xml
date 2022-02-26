@@ -25,6 +25,8 @@
             <option value="$PROJECT_DIR$/core/coroutines/testing" />
             <option value="$PROJECT_DIR$/data" />
             <option value="$PROJECT_DIR$/data/local" />
+            <option value="$PROJECT_DIR$/data/local/database" />
+            <option value="$PROJECT_DIR$/data/local/testing" />
             <option value="$PROJECT_DIR$/data/routines" />
             <option value="$PROJECT_DIR$/data/routines/api" />
             <option value="$PROJECT_DIR$/data/routines/testing" />
