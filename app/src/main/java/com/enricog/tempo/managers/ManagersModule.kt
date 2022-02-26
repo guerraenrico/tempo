@@ -1,6 +1,6 @@
 package com.enricog.tempo.managers
 
-import com.enricog.timer.WindowScreenManager
+import com.enricog.features.timer.WindowScreenManager
 import dagger.Binds
 import dagger.Module
 import dagger.hilt.InstallIn

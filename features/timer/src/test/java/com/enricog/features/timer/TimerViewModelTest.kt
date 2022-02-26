@@ -1,0 +1,267 @@
+package com.enricog.features.timer
+
+import androidx.lifecycle.SavedStateHandle
+import com.enricog.data.routines.testing.EMPTY
+import com.enricog.core.coroutines.testing.CoroutineRule
+import com.enricog.data.routines.api.entities.Routine
+import com.enricog.data.routines.api.entities.Segment
+import com.enricog.data.routines.api.entities.TimeType
+import com.enricog.entities.seconds
+import com.enricog.navigation.api.routes.RoutinesRoute
+import com.enricog.navigation.api.routes.RoutinesRouteInput
+import com.enricog.navigation.testing.FakeNavigator
+import com.enricog.features.timer.models.Count
+import com.enricog.features.timer.models.SegmentStep
+import com.enricog.features.timer.models.SegmentStepType
+import com.enricog.features.timer.models.TimerState
+import com.enricog.features.timer.models.TimerViewState
+import com.enricog.features.timer.navigation.TimerNavigationActions
+import com.enricog.features.timer.usecase.TimerUseCase
+import io.mockk.coEvery
+import io.mockk.every
+import io.mockk.mockk
+import io.mockk.verify
+import kotlinx.coroutines.test.advanceUntilIdle
+import org.junit.Before
+import org.junit.Rule
+import org.junit.Test
+import kotlin.test.assertTrue
+
+class TimerViewModelTest {
+
+    @get:Rule
+    val coroutineRule = CoroutineRule()
+
+    private val navigator = FakeNavigator()
+
+    private val converter: TimerStateConverter = mockk()
+    private val reducer: TimerReducer = mockk()
+    private val timerUseCase: TimerUseCase = mockk()
+    private val savedStateHandle = SavedStateHandle(mapOf("routineId" to 1L))
+    private val windowScreenManager: WindowScreenManager = mockk(relaxUnitFun = true)
+
+    @Before
+    fun setup() {
+        coEvery { timerUseCase.get(any()) } returns Routine.EMPTY
+        coEvery { converter.convert(any()) } returns TimerViewState.Idle
+        every { reducer.setup(any()) } returns TimerState.Idle
+    }
+
+    @Test
+    fun `test onStartStopButtonClick`() = coroutineRule {
+        every { reducer.toggleTimeRunning(any()) } returns TimerState.Idle
+
+        val sut = buildSut()
+
+        sut.onStartStopButtonClick()
+
+        verify { reducer.toggleTimeRunning(any()) }
+    }
+
+    @Test
+    fun `test onRestartButtonClick`() = coroutineRule {
+        every { reducer.restartTime(any()) } returns TimerState.Idle
+        every { reducer.toggleTimeRunning(any()) } returns TimerState.Idle
+
+        val sut = buildSut()
+
+        sut.onRestartSegmentButtonClick()
+
+        verify { reducer.restartTime(any()) }
+    }
+
+    @Test
+    fun `test onResetButtonClick should setup state again`() = coroutineRule {
+        val countingState = TimerState.Counting(
+            routine = Routine.EMPTY,
+            runningSegment = Segment.EMPTY,
+            step = SegmentStep(
+                count = Count(seconds = 5.seconds, isRunning = true, isCompleted = true),
+                type = SegmentStepType.IN_PROGRESS
+            )
+        )
+        every { reducer.progressTime(any()) } returns countingState
+        every { reducer.toggleTimeRunning(any()) } returns countingState
+        every { reducer.nextStep(any()) } returns countingState
+
+        val sut = buildSut()
+
+        sut.onResetButtonClick()
+
+        verify { reducer.setup(any()) }
+    }
+
+    @Test
+    fun `test every second should call progressTime`() = coroutineRule {
+        val countingState = TimerState.Counting(
+            routine = Routine.EMPTY,
+            runningSegment = Segment.EMPTY,
+            step = SegmentStep(
+                count = Count(seconds = 5.seconds, isRunning = true, isCompleted = false),
+                type = SegmentStepType.STARTING
+            )
+        )
+        every { reducer.progressTime(any()) } returns TimerState.Idle
+        every { reducer.toggleTimeRunning(any()) } returns countingState
+
+        buildSut()
+
+        advanceUntilIdle()
+
+        verify { reducer.progressTime(any()) }
+    }
+
+    @Test
+    fun `test onStateUpdated countingJob is cancelled when isCountCompleted`() = coroutineRule {
+        val countingStateInitial = TimerState.Counting(
+            routine = Routine.EMPTY,
+            runningSegment = Segment.EMPTY,
+            step = SegmentStep(
+                count = Count(seconds = 5.seconds, isRunning = true, isCompleted = false),
+                type = SegmentStepType.STARTING
+            )
+        )
+        val countingStateCompleted = TimerState.Counting(
+            routine = Routine.EMPTY,
+            runningSegment = Segment.EMPTY,
+            step = SegmentStep(
+                count = Count(seconds = 5.seconds, isRunning = true, isCompleted = true),
+                type = SegmentStepType.STARTING
+            )
+        )
+        every { reducer.nextStep(any()) } returns TimerState.Idle
+        every { reducer.progressTime(any()) } returns countingStateCompleted
+        every { reducer.toggleTimeRunning(any()) } returns countingStateInitial
+        val sut = buildSut()
+
+        advanceUntilIdle()
+
+        verify { reducer.progressTime(any()) }
+        verify { reducer.nextStep(any()) }
+        assertTrue(sut.countingJob?.isCancelled ?: false)
+    }
+
+    @Test
+    fun `test onDoneButtonClick should go to routines`() = coroutineRule {
+        every { reducer.toggleTimeRunning(any()) } returns TimerState.Idle
+        val sut = buildSut()
+
+        sut.onDoneButtonClick()
+
+        navigator.assertGoTo(
+            route = RoutinesRoute,
+            input = RoutinesRouteInput
+        )
+    }
+
+    @Test
+    fun `test onStateUpdated should toggleKeepScreenOnFlag(true) when segment count is running`() =
+        coroutineRule {
+            val countingStateInitial = TimerState.Counting(
+                routine = Routine.EMPTY,
+                runningSegment = Segment.EMPTY,
+                step = SegmentStep(
+                    count = Count(seconds = 5.seconds, isRunning = true, isCompleted = false),
+                    type = SegmentStepType.STARTING
+                )
+            )
+            val countingStateRunning = TimerState.Counting(
+                routine = Routine.EMPTY,
+                runningSegment = Segment.EMPTY.copy(name = "segment name", type = TimeType.REST),
+                step = SegmentStep(
+                    count = Count(seconds = 5.seconds, isRunning = true, isCompleted = false),
+                    type = SegmentStepType.IN_PROGRESS
+                )
+            )
+            every { reducer.progressTime(countingStateInitial) } returns countingStateRunning
+            every { reducer.progressTime(countingStateRunning) } returns TimerState.Idle
+            every { reducer.toggleTimeRunning(any()) } returns countingStateInitial
+            buildSut()
+
+            advanceUntilIdle()
+
+            verify { windowScreenManager.toggleKeepScreenOnFlag(enable = true) }
+        }
+
+    @Test
+    fun `test onStateUpdated should toggleKeepScreenOnFlag(false) when segment count is not running`() =
+        coroutineRule {
+            val countingStateInitial = TimerState.Counting(
+                routine = Routine.EMPTY,
+                runningSegment = Segment.EMPTY,
+                step = SegmentStep(
+                    count = Count(seconds = 5.seconds, isRunning = true, isCompleted = false),
+                    type = SegmentStepType.STARTING
+                )
+            )
+            val countingStateNotRunning = TimerState.Counting(
+                routine = Routine.EMPTY,
+                runningSegment = Segment.EMPTY.copy(name = "segment name", type = TimeType.REST),
+                step = SegmentStep(
+                    count = Count(seconds = 5.seconds, isRunning = false, isCompleted = false),
+                    type = SegmentStepType.IN_PROGRESS
+                )
+            )
+            every { reducer.progressTime(any()) } returns countingStateNotRunning
+            every { reducer.toggleTimeRunning(any()) } returns countingStateInitial
+            buildSut()
+
+            advanceUntilIdle()
+
+            verify { windowScreenManager.toggleKeepScreenOnFlag(enable = false) }
+        }
+
+    @Test
+    fun `test onStateUpdated should toggleKeepScreenOnFlag(false) if routine is completed`() =
+        coroutineRule {
+            val countingStateInitial = TimerState.Counting(
+                routine = Routine.EMPTY,
+                runningSegment = Segment.EMPTY,
+                step = SegmentStep(
+                    count = Count(seconds = 5.seconds, isRunning = true, isCompleted = false),
+                    type = SegmentStepType.STARTING
+                )
+            )
+            val countingStateRoutineComplete = TimerState.Counting(
+                routine = Routine.EMPTY,
+                runningSegment = Segment.EMPTY.copy(name = "segment name", type = TimeType.REST),
+                step = SegmentStep(
+                    count = Count(seconds = 5.seconds, isRunning = false, isCompleted = true),
+                    type = SegmentStepType.IN_PROGRESS
+                )
+            )
+            every { reducer.progressTime(any()) } returns countingStateRoutineComplete
+            every { reducer.toggleTimeRunning(any()) } returns countingStateInitial
+            every { reducer.nextStep(any()) } returns TimerState.Idle
+            buildSut()
+
+            advanceUntilIdle()
+
+            verify { windowScreenManager.toggleKeepScreenOnFlag(enable = false) }
+        }
+
+    @Test
+    fun `test onCloseButtonClick should go to routines`() = coroutineRule {
+        every { reducer.toggleTimeRunning(any()) } returns TimerState.Idle
+        val sut = buildSut()
+
+        sut.onCloseButtonClick()
+
+        navigator.assertGoTo(
+            route = RoutinesRoute,
+            input = RoutinesRouteInput
+        )
+    }
+
+    private fun buildSut(): TimerViewModel {
+        return TimerViewModel(
+            savedStateHandle = savedStateHandle,
+            dispatchers = coroutineRule.dispatchers,
+            converter = converter,
+            reducer = reducer,
+            timerUseCase = timerUseCase,
+            navigationActions = TimerNavigationActions(navigator),
+            windowScreenManager = windowScreenManager
+        )
+    }
+}

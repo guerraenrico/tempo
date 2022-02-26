@@ -9,7 +9,7 @@ plugins {
 }
 
 android {
-    namespace 'com.enricog.routines'
+    namespace 'com.enricog.features.routines'
 
     compileSdkVersion Versions.compileSdk
 
@@ -43,11 +43,12 @@ android {
 
 
 dependencies {
-    implementation project(":core")
-    implementation project(":base:base_android")
+    implementation project(":base:extensions")
+    implementation project(":core:coroutines:api")
+    implementation project(":core:compose:api")
+    implementation project(':base:viewmodel')
     implementation project(":ui_components")
-    implementation project(":entities")
-    implementation project(":data:datasource")
+    implementation project(':data:routines:api')
     implementation project(":navigation:api")
 
     implementation Libs.AndroidX.appCompat
@@ -69,7 +70,8 @@ dependencies {
     implementation Libs.Hilt.navigation
 
     // Test
-    testImplementation project(":base:base_test")
+    testImplementation project(':data:routines:testing')
+    testImplementation project(":core:coroutines:testing")
     testImplementation project(":navigation:testing")
     testImplementation Libs.Kotlin.Test.coroutines
     testImplementation Libs.Kotlin.Test.kotlin
@@ -77,7 +79,8 @@ dependencies {
     testImplementation Libs.Test.flow
     testImplementation Libs.Mockk.lib
 
-    androidTestImplementation project(":base:base_test")
+    androidTestImplementation project(':data:routines:testing')
+    androidTestImplementation project(":core:compose:testing")
     androidTestImplementation Libs.Test.junit
     androidTestImplementation Libs.AndroidX.Test.core
     androidTestImplementation Libs.AndroidX.Test.rules

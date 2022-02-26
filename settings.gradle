@@ -1,13 +1,23 @@
 rootProject.name = "Tempo"
 include ':app'
 include ':ui_components'
+
 include ':features:routines'
 include ':features:timer'
-include ':base:base_android'
-include ':base:base_test'
-include ':core'
+
+include ':base:extensions'
+include ':base:viewmodel'
+
+include ':core:compose:testing'
+include ':core:compose:api'
+include ':core:coroutines:api'
+include ':core:coroutines:testing'
+
 include ':entities'
-include ':data:datasource'
-include ':data:localdatasource'
+
+include ':data:local'
+include ':data:routines:api'
+include ':data:routines:testing'
+
 include ':navigation:api'
 include ':navigation:testing'

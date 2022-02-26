@@ -78,10 +78,11 @@ android {
 }
 
 dependencies {
-    implementation project(":core")
-    implementation project(":base:base_android")
-    implementation project(":data:datasource")
-    implementation project(":data:localdatasource")
+    implementation project(":base:extensions")
+    implementation project(":core:coroutines:api")
+    implementation project(':base:viewmodel')
+    implementation project(':data:routines:api')
+    implementation project(':data:local')
     implementation project(":features:timer")
     implementation project(":features:routines")
     implementation project(":ui_components")
