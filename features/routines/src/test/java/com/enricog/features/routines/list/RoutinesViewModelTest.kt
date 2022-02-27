@@ -1,61 +1,53 @@
 package com.enricog.features.routines.list
 
-import com.enricog.data.routines.testing.entities.EMPTY
+import app.cash.turbine.test
 import com.enricog.core.coroutines.testing.CoroutineRule
+import com.enricog.data.local.testing.FakeStore
+import com.enricog.data.routines.api.entities.Routine
+import com.enricog.data.routines.testing.FakeRoutineDataSource
+import com.enricog.data.routines.testing.entities.EMPTY
 import com.enricog.entities.ID
 import com.enricog.entities.asID
-import com.enricog.data.routines.api.entities.Routine
+import com.enricog.features.routines.list.models.RoutinesViewState
+import com.enricog.features.routines.list.usecase.RoutinesUseCase
+import com.enricog.features.routines.navigation.RoutinesNavigationActions
 import com.enricog.navigation.api.routes.RoutineRoute
 import com.enricog.navigation.api.routes.RoutineRouteInput
 import com.enricog.navigation.api.routes.RoutineSummaryRoute
 import com.enricog.navigation.api.routes.RoutineSummaryRouteInput
 import com.enricog.navigation.testing.FakeNavigator
-import com.enricog.features.routines.list.models.RoutinesState
-import com.enricog.features.routines.list.models.RoutinesViewState
-import com.enricog.features.routines.list.usecase.RoutinesUseCase
-import com.enricog.features.routines.navigation.RoutinesNavigationActions
-import io.mockk.coEvery
-import io.mockk.coVerify
-import io.mockk.every
-import io.mockk.mockk
-import kotlinx.coroutines.flow.flowOf
-import org.junit.Before
 import org.junit.Rule
 import org.junit.Test
+import kotlin.test.assertEquals
+import kotlin.time.ExperimentalTime
 
+@OptIn(ExperimentalTime::class)
 class RoutinesViewModelTest {
 
     @get:Rule
     val coroutineRule = CoroutineRule()
 
+    private val firstRoutine = Routine.EMPTY.copy(
+        id = 1.asID,
+        name = "First Routine",
+    )
+    private val secondRoutine = Routine.EMPTY.copy(
+        id = 2.asID,
+        name = "Second Routine",
+    )
     private val navigator = FakeNavigator()
-
-    private val converter: RoutinesStateConverter = mockk()
-    private val reducer: RoutinesReducer = mockk()
-    private val routinesUseCase: RoutinesUseCase = mockk(relaxUnitFun = true)
-
-    @Before
-    fun setup() {
-        coEvery { converter.convert(any()) } returns RoutinesViewState.Idle
-        coEvery { routinesUseCase.getAll() } returns flowOf(emptyList())
-        every { reducer.setup(any()) } returns RoutinesState.Empty
-    }
+    private val store = FakeStore(listOf(firstRoutine, secondRoutine))
 
     @Test
     fun `test on init should load all routines`() = coroutineRule {
-        val routines = listOf(Routine.EMPTY)
-        coEvery { routinesUseCase.getAll() } returns flowOf(routines)
+        val expected = RoutinesViewState.Data(routines = listOf(firstRoutine, secondRoutine))
+        val sut = buildSut()
 
-        buildSut()
-
-        coVerify {
-            routinesUseCase.getAll()
-            reducer.setup(routines)
-        }
+        sut.viewState.test { assertEquals(expected, expectItem()) }
     }
 
     @Test
-    fun `test onCreateRoutineClick should navigate to routine detail`() = coroutineRule {
+    fun `test on create routine button click should navigate to routine detail`() = coroutineRule {
         val sut = buildSut()
 
         sut.onCreateRoutineClick()
@@ -67,9 +59,8 @@ class RoutinesViewModelTest {
     }
 
     @Test
-    fun `test onRoutineClick should navigate to routine summary`() = coroutineRule {
+    fun `test on routine click should navigate to routine summary`() = coroutineRule {
         val routine = Routine.EMPTY.copy(id = 1.asID)
-
         val sut = buildSut()
 
         sut.onRoutineClick(routine)
@@ -81,26 +72,22 @@ class RoutinesViewModelTest {
     }
 
     @Test
-    fun `test onRoutineDelete should remove routine from state and from use case`() =
-        coroutineRule {
-            val routine = Routine.EMPTY
-            val initialState = RoutinesState.Data(routines = listOf(routine))
-            every { reducer.setup(any()) } returns initialState
+    fun `test on delete routine should remove it`() = coroutineRule {
+        val expected = RoutinesViewState.Data(routines = listOf(secondRoutine))
+        val sut = buildSut()
 
-            val sut = buildSut()
+        sut.onRoutineDelete(firstRoutine)
 
-            sut.onRoutineDelete(routine)
-
-            coVerify { routinesUseCase.delete(routine) }
-        }
+        sut.viewState.test { assertEquals(expected, expectItem()) }
+    }
 
     private fun buildSut(): RoutinesViewModel {
         return RoutinesViewModel(
             dispatchers = coroutineRule.dispatchers,
-            converter = converter,
+            converter = RoutinesStateConverter(),
             navigationActions = RoutinesNavigationActions(navigator),
-            reducer = reducer,
-            routinesUseCase = routinesUseCase
+            reducer = RoutinesReducer(),
+            routinesUseCase = RoutinesUseCase(FakeRoutineDataSource(store))
         )
     }
 }

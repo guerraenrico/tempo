@@ -1,6 +1,5 @@
 package com.enricog.features.timer
 
-import androidx.annotation.VisibleForTesting
 import androidx.lifecycle.SavedStateHandle
 import androidx.lifecycle.viewModelScope
 import com.enricog.base.viewmodel.BaseViewModel
