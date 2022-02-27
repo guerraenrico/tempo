@@ -36,7 +36,6 @@ class RoutinesViewModelTest {
         name = "Second Routine",
     )
     private val navigator = FakeNavigator()
-    private val store = FakeStore(listOf(firstRoutine, secondRoutine))
 
     @Test
     fun `test on init should load all routines`() = coroutineRule {
@@ -87,7 +86,11 @@ class RoutinesViewModelTest {
             converter = RoutinesStateConverter(),
             navigationActions = RoutinesNavigationActions(navigator),
             reducer = RoutinesReducer(),
-            routinesUseCase = RoutinesUseCase(FakeRoutineDataSource(store))
+            routinesUseCase = RoutinesUseCase(
+                routineDataSource = FakeRoutineDataSource(
+                    store = FakeStore(listOf(firstRoutine, secondRoutine))
+                )
+            )
         )
     }
 }

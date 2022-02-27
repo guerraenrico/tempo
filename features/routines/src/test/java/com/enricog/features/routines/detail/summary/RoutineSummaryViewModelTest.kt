@@ -1,13 +1,23 @@
 package com.enricog.features.routines.detail.summary
 
 import androidx.lifecycle.SavedStateHandle
-import com.enricog.data.routines.testing.entities.EMPTY
+import app.cash.turbine.test
 import com.enricog.core.coroutines.testing.CoroutineRule
+import com.enricog.data.local.testing.FakeStore
+import com.enricog.data.routines.api.entities.Routine
+import com.enricog.data.routines.api.entities.Segment
+import com.enricog.data.routines.testing.FakeRoutineDataSource
+import com.enricog.data.routines.testing.entities.EMPTY
 import com.enricog.entities.ID
 import com.enricog.entities.Rank
 import com.enricog.entities.asID
-import com.enricog.data.routines.api.entities.Routine
-import com.enricog.data.routines.api.entities.Segment
+import com.enricog.features.routines.R
+import com.enricog.features.routines.detail.summary.models.RoutineSummaryField
+import com.enricog.features.routines.detail.summary.models.RoutineSummaryItem
+import com.enricog.features.routines.detail.summary.models.RoutineSummaryViewState
+import com.enricog.features.routines.detail.summary.usecase.MoveSegmentUseCase
+import com.enricog.features.routines.detail.summary.usecase.RoutineSummaryUseCase
+import com.enricog.features.routines.navigation.RoutinesNavigationActions
 import com.enricog.navigation.api.routes.RoutineRoute
 import com.enricog.navigation.api.routes.RoutineRouteInput
 import com.enricog.navigation.api.routes.SegmentRoute
@@ -15,60 +25,54 @@ import com.enricog.navigation.api.routes.SegmentRouteInput
 import com.enricog.navigation.api.routes.TimerRoute
 import com.enricog.navigation.api.routes.TimerRouteInput
 import com.enricog.navigation.testing.FakeNavigator
-import com.enricog.features.routines.detail.summary.models.RoutineSummaryField
-import com.enricog.features.routines.detail.summary.models.RoutineSummaryFieldError
-import com.enricog.features.routines.detail.summary.models.RoutineSummaryState
-import com.enricog.features.routines.detail.summary.models.RoutineSummaryViewState
-import com.enricog.features.routines.detail.summary.usecase.MoveSegmentUseCase
-import com.enricog.features.routines.detail.summary.usecase.RoutineSummaryUseCase
-import com.enricog.features.routines.navigation.RoutinesNavigationActions
-import io.mockk.coEvery
-import io.mockk.coVerify
-import io.mockk.every
-import io.mockk.mockk
-import io.mockk.verify
-import kotlinx.coroutines.flow.flowOf
-import org.junit.Before
 import org.junit.Rule
 import org.junit.Test
+import kotlin.test.assertEquals
+import kotlin.time.ExperimentalTime
 
+@OptIn(ExperimentalTime::class)
 class RoutineSummaryViewModelTest {
 
     @get:Rule
     val coroutineRule = CoroutineRule()
 
+    private val firstSegment = Segment.EMPTY.copy(
+        id = 1.asID,
+        name = "First Segment",
+        rank = Rank.from("bbbbbb")
+    )
+    private val secondSegment = Segment.EMPTY.copy(
+        id = 2.asID,
+        name = "Second Segment",
+        rank = Rank.from("cccccc")
+    )
+    private val routine = Routine.EMPTY.copy(
+        id = 1.asID,
+        name = "Routine Name",
+        segments = listOf(firstSegment, secondSegment)
+    )
+
     private val navigator = FakeNavigator()
-
-    private val converter: RoutineSummaryStateConverter = mockk()
-    private val reducer: RoutineSummaryReducer = mockk()
-    private val routineSummaryUseCase: RoutineSummaryUseCase = mockk(relaxUnitFun = true)
-    private val validator: RoutineSummaryValidator = mockk()
-    private val moveSegmentUseCase: MoveSegmentUseCase = mockk()
     private val savedStateHandle = SavedStateHandle(mapOf("routineId" to 1L))
-
-    @Before
-    fun setup() {
-        every { routineSummaryUseCase.get(routineId = any()) } returns flowOf(Routine.EMPTY)
-        every {
-            reducer.setup(routine = any())
-        } returns RoutineSummaryState.Data(routine = Routine.EMPTY, errors = emptyMap())
-        coEvery { converter.convert(any()) } returns RoutineSummaryViewState.Idle
-    }
 
     @Test
     fun `should get routine on load`() = coroutineRule {
-        buildSut()
+        val expected = RoutineSummaryViewState.Data(
+            items = listOf(
+                RoutineSummaryItem.RoutineInfo(routineName = "Routine Name"),
+                RoutineSummaryItem.SegmentSectionTitle(error = null),
+                RoutineSummaryItem.SegmentItem(segment = firstSegment),
+                RoutineSummaryItem.SegmentItem(segment = secondSegment),
+                RoutineSummaryItem.Space
+            )
+        )
+        val sut = buildSut()
 
-        verify { routineSummaryUseCase.get(routineId = 1.asID) }
+        sut.viewState.test { assertEquals(expected, expectItem()) }
     }
 
     @Test
     fun `should goToSegment on add new segment`() = coroutineRule {
-        val state = RoutineSummaryState.Data(
-            routine = Routine.EMPTY.copy(id = 1.asID),
-            errors = emptyMap()
-        )
-        every { reducer.setup(routine = any()) } returns state
         val sut = buildSut()
 
         sut.onSegmentAdd()
@@ -81,14 +85,9 @@ class RoutineSummaryViewModelTest {
 
     @Test
     fun `should goToSegment on segment selected`() = coroutineRule {
-        val state = RoutineSummaryState.Data(
-            routine = Routine.EMPTY.copy(id = 1.asID),
-            errors = emptyMap()
-        )
-        every { reducer.setup(routine = any()) } returns state
         val sut = buildSut()
 
-        sut.onSegmentSelected(Segment.EMPTY.copy(id = 2.asID))
+        sut.onSegmentSelected(segment = secondSegment)
 
         navigator.assertGoTo(
             route = SegmentRoute,
@@ -97,55 +96,45 @@ class RoutineSummaryViewModelTest {
     }
 
     @Test
-    fun `should update state and routine when segment is deleted`() = coroutineRule {
-        val state = RoutineSummaryState.Data(routine = Routine.EMPTY, errors = emptyMap())
-        val segment = Segment.EMPTY.copy(id = 1.asID)
-        every { reducer.setup(routine = any()) } returns state
-        every { reducer.deleteSegment(state = any(), segment = any()) } returns state
+    fun `should udapte routine when segment is deleted`() = coroutineRule {
+        val expected = RoutineSummaryViewState.Data(
+            items = listOf(
+                RoutineSummaryItem.RoutineInfo(routineName = "Routine Name"),
+                RoutineSummaryItem.SegmentSectionTitle(error = null),
+                RoutineSummaryItem.SegmentItem(segment = firstSegment),
+                RoutineSummaryItem.Space
+            )
+        )
         val sut = buildSut()
 
-        sut.onSegmentDelete(segment = segment)
+        sut.onSegmentDelete(segment = secondSegment)
 
-        verify { reducer.deleteSegment(state = state, segment = segment) }
-        coVerify { routineSummaryUseCase.update(routine = Routine.EMPTY) }
+        sut.viewState.test { assertEquals(expected, expectItem()) }
     }
 
     @Test
     fun `should move segment when segment is moved`() = coroutineRule {
-        val segment1 = Segment.EMPTY.copy(id = ID.from(1), rank = Rank.from("bbbbbb"))
-        val segment2 = Segment.EMPTY.copy(id = ID.from(2), rank = Rank.from("cccccc"))
-        val routine = Routine.EMPTY.copy(id = 1.asID, segments = listOf(segment1, segment2))
-        val state = RoutineSummaryState.Data(
-            routine = routine,
-            errors = emptyMap()
+        val expected = RoutineSummaryViewState.Data(
+            items = listOf(
+                RoutineSummaryItem.RoutineInfo(routineName = "Routine Name"),
+                RoutineSummaryItem.SegmentSectionTitle(error = null),
+                RoutineSummaryItem.SegmentItem(segment = secondSegment.copy(rank = Rank.from("annnnn"))),
+                RoutineSummaryItem.SegmentItem(segment = firstSegment),
+                RoutineSummaryItem.Space
+            )
         )
-        every { reducer.setup(routine = any()) } returns state
         val sut = buildSut()
 
-        sut.onSegmentMoved(segment = segment1, hoveredSegment = segment2)
+        sut.onSegmentMoved(segment = secondSegment, hoveredSegment = null)
 
-        coVerify {
-            moveSegmentUseCase(
-                routine = routine,
-                segment = segment1,
-                hoveredSegment = segment2
-            )
-        }
+        sut.viewState.test { assertEquals(expected, expectItem()) }
     }
 
     @Test
     fun `should goToTimer when starting routine without errors`() = coroutineRule {
-        val routine = Routine.EMPTY.copy(id = 1.asID)
-        val state = RoutineSummaryState.Data(routine = routine, errors = emptyMap())
-        every { reducer.setup(routine = any()) } returns state
-        every { validator.validate(routine = any()) } returns emptyMap()
         val sut = buildSut()
 
         sut.onRoutineStart()
-
-        coVerify {
-            validator.validate(routine = routine)
-        }
 
         navigator.assertGoTo(
             route = TimerRoute,
@@ -154,34 +143,29 @@ class RoutineSummaryViewModelTest {
     }
 
     @Test
-    fun `should apply errors to state when starting routine with errors`() = coroutineRule {
-        val routine = Routine.EMPTY.copy(id = 1.asID)
-        val errors = mapOf<RoutineSummaryField, RoutineSummaryFieldError>(
-            RoutineSummaryField.Segments to RoutineSummaryFieldError.NoSegments
+    fun `should show errors when starting routine with errors`() = coroutineRule {
+        val routine = Routine.EMPTY.copy(
+            id = 1.asID,
+            name = "Routine Name",
+            segments = emptyList()
         )
-        val state = RoutineSummaryState.Data(routine = routine, errors = emptyMap())
-        every { reducer.setup(routine = any()) } returns state
-        every { reducer.applyRoutineErrors(state = any(), errors = any()) } returns state
-        every { validator.validate(routine = any()) } returns errors
-        val sut = buildSut()
+        val expected = RoutineSummaryViewState.Data(
+            items = listOf(
+                RoutineSummaryItem.RoutineInfo(routineName = "Routine Name"),
+                RoutineSummaryItem.SegmentSectionTitle(error = RoutineSummaryField.Segments to R.string.field_error_message_routine_no_segments),
+                RoutineSummaryItem.Space
+            )
+        )
+        val sut = buildSut(store = FakeStore(listOf(routine)))
 
         sut.onRoutineStart()
 
-        verify {
-            validator.validate(routine = routine)
-            reducer.applyRoutineErrors(state = state, errors = errors)
-        }
-
+        sut.viewState.test { assertEquals(expected, expectItem()) }
         navigator.assertNoActions()
     }
 
     @Test
     fun `should goToRoutine on edit routine`() = coroutineRule {
-        val state = RoutineSummaryState.Data(
-            routine = Routine.EMPTY.copy(id = 1.asID),
-            errors = emptyMap()
-        )
-        every { reducer.setup(routine = any()) } returns state
         val sut = buildSut()
 
         sut.onRoutineEdit()
@@ -201,16 +185,16 @@ class RoutineSummaryViewModelTest {
         navigator.assertGoBack()
     }
 
-    private fun buildSut(): RoutineSummaryViewModel {
+    private fun buildSut(store: FakeStore<List<Routine>> = FakeStore(listOf(routine))): RoutineSummaryViewModel {
         return RoutineSummaryViewModel(
             savedStateHandle = savedStateHandle,
             dispatchers = coroutineRule.dispatchers,
-            converter = converter,
+            converter = RoutineSummaryStateConverter(),
             navigationActions = RoutinesNavigationActions(navigator),
-            reducer = reducer,
-            routineSummaryUseCase = routineSummaryUseCase,
-            moveSegmentUseCase = moveSegmentUseCase,
-            validator = validator
+            reducer = RoutineSummaryReducer(),
+            routineSummaryUseCase = RoutineSummaryUseCase(FakeRoutineDataSource(store)),
+            moveSegmentUseCase = MoveSegmentUseCase(FakeRoutineDataSource(store)),
+            validator = RoutineSummaryValidator()
         )
     }
 }
