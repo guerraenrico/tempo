@@ -10,8 +10,6 @@ import com.enricog.data.routines.testing.entities.EMPTY
 import com.enricog.entities.ID
 import com.enricog.entities.asID
 import com.enricog.entities.seconds
-import io.mockk.coEvery
-import io.mockk.coVerify
 import org.junit.Rule
 import org.junit.Test
 import kotlin.test.assertEquals
