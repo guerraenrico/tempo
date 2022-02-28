@@ -8,6 +8,7 @@ import com.enricog.data.routines.api.entities.sortedByRank
 import com.enricog.entities.ID
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.map
+import kotlin.random.Random
 
 class FakeRoutineDataSource(
     private val store: FakeStore<List<Routine>>
@@ -30,8 +31,9 @@ class FakeRoutineDataSource(
     }
 
     override suspend fun create(routine: Routine): ID {
-        store.update { it + listOf(routine) }
-        return routine.id
+        val newId = ID.from(Random.nextLong(from = 1, until = 1000))
+        store.update { it + listOf(routine.copy(id = newId)) }
+        return newId
     }
 
     override suspend fun update(routine: Routine): ID {

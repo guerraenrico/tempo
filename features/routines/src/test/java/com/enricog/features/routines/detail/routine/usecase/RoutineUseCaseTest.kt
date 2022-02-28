@@ -1,18 +1,12 @@
 package com.enricog.features.routines.detail.routine.usecase
 
 import com.enricog.core.coroutines.testing.CoroutineRule
-import com.enricog.data.routines.api.RoutineDataSource
+import com.enricog.data.local.testing.FakeStore
 import com.enricog.data.routines.api.entities.Routine
+import com.enricog.data.routines.testing.FakeRoutineDataSource
 import com.enricog.data.routines.testing.entities.EMPTY
 import com.enricog.entities.ID
 import com.enricog.entities.asID
-import com.enricog.entities.seconds
-import io.mockk.Called
-import io.mockk.coEvery
-import io.mockk.coVerify
-import io.mockk.mockk
-import io.mockk.verify
-import org.junit.Ignore
 import org.junit.Rule
 import org.junit.Test
 import kotlin.test.assertEquals
@@ -22,55 +16,63 @@ class RoutineUseCaseTest {
     @get:Rule
     val coroutineRule = CoroutineRule()
 
-    private val routineDataSource: RoutineDataSource = mockk()
-
-    private val sut = RoutineUseCase(routineDataSource)
-
     @Test
     fun `test get should return new routine when routine id is new`() = coroutineRule {
+        val expected = Routine.NEW
         val routineId = ID.new()
+        val sut = buildSut()
 
-        val result = sut.get(routineId)
+        val actual = sut.get(routineId)
 
-        assertEquals(routineId, result.id)
-        assertEquals("", result.name)
-        assertEquals(0.seconds, result.startTimeOffset)
-        assertEquals(emptyList(), result.segments)
-        verify { routineDataSource wasNot Called }
+        assertEquals(expected.id, actual.id)
+        assertEquals(expected.name, actual.name)
+        assertEquals(expected.startTimeOffset, actual.startTimeOffset)
+        assertEquals(expected.segments, actual.segments)
     }
 
     @Test
     fun `test get should return a routine when routine id is not new`() = coroutineRule {
-        val routine = Routine.EMPTY.copy(id = 1.asID)
-        coEvery { routineDataSource.get(1.asID) } returns routine
+        val expected = Routine.EMPTY.copy(id = 1.asID)
+        val store = FakeStore(listOf(expected))
+        val sut = buildSut(store)
 
-        val result = sut.get(1.asID)
+        val actual = sut.get(1.asID)
 
-        assertEquals(routine, result)
-        coVerify { routineDataSource.get(1.asID) }
+        assertEquals(expected, actual)
     }
 
     @Test
-    @Ignore("Mockk doesn't fully support returning a value classes see https://github.com/mockk/mockk/issues/152")
     fun `test save should create a routine if routine id is new`() = coroutineRule {
         val routine = Routine.EMPTY.copy(id = ID.new())
-        coEvery { routineDataSource.create(routine) } returns 1.asID
+        val store = FakeStore(emptyList<Routine>())
+        val sut = buildSut(store)
 
-        val result = sut.save(routine)
+        val actual = sut.save(routine)
 
-        assertEquals(1.asID, result)
-        coVerify { routineDataSource.create(routine) }
+        store.get().first().let { createdRoutine ->
+            assertEquals(createdRoutine.id, actual)
+            assertEquals(routine.name, createdRoutine.name)
+            assertEquals(routine.startTimeOffset, createdRoutine.startTimeOffset)
+            assertEquals(routine.segments, createdRoutine.segments)
+        }
     }
 
     @Test
-    @Ignore("Mockk doesn't fully support returning a value classes see https://github.com/mockk/mockk/issues/152")
     fun `test save should update a routine if routine id is not new`() = coroutineRule {
-        val routine = Routine.EMPTY.copy(id = 1.asID)
-        coEvery { routineDataSource.update(routine) } returns 1.asID
+        val expectedRoutine = Routine.EMPTY.copy(id = 1.asID, name = "Routine Name Modified")
+        val existingRoutine = Routine.EMPTY.copy(id = 1.asID, name = "Routine Name")
+        val store = FakeStore(listOf(existingRoutine))
+        val sut = buildSut(store)
 
-        val result = sut.save(routine)
+        val actual = sut.save(expectedRoutine)
 
-        assertEquals(1.asID, result)
-        coVerify { routineDataSource.update(routine) }
+        assertEquals(expectedRoutine.id, actual)
+        store.get().first().let { updatedRoutine ->
+            assertEquals(expectedRoutine, updatedRoutine)
+        }
+    }
+
+    private fun buildSut(store: FakeStore<List<Routine>> = FakeStore(emptyList())): RoutineUseCase {
+        return RoutineUseCase(routineDataSource = FakeRoutineDataSource(store))
     }
 }
