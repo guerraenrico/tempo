@@ -62,6 +62,4 @@ dependencies {
     testImplementation Libs.AndroidX.Test.archCore
     testImplementation Libs.Test.junit
     testImplementation Libs.Robolectric
-    testImplementation Libs.Mockk.lib
-
 }
