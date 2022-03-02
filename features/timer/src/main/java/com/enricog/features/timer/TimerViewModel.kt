@@ -1,10 +1,10 @@
 package com.enricog.features.timer
 
-import androidx.annotation.VisibleForTesting
 import androidx.lifecycle.SavedStateHandle
 import androidx.lifecycle.viewModelScope
 import com.enricog.base.viewmodel.BaseViewModel
 import com.enricog.core.coroutines.dispatchers.CoroutineDispatchers
+import com.enricog.core.coroutines.job.autoCancelableJob
 import com.enricog.data.routines.api.entities.Routine
 import com.enricog.features.timer.models.TimerActions
 import com.enricog.features.timer.models.TimerState
@@ -33,12 +33,9 @@ internal class TimerViewModel @Inject constructor(
     dispatchers = dispatchers
 ), TimerActions {
 
-    @VisibleForTesting(otherwise = VisibleForTesting.PRIVATE)
-    internal var countingJob by com.enricog.core.coroutines.job.autoCancelableJob()
-
-    private var loadJob by com.enricog.core.coroutines.job.autoCancelableJob()
-
-    private var startJob by com.enricog.core.coroutines.job.autoCancelableJob()
+    private var countingJob by autoCancelableJob()
+    private var loadJob by autoCancelableJob()
+    private var startJob by autoCancelableJob()
 
     init {
         val input = TimerRoute.extractInput(savedStateHandle)

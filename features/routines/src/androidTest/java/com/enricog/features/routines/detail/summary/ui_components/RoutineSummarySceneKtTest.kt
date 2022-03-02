@@ -10,7 +10,7 @@ import androidx.compose.ui.test.swipe
 import androidx.compose.ui.test.top
 import androidx.compose.ui.test.width
 import com.enricog.core.compose.testing.invoke
-import com.enricog.data.routines.testing.EMPTY
+import com.enricog.data.routines.testing.entities.EMPTY
 import com.enricog.entities.asID
 import com.enricog.data.routines.api.entities.Segment
 import com.enricog.features.routines.detail.summary.models.RoutineSummaryItem

@@ -15,7 +15,8 @@ include ':core:coroutines:testing'
 
 include ':entities'
 
-include ':data:local'
+include ':data:local:testing'
+include ':data:local:database'
 include ':data:routines:api'
 include ':data:routines:testing'
 

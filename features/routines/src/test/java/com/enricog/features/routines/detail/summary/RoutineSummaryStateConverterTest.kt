@@ -1,6 +1,6 @@
 package com.enricog.features.routines.detail.summary
 
-import com.enricog.data.routines.testing.EMPTY
+import com.enricog.data.routines.testing.entities.EMPTY
 import com.enricog.core.coroutines.testing.CoroutineRule
 import com.enricog.entities.asID
 import com.enricog.data.routines.api.entities.Routine

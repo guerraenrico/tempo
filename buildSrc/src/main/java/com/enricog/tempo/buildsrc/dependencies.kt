@@ -133,11 +133,4 @@ object Libs {
     }
 
     const val Robolectric = "org.robolectric:robolectric:4.3.1"
-
-    object Mockk {
-        private const val version = "1.12.0"
-
-        const val lib = "io.mockk:mockk:$version"
-        const val android = "io.mockk:mockk-android:$version"
-    }
 }

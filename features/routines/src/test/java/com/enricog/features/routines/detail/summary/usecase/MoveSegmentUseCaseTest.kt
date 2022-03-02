@@ -1,43 +1,36 @@
 package com.enricog.features.routines.detail.summary.usecase
 
 import com.enricog.core.coroutines.testing.CoroutineRule
-import com.enricog.data.routines.api.RoutineDataSource
+import com.enricog.data.local.testing.FakeStore
 import com.enricog.data.routines.api.entities.Routine
 import com.enricog.data.routines.api.entities.Segment
-import com.enricog.data.routines.testing.EMPTY
+import com.enricog.data.routines.testing.FakeRoutineDataSource
+import com.enricog.data.routines.testing.entities.EMPTY
 import com.enricog.entities.ID
 import com.enricog.entities.Rank
-import io.mockk.coEvery
-import io.mockk.coVerify
-import io.mockk.mockk
-import org.junit.Before
 import org.junit.Rule
 import org.junit.Test
+import kotlin.test.assertEquals
 
 class MoveSegmentUseCaseTest {
 
     @get:Rule
     val coroutineRule = CoroutineRule()
 
-    private val routineDataSource: RoutineDataSource = mockk()
-
-    private val sut = MoveSegmentUseCase(routineDataSource = routineDataSource)
-
     private val segment1 = Segment.EMPTY.copy(id = ID.from(1), rank = Rank.from("bbbbbb"))
     private val segment2 = Segment.EMPTY.copy(id = ID.from(2), rank = Rank.from("cccccc"))
     private val segment3 = Segment.EMPTY.copy(id = ID.from(3), rank = Rank.from("dddddd"))
-    private val routine = Routine.EMPTY.copy(segments = listOf(segment1, segment2, segment3))
+    private val routine = Routine.EMPTY.copy(id = ID.from(1), segments = listOf(segment1, segment2, segment3))
 
-    @Before
-    fun setup() {
-        coEvery { routineDataSource.update(any()) } returns ID.from(1)
-    }
+    private val store = FakeStore(listOf(routine))
+    private val sut = MoveSegmentUseCase(routineDataSource = FakeRoutineDataSource(store))
+
 
     @Test
     fun `should do nothing when item has not been moved`() = coroutineRule {
         sut(routine, segment1, segment1)
 
-        coVerify(exactly = 0) { routineDataSource.update(any()) }
+        assertEquals(routine, store.get().first())
     }
 
     @Test
@@ -45,7 +38,7 @@ class MoveSegmentUseCaseTest {
         val segmentUnknown = Segment.EMPTY.copy(id = ID.from(4), rank = Rank.from("asdfgh"))
         sut(routine = routine, segment = segmentUnknown, hoveredSegment = segment1)
 
-        coVerify(exactly = 0) { routineDataSource.update(any()) }
+        assertEquals(routine, store.get().first())
     }
 
     @Test
@@ -60,7 +53,7 @@ class MoveSegmentUseCaseTest {
 
         sut(routine = routine, segment = segment1, hoveredSegment = segment3)
 
-        coVerify { routineDataSource.update(expected) }
+        assertEquals(expected, store.get().first())
     }
 
     @Test
@@ -75,6 +68,6 @@ class MoveSegmentUseCaseTest {
 
         sut(routine = routine, segment = segment3, hoveredSegment = null)
 
-        coVerify { routineDataSource.update(expected) }
+        assertEquals(expected, store.get().first())
     }
 }

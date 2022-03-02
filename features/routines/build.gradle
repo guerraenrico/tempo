@@ -77,7 +77,6 @@ dependencies {
     testImplementation Libs.Kotlin.Test.kotlin
     testImplementation Libs.Test.junit
     testImplementation Libs.Test.flow
-    testImplementation Libs.Mockk.lib
 
     androidTestImplementation project(':data:routines:testing')
     androidTestImplementation project(":core:compose:testing")
@@ -86,5 +85,4 @@ dependencies {
     androidTestImplementation Libs.AndroidX.Test.rules
     androidTestImplementation Libs.AndroidX.Compose.uiTest
     androidTestImplementation Libs.AndroidX.Compose.activity
-    androidTestImplementation Libs.Mockk.android
 }

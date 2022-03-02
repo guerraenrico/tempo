@@ -1,48 +1,54 @@
 package com.enricog.features.routines.detail.summary.usecase
 
+import app.cash.turbine.test
 import com.enricog.core.coroutines.testing.CoroutineRule
-import com.enricog.data.routines.api.RoutineDataSource
+import com.enricog.data.local.testing.FakeStore
 import com.enricog.data.routines.api.entities.Routine
-import com.enricog.data.routines.testing.EMPTY
+import com.enricog.data.routines.testing.FakeRoutineDataSource
+import com.enricog.data.routines.testing.entities.EMPTY
 import com.enricog.entities.asID
-import io.mockk.coEvery
-import io.mockk.coVerify
-import io.mockk.every
-import io.mockk.mockk
-import io.mockk.verify
-import kotlinx.coroutines.flow.first
-import kotlinx.coroutines.flow.flowOf
 import org.junit.Rule
 import org.junit.Test
 import kotlin.test.assertEquals
+import kotlin.time.ExperimentalTime
 
+@OptIn(ExperimentalTime::class)
 class RoutineSummaryUseCaseTest {
 
     @get:Rule
     val coroutineRule = CoroutineRule()
 
-    private val routineDataSource: RoutineDataSource = mockk()
-
-    private val sut = RoutineSummaryUseCase(routineDataSource = routineDataSource)
+    private val routine = Routine.EMPTY.copy(
+        id = 1.asID,
+        name = "Routine Name",
+        segments = emptyList()
+    )
+    private val store = FakeStore(listOf(routine))
+    private val sut = RoutineSummaryUseCase(routineDataSource = FakeRoutineDataSource(store))
 
     @Test
-    fun `should start observe routine`() = coroutineRule {
-        val routine = Routine.EMPTY
-        every { routineDataSource.observe(any()) } returns flowOf(routine)
+    fun `should observe routine`() = coroutineRule {
+        val expectedAfter = Routine.EMPTY.copy(
+            id = 1.asID,
+            name = "Routine Name 2"
+        )
 
-        val result = sut.get(routineId = 1.asID).first()
-
-        assertEquals(routine, result)
-        verify { routineDataSource.observe(id = 1.asID) }
+        sut.get(1.asID).test {
+            assertEquals(routine, expectItem())
+            store.update { listOf(expectedAfter) }
+            assertEquals(expectedAfter, expectItem())
+        }
     }
 
     @Test
     fun `should update routine`() = coroutineRule {
-        val routine = Routine.EMPTY
-        coEvery { routineDataSource.update(any()) } returns 1.asID
+        val routineUpdated = Routine.EMPTY.copy(
+            id = 1.asID,
+            name = "Routine Name 2"
+        )
 
-        sut.update(routine)
+        sut.update(routineUpdated)
 
-        coVerify { routineDataSource.update(routine = routine) }
+        assertEquals(routineUpdated, store.get().first())
     }
 }
