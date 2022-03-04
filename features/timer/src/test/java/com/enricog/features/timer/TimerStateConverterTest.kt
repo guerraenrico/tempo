@@ -11,7 +11,7 @@ import com.enricog.features.timer.models.SegmentStep
 import com.enricog.features.timer.models.SegmentStepType
 import com.enricog.features.timer.models.TimerState
 import com.enricog.features.timer.models.TimerViewState
-import com.enricog.ui_components.resources.TimeTypeColors
+import com.enricog.ui.components.resources.TimeTypeColors
 import kotlin.test.assertEquals
 import org.junit.Rule
 import org.junit.Test

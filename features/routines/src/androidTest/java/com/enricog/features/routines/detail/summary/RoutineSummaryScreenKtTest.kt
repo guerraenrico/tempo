@@ -5,7 +5,7 @@ import androidx.compose.ui.test.onNodeWithTag
 import com.enricog.core.compose.testing.invoke
 import com.enricog.features.routines.detail.summary.models.RoutineSummaryViewState
 import com.enricog.features.routines.detail.summary.ui_components.RoutineSummarySceneTestTag
-import com.enricog.ui_components.resources.TempoTheme
+import com.enricog.ui.components.resources.TempoTheme
 import org.junit.Rule
 import org.junit.Test
 

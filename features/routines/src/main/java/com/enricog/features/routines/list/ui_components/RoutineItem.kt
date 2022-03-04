@@ -9,7 +9,7 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.platform.testTag
 import com.enricog.data.routines.api.entities.Routine
 import com.enricog.features.routines.ui_components.DeletableListItem
-import com.enricog.ui_components.resources.TempoTheme
+import com.enricog.ui.components.resources.TempoTheme
 
 internal const val RoutineItemTestTag = "RoutineItemTestTag"
 

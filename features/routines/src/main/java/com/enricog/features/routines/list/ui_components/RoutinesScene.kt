@@ -11,9 +11,9 @@ import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
 import com.enricog.data.routines.api.entities.Routine
 import com.enricog.features.routines.R
-import com.enricog.ui_components.common.button.TempoButtonColor
-import com.enricog.ui_components.common.button.TempoIconButton
-import com.enricog.ui_components.resources.TempoTheme
+import com.enricog.ui.components.common.button.TempoButtonColor
+import com.enricog.ui.components.common.button.TempoIconButton
+import com.enricog.ui.components.resources.TempoTheme
 
 internal const val RoutinesSceneTestTag = "RoutinesSceneTestTag"
 

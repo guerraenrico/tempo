@@ -15,9 +15,9 @@ import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import com.enricog.features.routines.R
-import com.enricog.ui_components.common.button.TempoButtonColor
-import com.enricog.ui_components.resources.TempoTheme
-import com.enricog.ui_components.resources.white
+import com.enricog.ui.components.common.button.TempoButtonColor
+import com.enricog.ui.components.resources.TempoTheme
+import com.enricog.ui.components.resources.white
 
 internal const val HeaderAddSegmentButtonTestTag = "HeaderAddSegmentButton"
 

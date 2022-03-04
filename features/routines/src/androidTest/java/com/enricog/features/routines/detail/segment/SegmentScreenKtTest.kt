@@ -8,7 +8,7 @@ import com.enricog.data.routines.testing.entities.EMPTY
 import com.enricog.data.routines.api.entities.Segment
 import com.enricog.features.routines.detail.segment.models.SegmentViewState
 import com.enricog.features.routines.detail.segment.ui_components.SegmentFormSceneTestTag
-import com.enricog.ui_components.resources.TempoTheme
+import com.enricog.ui.components.resources.TempoTheme
 import org.junit.Rule
 import org.junit.Test
 

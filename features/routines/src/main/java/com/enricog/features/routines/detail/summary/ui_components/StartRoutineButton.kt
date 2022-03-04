@@ -6,10 +6,10 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
 import com.enricog.features.routines.R
-import com.enricog.ui_components.common.button.TempoButtonColor
-import com.enricog.ui_components.common.button.TempoIconButton
-import com.enricog.ui_components.common.button.TempoIconButtonSize
-import com.enricog.ui_components.resources.TempoTheme
+import com.enricog.ui.components.common.button.TempoButtonColor
+import com.enricog.ui.components.common.button.TempoIconButton
+import com.enricog.ui.components.common.button.TempoIconButtonSize
+import com.enricog.ui.components.resources.TempoTheme
 
 @Composable
 internal fun StartRoutineButton(

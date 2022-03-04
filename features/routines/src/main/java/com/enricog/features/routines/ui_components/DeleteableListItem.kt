@@ -16,7 +16,7 @@ import androidx.compose.ui.unit.sp
 import com.enricog.features.routines.R
 import com.enricog.features.routines.ui_components.SwipeableState.CLOSE
 import com.enricog.features.routines.ui_components.SwipeableState.OPEN
-import com.enricog.ui_components.resources.TempoTheme
+import com.enricog.ui.components.resources.TempoTheme
 import kotlin.math.roundToInt
 
 private enum class SwipeableState {

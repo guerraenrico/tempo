@@ -84,7 +84,7 @@ dependencies {
     implementation project(':data:local:database')
     implementation project(":features:timer")
     implementation project(":features:routines")
-    implementation project(":ui_components")
+    implementation project(':ui:components')
     implementation project(":navigation:api")
 
     implementation Libs.AndroidX.coreKtx

@@ -15,7 +15,7 @@ import com.enricog.features.timer.TimerNavigation
 import com.enricog.features.timer.WindowScreenManager
 import com.enricog.navigation.api.NavigationAction
 import com.enricog.navigation.api.Navigator
-import com.enricog.ui_components.resources.TempoTheme
+import com.enricog.ui.components.resources.TempoTheme
 import dagger.hilt.android.AndroidEntryPoint
 import javax.inject.Inject
 import kotlinx.coroutines.flow.flowOn

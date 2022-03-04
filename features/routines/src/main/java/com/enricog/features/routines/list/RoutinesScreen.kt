@@ -13,7 +13,7 @@ import com.enricog.features.routines.R
 import com.enricog.features.routines.list.models.RoutinesViewState
 import com.enricog.features.routines.list.ui_components.EmptyScene
 import com.enricog.features.routines.list.ui_components.RoutinesScene
-import com.enricog.ui_components.common.toolbar.TempoToolbar
+import com.enricog.ui.components.common.toolbar.TempoToolbar
 
 @Composable
 internal fun RoutinesScreen(viewModel: RoutinesViewModel) {
