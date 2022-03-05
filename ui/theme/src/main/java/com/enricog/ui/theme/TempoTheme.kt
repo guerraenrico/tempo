@@ -1,4 +1,4 @@
-package com.enricog.ui.components.resources
+package com.enricog.ui.theme
 
 import androidx.compose.material.Colors
 import androidx.compose.material.MaterialTheme

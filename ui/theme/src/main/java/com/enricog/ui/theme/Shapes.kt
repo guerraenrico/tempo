@@ -1,4 +1,4 @@
-package com.enricog.ui.components.resources
+package com.enricog.ui.theme
 
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.runtime.Immutable

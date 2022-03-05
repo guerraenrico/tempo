@@ -1,6 +1,11 @@
 package com.enricog.features.routines.detail.summary.ui_components
 
-import androidx.compose.foundation.layout.*
+import androidx.compose.foundation.layout.Box
+import androidx.compose.foundation.layout.Spacer
+import androidx.compose.foundation.layout.fillMaxWidth
+import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.layout.size
+import androidx.compose.foundation.layout.width
 import androidx.compose.material.Button
 import androidx.compose.material.Icon
 import androidx.compose.material.Text
@@ -16,8 +21,8 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import com.enricog.features.routines.R
 import com.enricog.ui.components.common.button.TempoButtonColor
-import com.enricog.ui.components.resources.TempoTheme
-import com.enricog.ui.components.resources.white
+import com.enricog.ui.theme.TempoTheme
+import com.enricog.ui.theme.white
 
 internal const val HeaderAddSegmentButtonTestTag = "HeaderAddSegmentButton"
 

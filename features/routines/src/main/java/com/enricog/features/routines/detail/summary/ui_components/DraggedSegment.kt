@@ -8,7 +8,7 @@ import androidx.compose.ui.graphics.graphicsLayer
 import androidx.compose.ui.platform.testTag
 import androidx.compose.ui.zIndex
 import com.enricog.features.routines.detail.summary.models.RoutineSummaryItem
-import com.enricog.ui.components.resources.TempoTheme
+import com.enricog.ui.theme.TempoTheme
 
 internal const val DraggedSegmentTestTag = "DraggedSegment"
 

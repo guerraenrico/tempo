@@ -16,9 +16,9 @@ import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.input.TextFieldValue
 import androidx.compose.ui.text.input.VisualTransformation
 import androidx.compose.ui.unit.sp
-import com.enricog.ui.components.resources.FontFamilyDefault
-import com.enricog.ui.components.resources.TempoTheme
-import com.enricog.ui.components.resources.white
+import com.enricog.ui.theme.FontFamilyDefault
+import com.enricog.ui.theme.TempoTheme
+import com.enricog.ui.theme.white
 
 internal val tempoTextFieldBaseStyle: TextStyle = TextStyle(
     fontFamily = FontFamilyDefault,

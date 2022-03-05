@@ -13,7 +13,7 @@ import com.enricog.features.timer.models.SegmentStep
 import com.enricog.features.timer.models.SegmentStepType
 import com.enricog.features.timer.models.TimerActions
 import com.enricog.features.timer.models.TimerViewState
-import com.enricog.ui.components.resources.TempoTheme
+import com.enricog.ui.theme.TempoTheme
 import org.junit.Rule
 import org.junit.Test
 

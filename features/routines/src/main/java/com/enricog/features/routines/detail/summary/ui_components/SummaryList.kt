@@ -20,7 +20,7 @@ import com.enricog.data.routines.api.entities.Segment
 import com.enricog.features.routines.detail.summary.models.RoutineSummaryItem
 import com.enricog.ui.components.common.button.TempoIconButtonSize
 import com.enricog.core.compose.api.modifiers.ListDraggableState
-import com.enricog.ui.components.resources.TempoTheme
+import com.enricog.ui.theme.TempoTheme
 
 internal const val RoutineSummaryColumnTestTag = "RoutineSummaryColumn"
 

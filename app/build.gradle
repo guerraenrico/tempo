@@ -85,6 +85,7 @@ dependencies {
     implementation project(":features:timer")
     implementation project(":features:routines")
     implementation project(':ui:components')
+    implementation project(":ui:theme")
     implementation project(":navigation:api")
 
     implementation Libs.AndroidX.coreKtx

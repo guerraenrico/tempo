@@ -18,7 +18,7 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.window.Dialog
 import androidx.compose.ui.window.DialogProperties
 import com.enricog.ui.components.common.button.TempoButton
-import com.enricog.ui.components.resources.TempoTheme
+import com.enricog.ui.theme.TempoTheme
 
 @Composable
 fun TempoDialogAlert(

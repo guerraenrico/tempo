@@ -26,7 +26,7 @@ import com.enricog.ui.components.common.button.TempoButton
 import com.enricog.ui.components.common.button.TempoButtonColor
 import com.enricog.ui.components.common.textField.TempoTextField
 import com.enricog.ui.components.common.textField.TempoTimeField
-import com.enricog.ui.components.resources.TempoTheme
+import com.enricog.ui.theme.TempoTheme
 
 internal const val RoutineFormSceneTestTag = "RoutineFormSceneTestTag"
 

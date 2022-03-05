@@ -7,7 +7,7 @@ plugins {
 }
 
 android {
-    namespace 'com.enricog.ui.components'
+    namespace 'com.enricog.ui.theme'
 
     compileSdkVersion Versions.compileSdk
 
@@ -30,16 +30,7 @@ android {
 }
 
 dependencies {
-    implementation project(":entities")
-    implementation project(":ui:theme")
-
-    implementation Libs.AndroidX.appCompat
-    implementation Libs.AndroidX.coreKtx
-
     // Compose
-    implementation Libs.AndroidX.Compose.ui
     implementation Libs.AndroidX.Compose.foundation
-    implementation Libs.AndroidX.Compose.tooling
     implementation Libs.AndroidX.Compose.material
-    implementation Libs.AndroidX.Compose.animation
 }

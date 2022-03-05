@@ -25,7 +25,7 @@ import androidx.compose.ui.unit.dp
 import com.enricog.entities.Seconds
 import com.enricog.entities.seconds
 import com.enricog.ui.components.R
-import com.enricog.ui.components.resources.TempoTheme
+import com.enricog.ui.theme.TempoTheme
 
 private val NUMERIC_REGEX = Regex("^[0-9]+\$|^\$|^\\s\$")
 private val FIElD_WIDTH = 70.dp

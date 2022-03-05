@@ -25,8 +25,8 @@ import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.sp
 import com.enricog.entities.Seconds
 import com.enricog.ui.components.common.shadow.Shadow
-import com.enricog.ui.components.resources.FontFamilyMono
-import com.enricog.ui.components.resources.white
+import com.enricog.ui.theme.FontFamilyMono
+import com.enricog.ui.theme.white
 
 internal const val ClockTestTag = "ClockTestTag"
 internal const val ClockTimeTextTestTag = "ClockTimeTextTestTag"

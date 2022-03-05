@@ -11,8 +11,8 @@ import androidx.compose.ui.draw.drawBehind
 import androidx.compose.ui.geometry.Offset
 import androidx.compose.ui.graphics.Brush.Companion.radialGradient
 import androidx.compose.ui.unit.Dp
-import com.enricog.ui.components.resources.black
-import com.enricog.ui.components.resources.white
+import com.enricog.ui.theme.black
+import com.enricog.ui.theme.white
 
 @Composable
 fun Shadow(

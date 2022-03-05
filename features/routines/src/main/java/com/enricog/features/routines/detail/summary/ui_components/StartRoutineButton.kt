@@ -9,7 +9,7 @@ import com.enricog.features.routines.R
 import com.enricog.ui.components.common.button.TempoButtonColor
 import com.enricog.ui.components.common.button.TempoIconButton
 import com.enricog.ui.components.common.button.TempoIconButtonSize
-import com.enricog.ui.components.resources.TempoTheme
+import com.enricog.ui.theme.TempoTheme
 
 @Composable
 internal fun StartRoutineButton(

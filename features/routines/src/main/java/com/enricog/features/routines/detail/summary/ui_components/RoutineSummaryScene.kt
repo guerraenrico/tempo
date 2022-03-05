@@ -22,7 +22,7 @@ import com.enricog.features.routines.detail.summary.models.RoutineSummaryItem.Se
 import com.enricog.features.routines.detail.summary.models.RoutineSummaryItem.SegmentSectionTitle
 import com.enricog.core.compose.api.modifiers.listDraggable
 import com.enricog.core.compose.api.modifiers.rememberListDraggableState
-import com.enricog.ui.components.resources.TempoTheme
+import com.enricog.ui.theme.TempoTheme
 
 internal const val RoutineSummarySceneTestTag = "RoutineSummaryScene"
 

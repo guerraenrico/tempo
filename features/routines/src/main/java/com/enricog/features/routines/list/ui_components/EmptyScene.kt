@@ -12,7 +12,7 @@ import androidx.compose.ui.unit.dp
 import com.enricog.features.routines.R
 import com.enricog.ui.components.common.button.TempoButton
 import com.enricog.ui.components.common.button.TempoButtonColor
-import com.enricog.ui.components.resources.TempoTheme
+import com.enricog.ui.theme.TempoTheme
 
 internal const val EmptySceneTestTag = "EmptySceneTestTag"
 

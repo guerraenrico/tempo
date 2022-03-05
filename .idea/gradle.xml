@@ -39,6 +39,7 @@
             <option value="$PROJECT_DIR$/navigation/testing" />
             <option value="$PROJECT_DIR$/ui" />
             <option value="$PROJECT_DIR$/ui/components" />
+            <option value="$PROJECT_DIR$/ui/theme" />
           </set>
         </option>
       </GradleProjectSettings>

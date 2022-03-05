@@ -1,4 +1,4 @@
-package com.enricog.ui.components.resources
+package com.enricog.ui.theme
 
 import androidx.compose.material.Typography
 import androidx.compose.ui.text.TextStyle
@@ -6,9 +6,8 @@ import androidx.compose.ui.text.font.Font
 import androidx.compose.ui.text.font.FontFamily
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.sp
-import com.enricog.ui.components.R
 
-internal val FontFamilyDefault = FontFamily(
+val FontFamilyDefault = FontFamily(
     Font(resId = R.font.prompt_light, weight = FontWeight.Light),
     Font(resId = R.font.prompt_normal, weight = FontWeight.Normal),
     Font(resId = R.font.prompt_bold, weight = FontWeight.Bold)

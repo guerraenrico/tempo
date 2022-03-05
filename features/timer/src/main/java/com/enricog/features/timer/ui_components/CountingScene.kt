@@ -26,7 +26,7 @@ import com.enricog.features.timer.models.TimerViewState
 import com.enricog.ui.components.common.button.TempoIconButton
 import com.enricog.ui.components.common.dialog.TempoDialogAction
 import com.enricog.ui.components.common.dialog.TempoDialogAlert
-import com.enricog.ui.components.resources.TempoTheme
+import com.enricog.ui.theme.TempoTheme
 
 internal const val CountingSceneTestTag = "CountingSceneTestTag"
 internal const val StepTitleTestTag = "StepTitleTestTag"
