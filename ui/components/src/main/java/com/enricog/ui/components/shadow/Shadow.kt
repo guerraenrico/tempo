@@ -1,4 +1,4 @@
-package com.enricog.ui.components.common.shadow
+package com.enricog.ui.components.shadow
 
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.BoxScope

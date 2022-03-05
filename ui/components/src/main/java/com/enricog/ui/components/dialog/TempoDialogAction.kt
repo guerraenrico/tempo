@@ -1,4 +1,4 @@
-package com.enricog.ui.components.common.dialog
+package com.enricog.ui.components.dialog
 
 data class TempoDialogAction(
     val text: String,

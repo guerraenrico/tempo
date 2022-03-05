@@ -1,4 +1,4 @@
-package com.enricog.ui.components.common.dialog
+package com.enricog.ui.components.dialog
 
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Arrangement
@@ -17,7 +17,7 @@ import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.window.Dialog
 import androidx.compose.ui.window.DialogProperties
-import com.enricog.ui.components.common.button.TempoButton
+import com.enricog.ui.components.button.TempoButton
 import com.enricog.ui.theme.TempoTheme
 
 @Composable

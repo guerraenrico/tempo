@@ -1,4 +1,4 @@
-package com.enricog.ui.components.common.button
+package com.enricog.ui.components.button
 
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.size

@@ -1,4 +1,4 @@
-package com.enricog.ui.components.common.toolbar
+package com.enricog.ui.components.toolbar
 
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.fillMaxSize

@@ -20,7 +20,7 @@ import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import com.enricog.features.routines.R
-import com.enricog.ui.components.common.button.TempoButtonColor
+import com.enricog.ui.components.button.TempoButtonColor
 import com.enricog.ui.theme.TempoTheme
 import com.enricog.ui.theme.white
 

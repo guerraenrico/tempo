@@ -23,10 +23,10 @@ import com.enricog.data.routines.api.entities.TimeType
 import com.enricog.features.routines.R
 import com.enricog.features.routines.detail.segment.models.SegmentField
 import com.enricog.features.routines.detail.ui_components.TimeTypeChip
-import com.enricog.ui.components.common.button.TempoButton
-import com.enricog.ui.components.common.button.TempoButtonColor
-import com.enricog.ui.components.common.textField.TempoTextField
-import com.enricog.ui.components.common.textField.TempoTimeField
+import com.enricog.ui.components.button.TempoButton
+import com.enricog.ui.components.button.TempoButtonColor
+import com.enricog.ui.components.textField.TempoTextField
+import com.enricog.ui.components.textField.TempoTimeField
 import com.enricog.core.compose.api.modifiers.horizontalListItemSpacing
 import com.enricog.ui.theme.TempoTheme
 

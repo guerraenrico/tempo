@@ -1,4 +1,4 @@
-package com.enricog.ui.components.common.button
+package com.enricog.ui.components.button
 
 import androidx.compose.material.ButtonColors
 import androidx.compose.runtime.Composable

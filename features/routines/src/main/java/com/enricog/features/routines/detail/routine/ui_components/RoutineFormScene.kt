@@ -22,10 +22,10 @@ import com.enricog.entities.Seconds
 import com.enricog.data.routines.api.entities.Routine
 import com.enricog.features.routines.R
 import com.enricog.features.routines.detail.routine.models.RoutineField
-import com.enricog.ui.components.common.button.TempoButton
-import com.enricog.ui.components.common.button.TempoButtonColor
-import com.enricog.ui.components.common.textField.TempoTextField
-import com.enricog.ui.components.common.textField.TempoTimeField
+import com.enricog.ui.components.button.TempoButton
+import com.enricog.ui.components.button.TempoButtonColor
+import com.enricog.ui.components.textField.TempoTextField
+import com.enricog.ui.components.textField.TempoTimeField
 import com.enricog.ui.theme.TempoTheme
 
 internal const val RoutineFormSceneTestTag = "RoutineFormSceneTestTag"

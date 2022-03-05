@@ -9,7 +9,7 @@ import androidx.compose.ui.Modifier
 import com.enricog.data.routines.api.entities.Segment
 import com.enricog.features.routines.detail.summary.models.RoutineSummaryViewState
 import com.enricog.features.routines.detail.summary.ui_components.RoutineSummaryScene
-import com.enricog.ui.components.common.toolbar.TempoToolbar
+import com.enricog.ui.components.toolbar.TempoToolbar
 
 @Composable
 internal fun RoutineSummaryScreen(viewModel: RoutineSummaryViewModel) {

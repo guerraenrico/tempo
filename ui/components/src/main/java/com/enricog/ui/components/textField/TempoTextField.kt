@@ -1,4 +1,4 @@
-package com.enricog.ui.components.common.textField
+package com.enricog.ui.components.textField
 
 import androidx.compose.foundation.text.KeyboardActions
 import androidx.compose.foundation.text.KeyboardOptions
