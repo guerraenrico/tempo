@@ -21,7 +21,7 @@ import com.enricog.features.timer.usecase.TimerUseCase
 import com.enricog.navigation.api.routes.RoutinesRoute
 import com.enricog.navigation.api.routes.RoutinesRouteInput
 import com.enricog.navigation.testing.FakeNavigator
-import com.enricog.ui.components.resources.TimeTypeColors
+import com.enricog.ui.theme.TimeTypeColors
 import kotlinx.coroutines.test.advanceTimeBy
 import org.junit.Rule
 import org.junit.Test
