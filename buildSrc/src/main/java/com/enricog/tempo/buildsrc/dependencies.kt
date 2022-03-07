@@ -40,16 +40,16 @@ object Libs {
         const val appCompat = "androidx.appcompat:appcompat:1.4.1"
 
         object Test {
-            const val junitKtx = "androidx.test.ext:junit-ktx:1.1.2"
+            const val junitKtx = "androidx.test.ext:junit-ktx:1.1.3"
 
-            private const val version = "1.3.0"
+            private const val version = "1.4.0"
             const val core = "androidx.test:core:$version"
             const val rules = "androidx.test:rules:$version"
             const val archCore = "androidx.arch.core:core-testing:2.1.0"
         }
 
         object Compose {
-            const val version = "1.1.0"
+            const val version = "1.1.1"
 
             const val runtime = "androidx.compose.runtime:runtime:$version"
             const val foundation = "androidx.compose.foundation:foundation:$version"
@@ -67,7 +67,7 @@ object Libs {
             const val activity = "androidx.activity:activity-compose:1.3.1"
 
             const val navigation = "androidx.navigation:navigation-compose:2.4.1"
-            const val viewModel = "androidx.lifecycle:lifecycle-viewmodel-compose:2.4.0"
+            const val viewModel = "androidx.lifecycle:lifecycle-viewmodel-compose:2.4.1"
             const val constraintLayout = "androidx.constraintlayout:constraintlayout-compose:1.0.0"
         }
     }
@@ -84,7 +84,7 @@ object Libs {
     }
 
     object Hilt {
-        const val androidVersion = "2.40.5"
+        const val androidVersion = "2.41"
         private const val version = "1.0.0"
 
         const val android = "com.google.dagger:hilt-android:$androidVersion"
@@ -118,7 +118,7 @@ object Libs {
     }
 
     object Firebase {
-        private const val version = "29.0.4"
+        private const val version = "29.1.0"
 
         const val bom = "com.google.firebase:firebase-bom:$version"
         const val crashlytics = "com.google.firebase:firebase-crashlytics-ktx"
