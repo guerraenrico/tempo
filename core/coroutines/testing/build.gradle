@@ -26,4 +26,5 @@ dependencies {
     implementation project(":core:coroutines:api")
     implementation Libs.Kotlin.Test.coroutines
     implementation Libs.Test.junit
+    implementation Libs.Test.flow
 }
