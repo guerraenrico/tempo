@@ -8,7 +8,7 @@ import androidx.compose.ui.test.onNodeWithTag
 import androidx.compose.ui.unit.dp
 import com.enricog.core.compose.testing.invoke
 import com.enricog.entities.seconds
-import com.enricog.ui_components.resources.TempoTheme
+import com.enricog.ui.theme.TempoTheme
 import org.junit.Rule
 import org.junit.Test
 

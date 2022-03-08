@@ -17,10 +17,10 @@ import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.sp
 import com.enricog.data.routines.api.entities.TimeType
 import com.enricog.features.routines.R
-import com.enricog.ui_components.resources.TempoTheme
-import com.enricog.ui_components.resources.TimeTypeColors
-import com.enricog.ui_components.resources.darkBlue500
-import com.enricog.ui_components.resources.white
+import com.enricog.ui.theme.TempoTheme
+import com.enricog.ui.theme.TimeTypeColors
+import com.enricog.ui.theme.darkBlue500
+import com.enricog.ui.theme.white
 
 internal const val TimeTypeChipTestTag = "TimeTypeChipTestTag"
 

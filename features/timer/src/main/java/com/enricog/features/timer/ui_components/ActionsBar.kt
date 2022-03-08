@@ -14,9 +14,9 @@ import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
 import com.enricog.features.timer.R
 import com.enricog.features.timer.models.TimerActions
-import com.enricog.ui_components.common.button.TempoButton
-import com.enricog.ui_components.common.button.TempoButtonColor
-import com.enricog.ui_components.common.button.TempoIconButton
+import com.enricog.ui.components.button.TempoButton
+import com.enricog.ui.components.button.TempoButtonColor
+import com.enricog.ui.components.button.TempoIconButton
 
 internal const val ActionBarTestTag = "ActionBarTestTag"
 internal const val ButtonDoneTestTag = "ButtonDoneTestTag"

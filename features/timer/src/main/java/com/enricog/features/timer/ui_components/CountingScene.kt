@@ -23,10 +23,10 @@ import androidx.constraintlayout.compose.ConstraintLayout
 import com.enricog.features.timer.R
 import com.enricog.features.timer.models.TimerActions
 import com.enricog.features.timer.models.TimerViewState
-import com.enricog.ui_components.common.button.TempoIconButton
-import com.enricog.ui_components.common.dialog.TempoDialogAction
-import com.enricog.ui_components.common.dialog.TempoDialogAlert
-import com.enricog.ui_components.resources.TempoTheme
+import com.enricog.ui.components.button.TempoIconButton
+import com.enricog.ui.components.dialog.TempoDialogAction
+import com.enricog.ui.components.dialog.TempoDialogAlert
+import com.enricog.ui.theme.TempoTheme
 
 internal const val CountingSceneTestTag = "CountingSceneTestTag"
 internal const val StepTitleTestTag = "StepTitleTestTag"

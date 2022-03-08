@@ -7,7 +7,7 @@ import com.enricog.core.compose.testing.invoke
 import com.enricog.features.routines.list.models.RoutinesViewState
 import com.enricog.features.routines.list.ui_components.EmptySceneTestTag
 import com.enricog.features.routines.list.ui_components.RoutinesSceneTestTag
-import com.enricog.ui_components.resources.TempoTheme
+import com.enricog.ui.theme.TempoTheme
 import org.junit.Rule
 import org.junit.Test
 

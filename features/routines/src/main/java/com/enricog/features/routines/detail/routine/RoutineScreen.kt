@@ -10,7 +10,7 @@ import com.enricog.base.extensions.exhaustive
 import com.enricog.entities.Seconds
 import com.enricog.features.routines.detail.routine.models.RoutineViewState
 import com.enricog.features.routines.detail.routine.ui_components.RoutineFormScene
-import com.enricog.ui_components.common.toolbar.TempoToolbar
+import com.enricog.ui.components.toolbar.TempoToolbar
 
 @Composable
 internal fun RoutineScreen(viewModel: RoutineViewModel) {

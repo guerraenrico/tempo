@@ -14,7 +14,7 @@ import com.enricog.data.routines.testing.entities.EMPTY
 import com.enricog.entities.asID
 import com.enricog.data.routines.api.entities.Segment
 import com.enricog.features.routines.detail.summary.models.RoutineSummaryItem
-import com.enricog.ui_components.resources.TempoTheme
+import com.enricog.ui.theme.TempoTheme
 import org.junit.Rule
 import org.junit.Test
 import kotlin.math.roundToInt

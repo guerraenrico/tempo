@@ -7,7 +7,7 @@ import com.enricog.data.routines.api.entities.TimeType
 import com.enricog.features.timer.models.SegmentStepType
 import com.enricog.features.timer.models.TimerState
 import com.enricog.features.timer.models.TimerViewState
-import com.enricog.ui_components.resources.TimeTypeColors
+import com.enricog.ui.theme.TimeTypeColors
 import javax.inject.Inject
 
 internal class TimerStateConverter @Inject constructor() :

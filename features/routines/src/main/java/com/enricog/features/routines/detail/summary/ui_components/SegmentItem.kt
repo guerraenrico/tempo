@@ -17,8 +17,8 @@ import com.enricog.data.routines.api.entities.TimeType
 import com.enricog.entities.seconds
 import com.enricog.features.routines.detail.ui_components.TimeTypeChip
 import com.enricog.features.routines.ui_components.DeletableListItem
-import com.enricog.ui_components.extensions.format
-import com.enricog.ui_components.resources.TempoTheme
+import com.enricog.ui.components.extensions.format
+import com.enricog.ui.theme.TempoTheme
 
 internal const val SegmentItemTestTag = "SegmentItemTestTag"
 

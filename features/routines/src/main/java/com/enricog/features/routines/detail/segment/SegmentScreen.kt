@@ -11,7 +11,7 @@ import com.enricog.data.routines.api.entities.TimeType
 import com.enricog.entities.Seconds
 import com.enricog.features.routines.detail.segment.models.SegmentViewState
 import com.enricog.features.routines.detail.segment.ui_components.SegmentFormScene
-import com.enricog.ui_components.common.toolbar.TempoToolbar
+import com.enricog.ui.components.toolbar.TempoToolbar
 
 @Composable
 internal fun SegmentScreen(viewModel: SegmentViewModel) {
