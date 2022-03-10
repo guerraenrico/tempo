@@ -24,6 +24,7 @@ android {
 
 dependencies {
     implementation project(":core:coroutines:api")
-    implementation Libs.Kotlin.Test.coroutines
+    api Libs.Kotlin.Test.coroutines
     implementation Libs.Test.junit
+    api Libs.Test.flow
 }

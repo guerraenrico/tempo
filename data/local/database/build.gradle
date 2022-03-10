@@ -55,7 +55,6 @@ dependencies {
 
     testImplementation project(':data:routines:testing')
     testImplementation project(":core:coroutines:testing")
-    testImplementation Libs.Kotlin.Test.coroutines
     testImplementation Libs.AndroidX.Test.core
     testImplementation Libs.AndroidX.Test.rules
     testImplementation Libs.AndroidX.Test.junitKtx

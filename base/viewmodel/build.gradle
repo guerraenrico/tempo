@@ -34,8 +34,6 @@ dependencies {
     // Test
     testImplementation project(':data:routines:testing')
     testImplementation project(":core:coroutines:testing")
-    testImplementation Libs.Kotlin.Test.coroutines
     testImplementation Libs.Kotlin.Test.kotlin
     testImplementation Libs.Test.junit
-    testImplementation Libs.Test.flow
 }
