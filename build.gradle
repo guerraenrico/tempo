@@ -42,16 +42,15 @@ subprojects {
         kotlinOptions {
             // Enable experimental coroutines APIs, including Flow
             freeCompilerArgs += "-opt-in=kotlin.RequiresOptIn"
-            freeCompilerArgs += "-Xuse-experimental=kotlinx.coroutines.ExperimentalCoroutinesApi"
-            freeCompilerArgs += "-Xuse-experimental=kotlin.contracts.ExperimentalContracts"
-            freeCompilerArgs += "-Xuse-experimental=kotlin.time.ExperimentalTime"
-            freeCompilerArgs += "-Xuse-experimental=kotlin.ExperimentalStdlibApi"
-            freeCompilerArgs += "-Xuse-experimental=androidx.compose.material.ExperimentalMaterialApi"
-            freeCompilerArgs += "-Xuse-experimental=androidx.compose.foundation.ExperimentalFoundationApi"
-            freeCompilerArgs += "-Xuse-experimental=androidx.compose.ui.ExperimentalComposeUiApi"
+            freeCompilerArgs += "-opt-in=kotlinx.coroutines.ExperimentalCoroutinesApi"
+            freeCompilerArgs += "-opt-in=kotlin.contracts.ExperimentalContracts"
+            freeCompilerArgs += "-opt-in=kotlin.time.ExperimentalTime"
+            freeCompilerArgs += "-opt-in=kotlin.ExperimentalStdlibApi"
+            freeCompilerArgs += "-opt-in=androidx.compose.material.ExperimentalMaterialApi"
+            freeCompilerArgs += "-opt-in=androidx.compose.foundation.ExperimentalFoundationApi"
+            freeCompilerArgs += "-opt-in=androidx.compose.ui.ExperimentalComposeUiApi"
             freeCompilerArgs += "-opt-in=androidx.compose.animation.ExperimentalAnimationApi"
             freeCompilerArgs += "-opt-in=kotlinx.coroutines.FlowPreview"
-            freeCompilerArgs += "-Xskip-prerelease-check"
 
             // "-P",
             // "plugin:androidx.compose.compiler.plugins.kotlin:suppressKotlinVersionCompatibilityCheck=true"

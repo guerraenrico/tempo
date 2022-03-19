@@ -10,6 +10,7 @@ import androidx.compose.foundation.text.KeyboardOptions
 import androidx.compose.material.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.remember
+import androidx.compose.ui.ExperimentalComposeUiApi
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.focus.FocusRequester
 import androidx.compose.ui.focus.focusRequester
@@ -32,6 +33,7 @@ private val FIElD_WIDTH = 70.dp
 private val TEXT_STYLE = tempoTextFieldBaseStyle.copy(textAlign = TextAlign.Center)
 private val MAX_TIME_SECONDS = 3600.seconds
 
+@OptIn(ExperimentalComposeUiApi::class)
 @Composable
 fun TempoTimeField(
     seconds: Seconds,
