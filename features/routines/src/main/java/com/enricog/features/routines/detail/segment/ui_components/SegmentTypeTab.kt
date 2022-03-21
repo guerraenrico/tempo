@@ -1,60 +1,51 @@
 package com.enricog.features.routines.detail.segment.ui_components
 
-import androidx.compose.foundation.gestures.Orientation
-import androidx.compose.foundation.layout.BoxWithConstraints
-import androidx.compose.foundation.layout.Row
-import androidx.compose.foundation.layout.fillMaxWidth
+import androidx.compose.foundation.clickable
+import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.padding
-import androidx.compose.foundation.selection.selectableGroup
-import androidx.compose.material.ExperimentalMaterialApi
-import androidx.compose.material.FractionalThreshold
-import androidx.compose.material.SwipeableState
-import androidx.compose.material.swipeable
+import androidx.compose.foundation.shape.RoundedCornerShape
+import androidx.compose.material.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
-import com.enricog.core.compose.api.modifiers.horizontalListItemSpacing
+import androidx.compose.ui.draw.clip
+import androidx.compose.ui.platform.testTag
+import androidx.compose.ui.text.font.FontWeight
+import androidx.compose.ui.unit.sp
 import com.enricog.data.routines.api.entities.TimeType
-import com.enricog.features.routines.detail.ui_components.TimeTypeChip
+import com.enricog.features.routines.detail.ui.time_type.text
 import com.enricog.ui.theme.TempoTheme
+import com.enricog.ui.theme.white
 
-@OptIn(ExperimentalMaterialApi::class)
+internal const val SegmentTypeTabTestTag = "SegmentTypeTabTestTag"
+
 @Composable
 internal fun SegmentTypeTab(
+    value: TimeType,
+    isSelected: Boolean,
     modifier: Modifier = Modifier,
-    state: SwipeableState<TimeType>,
-    timeTypes: List<TimeType>,
-    selected: TimeType,
-    onSelectChange: (TimeType) -> Unit
-) = BoxWithConstraints(modifier = modifier) {
-    val width = constraints.maxWidth.toFloat()
-    val anchors = timeTypes
-        .mapIndexed { index, timeType -> width / (index + 1) to timeType }
-        .toMap()
-    Row(
-        modifier = Modifier
-            .padding(TempoTheme.dimensions.spaceS)
-            .fillMaxWidth()
-            .selectableGroup()
-            .swipeable(
-                state = state,
-                anchors = anchors,
-                thresholds = { _, _ -> FractionalThreshold(0.5f) },
-                orientation = Orientation.Horizontal
-            )
+    onClick: ((TimeType) -> Unit)? = null
+) {
+    Box(
+        modifier = modifier
+            .testTag(SegmentTypeTabTestTag)
+            .clip(shape = RoundedCornerShape(percent = 50))
+            .clickable(enabled = onClick != null) {
+                if (!isSelected) {
+                    onClick?.invoke(value)
+                }
+            },
+        contentAlignment = Alignment.Center
     ) {
-        timeTypes.mapIndexed { index, timeType ->
-            TimeTypeChip(
-                value = timeType,
-                isSelected = selected == timeType,
-                onClick = onSelectChange,
-                modifier = Modifier
-                    .horizontalListItemSpacing(
-                        itemPosition = index,
-                        spacing = TempoTheme.dimensions.spaceS,
-                        includeEdge = true
-                    )
-                    .weight(weight = 1f, fill = true)
+        Text(
+            text = value.text(),
+            color = white,
+            fontWeight = FontWeight.Bold,
+            fontSize = 14.sp,
+            modifier = Modifier.padding(
+                horizontal = TempoTheme.dimensions.spaceM,
+                vertical = TempoTheme.dimensions.spaceXS
             )
-        }
+        )
     }
 }

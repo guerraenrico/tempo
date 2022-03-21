@@ -78,7 +78,7 @@ internal fun SegmentFormScene(
                 .verticalScroll(rememberScrollState(0))
         ) {
 
-            SegmentTypeTab(
+            SegmentTypeTabs(
                 modifier = Modifier.fillMaxWidth(),
                 state = swipeState,
                 timeTypes = timeTypes,

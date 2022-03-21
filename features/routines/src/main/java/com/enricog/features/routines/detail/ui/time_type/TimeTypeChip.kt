@@ -1,4 +1,4 @@
-package com.enricog.features.routines.detail.ui_components
+package com.enricog.features.routines.detail.ui.time_type
 
 import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
@@ -13,13 +13,10 @@ import androidx.compose.ui.draw.alpha
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.platform.testTag
-import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.sp
 import com.enricog.data.routines.api.entities.TimeType
-import com.enricog.features.routines.R
 import com.enricog.ui.theme.TempoTheme
-import com.enricog.ui.theme.TimeTypeColors
 import com.enricog.ui.theme.darkBlue500
 import com.enricog.ui.theme.white
 
@@ -61,18 +58,5 @@ internal fun TimeTypeChip(
 
 private fun TimeType.color(isSelected: Boolean): Color {
     if (!isSelected) return darkBlue500
-    return when (this) {
-        TimeType.TIMER -> TimeTypeColors.TIMER
-        TimeType.REST -> TimeTypeColors.REST
-        TimeType.STOPWATCH -> TimeTypeColors.STOPWATCH
-    }
-}
-
-@Composable
-private fun TimeType.text(): String {
-    return when (this) {
-        TimeType.REST -> stringResource(R.string.chip_time_type_rest_name)
-        TimeType.TIMER -> stringResource(R.string.chip_time_type_timer_name)
-        TimeType.STOPWATCH -> stringResource(R.string.chip_time_type_stopwatch_name)
-    }
+    return color()
 }
