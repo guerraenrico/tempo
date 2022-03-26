@@ -37,7 +37,7 @@ internal fun SegmentTypeTabs(
 ) = BoxWithConstraints(modifier = modifier) {
     val width = maxWidth
     val tabSpace = TempoTheme.dimensions.spaceS
-    val tabWidth = (width - (tabSpace * 4)) / 3
+    val tabWidth = (width - (tabSpace * (timeTypes.size + 1))) / timeTypes.size
     val anchors = timeTypes
         .mapIndexed { index, timeType -> (tabWidth.toPx() * index) + (tabSpace.toPx() * index) to timeType }
         .toMap()
@@ -64,6 +64,8 @@ internal fun SegmentTypeTabs(
                 .swipeable(
                     state = state,
                     anchors = anchors,
+                    enabled = false,
+                    reverseDirection = true,
                     thresholds = { _, _ -> FractionalThreshold(0.5f) },
                     orientation = Orientation.Horizontal
                 )

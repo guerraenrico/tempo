@@ -68,6 +68,7 @@ internal fun SegmentFormScene(
             .draggable(
                 state = draggableState,
                 orientation = Orientation.Horizontal,
+                reverseDirection = true,
                 onDragStopped = { swipeState.performFling(it) }
             )
     ) {
