@@ -87,37 +87,46 @@ internal fun SegmentFormScene(
                 onSelectChange = onSegmentTimeTypeChange
             )
 
-            TempoTextField(
-                value = segment.name,
-                onValueChange = onSegmentNameChange,
-                modifier = Modifier
-                    .fillMaxWidth()
-                    .padding(TempoTheme.dimensions.spaceM)
-                    .focusRequester(segmentNameRef),
-                label = stringResource(R.string.field_label_segment_name),
-                errorMessage = stringResourceOrNull(id = errors[SegmentField.Name]),
-                singleLine = true,
-                keyboardOptions = KeyboardOptions(imeAction = ImeAction.Next),
-                keyboardActions = KeyboardActions(
-                    onNext = { segmentTimeRef.requestFocus() }
-                )
+//            TempoTextField(
+//                value = segment.name,
+//                onValueChange = onSegmentNameChange,
+//                modifier = Modifier
+//                    .fillMaxWidth()
+//                    .padding(TempoTheme.dimensions.spaceM)
+//                    .focusRequester(segmentNameRef),
+//                label = stringResource(R.string.field_label_segment_name),
+//                errorMessage = stringResourceOrNull(id = errors[SegmentField.Name]),
+//                singleLine = true,
+//                keyboardOptions = KeyboardOptions(imeAction = ImeAction.Next),
+//                keyboardActions = KeyboardActions(
+//                    onNext = { segmentTimeRef.requestFocus() }
+//                )
+//            )
+
+            SegmentTimeField(
+                modifier = Modifier.fillMaxWidth(),
+                swipeState = swipeState,
+                timeTypes = timeTypes,
+                selectedTimeType = segment.type
             )
 
+
+
             // TODO hide/disable time field if type selected is stopwatch
-            TempoTimeField(
-                seconds = segment.time,
-                onValueChange = onSegmentTimeChange,
-                modifier = Modifier
-                    .fillMaxWidth()
-                    .padding(TempoTheme.dimensions.spaceM)
-                    .focusRequester(segmentTimeRef),
-                label = stringResource(R.string.field_label_segment_time),
-                errorMessage = stringResourceOrNull(errors[SegmentField.TimeInSeconds]),
-                imeAction = ImeAction.Done,
-                keyboardActions = KeyboardActions(
-                    onDone = { keyboardController?.hide() }
-                )
-            )
+//            TempoTimeField(
+//                seconds = segment.time,
+//                onValueChange = onSegmentTimeChange,
+//                modifier = Modifier
+//                    .fillMaxWidth()
+//                    .padding(TempoTheme.dimensions.spaceM)
+//                    .focusRequester(segmentTimeRef),
+//                label = stringResource(R.string.field_label_segment_time),
+//                errorMessage = stringResourceOrNull(errors[SegmentField.TimeInSeconds]),
+//                imeAction = ImeAction.Done,
+//                keyboardActions = KeyboardActions(
+//                    onDone = { keyboardController?.hide() }
+//                )
+//            )
         }
 
         TempoButton(

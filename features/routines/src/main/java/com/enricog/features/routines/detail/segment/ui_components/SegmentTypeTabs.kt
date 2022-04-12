@@ -50,9 +50,9 @@ internal fun SegmentTypeTabs(
             .drawBehind {
                 drawRoundRect(
                     color = selected.color(),
-                    cornerRadius = CornerRadius(50f, 50f),
-                    topLeft = Offset(x = state.offset.value, tabSpace.toPx()),
-                    size = Size(width = tabWidth.toPx(), 90f)
+                    cornerRadius = CornerRadius(x = 50f, y = 50f),
+                    topLeft = Offset(x = state.offset.value, y = tabSpace.toPx()),
+                    size = Size(width = tabWidth.toPx(), height = 90f)
                 )
             }
     ) {
@@ -91,5 +91,4 @@ internal fun SegmentTypeTabs(
             }
         }
     }
-
 }
