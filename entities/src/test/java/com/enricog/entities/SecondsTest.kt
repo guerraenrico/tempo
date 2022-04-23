@@ -149,18 +149,9 @@ class SecondsTest {
     @Test
     fun `test minutes`() {
         val value = 500.seconds
-        val expected = 8L
+        val expected = 8L to 20L
 
-        val actual = value.minutes
-        assertEquals(expected, actual)
-    }
-
-    @Test
-    fun `test secondsRemainingInMinute`() {
-        val value = 500.seconds
-        val expected = 20L
-
-        val actual = value.secondsRemainingInMinute
+        val actual = value.inMinutes
         assertEquals(expected, actual)
     }
 }

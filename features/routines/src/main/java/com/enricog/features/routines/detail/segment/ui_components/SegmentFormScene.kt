@@ -9,8 +9,6 @@ import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.rememberScrollState
-import androidx.compose.foundation.text.KeyboardActions
-import androidx.compose.foundation.text.KeyboardOptions
 import androidx.compose.foundation.verticalScroll
 import androidx.compose.material.ExperimentalMaterialApi
 import androidx.compose.material.rememberSwipeableState
@@ -19,12 +17,9 @@ import androidx.compose.runtime.remember
 import androidx.compose.ui.ExperimentalComposeUiApi
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.focus.FocusRequester
-import androidx.compose.ui.focus.focusRequester
 import androidx.compose.ui.platform.LocalSoftwareKeyboardController
 import androidx.compose.ui.platform.testTag
 import androidx.compose.ui.res.stringResource
-import androidx.compose.ui.text.input.ImeAction
-import com.enricog.core.compose.api.extensions.stringResourceOrNull
 import com.enricog.data.routines.api.entities.Segment
 import com.enricog.data.routines.api.entities.TimeType
 import com.enricog.entities.Seconds
@@ -32,8 +27,6 @@ import com.enricog.features.routines.R
 import com.enricog.features.routines.detail.segment.models.SegmentField
 import com.enricog.ui.components.button.TempoButton
 import com.enricog.ui.components.button.TempoButtonColor
-import com.enricog.ui.components.textField.TempoTextField
-import com.enricog.ui.components.textField.TempoTimeField
 import com.enricog.ui.theme.TempoTheme
 
 internal const val SegmentFormSceneTestTag = "SegmentFormSceneTestTag"
@@ -49,9 +42,6 @@ internal fun SegmentFormScene(
     onSegmentTimeTypeChange: (TimeType) -> Unit,
     onSegmentConfirmed: () -> Unit
 ) {
-    val keyboardController = LocalSoftwareKeyboardController.current
-    val (segmentNameRef, segmentTimeRef) = remember { FocusRequester.createRefs() }
-
     val swipeState = rememberSwipeableState(initialValue = segment.type) {
         onSegmentTimeTypeChange(it)
         true
@@ -107,9 +97,10 @@ internal fun SegmentFormScene(
                 modifier = Modifier.fillMaxWidth(),
                 swipeState = swipeState,
                 timeTypes = timeTypes,
-                selectedTimeType = segment.type
+                time = segment.time,
+                errors = errors,
+                onSegmentTimeChange = onSegmentTimeChange
             )
-
 
 
             // TODO hide/disable time field if type selected is stopwatch

@@ -1,35 +1,44 @@
 package com.enricog.features.routines.detail.segment.ui_components
 
-import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.BoxWithConstraints
-import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
-import androidx.compose.foundation.layout.width
+import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.text.KeyboardActions
 import androidx.compose.material.SwipeableState
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.drawBehind
 import androidx.compose.ui.geometry.Offset
-import androidx.compose.ui.layout.Layout
-import androidx.compose.ui.layout.MeasureResult
+import androidx.compose.ui.platform.LocalSoftwareKeyboardController
+import androidx.compose.ui.res.stringResource
+import androidx.compose.ui.text.input.ImeAction
 import androidx.compose.ui.unit.dp
+import com.enricog.core.compose.api.extensions.stringResourceOrNull
 import com.enricog.core.compose.api.extensions.toPx
 import com.enricog.data.routines.api.entities.TimeType
+import com.enricog.entities.Seconds
+import com.enricog.features.routines.R
+import com.enricog.features.routines.detail.segment.models.SegmentField
 import com.enricog.features.routines.detail.ui.time_type.color
+import com.enricog.ui.components.textField.TempoTimeField
 import com.enricog.ui.theme.TempoTheme
 import kotlin.math.abs
-import kotlin.math.max
 
 @Composable
 internal fun SegmentTimeField(
     modifier: Modifier = Modifier,
     swipeState: SwipeableState<TimeType>,
+    time: Seconds,
     timeTypes: List<TimeType>,
-    selectedTimeType: TimeType
+    errors: Map<SegmentField, Int>,
+    onSegmentTimeChange: (Seconds) -> Unit,
 ) = BoxWithConstraints(modifier = modifier) {
+
+    val keyboardController = LocalSoftwareKeyboardController.current
+
     val circleSize = maxWidth / 3
     val center = maxWidth / 2
     val circleSpace = 120.dp
@@ -65,11 +74,19 @@ internal fun SegmentTimeField(
                 }
             }
     ) {
-        Box(modifier = Modifier
-            .height(50.dp)
-            .width(50.dp)
-            .align(Alignment.Center)
-            .background(TempoTheme.colors.error))
+        TempoTimeField(
+            seconds = time,
+            onValueChange = onSegmentTimeChange,
+            modifier = Modifier
+                .padding(TempoTheme.dimensions.spaceM)
+                .align(Alignment.Center),
+            label = stringResource(R.string.field_label_segment_time),
+            errorMessage = stringResourceOrNull(errors[SegmentField.TimeInSeconds]),
+            imeAction = ImeAction.Done,
+            keyboardActions = KeyboardActions(
+                onDone = { keyboardController?.hide() }
+            )
+        )
     }
 }
 
