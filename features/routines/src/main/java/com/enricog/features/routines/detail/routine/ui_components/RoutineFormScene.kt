@@ -69,7 +69,7 @@ internal fun RoutineFormScene(
             )
 
             TempoTimeField(
-                seconds = routine.startTimeOffset,
+                value = routine.startTimeOffset,
                 onValueChange = onStartTimeOffsetChange,
                 modifier = Modifier
                     .fillMaxWidth()

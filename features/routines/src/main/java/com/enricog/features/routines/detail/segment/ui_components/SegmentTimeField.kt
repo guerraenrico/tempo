@@ -19,11 +19,12 @@ import androidx.compose.ui.unit.dp
 import com.enricog.core.compose.api.extensions.stringResourceOrNull
 import com.enricog.core.compose.api.extensions.toPx
 import com.enricog.data.routines.api.entities.TimeType
-import com.enricog.entities.Seconds
 import com.enricog.features.routines.R
 import com.enricog.features.routines.detail.segment.models.SegmentField
+import com.enricog.features.routines.detail.segment.models.SegmentFieldError
 import com.enricog.features.routines.detail.ui.time_type.color
 import com.enricog.ui.components.textField.TempoTimeField
+import com.enricog.ui.components.textField.TimeText
 import com.enricog.ui.theme.TempoTheme
 import kotlin.math.abs
 
@@ -31,10 +32,10 @@ import kotlin.math.abs
 internal fun SegmentTimeField(
     modifier: Modifier = Modifier,
     swipeState: SwipeableState<TimeType>,
-    time: Seconds,
+    time: TimeText,
+    onTimeChange: (TimeText) -> Unit,
     timeTypes: List<TimeType>,
-    errors: Map<SegmentField, Int>,
-    onSegmentTimeChange: (Seconds) -> Unit,
+    errors: Map<SegmentField, SegmentFieldError>
 ) = BoxWithConstraints(modifier = modifier) {
 
     val keyboardController = LocalSoftwareKeyboardController.current
@@ -75,13 +76,13 @@ internal fun SegmentTimeField(
             }
     ) {
         TempoTimeField(
-            seconds = time,
-            onValueChange = onSegmentTimeChange,
+            value = time,
+            onValueChange = onTimeChange,
             modifier = Modifier
                 .padding(TempoTheme.dimensions.spaceM)
                 .align(Alignment.Center),
             label = stringResource(R.string.field_label_segment_time),
-            errorMessage = stringResourceOrNull(errors[SegmentField.TimeInSeconds]),
+            errorMessage = stringResourceOrNull(errors[SegmentField.TimeInSeconds]?.stringResId),
             imeAction = ImeAction.Done,
             keyboardActions = KeyboardActions(
                 onDone = { keyboardController?.hide() }

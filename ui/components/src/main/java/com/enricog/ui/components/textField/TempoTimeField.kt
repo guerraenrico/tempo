@@ -10,13 +10,10 @@ import androidx.compose.foundation.text.KeyboardActions
 import androidx.compose.foundation.text.KeyboardOptions
 import androidx.compose.material.Text
 import androidx.compose.runtime.Composable
-import androidx.compose.runtime.getValue
-import androidx.compose.runtime.mutableStateOf
-import androidx.compose.runtime.remember
-import androidx.compose.runtime.setValue
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.text.AnnotatedString
 import androidx.compose.ui.text.SpanStyle
+import androidx.compose.ui.text.TextRange
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.input.ImeAction
 import androidx.compose.ui.text.input.KeyboardType
@@ -27,44 +24,42 @@ import androidx.compose.ui.text.input.VisualTransformation
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.sp
-import com.enricog.entities.Seconds
 import com.enricog.entities.seconds
 import com.enricog.ui.theme.TempoTheme
 import com.enricog.ui.theme.white
 import kotlin.math.min
 
 private val NUMERIC_REGEX = Regex("^[0-9]+\$|^\$|^\\s\$")
-private val TEXT_STYLE = tempoTextFieldBaseStyle.copy(textAlign = TextAlign.Center)
 private val MAX_TIME_SECONDS = 3600.seconds
 private const val MAX_LENGTH = 4
+private val TEXT_STYLE = tempoTextFieldBaseStyle.copy(textAlign = TextAlign.Center)
+private val TEXT_EMPTY_STYLE = SpanStyle(
+    fontWeight = FontWeight.Normal,
+    color = white,
+    fontSize = 20.sp
+)
 
 @Composable
 fun TempoTimeField(
-    seconds: Seconds,
-    onValueChange: (Seconds) -> Unit,
+    value: TimeText,
+    onValueChange: (TimeText) -> Unit,
     modifier: Modifier = Modifier,
     label: String? = null,
     errorMessage: String? = null,
     imeAction: ImeAction = ImeAction.Default,
     keyboardActions: KeyboardActions = KeyboardActions.Default
 ) {
-
-    var textFieldValueState by remember {
-        mutableStateOf(TextFieldValue(text = seconds.toText()))
-    }
-
-    val textFieldSecondsChangeCallback = { value: TextFieldValue ->
-        if (value.text.matches(NUMERIC_REGEX) && value.text.length <= MAX_LENGTH) {
-            val formattedValue = value.text.formatted().seconds
-            if (formattedValue <= MAX_TIME_SECONDS) {
-                textFieldValueState = value
-                onValueChange(formattedValue)
-            }
+    val textFieldValue = TextFieldValue(
+        text = value.toString(),
+        selection = TextRange(value.length)
+    )
+    val textFieldSecondsChangeCallback = { newValue: TextFieldValue ->
+        if (newValue.text.matches(NUMERIC_REGEX)) {
+            onValueChange(newValue.text.timeText)
         }
     }
-    Column(
-        modifier = modifier
-    ) {
+
+    Column(modifier = modifier) {
         if (label != null) {
             Text(
                 modifier = Modifier.padding(bottom = TempoTheme.dimensions.spaceS),
@@ -80,7 +75,7 @@ fun TempoTimeField(
                 .fillMaxHeight()
         ) {
             TempoTextFieldBase(
-                value = textFieldValueState,
+                value = textFieldValue,
                 onValueChange = textFieldSecondsChangeCallback,
                 modifier = Modifier
                     .fillMaxWidth()
@@ -140,7 +135,7 @@ private object TimeVisualTransformation : VisualTransformation {
                 }
                 min(formattedText.length, t)
             }
-            add(AnnotatedString.Range(item = EmptyStyle, start = 0, end = to))
+            add(AnnotatedString.Range(item = TEXT_EMPTY_STYLE, start = 0, end = to))
         }
 
 
@@ -154,27 +149,11 @@ private fun String.formatted(): String {
         .joinToString(":")
 }
 
-private fun Seconds.toText(): String {
-    val (m, s) = inMinutes
-    return buildString {
-        if (m > 0) {
-            append(m)
-        }
-        append(s)
-    }
-}
-
-private val EmptyStyle = SpanStyle(
-    fontWeight = FontWeight.Normal,
-    color = white,
-    fontSize = 20.sp
-)
-
 @Preview
 @Composable
 private fun Preview() {
     TempoTimeField(
-        seconds = 250.seconds,
+        value = "420".timeText,
         onValueChange = {},
     )
 }

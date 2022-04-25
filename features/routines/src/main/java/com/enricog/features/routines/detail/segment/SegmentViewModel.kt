@@ -5,6 +5,7 @@ import androidx.lifecycle.viewModelScope
 import com.enricog.base.viewmodel.BaseViewModel
 import com.enricog.base.viewmodel.ViewModelConfiguration
 import com.enricog.core.coroutines.dispatchers.CoroutineDispatchers
+import com.enricog.core.coroutines.job.autoCancelableJob
 import com.enricog.entities.Seconds
 import com.enricog.data.routines.api.entities.Routine
 import com.enricog.data.routines.api.entities.Segment
@@ -15,6 +16,7 @@ import com.enricog.features.routines.detail.segment.models.SegmentState
 import com.enricog.features.routines.detail.segment.models.SegmentViewState
 import com.enricog.features.routines.detail.segment.usecase.SegmentUseCase
 import com.enricog.features.routines.navigation.RoutinesNavigationActions
+import com.enricog.ui.components.textField.TimeText
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.launch
 import javax.inject.Inject
@@ -35,7 +37,7 @@ internal class SegmentViewModel @Inject constructor(
     configuration = ViewModelConfiguration(debounce = 0)
 ) {
 
-    private var saveJob by com.enricog.core.coroutines.job.autoCancelableJob()
+    private var saveJob by autoCancelableJob()
 
     init {
         val input = SegmentRoute.extractInput(savedStateHandle)
@@ -55,7 +57,7 @@ internal class SegmentViewModel @Inject constructor(
         }
     }
 
-    fun onSegmentTimeChange(seconds: Seconds) {
+    fun onSegmentTimeChange(text: TimeText) {
         updateStateWhen<SegmentState.Data> { stateData ->
             reducer.updateSegmentTime(state = stateData, seconds = seconds)
         }
