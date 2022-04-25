@@ -7,6 +7,7 @@ internal sealed class RoutineState {
 
     data class Data(
         val routine: Routine,
-        val errors: Map<RoutineField, RoutineFieldError>
+        val errors: Map<RoutineField, RoutineFieldError>,
+        val inputs: RoutineInputs
     ) : RoutineState()
 }

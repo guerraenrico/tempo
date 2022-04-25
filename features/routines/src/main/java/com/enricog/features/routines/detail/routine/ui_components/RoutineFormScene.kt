@@ -18,24 +18,25 @@ import androidx.compose.ui.platform.testTag
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.input.ImeAction
 import com.enricog.core.compose.api.extensions.stringResourceOrNull
-import com.enricog.entities.Seconds
-import com.enricog.data.routines.api.entities.Routine
 import com.enricog.features.routines.R
 import com.enricog.features.routines.detail.routine.models.RoutineField
+import com.enricog.features.routines.detail.routine.models.RoutineFieldError
+import com.enricog.features.routines.detail.routine.models.RoutineFields
 import com.enricog.ui.components.button.TempoButton
 import com.enricog.ui.components.button.TempoButtonColor
 import com.enricog.ui.components.textField.TempoTextField
 import com.enricog.ui.components.textField.TempoTimeField
+import com.enricog.ui.components.textField.TimeText
 import com.enricog.ui.theme.TempoTheme
 
 internal const val RoutineFormSceneTestTag = "RoutineFormSceneTestTag"
 
 @Composable
 internal fun RoutineFormScene(
-    routine: Routine,
-    errors: Map<RoutineField, Int>,
+    routine: RoutineFields,
+    errors: Map<RoutineField, RoutineFieldError>,
     onRoutineNameChange: (String) -> Unit,
-    onStartTimeOffsetChange: (Seconds) -> Unit,
+    onStartTimeOffsetChange: (TimeText) -> Unit,
     onRoutineSave: () -> Unit
 ) {
     val keyboardController = LocalSoftwareKeyboardController.current
@@ -60,7 +61,7 @@ internal fun RoutineFormScene(
                     .padding(TempoTheme.dimensions.spaceM)
                     .focusRequester(routineNameRef),
                 label = stringResource(R.string.field_label_routine_name),
-                errorMessage = stringResourceOrNull(id = errors[RoutineField.Name]),
+                errorMessage = stringResourceOrNull(id = errors[RoutineField.Name]?.stringResId),
                 singleLine = true,
                 keyboardOptions = KeyboardOptions(imeAction = ImeAction.Next),
                 keyboardActions = KeyboardActions(
@@ -76,7 +77,7 @@ internal fun RoutineFormScene(
                     .padding(TempoTheme.dimensions.spaceM)
                     .focusRequester(routineStartTimeRef),
                 label = stringResource(R.string.field_label_routine_start_time_offset),
-                errorMessage = stringResourceOrNull(id = errors[RoutineField.StartTimeOffsetInSeconds]),
+                errorMessage = stringResourceOrNull(id = errors[RoutineField.StartTimeOffsetInSeconds]?.stringResId),
                 imeAction = ImeAction.Done,
                 keyboardActions = KeyboardActions(
                     onDone = { keyboardController?.hide() }

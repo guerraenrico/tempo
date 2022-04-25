@@ -5,14 +5,15 @@ import androidx.lifecycle.viewModelScope
 import com.enricog.base.viewmodel.BaseViewModel
 import com.enricog.base.viewmodel.ViewModelConfiguration
 import com.enricog.core.coroutines.dispatchers.CoroutineDispatchers
-import com.enricog.entities.Seconds
+import com.enricog.core.coroutines.job.autoCancelableJob
 import com.enricog.data.routines.api.entities.Routine
-import com.enricog.navigation.api.routes.RoutineRoute
-import com.enricog.navigation.api.routes.RoutineRouteInput
 import com.enricog.features.routines.detail.routine.models.RoutineState
 import com.enricog.features.routines.detail.routine.models.RoutineViewState
 import com.enricog.features.routines.detail.routine.usecase.RoutineUseCase
 import com.enricog.features.routines.navigation.RoutinesNavigationActions
+import com.enricog.navigation.api.routes.RoutineRoute
+import com.enricog.navigation.api.routes.RoutineRouteInput
+import com.enricog.ui.components.textField.TimeText
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.launch
 import javax.inject.Inject
@@ -33,7 +34,7 @@ internal class RoutineViewModel @Inject constructor(
     configuration = ViewModelConfiguration(debounce = 0)
 ) {
 
-    private var startRoutineJob by com.enricog.core.coroutines.job.autoCancelableJob()
+    private var saveRoutineJob by autoCancelableJob()
 
     init {
         val input = RoutineRoute.extractInput(savedStateHandle)
@@ -42,20 +43,20 @@ internal class RoutineViewModel @Inject constructor(
 
     private fun load(input: RoutineRouteInput) {
         viewModelScope.launch {
-            val routine = routineUseCase.get(input.routineId)
-            updateState { reducer.setup(routine) }
+            val routine = routineUseCase.get(routineId = input.routineId)
+            updateState { reducer.setup(routine = routine) }
         }
     }
 
     fun onRoutineNameTextChange(text: String) {
         updateStateWhen<RoutineState.Data> {
-            reducer.updateRoutineName(it, text)
+            reducer.updateRoutineName(state = it, text = text)
         }
     }
 
-    fun onRoutineStartTimeOffsetChange(seconds: Seconds) {
+    fun onRoutineStartTimeOffsetChange(text: TimeText) {
         updateStateWhen<RoutineState.Data> {
-            reducer.updateRoutineStartTimeOffset(it, seconds)
+            reducer.updateRoutineStartTimeOffset(state = it, text = text)
         }
     }
 
@@ -64,19 +65,19 @@ internal class RoutineViewModel @Inject constructor(
     }
 
     fun onRoutineSave() = runWhen<RoutineState.Data> { stateData ->
-        val errors = validator.validate(stateData.routine)
+        val errors = validator.validate(inputs = stateData.inputs)
         if (errors.isEmpty()) {
-            save(stateData.routine)
+            save(routine = stateData.inputs.mergeToRoutine(routine = stateData.routine))
         } else {
             updateStateWhen<RoutineState.Data> {
-                reducer.applyRoutineErrors(it, errors)
+                reducer.applyRoutineErrors(state = it, errors = errors)
             }
         }
     }
 
     private fun save(routine: Routine) {
-        startRoutineJob = viewModelScope.launch {
-            val routineId = routineUseCase.save(routine)
+        saveRoutineJob = viewModelScope.launch {
+            val routineId = routineUseCase.save(routine = routine)
             when {
                 routine.isNew -> navigationActions.goToRoutineSummary(routineId = routineId)
                 else -> navigationActions.goBack()
