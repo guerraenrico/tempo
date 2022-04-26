@@ -4,6 +4,7 @@ import com.enricog.data.routines.api.entities.Routine
 import com.enricog.data.routines.api.entities.Segment
 import com.enricog.data.routines.api.entities.TimeType
 import com.enricog.entities.ID
+import com.enricog.entities.seconds
 import com.enricog.features.routines.detail.segment.models.SegmentField
 import com.enricog.features.routines.detail.segment.models.SegmentFieldError
 import com.enricog.features.routines.detail.segment.models.SegmentInputs
@@ -43,10 +44,14 @@ internal class SegmentReducer @Inject constructor() {
     }
 
     fun updateSegmentTime(state: SegmentState.Data, text: TimeText): SegmentState.Data {
-        val time = if (state.inputs.type == TimeType.STOPWATCH) {
-            "".timeText
-        } else {
-            text
+
+        // TODO fix insert 6000000000
+
+
+        val time = when {
+            state.inputs.type == TimeType.STOPWATCH -> "".timeText
+            text.toSeconds() > 3600.seconds -> state.inputs.time
+            else -> text
         }
 
         val inputs = state.inputs.copy(time = time)

@@ -24,7 +24,13 @@ value class TimeText private constructor(private val value: String) : Comparable
     val length: Int get() = value.length
 
     fun toSeconds(): Seconds {
-        val values = value.chunked(size = 2)
+        val evenLength = when {
+            length % 2 == 0 -> length
+            else -> length + 1
+        }
+        val values = value
+            .padStart(length = evenLength, padChar = '0')
+            .chunked(size = 2)
 
         fun extractValue(position: Int): Long {
             val stringValue = values
