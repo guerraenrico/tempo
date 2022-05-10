@@ -44,10 +44,6 @@ internal class SegmentReducer @Inject constructor() {
     }
 
     fun updateSegmentTime(state: SegmentState.Data, text: TimeText): SegmentState.Data {
-
-        // TODO fix insert 6000000000
-
-
         val time = when {
             state.inputs.type == TimeType.STOPWATCH -> "".timeText
             text.toSeconds() > 3600.seconds -> state.inputs.time

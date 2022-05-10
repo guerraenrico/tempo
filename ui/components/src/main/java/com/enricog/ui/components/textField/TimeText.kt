@@ -24,6 +24,8 @@ value class TimeText private constructor(private val value: String) : Comparable
     val length: Int get() = value.length
 
     fun toSeconds(): Seconds {
+        if (length > MAX_STRING_LENGTH) return MAX_VALUE_SECONDS
+
         val evenLength = when {
             length % 2 == 0 -> length
             else -> length + 1
@@ -56,6 +58,9 @@ value class TimeText private constructor(private val value: String) : Comparable
     companion object {
         private const val TIME_SEPARATOR = ":"
         private const val DEFAULT_TIME_VALUE = "0"
+
+        private const val MAX_STRING_LENGTH = 6
+        private val MAX_VALUE_SECONDS = 86400.seconds // 1h
 
         fun from(value: Seconds): TimeText {
             val (m, s) = value.inMinutes
