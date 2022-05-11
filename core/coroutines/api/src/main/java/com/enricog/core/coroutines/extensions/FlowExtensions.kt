@@ -1,8 +1,12 @@
 package com.enricog.core.coroutines.extensions
 
+import kotlinx.coroutines.channels.BufferOverflow
 import kotlinx.coroutines.channels.Channel.Factory.BUFFERED
 import kotlinx.coroutines.channels.ClosedReceiveChannelException
+import kotlinx.coroutines.channels.onFailure
+import kotlinx.coroutines.channels.onSuccess
 import kotlinx.coroutines.coroutineScope
+import kotlinx.coroutines.delay
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.buffer
 import kotlinx.coroutines.flow.flow
@@ -49,3 +53,20 @@ fun <T> Flow<T>.chunked(maxSize: Int, timeMillis: Long): Flow<List<T>> =
             }
         }
     }
+
+fun <T> Flow<T>.throttleFirst(timeMillis: Long): Flow<T> = flow {
+    coroutineScope {
+        val upstreamChannel = buffer(capacity = 1, BufferOverflow.DROP_OLDEST)
+            .produceIn(this)
+
+        var running = true
+        while (running) {
+            upstreamChannel.receiveCatching()
+                .onSuccess {
+                    emit(it)
+                    delay(timeMillis)
+                }
+                .onFailure { running = false }
+        }
+    }
+}
