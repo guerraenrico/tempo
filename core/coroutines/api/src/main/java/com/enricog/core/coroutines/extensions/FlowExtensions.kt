@@ -60,7 +60,7 @@ fun <T> Flow<T>.throttleFirst(timeMillis: Long): Flow<T> = flow {
             .produceIn(this)
 
         var running = true
-        while (running) {
+        while (running && isActive) {
             upstreamChannel.receiveCatching()
                 .onSuccess {
                     emit(it)
