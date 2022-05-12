@@ -1,14 +1,9 @@
 package com.enricog.ui.components.textField
 
-import androidx.compose.foundation.layout.Column
-import androidx.compose.foundation.layout.Row
-import androidx.compose.foundation.layout.fillMaxHeight
 import androidx.compose.foundation.layout.fillMaxWidth
-import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.shape.ZeroCornerSize
 import androidx.compose.foundation.text.KeyboardActions
 import androidx.compose.foundation.text.KeyboardOptions
-import androidx.compose.material.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.text.AnnotatedString
@@ -24,14 +19,11 @@ import androidx.compose.ui.text.input.VisualTransformation
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.sp
-import com.enricog.entities.seconds
 import com.enricog.ui.theme.TempoTheme
 import com.enricog.ui.theme.white
 import kotlin.math.min
 
 private val NUMERIC_REGEX = Regex("^[0-9]+\$|^\$|^\\s\$")
-private val MAX_TIME_SECONDS = 3600.seconds
-private const val MAX_LENGTH = 4
 private val TEXT_STYLE = tempoTextFieldBaseStyle.copy(textAlign = TextAlign.Center)
 private val TEXT_EMPTY_STYLE = SpanStyle(
     fontWeight = FontWeight.Normal,
@@ -59,51 +51,29 @@ fun TempoTimeField(
         }
     }
 
-    Column(modifier = modifier) {
-        if (label != null) {
-            Text(
-                modifier = Modifier.padding(bottom = TempoTheme.dimensions.spaceS),
-                text = label,
-                style = TempoTheme.typography.caption,
-                maxLines = 1,
-                color = TempoTheme.colors.onSurface
-            )
-        }
-        Row(
-            modifier = Modifier
-                .fillMaxWidth()
-                .fillMaxHeight()
-        ) {
-            TempoTextFieldBase(
-                value = textFieldValue,
-                onValueChange = textFieldSecondsChangeCallback,
-                modifier = Modifier
-                    .fillMaxWidth()
-                    .fillMaxHeight(),
-                textStyle = TEXT_STYLE,
-                label = null,
-                leadingIcon = null,
-                trailingIcon = null,
-                errorMessage = null,
-                keyboardOptions = KeyboardOptions(
-                    keyboardType = KeyboardType.Number,
-                    imeAction = imeAction
-                ),
-                keyboardActions = keyboardActions,
-                singleLine = true,
-                maxLines = 1,
-                visualTransformation = TimeVisualTransformation,
-                shape = TempoTheme.shapes.small.copy(
-                    bottomEnd = ZeroCornerSize,
-                    bottomStart = ZeroCornerSize,
-                    topStart = ZeroCornerSize
-                )
-            )
-        }
-        if (errorMessage != null) {
-            TempoTextFieldBaseErrorText(errorMessage)
-        }
-    }
+    TempoTextFieldBase(
+        value = textFieldValue,
+        onValueChange = textFieldSecondsChangeCallback,
+        modifier = modifier.fillMaxWidth(),
+        textStyle = TEXT_STYLE,
+        label = label,
+        leadingIcon = null,
+        trailingIcon = null,
+        errorMessage = errorMessage,
+        keyboardOptions = KeyboardOptions(
+            keyboardType = KeyboardType.Number,
+            imeAction = imeAction
+        ),
+        keyboardActions = keyboardActions,
+        singleLine = true,
+        maxLines = 1,
+        visualTransformation = TimeVisualTransformation,
+        shape = TempoTheme.shapes.small.copy(
+            bottomEnd = ZeroCornerSize,
+            bottomStart = ZeroCornerSize,
+            topStart = ZeroCornerSize
+        )
+    )
 }
 
 private object TimeVisualTransformation : VisualTransformation {

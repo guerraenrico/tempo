@@ -5,8 +5,10 @@ import androidx.compose.foundation.gestures.Orientation
 import androidx.compose.foundation.gestures.draggable
 import androidx.compose.foundation.gestures.rememberDraggableState
 import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
+import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.verticalScroll
@@ -15,6 +17,7 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.platform.testTag
 import androidx.compose.ui.res.stringResource
+import com.enricog.core.compose.api.extensions.stringResourceOrNull
 import com.enricog.data.routines.api.entities.TimeType
 import com.enricog.features.routines.R
 import com.enricog.features.routines.detail.segment.models.SegmentField
@@ -22,6 +25,7 @@ import com.enricog.features.routines.detail.segment.models.SegmentFieldError
 import com.enricog.features.routines.detail.segment.models.SegmentFields
 import com.enricog.ui.components.button.TempoButton
 import com.enricog.ui.components.button.TempoButtonColor
+import com.enricog.ui.components.textField.TempoTextField
 import com.enricog.ui.components.textField.TimeText
 import com.enricog.ui.theme.TempoTheme
 
@@ -64,29 +68,27 @@ internal fun SegmentFormScene(
                 .verticalScroll(rememberScrollState(0))
         ) {
 
+            TempoTextField(
+                value = segment.name,
+                onValueChange = onSegmentNameChange,
+                modifier = Modifier
+                    .fillMaxWidth()
+                    .padding(TempoTheme.dimensions.spaceM),
+                label = stringResource(R.string.field_label_segment_name),
+                errorMessage = stringResourceOrNull(id = errors[SegmentField.Name]?.stringResId),
+                singleLine = true
+            )
+
             SegmentTypeTabs(
-                modifier = Modifier.fillMaxWidth(),
+                modifier = Modifier
+                    .fillMaxWidth(),
                 state = swipeState,
                 timeTypes = timeTypes,
                 selected = segment.type,
                 onSelectChange = onSegmentTimeTypeChange
             )
-
-//            TempoTextField(
-//                value = segment.name,
-//                onValueChange = onSegmentNameChange,
-//                modifier = Modifier
-//                    .fillMaxWidth()
-//                    .padding(TempoTheme.dimensions.spaceM)
-//                    .focusRequester(segmentNameRef),
-//                label = stringResource(R.string.field_label_segment_name),
-//                errorMessage = stringResourceOrNull(id = errors[SegmentField.Name]),
-//                singleLine = true,
-//                keyboardOptions = KeyboardOptions(imeAction = ImeAction.Next),
-//                keyboardActions = KeyboardActions(
-//                    onNext = { segmentTimeRef.requestFocus() }
-//                )
-//            )
+            
+            Spacer(modifier = Modifier.height(TempoTheme.dimensions.spaceS))
 
             SegmentTimeField(
                 modifier = Modifier.fillMaxWidth(),
@@ -97,22 +99,6 @@ internal fun SegmentFormScene(
                 onTimeChange = onSegmentTimeChange
             )
 
-
-            // TODO hide/disable time field if type selected is stopwatch
-//            TempoTimeField(
-//                seconds = segment.time,
-//                onValueChange = onSegmentTimeChange,
-//                modifier = Modifier
-//                    .fillMaxWidth()
-//                    .padding(TempoTheme.dimensions.spaceM)
-//                    .focusRequester(segmentTimeRef),
-//                label = stringResource(R.string.field_label_segment_time),
-//                errorMessage = stringResourceOrNull(errors[SegmentField.TimeInSeconds]),
-//                imeAction = ImeAction.Done,
-//                keyboardActions = KeyboardActions(
-//                    onDone = { keyboardController?.hide() }
-//                )
-//            )
         }
 
         TempoButton(
