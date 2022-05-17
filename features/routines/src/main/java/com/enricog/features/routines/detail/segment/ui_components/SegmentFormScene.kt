@@ -5,10 +5,8 @@ import androidx.compose.foundation.gestures.Orientation
 import androidx.compose.foundation.gestures.draggable
 import androidx.compose.foundation.gestures.rememberDraggableState
 import androidx.compose.foundation.layout.Column
-import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
-import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.verticalScroll
@@ -79,26 +77,16 @@ internal fun SegmentFormScene(
                 singleLine = true
             )
 
-            SegmentTypeTabs(
-                modifier = Modifier
-                    .fillMaxWidth(),
-                state = swipeState,
-                timeTypes = timeTypes,
-                selected = segment.type,
-                onSelectChange = onSegmentTimeTypeChange
-            )
-            
-            Spacer(modifier = Modifier.height(TempoTheme.dimensions.spaceS))
-
-            SegmentTimeField(
+            SegmentPager(
                 modifier = Modifier.fillMaxWidth(),
                 swipeState = swipeState,
+                timeText = segment.time,
                 timeTypes = timeTypes,
-                time = segment.time,
-                errors = errors,
-                onTimeChange = onSegmentTimeChange
+                selectedType = segment.type,
+                onSelectTimeTypeChange = onSegmentTimeTypeChange,
+                onTimeTextChange = onSegmentTimeChange,
+                errors = errors
             )
-
         }
 
         TempoButton(
