@@ -13,10 +13,13 @@ import com.enricog.entities.asID
 import com.enricog.entities.seconds
 import com.enricog.features.routines.R
 import com.enricog.features.routines.detail.segment.models.SegmentField
+import com.enricog.features.routines.detail.segment.models.SegmentFieldError
+import com.enricog.features.routines.detail.segment.models.SegmentFields
 import com.enricog.features.routines.detail.segment.models.SegmentViewState
 import com.enricog.features.routines.detail.segment.usecase.SegmentUseCase
 import com.enricog.features.routines.navigation.RoutinesNavigationActions
 import com.enricog.navigation.testing.FakeNavigator
+import com.enricog.ui.components.textField.timeText
 import org.junit.Rule
 import org.junit.Test
 import kotlin.test.assertEquals
@@ -47,7 +50,11 @@ class SegmentViewModelTest {
     @Test
     fun `should setup segment on load `() = coroutineRule {
         val expected = SegmentViewState.Data(
-            segment = segment,
+            segment = SegmentFields(
+                name = "Segment Name",
+                time = "30".timeText,
+                type = TimeType.TIMER
+            ),
             errors = emptyMap(),
             timeTypes = listOf(TimeType.TIMER, TimeType.REST, TimeType.STOPWATCH)
         )
@@ -60,7 +67,11 @@ class SegmentViewModelTest {
     @Test
     fun `should update segment name onSegmentNameTextChange`() = coroutineRule {
         val expected = SegmentViewState.Data(
-            segment = segment.copy(name = "Segment Name Modified"),
+            segment = SegmentFields(
+                name = "Segment Name Modified",
+                time = "30".timeText,
+                type = TimeType.TIMER
+            ),
             errors = emptyMap(),
             timeTypes = listOf(TimeType.TIMER, TimeType.REST, TimeType.STOPWATCH)
         )
@@ -74,13 +85,17 @@ class SegmentViewModelTest {
     @Test
     fun `should update segment time onSegmentTimeChange`() = coroutineRule {
         val expected = SegmentViewState.Data(
-            segment = segment.copy(time = 10.seconds),
+            segment = SegmentFields(
+                name = "Segment Name",
+                time = "10".timeText,
+                type = TimeType.TIMER
+            ),
             errors = emptyMap(),
             timeTypes = listOf(TimeType.TIMER, TimeType.REST, TimeType.STOPWATCH)
         )
         val sut = buildSut()
 
-        sut.onSegmentTimeChange(seconds = 10.seconds)
+        sut.onSegmentTimeChange(text = "10".timeText)
 
         sut.viewState.test { assertEquals(expected, expectItem()) }
     }
@@ -88,7 +103,11 @@ class SegmentViewModelTest {
     @Test
     fun `should update segment type onSegmentTypeChange`() = coroutineRule {
         val expected = SegmentViewState.Data(
-            segment = segment.copy(type = TimeType.STOPWATCH, time = 0.seconds),
+            segment = SegmentFields(
+                name = "Segment Name",
+                time = "".timeText,
+                type = TimeType.STOPWATCH
+            ),
             errors = emptyMap(),
             timeTypes = listOf(TimeType.TIMER, TimeType.REST, TimeType.STOPWATCH)
         )
@@ -102,8 +121,12 @@ class SegmentViewModelTest {
     @Test
     fun `should show errors when segment has errors onSegmentConfirmed`() = coroutineRule {
         val expected = SegmentViewState.Data(
-            segment = segment.copy(name = ""),
-            errors = mapOf(SegmentField.Name to R.string.field_error_message_segment_name_blank),
+            segment = SegmentFields(
+                name = "",
+                time = "30".timeText,
+                type = TimeType.TIMER
+            ),
+            errors = mapOf(SegmentField.Name to SegmentFieldError.BlankSegmentName),
             timeTypes = listOf(TimeType.TIMER, TimeType.REST, TimeType.STOPWATCH)
         )
         val sut = buildSut()

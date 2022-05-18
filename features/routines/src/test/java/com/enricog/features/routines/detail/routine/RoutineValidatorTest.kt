@@ -1,10 +1,9 @@
 package com.enricog.features.routines.detail.routine
 
-import com.enricog.data.routines.testing.entities.EMPTY
-import com.enricog.data.routines.api.entities.Routine
-import com.enricog.entities.seconds
 import com.enricog.features.routines.detail.routine.models.RoutineField
 import com.enricog.features.routines.detail.routine.models.RoutineFieldError
+import com.enricog.features.routines.detail.routine.models.RoutineInputs
+import com.enricog.ui.components.textField.timeText
 import org.junit.Test
 import kotlin.test.assertEquals
 
@@ -14,12 +13,15 @@ class RoutineValidatorTest {
 
     @Test
     fun `should return error when routine name is blank`() {
-        val routine = Routine.EMPTY.copy(name = "", startTimeOffset = 0.seconds)
+        val inputs = RoutineInputs(
+            name = "",
+            startTimeOffset = "".timeText
+        )
         val expected: Map<RoutineField, RoutineFieldError> = mapOf(
             RoutineField.Name to RoutineFieldError.BlankRoutineName,
         )
 
-        val result = sut.validate(routine = routine)
+        val result = sut.validate(inputs = inputs)
 
         assertEquals(expected, result)
     }

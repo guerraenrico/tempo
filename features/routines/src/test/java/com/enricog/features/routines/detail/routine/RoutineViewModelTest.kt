@@ -9,14 +9,16 @@ import com.enricog.data.routines.testing.FakeRoutineDataSource
 import com.enricog.data.routines.testing.entities.EMPTY
 import com.enricog.entities.asID
 import com.enricog.entities.seconds
-import com.enricog.features.routines.R
 import com.enricog.features.routines.detail.routine.models.RoutineField
+import com.enricog.features.routines.detail.routine.models.RoutineFieldError
+import com.enricog.features.routines.detail.routine.models.RoutineFields
 import com.enricog.features.routines.detail.routine.models.RoutineViewState
 import com.enricog.features.routines.detail.routine.usecase.RoutineUseCase
 import com.enricog.features.routines.navigation.RoutinesNavigationActions
 import com.enricog.navigation.api.routes.RoutineSummaryRoute
 import com.enricog.navigation.api.routes.RoutineSummaryRouteInput
 import com.enricog.navigation.testing.FakeNavigator
+import com.enricog.ui.components.textField.timeText
 import org.junit.Rule
 import org.junit.Test
 import kotlin.test.assertEquals
@@ -34,12 +36,19 @@ class RoutineViewModelTest {
         startTimeOffset = 30.seconds,
         segments = emptyList()
     )
+    private val routineFields = RoutineFields(
+        name = "Routine Name",
+        startTimeOffset = "30".timeText
+    )
 
     private val navigator = FakeNavigator()
 
     @Test
     fun `should get routine on load`() = coroutineRule {
-        val expected = RoutineViewState.Data(routine = routine, errors = emptyMap())
+        val expected = RoutineViewState.Data(
+            routine = routineFields,
+            errors = emptyMap()
+        )
 
         val sut = buildSut()
 
@@ -49,7 +58,7 @@ class RoutineViewModelTest {
     @Test
     fun `should update routine when name change`() = coroutineRule {
         val expected = RoutineViewState.Data(
-            routine = routine.copy(name = "Routine Name Modified"),
+            routine = routineFields.copy(name = "Routine Name Modified"),
             errors = emptyMap()
         )
         val sut = buildSut()
@@ -60,14 +69,14 @@ class RoutineViewModelTest {
     }
 
     @Test
-    fun `should update routine when start offest time change`() = coroutineRule {
+    fun `should update routine when start offset time change`() = coroutineRule {
         val expected = RoutineViewState.Data(
-            routine = routine.copy(startTimeOffset = 10.seconds),
+            routine = routineFields.copy(startTimeOffset = "10".timeText),
             errors = emptyMap()
         )
         val sut = buildSut()
 
-        sut.onRoutineStartTimeOffsetChange(seconds = 10.seconds)
+        sut.onRoutineStartTimeOffsetChange(text = "10".timeText)
 
         sut.viewState.test { assertEquals(expected, expectItem()) }
     }
@@ -84,8 +93,8 @@ class RoutineViewModelTest {
     @Test
     fun `should show errors when saving a routine with errors`() = coroutineRule {
         val expected = RoutineViewState.Data(
-            routine = routine.copy(name = ""),
-            errors = mapOf(RoutineField.Name to R.string.field_error_message_routine_name_blank)
+            routine = routineFields.copy(name = ""),
+            errors = mapOf(RoutineField.Name to RoutineFieldError.BlankRoutineName)
         )
         val sut = buildSut()
         sut.onRoutineNameTextChange(text = "")
@@ -100,7 +109,7 @@ class RoutineViewModelTest {
     fun `should save and navigate to routineSummary when saving a new routine`() = coroutineRule {
         val expected = Routine.EMPTY.copy(name = "New Routine Name")
         val store = FakeStore(emptyList<Routine>())
-        val savedStateHandle: SavedStateHandle = SavedStateHandle(mapOf("routineId" to 0L))
+        val savedStateHandle = SavedStateHandle(mapOf("routineId" to 0L))
         val sut = buildSut(store = store, savedStateHandle = savedStateHandle)
         sut.onRoutineNameTextChange(text = "New Routine Name")
 

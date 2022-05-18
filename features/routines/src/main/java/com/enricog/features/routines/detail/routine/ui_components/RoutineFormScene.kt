@@ -77,7 +77,6 @@ internal fun RoutineFormScene(
                     .padding(TempoTheme.dimensions.spaceM)
                     .focusRequester(routineStartTimeRef),
                 label = stringResource(R.string.field_label_routine_start_time_offset),
-                errorMessage = stringResourceOrNull(id = errors[RoutineField.StartTimeOffsetInSeconds]?.stringResId),
                 imeAction = ImeAction.Done,
                 keyboardActions = KeyboardActions(
                     onDone = { keyboardController?.hide() }

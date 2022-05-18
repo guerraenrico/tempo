@@ -35,8 +35,7 @@ internal class RoutineReducer @Inject constructor() {
             return state
         }
         val inputs = state.inputs.copy(startTimeOffset = text)
-        val errors = state.errors.filterKeys { it != RoutineField.StartTimeOffsetInSeconds }
-        return state.copy(inputs = inputs, errors = errors)
+        return state.copy(inputs = inputs)
     }
 
     fun applyRoutineErrors(
