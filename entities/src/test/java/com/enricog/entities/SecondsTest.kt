@@ -46,7 +46,7 @@ class SecondsTest {
 
     @Test
     fun `test String to seconds when represent minutes as zero and seconds`() {
-        val value = "00:23"
+        val value = "0023"
         val expected = 23L
 
         val actual = value.seconds
@@ -56,8 +56,8 @@ class SecondsTest {
 
     @Test
     fun `test String to seconds when represent minutes and seconds`() {
-        val value = "1:23"
-        val expected = 83L
+        val value = "123"
+        val expected = 123L
 
         val actual = value.seconds
 
@@ -66,8 +66,8 @@ class SecondsTest {
 
     @Test
     fun `test String to seconds when represent minutes (double digit with 0) and seconds`() {
-        val value = "01:23"
-        val expected = 83L
+        val value = "0123"
+        val expected = 123L
 
         val actual = value.seconds
 
@@ -76,8 +76,8 @@ class SecondsTest {
 
     @Test
     fun `test String to seconds when represent minutes (double digit) and seconds`() {
-        val value = "12:34"
-        val expected = 754L
+        val value = "1234"
+        val expected = 1234L
 
         val actual = value.seconds
 
@@ -86,8 +86,8 @@ class SecondsTest {
 
     @Test
     fun `test String to seconds when represent hours, minutes and seconds`() {
-        val value = "01:23:01"
-        val expected = 4981L
+        val value = "012301"
+        val expected = 12301L
 
         val actual = value.seconds
 
@@ -97,7 +97,7 @@ class SecondsTest {
     @Test
     fun `test toString minutes`() {
         val value = 130.seconds
-        val expected = "2:10"
+        val expected = "130"
 
         val actual = value.toString()
 
@@ -107,7 +107,7 @@ class SecondsTest {
     @Test
     fun `test toString seconds`() {
         val value = 45.seconds
-        val expected = "0:45"
+        val expected = "45"
 
         val actual = value.toString()
 
@@ -117,7 +117,7 @@ class SecondsTest {
     @Test
     fun `test toString minutes double digit`() {
         val value = 500.seconds
-        val expected = "8:20"
+        val expected = "500"
 
         val actual = value.toString()
 
