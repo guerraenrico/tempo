@@ -30,7 +30,6 @@ import org.junit.Test
 import kotlin.test.assertEquals
 import kotlin.time.ExperimentalTime
 
-@OptIn(ExperimentalTime::class)
 class RoutineSummaryViewModelTest {
 
     @get:Rule
@@ -68,7 +67,7 @@ class RoutineSummaryViewModelTest {
         )
         val sut = buildSut()
 
-        sut.viewState.test { assertEquals(expected, expectItem()) }
+        sut.viewState.test { assertEquals(expected, awaitItem()) }
     }
 
     @Test
@@ -109,7 +108,7 @@ class RoutineSummaryViewModelTest {
 
         sut.onSegmentDelete(segment = secondSegment)
 
-        sut.viewState.test { assertEquals(expected, expectItem()) }
+        sut.viewState.test { assertEquals(expected, awaitItem()) }
     }
 
     @Test
@@ -127,7 +126,7 @@ class RoutineSummaryViewModelTest {
 
         sut.onSegmentMoved(segment = secondSegment, hoveredSegment = null)
 
-        sut.viewState.test { assertEquals(expected, expectItem()) }
+        sut.viewState.test { assertEquals(expected, awaitItem()) }
     }
 
     @Test
@@ -160,7 +159,7 @@ class RoutineSummaryViewModelTest {
 
         sut.onRoutineStart()
 
-        sut.viewState.test { assertEquals(expected, expectItem()) }
+        sut.viewState.test { assertEquals(expected, awaitItem()) }
         navigator.assertNoActions()
     }
 

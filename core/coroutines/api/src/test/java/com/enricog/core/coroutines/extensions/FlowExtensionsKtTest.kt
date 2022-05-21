@@ -14,7 +14,7 @@ import org.junit.Test
 import kotlin.test.assertEquals
 import kotlin.time.ExperimentalTime
 
-@OptIn(ExperimentalTime::class, ExperimentalCoroutinesApi::class)
+@OptIn(ExperimentalCoroutinesApi::class)
 class FlowExtensionsKtTest {
 
     @Test(expected = IllegalArgumentException::class)
@@ -57,8 +57,8 @@ class FlowExtensionsKtTest {
         flow.chunked(maxSize = 10, timeMillis = 100)
             .flowOn(UnconfinedTestDispatcher(testScheduler))
             .test {
-                assertEquals(expected = listOf(1, 2, 3, 4), actual = expectItem())
-                expectComplete()
+                assertEquals(expected = listOf(1, 2, 3, 4), actual = awaitItem())
+                awaitComplete()
             }
     }
 
@@ -75,9 +75,9 @@ class FlowExtensionsKtTest {
         flow.chunked(maxSize = 10, timeMillis = 100)
             .flowOn(UnconfinedTestDispatcher(testScheduler))
             .test {
-                assertEquals(expected = listOf(1, 2), actual = expectItem())
-                assertEquals(expected = listOf(3, 4), actual = expectItem())
-                expectComplete()
+                assertEquals(expected = listOf(1, 2), actual = awaitItem())
+                assertEquals(expected = listOf(3, 4), actual = awaitItem())
+                awaitComplete()
             }
     }
 
@@ -99,10 +99,10 @@ class FlowExtensionsKtTest {
         flow.chunked(maxSize = 4, timeMillis = 100)
             .flowOn(UnconfinedTestDispatcher(testScheduler))
             .test {
-                assertEquals(expected = listOf(1, 2, 3, 4), actual = expectItem())
-                assertEquals(expected = listOf(5), actual = expectItem())
-                assertEquals(expected = listOf(6, 7, 8), actual = expectItem())
-                expectComplete()
+                assertEquals(expected = listOf(1, 2, 3, 4), actual = awaitItem())
+                assertEquals(expected = listOf(5), actual = awaitItem())
+                assertEquals(expected = listOf(6, 7, 8), actual = awaitItem())
+                awaitComplete()
             }
     }
 
@@ -114,12 +114,12 @@ class FlowExtensionsKtTest {
             .throttleFirst(timeMillis = 500)
             .flowOn(UnconfinedTestDispatcher(testScheduler))
             .test {
-                assertEquals(expected = 1, actual = expectItem())
-                assertEquals(expected = 3, actual = expectItem())
-                assertEquals(expected = 5, actual = expectItem())
-                assertEquals(expected = 8, actual = expectItem())
-                assertEquals(expected = 10, actual = expectItem())
-                expectComplete()
+                assertEquals(expected = 1, actual = awaitItem())
+                assertEquals(expected = 3, actual = awaitItem())
+                assertEquals(expected = 5, actual = awaitItem())
+                assertEquals(expected = 8, actual = awaitItem())
+                assertEquals(expected = 10, actual = awaitItem())
+                awaitComplete()
             }
     }
 }

@@ -25,7 +25,6 @@ import org.junit.Test
 import kotlin.test.assertEquals
 import kotlin.time.ExperimentalTime
 
-@OptIn(ExperimentalTime::class)
 class SegmentViewModelTest {
 
     @get:Rule
@@ -61,7 +60,7 @@ class SegmentViewModelTest {
 
         val sut = buildSut()
 
-        sut.viewState.test { assertEquals(expected, expectItem()) }
+        sut.viewState.test { assertEquals(expected, awaitItem()) }
     }
 
     @Test
@@ -79,7 +78,7 @@ class SegmentViewModelTest {
 
         sut.onSegmentNameTextChange(text = "Segment Name Modified")
 
-        sut.viewState.test { assertEquals(expected, expectItem()) }
+        sut.viewState.test { assertEquals(expected, awaitItem()) }
     }
 
     @Test
@@ -97,7 +96,7 @@ class SegmentViewModelTest {
 
         sut.onSegmentTimeChange(text = "10".timeText)
 
-        sut.viewState.test { assertEquals(expected, expectItem()) }
+        sut.viewState.test { assertEquals(expected, awaitItem()) }
     }
 
     @Test
@@ -115,7 +114,7 @@ class SegmentViewModelTest {
 
         sut.onSegmentTypeChange(timeType = TimeType.STOPWATCH)
 
-        sut.viewState.test { assertEquals(expected, expectItem()) }
+        sut.viewState.test { assertEquals(expected, awaitItem()) }
     }
 
     @Test
@@ -135,7 +134,7 @@ class SegmentViewModelTest {
         sut.onSegmentConfirmed()
 
         navigator.assertNoActions()
-        sut.viewState.test { assertEquals(expected, expectItem()) }
+        sut.viewState.test { assertEquals(expected, awaitItem()) }
     }
 
     @Test

@@ -24,7 +24,6 @@ import org.junit.Test
 import kotlin.test.assertEquals
 import kotlin.time.ExperimentalTime
 
-@OptIn(ExperimentalTime::class)
 class RoutineViewModelTest {
 
     @get:Rule
@@ -52,7 +51,7 @@ class RoutineViewModelTest {
 
         val sut = buildSut()
 
-        sut.viewState.test { assertEquals(expected, expectItem()) }
+        sut.viewState.test { assertEquals(expected, awaitItem()) }
     }
 
     @Test
@@ -65,7 +64,7 @@ class RoutineViewModelTest {
 
         sut.onRoutineNameTextChange(text = "Routine Name Modified")
 
-        sut.viewState.test { assertEquals(expected, expectItem()) }
+        sut.viewState.test { assertEquals(expected, awaitItem()) }
     }
 
     @Test
@@ -78,7 +77,7 @@ class RoutineViewModelTest {
 
         sut.onRoutineStartTimeOffsetChange(text = "10".timeText)
 
-        sut.viewState.test { assertEquals(expected, expectItem()) }
+        sut.viewState.test { assertEquals(expected, awaitItem()) }
     }
 
     @Test
@@ -101,7 +100,7 @@ class RoutineViewModelTest {
 
         sut.onRoutineSave()
 
-        sut.viewState.test { assertEquals(expected, expectItem()) }
+        sut.viewState.test { assertEquals(expected, awaitItem()) }
         navigator.assertNoActions()
     }
 

@@ -12,7 +12,6 @@ import org.junit.Test
 import kotlin.test.assertEquals
 import kotlin.time.ExperimentalTime
 
-@OptIn(ExperimentalTime::class)
 class RoutineSummaryUseCaseTest {
 
     @get:Rule
@@ -34,9 +33,9 @@ class RoutineSummaryUseCaseTest {
         )
 
         sut.get(1.asID).test {
-            assertEquals(routine, expectItem())
+            assertEquals(routine, awaitItem())
             store.update { listOf(expectedAfter) }
-            assertEquals(expectedAfter, expectItem())
+            assertEquals(expectedAfter, awaitItem())
         }
     }
 

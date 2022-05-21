@@ -30,7 +30,6 @@ import kotlin.test.assertFalse
 import kotlin.test.assertTrue
 import kotlin.time.ExperimentalTime
 
-@OptIn(ExperimentalTime::class)
 class TimerViewModelTest {
 
     @get:Rule
@@ -84,11 +83,11 @@ class TimerViewModelTest {
         val sut = buildSut()
 
         sut.viewState.test {
-            assertEquals(expectedOnSetup, expectItem())
+            assertEquals(expectedOnSetup, awaitItem())
             advanceTimeBy(1000)
-            assertEquals(expectedOnStart, expectItem())
+            assertEquals(expectedOnStart, awaitItem())
         }
-        windowScreenManager.keepScreenOn.test { assertTrue(expectItem()) }
+        windowScreenManager.keepScreenOn.test { assertTrue(awaitItem()) }
     }
 
     @Test
@@ -106,17 +105,17 @@ class TimerViewModelTest {
         val sut = buildSut()
 
         sut.viewState.test {
-            expectItem()
+            awaitItem()
             advanceTimeBy(1000)
-            expectItem()
+            awaitItem()
             advanceTimeBy(1000)
-            expectItem()
+            awaitItem()
 
             sut.onStartStopButtonClick()
 
-            assertEquals(expected, expectItem())
+            assertEquals(expected, awaitItem())
         }
-        windowScreenManager.keepScreenOn.test { assertFalse(expectItem()) }
+        windowScreenManager.keepScreenOn.test { assertFalse(awaitItem()) }
     }
 
     @Test
@@ -134,15 +133,15 @@ class TimerViewModelTest {
         val sut = buildSut()
 
         sut.viewState.test {
-            expectItem()
+            awaitItem()
             advanceTimeBy(1000)
-            expectItem()
+            awaitItem()
             advanceTimeBy(1000)
-            expectItem()
+            awaitItem()
 
             sut.onResetButtonClick()
 
-            assertEquals(expected, expectItem())
+            assertEquals(expected, awaitItem())
         }
     }
 
@@ -171,21 +170,21 @@ class TimerViewModelTest {
         val sut = buildSut()
 
         sut.viewState.test {
-            expectItem()
+            awaitItem()
             advanceTimeBy(1000)
-            expectItem()
+            awaitItem()
             advanceTimeBy(1000)
-            expectItem()
+            awaitItem()
             advanceTimeBy(1000)
-            expectItem()
+            awaitItem()
             advanceTimeBy(1000)
-            expectItem()
+            awaitItem()
             advanceTimeBy(1000)
-            assertEquals(expectedStartFirstSegment, expectItem())
+            assertEquals(expectedStartFirstSegment, awaitItem())
 
             sut.onResetButtonClick()
 
-            assertEquals(expectedStart, expectItem())
+            assertEquals(expectedStart, awaitItem())
         }
     }
 
