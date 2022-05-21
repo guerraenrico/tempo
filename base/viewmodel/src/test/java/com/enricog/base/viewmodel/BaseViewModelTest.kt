@@ -8,7 +8,6 @@ import org.junit.Test
 import kotlin.test.assertEquals
 import kotlin.time.ExperimentalTime
 
-@OptIn(ExperimentalTime::class)
 class BaseViewModelTest {
 
     @get:Rule
@@ -58,7 +57,7 @@ class BaseViewModelTest {
     @Test
     fun `should set initial state on init`() = coroutineRule {
         buildViewModel(initialValue = TestState.Idle).viewState.test {
-            assertEquals(expected = TestViewState.Idle, actual = expectItem())
+            assertEquals(expected = TestViewState.Idle, actual = awaitItem())
         }
     }
 
@@ -66,11 +65,11 @@ class BaseViewModelTest {
     fun `should change state`() = coroutineRule {
         val sut = buildViewModel(initialValue = TestState.Idle)
         sut.viewState.test {
-            assertEquals(expected = TestViewState.Idle, actual = expectItem())
+            assertEquals(expected = TestViewState.Idle, actual = awaitItem())
 
             sut.setState(value = TestState.Data(value = 1))
 
-            assertEquals(expected = TestViewState.Data(value = "1"), actual = expectItem())
+            assertEquals(expected = TestViewState.Data(value = "1"), actual = awaitItem())
         }
     }
 
@@ -78,7 +77,7 @@ class BaseViewModelTest {
     fun `should not emit state when setting the same state value`() = coroutineRule {
         val sut = buildViewModel(initialValue = TestState.Idle)
         sut.viewState.test {
-            assertEquals(expected = TestViewState.Idle, actual = expectItem())
+            assertEquals(expected = TestViewState.Idle, actual = awaitItem())
 
             sut.setState(value = TestState.Idle)
 
@@ -90,11 +89,11 @@ class BaseViewModelTest {
     fun `should execute runWhen block when current state is the one expected`() = coroutineRule {
         val sut = buildViewModel(initialValue = TestState.Data(value = 1))
         sut.viewState.test {
-            assertEquals(expected = TestViewState.Data(value = "1"), actual = expectItem())
+            assertEquals(expected = TestViewState.Data(value = "1"), actual = awaitItem())
 
             sut.runSetState(value = TestState.Data(value = 2))
 
-            assertEquals(expected = TestViewState.Data(value = "2"), actual = expectItem())
+            assertEquals(expected = TestViewState.Data(value = "2"), actual = awaitItem())
         }
     }
 
@@ -103,7 +102,7 @@ class BaseViewModelTest {
         coroutineRule {
             val sut = buildViewModel(initialValue = TestState.Idle)
             sut.viewState.test {
-                assertEquals(expected = TestViewState.Idle, actual = expectItem())
+                assertEquals(expected = TestViewState.Idle, actual = awaitItem())
 
                 sut.runSetState(value = TestState.Data(value = 1))
 
@@ -115,11 +114,11 @@ class BaseViewModelTest {
     fun `should execute launchWhen block when current state is the one expected`() = coroutineRule {
         val sut = buildViewModel(initialValue = TestState.Data(value = 1))
         sut.viewState.test {
-            assertEquals(expected = TestViewState.Data(value = "1"), actual = expectItem())
+            assertEquals(expected = TestViewState.Data(value = "1"), actual = awaitItem())
 
             sut.launchSetState(value = TestState.Data(value = 2))
 
-            assertEquals(expected = TestViewState.Data(value = "2"), actual = expectItem())
+            assertEquals(expected = TestViewState.Data(value = "2"), actual = awaitItem())
         }
     }
 
@@ -128,7 +127,7 @@ class BaseViewModelTest {
         coroutineRule {
             val sut = buildViewModel(initialValue = TestState.Idle)
             sut.viewState.test {
-                assertEquals(expected = TestViewState.Idle, actual = expectItem())
+                assertEquals(expected = TestViewState.Idle, actual = awaitItem())
 
                 sut.launchSetState(value = TestState.Data(value = 1))
 

@@ -66,7 +66,7 @@ object Libs {
 
             const val activity = "androidx.activity:activity-compose:1.3.1"
 
-            const val navigation = "androidx.navigation:navigation-compose:2.4.1"
+            const val navigation = "androidx.navigation:navigation-compose:2.4.2"
             const val viewModel = "androidx.lifecycle:lifecycle-viewmodel-compose:2.4.1"
             const val constraintLayout = "androidx.constraintlayout:constraintlayout-compose:1.0.0"
         }
@@ -97,7 +97,7 @@ object Libs {
     }
 
     object Room {
-        private const val version = "2.4.1"
+        private const val version = "2.4.2"
 
         const val runtime = "androidx.room:room-runtime:$version"
         const val compiler = "androidx.room:room-compiler:$version"
@@ -118,7 +118,7 @@ object Libs {
     }
 
     object Firebase {
-        private const val version = "29.1.0"
+        private const val version = "30.0.2"
 
         const val bom = "com.google.firebase:firebase-bom:$version"
         const val crashlytics = "com.google.firebase:firebase-crashlytics-ktx"
@@ -136,7 +136,7 @@ object Libs {
         const val junitJupiterEngine = "org.junit.jupiter:junit-jupiter-engine:$junitJupiter"
         const val junitJupiterParams = "org.junit.jupiter:junit-jupiter-params:$junitJupiter"
         const val junit = "junit:junit:4.12"
-        const val flow = "app.cash.turbine:turbine:0.5.2"
+        const val flow = "app.cash.turbine:turbine:0.8.0"
     }
 
     const val Robolectric = "org.robolectric:robolectric:4.3.1"

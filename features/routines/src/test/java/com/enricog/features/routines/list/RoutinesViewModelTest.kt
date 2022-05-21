@@ -21,7 +21,6 @@ import org.junit.Test
 import kotlin.test.assertEquals
 import kotlin.time.ExperimentalTime
 
-@OptIn(ExperimentalTime::class)
 class RoutinesViewModelTest {
 
     @get:Rule
@@ -42,7 +41,7 @@ class RoutinesViewModelTest {
         val expected = RoutinesViewState.Data(routines = listOf(firstRoutine, secondRoutine))
         val sut = buildSut()
 
-        sut.viewState.test { assertEquals(expected, expectItem()) }
+        sut.viewState.test { assertEquals(expected, awaitItem()) }
     }
 
     @Test
@@ -77,7 +76,7 @@ class RoutinesViewModelTest {
 
         sut.onRoutineDelete(firstRoutine)
 
-        sut.viewState.test { assertEquals(expected, expectItem()) }
+        sut.viewState.test { assertEquals(expected, awaitItem()) }
     }
 
     private fun buildSut(): RoutinesViewModel {

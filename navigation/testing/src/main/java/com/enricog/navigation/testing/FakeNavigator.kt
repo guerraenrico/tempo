@@ -12,7 +12,6 @@ import org.junit.Assert.assertEquals
 import kotlin.test.assertTrue
 import kotlin.time.ExperimentalTime
 
-@OptIn(ExperimentalTime::class)
 class FakeNavigator : Navigator {
 
     private val _actions = MutableSharedFlow<NavigationAction>(
@@ -29,7 +28,7 @@ class FakeNavigator : Navigator {
 
     suspend fun <I: RouteInput> assertGoTo(route: Route<I>, input: I) {
         _actions.test {
-            val item = expectItem()
+            val item = awaitItem()
             assertTrue(
                 actual = item is NavigationAction.GoTo,
                 message = "Expected ${NavigationAction.GoTo::class.java.simpleName} got $item"
@@ -41,7 +40,7 @@ class FakeNavigator : Navigator {
 
     suspend fun assertGoBack() {
         _actions.test {
-            val item = expectItem()
+            val item = awaitItem()
             assertTrue(
                 actual = item is NavigationAction.GoBack,
                 message = "Expected ${NavigationAction.GoBack::class.java.simpleName} got $item"
