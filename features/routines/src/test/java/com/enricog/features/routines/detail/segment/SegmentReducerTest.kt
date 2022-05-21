@@ -1,15 +1,17 @@
 package com.enricog.features.routines.detail.segment
 
-import com.enricog.data.routines.testing.entities.EMPTY
-import com.enricog.entities.Rank
-import com.enricog.entities.asID
 import com.enricog.data.routines.api.entities.Routine
 import com.enricog.data.routines.api.entities.Segment
 import com.enricog.data.routines.api.entities.TimeType
+import com.enricog.data.routines.testing.entities.EMPTY
+import com.enricog.entities.Rank
+import com.enricog.entities.asID
 import com.enricog.entities.seconds
 import com.enricog.features.routines.detail.segment.models.SegmentField
 import com.enricog.features.routines.detail.segment.models.SegmentFieldError
+import com.enricog.features.routines.detail.segment.models.SegmentInputs
 import com.enricog.features.routines.detail.segment.models.SegmentState
+import com.enricog.ui.components.textField.timeText
 import org.junit.Test
 import kotlin.test.assertEquals
 
@@ -19,7 +21,12 @@ class SegmentReducerTest {
 
     @Test
     fun `should setup state with existing segment`() {
-        val segment = Segment.EMPTY.copy(id = 1.asID)
+        val segment = Segment.EMPTY.copy(
+            id = 1.asID,
+            name = "Segment Name",
+            time = 50.seconds,
+            type = TimeType.TIMER
+        )
         val routine = Routine.EMPTY.copy(
             segments = listOf(segment)
         )
@@ -27,12 +34,17 @@ class SegmentReducerTest {
             routine = routine,
             segment = segment,
             errors = emptyMap(),
-            timeTypes = listOf(TimeType.TIMER, TimeType.REST, TimeType.STOPWATCH)
+            timeTypes = listOf(TimeType.TIMER, TimeType.REST, TimeType.STOPWATCH),
+            inputs = SegmentInputs(
+                name = "Segment Name",
+                time = "50".timeText,
+                type = TimeType.TIMER
+            )
         )
 
-        val result = sut.setup(routine = routine, segmentId = 1.asID)
+        val actual = sut.setup(routine = routine, segmentId = 1.asID)
 
-        assertEquals(expected, result)
+        assertEquals(expected, actual)
     }
 
     @Test
@@ -45,12 +57,17 @@ class SegmentReducerTest {
             routine = routine,
             segment = segment,
             errors = emptyMap(),
-            timeTypes = listOf(TimeType.TIMER, TimeType.REST, TimeType.STOPWATCH)
+            timeTypes = listOf(TimeType.TIMER, TimeType.REST, TimeType.STOPWATCH),
+            inputs = SegmentInputs(
+                name = "",
+                time = "".timeText,
+                type = TimeType.TIMER
+            )
         )
 
-        val result = sut.setup(routine = routine, segmentId = 0.asID)
+        val actual = sut.setup(routine = routine, segmentId = 0.asID)
 
-        assertEquals(expected, result)
+        assertEquals(expected, actual)
     }
 
     @Test
@@ -59,27 +76,37 @@ class SegmentReducerTest {
             routine = Routine.EMPTY.copy(
                 segments = emptyList()
             ),
-            segment = Segment.EMPTY.copy(name = ""),
+            segment = Segment.EMPTY.copy(name = "Segment Name"),
             errors = mapOf(
                 SegmentField.Name to SegmentFieldError.BlankSegmentName,
                 SegmentField.TimeInSeconds to SegmentFieldError.InvalidSegmentTime
             ),
-            timeTypes = listOf(TimeType.TIMER, TimeType.REST, TimeType.STOPWATCH)
+            timeTypes = listOf(TimeType.TIMER, TimeType.REST, TimeType.STOPWATCH),
+            inputs = SegmentInputs(
+                name = "Segment Name",
+                time = "50".timeText,
+                type = TimeType.TIMER
+            )
         )
         val expected = SegmentState.Data(
             routine = Routine.EMPTY.copy(
                 segments = emptyList()
             ),
-            segment = Segment.EMPTY.copy(name = "name"),
+            segment = Segment.EMPTY.copy(name = "Segment Name"),
             errors = mapOf(
                 SegmentField.TimeInSeconds to SegmentFieldError.InvalidSegmentTime
             ),
-            timeTypes = listOf(TimeType.TIMER, TimeType.REST, TimeType.STOPWATCH)
+            timeTypes = listOf(TimeType.TIMER, TimeType.REST, TimeType.STOPWATCH),
+            inputs = SegmentInputs(
+                name = "Segment Name Modified",
+                time = "50".timeText,
+                type = TimeType.TIMER
+            )
         )
 
-        val result = sut.updateSegmentName(state = state, text = "name")
+        val actual = sut.updateSegmentName(state = state, text = "Segment Name Modified")
 
-        assertEquals(expected, result)
+        assertEquals(expected, actual)
     }
 
     @Test
@@ -96,25 +123,35 @@ class SegmentReducerTest {
                 SegmentField.Name to SegmentFieldError.BlankSegmentName,
                 SegmentField.TimeInSeconds to SegmentFieldError.InvalidSegmentTime
             ),
-            timeTypes = listOf(TimeType.TIMER, TimeType.REST, TimeType.STOPWATCH)
+            timeTypes = listOf(TimeType.TIMER, TimeType.REST, TimeType.STOPWATCH),
+            inputs = SegmentInputs(
+                name = "Segment Name",
+                time = "".timeText,
+                type = TimeType.TIMER
+            )
         )
         val expected = SegmentState.Data(
             routine = Routine.EMPTY.copy(
                 segments = emptyList()
             ),
             segment = Segment.EMPTY.copy(
-                time = 10.seconds,
+                time = 0.seconds,
                 type = TimeType.TIMER
             ),
             errors = mapOf(
                 SegmentField.Name to SegmentFieldError.BlankSegmentName
             ),
-            timeTypes = listOf(TimeType.TIMER, TimeType.REST, TimeType.STOPWATCH)
+            timeTypes = listOf(TimeType.TIMER, TimeType.REST, TimeType.STOPWATCH),
+            inputs = SegmentInputs(
+                name = "Segment Name",
+                time = "10".timeText,
+                type = TimeType.TIMER
+            )
         )
 
-        val result = sut.updateSegmentTime(state = state, seconds = 10.seconds)
+        val actual = sut.updateSegmentTime(state = state, text = "10".timeText)
 
-        assertEquals(expected, result)
+        assertEquals(expected, actual)
     }
 
     @Test
@@ -131,25 +168,35 @@ class SegmentReducerTest {
                 SegmentField.Name to SegmentFieldError.BlankSegmentName,
                 SegmentField.TimeInSeconds to SegmentFieldError.InvalidSegmentTime
             ),
-            timeTypes = listOf(TimeType.TIMER, TimeType.REST, TimeType.STOPWATCH)
+            timeTypes = listOf(TimeType.TIMER, TimeType.REST, TimeType.STOPWATCH),
+            inputs = SegmentInputs(
+                name = "Segment Name",
+                time = "10".timeText,
+                type = TimeType.STOPWATCH
+            )
         )
         val expected = SegmentState.Data(
             routine = Routine.EMPTY.copy(
                 segments = emptyList()
             ),
             segment = Segment.EMPTY.copy(
-                time = 0.seconds,
+                time = 10.seconds,
                 type = TimeType.STOPWATCH
             ),
             errors = mapOf(
                 SegmentField.Name to SegmentFieldError.BlankSegmentName
             ),
-            timeTypes = listOf(TimeType.TIMER, TimeType.REST, TimeType.STOPWATCH)
+            timeTypes = listOf(TimeType.TIMER, TimeType.REST, TimeType.STOPWATCH),
+            inputs = SegmentInputs(
+                name = "Segment Name",
+                time = "".timeText,
+                type = TimeType.STOPWATCH
+            )
         )
 
-        val result = sut.updateSegmentTime(state = state, seconds = 10.seconds)
+        val actual = sut.updateSegmentTime(state = state, text = "10".timeText)
 
-        assertEquals(expected, result)
+        assertEquals(expected, actual)
     }
 
     @Test
@@ -163,7 +210,12 @@ class SegmentReducerTest {
                 time = 10.seconds
             ),
             errors = emptyMap(),
-            timeTypes = listOf(TimeType.TIMER, TimeType.REST, TimeType.STOPWATCH)
+            timeTypes = listOf(TimeType.TIMER, TimeType.REST, TimeType.STOPWATCH),
+            inputs = SegmentInputs(
+                name = "Segment Name",
+                time = "10".timeText,
+                type = TimeType.TIMER
+            )
         )
         val expected = SegmentState.Data(
             routine = Routine.EMPTY.copy(
@@ -171,15 +223,20 @@ class SegmentReducerTest {
             ),
             segment = Segment.EMPTY.copy(
                 time = 10.seconds,
-                type = TimeType.REST
+                type = TimeType.TIMER
             ),
             errors = emptyMap(),
-            timeTypes = listOf(TimeType.TIMER, TimeType.REST, TimeType.STOPWATCH)
+            timeTypes = listOf(TimeType.TIMER, TimeType.REST, TimeType.STOPWATCH),
+            inputs = SegmentInputs(
+                name = "Segment Name",
+                time = "10".timeText,
+                type = TimeType.REST
+            )
         )
 
-        val result = sut.updateSegmentTimeType(state = state, timeType = TimeType.REST)
+        val actual = sut.updateSegmentTimeType(state = state, timeType = TimeType.REST)
 
-        assertEquals(expected, result)
+        assertEquals(expected, actual)
     }
 
     @Test
@@ -193,23 +250,33 @@ class SegmentReducerTest {
                 type = TimeType.TIMER
             ),
             errors = emptyMap(),
-            timeTypes = listOf(TimeType.TIMER, TimeType.REST, TimeType.STOPWATCH)
+            timeTypes = listOf(TimeType.TIMER, TimeType.REST, TimeType.STOPWATCH),
+            inputs = SegmentInputs(
+                name = "Segment Name",
+                time = "10".timeText,
+                type = TimeType.TIMER
+            )
         )
         val expected = SegmentState.Data(
             routine = Routine.EMPTY.copy(
                 segments = emptyList()
             ),
             segment = Segment.EMPTY.copy(
-                time = 0.seconds,
-                type = TimeType.STOPWATCH
+                time = 10.seconds,
+                type = TimeType.TIMER
             ),
             errors = emptyMap(),
-            timeTypes = listOf(TimeType.TIMER, TimeType.REST, TimeType.STOPWATCH)
+            timeTypes = listOf(TimeType.TIMER, TimeType.REST, TimeType.STOPWATCH),
+            inputs = SegmentInputs(
+                name = "Segment Name",
+                time = "".timeText,
+                type = TimeType.STOPWATCH
+            )
         )
 
-        val result = sut.updateSegmentTimeType(state = state, timeType = TimeType.STOPWATCH)
+        val actual = sut.updateSegmentTimeType(state = state, timeType = TimeType.STOPWATCH)
 
-        assertEquals(expected, result)
+        assertEquals(expected, actual)
     }
 
     @Test
@@ -222,17 +289,27 @@ class SegmentReducerTest {
             routine = Routine.EMPTY,
             segment = Segment.EMPTY,
             errors = emptyMap(),
-            timeTypes = listOf(TimeType.TIMER, TimeType.REST, TimeType.STOPWATCH)
+            timeTypes = listOf(TimeType.TIMER, TimeType.REST, TimeType.STOPWATCH),
+            inputs = SegmentInputs(
+                name = "",
+                time = "".timeText,
+                type = TimeType.TIMER
+            )
         )
         val expected = SegmentState.Data(
             routine = Routine.EMPTY,
             segment = Segment.EMPTY,
             errors = errors,
-            timeTypes = listOf(TimeType.TIMER, TimeType.REST, TimeType.STOPWATCH)
+            timeTypes = listOf(TimeType.TIMER, TimeType.REST, TimeType.STOPWATCH),
+            inputs = SegmentInputs(
+                name = "",
+                time = "".timeText,
+                type = TimeType.TIMER
+            )
         )
 
-        val result = sut.applySegmentErrors(state = state, errors = errors)
+        val actual = sut.applySegmentErrors(state = state, errors = errors)
 
-        assertEquals(expected, result)
+        assertEquals(expected, actual)
     }
 }

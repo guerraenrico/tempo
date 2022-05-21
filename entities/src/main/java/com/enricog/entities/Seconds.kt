@@ -1,6 +1,5 @@
 package com.enricog.entities
 
-import kotlin.math.pow
 import kotlin.time.Duration
 import kotlin.time.DurationUnit
 import kotlin.time.toDuration
@@ -11,11 +10,8 @@ value class Seconds private constructor(private val duration: Duration) : Compar
     val value: Long
         get() = duration.inWholeSeconds
 
-    val minutes: Long
-        get() = value / 60
-
-    val secondsRemainingInMinute: Long
-        get() = value - (minutes * 60)
+    val inMinutes: Pair<Long, Long>
+        get() = (value / 60) to (value - ((value / 60) * 60))
 
     operator fun plus(other: Seconds): Seconds {
         return Seconds(duration + other.duration)
@@ -30,33 +26,20 @@ value class Seconds private constructor(private val duration: Duration) : Compar
     }
 
     override fun toString(): String {
-        return "$minutes:$secondsRemainingInMinute"
+        return value.toString()
     }
 
     companion object {
-        private const val TIME_SEPARATOR = ":"
-        private const val DEFAULT_TIME_VALUE = "0"
-
         fun from(value: Int): Seconds = Seconds(value.toDuration(DurationUnit.SECONDS))
 
         fun from(value: Long): Seconds = Seconds(value.toDuration(DurationUnit.SECONDS))
 
         fun from(value: String): Seconds {
-            val values = value.split(TIME_SEPARATOR)
+            return when {
+                value.isBlank() -> from(0)
 
-            fun extractValue(position: Int): Long {
-                val stringValue = values
-                    .getOrElse(position - 1) { DEFAULT_TIME_VALUE }
-                    .takeIf { it.isNotBlank() }
-                    ?: DEFAULT_TIME_VALUE
-                return stringValue.toLong()
+                else -> from(value.toLong())
             }
-
-            val length = values.size
-            val seconds = (0..2).fold(0L) { accumulator, i ->
-                accumulator + extractValue(length - i) * (60.0.pow(i)).toLong()
-            }
-            return Seconds(seconds.toDuration(DurationUnit.SECONDS))
         }
     }
 }

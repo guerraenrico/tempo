@@ -1,14 +1,16 @@
 package com.enricog.features.routines.detail.segment
 
-import com.enricog.entities.ID
-import com.enricog.entities.Seconds
 import com.enricog.data.routines.api.entities.Routine
 import com.enricog.data.routines.api.entities.Segment
 import com.enricog.data.routines.api.entities.TimeType
+import com.enricog.entities.ID
 import com.enricog.entities.seconds
 import com.enricog.features.routines.detail.segment.models.SegmentField
 import com.enricog.features.routines.detail.segment.models.SegmentFieldError
+import com.enricog.features.routines.detail.segment.models.SegmentInputs
 import com.enricog.features.routines.detail.segment.models.SegmentState
+import com.enricog.ui.components.textField.TimeText
+import com.enricog.ui.components.textField.timeText
 import javax.inject.Inject
 
 internal class SegmentReducer @Inject constructor() {
@@ -18,50 +20,56 @@ internal class SegmentReducer @Inject constructor() {
     fun setup(routine: Routine, segmentId: ID): SegmentState {
         val segment = routine.segments.find { it.id == segmentId }
             ?: Segment.create(routine.getNewSegmentRank())
+        val inputs = SegmentInputs(
+            name = segment.name,
+            time = segment.time.timeText,
+            type = segment.type
+        )
         return SegmentState.Data(
             routine = routine,
             segment = segment,
             errors = emptyMap(),
-            timeTypes = timeTypes
+            timeTypes = timeTypes,
+            inputs = inputs
         )
     }
 
     fun updateSegmentName(state: SegmentState.Data, text: String): SegmentState.Data {
-        val segment = state.segment.copy(name = text)
+        val inputs = state.inputs.copy(name = text)
         val errors = state.errors.filterKeys { it != SegmentField.Name }
         return state.copy(
-            segment = segment,
+            inputs = inputs,
             errors = errors
         )
     }
 
-    fun updateSegmentTime(state: SegmentState.Data, seconds: Seconds): SegmentState.Data {
-        val time = if (state.segment.type == TimeType.STOPWATCH) {
-            0.seconds
-        } else {
-            seconds
+    fun updateSegmentTime(state: SegmentState.Data, text: TimeText): SegmentState.Data {
+        val time = when {
+            state.inputs.type == TimeType.STOPWATCH -> "".timeText
+            text.toSeconds() > 3600.seconds -> state.inputs.time
+            else -> text
         }
 
-        val segment = state.segment.copy(time = time)
+        val inputs = state.inputs.copy(time = time)
         val errors = state.errors.filterKeys { it != SegmentField.TimeInSeconds }
         return state.copy(
-            segment = segment,
+            inputs = inputs,
             errors = errors
         )
     }
 
     fun updateSegmentTimeType(state: SegmentState.Data, timeType: TimeType): SegmentState.Data {
         val time = if (timeType == TimeType.STOPWATCH) {
-            0.seconds
+            "".timeText
         } else {
-            state.segment.time
+            state.inputs.time
         }
 
-        val segment = state.segment.copy(
+        val inputs = state.inputs.copy(
             type = timeType,
             time = time
         )
-        return state.copy(segment = segment)
+        return state.copy(inputs = inputs)
     }
 
     fun applySegmentErrors(

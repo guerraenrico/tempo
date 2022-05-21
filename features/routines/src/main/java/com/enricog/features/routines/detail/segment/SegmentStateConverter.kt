@@ -1,9 +1,8 @@
 package com.enricog.features.routines.detail.segment
 
 import com.enricog.base.viewmodel.StateConverter
-import com.enricog.features.routines.R
-import com.enricog.features.routines.detail.segment.models.SegmentFieldError
 import com.enricog.features.routines.detail.segment.models.SegmentState
+import com.enricog.features.routines.detail.segment.models.SegmentFields
 import com.enricog.features.routines.detail.segment.models.SegmentViewState
 import javax.inject.Inject
 
@@ -19,17 +18,13 @@ internal class SegmentStateConverter @Inject constructor() :
 
     private fun SegmentState.Data.toViewState(): SegmentViewState {
         return SegmentViewState.Data(
-            segment = segment,
-            errors = errors.mapValues { it.value.stringResourceId },
+            segment = SegmentFields(
+                name = inputs.name,
+                time = inputs.time,
+                type = inputs.type
+            ),
+            errors = errors,
             timeTypes = timeTypes
         )
     }
-
-    private val SegmentFieldError.stringResourceId: Int
-        get() {
-            return when (this) {
-                SegmentFieldError.BlankSegmentName -> R.string.field_error_message_segment_name_blank
-                SegmentFieldError.InvalidSegmentTime -> R.string.field_error_message_segment_time_invalid
-            }
-        }
 }

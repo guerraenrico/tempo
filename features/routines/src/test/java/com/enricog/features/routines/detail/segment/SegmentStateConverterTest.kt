@@ -1,17 +1,20 @@
 package com.enricog.features.routines.detail.segment
 
-import com.enricog.data.routines.testing.entities.EMPTY
 import com.enricog.core.coroutines.testing.CoroutineRule
 import com.enricog.data.routines.api.entities.Routine
 import com.enricog.data.routines.api.entities.Segment
-import com.enricog.features.routines.R
+import com.enricog.data.routines.api.entities.TimeType
+import com.enricog.data.routines.testing.entities.EMPTY
 import com.enricog.features.routines.detail.segment.models.SegmentField
 import com.enricog.features.routines.detail.segment.models.SegmentFieldError
+import com.enricog.features.routines.detail.segment.models.SegmentFields
+import com.enricog.features.routines.detail.segment.models.SegmentInputs
 import com.enricog.features.routines.detail.segment.models.SegmentState
 import com.enricog.features.routines.detail.segment.models.SegmentViewState
-import kotlin.test.assertEquals
+import com.enricog.ui.components.textField.timeText
 import org.junit.Rule
 import org.junit.Test
+import kotlin.test.assertEquals
 
 class SegmentStateConverterTest {
 
@@ -25,9 +28,9 @@ class SegmentStateConverterTest {
         val state = SegmentState.Idle
         val expected = SegmentViewState.Idle
 
-        val result = sut.convert(state)
+        val actual = sut.convert(state)
 
-        assertEquals(expected, result)
+        assertEquals(expected, actual)
     }
 
     @Test
@@ -39,19 +42,28 @@ class SegmentStateConverterTest {
                 SegmentField.Name to SegmentFieldError.BlankSegmentName,
                 SegmentField.TimeInSeconds to SegmentFieldError.InvalidSegmentTime
             ),
-            timeTypes = emptyList()
+            timeTypes = emptyList(),
+            inputs = SegmentInputs(
+                name = "name",
+                time = "10".timeText,
+                type = TimeType.REST
+            )
         )
         val expected = SegmentViewState.Data(
-            segment = Segment.EMPTY,
+            segment = SegmentFields(
+                name = "name",
+                time = "10".timeText,
+                type = TimeType.REST
+            ),
             errors = mapOf(
-                SegmentField.Name to R.string.field_error_message_segment_name_blank,
-                SegmentField.TimeInSeconds to R.string.field_error_message_segment_time_invalid
+                SegmentField.Name to SegmentFieldError.BlankSegmentName,
+                SegmentField.TimeInSeconds to SegmentFieldError.InvalidSegmentTime
             ),
             timeTypes = emptyList()
         )
 
-        val result = sut.convert(state)
+        val actual = sut.convert(state)
 
-        assertEquals(expected, result)
+        assertEquals(expected, actual)
     }
 }

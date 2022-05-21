@@ -128,6 +128,13 @@ object Libs {
     // Test
 
     object Test {
+        private const val junit5 = "1.8.2.0"
+        private const val junitJupiter = "5.8.2"
+
+        const val junitGradlePlugin = "de.mannodermaus.gradle.plugins:android-junit5:$junit5"
+        const val junitJupiterApi = "org.junit.jupiter:junit-jupiter-api:$junitJupiter"
+        const val junitJupiterEngine = "org.junit.jupiter:junit-jupiter-engine:$junitJupiter"
+        const val junitJupiterParams = "org.junit.jupiter:junit-jupiter-params:$junitJupiter"
         const val junit = "junit:junit:4.12"
         const val flow = "app.cash.turbine:turbine:0.5.2"
     }

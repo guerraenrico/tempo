@@ -48,9 +48,7 @@ internal fun TempoTextFieldBase(
     ),
 ) {
     val composableLabel: @Composable (() -> Unit)? = label?.let { @Composable { Text(label) } }
-    Column(
-        modifier = modifier
-    ) {
+    Column(modifier = modifier) {
         TextField(
             value = value,
             onValueChange = onValueChange,

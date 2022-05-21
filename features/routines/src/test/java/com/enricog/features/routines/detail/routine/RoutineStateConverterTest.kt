@@ -1,16 +1,18 @@
 package com.enricog.features.routines.detail.routine
 
-import com.enricog.data.routines.testing.entities.EMPTY
 import com.enricog.core.coroutines.testing.CoroutineRule
 import com.enricog.data.routines.api.entities.Routine
-import com.enricog.features.routines.R
+import com.enricog.data.routines.testing.entities.EMPTY
 import com.enricog.features.routines.detail.routine.models.RoutineField
 import com.enricog.features.routines.detail.routine.models.RoutineFieldError
+import com.enricog.features.routines.detail.routine.models.RoutineFields
+import com.enricog.features.routines.detail.routine.models.RoutineInputs
 import com.enricog.features.routines.detail.routine.models.RoutineState
 import com.enricog.features.routines.detail.routine.models.RoutineViewState
-import kotlin.test.assertEquals
+import com.enricog.ui.components.textField.timeText
 import org.junit.Rule
 import org.junit.Test
+import kotlin.test.assertEquals
 
 class RoutineStateConverterTest {
 
@@ -35,12 +37,19 @@ class RoutineStateConverterTest {
             routine = Routine.EMPTY,
             errors = mapOf(
                 RoutineField.Name to RoutineFieldError.BlankRoutineName,
+            ),
+            inputs = RoutineInputs(
+                name = "name",
+                startTimeOffset = "50".timeText
             )
         )
         val expected = RoutineViewState.Data(
-            routine = Routine.EMPTY,
+            routine = RoutineFields(
+                name = "name",
+                startTimeOffset = "50".timeText
+            ),
             errors = mapOf(
-                RoutineField.Name to R.string.field_error_message_routine_name_blank,
+                RoutineField.Name to RoutineFieldError.BlankRoutineName
             )
         )
 

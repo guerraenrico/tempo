@@ -91,8 +91,8 @@ internal fun RoutineSummaryScene(
 
         AnimatedVisibility(
             visible = !listDraggableState.isDragging,
-            enter = slideInVertically(initialOffsetY = { it / 2 }),
-            exit = slideOutVertically(targetOffsetY = { it / 2 }),
+            enter = slideInVertically(initialOffsetY = { it }),
+            exit = slideOutVertically(targetOffsetY = { it }),
             modifier = Modifier.align(Alignment.BottomCenter)
         ) {
             StartRoutineButton(onClick = onRoutineStart)

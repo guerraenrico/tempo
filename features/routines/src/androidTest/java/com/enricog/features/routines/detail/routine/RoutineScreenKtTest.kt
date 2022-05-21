@@ -4,10 +4,10 @@ import androidx.compose.ui.test.assertIsDisplayed
 import androidx.compose.ui.test.junit4.createComposeRule
 import androidx.compose.ui.test.onNodeWithTag
 import com.enricog.core.compose.testing.invoke
-import com.enricog.data.routines.testing.entities.EMPTY
-import com.enricog.data.routines.api.entities.Routine
+import com.enricog.features.routines.detail.routine.models.RoutineFields
 import com.enricog.features.routines.detail.routine.models.RoutineViewState
 import com.enricog.features.routines.detail.routine.ui_components.RoutineFormSceneTestTag
+import com.enricog.ui.components.textField.timeText
 import com.enricog.ui.theme.TempoTheme
 import org.junit.Rule
 import org.junit.Test
@@ -36,7 +36,13 @@ class RoutineScreenKtTest {
 
     @Test
     fun shouldRenderAnySceneWhenStateIsIdle() = composeRule {
-        val viewState = RoutineViewState.Data(routine = Routine.EMPTY, errors = emptyMap())
+        val viewState = RoutineViewState.Data(
+            routine = RoutineFields(
+                name = "",
+                startTimeOffset = "".timeText
+            ),
+            errors = emptyMap()
+        )
 
         setContent {
             TempoTheme {

@@ -1,20 +1,21 @@
 package com.enricog.features.routines.detail.segment
 
-import com.enricog.data.routines.api.entities.Segment
 import com.enricog.data.routines.api.entities.TimeType
 import com.enricog.entities.seconds
 import com.enricog.features.routines.detail.segment.models.SegmentField
 import com.enricog.features.routines.detail.segment.models.SegmentFieldError
+import com.enricog.features.routines.detail.segment.models.SegmentInputs
 import javax.inject.Inject
 
 internal class SegmentValidator @Inject constructor() {
 
-    fun validate(segment: Segment): Map<SegmentField, SegmentFieldError> {
+    fun validate(inputs: SegmentInputs): Map<SegmentField, SegmentFieldError> {
         return buildMap {
-            if (segment.name.isBlank()) {
+            if (inputs.name.isBlank()) {
                 put(SegmentField.Name, SegmentFieldError.BlankSegmentName)
             }
-            if (segment.time <= 0.seconds && segment.type != TimeType.STOPWATCH) {
+            val seconds = inputs.time.toSeconds()
+            if (seconds <= 0.seconds && inputs.type != TimeType.STOPWATCH) {
                 put(SegmentField.TimeInSeconds, SegmentFieldError.InvalidSegmentTime)
             }
         }

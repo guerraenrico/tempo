@@ -9,6 +9,7 @@ import androidx.compose.foundation.layout.fillMaxHeight
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.offset
 import androidx.compose.foundation.layout.padding
+import androidx.compose.material.ExperimentalMaterialApi
 import androidx.compose.material.FractionalThreshold
 import androidx.compose.material.Surface
 import androidx.compose.material.Text
@@ -33,6 +34,7 @@ private enum class SwipeableState {
     OPEN
 }
 
+@OptIn(ExperimentalMaterialApi::class)
 @Composable
 internal fun DeletableListItem(
     modifier: Modifier = Modifier,

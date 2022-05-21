@@ -8,11 +8,12 @@ import com.enricog.ui.components.R
 @Composable
 fun Seconds.format(): String {
     return buildString {
-        if (minutes > 0) {
-            append("$minutes${stringResource(id = R.string.label_minutes_acronym)} ")
+        val (m, s) = inMinutes
+        if (m > 0) {
+            append("$m${stringResource(id = R.string.label_minutes_acronym)} ")
         }
-        if (secondsRemainingInMinute > 0) {
-            append("$secondsRemainingInMinute${stringResource(id = R.string.label_seconds_acronym)}")
+        if (s > 0) {
+            append("$s${stringResource(id = R.string.label_seconds_acronym)}")
         }
     }
 }

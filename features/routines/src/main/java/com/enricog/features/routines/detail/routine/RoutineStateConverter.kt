@@ -1,8 +1,7 @@
 package com.enricog.features.routines.detail.routine
 
 import com.enricog.base.viewmodel.StateConverter
-import com.enricog.features.routines.R
-import com.enricog.features.routines.detail.routine.models.RoutineFieldError
+import com.enricog.features.routines.detail.routine.models.RoutineFields
 import com.enricog.features.routines.detail.routine.models.RoutineState
 import com.enricog.features.routines.detail.routine.models.RoutineViewState
 import javax.inject.Inject
@@ -19,13 +18,11 @@ internal class RoutineStateConverter @Inject constructor() :
 
     private fun RoutineState.Data.toViewState(): RoutineViewState {
         return RoutineViewState.Data(
-            routine = routine,
-            errors = errors.mapValues { it.value.stringResourceId }
+            routine = RoutineFields(
+                name = inputs.name,
+                startTimeOffset = inputs.startTimeOffset
+            ),
+            errors = errors
         )
     }
-
-    private val RoutineFieldError.stringResourceId: Int
-        get() = when (this) {
-            RoutineFieldError.BlankRoutineName -> R.string.field_error_message_routine_name_blank
-        }
 }

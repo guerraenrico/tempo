@@ -1,13 +1,12 @@
 package com.enricog.features.routines.detail.segment
 
-import com.enricog.data.routines.testing.entities.EMPTY
-import com.enricog.data.routines.api.entities.Segment
 import com.enricog.data.routines.api.entities.TimeType
-import com.enricog.entities.seconds
 import com.enricog.features.routines.detail.segment.models.SegmentField
 import com.enricog.features.routines.detail.segment.models.SegmentFieldError
-import kotlin.test.assertEquals
+import com.enricog.features.routines.detail.segment.models.SegmentInputs
+import com.enricog.ui.components.textField.timeText
 import org.junit.Test
+import kotlin.test.assertEquals
 
 class SegmentValidatorTest {
 
@@ -15,47 +14,47 @@ class SegmentValidatorTest {
 
     @Test
     fun `should return error when segment name is blank`() {
-        val segment = Segment.EMPTY.copy(
+        val inputs = SegmentInputs(
             name = "",
-            time = 10.seconds,
+            time = "10".timeText,
             type = TimeType.TIMER
         )
         val expected = mapOf<SegmentField, SegmentFieldError>(
             SegmentField.Name to SegmentFieldError.BlankSegmentName
         )
 
-        val result = sut.validate(segment = segment)
+        val actual = sut.validate(inputs = inputs)
 
-        assertEquals(expected, result)
+        assertEquals(expected, actual)
     }
 
     @Test
     fun `should return error when segment time is less or equal to zero and type is not TimeType#STOPWATCH`() {
-        val segment = Segment.EMPTY.copy(
+        val inputs = SegmentInputs(
             name = "name",
-            time = 0.seconds,
+            time = "".timeText,
             type = TimeType.TIMER
         )
         val expected = mapOf<SegmentField, SegmentFieldError>(
             SegmentField.TimeInSeconds to SegmentFieldError.InvalidSegmentTime
         )
 
-        val result = sut.validate(segment = segment)
+        val actual = sut.validate(inputs = inputs)
 
-        assertEquals(expected, result)
+        assertEquals(expected, actual)
     }
 
     @Test
     fun `should not return error when segment time is less or equal to zero and type is TimeType#STOPWATCH`() {
-        val segment = Segment.EMPTY.copy(
+        val inputs = SegmentInputs(
             name = "name",
-            time = 0.seconds,
+            time = "".timeText,
             type = TimeType.STOPWATCH
         )
         val expected = emptyMap<SegmentField, SegmentFieldError>()
 
-        val result = sut.validate(segment = segment)
+        val actual = sut.validate(inputs = inputs)
 
-        assertEquals(expected, result)
+        assertEquals(expected, actual)
     }
 }
