@@ -7,8 +7,8 @@ import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
 import com.enricog.features.routines.R
 import com.enricog.ui.components.button.TempoButtonColor
-import com.enricog.ui.components.button.TempoIconButton
-import com.enricog.ui.components.button.TempoIconButtonSize
+import com.enricog.ui.components.button.icon.TempoIconButton
+import com.enricog.ui.components.button.icon.TempoIconButtonSize
 import com.enricog.ui.theme.TempoTheme
 
 @Composable

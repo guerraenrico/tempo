@@ -23,7 +23,7 @@ import androidx.constraintlayout.compose.ConstraintLayout
 import com.enricog.features.timer.R
 import com.enricog.features.timer.models.TimerActions
 import com.enricog.features.timer.models.TimerViewState
-import com.enricog.ui.components.button.TempoIconButton
+import com.enricog.ui.components.button.icon.TempoIconButton
 import com.enricog.ui.components.dialog.TempoDialogAction
 import com.enricog.ui.components.dialog.TempoDialogAlert
 import com.enricog.ui.theme.TempoTheme

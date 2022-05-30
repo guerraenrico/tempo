@@ -14,12 +14,12 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.alpha
 import androidx.compose.ui.graphics.graphicsLayer
 import androidx.compose.ui.platform.testTag
+import androidx.compose.ui.unit.dp
 import com.enricog.base.extensions.exhaustive
 import com.enricog.core.compose.api.extensions.toPx
+import com.enricog.core.compose.api.modifiers.ListDraggableState
 import com.enricog.data.routines.api.entities.Segment
 import com.enricog.features.routines.detail.summary.models.RoutineSummaryItem
-import com.enricog.ui.components.button.TempoIconButtonSize
-import com.enricog.core.compose.api.modifiers.ListDraggableState
 import com.enricog.ui.theme.TempoTheme
 
 internal const val RoutineSummaryColumnTestTag = "RoutineSummaryColumn"
@@ -99,7 +99,7 @@ internal fun SummaryList(
                         )
                     }
                 }
-                RoutineSummaryItem.Space -> Spacer(Modifier.height(TempoTheme.dimensions.spaceM + TempoIconButtonSize.Large.box))
+                RoutineSummaryItem.Space -> Spacer(modifier = Modifier.height(85.dp))
             }.exhaustive
         }
     }

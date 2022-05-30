@@ -16,7 +16,7 @@ import com.enricog.features.timer.R
 import com.enricog.features.timer.models.TimerActions
 import com.enricog.ui.components.button.TempoButton
 import com.enricog.ui.components.button.TempoButtonColor
-import com.enricog.ui.components.button.TempoIconButton
+import com.enricog.ui.components.button.icon.TempoIconButton
 
 internal const val ActionBarTestTag = "ActionBarTestTag"
 internal const val ButtonDoneTestTag = "ButtonDoneTestTag"
