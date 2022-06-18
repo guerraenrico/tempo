@@ -19,18 +19,6 @@ import com.enricog.ui.components.icon.TempoIcon
 import com.enricog.ui.components.icon.TempoIconSize
 import com.enricog.ui.theme.TempoTheme
 
-@Preview
-@Composable
-private fun TempoButtonPreview() {
-    TempoButton(
-        modifier = Modifier.fillMaxWidth(),
-        onClick = {},
-        text = "Button",
-        contentDescription = "content description",
-        icon = painterResource(id = R.drawable.ic_back)
-    )
-}
-
 @Composable
 fun TempoButton(
     onClick: () -> Unit,
@@ -111,4 +99,16 @@ private object TempoButtonDefaults {
     val IconSpacing: Dp
         @Composable
         get() = TempoTheme.dimensions.spaceM
+}
+
+@Preview
+@Composable
+private fun Preview() {
+    TempoButton(
+        modifier = Modifier.fillMaxWidth(),
+        onClick = {},
+        text = "Button",
+        contentDescription = "content description",
+        icon = painterResource(id = R.drawable.ic_back)
+    )
 }
