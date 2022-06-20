@@ -2,7 +2,6 @@ package com.enricog.ui.components.button
 
 import androidx.compose.material.ButtonColors
 import androidx.compose.runtime.Composable
-import androidx.compose.runtime.Immutable
 import androidx.compose.runtime.State
 import androidx.compose.runtime.rememberUpdatedState
 import androidx.compose.ui.graphics.Color
@@ -77,9 +76,7 @@ sealed class TempoButtonColor {
     }
 }
 
-
-@Immutable
-internal class TempoButtonColors(
+internal data class TempoButtonColors(
     private val enabledBackgroundColor: Color,
     private val disabledBackgroundColor: Color,
     private val enabledContentColor: Color,
@@ -94,27 +91,5 @@ internal class TempoButtonColors(
     @Composable
     override fun contentColor(enabled: Boolean): State<Color> {
         return rememberUpdatedState(if (enabled) enabledContentColor else disabledContentColor)
-    }
-
-    override fun equals(other: Any?): Boolean {
-        if (this === other) return true
-        if (javaClass != other?.javaClass) return false
-
-        other as TempoButtonColors
-
-        if (enabledBackgroundColor != other.enabledBackgroundColor) return false
-        if (disabledBackgroundColor != other.disabledBackgroundColor) return false
-        if (enabledContentColor != other.enabledContentColor) return false
-        if (disabledContentColor != other.disabledContentColor) return false
-
-        return true
-    }
-
-    override fun hashCode(): Int {
-        var result = enabledBackgroundColor.hashCode()
-        result = 31 * result + disabledBackgroundColor.hashCode()
-        result = 31 * result + enabledContentColor.hashCode()
-        result = 31 * result + disabledContentColor.hashCode()
-        return result
     }
 }
