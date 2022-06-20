@@ -18,11 +18,11 @@ import com.enricog.features.routines.navigation.RoutinesNavigationActions
 import com.enricog.navigation.api.routes.RoutineSummaryRoute
 import com.enricog.navigation.api.routes.RoutineSummaryRouteInput
 import com.enricog.navigation.testing.FakeNavigator
+import com.enricog.ui.components.extensions.toTextFieldValue
 import com.enricog.ui.components.textField.timeText
 import org.junit.Rule
 import org.junit.Test
 import kotlin.test.assertEquals
-import kotlin.time.ExperimentalTime
 
 class RoutineViewModelTest {
 
@@ -36,7 +36,7 @@ class RoutineViewModelTest {
         segments = emptyList()
     )
     private val routineFields = RoutineFields(
-        name = "Routine Name",
+        name = "Routine Name".toTextFieldValue(),
         startTimeOffset = "30".timeText
     )
 
@@ -57,12 +57,12 @@ class RoutineViewModelTest {
     @Test
     fun `should update routine when name change`() = coroutineRule {
         val expected = RoutineViewState.Data(
-            routine = routineFields.copy(name = "Routine Name Modified"),
+            routine = routineFields.copy(name = "Routine Name Modified".toTextFieldValue()),
             errors = emptyMap()
         )
         val sut = buildSut()
 
-        sut.onRoutineNameTextChange(text = "Routine Name Modified")
+        sut.onRoutineNameTextChange(textFieldValue = "Routine Name Modified".toTextFieldValue())
 
         sut.viewState.test { assertEquals(expected, awaitItem()) }
     }
@@ -92,11 +92,11 @@ class RoutineViewModelTest {
     @Test
     fun `should show errors when saving a routine with errors`() = coroutineRule {
         val expected = RoutineViewState.Data(
-            routine = routineFields.copy(name = ""),
+            routine = routineFields.copy(name = "".toTextFieldValue()),
             errors = mapOf(RoutineField.Name to RoutineFieldError.BlankRoutineName)
         )
         val sut = buildSut()
-        sut.onRoutineNameTextChange(text = "")
+        sut.onRoutineNameTextChange(textFieldValue = "".toTextFieldValue())
 
         sut.onRoutineSave()
 
@@ -110,7 +110,7 @@ class RoutineViewModelTest {
         val store = FakeStore(emptyList<Routine>())
         val savedStateHandle = SavedStateHandle(mapOf("routineId" to 0L))
         val sut = buildSut(store = store, savedStateHandle = savedStateHandle)
-        sut.onRoutineNameTextChange(text = "New Routine Name")
+        sut.onRoutineNameTextChange(textFieldValue = "New Routine Name".toTextFieldValue())
 
         sut.onRoutineSave()
 
@@ -131,7 +131,7 @@ class RoutineViewModelTest {
         val expected = routine.copy(name = "Routine Name Modified")
         val store = FakeStore(listOf(routine))
         val sut = buildSut(store)
-        sut.onRoutineNameTextChange(text = "Routine Name Modified")
+        sut.onRoutineNameTextChange(textFieldValue = "Routine Name Modified".toTextFieldValue())
 
         sut.onRoutineSave()
 

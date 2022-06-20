@@ -1,5 +1,6 @@
 package com.enricog.features.routines.detail.routine
 
+import androidx.compose.ui.text.input.TextFieldValue
 import androidx.lifecycle.SavedStateHandle
 import androidx.lifecycle.viewModelScope
 import com.enricog.base.viewmodel.BaseViewModel
@@ -48,9 +49,9 @@ internal class RoutineViewModel @Inject constructor(
         }
     }
 
-    fun onRoutineNameTextChange(text: String) {
+    fun onRoutineNameTextChange(textFieldValue: TextFieldValue) {
         updateStateWhen<RoutineState.Data> {
-            reducer.updateRoutineName(state = it, text = text)
+            reducer.updateRoutineName(state = it, textFieldValue = textFieldValue)
         }
     }
 

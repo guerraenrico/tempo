@@ -11,6 +11,7 @@ import com.enricog.features.routines.detail.segment.models.SegmentFields
 import com.enricog.features.routines.detail.segment.models.SegmentInputs
 import com.enricog.features.routines.detail.segment.models.SegmentState
 import com.enricog.features.routines.detail.segment.models.SegmentViewState
+import com.enricog.ui.components.extensions.toTextFieldValue
 import com.enricog.ui.components.textField.timeText
 import org.junit.Rule
 import org.junit.Test
@@ -44,14 +45,14 @@ class SegmentStateConverterTest {
             ),
             timeTypes = emptyList(),
             inputs = SegmentInputs(
-                name = "name",
+                name = "name".toTextFieldValue(),
                 time = "10".timeText,
                 type = TimeType.REST
             )
         )
         val expected = SegmentViewState.Data(
             segment = SegmentFields(
-                name = "name",
+                name = "name".toTextFieldValue(),
                 time = "10".timeText,
                 type = TimeType.REST
             ),

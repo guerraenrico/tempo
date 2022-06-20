@@ -11,6 +11,7 @@ import com.enricog.features.routines.detail.segment.models.SegmentField
 import com.enricog.features.routines.detail.segment.models.SegmentFieldError
 import com.enricog.features.routines.detail.segment.models.SegmentInputs
 import com.enricog.features.routines.detail.segment.models.SegmentState
+import com.enricog.ui.components.extensions.toTextFieldValue
 import com.enricog.ui.components.textField.timeText
 import org.junit.Test
 import kotlin.test.assertEquals
@@ -36,7 +37,7 @@ class SegmentReducerTest {
             errors = emptyMap(),
             timeTypes = listOf(TimeType.TIMER, TimeType.REST, TimeType.STOPWATCH),
             inputs = SegmentInputs(
-                name = "Segment Name",
+                name = "Segment Name".toTextFieldValue(),
                 time = "50".timeText,
                 type = TimeType.TIMER
             )
@@ -59,7 +60,7 @@ class SegmentReducerTest {
             errors = emptyMap(),
             timeTypes = listOf(TimeType.TIMER, TimeType.REST, TimeType.STOPWATCH),
             inputs = SegmentInputs(
-                name = "",
+                name = "".toTextFieldValue(),
                 time = "".timeText,
                 type = TimeType.TIMER
             )
@@ -83,7 +84,7 @@ class SegmentReducerTest {
             ),
             timeTypes = listOf(TimeType.TIMER, TimeType.REST, TimeType.STOPWATCH),
             inputs = SegmentInputs(
-                name = "Segment Name",
+                name = "Segment Name".toTextFieldValue(),
                 time = "50".timeText,
                 type = TimeType.TIMER
             )
@@ -98,13 +99,13 @@ class SegmentReducerTest {
             ),
             timeTypes = listOf(TimeType.TIMER, TimeType.REST, TimeType.STOPWATCH),
             inputs = SegmentInputs(
-                name = "Segment Name Modified",
+                name = "Segment Name Modified".toTextFieldValue(),
                 time = "50".timeText,
                 type = TimeType.TIMER
             )
         )
 
-        val actual = sut.updateSegmentName(state = state, text = "Segment Name Modified")
+        val actual = sut.updateSegmentName(state = state, textFieldValue = "Segment Name Modified".toTextFieldValue())
 
         assertEquals(expected, actual)
     }
@@ -125,7 +126,7 @@ class SegmentReducerTest {
             ),
             timeTypes = listOf(TimeType.TIMER, TimeType.REST, TimeType.STOPWATCH),
             inputs = SegmentInputs(
-                name = "Segment Name",
+                name = "Segment Name".toTextFieldValue(),
                 time = "".timeText,
                 type = TimeType.TIMER
             )
@@ -143,7 +144,7 @@ class SegmentReducerTest {
             ),
             timeTypes = listOf(TimeType.TIMER, TimeType.REST, TimeType.STOPWATCH),
             inputs = SegmentInputs(
-                name = "Segment Name",
+                name = "Segment Name".toTextFieldValue(),
                 time = "10".timeText,
                 type = TimeType.TIMER
             )
@@ -170,7 +171,7 @@ class SegmentReducerTest {
             ),
             timeTypes = listOf(TimeType.TIMER, TimeType.REST, TimeType.STOPWATCH),
             inputs = SegmentInputs(
-                name = "Segment Name",
+                name = "Segment Name".toTextFieldValue(),
                 time = "10".timeText,
                 type = TimeType.STOPWATCH
             )
@@ -188,7 +189,7 @@ class SegmentReducerTest {
             ),
             timeTypes = listOf(TimeType.TIMER, TimeType.REST, TimeType.STOPWATCH),
             inputs = SegmentInputs(
-                name = "Segment Name",
+                name = "Segment Name".toTextFieldValue(),
                 time = "".timeText,
                 type = TimeType.STOPWATCH
             )
@@ -212,7 +213,7 @@ class SegmentReducerTest {
             errors = emptyMap(),
             timeTypes = listOf(TimeType.TIMER, TimeType.REST, TimeType.STOPWATCH),
             inputs = SegmentInputs(
-                name = "Segment Name",
+                name = "Segment Name".toTextFieldValue(),
                 time = "10".timeText,
                 type = TimeType.TIMER
             )
@@ -228,7 +229,7 @@ class SegmentReducerTest {
             errors = emptyMap(),
             timeTypes = listOf(TimeType.TIMER, TimeType.REST, TimeType.STOPWATCH),
             inputs = SegmentInputs(
-                name = "Segment Name",
+                name = "Segment Name".toTextFieldValue(),
                 time = "10".timeText,
                 type = TimeType.REST
             )
@@ -252,7 +253,7 @@ class SegmentReducerTest {
             errors = emptyMap(),
             timeTypes = listOf(TimeType.TIMER, TimeType.REST, TimeType.STOPWATCH),
             inputs = SegmentInputs(
-                name = "Segment Name",
+                name = "Segment Name".toTextFieldValue(),
                 time = "10".timeText,
                 type = TimeType.TIMER
             )
@@ -268,7 +269,7 @@ class SegmentReducerTest {
             errors = emptyMap(),
             timeTypes = listOf(TimeType.TIMER, TimeType.REST, TimeType.STOPWATCH),
             inputs = SegmentInputs(
-                name = "Segment Name",
+                name = "Segment Name".toTextFieldValue(),
                 time = "".timeText,
                 type = TimeType.STOPWATCH
             )
@@ -291,7 +292,7 @@ class SegmentReducerTest {
             errors = emptyMap(),
             timeTypes = listOf(TimeType.TIMER, TimeType.REST, TimeType.STOPWATCH),
             inputs = SegmentInputs(
-                name = "",
+                name = "".toTextFieldValue(),
                 time = "".timeText,
                 type = TimeType.TIMER
             )
@@ -302,7 +303,7 @@ class SegmentReducerTest {
             errors = errors,
             timeTypes = listOf(TimeType.TIMER, TimeType.REST, TimeType.STOPWATCH),
             inputs = SegmentInputs(
-                name = "",
+                name = "".toTextFieldValue(),
                 time = "".timeText,
                 type = TimeType.TIMER
             )

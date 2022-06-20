@@ -8,6 +8,7 @@ import com.enricog.data.routines.api.entities.TimeType
 import com.enricog.features.routines.detail.segment.models.SegmentFields
 import com.enricog.features.routines.detail.segment.models.SegmentViewState
 import com.enricog.features.routines.detail.segment.ui_components.SegmentFormSceneTestTag
+import com.enricog.ui.components.extensions.toTextFieldValue
 import com.enricog.ui.components.textField.timeText
 import com.enricog.ui.theme.TempoTheme
 import org.junit.Rule
@@ -39,7 +40,11 @@ class SegmentScreenKtTest {
     @Test
     fun shouldRenderSegmentFormSceneWhenStateIsData() = composeRule {
         val viewState = SegmentViewState.Data(
-            segment = SegmentFields(name = "", time = "".timeText, type = TimeType.TIMER),
+            segment = SegmentFields(
+                name = "".toTextFieldValue(),
+                time = "".timeText,
+                type = TimeType.TIMER
+            ),
             errors = emptyMap(),
             timeTypes = listOf(TimeType.TIMER, TimeType.REST, TimeType.STOPWATCH)
         )

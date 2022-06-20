@@ -15,6 +15,7 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.platform.testTag
 import androidx.compose.ui.res.stringResource
+import androidx.compose.ui.text.input.TextFieldValue
 import com.enricog.core.compose.api.extensions.stringResourceOrNull
 import com.enricog.data.routines.api.entities.TimeType
 import com.enricog.features.routines.R
@@ -34,7 +35,7 @@ internal fun SegmentFormScene(
     segment: SegmentFields,
     errors: Map<SegmentField, SegmentFieldError>,
     timeTypes: List<TimeType>,
-    onSegmentNameChange: (String) -> Unit,
+    onSegmentNameChange: (TextFieldValue) -> Unit,
     onSegmentTimeChange: (TimeText) -> Unit,
     onSegmentTimeTypeChange: (TimeType) -> Unit,
     onSegmentConfirmed: () -> Unit

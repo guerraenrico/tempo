@@ -3,6 +3,7 @@ package com.enricog.features.routines.detail.routine
 import com.enricog.features.routines.detail.routine.models.RoutineField
 import com.enricog.features.routines.detail.routine.models.RoutineFieldError
 import com.enricog.features.routines.detail.routine.models.RoutineInputs
+import com.enricog.ui.components.extensions.toTextFieldValue
 import com.enricog.ui.components.textField.timeText
 import org.junit.Test
 import kotlin.test.assertEquals
@@ -14,7 +15,7 @@ class RoutineValidatorTest {
     @Test
     fun `should return error when routine name is blank`() {
         val inputs = RoutineInputs(
-            name = "",
+            name = "".toTextFieldValue(),
             startTimeOffset = "".timeText
         )
         val expected: Map<RoutineField, RoutineFieldError> = mapOf(

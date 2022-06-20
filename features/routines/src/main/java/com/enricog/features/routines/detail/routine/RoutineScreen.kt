@@ -6,6 +6,7 @@ import androidx.compose.runtime.Composable
 import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.text.input.TextFieldValue
 import com.enricog.base.extensions.exhaustive
 import com.enricog.features.routines.detail.routine.models.RoutineViewState
 import com.enricog.features.routines.detail.routine.ui_components.RoutineFormScene
@@ -29,7 +30,7 @@ internal fun RoutineScreen(viewModel: RoutineViewModel) {
 
 @Composable
 internal fun RoutineViewState.Compose(
-    onRoutineNameChange: (String) -> Unit,
+    onRoutineNameChange: (TextFieldValue) -> Unit,
     onStartTimeOffsetChange: (TimeText) -> Unit,
     onRoutineSave: () -> Unit
 ) {

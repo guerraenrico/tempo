@@ -1,5 +1,6 @@
 package com.enricog.features.routines.detail.segment
 
+import androidx.compose.ui.text.input.TextFieldValue
 import com.enricog.data.routines.api.entities.Routine
 import com.enricog.data.routines.api.entities.Segment
 import com.enricog.data.routines.api.entities.TimeType
@@ -9,6 +10,7 @@ import com.enricog.features.routines.detail.segment.models.SegmentField
 import com.enricog.features.routines.detail.segment.models.SegmentFieldError
 import com.enricog.features.routines.detail.segment.models.SegmentInputs
 import com.enricog.features.routines.detail.segment.models.SegmentState
+import com.enricog.ui.components.extensions.toTextFieldValue
 import com.enricog.ui.components.textField.TimeText
 import com.enricog.ui.components.textField.timeText
 import javax.inject.Inject
@@ -21,7 +23,7 @@ internal class SegmentReducer @Inject constructor() {
         val segment = routine.segments.find { it.id == segmentId }
             ?: Segment.create(routine.getNewSegmentRank())
         val inputs = SegmentInputs(
-            name = segment.name,
+            name = segment.name.toTextFieldValue(),
             time = segment.time.timeText,
             type = segment.type
         )
@@ -34,8 +36,11 @@ internal class SegmentReducer @Inject constructor() {
         )
     }
 
-    fun updateSegmentName(state: SegmentState.Data, text: String): SegmentState.Data {
-        val inputs = state.inputs.copy(name = text)
+    fun updateSegmentName(
+        state: SegmentState.Data,
+        textFieldValue: TextFieldValue
+    ): SegmentState.Data {
+        val inputs = state.inputs.copy(name = textFieldValue)
         val errors = state.errors.filterKeys { it != SegmentField.Name }
         return state.copy(
             inputs = inputs,
