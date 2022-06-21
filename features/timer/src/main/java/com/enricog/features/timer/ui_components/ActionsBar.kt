@@ -13,7 +13,6 @@ import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
 import com.enricog.features.timer.R
-import com.enricog.features.timer.models.TimerActions
 import com.enricog.ui.components.button.TempoButton
 import com.enricog.ui.components.button.TempoButtonColor
 import com.enricog.ui.components.button.icon.TempoIconButton
@@ -28,7 +27,10 @@ internal const val ButtonRestartTestTag = "ButtonRestartTestTag"
 internal fun ActionsBar(
     isTimeRunning: Boolean,
     isRoutineCompleted: Boolean,
-    timerActions: TimerActions,
+    onStartStopButtonClick: () -> Unit,
+    onRestartSegmentButtonClick: () -> Unit,
+    onResetButtonClick: () -> Unit,
+    onDoneButtonClick: () -> Unit,
     modifier: Modifier = Modifier
 ) {
     Row(
@@ -40,14 +42,14 @@ internal fun ActionsBar(
     ) {
         if (isRoutineCompleted) {
             DoneActions(
-                onResetButtonClick = timerActions::onResetButtonClick,
-                onDoneButtonClick = timerActions::onDoneButtonClick
+                onResetButtonClick = onResetButtonClick,
+                onDoneButtonClick = onDoneButtonClick
             )
         } else {
             RunningActions(
                 isTimeRunning = isTimeRunning,
-                onRestartSegmentButtonClick = timerActions::onRestartSegmentButtonClick,
-                onStartStopButtonClick = timerActions::onStartStopButtonClick
+                onRestartSegmentButtonClick = onRestartSegmentButtonClick,
+                onStartStopButtonClick = onStartStopButtonClick
             )
         }
     }

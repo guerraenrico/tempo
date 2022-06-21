@@ -9,7 +9,6 @@ import com.enricog.entities.seconds
 import com.enricog.features.timer.models.Count
 import com.enricog.features.timer.models.SegmentStep
 import com.enricog.features.timer.models.SegmentStepType
-import com.enricog.features.timer.models.TimerActions
 import com.enricog.features.timer.models.TimerViewState
 import com.enricog.features.timer.ui_components.CountingSceneTestTag
 import org.junit.Rule
@@ -20,19 +19,19 @@ class TimerScreenKtTest {
     @get:Rule
     val composeRule = createComposeRule()
 
-    private val timerActions = object : TimerActions {
-        override fun onStartStopButtonClick() {}
-        override fun onRestartSegmentButtonClick() {}
-        override fun onResetButtonClick() {}
-        override fun onDoneButtonClick() {}
-        override fun onCloseButtonClick() {}
-    }
-
     @Test
     fun shouldNotShowCountingScene() = composeRule {
         val viewState = TimerViewState.Idle
 
-        setContent { viewState.Compose(timerActions) }
+        setContent {
+            viewState.Compose(
+                onStartStopButtonClick = {},
+                onRestartSegmentButtonClick = {},
+                onResetButtonClick = {},
+                onDoneButtonClick = {},
+                onCloseButtonClick = {}
+            )
+        }
 
         onNodeWithTag(CountingSceneTestTag).assertDoesNotExist()
     }
@@ -54,7 +53,15 @@ class TimerScreenKtTest {
             isRoutineCompleted = false
         )
 
-        setContent { viewState.Compose(timerActions) }
+        setContent {
+            viewState.Compose(
+                onStartStopButtonClick = {},
+                onRestartSegmentButtonClick = {},
+                onResetButtonClick = {},
+                onDoneButtonClick = {},
+                onCloseButtonClick = {}
+            )
+        }
 
         onNodeWithTag(CountingSceneTestTag).assertIsDisplayed()
     }

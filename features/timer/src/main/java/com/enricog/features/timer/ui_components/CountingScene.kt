@@ -3,9 +3,19 @@ package com.enricog.features.timer.ui_components
 import android.content.res.Configuration.ORIENTATION_PORTRAIT
 import androidx.compose.animation.core.animateFloat
 import androidx.compose.animation.core.updateTransition
-import androidx.compose.foundation.layout.*
+import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.Row
+import androidx.compose.foundation.layout.Spacer
+import androidx.compose.foundation.layout.fillMaxSize
+import androidx.compose.foundation.layout.fillMaxWidth
+import androidx.compose.foundation.layout.height
+import androidx.compose.foundation.layout.offset
 import androidx.compose.material.Text
-import androidx.compose.runtime.*
+import androidx.compose.runtime.Composable
+import androidx.compose.runtime.getValue
+import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.remember
+import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.alpha
@@ -21,7 +31,6 @@ import androidx.compose.ui.unit.max
 import androidx.compose.ui.unit.min
 import androidx.constraintlayout.compose.ConstraintLayout
 import com.enricog.features.timer.R
-import com.enricog.features.timer.models.TimerActions
 import com.enricog.features.timer.models.TimerViewState
 import com.enricog.ui.components.button.icon.TempoIconButton
 import com.enricog.ui.components.dialog.TempoDialogAction
@@ -33,7 +42,14 @@ internal const val StepTitleTestTag = "StepTitleTestTag"
 internal const val SegmentNameTestTag = "SegmentNameTestTag"
 
 @Composable
-internal fun CountingScene(state: TimerViewState.Counting, timerActions: TimerActions) {
+internal fun CountingScene(
+    state: TimerViewState.Counting,
+    onStartStopButtonClick: () -> Unit,
+    onRestartSegmentButtonClick: () -> Unit,
+    onResetButtonClick: () -> Unit,
+    onDoneButtonClick: () -> Unit,
+    onCloseButtonClick: () -> Unit
+) {
     val configuration = LocalConfiguration.current
 
     val screenHeight = configuration.screenHeightDp.dp
@@ -117,7 +133,10 @@ internal fun CountingScene(state: TimerViewState.Counting, timerActions: TimerAc
             ActionsBar(
                 isTimeRunning = count.isRunning,
                 isRoutineCompleted = state.isRoutineCompleted,
-                timerActions = timerActions,
+                onStartStopButtonClick = onStartStopButtonClick,
+                onRestartSegmentButtonClick = onRestartSegmentButtonClick,
+                onResetButtonClick = onResetButtonClick,
+                onDoneButtonClick = onDoneButtonClick,
                 modifier = Modifier
                     .offset(y = actionBarOffset)
                     .constrainAs(actionBar) {
@@ -135,7 +154,7 @@ internal fun CountingScene(state: TimerViewState.Counting, timerActions: TimerAc
                 description = stringResource(R.string.dialog_exit_time_description),
                 positiveAction = TempoDialogAction(
                     text = stringResource(R.string.dialog_exit_time_action_positive),
-                    onClick = timerActions::onCloseButtonClick,
+                    onClick = onCloseButtonClick,
                     contentDescription = stringResource(R.string.content_description_dialog_quite_routine_button_positive)
                 ),
                 negativeAction = TempoDialogAction(

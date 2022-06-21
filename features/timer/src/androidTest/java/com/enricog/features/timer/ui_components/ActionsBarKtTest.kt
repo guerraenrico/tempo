@@ -4,7 +4,6 @@ import androidx.compose.ui.test.assertIsDisplayed
 import androidx.compose.ui.test.junit4.createComposeRule
 import androidx.compose.ui.test.onNodeWithTag
 import com.enricog.core.compose.testing.invoke
-import com.enricog.features.timer.models.TimerActions
 import com.enricog.ui.theme.TempoTheme
 import org.junit.Rule
 import org.junit.Test
@@ -14,14 +13,6 @@ class ActionsBarKtTest {
     @get:Rule
     val composeRule = createComposeRule()
 
-    private val timerActions = object : TimerActions {
-        override fun onStartStopButtonClick() {}
-        override fun onRestartSegmentButtonClick() {}
-        override fun onResetButtonClick() {}
-        override fun onDoneButtonClick() {}
-        override fun onCloseButtonClick() {}
-    }
-
     @Test
     fun shouldShowDoneActionsWhenRoutineIsCompleted() = composeRule {
         setContent {
@@ -29,7 +20,10 @@ class ActionsBarKtTest {
                 ActionsBar(
                     isTimeRunning = true,
                     isRoutineCompleted = true,
-                    timerActions = timerActions
+                    onStartStopButtonClick = {},
+                    onRestartSegmentButtonClick = {},
+                    onResetButtonClick = {},
+                    onDoneButtonClick = {}
                 )
             }
         }
@@ -47,7 +41,10 @@ class ActionsBarKtTest {
                 ActionsBar(
                     isTimeRunning = true,
                     isRoutineCompleted = false,
-                    timerActions = timerActions
+                    onStartStopButtonClick = {},
+                    onRestartSegmentButtonClick = {},
+                    onResetButtonClick = {},
+                    onDoneButtonClick = {}
                 )
             }
         }
