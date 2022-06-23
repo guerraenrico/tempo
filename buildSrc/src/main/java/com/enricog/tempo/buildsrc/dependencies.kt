@@ -118,7 +118,7 @@ object Libs {
     }
 
     object Firebase {
-        private const val version = "30.0.2"
+        private const val version = "30.1.0"
 
         const val bom = "com.google.firebase:firebase-bom:$version"
         const val crashlytics = "com.google.firebase:firebase-crashlytics-ktx"
