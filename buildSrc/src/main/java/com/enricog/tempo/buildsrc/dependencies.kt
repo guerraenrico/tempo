@@ -84,7 +84,7 @@ object Libs {
     }
 
     object Hilt {
-        const val androidVersion = "2.41"
+        const val androidVersion = "2.42"
         private const val version = "1.0.0"
 
         const val android = "com.google.dagger:hilt-android:$androidVersion"
@@ -118,7 +118,7 @@ object Libs {
     }
 
     object Firebase {
-        private const val version = "30.0.2"
+        private const val version = "30.1.0"
 
         const val bom = "com.google.firebase:firebase-bom:$version"
         const val crashlytics = "com.google.firebase:firebase-crashlytics-ktx"
