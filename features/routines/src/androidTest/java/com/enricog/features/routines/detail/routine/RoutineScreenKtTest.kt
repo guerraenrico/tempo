@@ -7,6 +7,7 @@ import com.enricog.core.compose.testing.invoke
 import com.enricog.features.routines.detail.routine.models.RoutineFields
 import com.enricog.features.routines.detail.routine.models.RoutineViewState
 import com.enricog.features.routines.detail.routine.ui_components.RoutineFormSceneTestTag
+import com.enricog.ui.components.extensions.toTextFieldValue
 import com.enricog.ui.components.textField.timeText
 import com.enricog.ui.theme.TempoTheme
 import org.junit.Rule
@@ -38,7 +39,7 @@ class RoutineScreenKtTest {
     fun shouldRenderAnySceneWhenStateIsIdle() = composeRule {
         val viewState = RoutineViewState.Data(
             routine = RoutineFields(
-                name = "",
+                name = "".toTextFieldValue(),
                 startTimeOffset = "".timeText
             ),
             errors = emptyMap()

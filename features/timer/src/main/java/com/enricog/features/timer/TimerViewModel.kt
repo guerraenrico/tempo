@@ -6,7 +6,6 @@ import com.enricog.base.viewmodel.BaseViewModel
 import com.enricog.core.coroutines.dispatchers.CoroutineDispatchers
 import com.enricog.core.coroutines.job.autoCancelableJob
 import com.enricog.data.routines.api.entities.Routine
-import com.enricog.features.timer.models.TimerActions
 import com.enricog.features.timer.models.TimerState
 import com.enricog.features.timer.models.TimerViewState
 import com.enricog.features.timer.navigation.TimerNavigationActions
@@ -31,7 +30,7 @@ internal class TimerViewModel @Inject constructor(
     initialState = TimerState.Idle,
     converter = converter,
     dispatchers = dispatchers
-), TimerActions {
+) {
 
     private var countingJob by autoCancelableJob()
     private var loadJob by autoCancelableJob()
@@ -59,19 +58,19 @@ internal class TimerViewModel @Inject constructor(
         }
     }
 
-    override fun onStartStopButtonClick() {
+    fun onStartStopButtonClick() {
         updateState { reducer.toggleTimeRunning(it) }
     }
 
-    override fun onRestartSegmentButtonClick() {
+    fun onRestartSegmentButtonClick() {
         updateState { reducer.restartTime(it) }
     }
 
-    override fun onResetButtonClick() = runWhen<TimerState.Counting> { state ->
+    fun onResetButtonClick() = runWhen<TimerState.Counting> { state ->
         start(state.routine)
     }
 
-    override fun onDoneButtonClick() = launch {
+    fun onDoneButtonClick() = launch {
         navigationActions.backToRoutines()
     }
 
@@ -91,16 +90,14 @@ internal class TimerViewModel @Inject constructor(
         stopCounting()
     }
 
-    override fun onCloseButtonClick() = launch {
+    fun onCloseButtonClick() = launch {
         stopCounting()
         navigationActions.backToRoutines()
     }
 
-    private fun onCountCompleted() {
-        viewModelScope.launch {
-            delay(1000)
-            updateState { reducer.nextStep(it) }
-        }
+    private fun onCountCompleted() = launch {
+        delay(1000)
+        updateState { reducer.nextStep(it) }
     }
 
     private fun startCounting() {

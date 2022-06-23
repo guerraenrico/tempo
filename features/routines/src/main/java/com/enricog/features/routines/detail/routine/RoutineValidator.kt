@@ -9,7 +9,7 @@ internal class RoutineValidator @Inject constructor() {
 
     fun validate(inputs: RoutineInputs): Map<RoutineField, RoutineFieldError> {
         return buildMap {
-            if (inputs.name.isBlank()) {
+            if (inputs.name.text.isBlank()) {
                 put(RoutineField.Name, RoutineFieldError.BlankRoutineName)
             }
         }

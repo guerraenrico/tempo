@@ -15,12 +15,73 @@ import com.enricog.ui.theme.green600
 import com.enricog.ui.theme.grey100
 import com.enricog.ui.theme.white
 
-abstract class TempoButtonColors : ButtonColors {
-    abstract val enabledBackgroundColor: Color
-    abstract val disabledBackgroundColor: Color
+sealed class TempoButtonColor {
 
-    abstract val enabledContentColor: Color
-    abstract val disabledContentColor: Color
+    @Composable
+    internal abstract fun buttonColors(): TempoButtonColors
+
+    object TransparentSecondary : TempoButtonColor() {
+
+        @Composable
+        override fun buttonColors(): TempoButtonColors = TempoButtonColors(
+            enabledBackgroundColor = Color.Transparent,
+            disabledBackgroundColor = Color.Transparent,
+            enabledContentColor = darkBlue200,
+            disabledContentColor = grey100
+        )
+    }
+
+    object TransparentPrimary : TempoButtonColor() {
+
+        @Composable
+        override fun buttonColors(): TempoButtonColors = TempoButtonColors(
+            enabledBackgroundColor = Color.Transparent,
+            disabledBackgroundColor = Color.Transparent,
+            enabledContentColor = white,
+            disabledContentColor = grey100
+        )
+    }
+
+    object Normal : TempoButtonColor() {
+
+        @Composable
+        override fun buttonColors(): TempoButtonColors = TempoButtonColors(
+            enabledBackgroundColor = darkBlue500,
+            disabledBackgroundColor = darkBlue600,
+            enabledContentColor = white,
+            disabledContentColor = grey100
+        )
+    }
+
+    object Confirm : TempoButtonColor() {
+
+        @Composable
+        override fun buttonColors(): TempoButtonColors = TempoButtonColors(
+            enabledBackgroundColor = green500,
+            disabledBackgroundColor = green600,
+            enabledContentColor = white,
+            disabledContentColor = grey100
+        )
+    }
+
+    object Accent : TempoButtonColor() {
+
+        @Composable
+        override fun buttonColors(): TempoButtonColors = TempoButtonColors(
+            enabledBackgroundColor = blue500,
+            disabledBackgroundColor = blue600,
+            enabledContentColor = white,
+            disabledContentColor = grey100
+        )
+    }
+}
+
+internal data class TempoButtonColors(
+    private val enabledBackgroundColor: Color,
+    private val disabledBackgroundColor: Color,
+    private val enabledContentColor: Color,
+    private val disabledContentColor: Color
+) : ButtonColors {
 
     @Composable
     override fun backgroundColor(enabled: Boolean): State<Color> {
@@ -30,42 +91,5 @@ abstract class TempoButtonColors : ButtonColors {
     @Composable
     override fun contentColor(enabled: Boolean): State<Color> {
         return rememberUpdatedState(if (enabled) enabledContentColor else disabledContentColor)
-    }
-}
-
-sealed class TempoButtonColor : TempoButtonColors() {
-    object TransparentSecondary : TempoButtonColor() {
-        override val enabledBackgroundColor: Color = Color.Transparent
-        override val disabledBackgroundColor: Color = Color.Transparent
-        override val enabledContentColor: Color = darkBlue200
-        override val disabledContentColor: Color = grey100
-    }
-
-    object TransparentPrimary : TempoButtonColor() {
-        override val enabledBackgroundColor: Color = Color.Transparent
-        override val disabledBackgroundColor: Color = Color.Transparent
-        override val enabledContentColor: Color = white
-        override val disabledContentColor: Color = grey100
-    }
-
-    object Normal : TempoButtonColor() {
-        override val enabledBackgroundColor: Color = darkBlue500
-        override val disabledBackgroundColor: Color = darkBlue600
-        override val enabledContentColor: Color = white
-        override val disabledContentColor: Color = grey100
-    }
-
-    object Confirm : TempoButtonColor() {
-        override val enabledBackgroundColor: Color = green500
-        override val disabledBackgroundColor: Color = green600
-        override val enabledContentColor: Color = white
-        override val disabledContentColor: Color = grey100
-    }
-
-    object Accent : TempoButtonColor() {
-        override val enabledBackgroundColor: Color = blue500
-        override val disabledBackgroundColor: Color = blue600
-        override val enabledContentColor: Color = white
-        override val disabledContentColor: Color = grey100
     }
 }

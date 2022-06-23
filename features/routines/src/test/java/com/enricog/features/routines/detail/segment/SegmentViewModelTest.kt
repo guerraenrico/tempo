@@ -11,7 +11,6 @@ import com.enricog.data.routines.testing.FakeRoutineDataSource
 import com.enricog.data.routines.testing.entities.EMPTY
 import com.enricog.entities.asID
 import com.enricog.entities.seconds
-import com.enricog.features.routines.R
 import com.enricog.features.routines.detail.segment.models.SegmentField
 import com.enricog.features.routines.detail.segment.models.SegmentFieldError
 import com.enricog.features.routines.detail.segment.models.SegmentFields
@@ -19,11 +18,11 @@ import com.enricog.features.routines.detail.segment.models.SegmentViewState
 import com.enricog.features.routines.detail.segment.usecase.SegmentUseCase
 import com.enricog.features.routines.navigation.RoutinesNavigationActions
 import com.enricog.navigation.testing.FakeNavigator
+import com.enricog.ui.components.extensions.toTextFieldValue
 import com.enricog.ui.components.textField.timeText
 import org.junit.Rule
 import org.junit.Test
 import kotlin.test.assertEquals
-import kotlin.time.ExperimentalTime
 
 class SegmentViewModelTest {
 
@@ -50,7 +49,7 @@ class SegmentViewModelTest {
     fun `should setup segment on load `() = coroutineRule {
         val expected = SegmentViewState.Data(
             segment = SegmentFields(
-                name = "Segment Name",
+                name = "Segment Name".toTextFieldValue(),
                 time = "30".timeText,
                 type = TimeType.TIMER
             ),
@@ -67,7 +66,7 @@ class SegmentViewModelTest {
     fun `should update segment name onSegmentNameTextChange`() = coroutineRule {
         val expected = SegmentViewState.Data(
             segment = SegmentFields(
-                name = "Segment Name Modified",
+                name = "Segment Name Modified".toTextFieldValue(),
                 time = "30".timeText,
                 type = TimeType.TIMER
             ),
@@ -76,7 +75,7 @@ class SegmentViewModelTest {
         )
         val sut = buildSut()
 
-        sut.onSegmentNameTextChange(text = "Segment Name Modified")
+        sut.onSegmentNameTextChange(textFieldValue = "Segment Name Modified".toTextFieldValue())
 
         sut.viewState.test { assertEquals(expected, awaitItem()) }
     }
@@ -85,7 +84,7 @@ class SegmentViewModelTest {
     fun `should update segment time onSegmentTimeChange`() = coroutineRule {
         val expected = SegmentViewState.Data(
             segment = SegmentFields(
-                name = "Segment Name",
+                name = "Segment Name".toTextFieldValue(),
                 time = "10".timeText,
                 type = TimeType.TIMER
             ),
@@ -103,7 +102,7 @@ class SegmentViewModelTest {
     fun `should update segment type onSegmentTypeChange`() = coroutineRule {
         val expected = SegmentViewState.Data(
             segment = SegmentFields(
-                name = "Segment Name",
+                name = "Segment Name".toTextFieldValue(),
                 time = "".timeText,
                 type = TimeType.STOPWATCH
             ),
@@ -121,7 +120,7 @@ class SegmentViewModelTest {
     fun `should show errors when segment has errors onSegmentConfirmed`() = coroutineRule {
         val expected = SegmentViewState.Data(
             segment = SegmentFields(
-                name = "",
+                name = "".toTextFieldValue(),
                 time = "30".timeText,
                 type = TimeType.TIMER
             ),
@@ -129,7 +128,7 @@ class SegmentViewModelTest {
             timeTypes = listOf(TimeType.TIMER, TimeType.REST, TimeType.STOPWATCH)
         )
         val sut = buildSut()
-        sut.onSegmentNameTextChange(text = "")
+        sut.onSegmentNameTextChange(textFieldValue = "".toTextFieldValue())
 
         sut.onSegmentConfirmed()
 
@@ -144,7 +143,7 @@ class SegmentViewModelTest {
             segments = listOf(segment.copy(name = "Segment Name Modified"))
         )
         val sut = buildSut(store)
-        sut.onSegmentNameTextChange(text = "Segment Name Modified")
+        sut.onSegmentNameTextChange(textFieldValue = "Segment Name Modified".toTextFieldValue())
 
         sut.onSegmentConfirmed()
 

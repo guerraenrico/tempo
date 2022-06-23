@@ -9,6 +9,7 @@ import com.enricog.features.routines.detail.routine.models.RoutineFields
 import com.enricog.features.routines.detail.routine.models.RoutineInputs
 import com.enricog.features.routines.detail.routine.models.RoutineState
 import com.enricog.features.routines.detail.routine.models.RoutineViewState
+import com.enricog.ui.components.extensions.toTextFieldValue
 import com.enricog.ui.components.textField.timeText
 import org.junit.Rule
 import org.junit.Test
@@ -39,13 +40,13 @@ class RoutineStateConverterTest {
                 RoutineField.Name to RoutineFieldError.BlankRoutineName,
             ),
             inputs = RoutineInputs(
-                name = "name",
+                name = "name".toTextFieldValue(),
                 startTimeOffset = "50".timeText
             )
         )
         val expected = RoutineViewState.Data(
             routine = RoutineFields(
-                name = "name",
+                name = "name".toTextFieldValue(),
                 startTimeOffset = "50".timeText
             ),
             errors = mapOf(

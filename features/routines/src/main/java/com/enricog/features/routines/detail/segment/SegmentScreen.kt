@@ -6,6 +6,7 @@ import androidx.compose.runtime.Composable
 import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.text.input.TextFieldValue
 import com.enricog.base.extensions.exhaustive
 import com.enricog.data.routines.api.entities.TimeType
 import com.enricog.features.routines.detail.segment.models.SegmentViewState
@@ -30,7 +31,7 @@ internal fun SegmentScreen(viewModel: SegmentViewModel) {
 
 @Composable
 internal fun SegmentViewState.Compose(
-    onSegmentNameChange: (String) -> Unit,
+    onSegmentNameChange: (TextFieldValue) -> Unit,
     onSegmentTimeChange: (TimeText) -> Unit,
     onSegmentTimeTypeChange: (TimeType) -> Unit,
     onSegmentConfirmed: () -> Unit

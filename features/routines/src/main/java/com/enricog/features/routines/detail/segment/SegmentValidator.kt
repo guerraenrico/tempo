@@ -11,7 +11,7 @@ internal class SegmentValidator @Inject constructor() {
 
     fun validate(inputs: SegmentInputs): Map<SegmentField, SegmentFieldError> {
         return buildMap {
-            if (inputs.name.isBlank()) {
+            if (inputs.name.text.isBlank()) {
                 put(SegmentField.Name, SegmentFieldError.BlankSegmentName)
             }
             val seconds = inputs.time.toSeconds()

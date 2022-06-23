@@ -3,6 +3,9 @@
   <component name="DesignSurface">
     <option name="filePathToZoomLevelMap">
       <map>
+        <entry key="..\:/Progetti/Tempo/source/Tempo/ui/components/src/main/java/com/enricog/ui/components/button/TempoButton.kt" value="0.5" />
+        <entry key="..\:/Progetti/Tempo/source/Tempo/ui/components/src/main/java/com/enricog/ui/components/textField/TempoTextField.kt" value="0.2974683544303797" />
+        <entry key="..\:/Progetti/Tempo/source/Tempo/ui/components/src/main/java/com/enricog/ui/components/textField/TempoTimeField.kt" value="0.30928270042194095" />
         <entry key="..\:/Progetti/Tempo/source/Tempo/ui/components/src/main/res/drawable/ic_back.xml" value="0.267" />
       </map>
     </option>

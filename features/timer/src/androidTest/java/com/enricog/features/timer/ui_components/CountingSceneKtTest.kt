@@ -1,5 +1,6 @@
 package com.enricog.features.timer.ui_components
 
+import androidx.compose.runtime.Composable
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.test.assertIsDisplayed
 import androidx.compose.ui.test.assertTextEquals
@@ -11,7 +12,6 @@ import com.enricog.features.timer.R
 import com.enricog.features.timer.models.Count
 import com.enricog.features.timer.models.SegmentStep
 import com.enricog.features.timer.models.SegmentStepType
-import com.enricog.features.timer.models.TimerActions
 import com.enricog.features.timer.models.TimerViewState
 import com.enricog.ui.theme.TempoTheme
 import org.junit.Rule
@@ -21,14 +21,6 @@ class CountingSceneKtTest {
 
     @get:Rule
     val composeTestRule = createComposeRule()
-
-    private val timerActions = object : TimerActions {
-        override fun onStartStopButtonClick() {}
-        override fun onRestartSegmentButtonClick() {}
-        override fun onResetButtonClick() {}
-        override fun onDoneButtonClick() {}
-        override fun onCloseButtonClick() {}
-    }
 
     @Test
     fun shouldShowTitlesClockAndActionBarWhenRoutineIsNotCompleted() = composeTestRule {
@@ -49,7 +41,14 @@ class CountingSceneKtTest {
 
         setContent {
             TempoTheme {
-                CountingScene(viewState, timerActions)
+                CountingScene(
+                    state = viewState,
+                    onStartStopButtonClick = {},
+                    onRestartSegmentButtonClick = {},
+                    onResetButtonClick = {},
+                    onDoneButtonClick = {},
+                    onCloseButtonClick = {}
+                )
             }
         }
 
@@ -78,7 +77,14 @@ class CountingSceneKtTest {
 
         setContent {
             TempoTheme {
-                CountingScene(viewState, timerActions)
+                CountingScene(
+                    state = viewState,
+                    onStartStopButtonClick = {},
+                    onRestartSegmentButtonClick = {},
+                    onResetButtonClick = {},
+                    onDoneButtonClick = {},
+                    onCloseButtonClick = {}
+                )
             }
         }
 
@@ -108,11 +114,30 @@ class CountingSceneKtTest {
 
         setContent {
             TempoTheme {
-                CountingScene(viewState, timerActions)
+                CountingScene(
+                    state = viewState,
+                    onStartStopButtonClick = {},
+                    onRestartSegmentButtonClick = {},
+                    onResetButtonClick = {},
+                    onDoneButtonClick = {},
+                    onCloseButtonClick = {}
+                )
             }
         }
 
         onNodeWithTag(StepTitleTestTag).assertTextEquals("GO")
         onNodeWithTag(SegmentNameTestTag).assertTextEquals("segment name")
+    }
+
+    @Composable
+    private fun Scene(state: TimerViewState.Counting) {
+        CountingScene(
+            state = state,
+            onStartStopButtonClick = {},
+            onRestartSegmentButtonClick = {},
+            onResetButtonClick = {},
+            onDoneButtonClick = {},
+            onCloseButtonClick = {}
+        )
     }
 }

@@ -1,5 +1,6 @@
 package com.enricog.features.routines.detail.segment
 
+import androidx.compose.ui.text.input.TextFieldValue
 import androidx.lifecycle.SavedStateHandle
 import androidx.lifecycle.viewModelScope
 import com.enricog.base.viewmodel.BaseViewModel
@@ -50,9 +51,9 @@ internal class SegmentViewModel @Inject constructor(
         }
     }
 
-    fun onSegmentNameTextChange(text: String) {
+    fun onSegmentNameTextChange(textFieldValue: TextFieldValue) {
         updateStateWhen<SegmentState.Data> { stateData ->
-            reducer.updateSegmentName(state = stateData, text = text)
+            reducer.updateSegmentName(state = stateData, textFieldValue = textFieldValue)
         }
     }
 

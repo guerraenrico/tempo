@@ -3,10 +3,6 @@ package com.enricog.ui.components.textField
 import androidx.compose.foundation.text.KeyboardActions
 import androidx.compose.foundation.text.KeyboardOptions
 import androidx.compose.runtime.Composable
-import androidx.compose.runtime.getValue
-import androidx.compose.runtime.mutableStateOf
-import androidx.compose.runtime.remember
-import androidx.compose.runtime.setValue
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.text.TextStyle
 import androidx.compose.ui.text.input.TextFieldValue
@@ -15,8 +11,8 @@ import androidx.compose.ui.tooling.preview.Preview
 
 @Composable
 fun TempoTextField(
-    value: String,
-    onValueChange: (String) -> Unit,
+    value: TextFieldValue,
+    onValueChange: (TextFieldValue) -> Unit,
     modifier: Modifier = Modifier,
     textStyle: TextStyle = tempoTextFieldBaseStyle,
     label: String? = null,
@@ -29,18 +25,9 @@ fun TempoTextField(
     singleLine: Boolean = false,
     maxLines: Int = Int.MAX_VALUE,
 ) {
-    var textFieldValueState by remember { mutableStateOf(TextFieldValue(text = value)) }
-    val textFieldValue = textFieldValueState.copy(text = value)
-
-    val textFieldValueChangeCallback = { textValue: TextFieldValue ->
-        textFieldValueState = textValue
-        if (textValue.text != value) {
-            onValueChange(textValue.text)
-        }
-    }
     TempoTextFieldBase(
-        value = textFieldValue,
-        onValueChange = textFieldValueChangeCallback,
+        value = value,
+        onValueChange = onValueChange,
         modifier = modifier,
         textStyle = textStyle,
         label = label,
@@ -59,7 +46,7 @@ fun TempoTextField(
 @Composable
 private fun Preview() {
     TempoTextField(
-        value = "something",
+        value = TextFieldValue(text = "text"),
         onValueChange = {}
     )
 }

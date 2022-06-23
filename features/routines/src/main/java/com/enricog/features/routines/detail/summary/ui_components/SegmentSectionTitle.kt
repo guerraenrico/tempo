@@ -13,8 +13,8 @@ import androidx.constraintlayout.compose.Dimension
 import com.enricog.features.routines.R
 import com.enricog.features.routines.detail.summary.models.RoutineSummaryItem
 import com.enricog.ui.components.button.TempoButtonColor
-import com.enricog.ui.components.button.TempoIconButton
-import com.enricog.ui.components.button.TempoIconButtonSize
+import com.enricog.ui.components.button.icon.TempoIconButton
+import com.enricog.ui.components.button.icon.TempoIconButtonSize
 import com.enricog.ui.theme.TempoTheme
 
 internal const val SegmentSectionTitleTestTag = "SegmentSectionTitleTestTag"

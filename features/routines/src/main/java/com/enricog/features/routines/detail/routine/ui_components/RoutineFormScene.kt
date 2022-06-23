@@ -17,6 +17,7 @@ import androidx.compose.ui.platform.LocalSoftwareKeyboardController
 import androidx.compose.ui.platform.testTag
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.input.ImeAction
+import androidx.compose.ui.text.input.TextFieldValue
 import com.enricog.core.compose.api.extensions.stringResourceOrNull
 import com.enricog.features.routines.R
 import com.enricog.features.routines.detail.routine.models.RoutineField
@@ -35,7 +36,7 @@ internal const val RoutineFormSceneTestTag = "RoutineFormSceneTestTag"
 internal fun RoutineFormScene(
     routine: RoutineFields,
     errors: Map<RoutineField, RoutineFieldError>,
-    onRoutineNameChange: (String) -> Unit,
+    onRoutineNameChange: (TextFieldValue) -> Unit,
     onStartTimeOffsetChange: (TimeText) -> Unit,
     onRoutineSave: () -> Unit
 ) {

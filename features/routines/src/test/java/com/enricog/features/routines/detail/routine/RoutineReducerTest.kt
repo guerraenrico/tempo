@@ -7,6 +7,7 @@ import com.enricog.features.routines.detail.routine.models.RoutineField
 import com.enricog.features.routines.detail.routine.models.RoutineFieldError
 import com.enricog.features.routines.detail.routine.models.RoutineInputs
 import com.enricog.features.routines.detail.routine.models.RoutineState
+import com.enricog.ui.components.extensions.toTextFieldValue
 import com.enricog.ui.components.textField.timeText
 import org.junit.Test
 import kotlin.test.assertEquals
@@ -25,7 +26,7 @@ class RoutineReducerTest {
             routine = routine,
             errors = emptyMap(),
             inputs = RoutineInputs(
-                name = "routine name",
+                name = "routine name".toTextFieldValue(),
                 startTimeOffset = "50".timeText
             )
         )
@@ -41,7 +42,7 @@ class RoutineReducerTest {
             routine = Routine.EMPTY,
             errors = mapOf(RoutineField.Name to RoutineFieldError.BlankRoutineName),
             inputs = RoutineInputs(
-                name = "",
+                name = "".toTextFieldValue(),
                 startTimeOffset = "50".timeText
             )
         )
@@ -49,12 +50,12 @@ class RoutineReducerTest {
             routine = Routine.EMPTY,
             errors = emptyMap(),
             inputs = RoutineInputs(
-                name = "name",
+                name = "name".toTextFieldValue(),
                 startTimeOffset = "50".timeText
             )
         )
 
-        val actual = sut.updateRoutineName(state = state, text = "name")
+        val actual = sut.updateRoutineName(state = state, textFieldValue = "name".toTextFieldValue())
 
         assertEquals(expected, actual)
     }
@@ -65,7 +66,7 @@ class RoutineReducerTest {
             routine = Routine.EMPTY,
             errors = emptyMap(),
             inputs = RoutineInputs(
-                name = "name",
+                name = "name".toTextFieldValue(),
                 startTimeOffset = "50".timeText
             )
         )
@@ -73,7 +74,7 @@ class RoutineReducerTest {
             routine = Routine.EMPTY,
             errors = emptyMap(),
             inputs = RoutineInputs(
-                name = "name",
+                name = "name".toTextFieldValue(),
                 startTimeOffset = "51".timeText
             )
         )
@@ -91,7 +92,7 @@ class RoutineReducerTest {
                 RoutineField.Name to RoutineFieldError.BlankRoutineName,
             ),
             inputs = RoutineInputs(
-                name = "name",
+                name = "name".toTextFieldValue(),
                 startTimeOffset = "50".timeText
             )
         )
@@ -113,7 +114,7 @@ class RoutineReducerTest {
             routine = Routine.EMPTY,
             errors = emptyMap(),
             inputs = RoutineInputs(
-                name = "",
+                name = "".toTextFieldValue(),
                 startTimeOffset = "50".timeText
             )
         )
@@ -121,7 +122,7 @@ class RoutineReducerTest {
             routine = Routine.EMPTY,
             errors = errors,
             inputs = RoutineInputs(
-                name = "",
+                name = "".toTextFieldValue(),
                 startTimeOffset = "50".timeText
             )
         )
