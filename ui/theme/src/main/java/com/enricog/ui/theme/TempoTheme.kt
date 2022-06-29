@@ -2,7 +2,6 @@ package com.enricog.ui.theme
 
 import androidx.compose.material.Colors
 import androidx.compose.material.MaterialTheme
-import androidx.compose.material.Shapes
 import androidx.compose.material.Surface
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.ReadOnlyComposable
@@ -12,12 +11,12 @@ fun TempoTheme(content: @Composable () -> Unit) {
     MaterialTheme(
         colors = defaultThemeColors,
         typography = defaultTypography,
+        shapes = defaultShapes
     ) {
         Surface(color = TempoTheme.colors.background, content = content)
     }
 }
 
-@Suppress("unused")
 object TempoTheme {
     val colors: Colors
         @Composable
@@ -29,18 +28,13 @@ object TempoTheme {
         @ReadOnlyComposable
         get() = LocalTempoTypography.current
 
-    val shapes: Shapes
+    val shapes: TempoShapes
         @Composable
         @ReadOnlyComposable
-        get() = MaterialTheme.shapes
+        get() = LocalTempoShapes.current
 
     val dimensions: Dimensions
         @Composable
         @ReadOnlyComposable
         get() = LocalDimensions.current
-
-    val commonShapes: CommonShapes
-        @Composable
-        @ReadOnlyComposable
-        get() = LocalCommonShape.current
 }

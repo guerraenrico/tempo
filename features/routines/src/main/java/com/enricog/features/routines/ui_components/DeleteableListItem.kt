@@ -65,7 +65,7 @@ internal fun DeletableListItem(
                 modifier = Modifier
                     .fillMaxHeight(0.8f)
                     .fillMaxWidth(0.5f)
-                    .clip(TempoTheme.commonShapes.listItem)
+                    .clip(TempoTheme.shapes.listItem)
                     .background(TempoTheme.colors.error)
                     .clickable { onDelete() },
                 contentAlignment = Alignment.CenterEnd
@@ -83,7 +83,7 @@ internal fun DeletableListItem(
             modifier = Modifier
                 .fillMaxWidth()
                 .offset { IntOffset(x = swipeState.offset.value.roundToInt(), y = 0) },
-            shape = TempoTheme.commonShapes.listItem,
+            shape = TempoTheme.shapes.listItem,
             content = content
         )
     }
