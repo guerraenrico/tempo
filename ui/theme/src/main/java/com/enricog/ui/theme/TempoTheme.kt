@@ -4,7 +4,6 @@ import androidx.compose.material.Colors
 import androidx.compose.material.MaterialTheme
 import androidx.compose.material.Shapes
 import androidx.compose.material.Surface
-import androidx.compose.material.Typography
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.ReadOnlyComposable
 
@@ -25,10 +24,10 @@ object TempoTheme {
         @ReadOnlyComposable
         get() = MaterialTheme.colors
 
-    val typography: Typography
+    val typography: TempoTypography
         @Composable
         @ReadOnlyComposable
-        get() = MaterialTheme.typography
+        get() = LocalTempoTypography.current
 
     val shapes: Shapes
         @Composable
