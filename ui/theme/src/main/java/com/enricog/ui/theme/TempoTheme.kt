@@ -10,8 +10,8 @@ import androidx.compose.runtime.ReadOnlyComposable
 fun TempoTheme(content: @Composable () -> Unit) {
     MaterialTheme(
         colors = defaultThemeColors,
-        typography = defaultTypography,
-        shapes = defaultShapes
+        typography = TempoTheme.typography.toMaterialTypography(),
+        shapes = TempoTheme.shapes.toMaterialShapes()
     ) {
         Surface(color = TempoTheme.colors.background, content = content)
     }
