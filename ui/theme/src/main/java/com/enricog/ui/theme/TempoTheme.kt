@@ -33,8 +33,8 @@ object TempoTheme {
         @ReadOnlyComposable
         get() = LocalTempoShapes.current
 
-    val dimensions: Dimensions
+    val dimensions: TempoDimensions
         @Composable
         @ReadOnlyComposable
-        get() = LocalDimensions.current
+        get() = LocalTempoDimensions.current
 }
