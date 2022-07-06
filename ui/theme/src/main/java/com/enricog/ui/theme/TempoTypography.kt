@@ -9,17 +9,20 @@ import androidx.compose.ui.text.font.FontFamily
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.sp
 
+val FontFamilyDefault = FontFamily(
+    Font(resId = R.font.prompt_light, weight = FontWeight.Light),
+    Font(resId = R.font.prompt_normal, weight = FontWeight.Normal),
+    Font(resId = R.font.prompt_bold, weight = FontWeight.Bold)
+)
+
+val FontFamilyMono = FontFamily(
+    Font(R.font.jetbrains_mono_extra_bold, weight = FontWeight.ExtraBold)
+)
+
 @Immutable
 class TempoTypography internal constructor() {
 
-    val fontFamily: FontFamily = FontFamily(
-        Font(resId = R.font.prompt_light, weight = FontWeight.Light),
-        Font(resId = R.font.prompt_normal, weight = FontWeight.Normal),
-        Font(resId = R.font.prompt_bold, weight = FontWeight.Bold)
-    )
-    val fontFamilyMono: FontFamily = FontFamily(
-        Font(R.font.jetbrains_mono_extra_bold, weight = FontWeight.ExtraBold)
-    )
+    val fontFamily: FontFamily = FontFamilyDefault
 
     val h1: TextStyle = TextStyle(
         fontWeight = FontWeight.Bold,
@@ -110,8 +113,6 @@ class TempoTypography internal constructor() {
         return "TempoTypography(h1=$h1, h2=$h2, h3=$h3, h4=$h4, h5=$h5, h6=$h6, " +
                 "body1=$body1, body2=$body2, button=$button, caption=$caption)"
     }
-
-
 }
 
 internal val LocalTempoTypography = staticCompositionLocalOf { TempoTypography() }

@@ -12,12 +12,10 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Shape
 import androidx.compose.ui.text.TextStyle
-import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.input.TextFieldValue
 import androidx.compose.ui.text.input.VisualTransformation
-import androidx.compose.ui.unit.sp
+import com.enricog.ui.theme.LocalTempoTextFieldStyle
 import com.enricog.ui.theme.TempoTheme
-import com.enricog.ui.theme.white
 
 @Composable
 internal fun TempoTextFieldBase(
@@ -40,12 +38,6 @@ internal fun TempoTextFieldBase(
     ),
 ) {
     val composableLabel: @Composable (() -> Unit)? = label?.let { @Composable { Text(label) } }
-    val tempoTextFieldBaseStyle = TextStyle(
-        fontFamily = TempoTheme.typography.fontFamily,
-        fontWeight = FontWeight.Bold,
-        color = white,
-        fontSize = 20.sp
-    )
 
 
     Column(modifier = modifier) {
@@ -53,7 +45,7 @@ internal fun TempoTextFieldBase(
             value = value,
             onValueChange = onValueChange,
             modifier = Modifier.fillMaxSize(),
-            textStyle = tempoTextFieldBaseStyle.merge(textStyle),
+            textStyle = LocalTempoTextFieldStyle.current.merge(textStyle),
             label = composableLabel,
             leadingIcon = leadingIcon,
             trailingIcon = trailingIcon,
