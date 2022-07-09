@@ -50,7 +50,6 @@ dependencies {
     implementation project(':ui:components')
     implementation project(":ui:theme")
     implementation project(':data:routines:api')
-    implementation project(":navigation:api")
 
     implementation Libs.AndroidX.appCompat
     implementation Libs.AndroidX.coreKtx

@@ -1,7 +1,6 @@
 package com.enricog.features.routines.detail.summary.ui_components
 
 import androidx.compose.foundation.layout.fillMaxWidth
-import androidx.compose.material.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.platform.testTag
@@ -13,6 +12,7 @@ import com.enricog.features.routines.R
 import com.enricog.ui.components.button.TempoButtonColor
 import com.enricog.ui.components.button.icon.TempoIconButton
 import com.enricog.ui.components.button.icon.TempoIconButtonSize
+import com.enricog.ui.components.text.TempoText
 import com.enricog.ui.theme.TempoTheme
 
 internal const val RoutineSectionTestTag = "RoutineSectionTestTag"
@@ -28,7 +28,7 @@ internal fun RoutineSection(
             .fillMaxWidth()
     ) {
         val (label, buttonEdit) = createRefs()
-        Text(
+        TempoText(
             modifier = Modifier.constrainAs(label) {
                 top.linkTo(parent.top)
                 start.linkTo(parent.start)

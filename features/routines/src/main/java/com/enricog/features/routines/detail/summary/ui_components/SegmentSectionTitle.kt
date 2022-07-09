@@ -1,7 +1,6 @@
 package com.enricog.features.routines.detail.summary.ui_components
 
 import androidx.compose.foundation.layout.fillMaxWidth
-import androidx.compose.material.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.platform.testTag
@@ -15,6 +14,7 @@ import com.enricog.features.routines.detail.summary.models.RoutineSummaryItem
 import com.enricog.ui.components.button.TempoButtonColor
 import com.enricog.ui.components.button.icon.TempoIconButton
 import com.enricog.ui.components.button.icon.TempoIconButtonSize
+import com.enricog.ui.components.text.TempoText
 import com.enricog.ui.theme.TempoTheme
 
 internal const val SegmentSectionTitleTestTag = "SegmentSectionTitleTestTag"
@@ -31,7 +31,7 @@ internal fun SegmentSectionTitle(
             .fillMaxWidth()
     ) {
         val (label, buttonAdd, errorMessage) = createRefs()
-        Text(
+        TempoText(
             modifier = Modifier.constrainAs(label) {
                 top.linkTo(parent.top)
                 start.linkTo(parent.start)
@@ -66,15 +66,14 @@ internal fun SegmentSectionTitle(
         )
 
         if (item.error != null) {
-            Text(
+            TempoText(
                 modifier = Modifier.constrainAs(errorMessage) {
                     top.linkTo(buttonAdd.bottom)
                     bottom.linkTo(parent.bottom)
                     end.linkTo(parent.end)
                 },
                 text = stringResource(item.error.second),
-                style = TempoTheme.typography.caption,
-                color = TempoTheme.colors.error
+                style = TempoTheme.typography.caption.copy(color = TempoTheme.colors.error)
             )
         }
     }

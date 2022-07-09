@@ -3,21 +3,21 @@ package com.enricog.features.routines.detail.summary.ui_components
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
-import androidx.compose.material.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.platform.testTag
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.constraintlayout.compose.ConstraintLayout
 import androidx.constraintlayout.compose.Dimension
-import com.enricog.entities.Rank
-import com.enricog.entities.asID
 import com.enricog.data.routines.api.entities.Segment
 import com.enricog.data.routines.api.entities.TimeType
+import com.enricog.entities.Rank
+import com.enricog.entities.asID
 import com.enricog.entities.seconds
 import com.enricog.features.routines.detail.ui.time_type.TimeTypeChip
 import com.enricog.features.routines.ui_components.DeletableListItem
 import com.enricog.ui.components.extensions.format
+import com.enricog.ui.components.text.TempoText
 import com.enricog.ui.theme.TempoTheme
 
 internal const val SegmentItemTestTag = "SegmentItemTestTag"
@@ -43,7 +43,7 @@ internal fun SegmentItem(
         ) {
             val (name, type, time) = createRefs()
 
-            Text(
+            TempoText(
                 modifier = Modifier
                     .constrainAs(name) {
                         top.linkTo(parent.top)
@@ -68,7 +68,7 @@ internal fun SegmentItem(
                 isSelected = true
             )
 
-            Text(
+            TempoText(
                 modifier = Modifier
                     .constrainAs(time) {
                         top.linkTo(parent.top)

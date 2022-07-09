@@ -1,7 +1,11 @@
 package com.enricog.features.routines.list.ui_components
 
-import androidx.compose.foundation.layout.*
-import androidx.compose.material.Text
+import androidx.compose.foundation.layout.Arrangement
+import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.Spacer
+import androidx.compose.foundation.layout.fillMaxSize
+import androidx.compose.foundation.layout.height
+import androidx.compose.foundation.layout.padding
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
@@ -12,6 +16,7 @@ import androidx.compose.ui.unit.dp
 import com.enricog.features.routines.R
 import com.enricog.ui.components.button.TempoButton
 import com.enricog.ui.components.button.TempoButtonColor
+import com.enricog.ui.components.text.TempoText
 import com.enricog.ui.theme.TempoTheme
 
 internal const val EmptySceneTestTag = "EmptySceneTestTag"
@@ -26,7 +31,7 @@ internal fun EmptyScene(onCreateSegmentClick: () -> Unit) {
         verticalArrangement = Arrangement.Center,
         horizontalAlignment = Alignment.CenterHorizontally
     ) {
-        Text(
+        TempoText(
             text = stringResource(R.string.description_no_routines),
             style = TempoTheme.typography.h3,
             textAlign = TextAlign.Center
