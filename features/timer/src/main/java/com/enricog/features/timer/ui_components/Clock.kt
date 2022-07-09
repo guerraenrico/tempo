@@ -8,7 +8,6 @@ import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.shape.CircleShape
-import androidx.compose.material.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.remember
@@ -25,6 +24,7 @@ import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.sp
 import com.enricog.entities.Seconds
 import com.enricog.ui.components.shadow.Shadow
+import com.enricog.ui.components.text.TempoText
 import com.enricog.ui.theme.FontFamilyMono
 import com.enricog.ui.theme.white
 
@@ -32,7 +32,12 @@ internal const val ClockTestTag = "ClockTestTag"
 internal const val ClockTimeTextTestTag = "ClockTimeTextTestTag"
 
 @Composable
-internal fun Clock(modifier: Modifier = Modifier, backgroundColor: Color, seconds: Seconds, size: Dp) {
+internal fun Clock(
+    modifier: Modifier = Modifier,
+    backgroundColor: Color,
+    seconds: Seconds,
+    size: Dp
+) {
     val animatedBackgroundColor by animateColorAsState(backgroundColor)
 
     Box(modifier = modifier) {
@@ -55,7 +60,7 @@ internal fun Clock(modifier: Modifier = Modifier, backgroundColor: Color, second
 @Composable
 private fun TimeText(timeInSeconds: Long) {
     val timeText = remember(timeInSeconds) { buildTimeText(timeInSeconds) }
-    Text(
+    TempoText(
         text = timeText,
         textAlign = TextAlign.Center,
         modifier = Modifier.testTag(ClockTimeTextTestTag)
