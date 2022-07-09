@@ -36,4 +36,5 @@ dependencies {
     implementation Libs.AndroidX.Compose.foundation
     implementation Libs.AndroidX.Compose.tooling
     implementation Libs.AndroidX.Compose.animation
+    implementation Libs.AndroidX.Compose.material
 }

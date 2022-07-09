@@ -5,11 +5,11 @@ import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
-import androidx.compose.material.SwipeableState
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
 import com.enricog.core.compose.api.extensions.toPx
+import com.enricog.core.compose.api.modifiers.swipeable.SwipeableState
 import com.enricog.data.routines.api.entities.TimeType
 import com.enricog.features.routines.detail.segment.models.SegmentField
 import com.enricog.features.routines.detail.segment.models.SegmentFieldError

@@ -7,9 +7,6 @@ import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.selection.selectableGroup
-import androidx.compose.material.FractionalThreshold
-import androidx.compose.material.SwipeableState
-import androidx.compose.material.swipeable
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.ui.Modifier
@@ -19,6 +16,9 @@ import androidx.compose.ui.geometry.Offset
 import androidx.compose.ui.geometry.Size
 import androidx.compose.ui.unit.Dp
 import com.enricog.core.compose.api.modifiers.spacing.horizontalListItemSpacing
+import com.enricog.core.compose.api.modifiers.swipeable.FractionalThreshold
+import com.enricog.core.compose.api.modifiers.swipeable.SwipeableState
+import com.enricog.core.compose.api.modifiers.swipeable.swipeable
 import com.enricog.data.routines.api.entities.TimeType
 import com.enricog.features.routines.detail.ui.time_type.color
 import com.enricog.ui.theme.TempoTheme
