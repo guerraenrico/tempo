@@ -18,7 +18,7 @@ import androidx.compose.ui.geometry.CornerRadius
 import androidx.compose.ui.geometry.Offset
 import androidx.compose.ui.geometry.Size
 import androidx.compose.ui.unit.Dp
-import com.enricog.core.compose.api.modifiers.horizontalListItemSpacing
+import com.enricog.core.compose.api.modifiers.spacing.horizontalListItemSpacing
 import com.enricog.data.routines.api.entities.TimeType
 import com.enricog.features.routines.detail.ui.time_type.color
 import com.enricog.ui.theme.TempoTheme

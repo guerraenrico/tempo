@@ -17,7 +17,7 @@ import androidx.compose.ui.platform.testTag
 import androidx.compose.ui.unit.dp
 import com.enricog.base.extensions.exhaustive
 import com.enricog.core.compose.api.extensions.toPx
-import com.enricog.core.compose.api.modifiers.ListDraggableState
+import com.enricog.core.compose.api.modifiers.draggable.ListDraggableState
 import com.enricog.data.routines.api.entities.Segment
 import com.enricog.features.routines.detail.summary.models.RoutineSummaryItem
 import com.enricog.ui.theme.TempoTheme
