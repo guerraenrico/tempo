@@ -56,8 +56,6 @@ dependencies {
     implementation Libs.AndroidX.coreKtx
     implementation Libs.Lifecycle.viewModelKtx
 
-    implementation(Libs.AndroidX.Compose.material) { because("dunno") }
-
     // Compose
     implementation Libs.AndroidX.Compose.ui
     implementation Libs.AndroidX.Compose.foundation
