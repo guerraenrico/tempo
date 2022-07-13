@@ -45,7 +45,7 @@ internal fun SegmentFormScene(
         true
     }
     val draggableState = rememberDraggableState {
-        swipeState.performDrag(it)
+        swipeState.drag(it)
     }
 
     Column(
@@ -57,7 +57,7 @@ internal fun SegmentFormScene(
                 state = draggableState,
                 orientation = Orientation.Horizontal,
                 reverseDirection = true,
-                onDragStopped = { swipeState.performFling(it) }
+                onDragStopped = { swipeState.fling(it) }
             )
     ) {
         Column(
