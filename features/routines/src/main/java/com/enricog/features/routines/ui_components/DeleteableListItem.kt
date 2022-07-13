@@ -4,7 +4,6 @@ import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.gestures.Orientation
 import androidx.compose.foundation.layout.Box
-import androidx.compose.foundation.layout.BoxScope
 import androidx.compose.foundation.layout.BoxWithConstraints
 import androidx.compose.foundation.layout.fillMaxHeight
 import androidx.compose.foundation.layout.fillMaxWidth
@@ -15,7 +14,6 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.res.stringResource
-import androidx.compose.ui.text.AnnotatedString
 import androidx.compose.ui.text.TextStyle
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.IntOffset
@@ -39,7 +37,7 @@ private enum class SwipeableState {
 internal fun DeletableListItem(
     modifier: Modifier = Modifier,
     onDelete: () -> Unit,
-    content: @Composable BoxScope.() -> Unit,
+    content: @Composable () -> Unit,
 ) = BoxWithConstraints(modifier = modifier) {
 
     val width = constraints.maxWidth.toFloat()
@@ -72,7 +70,7 @@ internal fun DeletableListItem(
             ) {
                 TempoText(
                     modifier = Modifier.padding(TempoTheme.dimensions.spaceM),
-                    text = AnnotatedString(stringResource(R.string.label_delete)),
+                    text = stringResource(R.string.label_delete),
                     style = TextStyle(
                         fontWeight = FontWeight.Bold,
                         color = TempoTheme.colors.onError,
@@ -85,8 +83,11 @@ internal fun DeletableListItem(
             modifier = Modifier
                 .fillMaxWidth()
                 .offset { IntOffset(x = swipeState.offset.value.roundToInt(), y = 0) }
-                .clip(TempoTheme.shapes.listItem),
-            content = content
-        )
+                .clip(TempoTheme.shapes.listItem)
+                .background(TempoTheme.colors.surface),
+            propagateMinConstraints = true,
+        ) {
+            content()
+        }
     }
 }
