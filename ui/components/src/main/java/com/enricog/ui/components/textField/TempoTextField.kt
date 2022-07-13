@@ -8,13 +8,14 @@ import androidx.compose.ui.text.TextStyle
 import androidx.compose.ui.text.input.TextFieldValue
 import androidx.compose.ui.text.input.VisualTransformation
 import androidx.compose.ui.tooling.preview.Preview
+import com.enricog.ui.theme.LocalTempoTextFieldStyle
 
 @Composable
 fun TempoTextField(
     value: TextFieldValue,
     onValueChange: (TextFieldValue) -> Unit,
     modifier: Modifier = Modifier,
-    textStyle: TextStyle = tempoTextFieldBaseStyle,
+    textStyle: TextStyle = LocalTempoTextFieldStyle.current,
     label: String? = null,
     leadingIcon: @Composable (() -> Unit)? = null,
     trailingIcon: @Composable (() -> Unit)? = null,

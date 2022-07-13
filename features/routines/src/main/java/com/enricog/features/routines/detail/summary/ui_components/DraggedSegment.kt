@@ -31,6 +31,6 @@ internal fun DraggedSegment(
                 shadowElevation = 50f
             }
             .zIndex(9999f)
-            .clip(TempoTheme.commonShapes.listItem)
+            .clip(TempoTheme.shapes.listItem)
     )
 }

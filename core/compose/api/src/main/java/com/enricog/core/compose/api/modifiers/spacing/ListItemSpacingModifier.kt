@@ -1,4 +1,4 @@
-package com.enricog.core.compose.api.modifiers
+package com.enricog.core.compose.api.modifiers.spacing
 
 import androidx.compose.foundation.layout.padding
 import androidx.compose.ui.Modifier

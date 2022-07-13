@@ -9,23 +9,22 @@ import androidx.compose.foundation.layout.fillMaxHeight
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.offset
 import androidx.compose.foundation.layout.padding
-import androidx.compose.material.ExperimentalMaterialApi
-import androidx.compose.material.FractionalThreshold
-import androidx.compose.material.Surface
-import androidx.compose.material.Text
-import androidx.compose.material.rememberSwipeableState
-import androidx.compose.material.swipeable
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.res.stringResource
+import androidx.compose.ui.text.TextStyle
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.IntOffset
 import androidx.compose.ui.unit.sp
+import com.enricog.core.compose.api.modifiers.swipeable.FractionalThreshold
+import com.enricog.core.compose.api.modifiers.swipeable.rememberSwipeableState
+import com.enricog.core.compose.api.modifiers.swipeable.swipeable
 import com.enricog.features.routines.R
 import com.enricog.features.routines.ui_components.SwipeableState.CLOSE
 import com.enricog.features.routines.ui_components.SwipeableState.OPEN
+import com.enricog.ui.components.text.TempoText
 import com.enricog.ui.theme.TempoTheme
 import kotlin.math.roundToInt
 
@@ -34,7 +33,6 @@ private enum class SwipeableState {
     OPEN
 }
 
-@OptIn(ExperimentalMaterialApi::class)
 @Composable
 internal fun DeletableListItem(
     modifier: Modifier = Modifier,
@@ -65,26 +63,31 @@ internal fun DeletableListItem(
                 modifier = Modifier
                     .fillMaxHeight(0.8f)
                     .fillMaxWidth(0.5f)
-                    .clip(TempoTheme.commonShapes.listItem)
+                    .clip(TempoTheme.shapes.listItem)
                     .background(TempoTheme.colors.error)
                     .clickable { onDelete() },
                 contentAlignment = Alignment.CenterEnd
             ) {
-                Text(
+                TempoText(
                     modifier = Modifier.padding(TempoTheme.dimensions.spaceM),
                     text = stringResource(R.string.label_delete),
-                    fontWeight = FontWeight.Bold,
-                    fontSize = 12.sp,
-                    color = TempoTheme.colors.onError,
+                    style = TextStyle(
+                        fontWeight = FontWeight.Bold,
+                        color = TempoTheme.colors.onError,
+                        fontSize = 12.sp
+                    )
                 )
             }
         }
-        Surface(
+        Box(
             modifier = Modifier
                 .fillMaxWidth()
-                .offset { IntOffset(x = swipeState.offset.value.roundToInt(), y = 0) },
-            shape = TempoTheme.commonShapes.listItem,
-            content = content
-        )
+                .offset { IntOffset(x = swipeState.offset.value.roundToInt(), y = 0) }
+                .clip(TempoTheme.shapes.listItem)
+                .background(TempoTheme.colors.surface),
+            propagateMinConstraints = true,
+        ) {
+            content()
+        }
     }
 }

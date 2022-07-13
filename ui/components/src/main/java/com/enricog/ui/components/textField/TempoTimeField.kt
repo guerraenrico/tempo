@@ -9,6 +9,7 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.text.AnnotatedString
 import androidx.compose.ui.text.SpanStyle
 import androidx.compose.ui.text.TextRange
+import androidx.compose.ui.text.TextStyle
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.input.ImeAction
 import androidx.compose.ui.text.input.KeyboardType
@@ -24,7 +25,7 @@ import com.enricog.ui.theme.white
 import kotlin.math.min
 
 private val NUMERIC_REGEX = Regex("^[0-9]+\$|^\$|^\\s\$")
-private val TEXT_STYLE = tempoTextFieldBaseStyle.copy(textAlign = TextAlign.Center)
+private val TEXT_STYLE = TextStyle.Default.copy(textAlign = TextAlign.Center)
 private val TEXT_EMPTY_STYLE = SpanStyle(
     fontWeight = FontWeight.Normal,
     color = white,

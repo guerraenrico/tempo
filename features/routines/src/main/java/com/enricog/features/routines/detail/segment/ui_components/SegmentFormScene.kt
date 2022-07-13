@@ -10,13 +10,13 @@ import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.verticalScroll
-import androidx.compose.material.rememberSwipeableState
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.platform.testTag
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.input.TextFieldValue
 import com.enricog.core.compose.api.extensions.stringResourceOrNull
+import com.enricog.core.compose.api.modifiers.swipeable.rememberSwipeableState
 import com.enricog.data.routines.api.entities.TimeType
 import com.enricog.features.routines.R
 import com.enricog.features.routines.detail.segment.models.SegmentField
@@ -45,7 +45,7 @@ internal fun SegmentFormScene(
         true
     }
     val draggableState = rememberDraggableState {
-        swipeState.performDrag(it)
+        swipeState.drag(it)
     }
 
     Column(
@@ -57,7 +57,7 @@ internal fun SegmentFormScene(
                 state = draggableState,
                 orientation = Orientation.Horizontal,
                 reverseDirection = true,
-                onDragStopped = { swipeState.performFling(it) }
+                onDragStopped = { swipeState.fling(it) }
             )
     ) {
         Column(
