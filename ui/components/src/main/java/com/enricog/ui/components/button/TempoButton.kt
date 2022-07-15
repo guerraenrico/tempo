@@ -1,14 +1,16 @@
 package com.enricog.ui.components.button
 
+import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.width
 import androidx.compose.material.Button
 import androidx.compose.material.ButtonDefaults
 import androidx.compose.material.ButtonElevation
-import androidx.compose.material.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.ReadOnlyComposable
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.graphics.Shape
 import androidx.compose.ui.graphics.painter.Painter
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.tooling.preview.Preview
@@ -17,6 +19,7 @@ import androidx.compose.ui.unit.dp
 import com.enricog.ui.components.R
 import com.enricog.ui.components.icon.TempoIcon
 import com.enricog.ui.components.icon.TempoIconSize
+import com.enricog.ui.components.text.TempoText
 import com.enricog.ui.theme.TempoTheme
 
 @Composable
@@ -38,7 +41,9 @@ fun TempoButton(
         modifier = modifier,
         enabled = enabled,
         colors = color.buttonColors(),
-        elevation = TempoButtonDefaults.Elevation
+        shape = TempoButtonDefaults.Shape,
+        elevation = TempoButtonDefaults.Elevation,
+        contentPadding = TempoButtonDefaults.ContentPadding
     ) {
         if (icon != null) {
             TempoButtonIcon(
@@ -76,15 +81,31 @@ private fun TempoButtonText(
     color: TempoButtonColor = TempoButtonColor.Normal,
     enabled: Boolean = true
 ) {
-    Text(
+    TempoText(
         modifier = modifier,
-        text = text,
-        style = TempoTheme.typography.button,
-        color = color.buttonColors().contentColor(enabled).value
+        text = text.uppercase(),
+        style = TempoTheme.typography.button.copy(
+            color = color.buttonColors().contentColor(enabled).value
+        )
     )
 }
 
 private object TempoButtonDefaults {
+
+    val Shape: Shape
+        @Composable
+        @ReadOnlyComposable
+        get() = TempoTheme.shapes.button
+
+    val ContentPadding: PaddingValues
+        @Composable
+        @ReadOnlyComposable
+        get() = PaddingValues(
+            start = 10.dp,
+            top = 14.dp,
+            end = 10.dp,
+            bottom = 14.dp,
+        )
 
     val Elevation: ButtonElevation
         @Composable
@@ -98,6 +119,7 @@ private object TempoButtonDefaults {
 
     val IconSpacing: Dp
         @Composable
+        @ReadOnlyComposable
         get() = TempoTheme.dimensions.spaceM
 }
 

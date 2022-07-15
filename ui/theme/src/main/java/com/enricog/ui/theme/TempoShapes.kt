@@ -18,6 +18,8 @@ class TempoShapes internal constructor() {
 
     val listItem: RoundedCornerShape = RoundedCornerShape(10.dp)
 
+    val button: RoundedCornerShape = RoundedCornerShape(10.dp)
+
     override fun equals(other: Any?): Boolean {
         if (this === other) return true
         if (javaClass != other?.javaClass) return false
@@ -28,6 +30,7 @@ class TempoShapes internal constructor() {
         if (medium != other.medium) return false
         if (large != other.large) return false
         if (listItem != other.listItem) return false
+        if (button != other.button) return false
 
         return true
     }
@@ -37,11 +40,12 @@ class TempoShapes internal constructor() {
         result = 31 * result + medium.hashCode()
         result = 31 * result + large.hashCode()
         result = 31 * result + listItem.hashCode()
+        result = 31 * result + button.hashCode()
         return result
     }
 
     override fun toString(): String {
-        return "TempoShapes(small=$small, medium=$medium, large=$large, listItem=$listItem)"
+        return "TempoShapes(small=$small, medium=$medium, large=$large, listItem=$listItem, button=$button)"
     }
 }
 

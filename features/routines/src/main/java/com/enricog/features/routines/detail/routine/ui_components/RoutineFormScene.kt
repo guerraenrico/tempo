@@ -90,7 +90,7 @@ internal fun RoutineFormScene(
                 .fillMaxWidth()
                 .padding(TempoTheme.dimensions.spaceM),
             onClick = onRoutineSave,
-            color = TempoButtonColor.Confirm,
+            color = TempoButtonColor.Accent,
             text = stringResource(R.string.button_save),
             contentDescription = stringResource(R.string.content_description_button_save_routine)
         )

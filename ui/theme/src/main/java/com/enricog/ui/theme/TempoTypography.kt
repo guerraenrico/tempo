@@ -67,7 +67,8 @@ class TempoTypography internal constructor() {
     val button: TextStyle = TextStyle(
         fontWeight = FontWeight.Bold,
         color = white,
-        fontSize = 18.sp
+        fontSize = 16.sp,
+        letterSpacing = 0.6.sp
     )
     val caption: TextStyle = TextStyle(
         fontWeight = FontWeight.Normal,
