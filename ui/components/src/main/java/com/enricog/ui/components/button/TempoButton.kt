@@ -83,7 +83,7 @@ private fun TempoButtonText(
 ) {
     TempoText(
         modifier = modifier,
-        text = text.uppercase(),
+        text = text,
         style = TempoTheme.typography.button.copy(
             color = color.buttonColors().contentColor(enabled).value
         )
@@ -101,9 +101,9 @@ private object TempoButtonDefaults {
         @Composable
         @ReadOnlyComposable
         get() = PaddingValues(
-            start = 10.dp,
+            start = 14.dp,
             top = 14.dp,
-            end = 10.dp,
+            end = 14.dp,
             bottom = 14.dp,
         )
 

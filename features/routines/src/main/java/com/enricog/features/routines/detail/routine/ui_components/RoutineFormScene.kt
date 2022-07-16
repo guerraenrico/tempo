@@ -42,6 +42,7 @@ internal fun RoutineFormScene(
 ) {
     val keyboardController = LocalSoftwareKeyboardController.current
     val (routineNameRef, routineStartTimeRef) = remember { FocusRequester.createRefs() }
+    val scrollState = rememberScrollState(initial = 0)
 
     Column(
         modifier = Modifier
@@ -51,8 +52,8 @@ internal fun RoutineFormScene(
         Column(
             modifier = Modifier
                 .fillMaxWidth()
-                .weight(1f)
-                .verticalScroll(rememberScrollState(initial = 0))
+                .weight(weight = 1f)
+                .verticalScroll(state = scrollState)
         ) {
             TempoTextField(
                 value = routine.name,
