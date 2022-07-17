@@ -145,8 +145,8 @@ private object TempoTextFieldBaseDefaults {
 
 private object TempoTextFieldBaseColors : TextFieldColors {
 
-    private const val BackgroundOpacity = 0.12f
-    private const val UnfocusedIndicatorLineOpacity = 0.42f
+    private const val BackgroundOpacity = 0.06f
+    private const val UnfocusedIndicatorLineOpacity = 0.30f
 
     @Composable
     override fun backgroundColor(enabled: Boolean): State<Color> {
