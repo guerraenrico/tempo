@@ -13,7 +13,6 @@ import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.text.KeyboardActions
 import androidx.compose.foundation.text.KeyboardOptions
 import androidx.compose.material.ContentAlpha
-import androidx.compose.material.Text
 import androidx.compose.material.TextField
 import androidx.compose.material.TextFieldColors
 import androidx.compose.runtime.Composable
@@ -32,6 +31,7 @@ import androidx.compose.ui.text.input.TextFieldValue
 import androidx.compose.ui.text.input.VisualTransformation
 import androidx.compose.ui.unit.TextUnit
 import androidx.compose.ui.unit.sp
+import com.enricog.ui.components.text.TempoText
 import com.enricog.ui.theme.TempoTheme
 
 @Composable
@@ -113,18 +113,19 @@ internal fun TempoTextFieldBase(
 
 @Composable
 private fun TempoTextFieldBaseErrorText(message: String) {
-    Text(
+    TempoText(
         modifier = Modifier.padding(top = TempoTheme.dimensions.spaceS),
         text = message,
-        style = TempoTheme.typography.caption,
+        style = TempoTheme.typography.caption.copy(
+            color = TempoTheme.colors.error
+        ),
         maxLines = 1,
-        color = TempoTheme.colors.error
     )
 }
 
 @Composable
 private fun TempoTextFieldBaseLabelText(label: String, fontSize: TextUnit) {
-    Text(
+    TempoText(
         text = label,
         style = TempoTheme.typography.caption.copy(fontSize = fontSize),
         maxLines = 1,

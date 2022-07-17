@@ -16,13 +16,15 @@ fun TempoText(
     textAlign: TextAlign = TextAlign.Start,
     style: TextStyle = TempoTheme.typography.body1,
     letterSpacing: TextUnit = TextUnit.Unspecified,
+    maxLines: Int = Int.MAX_VALUE
 ) {
     TempoText(
         text = AnnotatedString(text),
         modifier = modifier,
         textAlign = textAlign,
         style = style,
-        letterSpacing = letterSpacing
+        letterSpacing = letterSpacing,
+        maxLines = maxLines
     )
 }
 
@@ -33,12 +35,14 @@ fun TempoText(
     textAlign: TextAlign = TextAlign.Start,
     style: TextStyle = TempoTheme.typography.body1,
     letterSpacing: TextUnit = TextUnit.Unspecified,
+    maxLines: Int = Int.MAX_VALUE
 ) {
     Text(
         text = text,
         modifier = modifier,
         textAlign = textAlign,
         style = style,
-        letterSpacing = letterSpacing
+        letterSpacing = letterSpacing,
+        maxLines = maxLines
     )
 }
