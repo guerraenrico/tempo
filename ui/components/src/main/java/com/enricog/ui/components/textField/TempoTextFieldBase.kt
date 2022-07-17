@@ -1,7 +1,9 @@
 package com.enricog.ui.components.textField
 
 import androidx.compose.animation.animateColorAsState
+import androidx.compose.animation.core.FiniteAnimationSpec
 import androidx.compose.animation.core.animateInt
+import androidx.compose.animation.core.spring
 import androidx.compose.animation.core.tween
 import androidx.compose.animation.core.updateTransition
 import androidx.compose.foundation.interaction.InteractionSource
@@ -69,7 +71,10 @@ internal fun TempoTextFieldBase(
         targetState = inputPhase,
         label = "TempoTextFieldBaseLabelTransition"
     )
-    val labelTextSize by inputPhaseTransition.animateInt(label = "LabelSize") {
+    val labelTextSize by inputPhaseTransition.animateInt(
+        label = "LabelTextSize",
+        transitionSpec = { TempoTextFieldBaseDefaults.labelTextSizeTransitionSpec }
+    ) {
         when (it) {
             InputPhase.Focused -> 12
             InputPhase.UnfocusedEmpty -> 18
@@ -141,6 +146,8 @@ private object TempoTextFieldBaseDefaults {
     val textStyle: TextStyle
         @Composable
         get() = TempoTheme.typography.textField
+
+    val labelTextSizeTransitionSpec: FiniteAnimationSpec<Int> = spring(visibilityThreshold = 1)
 }
 
 private object TempoTextFieldBaseColors : TextFieldColors {
