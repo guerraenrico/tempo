@@ -9,8 +9,10 @@ import androidx.compose.animation.core.updateTransition
 import androidx.compose.foundation.interaction.InteractionSource
 import androidx.compose.foundation.interaction.MutableInteractionSource
 import androidx.compose.foundation.interaction.collectIsFocusedAsState
+import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.fillMaxSize
+import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.text.KeyboardActions
 import androidx.compose.foundation.text.KeyboardOptions
@@ -32,6 +34,7 @@ import androidx.compose.ui.text.TextStyle
 import androidx.compose.ui.text.input.TextFieldValue
 import androidx.compose.ui.text.input.VisualTransformation
 import androidx.compose.ui.unit.TextUnit
+import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import com.enricog.ui.components.text.TempoText
 import com.enricog.ui.theme.TempoTheme
@@ -110,8 +113,17 @@ internal fun TempoTextFieldBase(
             colors = TempoTextFieldBaseColors,
             interactionSource = interactionSource
         )
-        if (errorMessage != null) {
-            TempoTextFieldBaseErrorText(errorMessage)
+        Box(
+            modifier = Modifier
+                .height(34.dp)
+                .padding(
+                    horizontal = TempoTheme.dimensions.spaceS,
+                    vertical = TempoTheme.dimensions.spaceXS
+                )
+        ) {
+            if (errorMessage != null) {
+                TempoTextFieldBaseErrorText(errorMessage)
+            }
         }
     }
 }
@@ -119,7 +131,6 @@ internal fun TempoTextFieldBase(
 @Composable
 private fun TempoTextFieldBaseErrorText(message: String) {
     TempoText(
-        modifier = Modifier.padding(top = TempoTheme.dimensions.spaceS),
         text = message,
         style = TempoTheme.typography.caption.copy(
             color = TempoTheme.colors.error
