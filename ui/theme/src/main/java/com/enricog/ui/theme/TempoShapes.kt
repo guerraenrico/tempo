@@ -10,15 +10,17 @@ import androidx.compose.ui.unit.dp
 @Immutable
 class TempoShapes internal constructor() {
 
-    val small: CornerBasedShape = RoundedCornerShape(4.dp)
+    val small: CornerBasedShape = RoundedCornerShape(5.dp)
 
-    val medium: CornerBasedShape = RoundedCornerShape(4.dp)
+    val medium: CornerBasedShape = RoundedCornerShape(7.dp)
 
-    val large: CornerBasedShape = RoundedCornerShape(0.dp)
+    val large: CornerBasedShape = RoundedCornerShape(10.dp)
 
     val listItem: RoundedCornerShape = RoundedCornerShape(10.dp)
 
     val button: RoundedCornerShape = RoundedCornerShape(10.dp)
+
+    val textField: RoundedCornerShape = RoundedCornerShape(10.dp)
 
     override fun equals(other: Any?): Boolean {
         if (this === other) return true
