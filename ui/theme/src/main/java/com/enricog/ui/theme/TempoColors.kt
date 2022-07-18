@@ -17,6 +17,7 @@ val green500 = Color(0xff_4CAF50)
 val green600 = Color(0xff_43A047)
 
 val grey100 = Color(0xff_FAFAFA)
+val grey200 = Color(0xff_B4B7C2)
 
 val white = Color(0xff_FFFFFF)
 val black = Color(0xff_000000)
@@ -37,6 +38,7 @@ class TempoColors internal constructor() {
     val onSecondary: Color = white
     val onBackground: Color = white
     val onSurface: Color = white
+    val onSurfaceSecondary: Color = grey200
     val onError: Color = white
     val isLight: Boolean = false
 
@@ -57,6 +59,7 @@ class TempoColors internal constructor() {
         if (onSecondary != other.onSecondary) return false
         if (onBackground != other.onBackground) return false
         if (onSurface != other.onSurface) return false
+        if (onSurfaceSecondary != other.onSurfaceSecondary) return false
         if (onError != other.onError) return false
         if (isLight != other.isLight) return false
 
@@ -75,6 +78,7 @@ class TempoColors internal constructor() {
         result = 31 * result + onSecondary.hashCode()
         result = 31 * result + onBackground.hashCode()
         result = 31 * result + onSurface.hashCode()
+        result = 31 * result + onSurfaceSecondary.hashCode()
         result = 31 * result + onError.hashCode()
         result = 31 * result + isLight.hashCode()
         return result
@@ -84,7 +88,7 @@ class TempoColors internal constructor() {
         return "TempoColors(primary=$primary, primaryVariant=$primaryVariant, secondary=$secondary," +
                 " secondaryVariant=$secondaryVariant, background=$background, surface=$surface, " +
                 "error=$error, onPrimary=$onPrimary, onSecondary=$onSecondary, onBackground=$onBackground, " +
-                "onSurface=$onSurface, onError=$onError, isLight=$isLight)"
+                "onSurface=$onSurface, onSurfaceSecondary=$onSurfaceSecondary, onError=$onError, isLight=$isLight)"
     }
 }
 

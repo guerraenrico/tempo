@@ -56,7 +56,7 @@ internal fun SegmentTimeField(
                 .height(height = circleRadius)
                 .padding(TempoTheme.dimensions.spaceM)
                 .align(Alignment.Center),
-            errorMessage = stringResourceOrNull(errors[SegmentField.TimeInSeconds]?.stringResId),
+            errorText = stringResourceOrNull(errors[SegmentField.TimeInSeconds]?.stringResId),
             imeAction = ImeAction.Done,
             keyboardActions = KeyboardActions(
                 onDone = { keyboardController?.hide() }

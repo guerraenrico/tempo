@@ -42,27 +42,28 @@ internal fun RoutineFormScene(
 ) {
     val keyboardController = LocalSoftwareKeyboardController.current
     val (routineNameRef, routineStartTimeRef) = remember { FocusRequester.createRefs() }
+    val scrollState = rememberScrollState(initial = 0)
 
     Column(
         modifier = Modifier
             .fillMaxSize()
             .testTag(RoutineFormSceneTestTag)
+            .padding(all = TempoTheme.dimensions.spaceM)
     ) {
         Column(
             modifier = Modifier
                 .fillMaxWidth()
-                .weight(1f)
-                .verticalScroll(rememberScrollState(initial = 0))
+                .weight(weight = 1f)
+                .verticalScroll(state = scrollState)
         ) {
             TempoTextField(
                 value = routine.name,
                 onValueChange = onRoutineNameChange,
                 modifier = Modifier
                     .fillMaxWidth()
-                    .padding(TempoTheme.dimensions.spaceM)
                     .focusRequester(routineNameRef),
-                label = stringResource(R.string.field_label_routine_name),
-                errorMessage = stringResourceOrNull(id = errors[RoutineField.Name]?.stringResId),
+                labelText = stringResource(R.string.field_label_routine_name),
+                errorText = stringResourceOrNull(id = errors[RoutineField.Name]?.stringResId),
                 singleLine = true,
                 keyboardOptions = KeyboardOptions(imeAction = ImeAction.Next),
                 keyboardActions = KeyboardActions(
@@ -75,9 +76,9 @@ internal fun RoutineFormScene(
                 onValueChange = onStartTimeOffsetChange,
                 modifier = Modifier
                     .fillMaxWidth()
-                    .padding(TempoTheme.dimensions.spaceM)
                     .focusRequester(routineStartTimeRef),
-                label = stringResource(R.string.field_label_routine_start_time_offset),
+                labelText = stringResource(R.string.field_label_routine_start_time_offset),
+                supportingText = stringResource(R.string.field_support_text_routine_start_time_offest),
                 imeAction = ImeAction.Done,
                 keyboardActions = KeyboardActions(
                     onDone = { keyboardController?.hide() }
@@ -86,11 +87,9 @@ internal fun RoutineFormScene(
         }
 
         TempoButton(
-            modifier = Modifier
-                .fillMaxWidth()
-                .padding(TempoTheme.dimensions.spaceM),
+            modifier = Modifier.fillMaxWidth(),
             onClick = onRoutineSave,
-            color = TempoButtonColor.Confirm,
+            color = TempoButtonColor.Accent,
             text = stringResource(R.string.button_save),
             contentDescription = stringResource(R.string.content_description_button_save_routine)
         )

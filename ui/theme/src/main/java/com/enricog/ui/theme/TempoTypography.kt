@@ -25,53 +25,70 @@ class TempoTypography internal constructor() {
     val fontFamily: FontFamily = FontFamilyDefault
 
     val h1: TextStyle = TextStyle(
+        fontFamily = fontFamily,
         fontWeight = FontWeight.Bold,
         color = white,
         fontSize = 22.sp
     )
     val h2: TextStyle = TextStyle(
+        fontFamily = fontFamily,
         fontWeight = FontWeight.Bold,
         color = white,
         fontSize = 18.sp
     )
     val h3: TextStyle = TextStyle(
+        fontFamily = fontFamily,
         fontWeight = FontWeight.Bold,
         color = white,
         fontSize = 16.sp
     )
     val h4: TextStyle = TextStyle(
+        fontFamily = fontFamily,
         fontWeight = FontWeight.Bold,
         color = white,
         fontSize = 14.sp
     )
     val h5: TextStyle = TextStyle(
+        fontFamily = fontFamily,
         fontWeight = FontWeight.Bold,
         color = white,
         fontSize = 12.sp
     )
     val h6: TextStyle = TextStyle(
+        fontFamily = fontFamily,
         fontWeight = FontWeight.Bold,
         color = white,
         fontSize = 10.sp
     )
     val body1: TextStyle = TextStyle(
+        fontFamily = fontFamily,
         fontWeight = FontWeight.Normal,
         color = white,
         fontSize = 18.sp
     )
     val body2: TextStyle = TextStyle(
+        fontFamily = fontFamily,
         fontWeight = FontWeight.Normal,
         color = white,
         fontSize = 16.sp
     )
     val button: TextStyle = TextStyle(
+        fontFamily = fontFamily,
         fontWeight = FontWeight.Bold,
         color = white,
-        fontSize = 18.sp
+        fontSize = 16.sp,
+        letterSpacing = 0.6.sp
     )
-    val caption: TextStyle = TextStyle(
+    val textField: TextStyle = TextStyle(
+        fontFamily = FontFamilyDefault,
         fontWeight = FontWeight.Normal,
         color = white,
+        fontSize = 20.sp
+    )
+    val caption: TextStyle = TextStyle(
+        fontFamily = fontFamily,
+        fontWeight = FontWeight.Normal,
+        color = grey200,
         fontSize = 12.sp
     )
 

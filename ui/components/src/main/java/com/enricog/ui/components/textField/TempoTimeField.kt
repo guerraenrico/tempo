@@ -1,47 +1,37 @@
 package com.enricog.ui.components.textField
 
 import androidx.compose.foundation.layout.fillMaxWidth
-import androidx.compose.foundation.shape.ZeroCornerSize
 import androidx.compose.foundation.text.KeyboardActions
 import androidx.compose.foundation.text.KeyboardOptions
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.text.AnnotatedString
-import androidx.compose.ui.text.SpanStyle
 import androidx.compose.ui.text.TextRange
-import androidx.compose.ui.text.TextStyle
-import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.input.ImeAction
 import androidx.compose.ui.text.input.KeyboardType
 import androidx.compose.ui.text.input.OffsetMapping
 import androidx.compose.ui.text.input.TextFieldValue
 import androidx.compose.ui.text.input.TransformedText
 import androidx.compose.ui.text.input.VisualTransformation
-import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.tooling.preview.Preview
-import androidx.compose.ui.unit.sp
-import com.enricog.ui.theme.TempoTheme
-import com.enricog.ui.theme.white
-import kotlin.math.min
 
 private val NUMERIC_REGEX = Regex("^[0-9]+\$|^\$|^\\s\$")
-private val TEXT_STYLE = TextStyle.Default.copy(textAlign = TextAlign.Center)
-private val TEXT_EMPTY_STYLE = SpanStyle(
-    fontWeight = FontWeight.Normal,
-    color = white,
-    fontSize = 20.sp
-)
 
 @Composable
 fun TempoTimeField(
     value: TimeText,
     onValueChange: (TimeText) -> Unit,
     modifier: Modifier = Modifier,
-    label: String? = null,
-    errorMessage: String? = null,
+    labelText: String? = null,
+    supportingText: String? = null,
+    errorText: String? = null,
     imeAction: ImeAction = ImeAction.Default,
     keyboardActions: KeyboardActions = KeyboardActions.Default
 ) {
+    require(errorText == null || errorText.isNotBlank()) { "Error text cannot be blank" }
+    require(labelText == null || labelText.isNotBlank()) { "Label text cannot be blank" }
+    require(supportingText == null || supportingText.isNotBlank()) { "Supporting text cannot be blank" }
+
     val textFieldValue = TextFieldValue(
         text = value.toString(),
         selection = TextRange(value.length)
@@ -56,11 +46,11 @@ fun TempoTimeField(
         value = textFieldValue,
         onValueChange = textFieldSecondsChangeCallback,
         modifier = modifier.fillMaxWidth(),
-        textStyle = TEXT_STYLE,
-        label = label,
+        labelText = labelText,
+        supportingText = supportingText,
+        errorText = errorText,
         leadingIcon = null,
         trailingIcon = null,
-        errorMessage = errorMessage,
         keyboardOptions = KeyboardOptions(
             keyboardType = KeyboardType.Number,
             imeAction = imeAction
@@ -68,12 +58,7 @@ fun TempoTimeField(
         keyboardActions = keyboardActions,
         singleLine = true,
         maxLines = 1,
-        visualTransformation = TimeVisualTransformation,
-        shape = TempoTheme.shapes.small.copy(
-            bottomEnd = ZeroCornerSize,
-            bottomStart = ZeroCornerSize,
-            topStart = ZeroCornerSize
-        )
+        visualTransformation = TimeVisualTransformation
     )
 }
 
@@ -96,28 +81,12 @@ private object TimeVisualTransformation : VisualTransformation {
     }
 
     fun getFormattedTextFieldValue(text: AnnotatedString): AnnotatedString {
-        val formattedText = text.text.formatted()
-
-        val spanStyles = buildList {
-            val to = text.text.length.let { textLength ->
-                val t = when {
-                    textLength > 2 -> formattedText.length - textLength - 1
-                    else -> formattedText.length - textLength
-                }
-                min(formattedText.length, t)
-            }
-            add(AnnotatedString.Range(item = TEXT_EMPTY_STYLE, start = 0, end = to))
-        }
-
-
-        return AnnotatedString(text = formattedText, spanStyles = spanStyles)
+        val formattedText = text.text
+            .padStart(length = 4, padChar = '0')
+            .chunked(size = 2)
+            .joinToString(":")
+        return AnnotatedString(text = formattedText)
     }
-}
-
-private fun String.formatted(): String {
-    return padStart(length = 4, padChar = '0')
-        .chunked(size = 2)
-        .joinToString(":")
 }
 
 @Preview

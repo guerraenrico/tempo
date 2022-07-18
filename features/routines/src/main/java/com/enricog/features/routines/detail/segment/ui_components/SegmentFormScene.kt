@@ -73,8 +73,8 @@ internal fun SegmentFormScene(
                 modifier = Modifier
                     .fillMaxWidth()
                     .padding(TempoTheme.dimensions.spaceM),
-                label = stringResource(R.string.field_label_segment_name),
-                errorMessage = stringResourceOrNull(id = errors[SegmentField.Name]?.stringResId),
+                labelText = stringResource(R.string.field_label_segment_name),
+                errorText = stringResourceOrNull(id = errors[SegmentField.Name]?.stringResId),
                 singleLine = true
             )
 
