@@ -17,9 +17,11 @@ import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.text.KeyboardActions
 import androidx.compose.foundation.text.KeyboardOptions
 import androidx.compose.material.ContentAlpha
+import androidx.compose.material.LocalContentColor
 import androidx.compose.material.TextField
 import androidx.compose.material.TextFieldColors
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.CompositionLocalProvider
 import androidx.compose.runtime.State
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.remember
@@ -151,11 +153,19 @@ private fun TempoTextFieldBaseSupportingText(message: String) {
     )
 }
 
+/**
+ * Uses [LocalContentColor] since in the material library
+ * the label text color are changed using a [CompositionLocalProvider]
+ * The color is the same one defined in [TempoTextFieldBaseColors.labelColor]
+ */
 @Composable
 private fun TempoTextFieldBaseLabelText(label: String, fontSize: TextUnit) {
     TempoText(
         text = label,
-        style = TempoTheme.typography.caption.copy(fontSize = fontSize),
+        style = TempoTheme.typography.caption.copy(
+            fontSize = fontSize,
+            color = LocalContentColor.current
+        ),
         maxLines = 1,
     )
 }
@@ -230,13 +240,14 @@ private object TempoTextFieldBaseColors : TextFieldColors {
         error: Boolean,
         interactionSource: InteractionSource
     ): State<Color> {
-        val labelFocusedColor = TempoTheme.colors.primary
+        val labelFocusedColor = TempoTheme.colors.onSurface
             .copy(alpha = ContentAlpha.high)
         val labelUnfocusedColor = TempoTheme.colors.onSurface
             .copy(alpha = ContentAlpha.medium)
         val labelDisabledColor = labelUnfocusedColor
             .copy(alpha = ContentAlpha.disabled)
-        val labelErrorColor = TempoTheme.colors.error
+        val labelErrorColor = TempoTheme.colors.onSurface
+            .copy(alpha = ContentAlpha.high)
 
         val focused by interactionSource.collectIsFocusedAsState()
 
