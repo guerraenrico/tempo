@@ -88,8 +88,8 @@ class TempoTypography internal constructor() {
     val caption: TextStyle = TextStyle(
         fontFamily = fontFamily,
         fontWeight = FontWeight.Normal,
-        color = white,
-        fontSize = 14.sp
+        color = grey200,
+        fontSize = 12.sp
     )
 
     override fun equals(other: Any?): Boolean {

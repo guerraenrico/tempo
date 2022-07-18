@@ -44,18 +44,20 @@ internal fun TempoTextFieldBase(
     value: TextFieldValue,
     onValueChange: (TextFieldValue) -> Unit,
     modifier: Modifier,
-    label: String?,
+    labelText: String?,
+    supportingText: String?,
+    errorText: String?,
     leadingIcon: @Composable (() -> Unit)?,
     trailingIcon: @Composable (() -> Unit)?,
-    errorMessage: String?,
     visualTransformation: VisualTransformation,
     keyboardOptions: KeyboardOptions,
     keyboardActions: KeyboardActions,
     singleLine: Boolean,
     maxLines: Int
 ) {
-    require(errorMessage == null || errorMessage.isNotBlank()) { "Error message cannot be blank" }
-    require(label == null || label.isNotBlank()) { "Label cannot be blank" }
+    require(errorText == null || errorText.isNotBlank()) { "Error text cannot be blank" }
+    require(labelText == null || labelText.isNotBlank()) { "Label text cannot be blank" }
+    require(supportingText == null || supportingText.isNotBlank()) { "Supporting text cannot be blank" }
 
     val interactionSource = remember { MutableInteractionSource() }
     val isFocused by interactionSource.collectIsFocusedAsState()
@@ -85,10 +87,10 @@ internal fun TempoTextFieldBase(
         }
     }
 
-    val composableLabel: @Composable (() -> Unit)? = label?.let {
+    val label: @Composable (() -> Unit)? = labelText?.let {
         @Composable { TempoTextFieldBaseLabelText(label = it, fontSize = labelTextSize.sp) }
     }
-    val isError = errorMessage != null
+    val isError = errorText != null
     val shape = TempoTextFieldBaseDefaults.shape
 
     Column(modifier = modifier) {
@@ -98,9 +100,9 @@ internal fun TempoTextFieldBase(
             modifier = Modifier
                 .clip(shape)
                 .fillMaxSize()
-                .semantics { if (isError) error(requireNotNull(errorMessage)) },
+                .semantics { if (isError) error(requireNotNull(errorText)) },
             textStyle = TempoTextFieldBaseDefaults.textStyle,
-            label = composableLabel,
+            label = label,
             leadingIcon = leadingIcon,
             trailingIcon = trailingIcon,
             isError = isError,
@@ -115,14 +117,15 @@ internal fun TempoTextFieldBase(
         )
         Box(
             modifier = Modifier
-                .height(34.dp)
+                .height(32.dp)
                 .padding(
                     horizontal = TempoTheme.dimensions.spaceS,
                     vertical = TempoTheme.dimensions.spaceXS
                 )
         ) {
-            if (errorMessage != null) {
-                TempoTextFieldBaseErrorText(errorMessage)
+            when {
+                errorText != null -> TempoTextFieldBaseErrorText(errorText)
+                supportingText != null -> TempoTextFieldBaseSupportingText(supportingText)
             }
         }
     }
@@ -135,6 +138,15 @@ private fun TempoTextFieldBaseErrorText(message: String) {
         style = TempoTheme.typography.caption.copy(
             color = TempoTheme.colors.error
         ),
+        maxLines = 1,
+    )
+}
+
+@Composable
+private fun TempoTextFieldBaseSupportingText(message: String) {
+    TempoText(
+        text = message,
+        style = TempoTheme.typography.caption,
         maxLines = 1,
     )
 }

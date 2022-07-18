@@ -62,8 +62,8 @@ internal fun RoutineFormScene(
                 modifier = Modifier
                     .fillMaxWidth()
                     .focusRequester(routineNameRef),
-                label = stringResource(R.string.field_label_routine_name),
-                errorMessage = stringResourceOrNull(id = errors[RoutineField.Name]?.stringResId),
+                labelText = stringResource(R.string.field_label_routine_name),
+                errorText = stringResourceOrNull(id = errors[RoutineField.Name]?.stringResId),
                 singleLine = true,
                 keyboardOptions = KeyboardOptions(imeAction = ImeAction.Next),
                 keyboardActions = KeyboardActions(
@@ -77,7 +77,8 @@ internal fun RoutineFormScene(
                 modifier = Modifier
                     .fillMaxWidth()
                     .focusRequester(routineStartTimeRef),
-                label = stringResource(R.string.field_label_routine_start_time_offset),
+                labelText = stringResource(R.string.field_label_routine_start_time_offset),
+                supportingText = stringResource(R.string.field_support_text_routine_start_time_offest),
                 imeAction = ImeAction.Done,
                 keyboardActions = KeyboardActions(
                     onDone = { keyboardController?.hide() }

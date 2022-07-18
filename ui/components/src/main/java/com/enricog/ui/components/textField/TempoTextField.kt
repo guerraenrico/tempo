@@ -13,27 +13,30 @@ fun TempoTextField(
     value: TextFieldValue,
     onValueChange: (TextFieldValue) -> Unit,
     modifier: Modifier = Modifier,
-    label: String? = null,
+    labelText: String? = null,
+    supportingText: String? = null,
+    errorText: String? = null,
     leadingIcon: @Composable (() -> Unit)? = null,
     trailingIcon: @Composable (() -> Unit)? = null,
-    errorMessage: String? = null,
     visualTransformation: VisualTransformation = VisualTransformation.None,
     keyboardOptions: KeyboardOptions = KeyboardOptions.Default,
     keyboardActions: KeyboardActions = KeyboardActions.Default,
     singleLine: Boolean = false,
     maxLines: Int = Int.MAX_VALUE,
 ) {
-    require(errorMessage == null || errorMessage.isNotBlank()) { "Error message cannot be blank" }
-    require(label == null || label.isNotBlank()) { "Label cannot be blank" }
+    require(errorText == null || errorText.isNotBlank()) { "Error text cannot be blank" }
+    require(labelText == null || labelText.isNotBlank()) { "Label text cannot be blank" }
+    require(supportingText == null || supportingText.isNotBlank()) { "Supporting text cannot be blank" }
 
     TempoTextFieldBase(
         value = value,
         onValueChange = onValueChange,
         modifier = modifier,
-        label = label,
+        labelText = labelText,
+        supportingText = supportingText,
+        errorText = errorText,
         leadingIcon = leadingIcon,
         trailingIcon = trailingIcon,
-        errorMessage = errorMessage,
         visualTransformation = visualTransformation,
         keyboardOptions = keyboardOptions,
         keyboardActions = keyboardActions,
