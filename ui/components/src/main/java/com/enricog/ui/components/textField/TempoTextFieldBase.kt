@@ -22,6 +22,7 @@ import androidx.compose.material.TextField
 import androidx.compose.material.TextFieldColors
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.CompositionLocalProvider
+import androidx.compose.runtime.Immutable
 import androidx.compose.runtime.State
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.remember
@@ -45,7 +46,6 @@ import com.enricog.ui.theme.TempoTheme
 internal fun TempoTextFieldBase(
     value: TextFieldValue,
     onValueChange: (TextFieldValue) -> Unit,
-    modifier: Modifier,
     labelText: String?,
     supportingText: String?,
     errorText: String?,
@@ -55,7 +55,11 @@ internal fun TempoTextFieldBase(
     keyboardOptions: KeyboardOptions,
     keyboardActions: KeyboardActions,
     singleLine: Boolean,
-    maxLines: Int
+    maxLines: Int,
+    modifier: Modifier = Modifier,
+    textStyle: TextStyle = TempoTextFieldBaseDefaults.textStyle,
+    showBackground: Boolean = true,
+    showIndicator: Boolean = true,
 ) {
     require(errorText == null || errorText.isNotBlank()) { "Error text cannot be blank" }
     require(labelText == null || labelText.isNotBlank()) { "Label text cannot be blank" }
@@ -103,7 +107,7 @@ internal fun TempoTextFieldBase(
                 .clip(shape)
                 .fillMaxSize()
                 .semantics { if (isError) error(requireNotNull(errorText)) },
-            textStyle = TempoTextFieldBaseDefaults.textStyle,
+            textStyle = TempoTextFieldBaseDefaults.textStyle.merge(textStyle),
             label = label,
             leadingIcon = leadingIcon,
             trailingIcon = trailingIcon,
@@ -114,7 +118,10 @@ internal fun TempoTextFieldBase(
             singleLine = singleLine,
             maxLines = maxLines,
             shape = shape,
-            colors = TempoTextFieldBaseColors,
+            colors = TempoTextFieldBaseDefaults.fieldColors(
+                showBackground = showBackground,
+                showIndicator = showIndicator
+            ),
             interactionSource = interactionSource
         )
         Box(
@@ -172,6 +179,9 @@ private fun TempoTextFieldBaseLabelText(label: String, fontSize: TextUnit) {
 
 private object TempoTextFieldBaseDefaults {
 
+    private const val BackgroundOpacity = 0.06f
+    private const val UnfocusedIndicatorLineOpacity = 0.30f
+
     val shape: Shape
         @Composable
         get() = TempoTheme.shapes.textField
@@ -181,24 +191,98 @@ private object TempoTextFieldBaseDefaults {
         get() = TempoTheme.typography.textField
 
     val labelTextSizeTransitionSpec: FiniteAnimationSpec<Int> = spring(visibilityThreshold = 1)
+
+    @Composable
+    fun fieldColors(showBackground: Boolean, showIndicator: Boolean): TextFieldColors {
+        return TempoTextFieldBaseColors(
+            // Background
+            backgroundColor = TempoTheme.colors.onSurface
+                .copy(alpha = if (showBackground) BackgroundOpacity else 0f),
+            // Cursor
+            cursorDefaultColor = TempoTheme.colors.primary,
+            cursorErrorColor = TempoTheme.colors.error,
+            // Indicator
+            indicatorFocusedColor = TempoTheme.colors.primary
+                .copy(alpha = if (showIndicator) ContentAlpha.high else 0f),
+            indicatorUnfocusedColor = TempoTheme.colors.onSurface
+                .copy(alpha = if (showIndicator) UnfocusedIndicatorLineOpacity else 0f),
+            indicatorDisabledColor = TempoTheme.colors.onSurface
+                .copy(alpha = if (showIndicator) ContentAlpha.disabled else 0f),
+            indicatorErrorColor = TempoTheme.colors.error
+                .copy(alpha = if (showIndicator) 1f else 0f),
+            // Label
+            labelFocusedColor = TempoTheme.colors.onSurface
+                .copy(alpha = ContentAlpha.high),
+            labelUnfocusedColor = TempoTheme.colors.onSurface
+                .copy(alpha = ContentAlpha.medium),
+            labelDisabledColor = TempoTheme.colors.onSurface
+                .copy(alpha = ContentAlpha.disabled),
+            labelErrorColor = TempoTheme.colors.onSurface
+                .copy(alpha = ContentAlpha.high),
+            // Placeholder
+            placeholderColor = TempoTheme.colors.onSurface
+                .copy(alpha = ContentAlpha.medium),
+            placeholderDisabledColor = TempoTheme.colors.onSurface
+                .copy(alpha = ContentAlpha.disabled),
+            // Text
+            textColor = TempoTheme.colors.onSurface
+                .copy(alpha = 1f),
+            textDisabledColor = TempoTheme.colors.onSurface
+                .copy(alpha = ContentAlpha.disabled),
+            // Leading Icon
+            leadingIconColor = TempoTheme.colors.onSurface
+                .copy(alpha = 0.54f),
+            leadingIconDisabledColor = TempoTheme.colors.onSurface
+                .copy(alpha = ContentAlpha.disabled),
+            // Trailing Icon
+            trailingIconColor = TempoTheme.colors.onSurface
+                .copy(alpha = 0.54f),
+            trailingIconDisabledColor = TempoTheme.colors.onSurface
+                .copy(alpha = ContentAlpha.disabled),
+            trailingIconErrorColor = TempoTheme.colors.error,
+        )
+    }
 }
 
-private object TempoTextFieldBaseColors : TextFieldColors {
-
-    private const val BackgroundOpacity = 0.06f
-    private const val UnfocusedIndicatorLineOpacity = 0.30f
+@Immutable
+private class TempoTextFieldBaseColors(
+    // Background
+    private val backgroundColor: Color,
+    // Cursor
+    private val cursorDefaultColor: Color,
+    private val cursorErrorColor: Color,
+    // Indicator
+    private val indicatorFocusedColor: Color,
+    private val indicatorUnfocusedColor: Color,
+    private val indicatorDisabledColor: Color,
+    private val indicatorErrorColor: Color,
+    // Label
+    private val labelFocusedColor: Color,
+    private val labelUnfocusedColor: Color,
+    private val labelDisabledColor: Color,
+    private val labelErrorColor: Color,
+    // Placeholder
+    private val placeholderColor: Color,
+    private val placeholderDisabledColor: Color,
+    // Text
+    private val textColor: Color,
+    private val textDisabledColor: Color,
+    // Leading Icon
+    private val leadingIconColor: Color,
+    private val leadingIconDisabledColor: Color,
+    // Trailing Icon
+    private val trailingIconColor: Color,
+    private val trailingIconDisabledColor: Color,
+    private val trailingIconErrorColor: Color,
+) : TextFieldColors {
 
     @Composable
     override fun backgroundColor(enabled: Boolean): State<Color> {
-        val backgroundColor = TempoTheme.colors.onSurface
-            .copy(alpha = BackgroundOpacity)
         return rememberUpdatedState(backgroundColor)
     }
 
     @Composable
     override fun cursorColor(isError: Boolean): State<Color> {
-        val cursorDefaultColor = TempoTheme.colors.primary
-        val cursorErrorColor = TempoTheme.colors.error
         return rememberUpdatedState(if (isError) cursorErrorColor else cursorDefaultColor)
     }
 
@@ -208,14 +292,6 @@ private object TempoTextFieldBaseColors : TextFieldColors {
         isError: Boolean,
         interactionSource: InteractionSource
     ): State<Color> {
-        val indicatorFocusedColor = TempoTheme.colors.primary
-            .copy(alpha = ContentAlpha.high)
-        val indicatorUnfocusedColor = TempoTheme.colors.onSurface
-            .copy(alpha = UnfocusedIndicatorLineOpacity)
-        val indicatorDisabledColor = indicatorUnfocusedColor
-            .copy(alpha = ContentAlpha.disabled)
-        val indicatorErrorColor = TempoTheme.colors.error
-
         val focused by interactionSource.collectIsFocusedAsState()
 
         val targetValue = when {
@@ -240,15 +316,6 @@ private object TempoTextFieldBaseColors : TextFieldColors {
         error: Boolean,
         interactionSource: InteractionSource
     ): State<Color> {
-        val labelFocusedColor = TempoTheme.colors.onSurface
-            .copy(alpha = ContentAlpha.high)
-        val labelUnfocusedColor = TempoTheme.colors.onSurface
-            .copy(alpha = ContentAlpha.medium)
-        val labelDisabledColor = labelUnfocusedColor
-            .copy(alpha = ContentAlpha.disabled)
-        val labelErrorColor = TempoTheme.colors.onSurface
-            .copy(alpha = ContentAlpha.high)
-
         val focused by interactionSource.collectIsFocusedAsState()
 
         val targetValue = when {
@@ -262,29 +329,16 @@ private object TempoTextFieldBaseColors : TextFieldColors {
 
     @Composable
     override fun placeholderColor(enabled: Boolean): State<Color> {
-        val placeholderColor = TempoTheme.colors.onSurface
-            .copy(alpha = ContentAlpha.medium)
-        val placeholderDisabledColor = placeholderColor
-            .copy(alpha = ContentAlpha.disabled)
-
         return rememberUpdatedState(if (enabled) placeholderColor else placeholderDisabledColor)
     }
 
     @Composable
     override fun textColor(enabled: Boolean): State<Color> {
-        val textColor = TempoTheme.colors.onSurface.copy(alpha = 1f)
-        val textDisabledColor = textColor.copy(alpha = ContentAlpha.disabled)
-
         return rememberUpdatedState(if (enabled) textColor else textDisabledColor)
     }
 
     @Composable
     override fun leadingIconColor(enabled: Boolean, isError: Boolean): State<Color> {
-        val leadingIconColor = TempoTheme.colors.onSurface
-            .copy(alpha = 0.54f)
-        val leadingIconDisabledColor = leadingIconColor
-            .copy(alpha = ContentAlpha.disabled)
-
         return rememberUpdatedState(
             when {
                 !enabled -> leadingIconDisabledColor
@@ -296,12 +350,6 @@ private object TempoTextFieldBaseColors : TextFieldColors {
 
     @Composable
     override fun trailingIconColor(enabled: Boolean, isError: Boolean): State<Color> {
-        val trailingIconColor = TempoTheme.colors.onSurface
-            .copy(alpha = 0.54f)
-        val trailingIconDisabledColor = trailingIconColor
-            .copy(alpha = ContentAlpha.disabled)
-        val trailingIconErrorColor = TempoTheme.colors.error
-
         return rememberUpdatedState(
             when {
                 !enabled -> trailingIconDisabledColor
@@ -310,6 +358,62 @@ private object TempoTextFieldBaseColors : TextFieldColors {
             }
         )
     }
+
+    override fun equals(other: Any?): Boolean {
+        if (this === other) return true
+        if (javaClass != other?.javaClass) return false
+
+        other as TempoTextFieldBaseColors
+
+        if (backgroundColor != other.backgroundColor) return false
+        if (cursorDefaultColor != other.cursorDefaultColor) return false
+        if (cursorErrorColor != other.cursorErrorColor) return false
+        if (indicatorFocusedColor != other.indicatorFocusedColor) return false
+        if (indicatorUnfocusedColor != other.indicatorUnfocusedColor) return false
+        if (indicatorDisabledColor != other.indicatorDisabledColor) return false
+        if (indicatorErrorColor != other.indicatorErrorColor) return false
+        if (labelFocusedColor != other.labelFocusedColor) return false
+        if (labelUnfocusedColor != other.labelUnfocusedColor) return false
+        if (labelDisabledColor != other.labelDisabledColor) return false
+        if (labelErrorColor != other.labelErrorColor) return false
+        if (placeholderColor != other.placeholderColor) return false
+        if (placeholderDisabledColor != other.placeholderDisabledColor) return false
+        if (textColor != other.textColor) return false
+        if (textDisabledColor != other.textDisabledColor) return false
+        if (leadingIconColor != other.leadingIconColor) return false
+        if (leadingIconDisabledColor != other.leadingIconDisabledColor) return false
+        if (trailingIconColor != other.trailingIconColor) return false
+        if (trailingIconDisabledColor != other.trailingIconDisabledColor) return false
+        if (trailingIconErrorColor != other.trailingIconErrorColor) return false
+
+        return true
+    }
+
+    override fun hashCode(): Int {
+        var result = backgroundColor.hashCode()
+        result = 31 * result + cursorDefaultColor.hashCode()
+        result = 31 * result + cursorErrorColor.hashCode()
+        result = 31 * result + indicatorFocusedColor.hashCode()
+        result = 31 * result + indicatorUnfocusedColor.hashCode()
+        result = 31 * result + indicatorDisabledColor.hashCode()
+        result = 31 * result + indicatorErrorColor.hashCode()
+        result = 31 * result + labelFocusedColor.hashCode()
+        result = 31 * result + labelUnfocusedColor.hashCode()
+        result = 31 * result + labelDisabledColor.hashCode()
+        result = 31 * result + labelErrorColor.hashCode()
+        result = 31 * result + placeholderColor.hashCode()
+        result = 31 * result + placeholderDisabledColor.hashCode()
+        result = 31 * result + textColor.hashCode()
+        result = 31 * result + textDisabledColor.hashCode()
+        result = 31 * result + leadingIconColor.hashCode()
+        result = 31 * result + leadingIconDisabledColor.hashCode()
+        result = 31 * result + trailingIconColor.hashCode()
+        result = 31 * result + trailingIconDisabledColor.hashCode()
+        result = 31 * result + trailingIconErrorColor.hashCode()
+        return result
+    }
+
+
 }
 
 private enum class InputPhase {
