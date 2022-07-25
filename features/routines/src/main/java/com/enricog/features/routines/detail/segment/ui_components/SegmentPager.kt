@@ -50,6 +50,16 @@ internal fun SegmentPager(
     Column(
         modifier = Modifier.fillMaxWidth()
     ) {
+        SegmentTimeField(
+            circleRadius = circleRadius,
+            anchors = timeFieldAnchors,
+            timeText = timeText,
+            onTimeTextChange = onTimeTextChange,
+            errors = errors
+        )
+
+        Spacer(modifier = Modifier.height(TempoTheme.dimensions.spaceS))
+
         SegmentTypeTabs(
             tabSpace,
             tabWidth,
@@ -59,16 +69,5 @@ internal fun SegmentPager(
             selectedType,
             onSelectTimeTypeChange
         )
-
-        Spacer(modifier = Modifier.height(TempoTheme.dimensions.spaceS))
-
-        SegmentTimeField(
-            circleRadius = circleRadius,
-            anchors = timeFieldAnchors,
-            timeText = timeText,
-            onTimeTextChange = onTimeTextChange,
-            errors = errors
-        )
     }
-
 }

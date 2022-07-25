@@ -95,7 +95,7 @@ internal fun SegmentFormScene(
                 .fillMaxWidth()
                 .padding(TempoTheme.dimensions.spaceM),
             onClick = onSegmentConfirmed,
-            color = TempoButtonColor.Confirm,
+            color = TempoButtonColor.Accent,
             text = stringResource(R.string.button_save),
             contentDescription = stringResource(R.string.content_description_button_save_segment)
         )

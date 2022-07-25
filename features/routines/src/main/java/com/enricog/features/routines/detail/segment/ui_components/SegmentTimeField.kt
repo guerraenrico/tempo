@@ -4,7 +4,6 @@ import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
-import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.text.KeyboardActions
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
@@ -12,8 +11,12 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.drawBehind
 import androidx.compose.ui.geometry.Offset
 import androidx.compose.ui.platform.LocalSoftwareKeyboardController
+import androidx.compose.ui.text.TextStyle
+import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.input.ImeAction
+import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.Dp
+import androidx.compose.ui.unit.sp
 import com.enricog.core.compose.api.extensions.stringResourceOrNull
 import com.enricog.data.routines.api.entities.TimeType
 import com.enricog.features.routines.detail.segment.models.SegmentField
@@ -52,14 +55,19 @@ internal fun SegmentTimeField(
             value = timeText,
             onValueChange = onTimeTextChange,
             modifier = Modifier
-                .width(width = circleRadius)
-                .height(height = circleRadius)
                 .padding(TempoTheme.dimensions.spaceM)
                 .align(Alignment.Center),
             errorText = stringResourceOrNull(errors[SegmentField.TimeInSeconds]?.stringResId),
             imeAction = ImeAction.Done,
             keyboardActions = KeyboardActions(
                 onDone = { keyboardController?.hide() }
+            ),
+            showBackground = false,
+            showIndicator = false,
+            textStyle = TextStyle(
+                fontSize = 73.sp,
+                textAlign = TextAlign.Center,
+                fontWeight = FontWeight.Bold
             )
         )
     }
