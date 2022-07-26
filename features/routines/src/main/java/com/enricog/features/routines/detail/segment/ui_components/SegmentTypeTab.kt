@@ -9,7 +9,6 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.platform.testTag
-import androidx.compose.ui.text.AnnotatedString
 import androidx.compose.ui.text.TextStyle
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.sp
@@ -24,23 +23,18 @@ internal const val SegmentTypeTabTestTag = "SegmentTypeTabTestTag"
 @Composable
 internal fun SegmentTypeTab(
     value: TimeType,
-    isSelected: Boolean,
+    onClick: (TimeType) -> Unit,
     modifier: Modifier = Modifier,
-    onClick: ((TimeType) -> Unit)? = null
 ) {
     Box(
         modifier = modifier
             .testTag(SegmentTypeTabTestTag)
             .clip(shape = RoundedCornerShape(percent = 50))
-            .clickable(enabled = onClick != null) {
-                if (!isSelected) {
-                    onClick?.invoke(value)
-                }
-            },
+            .clickable { onClick(value) },
         contentAlignment = Alignment.Center
     ) {
         TempoText(
-            text = AnnotatedString(value.text()),
+            text = value.text(),
             style = TextStyle(
                 color = white,
                 fontWeight = FontWeight.Bold,

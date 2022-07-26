@@ -105,7 +105,10 @@ class SegmentReducerTest {
             )
         )
 
-        val actual = sut.updateSegmentName(state = state, textFieldValue = "Segment Name Modified".toTextFieldValue())
+        val actual = sut.updateSegmentName(
+            state = state,
+            textFieldValue = "Segment Name Modified".toTextFieldValue()
+        )
 
         assertEquals(expected, actual)
     }
@@ -196,6 +199,30 @@ class SegmentReducerTest {
         )
 
         val actual = sut.updateSegmentTime(state = state, text = "10".timeText)
+
+        assertEquals(expected, actual)
+    }
+
+    @Test
+    fun `should not update segment type when same segment type is selected`() {
+        val expected = SegmentState.Data(
+            routine = Routine.EMPTY.copy(
+                segments = emptyList()
+            ),
+            segment = Segment.EMPTY.copy(
+                type = TimeType.TIMER,
+                time = 10.seconds
+            ),
+            errors = emptyMap(),
+            timeTypes = listOf(TimeType.TIMER, TimeType.REST, TimeType.STOPWATCH),
+            inputs = SegmentInputs(
+                name = "Segment Name".toTextFieldValue(),
+                time = "10".timeText,
+                type = TimeType.TIMER
+            )
+        )
+
+        val actual = sut.updateSegmentTimeType(state = expected, timeType = TimeType.TIMER)
 
         assertEquals(expected, actual)
     }
