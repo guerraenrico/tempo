@@ -9,8 +9,9 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.drawBehind
+import androidx.compose.ui.focus.FocusRequester
+import androidx.compose.ui.focus.focusRequester
 import androidx.compose.ui.geometry.Offset
-import androidx.compose.ui.platform.LocalSoftwareKeyboardController
 import androidx.compose.ui.text.TextStyle
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.input.ImeAction
@@ -33,10 +34,9 @@ internal fun SegmentTimeField(
     timeText: TimeText,
     onTimeTextChange: (TimeText) -> Unit,
     errors: Map<SegmentField, SegmentFieldError>,
+    timeFieldIme: SegmentTimeFieldIme,
     modifier: Modifier = Modifier
 ) {
-    val keyboardController = LocalSoftwareKeyboardController.current
-
     Box(
         modifier = modifier
             .fillMaxWidth()
@@ -56,12 +56,11 @@ internal fun SegmentTimeField(
             onValueChange = onTimeTextChange,
             modifier = Modifier
                 .padding(TempoTheme.dimensions.spaceM)
-                .align(Alignment.Center),
+                .align(Alignment.Center)
+                .focusRequester(timeFieldIme.focusRequester),
             errorText = stringResourceOrNull(errors[SegmentField.TimeInSeconds]?.stringResId),
-            imeAction = ImeAction.Done,
-            keyboardActions = KeyboardActions(
-                onDone = { keyboardController?.hide() }
-            ),
+            imeAction = timeFieldIme.action,
+            keyboardActions = timeFieldIme.keyboardActions,
             showBackground = false,
             showIndicator = false,
             textStyle = TextStyle(
@@ -72,3 +71,9 @@ internal fun SegmentTimeField(
         )
     }
 }
+
+internal data class SegmentTimeFieldIme(
+    val action: ImeAction,
+    val keyboardActions: KeyboardActions,
+    val focusRequester: FocusRequester
+)

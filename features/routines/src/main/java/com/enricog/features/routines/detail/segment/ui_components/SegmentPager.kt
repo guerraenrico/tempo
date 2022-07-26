@@ -26,6 +26,7 @@ internal fun SegmentPager(
     onSelectTimeTypeChange: (TimeType) -> Unit,
     onTimeTextChange: (TimeText) -> Unit,
     errors: Map<SegmentField, SegmentFieldError>,
+    segmentTimeFieldIme: SegmentTimeFieldIme,
     modifier: Modifier = Modifier
 ) = BoxWithConstraints(modifier = modifier) {
 
@@ -55,7 +56,8 @@ internal fun SegmentPager(
             anchors = timeFieldAnchors,
             timeText = timeText,
             onTimeTextChange = onTimeTextChange,
-            errors = errors
+            errors = errors,
+            timeFieldIme = segmentTimeFieldIme
         )
 
         Spacer(modifier = Modifier.height(TempoTheme.dimensions.spaceS))

@@ -9,11 +9,18 @@ import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.rememberScrollState
+import androidx.compose.foundation.text.KeyboardActions
+import androidx.compose.foundation.text.KeyboardOptions
 import androidx.compose.foundation.verticalScroll
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.remember
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.focus.FocusRequester
+import androidx.compose.ui.focus.focusRequester
+import androidx.compose.ui.platform.LocalSoftwareKeyboardController
 import androidx.compose.ui.platform.testTag
 import androidx.compose.ui.res.stringResource
+import androidx.compose.ui.text.input.ImeAction
 import androidx.compose.ui.text.input.TextFieldValue
 import com.enricog.core.compose.api.extensions.stringResourceOrNull
 import com.enricog.core.compose.api.modifiers.swipeable.rememberSwipeableState
@@ -40,6 +47,9 @@ internal fun SegmentFormScene(
     onSegmentTimeTypeChange: (TimeType) -> Unit,
     onSegmentConfirmed: () -> Unit
 ) {
+    val keyboardController = LocalSoftwareKeyboardController.current
+    val (segmentNameRef, segmentTimeRef) = remember { FocusRequester.createRefs() }
+
     val swipeState = rememberSwipeableState(initialValue = segment.type) {
         onSegmentTimeTypeChange(it)
         true
@@ -72,10 +82,15 @@ internal fun SegmentFormScene(
                 onValueChange = onSegmentNameChange,
                 modifier = Modifier
                     .fillMaxWidth()
-                    .padding(TempoTheme.dimensions.spaceM),
+                    .padding(TempoTheme.dimensions.spaceM)
+                    .focusRequester(segmentNameRef),
                 labelText = stringResource(R.string.field_label_segment_name),
                 errorText = stringResourceOrNull(id = errors[SegmentField.Name]?.stringResId),
-                singleLine = true
+                singleLine = true,
+                keyboardOptions = KeyboardOptions(imeAction = ImeAction.Next),
+                keyboardActions = KeyboardActions(
+                    onNext = { segmentTimeRef.requestFocus() }
+                )
             )
 
             SegmentPager(
@@ -86,7 +101,14 @@ internal fun SegmentFormScene(
                 selectedType = segment.type,
                 onSelectTimeTypeChange = onSegmentTimeTypeChange,
                 onTimeTextChange = onSegmentTimeChange,
-                errors = errors
+                errors = errors,
+                segmentTimeFieldIme = SegmentTimeFieldIme(
+                    action = ImeAction.Done,
+                    keyboardActions = KeyboardActions(
+                        onDone = { keyboardController?.hide() }
+                    ),
+                    focusRequester = segmentTimeRef
+                )
             )
         }
 
