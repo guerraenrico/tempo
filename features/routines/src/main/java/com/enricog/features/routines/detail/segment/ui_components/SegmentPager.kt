@@ -33,7 +33,7 @@ internal fun SegmentPager(
     modifier: Modifier = Modifier
 ) = BoxWithConstraints(modifier = modifier) {
 
-    val errorMessage = stringResourceOrNull(errors[SegmentField.TimeInSeconds]?.stringResId) ?: ""
+    val errorMessage = stringResourceOrNull(errors[SegmentField.Time]?.stringResId) ?: ""
 
     val circleRadius = maxWidth / 3
     val center = maxWidth / 2

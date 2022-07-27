@@ -16,7 +16,7 @@ internal class SegmentValidator @Inject constructor() {
             }
             val seconds = inputs.time.toSeconds()
             if (seconds <= 0.seconds && inputs.type != TimeType.STOPWATCH) {
-                put(SegmentField.TimeInSeconds, SegmentFieldError.InvalidSegmentTime)
+                put(SegmentField.Time, SegmentFieldError.InvalidSegmentTime)
             }
         }
     }
