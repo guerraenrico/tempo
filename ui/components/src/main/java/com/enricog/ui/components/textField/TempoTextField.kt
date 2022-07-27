@@ -4,9 +4,11 @@ import androidx.compose.foundation.text.KeyboardActions
 import androidx.compose.foundation.text.KeyboardOptions
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.text.TextStyle
 import androidx.compose.ui.text.input.TextFieldValue
 import androidx.compose.ui.text.input.VisualTransformation
 import androidx.compose.ui.tooling.preview.Preview
+import com.enricog.ui.theme.TempoTheme
 
 @Composable
 fun TempoTextField(
@@ -16,6 +18,7 @@ fun TempoTextField(
     labelText: String? = null,
     supportingText: String? = null,
     errorText: String? = null,
+    textStyle: TextStyle = TempoTheme.typography.textField,
     leadingIcon: @Composable (() -> Unit)? = null,
     trailingIcon: @Composable (() -> Unit)? = null,
     visualTransformation: VisualTransformation = VisualTransformation.None,
@@ -23,6 +26,8 @@ fun TempoTextField(
     keyboardActions: KeyboardActions = KeyboardActions.Default,
     singleLine: Boolean = false,
     maxLines: Int = Int.MAX_VALUE,
+    showBackground: Boolean = true,
+    showIndicator: Boolean = true
 ) {
     require(errorText == null || errorText.isNotBlank()) { "Error text cannot be blank" }
     require(labelText == null || labelText.isNotBlank()) { "Label text cannot be blank" }
@@ -41,7 +46,10 @@ fun TempoTextField(
         keyboardOptions = keyboardOptions,
         keyboardActions = keyboardActions,
         singleLine = singleLine,
-        maxLines = maxLines
+        maxLines = maxLines,
+        textStyle = textStyle,
+        showBackground = showBackground,
+        showIndicator = showIndicator
     )
 }
 

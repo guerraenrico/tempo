@@ -64,6 +64,8 @@ internal class SegmentReducer @Inject constructor() {
     }
 
     fun updateSegmentTimeType(state: SegmentState.Data, timeType: TimeType): SegmentState.Data {
+        if (state.inputs.type == timeType) return state
+
         val time = if (timeType == TimeType.STOPWATCH) {
             "".timeText
         } else {

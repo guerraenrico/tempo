@@ -64,8 +64,7 @@ internal fun SegmentItem(
                         bottom.linkTo(parent.bottom)
                     }
                     .padding(top = TempoTheme.dimensions.spaceM),
-                value = segment.type,
-                isSelected = true
+                value = segment.type
             )
 
             TempoText(

@@ -7,6 +7,7 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.text.AnnotatedString
 import androidx.compose.ui.text.TextRange
+import androidx.compose.ui.text.TextStyle
 import androidx.compose.ui.text.input.ImeAction
 import androidx.compose.ui.text.input.KeyboardType
 import androidx.compose.ui.text.input.OffsetMapping
@@ -14,6 +15,7 @@ import androidx.compose.ui.text.input.TextFieldValue
 import androidx.compose.ui.text.input.TransformedText
 import androidx.compose.ui.text.input.VisualTransformation
 import androidx.compose.ui.tooling.preview.Preview
+import com.enricog.ui.theme.TempoTheme
 
 private val NUMERIC_REGEX = Regex("^[0-9]+\$|^\$|^\\s\$")
 
@@ -25,8 +27,11 @@ fun TempoTimeField(
     labelText: String? = null,
     supportingText: String? = null,
     errorText: String? = null,
+    textStyle: TextStyle = TempoTheme.typography.textField,
     imeAction: ImeAction = ImeAction.Default,
-    keyboardActions: KeyboardActions = KeyboardActions.Default
+    keyboardActions: KeyboardActions = KeyboardActions.Default,
+    showBackground: Boolean = true,
+    showIndicator: Boolean = true
 ) {
     require(errorText == null || errorText.isNotBlank()) { "Error text cannot be blank" }
     require(labelText == null || labelText.isNotBlank()) { "Label text cannot be blank" }
@@ -58,7 +63,10 @@ fun TempoTimeField(
         keyboardActions = keyboardActions,
         singleLine = true,
         maxLines = 1,
-        visualTransformation = TimeVisualTransformation
+        visualTransformation = TimeVisualTransformation,
+        textStyle = textStyle,
+        showBackground = showBackground,
+        showIndicator = showIndicator
     )
 }
 

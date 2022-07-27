@@ -46,7 +46,7 @@ internal fun SegmentTypeTabs(
                     color = selectedTimeType.color(),
                     cornerRadius = CornerRadius(x = 50f, y = 50f),
                     topLeft = Offset(x = swipeState.offset.value, y = tabSpace.toPx()),
-                    size = Size(width = tabWidth.toPx(), height = 90f)
+                    size = Size(width = tabWidth.toPx(), height = 85f)
                 )
             }
     ) {
@@ -67,7 +67,6 @@ internal fun SegmentTypeTabs(
             timeTypes.mapIndexed { index, timeType ->
                 SegmentTypeTab(
                     value = timeType,
-                    isSelected = false,
                     onClick = {
                         coroutineScope.launch {
                             onSelectTimeTypeChange(it)

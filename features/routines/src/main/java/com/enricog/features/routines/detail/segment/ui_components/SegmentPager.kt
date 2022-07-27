@@ -19,14 +19,15 @@ import kotlin.math.abs
 
 @Composable
 internal fun SegmentPager(
-    modifier: Modifier = Modifier,
     swipeState: SwipeableState<TimeType>,
     timeText: TimeText,
     timeTypes: List<TimeType>,
     selectedType: TimeType,
     onSelectTimeTypeChange: (TimeType) -> Unit,
     onTimeTextChange: (TimeText) -> Unit,
-    errors: Map<SegmentField, SegmentFieldError>
+    errors: Map<SegmentField, SegmentFieldError>,
+    segmentTimeFieldIme: SegmentTimeFieldIme,
+    modifier: Modifier = Modifier
 ) = BoxWithConstraints(modifier = modifier) {
 
     val circleRadius = maxWidth / 3
@@ -50,25 +51,25 @@ internal fun SegmentPager(
     Column(
         modifier = Modifier.fillMaxWidth()
     ) {
-        SegmentTypeTabs(
-            tabSpace,
-            tabWidth,
-            tabAnchors,
-            swipeState,
-            timeTypes,
-            selectedType,
-            onSelectTimeTypeChange
-        )
-
-        Spacer(modifier = Modifier.height(TempoTheme.dimensions.spaceS))
-
         SegmentTimeField(
             circleRadius = circleRadius,
             anchors = timeFieldAnchors,
             timeText = timeText,
             onTimeTextChange = onTimeTextChange,
-            errors = errors
+            errors = errors,
+            timeFieldIme = segmentTimeFieldIme
+        )
+
+        Spacer(modifier = Modifier.height(TempoTheme.dimensions.spaceS))
+
+        SegmentTypeTabs(
+            tabSpace = tabSpace,
+            tabWidth = tabWidth,
+            tabAnchors = tabAnchors,
+            swipeState = swipeState,
+            timeTypes = timeTypes,
+            selectedTimeType = selectedType,
+            onSelectTimeTypeChange = onSelectTimeTypeChange,
         )
     }
-
 }
