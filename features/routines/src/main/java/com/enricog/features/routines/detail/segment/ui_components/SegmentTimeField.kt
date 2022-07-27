@@ -1,6 +1,6 @@
 package com.enricog.features.routines.detail.segment.ui_components
 
-import androidx.compose.foundation.layout.Box
+import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
@@ -18,10 +18,7 @@ import androidx.compose.ui.text.input.ImeAction
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.sp
-import com.enricog.core.compose.api.extensions.stringResourceOrNull
 import com.enricog.data.routines.api.entities.TimeType
-import com.enricog.features.routines.detail.segment.models.SegmentField
-import com.enricog.features.routines.detail.segment.models.SegmentFieldError
 import com.enricog.features.routines.detail.ui.time_type.color
 import com.enricog.ui.components.textField.TempoTimeField
 import com.enricog.ui.components.textField.TimeText
@@ -33,11 +30,10 @@ internal fun SegmentTimeField(
     anchors: Map<TimeType, Float>,
     timeText: TimeText,
     onTimeTextChange: (TimeText) -> Unit,
-    errors: Map<SegmentField, SegmentFieldError>,
     timeFieldIme: SegmentTimeFieldIme,
     modifier: Modifier = Modifier
 ) {
-    Box(
+    Row(
         modifier = modifier
             .fillMaxWidth()
             .height(height = circleRadius * 2)
@@ -56,9 +52,8 @@ internal fun SegmentTimeField(
             onValueChange = onTimeTextChange,
             modifier = Modifier
                 .padding(TempoTheme.dimensions.spaceM)
-                .align(Alignment.Center)
+                .align(Alignment.CenterVertically)
                 .focusRequester(timeFieldIme.focusRequester),
-            errorText = stringResourceOrNull(errors[SegmentField.TimeInSeconds]?.stringResId),
             imeAction = timeFieldIme.action,
             keyboardActions = timeFieldIme.keyboardActions,
             showBackground = false,

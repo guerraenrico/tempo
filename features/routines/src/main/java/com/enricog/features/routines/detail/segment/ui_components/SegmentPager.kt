@@ -2,17 +2,20 @@ package com.enricog.features.routines.detail.segment.ui_components
 
 import androidx.compose.foundation.layout.BoxWithConstraints
 import androidx.compose.foundation.layout.Column
-import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
+import androidx.compose.foundation.layout.padding
 import androidx.compose.runtime.Composable
+import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
+import com.enricog.core.compose.api.extensions.stringResourceOrNull
 import com.enricog.core.compose.api.extensions.toPx
 import com.enricog.core.compose.api.modifiers.swipeable.SwipeableState
 import com.enricog.data.routines.api.entities.TimeType
 import com.enricog.features.routines.detail.segment.models.SegmentField
 import com.enricog.features.routines.detail.segment.models.SegmentFieldError
+import com.enricog.ui.components.text.TempoText
 import com.enricog.ui.components.textField.TimeText
 import com.enricog.ui.theme.TempoTheme
 import kotlin.math.abs
@@ -29,6 +32,8 @@ internal fun SegmentPager(
     segmentTimeFieldIme: SegmentTimeFieldIme,
     modifier: Modifier = Modifier
 ) = BoxWithConstraints(modifier = modifier) {
+
+    val errorMessage = stringResourceOrNull(errors[SegmentField.TimeInSeconds]?.stringResId) ?: ""
 
     val circleRadius = maxWidth / 3
     val center = maxWidth / 2
@@ -56,11 +61,20 @@ internal fun SegmentPager(
             anchors = timeFieldAnchors,
             timeText = timeText,
             onTimeTextChange = onTimeTextChange,
-            errors = errors,
             timeFieldIme = segmentTimeFieldIme
         )
 
-        Spacer(modifier = Modifier.height(TempoTheme.dimensions.spaceS))
+        TempoText(
+            modifier = Modifier
+                .height(35.dp)
+                .padding(vertical = TempoTheme.dimensions.spaceS)
+                .align(alignment = Alignment.CenterHorizontally),
+            text = errorMessage,
+            style = TempoTheme.typography.caption.copy(
+                color = TempoTheme.colors.error
+            ),
+            maxLines = 1
+        )
 
         SegmentTypeTabs(
             tabSpace = tabSpace,
