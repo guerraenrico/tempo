@@ -80,7 +80,7 @@ class SegmentReducerTest {
             segment = Segment.EMPTY.copy(name = "Segment Name"),
             errors = mapOf(
                 SegmentField.Name to SegmentFieldError.BlankSegmentName,
-                SegmentField.TimeInSeconds to SegmentFieldError.InvalidSegmentTime
+                SegmentField.Time to SegmentFieldError.InvalidSegmentTime
             ),
             timeTypes = listOf(TimeType.TIMER, TimeType.REST, TimeType.STOPWATCH),
             inputs = SegmentInputs(
@@ -95,7 +95,7 @@ class SegmentReducerTest {
             ),
             segment = Segment.EMPTY.copy(name = "Segment Name"),
             errors = mapOf(
-                SegmentField.TimeInSeconds to SegmentFieldError.InvalidSegmentTime
+                SegmentField.Time to SegmentFieldError.InvalidSegmentTime
             ),
             timeTypes = listOf(TimeType.TIMER, TimeType.REST, TimeType.STOPWATCH),
             inputs = SegmentInputs(
@@ -125,7 +125,7 @@ class SegmentReducerTest {
             ),
             errors = mapOf(
                 SegmentField.Name to SegmentFieldError.BlankSegmentName,
-                SegmentField.TimeInSeconds to SegmentFieldError.InvalidSegmentTime
+                SegmentField.Time to SegmentFieldError.InvalidSegmentTime
             ),
             timeTypes = listOf(TimeType.TIMER, TimeType.REST, TimeType.STOPWATCH),
             inputs = SegmentInputs(
@@ -170,7 +170,7 @@ class SegmentReducerTest {
             ),
             errors = mapOf(
                 SegmentField.Name to SegmentFieldError.BlankSegmentName,
-                SegmentField.TimeInSeconds to SegmentFieldError.InvalidSegmentTime
+                SegmentField.Time to SegmentFieldError.InvalidSegmentTime
             ),
             timeTypes = listOf(TimeType.TIMER, TimeType.REST, TimeType.STOPWATCH),
             inputs = SegmentInputs(
@@ -268,6 +268,51 @@ class SegmentReducerTest {
     }
 
     @Test
+    fun `should clear time error when selected type is selected`() {
+        val state = SegmentState.Data(
+            routine = Routine.EMPTY.copy(
+                segments = emptyList()
+            ),
+            segment = Segment.EMPTY.copy(
+                type = TimeType.TIMER,
+                time = 10.seconds
+            ),
+            errors = mapOf(
+                SegmentField.Name to SegmentFieldError.BlankSegmentName,
+                SegmentField.Time to SegmentFieldError.InvalidSegmentTime,
+            ),
+            timeTypes = listOf(TimeType.TIMER, TimeType.REST, TimeType.STOPWATCH),
+            inputs = SegmentInputs(
+                name = "".toTextFieldValue(),
+                time = "10".timeText,
+                type = TimeType.TIMER
+            )
+        )
+        val expected = SegmentState.Data(
+            routine = Routine.EMPTY.copy(
+                segments = emptyList()
+            ),
+            segment = Segment.EMPTY.copy(
+                time = 10.seconds,
+                type = TimeType.TIMER
+            ),
+            errors = mapOf(
+                SegmentField.Name to SegmentFieldError.BlankSegmentName,
+            ),
+            timeTypes = listOf(TimeType.TIMER, TimeType.REST, TimeType.STOPWATCH),
+            inputs = SegmentInputs(
+                name = "".toTextFieldValue(),
+                time = "10".timeText,
+                type = TimeType.REST
+            )
+        )
+
+        val actual = sut.updateSegmentTimeType(state = state, timeType = TimeType.REST)
+
+        assertEquals(expected, actual)
+    }
+
+    @Test
     fun `should update segment type and set segment time to zero when selected type not TimeType#STOPWATCH`() {
         val state = SegmentState.Data(
             routine = Routine.EMPTY.copy(
@@ -311,7 +356,7 @@ class SegmentReducerTest {
     fun `should apply segment errors`() {
         val errors = mapOf(
             SegmentField.Name to SegmentFieldError.BlankSegmentName,
-            SegmentField.TimeInSeconds to SegmentFieldError.InvalidSegmentTime
+            SegmentField.Time to SegmentFieldError.InvalidSegmentTime
         )
         val state = SegmentState.Data(
             routine = Routine.EMPTY,

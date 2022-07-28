@@ -42,10 +42,7 @@ internal class SegmentReducer @Inject constructor() {
     ): SegmentState.Data {
         val inputs = state.inputs.copy(name = textFieldValue)
         val errors = state.errors.filterKeys { it != SegmentField.Name }
-        return state.copy(
-            inputs = inputs,
-            errors = errors
-        )
+        return state.copy(inputs = inputs, errors = errors)
     }
 
     fun updateSegmentTime(state: SegmentState.Data, text: TimeText): SegmentState.Data {
@@ -56,11 +53,8 @@ internal class SegmentReducer @Inject constructor() {
         }
 
         val inputs = state.inputs.copy(time = time)
-        val errors = state.errors.filterKeys { it != SegmentField.TimeInSeconds }
-        return state.copy(
-            inputs = inputs,
-            errors = errors
-        )
+        val errors = state.errors.filterKeys { it != SegmentField.Time }
+        return state.copy(inputs = inputs, errors = errors)
     }
 
     fun updateSegmentTimeType(state: SegmentState.Data, timeType: TimeType): SegmentState.Data {
@@ -72,11 +66,9 @@ internal class SegmentReducer @Inject constructor() {
             state.inputs.time
         }
 
-        val inputs = state.inputs.copy(
-            type = timeType,
-            time = time
-        )
-        return state.copy(inputs = inputs)
+        val inputs = state.inputs.copy(type = timeType, time = time)
+        val errors = state.errors.filterKeys { it != SegmentField.Time }
+        return state.copy(inputs = inputs, errors = errors)
     }
 
     fun applySegmentErrors(

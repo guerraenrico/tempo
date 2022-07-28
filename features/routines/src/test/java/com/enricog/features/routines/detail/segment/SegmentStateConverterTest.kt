@@ -41,7 +41,7 @@ class SegmentStateConverterTest {
             segment = Segment.EMPTY,
             errors = mapOf(
                 SegmentField.Name to SegmentFieldError.BlankSegmentName,
-                SegmentField.TimeInSeconds to SegmentFieldError.InvalidSegmentTime
+                SegmentField.Time to SegmentFieldError.InvalidSegmentTime
             ),
             timeTypes = emptyList(),
             inputs = SegmentInputs(
@@ -58,7 +58,7 @@ class SegmentStateConverterTest {
             ),
             errors = mapOf(
                 SegmentField.Name to SegmentFieldError.BlankSegmentName,
-                SegmentField.TimeInSeconds to SegmentFieldError.InvalidSegmentTime
+                SegmentField.Time to SegmentFieldError.InvalidSegmentTime
             ),
             timeTypes = emptyList()
         )
