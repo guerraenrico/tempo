@@ -4,6 +4,7 @@ import androidx.room.ColumnInfo
 import androidx.room.Entity
 import androidx.room.ForeignKey
 import androidx.room.ForeignKey.CASCADE
+import androidx.room.Index
 import androidx.room.PrimaryKey
 import com.enricog.data.routines.api.entities.Segment
 import com.enricog.data.routines.api.entities.TimeType
@@ -13,12 +14,15 @@ import com.enricog.entities.seconds
 
 @Entity(
     tableName = "Segments",
-    foreignKeys = [ForeignKey(
-        entity = InternalRoutine::class,
-        parentColumns = ["routineId"],
-        childColumns = ["routineId_fk"],
-        onDelete = CASCADE
-    )]
+    foreignKeys = [
+        ForeignKey(
+            entity = InternalRoutine::class,
+            parentColumns = ["routineId"],
+            childColumns = ["routineId_fk"],
+            onDelete = CASCADE
+        )
+    ],
+    indices = [Index(value = ["routineId_fk"], unique = true)]
 )
 internal data class InternalSegment(
     @PrimaryKey(autoGenerate = true) @ColumnInfo(name = "segmentId") val id: Long,
