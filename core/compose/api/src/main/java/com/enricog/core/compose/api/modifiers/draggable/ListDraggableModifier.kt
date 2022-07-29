@@ -15,7 +15,6 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.composed
 import androidx.compose.ui.geometry.Offset
 import androidx.compose.ui.geometry.isUnspecified
-import androidx.compose.ui.input.pointer.consumeAllChanges
 import androidx.compose.ui.input.pointer.pointerInput
 import androidx.compose.ui.platform.debugInspectorInfo
 import com.enricog.core.coroutines.job.autoCancelableJob
@@ -55,7 +54,7 @@ fun Modifier.listDraggable(
         detectDragGesturesAfterLongPress(
             onDrag = { change, dragAmount ->
                 state.onDrag(dragAmount)
-                change.consumeAllChanges()
+                change.consume()
             },
             onDragStart = { dragAmount ->
                 state.onDragStarted(dragAmount)

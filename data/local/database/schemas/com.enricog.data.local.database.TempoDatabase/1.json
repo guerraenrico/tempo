@@ -2,7 +2,7 @@
   "formatVersion": 1,
   "database": {
     "version": 1,
-    "identityHash": "746c1da151fc7983b592a4f164bbd541",
+    "identityHash": "298529df1f045a78983c62158d7764e5",
     "entities": [
       {
         "tableName": "Routines",
@@ -95,7 +95,17 @@
           ],
           "autoGenerate": true
         },
-        "indices": [],
+        "indices": [
+          {
+            "name": "index_Segments_routineId_fk",
+            "unique": false,
+            "columnNames": [
+              "routineId_fk"
+            ],
+            "orders": [],
+            "createSql": "CREATE INDEX IF NOT EXISTS `index_Segments_routineId_fk` ON `${TABLE_NAME}` (`routineId_fk`)"
+          }
+        ],
         "foreignKeys": [
           {
             "table": "Routines",
@@ -114,7 +124,7 @@
     "views": [],
     "setupQueries": [
       "CREATE TABLE IF NOT EXISTS room_master_table (id INTEGER PRIMARY KEY,identity_hash TEXT)",
-      "INSERT OR REPLACE INTO room_master_table (id,identity_hash) VALUES(42, '746c1da151fc7983b592a4f164bbd541')"
+      "INSERT OR REPLACE INTO room_master_table (id,identity_hash) VALUES(42, '298529df1f045a78983c62158d7764e5')"
     ]
   }
 }
