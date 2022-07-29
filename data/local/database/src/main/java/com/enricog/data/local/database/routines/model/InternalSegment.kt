@@ -22,7 +22,7 @@ import com.enricog.entities.seconds
             onDelete = CASCADE
         )
     ],
-    indices = [Index(value = ["routineId_fk"], unique = true)]
+    indices = [Index(value = ["routineId_fk"], unique = false)]
 )
 internal data class InternalSegment(
     @PrimaryKey(autoGenerate = true) @ColumnInfo(name = "segmentId") val id: Long,
