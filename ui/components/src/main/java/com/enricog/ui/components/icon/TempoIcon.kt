@@ -17,10 +17,16 @@ fun TempoIcon(
 ) {
     require(contentDescription.isNotBlank()) { "contentDescription cannot be blank" }
 
+    val internalModifier = Modifier.apply {
+        if (size != TempoIconSize.Original) {
+            size(size.value)
+        }
+    }
+
     Icon(
         painter = icon,
         tint = color,
-        modifier = modifier.size(size.value),
+        modifier = modifier.then(internalModifier),
         contentDescription = contentDescription
     )
 }

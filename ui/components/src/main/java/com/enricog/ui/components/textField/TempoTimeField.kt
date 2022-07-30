@@ -27,6 +27,7 @@ fun TempoTimeField(
     labelText: String? = null,
     supportingText: String? = null,
     errorText: String? = null,
+    trailingIcon: @Composable (() -> Unit)? = null,
     textStyle: TextStyle = TempoTheme.typography.textField,
     imeAction: ImeAction = ImeAction.Default,
     keyboardActions: KeyboardActions = KeyboardActions.Default,
@@ -55,7 +56,7 @@ fun TempoTimeField(
         supportingText = supportingText,
         errorText = errorText,
         leadingIcon = null,
-        trailingIcon = null,
+        trailingIcon = trailingIcon,
         keyboardOptions = KeyboardOptions(
             keyboardType = KeyboardType.Number,
             imeAction = imeAction
