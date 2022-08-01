@@ -5,6 +5,8 @@ import com.enricog.navigation.api.NavigationAction.GoBack
 import com.enricog.navigation.api.Navigator
 import com.enricog.navigation.api.routes.RoutineRoute
 import com.enricog.navigation.api.routes.RoutineRouteInput
+import com.enricog.navigation.api.routes.RoutineStartTimeInfoRoute
+import com.enricog.navigation.api.routes.RoutineStartTimeInfoRouteInput
 import com.enricog.navigation.api.routes.RoutineSummaryRoute
 import com.enricog.navigation.api.routes.RoutineSummaryRouteInput
 import com.enricog.navigation.api.routes.RoutinesRoute
@@ -57,6 +59,14 @@ internal class RoutinesNavigationActions @Inject constructor(
             optionsBuilder = {
                 popUpTo(RoutinesRoute.name) { inclusive = true }
             }
+        )
+        navigator.navigate(routeNavigation)
+    }
+
+    suspend fun openRoutineStartTimeInfo() {
+        val routeNavigation = RoutineStartTimeInfoRoute.navigate(
+            input = RoutineStartTimeInfoRouteInput,
+            optionsBuilder = null
         )
         navigator.navigate(routeNavigation)
     }
