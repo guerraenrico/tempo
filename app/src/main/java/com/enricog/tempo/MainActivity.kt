@@ -15,6 +15,8 @@ import com.enricog.features.timer.TimerNavigation
 import com.enricog.features.timer.WindowScreenManager
 import com.enricog.navigation.api.NavigationAction
 import com.enricog.navigation.api.Navigator
+import com.enricog.ui.components.bottomSheet.layout.ModalBottomSheetLayout
+import com.enricog.ui.components.bottomSheet.navigator.rememberBottomSheetNavigator
 import com.enricog.ui.theme.TempoTheme
 import dagger.hilt.android.AndroidEntryPoint
 import javax.inject.Inject
@@ -38,7 +40,8 @@ internal class MainActivity : ComponentActivity() {
         super.onCreate(savedInstanceState)
         setContent {
             TempoTheme {
-                val navController = rememberNavController()
+                val bottomSheetNavigator = rememberBottomSheetNavigator()
+                val navController = rememberNavController(bottomSheetNavigator)
 
                 LaunchedEffect(key1 = true) {
                     navigator.actions.collect { action ->
@@ -54,9 +57,11 @@ internal class MainActivity : ComponentActivity() {
                     }
                 }
 
-                NavHost(navController = navController, startDestination = "routinesNav") {
-                    RoutinesNavigation()
-                    TimerNavigation()
+                ModalBottomSheetLayout(bottomSheetNavigator) {
+                    NavHost(navController = navController, startDestination = "routinesNav") {
+                        RoutinesNavigation()
+                        TimerNavigation()
+                    }
                 }
             }
         }

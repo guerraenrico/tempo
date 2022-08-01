@@ -48,11 +48,14 @@ subprojects {
             freeCompilerArgs += "-opt-in=kotlin.contracts.ExperimentalContracts"
             freeCompilerArgs += "-opt-in=kotlin.time.ExperimentalTime"
             freeCompilerArgs += "-opt-in=kotlin.ExperimentalStdlibApi"
+            freeCompilerArgs += "-opt-in=kotlinx.coroutines.FlowPreview"
+
+            // Enable experimental compose APIs
             freeCompilerArgs += "-opt-in=androidx.compose.material.ExperimentalMaterialApi"
             freeCompilerArgs += "-opt-in=androidx.compose.foundation.ExperimentalFoundationApi"
             freeCompilerArgs += "-opt-in=androidx.compose.ui.ExperimentalComposeUiApi"
             freeCompilerArgs += "-opt-in=androidx.compose.animation.ExperimentalAnimationApi"
-            freeCompilerArgs += "-opt-in=kotlinx.coroutines.FlowPreview"
+            freeCompilerArgs += "-opt-in=com.google.accompanist.navigation.material.ExperimentalMaterialNavigationApi"
 
             // "-P",
             // "plugin:androidx.compose.compiler.plugins.kotlin:suppressKotlinVersionCompatibilityCheck=true"

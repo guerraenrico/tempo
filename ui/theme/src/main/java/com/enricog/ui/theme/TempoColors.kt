@@ -92,6 +92,19 @@ class TempoColors internal constructor() {
     }
 }
 
+fun TempoColors.contentColorFor(backgroundColor: Color): Color {
+    return when (backgroundColor) {
+        primary -> onPrimary
+        primaryVariant -> onPrimary
+        secondary -> onSecondary
+        secondaryVariant -> onSecondary
+        background -> onBackground
+        surface -> onSurface
+        error -> onError
+        else -> Color.Unspecified
+    }
+}
+
 internal val LocalTempoColors = staticCompositionLocalOf { TempoColors() }
 
 internal fun TempoColors.toMaterialColors(): Colors {
