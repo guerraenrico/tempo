@@ -61,6 +61,10 @@ internal class RoutineViewModel @Inject constructor(
         }
     }
 
+    fun onRoutineStartTimeInfoClick() = launch {
+        navigationActions.openRoutineStartTimeInfo()
+    }
+
     fun onRoutineBack() = launch {
         navigationActions.goBack()
     }

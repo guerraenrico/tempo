@@ -22,6 +22,8 @@ class TempoShapes internal constructor() {
 
     val textField: RoundedCornerShape = RoundedCornerShape(10.dp)
 
+    val bottomSheet: RoundedCornerShape = RoundedCornerShape(topStart = 10.dp, topEnd = 10.dp)
+
     override fun equals(other: Any?): Boolean {
         if (this === other) return true
         if (javaClass != other?.javaClass) return false

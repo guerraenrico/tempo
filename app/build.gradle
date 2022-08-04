@@ -98,6 +98,7 @@ dependencies {
     implementation Libs.AndroidX.Compose.tooling
     implementation Libs.AndroidX.Compose.navigation
     implementation Libs.AndroidX.Compose.activity
+    implementation Libs.Google.Accompanist.navigation
 
     // Hilt
     implementation Libs.Hilt.android

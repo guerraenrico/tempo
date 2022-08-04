@@ -31,8 +31,7 @@ internal fun RoutinesScene(
 
     ) {
         LazyColumn(
-            modifier = Modifier
-                .fillMaxSize(),
+            modifier = Modifier.fillMaxSize(),
             verticalArrangement = Arrangement.spacedBy(TempoTheme.dimensions.spaceM),
             contentPadding = PaddingValues(TempoTheme.dimensions.spaceM)
         ) {

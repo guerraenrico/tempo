@@ -43,6 +43,7 @@ internal fun RoutineFormScene(
     errors: Map<RoutineField, RoutineFieldError>,
     onRoutineNameChange: (TextFieldValue) -> Unit,
     onStartTimeOffsetChange: (TimeText) -> Unit,
+    onStartTimeInfoClick: () -> Unit,
     onRoutineSave: () -> Unit
 ) {
     val keyboardController = LocalSoftwareKeyboardController.current
@@ -89,9 +90,7 @@ internal fun RoutineFormScene(
                     onDone = { keyboardController?.hide() }
                 ),
                 trailingIcon = {
-                    StartTimeInfoIcon {
-                        // TODO
-                    }
+                    StartTimeInfoIcon(onStartTimeInfoClick)
                 }
             )
         }
