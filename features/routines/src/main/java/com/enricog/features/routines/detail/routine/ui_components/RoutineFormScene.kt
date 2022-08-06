@@ -84,7 +84,7 @@ internal fun RoutineFormScene(
                     .fillMaxWidth()
                     .focusRequester(routineStartTimeRef),
                 labelText = stringResource(R.string.field_label_routine_start_time_offset),
-                supportingText = stringResource(R.string.field_support_text_routine_start_time_offest),
+                supportingText = stringResource(R.string.field_support_text_routine_start_time_offset),
                 imeAction = ImeAction.Done,
                 keyboardActions = KeyboardActions(
                     onDone = { keyboardController?.hide() }

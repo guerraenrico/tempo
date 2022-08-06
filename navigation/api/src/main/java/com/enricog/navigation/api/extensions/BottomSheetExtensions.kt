@@ -8,7 +8,7 @@ import androidx.navigation.NavDeepLink
 import androidx.navigation.NavGraphBuilder
 import com.google.accompanist.navigation.material.bottomSheet as accompanistBottomSheet
 
-fun NavGraphBuilder.bottomSheet(
+internal fun NavGraphBuilder.bottomSheet(
     route: String,
     arguments: List<NamedNavArgument> = emptyList(),
     deepLinks: List<NavDeepLink> = emptyList(),

@@ -16,6 +16,7 @@ import com.enricog.features.timer.WindowScreenManager
 import com.enricog.navigation.api.NavigationAction
 import com.enricog.navigation.api.Navigator
 import com.enricog.ui.theme.TempoTheme
+import com.enricog.ui.theme.black
 import com.google.accompanist.navigation.material.ModalBottomSheetLayout
 import com.google.accompanist.navigation.material.rememberBottomSheetNavigator
 import dagger.hilt.android.AndroidEntryPoint
@@ -60,9 +61,9 @@ internal class MainActivity : ComponentActivity() {
                 ModalBottomSheetLayout(
                     bottomSheetNavigator = bottomSheetNavigator,
                     sheetShape = TempoTheme.shapes.bottomSheet,
-                    sheetBackgroundColor = TempoTheme.colors.surface,
-                    sheetContentColor = TempoTheme.colors.onSurface,
-                    scrimColor = TempoTheme.colors.surface.copy(alpha = 0.60f)
+                    sheetBackgroundColor = TempoTheme.colors.background,
+                    sheetContentColor = TempoTheme.colors.onBackground,
+                    scrimColor = black.copy(alpha = 0.60f)
                 ) {
                     NavHost(navController = navController, startDestination = "routinesNav") {
                         RoutinesNavigation()
