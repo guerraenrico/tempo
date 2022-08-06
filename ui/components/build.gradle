@@ -32,6 +32,7 @@ android {
 dependencies {
     implementation project(":entities")
     implementation project(":ui:theme")
+    implementation project(":core:compose:api")
 
     implementation Libs.AndroidX.appCompat
     implementation Libs.AndroidX.coreKtx

@@ -19,7 +19,7 @@ import androidx.compose.material.SwipeableState as MaterialSwipeableState
 import androidx.compose.material.ThresholdConfig as MaterialThresholdConfig
 import androidx.compose.material.swipeable as materialSwipeable
 
-class SwipeableState<T>(
+open class SwipeableState<T>(
     initialValue: T,
     private val animationSpec: AnimationSpec<Float> = SpringSpec(),
     confirmStateChange: (newValue: T) -> Boolean = { true }
@@ -29,6 +29,9 @@ class SwipeableState<T>(
         animationSpec = animationSpec,
         confirmStateChange = confirmStateChange
     )
+
+    val currentValue: T
+        get() = materialSwipeableState.currentValue
 
     val offset: State<Float> get() = materialSwipeableState.offset
 

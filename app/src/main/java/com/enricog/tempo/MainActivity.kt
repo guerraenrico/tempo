@@ -16,6 +16,9 @@ import com.enricog.features.timer.WindowScreenManager
 import com.enricog.navigation.api.NavigationAction
 import com.enricog.navigation.api.Navigator
 import com.enricog.ui.theme.TempoTheme
+import com.enricog.ui.theme.black
+import com.google.accompanist.navigation.material.ModalBottomSheetLayout
+import com.google.accompanist.navigation.material.rememberBottomSheetNavigator
 import dagger.hilt.android.AndroidEntryPoint
 import javax.inject.Inject
 import kotlinx.coroutines.flow.flowOn
@@ -38,7 +41,8 @@ internal class MainActivity : ComponentActivity() {
         super.onCreate(savedInstanceState)
         setContent {
             TempoTheme {
-                val navController = rememberNavController()
+                val bottomSheetNavigator = rememberBottomSheetNavigator()
+                val navController = rememberNavController(bottomSheetNavigator)
 
                 LaunchedEffect(key1 = true) {
                     navigator.actions.collect { action ->
@@ -54,9 +58,17 @@ internal class MainActivity : ComponentActivity() {
                     }
                 }
 
-                NavHost(navController = navController, startDestination = "routinesNav") {
-                    RoutinesNavigation()
-                    TimerNavigation()
+                ModalBottomSheetLayout(
+                    bottomSheetNavigator = bottomSheetNavigator,
+                    sheetShape = TempoTheme.shapes.bottomSheet,
+                    sheetBackgroundColor = TempoTheme.colors.background,
+                    sheetContentColor = TempoTheme.colors.onBackground,
+                    scrimColor = black.copy(alpha = 0.60f)
+                ) {
+                    NavHost(navController = navController, startDestination = "routinesNav") {
+                        RoutinesNavigation()
+                        TimerNavigation()
+                    }
                 }
             }
         }

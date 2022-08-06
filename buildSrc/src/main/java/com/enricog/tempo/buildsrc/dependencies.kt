@@ -74,6 +74,10 @@ object Libs {
 
     object Google {
         const val material = "com.google.android.material:material:1.2.0"
+
+        object Accompanist {
+            const val navigation = "com.google.accompanist:accompanist-navigation-material:0.25.0"
+        }
     }
 
     object Lifecycle {

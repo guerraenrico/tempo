@@ -23,6 +23,7 @@ internal fun RoutineScreen(viewModel: RoutineViewModel) {
         viewState.Compose(
             onRoutineNameChange = viewModel::onRoutineNameTextChange,
             onStartTimeOffsetChange = viewModel::onRoutineStartTimeOffsetChange,
+            onStartTimeInfoClick = viewModel::onRoutineStartTimeInfoClick,
             onRoutineSave = viewModel::onRoutineSave
         )
     }
@@ -32,6 +33,7 @@ internal fun RoutineScreen(viewModel: RoutineViewModel) {
 internal fun RoutineViewState.Compose(
     onRoutineNameChange: (TextFieldValue) -> Unit,
     onStartTimeOffsetChange: (TimeText) -> Unit,
+    onStartTimeInfoClick: () -> Unit,
     onRoutineSave: () -> Unit
 ) {
     when (this) {
@@ -43,6 +45,7 @@ internal fun RoutineViewState.Compose(
                 errors = errors,
                 onRoutineNameChange = onRoutineNameChange,
                 onStartTimeOffsetChange = onStartTimeOffsetChange,
+                onStartTimeInfoClick = onStartTimeInfoClick,
                 onRoutineSave = onRoutineSave
             )
         }
