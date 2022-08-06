@@ -27,7 +27,8 @@ class RoutineScreenKtTest {
                 viewState.Compose(
                     onRoutineNameChange = {},
                     onStartTimeOffsetChange = {},
-                    onRoutineSave = {}
+                    onRoutineSave = {},
+                    onStartTimeInfoClick = {}
                 )
             }
         }
@@ -36,7 +37,7 @@ class RoutineScreenKtTest {
     }
 
     @Test
-    fun shouldRenderAnySceneWhenStateIsIdle() = composeRule {
+    fun shouldRenderSceneWhenStateIsData() = composeRule {
         val viewState = RoutineViewState.Data(
             routine = RoutineFields(
                 name = "".toTextFieldValue(),
@@ -50,7 +51,8 @@ class RoutineScreenKtTest {
                 viewState.Compose(
                     onRoutineNameChange = {},
                     onStartTimeOffsetChange = {},
-                    onRoutineSave = {}
+                    onRoutineSave = {},
+                    onStartTimeInfoClick = {}
                 )
             }
         }

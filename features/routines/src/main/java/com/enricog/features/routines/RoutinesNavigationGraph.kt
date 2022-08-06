@@ -4,7 +4,7 @@ import androidx.navigation.NavGraphBuilder
 import androidx.navigation.navigation
 import com.enricog.features.routines.detail.routine.RoutineScreen
 import com.enricog.features.routines.detail.segment.SegmentScreen
-import com.enricog.features.routines.detail.start_time.StartTimeInfoScreen
+import com.enricog.features.routines.detail.start_time.StartTimeInfoScene
 import com.enricog.features.routines.detail.summary.RoutineSummaryScreen
 import com.enricog.features.routines.list.RoutinesScreen
 import com.enricog.navigation.api.extensions.navViewModel
@@ -37,7 +37,7 @@ fun NavGraphBuilder.RoutinesNavigation() {
         }
 
         bottomSheetRoutineStartTimeInfo {
-            StartTimeInfoScreen()
+            StartTimeInfoScene()
         }
     }
 }
