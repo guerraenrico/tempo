@@ -1,12 +1,6 @@
 rootProject.name = "Tempo"
 include ':app'
 
-include ':ui:components'
-include ':ui:theme'
-
-include ':features:routines'
-include ':features:timer'
-
 include ':base:extensions'
 include ':base:viewmodel'
 
@@ -14,6 +8,7 @@ include ':core:compose:testing'
 include ':core:compose:api'
 include ':core:coroutines:api'
 include ':core:coroutines:testing'
+include ':core:logger:api'
 
 include ':entities'
 
@@ -22,5 +17,11 @@ include ':data:local:database'
 include ':data:routines:api'
 include ':data:routines:testing'
 
+include ':features:routines'
+include ':features:timer'
+
 include ':navigation:api'
 include ':navigation:testing'
+
+include ':ui:components'
+include ':ui:theme'

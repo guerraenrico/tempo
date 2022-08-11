@@ -108,7 +108,7 @@ object Libs {
         const val ktx = "androidx.room:room-ktx:$version"
     }
 
-    const val Timber = "com.jakewharton.timber:timber:4.7.1"
+    const val Timber = "com.jakewharton.timber:timber:5.0.1"
 
     object Lint {
         private const val version = "26.4.1"

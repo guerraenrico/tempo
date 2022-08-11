@@ -30,6 +30,8 @@
 
 -keep public class * extends android.app.Activity
 -keep public class * extends android.app.Application
+# Keep custom exceptions
+-keep public class * extends java.lang.Exception
 
 ## Obfuscates Intrinsics, https://proandroiddev.com/is-your-kotlin-code-really-obfuscated-a36abf033dde
 -assumenosideeffects class kotlin.jvm.internal.Intrinsics {
@@ -66,10 +68,8 @@
     public static <fields>;
 }
 
-
 # Remove Timber log
-#-assumenosideeffects class timber.log.Timber {
-#    public static void v(...);
-#    public static void d(...);
-#    public static void i(...);
-#}
+-assumenosideeffects class timber.log.Timber {
+    public static void v(...);
+    public static void d(...);
+}

@@ -4,12 +4,15 @@ import android.os.Bundle
 import android.view.WindowManager
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
+import androidx.compose.runtime.DisposableEffect
 import androidx.compose.runtime.LaunchedEffect
 import androidx.lifecycle.lifecycleScope
+import androidx.navigation.NavController
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.rememberNavController
 import com.enricog.base.extensions.exhaustive
 import com.enricog.core.coroutines.dispatchers.CoroutineDispatchers
+import com.enricog.core.logger.api.TempoLogger
 import com.enricog.features.routines.RoutinesNavigation
 import com.enricog.features.timer.TimerNavigation
 import com.enricog.features.timer.WindowScreenManager
@@ -43,6 +46,17 @@ internal class MainActivity : ComponentActivity() {
             TempoTheme {
                 val bottomSheetNavigator = rememberBottomSheetNavigator()
                 val navController = rememberNavController(bottomSheetNavigator)
+
+                DisposableEffect(
+                    key1 = true,
+                    effect = {
+                        val listener = NavController.OnDestinationChangedListener { _, destination, _ ->
+                            destination.route?.let { TempoLogger.setRouteName(it) }
+                        }
+                        navController.addOnDestinationChangedListener(listener)
+                        onDispose { navController.removeOnDestinationChangedListener(listener) }
+                    }
+                )
 
                 LaunchedEffect(key1 = true) {
                     navigator.actions.collect { action ->
