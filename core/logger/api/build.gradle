@@ -29,5 +29,5 @@ dependencies {
     implementation Libs.Firebase.crashlytics
     implementation Libs.Firebase.analytics
 
-    api Libs.Timber
+    implementation Libs.Timber
 }

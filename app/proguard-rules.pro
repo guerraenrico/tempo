@@ -68,8 +68,7 @@
     public static <fields>;
 }
 
-# Remove Timber log
--assumenosideeffects class timber.log.Timber {
-    public static void v(...);
-    public static void d(...);
+# Remove TempoLogger log
+-assumenosideeffects class com.enricog.core.logger.api.TempoLogger {
+    public final void d(...);
 }
