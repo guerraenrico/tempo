@@ -3,6 +3,7 @@ package com.enricog.features.routines.list
 import androidx.lifecycle.viewModelScope
 import com.enricog.base.viewmodel.BaseViewModel
 import com.enricog.core.coroutines.dispatchers.CoroutineDispatchers
+import com.enricog.core.logger.api.TempoLogger
 import com.enricog.data.routines.api.entities.Routine
 import com.enricog.entities.ID
 import com.enricog.features.routines.list.models.RoutinesState
@@ -10,6 +11,7 @@ import com.enricog.features.routines.list.models.RoutinesViewState
 import com.enricog.features.routines.list.usecase.RoutinesUseCase
 import com.enricog.features.routines.navigation.RoutinesNavigationActions
 import dagger.hilt.android.lifecycle.HiltViewModel
+import kotlinx.coroutines.flow.catch
 import kotlinx.coroutines.flow.launchIn
 import kotlinx.coroutines.flow.onEach
 import javax.inject.Inject
@@ -34,6 +36,7 @@ internal class RoutinesViewModel @Inject constructor(
     private fun load() {
         routinesUseCase.getAll()
             .onEach { routines -> updateState { reducer.setup(routines) } }
+            .catch { TempoLogger.e(throwable = it, message = "Error loading routines") }
             .launchIn(viewModelScope)
     }
 

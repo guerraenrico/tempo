@@ -25,6 +25,7 @@ android {
 
 dependencies {
     implementation project(":core:coroutines:api")
+    implementation project(":core:logger:api")
 
     implementation Libs.AndroidX.appCompat
     implementation Libs.AndroidX.coreKtx

@@ -2,11 +2,11 @@ package com.enricog.features.routines.detail.routine
 
 import androidx.compose.ui.text.input.TextFieldValue
 import androidx.lifecycle.SavedStateHandle
-import androidx.lifecycle.viewModelScope
 import com.enricog.base.viewmodel.BaseViewModel
 import com.enricog.base.viewmodel.ViewModelConfiguration
 import com.enricog.core.coroutines.dispatchers.CoroutineDispatchers
 import com.enricog.core.coroutines.job.autoCancelableJob
+import com.enricog.core.logger.api.TempoLogger
 import com.enricog.data.routines.api.entities.Routine
 import com.enricog.features.routines.detail.routine.models.RoutineState
 import com.enricog.features.routines.detail.routine.models.RoutineViewState
@@ -16,7 +16,7 @@ import com.enricog.navigation.api.routes.RoutineRoute
 import com.enricog.navigation.api.routes.RoutineRouteInput
 import com.enricog.ui.components.textField.TimeText
 import dagger.hilt.android.lifecycle.HiltViewModel
-import kotlinx.coroutines.launch
+import kotlinx.coroutines.CoroutineExceptionHandler
 import javax.inject.Inject
 
 @HiltViewModel
@@ -43,7 +43,11 @@ internal class RoutineViewModel @Inject constructor(
     }
 
     private fun load(input: RoutineRouteInput) {
-        viewModelScope.launch {
+        val exceptionHandler = CoroutineExceptionHandler { _, throwable ->
+            TempoLogger.e(throwable = throwable, message = "Error loading routine")
+        }
+
+        launch(exceptionHandler = exceptionHandler) {
             val routine = routineUseCase.get(routineId = input.routineId)
             updateState { reducer.setup(routine = routine) }
         }
@@ -81,7 +85,10 @@ internal class RoutineViewModel @Inject constructor(
     }
 
     private fun save(routine: Routine) {
-        saveRoutineJob = viewModelScope.launch {
+        val exceptionHandler = CoroutineExceptionHandler { _, throwable ->
+            TempoLogger.e(throwable = throwable, message = "Error saving routine")
+        }
+        saveRoutineJob = launch(exceptionHandler = exceptionHandler) {
             val routineId = routineUseCase.save(routine = routine)
             when {
                 routine.isNew -> navigationActions.goToRoutineSummary(routineId = routineId)

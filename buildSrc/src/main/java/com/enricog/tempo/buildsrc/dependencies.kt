@@ -49,7 +49,7 @@ object Libs {
         }
 
         object Compose {
-            const val version = "1.2.0"
+            const val version = "1.2.1"
 
             const val runtime = "androidx.compose.runtime:runtime:$version"
             const val foundation = "androidx.compose.foundation:foundation:$version"

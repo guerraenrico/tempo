@@ -2,11 +2,11 @@ package com.enricog.features.routines.detail.segment
 
 import androidx.compose.ui.text.input.TextFieldValue
 import androidx.lifecycle.SavedStateHandle
-import androidx.lifecycle.viewModelScope
 import com.enricog.base.viewmodel.BaseViewModel
 import com.enricog.base.viewmodel.ViewModelConfiguration
 import com.enricog.core.coroutines.dispatchers.CoroutineDispatchers
 import com.enricog.core.coroutines.job.autoCancelableJob
+import com.enricog.core.logger.api.TempoLogger
 import com.enricog.data.routines.api.entities.Routine
 import com.enricog.data.routines.api.entities.Segment
 import com.enricog.data.routines.api.entities.TimeType
@@ -18,7 +18,7 @@ import com.enricog.navigation.api.routes.SegmentRoute
 import com.enricog.navigation.api.routes.SegmentRouteInput
 import com.enricog.ui.components.textField.TimeText
 import dagger.hilt.android.lifecycle.HiltViewModel
-import kotlinx.coroutines.launch
+import kotlinx.coroutines.CoroutineExceptionHandler
 import javax.inject.Inject
 
 @HiltViewModel
@@ -45,7 +45,10 @@ internal class SegmentViewModel @Inject constructor(
     }
 
     private fun load(input: SegmentRouteInput) {
-        viewModelScope.launch {
+        val exceptionHandler = CoroutineExceptionHandler { _, throwable ->
+            TempoLogger.e(throwable = throwable, message = "Error loading segment")
+        }
+        launch(exceptionHandler = exceptionHandler) {
             val routine = segmentUseCase.get(routineId = input.routineId)
             updateState { reducer.setup(routine = routine, segmentId = input.segmentId) }
         }
@@ -86,7 +89,10 @@ internal class SegmentViewModel @Inject constructor(
     }
 
     private fun save(routine: Routine, segment: Segment) {
-        saveJob = viewModelScope.launch {
+        val exceptionHandler = CoroutineExceptionHandler { _, throwable ->
+            TempoLogger.e(throwable = throwable, message = "Error saving segment")
+        }
+        saveJob = launch(exceptionHandler = exceptionHandler) {
             segmentUseCase.save(routine = routine, segment = segment)
             navigationActions.goBack()
         }

@@ -4,16 +4,18 @@ import androidx.lifecycle.SavedStateHandle
 import androidx.lifecycle.viewModelScope
 import com.enricog.base.viewmodel.BaseViewModel
 import com.enricog.core.coroutines.dispatchers.CoroutineDispatchers
-import com.enricog.entities.ID
+import com.enricog.core.logger.api.TempoLogger
 import com.enricog.data.routines.api.entities.Segment
-import com.enricog.navigation.api.routes.RoutineSummaryRoute
-import com.enricog.navigation.api.routes.RoutineSummaryRouteInput
+import com.enricog.entities.ID
 import com.enricog.features.routines.detail.summary.models.RoutineSummaryState
 import com.enricog.features.routines.detail.summary.models.RoutineSummaryViewState
 import com.enricog.features.routines.detail.summary.usecase.MoveSegmentUseCase
 import com.enricog.features.routines.detail.summary.usecase.RoutineSummaryUseCase
 import com.enricog.features.routines.navigation.RoutinesNavigationActions
+import com.enricog.navigation.api.routes.RoutineSummaryRoute
+import com.enricog.navigation.api.routes.RoutineSummaryRouteInput
 import dagger.hilt.android.lifecycle.HiltViewModel
+import kotlinx.coroutines.flow.catch
 import kotlinx.coroutines.flow.launchIn
 import kotlinx.coroutines.flow.onEach
 import javax.inject.Inject
@@ -44,6 +46,7 @@ internal class RoutineSummaryViewModel @Inject constructor(
             .onEach { routine ->
                 updateState { reducer.setup(routine = routine) }
             }
+            .catch { TempoLogger.e(throwable = it, message = "Error loading routine summary") }
             .launchIn(viewModelScope)
     }
 
