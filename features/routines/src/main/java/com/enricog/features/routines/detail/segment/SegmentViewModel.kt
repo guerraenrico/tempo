@@ -98,7 +98,9 @@ internal class SegmentViewModel @Inject constructor(
         }
     }
 
-    fun onSegmentBack() = launchWhen<SegmentState.Data> {
-        navigationActions.goBack()
+    fun onSegmentBack() {
+        launchWhen<SegmentState.Data> {
+            navigationActions.goBack()
+        }
     }
 }

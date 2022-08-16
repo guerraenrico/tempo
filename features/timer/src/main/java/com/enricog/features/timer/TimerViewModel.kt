@@ -69,12 +69,16 @@ internal class TimerViewModel @Inject constructor(
         updateState { reducer.restartTime(it) }
     }
 
-    fun onResetButtonClick() = runWhen<TimerState.Counting> { state ->
-        start(state.routine)
+    fun onResetButtonClick() {
+        runWhen<TimerState.Counting> { state ->
+            start(state.routine)
+        }
     }
 
-    fun onDoneButtonClick() = launch {
-        navigationActions.backToRoutines()
+    fun onDoneButtonClick() {
+        launch {
+            navigationActions.backToRoutines()
+        }
     }
 
     override fun onStateUpdated(currentState: TimerState) {
@@ -93,14 +97,18 @@ internal class TimerViewModel @Inject constructor(
         stopCounting()
     }
 
-    fun onCloseButtonClick() = launch {
-        stopCounting()
-        navigationActions.backToRoutines()
+    fun onCloseButtonClick() {
+        launch {
+            stopCounting()
+            navigationActions.backToRoutines()
+        }
     }
 
-    private fun onCountCompleted() = launch {
-        delay(1000)
-        updateState { reducer.nextStep(it) }
+    private fun onCountCompleted() {
+        launch {
+            delay(1000)
+            updateState { reducer.nextStep(it) }
+        }
     }
 
     private fun startCounting() {

@@ -50,12 +50,16 @@ internal class RoutineSummaryViewModel @Inject constructor(
             .launchIn(viewModelScope)
     }
 
-    fun onSegmentAdd() = launchWhen<RoutineSummaryState.Data> { stateData ->
-        navigationActions.goToSegment(routineId = stateData.routine.id, segmentId = ID.new())
+    fun onSegmentAdd() {
+        launchWhen<RoutineSummaryState.Data> { stateData ->
+            navigationActions.goToSegment(routineId = stateData.routine.id, segmentId = ID.new())
+        }
     }
 
-    fun onSegmentSelected(segment: Segment) = launchWhen<RoutineSummaryState.Data> { stateData ->
-        navigationActions.goToSegment(routineId = stateData.routine.id, segmentId = segment.id)
+    fun onSegmentSelected(segment: Segment) {
+        launchWhen<RoutineSummaryState.Data> { stateData ->
+            navigationActions.goToSegment(routineId = stateData.routine.id, segmentId = segment.id)
+        }
     }
 
     fun onSegmentDelete(segment: Segment) {
@@ -75,22 +79,28 @@ internal class RoutineSummaryViewModel @Inject constructor(
         }
     }
 
-    fun onRoutineStart() = launchWhen<RoutineSummaryState.Data> { stateData ->
-        val errors = validator.validate(routine = stateData.routine)
-        if (errors.isEmpty()) {
-            navigationActions.goToTimer(routineId = stateData.routine.id)
-        } else {
-            updateStateWhen<RoutineSummaryState.Data> {
-                reducer.applyRoutineErrors(state = it, errors = errors)
+    fun onRoutineStart() {
+        launchWhen<RoutineSummaryState.Data> { stateData ->
+            val errors = validator.validate(routine = stateData.routine)
+            if (errors.isEmpty()) {
+                navigationActions.goToTimer(routineId = stateData.routine.id)
+            } else {
+                updateStateWhen<RoutineSummaryState.Data> {
+                    reducer.applyRoutineErrors(state = it, errors = errors)
+                }
             }
         }
     }
 
-    fun onRoutineEdit() = launchWhen<RoutineSummaryState.Data> { stateData ->
-        navigationActions.goToRoutine(routineId = stateData.routine.id)
+    fun onRoutineEdit() {
+        launchWhen<RoutineSummaryState.Data> { stateData ->
+            navigationActions.goToRoutine(routineId = stateData.routine.id)
+        }
     }
 
-    fun onBack() = launch {
-        navigationActions.goBack()
+    fun onBack() {
+        launch {
+            navigationActions.goBack()
+        }
     }
 }

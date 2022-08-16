@@ -65,21 +65,27 @@ internal class RoutineViewModel @Inject constructor(
         }
     }
 
-    fun onRoutineStartTimeInfoClick() = launch {
-        navigationActions.openRoutineStartTimeInfo()
+    fun onRoutineStartTimeInfoClick() {
+        launch {
+            navigationActions.openRoutineStartTimeInfo()
+        }
     }
 
-    fun onRoutineBack() = launch {
-        navigationActions.goBack()
+    fun onRoutineBack() {
+        launch {
+            navigationActions.goBack()
+        }
     }
 
-    fun onRoutineSave() = runWhen<RoutineState.Data> { stateData ->
-        val errors = validator.validate(inputs = stateData.inputs)
-        if (errors.isEmpty()) {
-            save(routine = stateData.inputs.mergeToRoutine(routine = stateData.routine))
-        } else {
-            updateStateWhen<RoutineState.Data> {
-                reducer.applyRoutineErrors(state = it, errors = errors)
+    fun onRoutineSave() {
+        runWhen<RoutineState.Data> { stateData ->
+            val errors = validator.validate(inputs = stateData.inputs)
+            if (errors.isEmpty()) {
+                save(routine = stateData.inputs.mergeToRoutine(routine = stateData.routine))
+            } else {
+                updateStateWhen<RoutineState.Data> {
+                    reducer.applyRoutineErrors(state = it, errors = errors)
+                }
             }
         }
     }

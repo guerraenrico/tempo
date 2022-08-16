@@ -40,15 +40,21 @@ internal class RoutinesViewModel @Inject constructor(
             .launchIn(viewModelScope)
     }
 
-    fun onCreateRoutineClick() = launch {
-        navigationActions.goToRoutine(routineId = ID.new())
+    fun onCreateRoutineClick() {
+        launch {
+            navigationActions.goToRoutine(routineId = ID.new())
+        }
     }
 
-    fun onRoutineClick(routine: Routine) = launch {
-        navigationActions.goToRoutineSummary(routineId = routine.id)
+    fun onRoutineClick(routine: Routine) {
+        launch {
+            navigationActions.goToRoutineSummary(routineId = routine.id)
+        }
     }
 
-    fun onRoutineDelete(routine: Routine) = launchWhen<RoutinesState.Data> {
-        routinesUseCase.delete(routine)
+    fun onRoutineDelete(routine: Routine) {
+        launchWhen<RoutinesState.Data> {
+            routinesUseCase.delete(routine)
+        }
     }
 }
