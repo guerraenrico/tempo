@@ -49,6 +49,7 @@ object Libs {
         }
 
         object Compose {
+            const val compilerVersion = "1.2.0"
             const val version = "1.2.1"
 
             const val runtime = "androidx.compose.runtime:runtime:$version"
