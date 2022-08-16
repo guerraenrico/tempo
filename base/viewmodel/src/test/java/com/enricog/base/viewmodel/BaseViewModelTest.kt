@@ -6,7 +6,6 @@ import com.enricog.core.coroutines.testing.CoroutineRule
 import org.junit.Rule
 import org.junit.Test
 import kotlin.test.assertEquals
-import kotlin.time.ExperimentalTime
 
 class BaseViewModelTest {
 
@@ -45,6 +44,10 @@ class BaseViewModelTest {
             updateState { value }
         }
 
+        fun setStateWhen(value: TestState) {
+            updateStateWhen<TestState.Data> { value }
+        }
+
         fun runSetState(value: TestState) = runWhen<TestState.Data> {
             updateState { value }
         }
@@ -70,6 +73,18 @@ class BaseViewModelTest {
             sut.setState(value = TestState.Data(value = 1))
 
             assertEquals(expected = TestViewState.Data(value = "1"), actual = awaitItem())
+        }
+    }
+
+    @Test
+    fun `should change state when current state type matches`() = coroutineRule {
+        val sut = buildViewModel(initialValue = TestState.Data(value = 1))
+        sut.viewState.test {
+            assertEquals(expected = TestViewState.Data(value = "1"), actual = awaitItem())
+
+            sut.setStateWhen(value = TestState.Data(value = 2))
+
+            assertEquals(expected = TestViewState.Data(value = "2"), actual = awaitItem())
         }
     }
 
@@ -137,6 +152,10 @@ class BaseViewModelTest {
 
     private fun buildViewModel(initialValue: TestState): TestViewModel {
         val converter = TestStateConverter()
-        return TestViewModel(initialValue, converter, coroutineRule.dispatchers)
+        return TestViewModel(
+            initialValue = initialValue,
+            converter = converter,
+            dispatchers = coroutineRule.dispatchers
+        )
     }
 }

@@ -59,12 +59,18 @@ open class BaseViewModel<ViewModelState : Any, ViewState : Any>(
         block: suspend CoroutineScope.() -> Unit
     ): Job = viewModelScope.launch(context = exceptionHandler, block = block)
 
-
     protected inline fun <reified T : ViewModelState> launchWhen(
         exceptionHandler: CoroutineExceptionHandler = defaultExceptionHandler,
         crossinline block: suspend CoroutineScope.(T) -> Unit
-    ): Job = viewModelScope.launch(context = exceptionHandler) {
-        (state as? T)?.let { block(it) }
+    ): Job {
+        val currentState = state
+        return if (currentState is T) {
+            viewModelScope.launch(context = exceptionHandler) {
+                block(currentState)
+            }
+        } else {
+            Job().apply { complete() }
+        }
     }
 
     protected inline fun <reified T : ViewModelState> runWhen(block: (T) -> Unit) {
@@ -74,6 +80,6 @@ open class BaseViewModel<ViewModelState : Any, ViewState : Any>(
     protected fun updateState(block: (ViewModelState) -> ViewModelState): ViewModelState =
         viewModelStateFlow.updateAndGet(block)
 
-    protected inline fun <reified T : ViewModelState> updateStateWhen(crossinline block: (T) -> T): ViewModelState =
+    protected inline fun <reified T : ViewModelState> updateStateWhen(crossinline block: (T) -> ViewModelState): ViewModelState =
         updateState { if (it is T) block(it) else it }
 }
