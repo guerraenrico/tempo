@@ -6,7 +6,7 @@
 
     <!-- LayoutError -->
     <string name="label_generic_error_title">Ehm…</string>
-    <string name="label_generic_error_description">Something went wrong dunno why</string>
+    <string name="label_generic_error_description">Something went wrong for some reason</string>
     <string name="content_description_generic_error_icon">Error</string>
 
     <string name="content_description_button_retry">Try the operation again</string>

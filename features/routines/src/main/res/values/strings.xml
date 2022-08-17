@@ -2,9 +2,9 @@
 <resources>
     <string name="title_routines">Routines</string>
 
-    <string name="description_no_routines">No routines saved.\nGet started by creating a new one.</string>
-
     <!-- Routines -->
+    <string name="label_no_routines_title">No routines saved</string>
+    <string name="label_no_routines_description">Get started by creating a new routine</string>
     <string name="button_create_routine">Create Routine</string>
     <string name="content_description_button_create_routine">Create a new routine</string>
 

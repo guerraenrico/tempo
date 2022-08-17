@@ -1,9 +1,9 @@
-package com.enricog.ui.components.layout.error
+package com.enricog.ui.components.layout.message
 
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Spacer
-import androidx.compose.foundation.layout.fillMaxHeight
+import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.runtime.Composable
@@ -12,6 +12,7 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
+import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.tooling.preview.Preview
 import com.enricog.ui.components.R
 import com.enricog.ui.components.button.TempoButton
@@ -21,37 +22,48 @@ import com.enricog.ui.components.text.TempoText
 import com.enricog.ui.theme.TempoTheme
 
 @Composable
-fun TempoLayoutError(
-    modifier: Modifier = Modifier,
-    icon: @Composable () -> Unit,
+fun TempoLayoutMessage(
     title: String,
     description: String,
-    button: @Composable () -> Unit,
+    modifier: Modifier = Modifier,
+    icon: (@Composable () -> Unit)? = null,
+    button: (@Composable () -> Unit)? = null
 ) {
     require(title.isNotBlank()) { "title cannot be blank" }
     require(description.isNotBlank()) { "description cannot be blank" }
 
     Column(
         modifier = modifier
-            .fillMaxHeight()
+            .fillMaxSize()
             .padding(all = TempoTheme.dimensions.spaceM),
         horizontalAlignment = Alignment.CenterHorizontally,
         verticalArrangement = Arrangement.Center
     ) {
-        icon()
+        icon?.invoke()
         Spacer(modifier = Modifier.height(TempoTheme.dimensions.spaceM))
-        TempoText(text = title, style = TempoTheme.typography.h3)
+
+        TempoText(
+            text = title,
+            style = TempoTheme.typography.h2,
+            textAlign = TextAlign.Center
+        )
         Spacer(modifier = Modifier.height(TempoTheme.dimensions.spaceS))
-        TempoText(text = description, style = TempoTheme.typography.body1)
-        Spacer(modifier = Modifier.height(TempoTheme.dimensions.spaceM))
-        button()
+
+        TempoText(
+            text = description,
+            style = TempoTheme.typography.body1,
+            textAlign = TextAlign.Center
+        )
+        Spacer(modifier = Modifier.height(TempoTheme.dimensions.spaceL))
+
+        button?.invoke()
     }
 }
 
 @Preview
 @Composable
-private fun TempoLayoutErrorPreview() {
-    TempoLayoutError(
+private fun TempoLayoutMessagePreview() {
+    TempoLayoutMessage(
         icon = {
             TempoIcon(
                 icon = painterResource(id = R.drawable.ic_error_unknown),

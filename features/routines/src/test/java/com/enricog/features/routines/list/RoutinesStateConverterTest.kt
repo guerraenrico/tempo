@@ -43,4 +43,15 @@ class RoutinesStateConverterTest {
 
         assertEquals(viewState, result)
     }
+
+    @Test
+    fun `test map error`() = coroutineRule {
+        val exception = Exception("something went wrong")
+        val state = RoutinesState.Error(throwable = exception)
+        val viewState = RoutinesViewState.Error(throwable = exception)
+
+        val result = sut.convert(state)
+
+        assertEquals(viewState, result)
+    }
 }

@@ -36,7 +36,10 @@ internal class RoutinesViewModel @Inject constructor(
     private fun load() {
         routinesUseCase.getAll()
             .onEach { routines -> updateState { reducer.setup(routines) } }
-            .catch { TempoLogger.e(throwable = it, message = "Error loading routines") }
+            .catch { throwable ->
+                TempoLogger.e(throwable = throwable, message = "Error loading routines")
+                updateState { reducer.error(throwable = throwable) }
+            }
             .launchIn(viewModelScope)
     }
 
@@ -56,5 +59,9 @@ internal class RoutinesViewModel @Inject constructor(
         launchWhen<RoutinesState.Data> {
             routinesUseCase.delete(routine)
         }
+    }
+
+    fun onRetryLoadClick() {
+        load()
     }
 }

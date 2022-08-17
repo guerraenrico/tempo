@@ -13,6 +13,7 @@ internal class RoutinesStateConverter @Inject constructor() :
             RoutinesState.Idle -> RoutinesViewState.Idle
             RoutinesState.Empty -> RoutinesViewState.Empty
             is RoutinesState.Data -> RoutinesViewState.Data(routines = state.routines)
+            is RoutinesState.Error -> RoutinesViewState.Error(throwable = state.throwable)
         }
     }
 }

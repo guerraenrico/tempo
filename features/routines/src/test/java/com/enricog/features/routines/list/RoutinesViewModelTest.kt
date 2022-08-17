@@ -19,7 +19,6 @@ import com.enricog.navigation.testing.FakeNavigator
 import org.junit.Rule
 import org.junit.Test
 import kotlin.test.assertEquals
-import kotlin.time.ExperimentalTime
 
 class RoutinesViewModelTest {
 
@@ -35,9 +34,10 @@ class RoutinesViewModelTest {
         name = "Second Routine",
     )
     private val navigator = FakeNavigator()
+    private val store = FakeStore(listOf(firstRoutine, secondRoutine))
 
     @Test
-    fun `test on init should load all routines`() = coroutineRule {
+    fun `should load all routines on init`() = coroutineRule {
         val expected = RoutinesViewState.Data(routines = listOf(firstRoutine, secondRoutine))
         val sut = buildSut()
 
@@ -45,7 +45,7 @@ class RoutinesViewModelTest {
     }
 
     @Test
-    fun `test on create routine button click should navigate to routine detail`() = coroutineRule {
+    fun `should navigate to routine detail when create routine button clicked`() = coroutineRule {
         val sut = buildSut()
 
         sut.onCreateRoutineClick()
@@ -57,7 +57,7 @@ class RoutinesViewModelTest {
     }
 
     @Test
-    fun `test on routine click should navigate to routine summary`() = coroutineRule {
+    fun `should navigate to routine summary when routine clicked`() = coroutineRule {
         val routine = Routine.EMPTY.copy(id = 1.asID)
         val sut = buildSut()
 
@@ -70,11 +70,22 @@ class RoutinesViewModelTest {
     }
 
     @Test
-    fun `test on delete routine should remove it`() = coroutineRule {
+    fun `should remove routine when delete routine clicked`() = coroutineRule {
         val expected = RoutinesViewState.Data(routines = listOf(secondRoutine))
         val sut = buildSut()
 
         sut.onRoutineDelete(firstRoutine)
+
+        sut.viewState.test { assertEquals(expected, awaitItem()) }
+    }
+
+    @Test
+    fun `should reload when retry button clicked`() = coroutineRule {
+        val expected = RoutinesViewState.Data(routines = listOf(secondRoutine))
+        val sut = buildSut()
+        store.update { routines -> routines.filter { it.id == secondRoutine.id } }
+
+        sut.onRetryLoadClick()
 
         sut.viewState.test { assertEquals(expected, awaitItem()) }
     }
@@ -86,9 +97,7 @@ class RoutinesViewModelTest {
             navigationActions = RoutinesNavigationActions(navigator),
             reducer = RoutinesReducer(),
             routinesUseCase = RoutinesUseCase(
-                routineDataSource = FakeRoutineDataSource(
-                    store = FakeStore(listOf(firstRoutine, secondRoutine))
-                )
+                routineDataSource = FakeRoutineDataSource(store = store)
             )
         )
     }

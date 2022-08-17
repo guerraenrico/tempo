@@ -13,4 +13,8 @@ internal class RoutinesReducer @Inject constructor() {
             RoutinesState.Data(routines = routines)
         }
     }
+
+    fun error(throwable: Throwable): RoutinesState {
+        return RoutinesState.Error(throwable = throwable)
+    }
 }

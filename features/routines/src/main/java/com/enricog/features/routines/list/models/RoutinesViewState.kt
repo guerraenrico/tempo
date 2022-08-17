@@ -9,4 +9,6 @@ internal sealed class RoutinesViewState {
     object Empty : RoutinesViewState()
 
     data class Data(val routines: List<Routine>) : RoutinesViewState()
+
+    data class Error(val throwable: Throwable) : RoutinesViewState()
 }

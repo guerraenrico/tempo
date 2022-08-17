@@ -9,4 +9,6 @@ internal sealed class RoutinesState {
     object Empty : RoutinesState()
 
     data class Data(val routines: List<Routine>) : RoutinesState()
+
+    data class Error(val throwable: Throwable) : RoutinesState()
 }
