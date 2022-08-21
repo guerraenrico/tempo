@@ -38,7 +38,7 @@ suspend fun <T> Flow<T>.testEager(
 
 interface FlowTempo<T> {
 
-    fun item(consume: Boolean = true): T
+    fun item(): T
 
     fun skip(num: Int)
 
@@ -52,7 +52,7 @@ private class FlowTempoImpl<T>(
 
     private var count = AtomicInteger(0)
 
-    override fun item(consume: Boolean): T {
+    override fun item(): T {
         return items.getOrNull(count.getAndIncrement())
             ?: throw AssertionError("Expected item but not found at position ${count.get()}")
     }
