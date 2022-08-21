@@ -62,14 +62,14 @@ open class BaseViewModel<ViewModelState : Any, ViewState : Any>(
     protected inline fun <reified T : ViewModelState> launchWhen(
         exceptionHandler: CoroutineExceptionHandler = defaultExceptionHandler,
         crossinline block: suspend CoroutineScope.(T) -> Unit
-    ): Job {
+    ): Job? {
         val currentState = state
         return if (currentState is T) {
             viewModelScope.launch(context = exceptionHandler) {
                 block(currentState)
             }
         } else {
-            Job().apply { complete() }
+            null
         }
     }
 

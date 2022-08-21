@@ -4,6 +4,7 @@ import android.os.Bundle
 import android.view.WindowManager
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
+import androidx.compose.material.Scaffold
 import androidx.compose.runtime.DisposableEffect
 import androidx.compose.runtime.LaunchedEffect
 import androidx.lifecycle.lifecycleScope
@@ -67,6 +68,8 @@ internal class MainActivity : ComponentActivity() {
                     }
                 }
 
+                Scaffold() {
+                }
                 ModalBottomSheetLayout(
                     bottomSheetNavigator = bottomSheetNavigator,
                     sheetShape = TempoTheme.shapes.bottomSheet,
