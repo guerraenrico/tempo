@@ -3,6 +3,7 @@ package com.enricog.features.timer
 import androidx.lifecycle.SavedStateHandle
 import app.cash.turbine.test
 import com.enricog.core.coroutines.testing.CoroutineRule
+import com.enricog.core.coroutines.testing.extensions.testEager
 import com.enricog.data.local.testing.FakeStore
 import com.enricog.data.routines.api.entities.Routine
 import com.enricog.data.routines.api.entities.Segment
@@ -81,10 +82,11 @@ class TimerViewModelTest {
         )
         val sut = buildSut()
 
-        sut.viewState.test {
-            assertEquals(expectedOnSetup, awaitItem())
+        sut.viewState.testEager {
+            advanceTimeBy(100)
+            assertEquals(expectedOnSetup, item())
             advanceTimeBy(1000)
-            assertEquals(expectedOnStart, awaitItem())
+            assertEquals(expectedOnStart, item())
         }
         windowScreenManager.keepScreenOn.test { assertTrue(awaitItem()) }
     }
@@ -103,16 +105,14 @@ class TimerViewModelTest {
         )
         val sut = buildSut()
 
-        sut.viewState.test {
-            awaitItem()
-            advanceTimeBy(1000)
-            awaitItem()
-            advanceTimeBy(1000)
-            awaitItem()
+        sut.viewState.testEager {
+            advanceTimeBy(3000)
+            skip(3)
 
             sut.onStartStopButtonClick()
 
-            assertEquals(expected, awaitItem())
+            advanceTimeBy(100)
+            assertEquals(expected, item())
         }
         windowScreenManager.keepScreenOn.test { assertFalse(awaitItem()) }
     }
@@ -131,16 +131,14 @@ class TimerViewModelTest {
         )
         val sut = buildSut()
 
-        sut.viewState.test {
-            awaitItem()
-            advanceTimeBy(1000)
-            awaitItem()
-            advanceTimeBy(1000)
-            awaitItem()
+        sut.viewState.testEager {
+            advanceTimeBy(3000)
+            skip(3)
 
             sut.onResetButtonClick()
 
-            assertEquals(expected, awaitItem())
+            advanceTimeBy(100)
+            assertEquals(expected, item())
         }
     }
 
@@ -168,22 +166,16 @@ class TimerViewModelTest {
         )
         val sut = buildSut()
 
-        sut.viewState.test {
-            awaitItem()
+        sut.viewState.testEager {
+            advanceTimeBy(5000)
+            skip(5)
             advanceTimeBy(1000)
-            awaitItem()
-            advanceTimeBy(1000)
-            awaitItem()
-            advanceTimeBy(1000)
-            awaitItem()
-            advanceTimeBy(1000)
-            awaitItem()
-            advanceTimeBy(1000)
-            assertEquals(expectedStartFirstSegment, awaitItem())
+            assertEquals(expectedStartFirstSegment, item())
 
             sut.onResetButtonClick()
 
-            assertEquals(expectedStart, awaitItem())
+            advanceTimeBy(100)
+            assertEquals(expectedStart, item())
         }
     }
 
