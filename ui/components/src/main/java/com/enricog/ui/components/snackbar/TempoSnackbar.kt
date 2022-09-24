@@ -1,120 +1,66 @@
 package com.enricog.ui.components.snackbar
 
-import androidx.compose.animation.Crossfade
+import androidx.compose.foundation.background
+import androidx.compose.foundation.layout.Box
+import androidx.compose.foundation.layout.Row
+import androidx.compose.foundation.layout.fillMaxWidth
+import androidx.compose.foundation.layout.padding
 import androidx.compose.runtime.Composable
-import androidx.compose.runtime.LaunchedEffect
-import androidx.compose.runtime.Stable
-import androidx.compose.runtime.getValue
-import androidx.compose.runtime.mutableStateOf
-import androidx.compose.runtime.setValue
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.platform.AccessibilityManager
-import androidx.compose.ui.platform.LocalAccessibilityManager
-import kotlinx.coroutines.CancellableContinuation
-import kotlinx.coroutines.delay
-import kotlinx.coroutines.suspendCancellableCoroutine
-import kotlinx.coroutines.sync.Mutex
-import kotlinx.coroutines.sync.withLock
-import kotlin.coroutines.resume
+import androidx.compose.ui.draw.clip
+import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.unit.Dp
+import com.enricog.ui.components.button.TempoButton
+import com.enricog.ui.components.text.TempoText
+import com.enricog.ui.theme.TempoTheme
 
 @Composable
 fun TempoSnackbar(
-    state: TempoSnackbarState,
-    modifier: Modifier = Modifier
+    snackbarData: TempoSnackbarData,
+    modifier: Modifier
 ) {
-    val data = state.snackbarData
-    val accessibilityManager = LocalAccessibilityManager.current
-    LaunchedEffect(key1 = data) {
-        if (data != null) {
-            val duration = TempoSnackbarDefaults.Duration.calculateRecommendedTimeoutMillis(
-                hasAction = data.actionText != null,
-                accessibilityManager = accessibilityManager
+    val actionText = snackbarData.actionText
+    Box(
+        modifier = modifier
+            .fillMaxWidth()
+            .padding(
+                horizontal = TempoSnackbarDefaults.paddingHorizontal,
+                vertical = TempoSnackbarDefaults.paddingVertical
             )
-            delay(duration)
-            data.dismiss()
-        }
-    }
-
-}
-
-interface TempoSnackbarData {
-    val message: String
-    val actionText: String?
-
-    fun perform()
-
-    fun dismiss()
-}
-
-@Stable
-class TempoSnackbarState {
-
-    private val mutex = Mutex()
-
-    var snackbarData by mutableStateOf<TempoSnackbarData?>(null)
-        private set
-
-
-    suspend fun show(message: String, actionText: String? = null): TempoSnackbarEvent {
-        return mutex.withLock {
-            try {
-                suspendCancellableCoroutine { continuation ->
-                    snackbarData = TempoSnackbarDataImpl(
-                        message = message,
-                        actionText = actionText,
-                        continuation = continuation
-                    )
-                }
-            } finally {
-                snackbarData = null
+            .clip(TempoTheme.shapes.medium)
+            .background(TempoSnackbarDefaults.backgroundColor)
+    ) {
+        Row(
+            modifier = modifier.padding(
+                horizontal = TempoSnackbarDefaults.paddingHorizontal,
+                vertical = TempoSnackbarDefaults.paddingVertical
+            )
+        ) {
+            TempoText(
+                text = snackbarData.message,
+                style = TempoTheme.typography.body1.copy(
+                    color = TempoTheme.colors.surface
+                )
+            )
+            if (actionText != null) {
+                TempoButton(
+                    onClick = { snackbarData.perform() },
+                    text = actionText,
+                    contentDescription = actionText
+                )
             }
         }
     }
-
-    @Stable
-    private class TempoSnackbarDataImpl(
-        override val message: String,
-        override val actionText: String?,
-        private val continuation: CancellableContinuation<TempoSnackbarEvent>
-    ) : TempoSnackbarData {
-
-        override fun perform() {
-            if (continuation.isActive) {
-                continuation.resume(TempoSnackbarEvent.ActionPerformed)
-            }
-        }
-
-        override fun dismiss() {
-            if (continuation.isActive) {
-                continuation.resume(TempoSnackbarEvent.Dismissed)
-            }
-        }
-
-    }
-}
-
-enum class TempoSnackbarEvent {
-    ActionPerformed, Dismissed
-}
-
-private fun Long.calculateRecommendedTimeoutMillis(
-    hasAction: Boolean,
-    accessibilityManager: AccessibilityManager?
-): Long {
-    if (accessibilityManager == null) {
-        return this
-    }
-    return accessibilityManager.calculateRecommendedTimeoutMillis(
-        originalTimeoutMillis = this,
-        containsIcons = true,
-        containsText = true,
-        containsControls = hasAction
-    )
 }
 
 private object TempoSnackbarDefaults {
 
-    const val Duration = 4000L
+    val backgroundColor: Color
+        @Composable get() = TempoTheme.colors.onSurfaceSecondary.copy(alpha = 0.95f)
+
+    val paddingVertical: Dp
+        @Composable get() = TempoTheme.dimensions.spaceS
+
+    val paddingHorizontal: Dp
+        @Composable get() = TempoTheme.dimensions.spaceS
 }
-
-
