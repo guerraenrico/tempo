@@ -9,8 +9,10 @@ import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.layout.SubcomposeLayout
 import androidx.compose.ui.platform.AccessibilityManager
 import androidx.compose.ui.platform.LocalAccessibilityManager
+import androidx.compose.ui.unit.dp
 import kotlinx.coroutines.CancellableContinuation
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.suspendCancellableCoroutine
@@ -21,14 +23,13 @@ import kotlin.coroutines.resume
 @Composable
 fun rememberSnackbarHostState(
     snackbarHostState: TempoSnackbarHostState = TempoSnackbarHostState()
-): TempoSnackbarHostState = remember {
-    snackbarHostState
-}
+): TempoSnackbarHostState = remember { snackbarHostState }
 
 @Composable
 fun TempoSnackbarHost(
+    modifier: Modifier = Modifier,
     state: TempoSnackbarHostState,
-    modifier: Modifier = Modifier
+    content: @Composable () -> Unit
 ) {
     val data = state.snackbarData
     val accessibilityManager = LocalAccessibilityManager.current
@@ -43,13 +44,39 @@ fun TempoSnackbarHost(
         }
     }
 
-    Crossfade(targetState = state.snackbarData) {
-        if (it != null) {
-            TempoSnackbar(snackbarData = it, modifier = modifier)
+    val snackbar = @Composable {
+        Crossfade(targetState = state.snackbarData) {
+            if (it != null) {
+                TempoSnackbar(snackbarData = it)
+            }
+        }
+    }
+
+    SubcomposeLayout(modifier = modifier) { constraints ->
+        val layoutWidth = constraints.maxWidth
+        val layoutHeight = constraints.maxHeight
+
+        val looseConstraints = constraints.copy(minWidth = 0, minHeight = 0)
+
+        layout(width = layoutWidth, height = layoutHeight) {
+            val contentPlaceable = subcompose(TempoSnackbarHostPlaceables.Content, content).map {
+                it.measure(looseConstraints)
+            }
+            contentPlaceable.forEach { it.place(x = 0, y = 0) }
+
+            val snackbarPlaceable = subcompose(TempoSnackbarHostPlaceables.Snackbar, snackbar).map {
+                it.measure(looseConstraints)
+            }
+            val snackbarHeight = snackbarPlaceable.maxBy { it.height }.height
+            val snackbarY = layoutHeight - snackbarHeight - 16.dp.roundToPx()
+            snackbarPlaceable.forEach { it.place(x = 0, y = snackbarY) }
         }
     }
 }
 
+private enum class TempoSnackbarHostPlaceables {
+    Snackbar, Content
+}
 
 interface TempoSnackbarData {
     val message: String

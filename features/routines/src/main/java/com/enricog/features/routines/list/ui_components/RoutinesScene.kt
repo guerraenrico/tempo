@@ -9,7 +9,6 @@ import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.items
 import androidx.compose.runtime.Composable
-import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.platform.testTag
@@ -19,10 +18,7 @@ import com.enricog.data.routines.api.entities.Routine
 import com.enricog.features.routines.R
 import com.enricog.ui.components.button.TempoButtonColor
 import com.enricog.ui.components.button.icon.TempoIconButton
-import com.enricog.ui.components.snackbar.TempoSnackbarHost
-import com.enricog.ui.components.snackbar.rememberSnackbarHostState
 import com.enricog.ui.theme.TempoTheme
-import kotlinx.coroutines.launch
 
 internal const val RoutinesSceneTestTag = "RoutinesSceneTestTag"
 
@@ -33,10 +29,6 @@ internal fun RoutinesScene(
     onRoutineDelete: (Routine) -> Unit,
     onCreateRoutineClick: () -> Unit,
 ) {
-
-    val snackbarHostState = rememberSnackbarHostState()
-    val scope = rememberCoroutineScope()
-
     Box(
         modifier = Modifier
             .testTag(RoutinesSceneTestTag)
@@ -61,17 +53,11 @@ internal fun RoutinesScene(
             }
         }
 
-        TempoSnackbarHost(state = snackbarHostState)
-
         TempoIconButton(
             modifier = Modifier
                 .align(Alignment.BottomEnd)
                 .padding(TempoTheme.dimensions.spaceL),
-            onClick = {
-                scope.launch {
-                    snackbarHostState.show("test")
-                }
-            },
+            onClick = onCreateRoutineClick,
             icon = painterResource(R.drawable.ic_add),
             color = TempoButtonColor.Accent,
             contentDescription = stringResource(R.string.content_description_button_create_routine)
