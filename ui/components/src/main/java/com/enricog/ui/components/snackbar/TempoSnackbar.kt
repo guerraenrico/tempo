@@ -40,27 +40,43 @@ fun TempoSnackbar(
                 vertical = TempoSnackbarDefaults.paddingVertical
             )
         ) {
-            TempoText(
+            TempoSnackbarText(
                 modifier = Modifier.weight(1f),
-                text = snackbarData.message,
-                style = TempoTheme.typography.body1.copy(
-                    color = TempoSnackbarDefaults.contentColor
-                )
+                text = snackbarData.message
             )
             if (actionText != null) {
                 Spacer(modifier = Modifier.width(TempoSnackbarDefaults.margin))
-                TempoText(
+                TempoSnackbarAction(
                     modifier = Modifier
                         .align(Alignment.CenterVertically)
                         .clickable { snackbarData.perform() },
-                    text = actionText.uppercase(Locale.getDefault()),
-                    style = TempoTheme.typography.button.copy(
-                        color = TempoSnackbarDefaults.contentColor
-                    )
+                    text = actionText.uppercase(Locale.getDefault())
                 )
             }
         }
     }
+}
+
+@Composable
+private fun TempoSnackbarText(modifier: Modifier = Modifier, text: String) {
+    TempoText(
+        modifier = modifier,
+        text = text,
+        style = TempoTheme.typography.body1.copy(
+            color = TempoSnackbarDefaults.contentColor
+        )
+    )
+}
+
+@Composable
+private fun TempoSnackbarAction(modifier: Modifier = Modifier, text: String) {
+    TempoText(
+        modifier = modifier,
+        text = text.uppercase(Locale.getDefault()),
+        style = TempoTheme.typography.button.copy(
+            color = TempoSnackbarDefaults.contentColor
+        )
+    )
 }
 
 private object TempoSnackbarDefaults {
