@@ -24,15 +24,11 @@ internal fun RoutinesScreen(viewModel: RoutinesViewModel) {
     val viewState by viewModel.viewState.collectAsState(RoutinesViewState.Idle)
     val snackbarHostState = rememberSnackbarHostState()
 
-    val scope = rememberCoroutineScope()
-
     TempoSnackbarHost(state = snackbarHostState) {
         Column(modifier = Modifier.fillMaxSize()) {
             TempoToolbar(title = stringResource(R.string.title_routines))
             viewState.Compose(
-                onCreateRoutineClick = {
-                    scope.launch { snackbarHostState.show("Lorem ipsum with much longer text to see what happen", "Action") }
-                },
+                onCreateRoutineClick = viewModel::onCreateRoutineClick,
                 onRoutineClick = viewModel::onRoutineClick,
                 onRoutineDelete = viewModel::onRoutineDelete,
                 onRetryLoadClick = viewModel::onRetryLoadClick
