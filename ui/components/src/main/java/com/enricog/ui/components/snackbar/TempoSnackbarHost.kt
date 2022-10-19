@@ -13,6 +13,9 @@ import androidx.compose.ui.layout.SubcomposeLayout
 import androidx.compose.ui.platform.AccessibilityManager
 import androidx.compose.ui.platform.LocalAccessibilityManager
 import androidx.compose.ui.unit.dp
+import androidx.compose.ui.util.fastForEach
+import androidx.compose.ui.util.fastMap
+import androidx.compose.ui.util.fastMaxBy
 import kotlinx.coroutines.CancellableContinuation
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.suspendCancellableCoroutine
@@ -29,7 +32,8 @@ fun rememberSnackbarHostState(
 fun TempoSnackbarHost(
     modifier: Modifier = Modifier,
     state: TempoSnackbarHostState,
-    content: @Composable () -> Unit
+    content: @Composable () -> Unit,
+    anchor: @Composable () -> Unit
 ) {
     val data = state.snackbarData
     val accessibilityManager = LocalAccessibilityManager.current
@@ -59,23 +63,37 @@ fun TempoSnackbarHost(
         val looseConstraints = constraints.copy(minWidth = 0, minHeight = 0)
 
         layout(width = layoutWidth, height = layoutHeight) {
-            val contentPlaceable = subcompose(TempoSnackbarHostPlaceables.Content, content).map {
-                it.measure(looseConstraints)
-            }
-            contentPlaceable.forEach { it.place(x = 0, y = 0) }
+            val contentPlaceable = subcompose(TempoSnackbarHostPlaceables.Content, content)
+                .fastMap { it.measure(looseConstraints) }
+            val snackbarPlaceable = subcompose(TempoSnackbarHostPlaceables.Snackbar, snackbar)
+                .fastMap { it.measure(looseConstraints) }
+            val anchorPlaceables = subcompose(TempoSnackbarHostPlaceables.Anchor, anchor)
+                .mapNotNull { measurable ->
+                    measurable.measure(looseConstraints).takeIf { it.height != 0 && it.width != 0 }
+                }
 
-            val snackbarPlaceable = subcompose(TempoSnackbarHostPlaceables.Snackbar, snackbar).map {
-                it.measure(looseConstraints)
+            val anchorHeight = if (anchorPlaceables.isNotEmpty()) {
+                anchorPlaceables.fastMaxBy { it.height }!!.height
+            } else {
+                null
             }
-            val snackbarHeight = snackbarPlaceable.maxBy { it.height }.height
-            val snackbarY = layoutHeight - snackbarHeight - 16.dp.roundToPx()
-            snackbarPlaceable.forEach { it.place(x = 0, y = snackbarY) }
+            val snackbarHeight = snackbarPlaceable.fastMaxBy { it.height }?.height ?: 0
+            val snackbarY =
+                layoutHeight - snackbarHeight - (anchorHeight?.div(2) ?: 0) - 32.dp.roundToPx()
+
+            contentPlaceable.fastForEach { it.place(x = 0, y = 0) }
+            snackbarPlaceable.fastForEach { it.place(x = 0, y = snackbarY) }
+            if (anchorHeight != null) {
+                anchorPlaceables.fastForEach {
+                    it.place(0, layoutHeight - anchorHeight)
+                }
+            }
         }
     }
 }
 
 private enum class TempoSnackbarHostPlaceables {
-    Snackbar, Content
+    Snackbar, Content, Anchor
 }
 
 interface TempoSnackbarData {
