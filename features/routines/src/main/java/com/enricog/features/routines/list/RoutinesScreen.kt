@@ -13,6 +13,7 @@ import com.enricog.features.routines.list.models.RoutinesViewState
 import com.enricog.features.routines.list.ui_components.RoutinesEmptyScene
 import com.enricog.features.routines.list.ui_components.RoutinesErrorScene
 import com.enricog.features.routines.list.ui_components.RoutinesScene
+import com.enricog.ui.components.snackbar.TempoSnackbarEvent
 import com.enricog.ui.components.toolbar.TempoToolbar
 
 @Composable
@@ -25,7 +26,8 @@ internal fun RoutinesScreen(viewModel: RoutinesViewModel) {
             onCreateRoutineClick = viewModel::onCreateRoutineClick,
             onRoutineClick = viewModel::onRoutineClick,
             onRoutineDelete = viewModel::onRoutineDelete,
-            onRetryLoadClick = viewModel::onRetryLoadClick
+            onRetryLoadClick = viewModel::onRetryLoadClick,
+            onSnackbarEvent = viewModel::onSnackbarEvent
         )
     }
 }
@@ -35,7 +37,8 @@ internal fun RoutinesViewState.Compose(
     onCreateRoutineClick: () -> Unit,
     onRoutineClick: (Routine) -> Unit,
     onRoutineDelete: (Routine) -> Unit,
-    onRetryLoadClick: () -> Unit
+    onRetryLoadClick: () -> Unit,
+    onSnackbarEvent: (TempoSnackbarEvent) -> Unit
 ) {
     when (this) {
         RoutinesViewState.Idle -> Unit
@@ -46,9 +49,11 @@ internal fun RoutinesViewState.Compose(
         is RoutinesViewState.Data ->
             RoutinesScene(
                 routines = routines,
+                message = message,
                 onRoutineClick = onRoutineClick,
                 onRoutineDelete = onRoutineDelete,
-                onCreateRoutineClick = onCreateRoutineClick
+                onCreateRoutineClick = onCreateRoutineClick,
+                onSnackbarEvent = onSnackbarEvent
             )
         is RoutinesViewState.Error ->
             RoutinesErrorScene(

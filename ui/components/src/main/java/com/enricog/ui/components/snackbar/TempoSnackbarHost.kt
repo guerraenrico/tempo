@@ -113,7 +113,6 @@ class TempoSnackbarHostState {
     var snackbarData by mutableStateOf<TempoSnackbarData?>(null)
         private set
 
-
     suspend fun show(message: String, actionText: String? = null): TempoSnackbarEvent {
         return mutex.withLock {
             try {

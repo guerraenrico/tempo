@@ -9,15 +9,17 @@ import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.items
 import androidx.compose.runtime.Composable
-import androidx.compose.runtime.rememberCoroutineScope
+import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
 import com.enricog.data.routines.api.entities.Routine
 import com.enricog.features.routines.R
+import com.enricog.features.routines.list.models.RoutinesViewState.Data.Message
 import com.enricog.ui.components.button.TempoButtonColor
 import com.enricog.ui.components.button.icon.TempoIconButton
+import com.enricog.ui.components.snackbar.TempoSnackbarEvent
 import com.enricog.ui.components.snackbar.TempoSnackbarHost
 import com.enricog.ui.components.snackbar.rememberSnackbarHostState
 import com.enricog.ui.theme.TempoTheme
@@ -27,13 +29,22 @@ internal const val RoutinesSceneTestTag = "RoutinesSceneTestTag"
 @Composable
 internal fun RoutinesScene(
     routines: List<Routine>,
+    message: Message?,
     onRoutineClick: (Routine) -> Unit,
     onRoutineDelete: (Routine) -> Unit,
     onCreateRoutineClick: () -> Unit,
+    onSnackbarEvent: (TempoSnackbarEvent) -> Unit
 ) {
-
     val snackbarHostState = rememberSnackbarHostState()
-    val scope = rememberCoroutineScope()
+
+    if (message != null) {
+        val messageText = stringResource(id = message.textResId)
+        val actionText = stringResource(id = message.actionTextResId)
+        LaunchedEffect(snackbarHostState) {
+            val event = snackbarHostState.show(message = messageText, actionText = actionText)
+            onSnackbarEvent(event)
+        }
+    }
 
     TempoSnackbarHost(
         state = snackbarHostState,

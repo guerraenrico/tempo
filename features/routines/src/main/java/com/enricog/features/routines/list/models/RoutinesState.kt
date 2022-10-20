@@ -8,7 +8,11 @@ internal sealed class RoutinesState {
 
     object Empty : RoutinesState()
 
-    data class Data(val routines: List<Routine>) : RoutinesState()
+    data class Data(val routines: List<Routine>, val action: Action?) : RoutinesState() {
+        sealed class Action {
+            data class DeleteRoutineError(val routine: Routine) : Action()
+        }
+    }
 
     data class Error(val throwable: Throwable) : RoutinesState()
 }

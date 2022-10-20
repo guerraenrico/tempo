@@ -7,6 +7,8 @@
     <string name="label_no_routines_description">Get started by creating a new routine</string>
     <string name="button_create_routine">Create Routine</string>
     <string name="content_description_button_create_routine">Create a new routine</string>
+    <string name="label_routines_delete_error">An error happen</string>
+    <string name="action_text_routines_delete_error">Retry</string>
 
     <!-- Routine -->
     <string name="field_label_routine_name">Routine name</string>
