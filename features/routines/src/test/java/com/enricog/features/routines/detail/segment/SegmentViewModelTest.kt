@@ -154,7 +154,7 @@ class SegmentViewModelTest {
     private fun buildSut(store: FakeStore<List<Routine>> = FakeStore(listOf(routine))): SegmentViewModel {
         return SegmentViewModel(
             savedStateHandle = savedStateHandle,
-            dispatchers = coroutineRule.dispatchers,
+            dispatchers = coroutineRule.getDispatchers(),
             converter = SegmentStateConverter(),
             reducer = SegmentReducer(),
             segmentUseCase = SegmentUseCase(

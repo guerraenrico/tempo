@@ -200,7 +200,7 @@ class TimerViewModelTest {
     private fun buildSut(): TimerViewModel {
         return TimerViewModel(
             savedStateHandle = savedStateHandle,
-            dispatchers = coroutineRule.dispatchers,
+            dispatchers = coroutineRule.getDispatchers(),
             converter = TimerStateConverter(),
             reducer = TimerReducer(),
             timerUseCase = TimerUseCase(routineDataSource = FakeRoutineDataSource(store = store)),

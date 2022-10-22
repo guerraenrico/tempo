@@ -141,7 +141,7 @@ object Libs {
         const val junitJupiterEngine = "org.junit.jupiter:junit-jupiter-engine:$junitJupiter"
         const val junitJupiterParams = "org.junit.jupiter:junit-jupiter-params:$junitJupiter"
         const val junit = "junit:junit:4.12"
-        const val flow = "app.cash.turbine:turbine:0.8.0"
+        const val flow = "app.cash.turbine:turbine:0.12.0"
     }
 
     const val Robolectric = "org.robolectric:robolectric:4.3.1"

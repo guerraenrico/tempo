@@ -155,7 +155,7 @@ class BaseViewModelTest {
         return TestViewModel(
             initialValue = initialValue,
             converter = converter,
-            dispatchers = coroutineRule.dispatchers
+            dispatchers = coroutineRule.getDispatchers()
         )
     }
 }

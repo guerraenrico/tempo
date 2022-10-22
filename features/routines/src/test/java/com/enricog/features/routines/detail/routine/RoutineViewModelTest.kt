@@ -145,7 +145,7 @@ class RoutineViewModelTest {
     ): RoutineViewModel {
         return RoutineViewModel(
             savedStateHandle = savedStateHandle,
-            dispatchers = coroutineRule.dispatchers,
+            dispatchers = coroutineRule.getDispatchers(),
             converter = RoutineStateConverter(),
             navigationActions = RoutinesNavigationActions(navigator),
             reducer = RoutineReducer(),

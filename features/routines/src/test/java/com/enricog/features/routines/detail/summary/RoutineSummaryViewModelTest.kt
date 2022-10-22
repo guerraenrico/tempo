@@ -187,7 +187,7 @@ class RoutineSummaryViewModelTest {
     private fun buildSut(store: FakeStore<List<Routine>> = FakeStore(listOf(routine))): RoutineSummaryViewModel {
         return RoutineSummaryViewModel(
             savedStateHandle = savedStateHandle,
-            dispatchers = coroutineRule.dispatchers,
+            dispatchers = coroutineRule.getDispatchers(),
             converter = RoutineSummaryStateConverter(),
             navigationActions = RoutinesNavigationActions(navigator),
             reducer = RoutineSummaryReducer(),
