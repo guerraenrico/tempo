@@ -3,6 +3,8 @@ package com.enricog.data.local.testing
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.asStateFlow
+import kotlinx.coroutines.flow.onEach
+import kotlinx.coroutines.flow.onStart
 import kotlinx.coroutines.flow.update
 
 class FakeStore<T : Any>(initialValue: T) {
@@ -26,8 +28,8 @@ class FakeStore<T : Any>(initialValue: T) {
     }
 
     fun asFlow(): Flow<T> {
-        throwErrorIfEnabled()
         return store.asStateFlow()
+            .onEach { throwErrorIfEnabled() }
     }
 
     fun enableErrorOnNextAccess() {

@@ -8,13 +8,17 @@ import com.enricog.core.logger.api.TempoLogger
 import com.enricog.data.routines.api.entities.Segment
 import com.enricog.entities.ID
 import com.enricog.features.routines.detail.summary.models.RoutineSummaryState
+import com.enricog.features.routines.detail.summary.models.RoutineSummaryState.Data.Action.DeleteSegmentError
+import com.enricog.features.routines.detail.summary.models.RoutineSummaryState.Data.Action.MoveSegmentError
 import com.enricog.features.routines.detail.summary.models.RoutineSummaryViewState
 import com.enricog.features.routines.detail.summary.usecase.MoveSegmentUseCase
 import com.enricog.features.routines.detail.summary.usecase.RoutineSummaryUseCase
 import com.enricog.features.routines.navigation.RoutinesNavigationActions
 import com.enricog.navigation.api.routes.RoutineSummaryRoute
 import com.enricog.navigation.api.routes.RoutineSummaryRouteInput
+import com.enricog.ui.components.snackbar.TempoSnackbarEvent
 import dagger.hilt.android.lifecycle.HiltViewModel
+import kotlinx.coroutines.CoroutineExceptionHandler
 import kotlinx.coroutines.flow.catch
 import kotlinx.coroutines.flow.launchIn
 import kotlinx.coroutines.flow.onEach
@@ -35,9 +39,9 @@ internal class RoutineSummaryViewModel @Inject constructor(
     converter = converter,
     initialState = RoutineSummaryState.Idle,
 ) {
+    val input = RoutineSummaryRoute.extractInput(savedStateHandle)
 
     init {
-        val input = RoutineSummaryRoute.extractInput(savedStateHandle)
         load(input)
     }
 
@@ -46,8 +50,15 @@ internal class RoutineSummaryViewModel @Inject constructor(
             .onEach { routine ->
                 updateState { reducer.setup(routine = routine) }
             }
-            .catch { TempoLogger.e(throwable = it, message = "Error loading routine summary") }
+            .catch { throwable ->
+                TempoLogger.e(throwable = throwable, message = "Error loading routine summary")
+                updateState { reducer.error(throwable = throwable) }
+            }
             .launchIn(viewModelScope)
+    }
+
+    fun onRetryLoadClick() {
+        load(input)
     }
 
     fun onSegmentAdd() {
@@ -63,18 +74,21 @@ internal class RoutineSummaryViewModel @Inject constructor(
     }
 
     fun onSegmentDelete(segment: Segment) {
-        launch {
-            val newState = updateStateWhen<RoutineSummaryState.Data> {
-                reducer.deleteSegment(state = it, segment = segment)
-            }
-            if (newState is RoutineSummaryState.Data) {
-                routineSummaryUseCase.update(routine = newState.routine)
-            }
+        val exceptionHandler = CoroutineExceptionHandler { _, throwable ->
+            TempoLogger.e(throwable = throwable)
+            updateState { reducer.deleteSegmentError(state = it, segment = segment) }
+        }
+        launchWhen<RoutineSummaryState.Data>(exceptionHandler) { stateData ->
+            routineSummaryUseCase.deleteSegment(routine = stateData.routine, segment = segment)
         }
     }
 
     fun onSegmentMoved(segment: Segment, hoveredSegment: Segment?) {
-        launchWhen<RoutineSummaryState.Data> { stateData ->
+        val exceptionHandler = CoroutineExceptionHandler { _, throwable ->
+            TempoLogger.e(throwable = throwable)
+            updateState { reducer.segmentMoveError(state = it) }
+        }
+        launchWhen<RoutineSummaryState.Data>(exceptionHandler) { stateData ->
             moveSegmentUseCase(stateData.routine, segment, hoveredSegment)
         }
     }
@@ -85,9 +99,7 @@ internal class RoutineSummaryViewModel @Inject constructor(
             if (errors.isEmpty()) {
                 navigationActions.goToTimer(routineId = stateData.routine.id)
             } else {
-                updateStateWhen<RoutineSummaryState.Data> {
-                    reducer.applyRoutineErrors(state = it, errors = errors)
-                }
+                updateState { reducer.applyRoutineErrors(state = it, errors = errors) }
             }
         }
     }
@@ -102,5 +114,19 @@ internal class RoutineSummaryViewModel @Inject constructor(
         launch {
             navigationActions.goBack()
         }
+    }
+
+    fun onSnackbarEvent(snackbarEvent: TempoSnackbarEvent) {
+        runWhen<RoutineSummaryState.Data> {
+            if (snackbarEvent == TempoSnackbarEvent.ActionPerformed) {
+                when (it.action) {
+                    is DeleteSegmentError -> onSegmentDelete(it.action.segment)
+                    MoveSegmentError,
+                    null -> { /* no-op */
+                    }
+                }
+            }
+        }
+        updateState { reducer.onActionHandled(it) }
     }
 }

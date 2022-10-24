@@ -23,6 +23,7 @@ import kotlinx.coroutines.test.advanceUntilIdle
 import org.junit.Rule
 import org.junit.Test
 import kotlin.test.assertEquals
+import kotlin.test.assertIs
 
 class RoutinesViewModelTest {
 
@@ -50,6 +51,16 @@ class RoutinesViewModelTest {
         advanceUntilIdle()
 
         sut.viewState.test { assertEquals(expected, awaitItem()) }
+    }
+
+    @Test
+    fun `should get error when load fails`() = coroutineRule {
+        store.enableErrorOnNextAccess()
+
+        val sut = buildSut()
+        advanceUntilIdle()
+
+        sut.viewState.test { assertIs<RoutinesViewState.Error>(awaitItem()) }
     }
 
     @Test

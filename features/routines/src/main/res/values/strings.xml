@@ -32,6 +32,9 @@
     <string name="content_description_button_edit_routine">Edit routine</string>
     <string name="content_description_button_start_routine">Start routine</string>
     <string name="content_description_button_add_segment">Add a new segment</string>
+    <string name="label_routine_summary_segment_delete_error">An error happen</string>
+    <string name="action_text_routine_summary_segment_delete_error">Retry</string>
+    <string name="label_routine_summary_segment_move_error">An error happen</string>
 
     <!-- Segment -->
     <string name="field_label_segment_name">Segment name</string>

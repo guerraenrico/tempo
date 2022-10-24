@@ -8,7 +8,9 @@ import androidx.compose.runtime.getValue
 import androidx.compose.ui.Modifier
 import com.enricog.data.routines.api.entities.Segment
 import com.enricog.features.routines.detail.summary.models.RoutineSummaryViewState
+import com.enricog.features.routines.detail.summary.ui_components.RoutineSummaryErrorScene
 import com.enricog.features.routines.detail.summary.ui_components.RoutineSummaryScene
+import com.enricog.ui.components.snackbar.TempoSnackbarEvent
 import com.enricog.ui.components.toolbar.TempoToolbar
 
 @Composable
@@ -22,7 +24,9 @@ internal fun RoutineSummaryScreen(viewModel: RoutineSummaryViewModel) {
             onSegmentDelete = viewModel::onSegmentDelete,
             onSegmentMoved = viewModel::onSegmentMoved,
             onRoutineStart = viewModel::onRoutineStart,
-            onRoutineEdit = viewModel::onRoutineEdit
+            onRoutineEdit = viewModel::onRoutineEdit,
+            onRetryLoadClick = viewModel::onRetryLoadClick,
+            onSnackbarEvent = viewModel::onSnackbarEvent
         )
     }
 }
@@ -34,21 +38,28 @@ internal fun RoutineSummaryViewState.Compose(
     onSegmentDelete: (Segment) -> Unit,
     onSegmentMoved: (Segment, Segment?) -> Unit,
     onRoutineStart: () -> Unit,
-    onRoutineEdit: () -> Unit
+    onRoutineEdit: () -> Unit,
+    onRetryLoadClick: () -> Unit,
+    onSnackbarEvent: (TempoSnackbarEvent) -> Unit
 ) {
     when (this) {
-        RoutineSummaryViewState.Idle -> {
-        }
+        RoutineSummaryViewState.Idle -> Unit
         is RoutineSummaryViewState.Data -> {
             RoutineSummaryScene(
                 summaryItems = items,
+                message = message,
                 onSegmentAdd = onSegmentAdd,
                 onSegmentSelected = onSegmentSelected,
                 onSegmentDelete = onSegmentDelete,
                 onSegmentMoved = onSegmentMoved,
                 onRoutineStart = onRoutineStart,
-                onRoutineEdit = onRoutineEdit
+                onRoutineEdit = onRoutineEdit,
+                onSnackbarEvent = onSnackbarEvent
             )
         }
+        is RoutineSummaryViewState.Error -> RoutineSummaryErrorScene(
+            throwable = throwable,
+            onRetryLoadClick = onRetryLoadClick
+        )
     }
 }
