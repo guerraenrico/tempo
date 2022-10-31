@@ -3,6 +3,7 @@ package com.enricog.features.routines.list
 import androidx.lifecycle.viewModelScope
 import com.enricog.base.viewmodel.BaseViewModel
 import com.enricog.core.coroutines.dispatchers.CoroutineDispatchers
+import com.enricog.core.coroutines.job.autoCancelableJob
 import com.enricog.core.logger.api.TempoLogger
 import com.enricog.data.routines.api.entities.Routine
 import com.enricog.entities.ID
@@ -32,12 +33,15 @@ internal class RoutinesViewModel @Inject constructor(
     dispatchers = dispatchers
 ) {
 
+    private var loadJob by autoCancelableJob()
+    private var deleteJob by autoCancelableJob()
+
     init {
         load()
     }
 
     private fun load() {
-        routinesUseCase.getAll()
+        loadJob = routinesUseCase.getAll()
             .onEach { routines -> updateState { reducer.setup(routines) } }
             .catch { throwable ->
                 TempoLogger.e(throwable = throwable, message = "Error loading routines")
@@ -65,7 +69,7 @@ internal class RoutinesViewModel @Inject constructor(
                 reducer.deleteRoutineError(state = it, routine = routine)
             }
         }
-        launchWhen<RoutinesState.Data>(exceptionHandler) {
+        deleteJob = launchWhen<RoutinesState.Data>(exceptionHandler) {
             routinesUseCase.delete(routine)
         }
     }
@@ -76,8 +80,8 @@ internal class RoutinesViewModel @Inject constructor(
 
     fun onSnackbarEvent(snackbarEvent: TempoSnackbarEvent) {
         runWhen<RoutinesState.Data> {
-            if(snackbarEvent == TempoSnackbarEvent.ActionPerformed) {
-                when(it.action) {
+            if (snackbarEvent == TempoSnackbarEvent.ActionPerformed) {
+                when (it.action) {
                     is DeleteRoutineError -> onRoutineDelete(it.action.routine)
                     null -> { /* no-op */ }
                 }

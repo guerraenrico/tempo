@@ -58,7 +58,7 @@ class RoutineSummaryViewModelTest {
     private val savedStateHandle = SavedStateHandle(mapOf("routineId" to 1L))
 
     @Test
-    fun `should get routine on load`() = coroutineRule {
+    fun `should show data when load succeeds`() = coroutineRule {
         val expected = RoutineSummaryViewState.Data(
             items = listOf(
                 RoutineSummaryItem.RoutineInfo(routineName = "Routine Name"),
@@ -77,7 +77,7 @@ class RoutineSummaryViewModelTest {
     }
 
     @Test
-    fun `should get error when load fails`() = coroutineRule {
+    fun `should show error when load fails`() = coroutineRule {
         val store = FakeStore(listOf(routine))
         store.enableErrorOnNextAccess()
 
@@ -88,7 +88,7 @@ class RoutineSummaryViewModelTest {
     }
 
     @Test
-    fun `should retry load`() = coroutineRule {
+    fun `should retry load when fails`() = coroutineRule {
         val store = FakeStore(listOf(routine))
         val expected = RoutineSummaryViewState.Data(
             items = listOf(

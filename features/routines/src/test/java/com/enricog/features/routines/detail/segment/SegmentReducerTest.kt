@@ -11,6 +11,7 @@ import com.enricog.features.routines.detail.segment.models.SegmentField
 import com.enricog.features.routines.detail.segment.models.SegmentFieldError
 import com.enricog.features.routines.detail.segment.models.SegmentInputs
 import com.enricog.features.routines.detail.segment.models.SegmentState
+import com.enricog.features.routines.detail.segment.models.SegmentState.Data.Action.SaveSegmentError
 import com.enricog.ui.components.extensions.toTextFieldValue
 import com.enricog.ui.components.textField.timeText
 import org.junit.Test
@@ -40,7 +41,8 @@ class SegmentReducerTest {
                 name = "Segment Name".toTextFieldValue(),
                 time = "50".timeText,
                 type = TimeType.TIMER
-            )
+            ),
+            action = null
         )
 
         val actual = sut.setup(routine = routine, segmentId = 1.asID)
@@ -63,10 +65,21 @@ class SegmentReducerTest {
                 name = "".toTextFieldValue(),
                 time = "".timeText,
                 type = TimeType.TIMER
-            )
+            ),
+            action = null
         )
 
         val actual = sut.setup(routine = routine, segmentId = 0.asID)
+
+        assertEquals(expected, actual)
+    }
+
+    @Test
+    fun `should setup error state`() {
+        val exception = Exception()
+        val expected = SegmentState.Error(throwable = exception)
+
+        val actual = sut.error(throwable = exception)
 
         assertEquals(expected, actual)
     }
@@ -87,7 +100,8 @@ class SegmentReducerTest {
                 name = "Segment Name".toTextFieldValue(),
                 time = "50".timeText,
                 type = TimeType.TIMER
-            )
+            ),
+            action = null
         )
         val expected = SegmentState.Data(
             routine = Routine.EMPTY.copy(
@@ -102,7 +116,8 @@ class SegmentReducerTest {
                 name = "Segment Name Modified".toTextFieldValue(),
                 time = "50".timeText,
                 type = TimeType.TIMER
-            )
+            ),
+            action = null
         )
 
         val actual = sut.updateSegmentName(
@@ -132,7 +147,8 @@ class SegmentReducerTest {
                 name = "Segment Name".toTextFieldValue(),
                 time = "".timeText,
                 type = TimeType.TIMER
-            )
+            ),
+            action = null
         )
         val expected = SegmentState.Data(
             routine = Routine.EMPTY.copy(
@@ -150,7 +166,8 @@ class SegmentReducerTest {
                 name = "Segment Name".toTextFieldValue(),
                 time = "10".timeText,
                 type = TimeType.TIMER
-            )
+            ),
+            action = null
         )
 
         val actual = sut.updateSegmentTime(state = state, text = "10".timeText)
@@ -177,7 +194,8 @@ class SegmentReducerTest {
                 name = "Segment Name".toTextFieldValue(),
                 time = "10".timeText,
                 type = TimeType.STOPWATCH
-            )
+            ),
+            action = null
         )
         val expected = SegmentState.Data(
             routine = Routine.EMPTY.copy(
@@ -195,7 +213,8 @@ class SegmentReducerTest {
                 name = "Segment Name".toTextFieldValue(),
                 time = "".timeText,
                 type = TimeType.STOPWATCH
-            )
+            ),
+            action = null
         )
 
         val actual = sut.updateSegmentTime(state = state, text = "10".timeText)
@@ -219,7 +238,8 @@ class SegmentReducerTest {
                 name = "Segment Name".toTextFieldValue(),
                 time = "10".timeText,
                 type = TimeType.TIMER
-            )
+            ),
+            action = null
         )
 
         val actual = sut.updateSegmentTimeType(state = expected, timeType = TimeType.TIMER)
@@ -243,7 +263,8 @@ class SegmentReducerTest {
                 name = "Segment Name".toTextFieldValue(),
                 time = "10".timeText,
                 type = TimeType.TIMER
-            )
+            ),
+            action = null
         )
         val expected = SegmentState.Data(
             routine = Routine.EMPTY.copy(
@@ -259,7 +280,8 @@ class SegmentReducerTest {
                 name = "Segment Name".toTextFieldValue(),
                 time = "10".timeText,
                 type = TimeType.REST
-            )
+            ),
+            action = null
         )
 
         val actual = sut.updateSegmentTimeType(state = state, timeType = TimeType.REST)
@@ -286,7 +308,8 @@ class SegmentReducerTest {
                 name = "".toTextFieldValue(),
                 time = "10".timeText,
                 type = TimeType.TIMER
-            )
+            ),
+            action = null
         )
         val expected = SegmentState.Data(
             routine = Routine.EMPTY.copy(
@@ -304,7 +327,8 @@ class SegmentReducerTest {
                 name = "".toTextFieldValue(),
                 time = "10".timeText,
                 type = TimeType.REST
-            )
+            ),
+            action = null
         )
 
         val actual = sut.updateSegmentTimeType(state = state, timeType = TimeType.REST)
@@ -328,7 +352,8 @@ class SegmentReducerTest {
                 name = "Segment Name".toTextFieldValue(),
                 time = "10".timeText,
                 type = TimeType.TIMER
-            )
+            ),
+            action = null
         )
         val expected = SegmentState.Data(
             routine = Routine.EMPTY.copy(
@@ -344,7 +369,8 @@ class SegmentReducerTest {
                 name = "Segment Name".toTextFieldValue(),
                 time = "".timeText,
                 type = TimeType.STOPWATCH
-            )
+            ),
+            action = null
         )
 
         val actual = sut.updateSegmentTimeType(state = state, timeType = TimeType.STOPWATCH)
@@ -367,7 +393,8 @@ class SegmentReducerTest {
                 name = "".toTextFieldValue(),
                 time = "".timeText,
                 type = TimeType.TIMER
-            )
+            ),
+            action = null
         )
         val expected = SegmentState.Data(
             routine = Routine.EMPTY,
@@ -378,10 +405,75 @@ class SegmentReducerTest {
                 name = "".toTextFieldValue(),
                 time = "".timeText,
                 type = TimeType.TIMER
-            )
+            ),
+            action = null
         )
 
         val actual = sut.applySegmentErrors(state = state, errors = errors)
+
+        assertEquals(expected, actual)
+    }
+
+    @Test
+    fun `should apply segment error when save throws an error`() {
+        val state = SegmentState.Data(
+            routine = Routine.EMPTY,
+            segment = Segment.EMPTY,
+            errors = emptyMap(),
+            timeTypes = listOf(TimeType.TIMER, TimeType.REST, TimeType.STOPWATCH),
+            inputs = SegmentInputs(
+                name = "".toTextFieldValue(),
+                time = "".timeText,
+                type = TimeType.TIMER
+            ),
+            action = null
+        )
+        val expected = SegmentState.Data(
+            routine = Routine.EMPTY,
+            segment = Segment.EMPTY,
+            errors = emptyMap(),
+            timeTypes = listOf(TimeType.TIMER, TimeType.REST, TimeType.STOPWATCH),
+            inputs = SegmentInputs(
+                name = "".toTextFieldValue(),
+                time = "".timeText,
+                type = TimeType.TIMER
+            ),
+            action = SaveSegmentError
+        )
+
+        val actual = sut.saveSegmentError(state = state)
+
+        assertEquals(expected, actual)
+    }
+
+    @Test
+    fun `should reset action when it is handled`() {
+        val state = SegmentState.Data(
+            routine = Routine.EMPTY,
+            segment = Segment.EMPTY,
+            errors = emptyMap(),
+            timeTypes = listOf(TimeType.TIMER, TimeType.REST, TimeType.STOPWATCH),
+            inputs = SegmentInputs(
+                name = "".toTextFieldValue(),
+                time = "".timeText,
+                type = TimeType.TIMER
+            ),
+            action = SaveSegmentError
+        )
+        val expected = SegmentState.Data(
+            routine = Routine.EMPTY,
+            segment = Segment.EMPTY,
+            errors = emptyMap(),
+            timeTypes = listOf(TimeType.TIMER, TimeType.REST, TimeType.STOPWATCH),
+            inputs = SegmentInputs(
+                name = "".toTextFieldValue(),
+                time = "".timeText,
+                type = TimeType.TIMER
+            ),
+            action = null
+        )
+
+        val actual = sut.onActionHandled(state = state)
 
         assertEquals(expected, actual)
     }

@@ -34,9 +34,7 @@ class SegmentValidatorTest {
             time = "".timeText,
             type = TimeType.TIMER
         )
-        val expected = mapOf<SegmentField, SegmentFieldError>(
-            SegmentField.Time to SegmentFieldError.InvalidSegmentTime
-        )
+        val expected = mapOf(SegmentField.Time to SegmentFieldError.InvalidSegmentTime)
 
         val actual = sut.validate(inputs = inputs)
 

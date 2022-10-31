@@ -10,7 +10,9 @@ import androidx.compose.ui.text.input.TextFieldValue
 import com.enricog.base.extensions.exhaustive
 import com.enricog.data.routines.api.entities.TimeType
 import com.enricog.features.routines.detail.segment.models.SegmentViewState
+import com.enricog.features.routines.detail.segment.ui_components.SegmentErrorScene
 import com.enricog.features.routines.detail.segment.ui_components.SegmentFormScene
+import com.enricog.ui.components.snackbar.TempoSnackbarEvent
 import com.enricog.ui.components.textField.TimeText
 import com.enricog.ui.components.toolbar.TempoToolbar
 
@@ -25,6 +27,8 @@ internal fun SegmentScreen(viewModel: SegmentViewModel) {
             onSegmentTimeChange = viewModel::onSegmentTimeChange,
             onSegmentTimeTypeChange = viewModel::onSegmentTypeChange,
             onSegmentConfirmed = viewModel::onSegmentConfirmed,
+            onRetryLoadClick = viewModel::onRetryLoadClick,
+            onSnackbarEvent = viewModel::onSnackbarEvent
         )
     }
 }
@@ -34,21 +38,26 @@ internal fun SegmentViewState.Compose(
     onSegmentNameChange: (TextFieldValue) -> Unit,
     onSegmentTimeChange: (TimeText) -> Unit,
     onSegmentTimeTypeChange: (TimeType) -> Unit,
-    onSegmentConfirmed: () -> Unit
+    onSegmentConfirmed: () -> Unit,
+    onRetryLoadClick: () -> Unit,
+    onSnackbarEvent: (TempoSnackbarEvent) -> Unit
 ) {
     when (this) {
-        SegmentViewState.Idle -> {
-        }
-        is SegmentViewState.Data -> {
-            SegmentFormScene(
-                segment = segment,
-                errors = errors,
-                timeTypes = timeTypes,
-                onSegmentNameChange = onSegmentNameChange,
-                onSegmentTimeChange = onSegmentTimeChange,
-                onSegmentTimeTypeChange = onSegmentTimeTypeChange,
-                onSegmentConfirmed = onSegmentConfirmed,
-            )
-        }
+        SegmentViewState.Idle -> Unit
+        is SegmentViewState.Data -> SegmentFormScene(
+            segment = segment,
+            errors = errors,
+            timeTypes = timeTypes,
+            message = message,
+            onSegmentNameChange = onSegmentNameChange,
+            onSegmentTimeChange = onSegmentTimeChange,
+            onSegmentTimeTypeChange = onSegmentTimeTypeChange,
+            onSegmentConfirmed = onSegmentConfirmed,
+            onSnackbarEvent = onSnackbarEvent
+        )
+        is SegmentViewState.Error -> SegmentErrorScene(
+            throwable = throwable,
+            onRetryLoadClick = onRetryLoadClick
+        )
     }.exhaustive
 }

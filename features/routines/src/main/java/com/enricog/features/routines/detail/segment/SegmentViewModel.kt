@@ -11,11 +11,13 @@ import com.enricog.data.routines.api.entities.Routine
 import com.enricog.data.routines.api.entities.Segment
 import com.enricog.data.routines.api.entities.TimeType
 import com.enricog.features.routines.detail.segment.models.SegmentState
+import com.enricog.features.routines.detail.segment.models.SegmentState.Data.Action.SaveSegmentError
 import com.enricog.features.routines.detail.segment.models.SegmentViewState
 import com.enricog.features.routines.detail.segment.usecase.SegmentUseCase
 import com.enricog.features.routines.navigation.RoutinesNavigationActions
 import com.enricog.navigation.api.routes.SegmentRoute
 import com.enricog.navigation.api.routes.SegmentRouteInput
+import com.enricog.ui.components.snackbar.TempoSnackbarEvent
 import com.enricog.ui.components.textField.TimeText
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.CoroutineExceptionHandler
@@ -37,18 +39,20 @@ internal class SegmentViewModel @Inject constructor(
     configuration = ViewModelConfiguration(debounce = 0)
 ) {
 
+    private val input = SegmentRoute.extractInput(savedStateHandle)
     private var saveJob by autoCancelableJob()
+    private var loadJob by autoCancelableJob()
 
     init {
-        val input = SegmentRoute.extractInput(savedStateHandle)
-        load(input)
+        load(input = input)
     }
 
     private fun load(input: SegmentRouteInput) {
         val exceptionHandler = CoroutineExceptionHandler { _, throwable ->
             TempoLogger.e(throwable = throwable, message = "Error loading segment")
+            updateState { reducer.error(throwable = throwable) }
         }
-        launch(exceptionHandler = exceptionHandler) {
+        loadJob = launch(exceptionHandler = exceptionHandler) {
             val routine = segmentUseCase.get(routineId = input.routineId)
             updateState { reducer.setup(routine = routine, segmentId = input.segmentId) }
         }
@@ -91,6 +95,9 @@ internal class SegmentViewModel @Inject constructor(
     private fun save(routine: Routine, segment: Segment) {
         val exceptionHandler = CoroutineExceptionHandler { _, throwable ->
             TempoLogger.e(throwable = throwable, message = "Error saving segment")
+            updateStateWhen<SegmentState.Data> {
+                reducer.saveSegmentError(state = it)
+            }
         }
         saveJob = launch(exceptionHandler = exceptionHandler) {
             segmentUseCase.save(routine = routine, segment = segment)
@@ -99,8 +106,22 @@ internal class SegmentViewModel @Inject constructor(
     }
 
     fun onSegmentBack() {
-        launchWhen<SegmentState.Data> {
-            navigationActions.goBack()
+        launch { navigationActions.goBack() }
+    }
+
+    fun onRetryLoadClick() {
+        load(input = input)
+    }
+
+    fun onSnackbarEvent(snackbarEvent: TempoSnackbarEvent) {
+        runWhen<SegmentState.Data> {
+            if (snackbarEvent == TempoSnackbarEvent.ActionPerformed) {
+                when (it.action) {
+                    SaveSegmentError -> onSegmentConfirmed()
+                    null -> { /* no-op */ }
+                }
+            }
         }
+        updateStateWhen<SegmentState.Data> { reducer.onActionHandled(it) }
     }
 }

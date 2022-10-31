@@ -19,26 +19,25 @@ internal class RoutineSummaryReducer @Inject constructor() {
         return RoutineSummaryState.Error(throwable)
     }
 
-    fun deleteSegmentError(state: RoutineSummaryState, segment: Segment): RoutineSummaryState {
-        if (state !is RoutineSummaryState.Data) return state
+    fun deleteSegmentError(
+        state: RoutineSummaryState.Data,
+        segment: Segment
+    ): RoutineSummaryState.Data {
         return state.copy(action = DeleteSegmentError(segment = segment))
     }
 
-    fun segmentMoveError(state: RoutineSummaryState): RoutineSummaryState {
-        if (state !is RoutineSummaryState.Data) return state
+    fun segmentMoveError(state: RoutineSummaryState.Data): RoutineSummaryState.Data {
         return state.copy(action = MoveSegmentError)
     }
 
     fun applyRoutineErrors(
-        state: RoutineSummaryState,
+        state: RoutineSummaryState.Data,
         errors: Map<RoutineSummaryField, RoutineSummaryFieldError>
-    ): RoutineSummaryState {
-        if (state !is RoutineSummaryState.Data) return state
+    ): RoutineSummaryState.Data {
         return state.copy(errors = errors)
     }
 
-    fun onActionHandled(state: RoutineSummaryState): RoutineSummaryState {
-        if (state !is RoutineSummaryState.Data) return state
+    fun onActionHandled(state: RoutineSummaryState.Data): RoutineSummaryState.Data {
         return state.copy(action = null)
     }
 }

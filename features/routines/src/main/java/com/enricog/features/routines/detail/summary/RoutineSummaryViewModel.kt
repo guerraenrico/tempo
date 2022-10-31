@@ -4,6 +4,7 @@ import androidx.lifecycle.SavedStateHandle
 import androidx.lifecycle.viewModelScope
 import com.enricog.base.viewmodel.BaseViewModel
 import com.enricog.core.coroutines.dispatchers.CoroutineDispatchers
+import com.enricog.core.coroutines.job.autoCancelableJob
 import com.enricog.core.logger.api.TempoLogger
 import com.enricog.data.routines.api.entities.Segment
 import com.enricog.entities.ID
@@ -39,14 +40,17 @@ internal class RoutineSummaryViewModel @Inject constructor(
     converter = converter,
     initialState = RoutineSummaryState.Idle,
 ) {
-    val input = RoutineSummaryRoute.extractInput(savedStateHandle)
+    private val input = RoutineSummaryRoute.extractInput(savedStateHandle)
+    private var loadJob by autoCancelableJob()
+    private var deleteJob by autoCancelableJob()
+    private var moveJob by autoCancelableJob()
 
     init {
         load(input)
     }
 
     private fun load(input: RoutineSummaryRouteInput) {
-        routineSummaryUseCase.get(input.routineId)
+        loadJob = routineSummaryUseCase.get(input.routineId)
             .onEach { routine ->
                 updateState { reducer.setup(routine = routine) }
             }
@@ -76,20 +80,22 @@ internal class RoutineSummaryViewModel @Inject constructor(
     fun onSegmentDelete(segment: Segment) {
         val exceptionHandler = CoroutineExceptionHandler { _, throwable ->
             TempoLogger.e(throwable = throwable)
-            updateState { reducer.deleteSegmentError(state = it, segment = segment) }
+            updateStateWhen<RoutineSummaryState.Data> {
+                reducer.deleteSegmentError(state = it, segment = segment)
+            }
         }
-        launchWhen<RoutineSummaryState.Data>(exceptionHandler) { stateData ->
-            routineSummaryUseCase.deleteSegment(routine = stateData.routine, segment = segment)
+        deleteJob = launchWhen<RoutineSummaryState.Data>(exceptionHandler) {
+            routineSummaryUseCase.deleteSegment(routine = it.routine, segment = segment)
         }
     }
 
     fun onSegmentMoved(segment: Segment, hoveredSegment: Segment?) {
         val exceptionHandler = CoroutineExceptionHandler { _, throwable ->
             TempoLogger.e(throwable = throwable)
-            updateState { reducer.segmentMoveError(state = it) }
+            updateStateWhen<RoutineSummaryState.Data> { reducer.segmentMoveError(state = it) }
         }
-        launchWhen<RoutineSummaryState.Data>(exceptionHandler) { stateData ->
-            moveSegmentUseCase(stateData.routine, segment, hoveredSegment)
+        moveJob = launchWhen<RoutineSummaryState.Data>(exceptionHandler) {
+            moveSegmentUseCase(it.routine, segment, hoveredSegment)
         }
     }
 
@@ -99,7 +105,9 @@ internal class RoutineSummaryViewModel @Inject constructor(
             if (errors.isEmpty()) {
                 navigationActions.goToTimer(routineId = stateData.routine.id)
             } else {
-                updateState { reducer.applyRoutineErrors(state = it, errors = errors) }
+                updateStateWhen<RoutineSummaryState.Data> {
+                    reducer.applyRoutineErrors(state = it, errors = errors)
+                }
             }
         }
     }
@@ -127,6 +135,6 @@ internal class RoutineSummaryViewModel @Inject constructor(
                 }
             }
         }
-        updateState { reducer.onActionHandled(it) }
+        updateStateWhen<RoutineSummaryState.Data> { reducer.onActionHandled(it) }
     }
 }

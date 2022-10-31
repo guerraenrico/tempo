@@ -42,7 +42,7 @@ class RoutinesViewModelTest {
     private val store = FakeStore(listOf(firstRoutine, secondRoutine))
 
     @Test
-    fun `should load all routines on init`() = coroutineRule {
+    fun `should should show data when load succeeds`() = coroutineRule {
         val expected = RoutinesViewState.Data(
             routines = listOf(firstRoutine, secondRoutine),
             message = null
@@ -54,7 +54,7 @@ class RoutinesViewModelTest {
     }
 
     @Test
-    fun `should get error when load fails`() = coroutineRule {
+    fun `should show error when load fails`() = coroutineRule {
         store.enableErrorOnNextAccess()
 
         val sut = buildSut()

@@ -41,6 +41,8 @@
     <string name="field_error_message_segment_name_blank">Segment name must not be blank</string>
     <string name="field_error_message_segment_time_invalid">Timer must be a number greater than 0</string>
     <string name="content_description_button_save_segment">Save segment</string>
+    <string name="label_segment_save_error">An error happen</string>
+    <string name="action_text_segment_save_error">Retry</string>
 
     <!-- Shared -->
     <string name="button_save">Save</string>
