@@ -29,6 +29,10 @@ internal class TimerReducer @Inject constructor() {
         )
     }
 
+    fun error(throwable: Throwable): TimerState {
+        return TimerState.Error(throwable = throwable)
+    }
+
     fun progressTime(state: TimerState): TimerState {
         if (state !is TimerState.Counting || !state.isCountRunning) return state
 

@@ -16,6 +16,7 @@ internal class TimerStateConverter @Inject constructor() :
     override suspend fun convert(state: TimerState): TimerViewState {
         return when (state) {
             TimerState.Idle -> TimerViewState.Idle
+            is TimerState.Error -> TimerViewState.Error(throwable = state.throwable)
             is TimerState.Counting -> mapCounting(state)
         }
     }

@@ -43,11 +43,11 @@ class CountingSceneKtTest {
             TempoTheme {
                 CountingScene(
                     state = viewState,
-                    onStartStopButtonClick = {},
-                    onRestartSegmentButtonClick = {},
-                    onResetButtonClick = {},
-                    onDoneButtonClick = {},
-                    onCloseButtonClick = {}
+                    onToggleTimer = {},
+                    onRestartSegment = {},
+                    onReset = {},
+                    onDone = {},
+                    onClose = {}
                 )
             }
         }
@@ -79,11 +79,11 @@ class CountingSceneKtTest {
             TempoTheme {
                 CountingScene(
                     state = viewState,
-                    onStartStopButtonClick = {},
-                    onRestartSegmentButtonClick = {},
-                    onResetButtonClick = {},
-                    onDoneButtonClick = {},
-                    onCloseButtonClick = {}
+                    onToggleTimer = {},
+                    onRestartSegment = {},
+                    onReset = {},
+                    onDone = {},
+                    onClose = {}
                 )
             }
         }
@@ -116,11 +116,11 @@ class CountingSceneKtTest {
             TempoTheme {
                 CountingScene(
                     state = viewState,
-                    onStartStopButtonClick = {},
-                    onRestartSegmentButtonClick = {},
-                    onResetButtonClick = {},
-                    onDoneButtonClick = {},
-                    onCloseButtonClick = {}
+                    onToggleTimer = {},
+                    onRestartSegment = {},
+                    onReset = {},
+                    onDone = {},
+                    onClose = {}
                 )
             }
         }
@@ -133,11 +133,11 @@ class CountingSceneKtTest {
     private fun Scene(state: TimerViewState.Counting) {
         CountingScene(
             state = state,
-            onStartStopButtonClick = {},
-            onRestartSegmentButtonClick = {},
-            onResetButtonClick = {},
-            onDoneButtonClick = {},
-            onCloseButtonClick = {}
+            onToggleTimer = {},
+            onRestartSegment = {},
+            onReset = {},
+            onDone = {},
+            onClose = {}
         )
     }
 }

@@ -15,5 +15,4 @@ internal sealed class RoutineViewState {
     }
 
     data class Error(val throwable: Throwable) : RoutineViewState()
-
 }

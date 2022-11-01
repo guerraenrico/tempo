@@ -24,7 +24,7 @@ class TimerStateConverterTest {
     private val sut = TimerStateConverter()
 
     @Test
-    fun `test map TimerState#Idle`() = coroutineRule {
+    fun `test map idle state`() = coroutineRule {
         val state = TimerState.Idle
         val expected = TimerViewState.Idle
 
@@ -34,7 +34,19 @@ class TimerStateConverterTest {
     }
 
     @Test
-    fun `test map TimerState#Counting`() = coroutineRule {
+    fun `test map error state`() = coroutineRule {
+        val exception = Exception()
+        val state = TimerState.Error(throwable = exception)
+        val expected = TimerViewState.Error(throwable = exception)
+
+        val result = sut.convert(state)
+
+        assertEquals(expected, result)
+    }
+
+
+    @Test
+    fun `test map counting state`() = coroutineRule {
         val state = TimerState.Counting(
             routine = Routine.EMPTY,
             runningSegment = Segment.EMPTY.copy(name = "segment name", type = TimeType.REST),
@@ -60,7 +72,7 @@ class TimerStateConverterTest {
     }
 
     @Test
-    fun `test map backgroundColor and stepTitle SegmentStepType#STARTING - TimeType#REST`() =
+    fun `test map backgroundColor and stepTitle when rest segment is starting`() =
         coroutineRule {
             val state = TimerState.Counting(
                 routine = Routine.EMPTY,
@@ -87,7 +99,7 @@ class TimerStateConverterTest {
         }
 
     @Test
-    fun `test map backgroundColor and stepTitle SegmentStepType#IN_PROGRESS - TimeType#REST`() =
+    fun `test map backgroundColor and stepTitle when rest segment is in progress`() =
         coroutineRule {
             val state = TimerState.Counting(
                 routine = Routine.EMPTY,
@@ -114,7 +126,7 @@ class TimerStateConverterTest {
         }
 
     @Test
-    fun `test map backgroundColor and stepTitle SegmentStepType#IN_PROGRESS - TimeType#TIMER`() =
+    fun `test map backgroundColor and stepTitle when timer segment is in progress`() =
         coroutineRule {
             val state = TimerState.Counting(
                 routine = Routine.EMPTY,
@@ -141,7 +153,7 @@ class TimerStateConverterTest {
         }
 
     @Test
-    fun `test map backgroundColor and stepTitle SegmentStepType#IN_PROGRESS - TimeType#STOPWATCH`() =
+    fun `test map backgroundColor and stepTitle when stopwatch segment is in progress`() =
         coroutineRule {
             val state = TimerState.Counting(
                 routine = Routine.EMPTY,

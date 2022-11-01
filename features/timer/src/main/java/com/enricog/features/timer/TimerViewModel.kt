@@ -32,18 +32,19 @@ internal class TimerViewModel @Inject constructor(
     dispatchers = dispatchers
 ) {
 
+    private val input = TimerRoute.extractInput(savedStateHandle)
     private var countingJob by autoCancelableJob()
     private var loadJob by autoCancelableJob()
     private var startJob by autoCancelableJob()
 
     init {
-        val input = TimerRoute.extractInput(savedStateHandle)
         load(input)
     }
 
     private fun load(input: TimerRouteInput) {
         val exceptionHandler = CoroutineExceptionHandler { _, throwable ->
             TempoLogger.e(throwable = throwable, message = "Error loading timer routine")
+            updateState { reducer.error(throwable = throwable) }
         }
         loadJob = launch(exceptionHandler = exceptionHandler) {
             val routine = timerUseCase.get(input.routineId)
@@ -61,24 +62,35 @@ internal class TimerViewModel @Inject constructor(
         }
     }
 
-    fun onStartStopButtonClick() {
+    fun onToggleTimer() {
         updateState { reducer.toggleTimeRunning(it) }
     }
 
-    fun onRestartSegmentButtonClick() {
+    fun onRestartSegment() {
         updateState { reducer.restartTime(it) }
     }
 
-    fun onResetButtonClick() {
+    fun onReset() {
         runWhen<TimerState.Counting> { state ->
             start(state.routine)
         }
     }
 
-    fun onDoneButtonClick() {
+    fun onDone() {
         launch {
             navigationActions.backToRoutines()
         }
+    }
+
+    fun onClose() {
+        launch {
+            stopCounting()
+            navigationActions.backToRoutines()
+        }
+    }
+
+    fun onRetryLoad() {
+        load(input = input)
     }
 
     override fun onStateUpdated(currentState: TimerState) {
@@ -95,13 +107,6 @@ internal class TimerViewModel @Inject constructor(
             }
         }
         stopCounting()
-    }
-
-    fun onCloseButtonClick() {
-        launch {
-            stopCounting()
-            navigationActions.backToRoutines()
-        }
     }
 
     private fun onCountCompleted() {

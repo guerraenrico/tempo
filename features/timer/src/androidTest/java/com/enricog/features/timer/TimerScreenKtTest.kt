@@ -25,11 +25,11 @@ class TimerScreenKtTest {
 
         setContent {
             viewState.Compose(
-                onStartStopButtonClick = {},
-                onRestartSegmentButtonClick = {},
-                onResetButtonClick = {},
-                onDoneButtonClick = {},
-                onCloseButtonClick = {}
+                onToggleTimer = {},
+                onRestartSegment = {},
+                onReset = {},
+                onDone = {},
+                onClose = {}
             )
         }
 
@@ -55,11 +55,11 @@ class TimerScreenKtTest {
 
         setContent {
             viewState.Compose(
-                onStartStopButtonClick = {},
-                onRestartSegmentButtonClick = {},
-                onResetButtonClick = {},
-                onDoneButtonClick = {},
-                onCloseButtonClick = {}
+                onToggleTimer = {},
+                onRestartSegment = {},
+                onReset = {},
+                onDone = {},
+                onClose = {}
             )
         }
 

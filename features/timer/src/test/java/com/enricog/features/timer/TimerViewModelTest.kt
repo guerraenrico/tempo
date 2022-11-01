@@ -3,7 +3,6 @@ package com.enricog.features.timer
 import androidx.lifecycle.SavedStateHandle
 import app.cash.turbine.test
 import com.enricog.core.coroutines.testing.CoroutineRule
-import com.enricog.core.coroutines.testing.extensions.testEager
 import com.enricog.data.local.testing.FakeStore
 import com.enricog.data.routines.api.entities.Routine
 import com.enricog.data.routines.api.entities.Segment
@@ -23,17 +22,17 @@ import com.enricog.navigation.api.routes.RoutinesRoute
 import com.enricog.navigation.api.routes.RoutinesRouteInput
 import com.enricog.navigation.testing.FakeNavigator
 import com.enricog.ui.theme.TimeTypeColors
+import kotlinx.coroutines.test.StandardTestDispatcher
 import kotlinx.coroutines.test.advanceTimeBy
 import org.junit.Rule
 import org.junit.Test
 import kotlin.test.assertEquals
 import kotlin.test.assertFalse
-import kotlin.test.assertTrue
 
 class TimerViewModelTest {
 
     @get:Rule
-    val coroutineRule = CoroutineRule()
+    val coroutineRule = CoroutineRule(StandardTestDispatcher())
 
     private val firstSegment = Segment.EMPTY.copy(
         id = 1.asID,
@@ -82,17 +81,21 @@ class TimerViewModelTest {
         )
         val sut = buildSut()
 
-        sut.viewState.testEager {
+        sut.viewState.test {
             advanceTimeBy(100)
-            assertEquals(expectedOnSetup, item())
+            assertEquals(expectedOnSetup, awaitItem())
             advanceTimeBy(1000)
-            assertEquals(expectedOnStart, item())
+            assertEquals(expectedOnStart, awaitItem())
+            advanceTimeBy(1000)
+
+            windowScreenManager.keepScreenOn.test { assertEquals(true, awaitItem()) }
+
+            cancelAndIgnoreRemainingEvents()
         }
-        windowScreenManager.keepScreenOn.test { assertTrue(awaitItem()) }
     }
 
     @Test
-    fun `on start-stop button clicked should stop routine when timer is running`() = coroutineRule {
+    fun `should stop routine on toggle when timer is running`() = coroutineRule {
         val expected = TimerViewState.Counting(
             step = SegmentStep(
                 count = Count(seconds = 2.seconds, isRunning = false, isCompleted = false),
@@ -105,20 +108,22 @@ class TimerViewModelTest {
         )
         val sut = buildSut()
 
-        sut.viewState.testEager {
+        sut.viewState.test {
             advanceTimeBy(3000)
-            skip(3)
 
-            sut.onStartStopButtonClick()
+            sut.onToggleTimer()
 
             advanceTimeBy(100)
-            assertEquals(expected, item())
+            assertEquals(expected, expectMostRecentItem())
+            advanceTimeBy(100)
+            windowScreenManager.keepScreenOn.test { assertFalse(awaitItem()) }
+
+            cancelAndIgnoreRemainingEvents()
         }
-        windowScreenManager.keepScreenOn.test { assertFalse(awaitItem()) }
     }
 
     @Test
-    fun `on restart segment button clicked should restart timer`() = coroutineRule {
+    fun `should restart timer when restart`() = coroutineRule {
         val expected = TimerViewState.Counting(
             step = SegmentStep(
                 count = Count(seconds = 3.seconds, isRunning = false, isCompleted = false),
@@ -131,19 +136,20 @@ class TimerViewModelTest {
         )
         val sut = buildSut()
 
-        sut.viewState.testEager {
+        sut.viewState.test {
             advanceTimeBy(3000)
-            skip(3)
 
-            sut.onResetButtonClick()
+            sut.onReset()
 
             advanceTimeBy(100)
-            assertEquals(expected, item())
+            assertEquals(expected, expectMostRecentItem())
+
+            cancelAndIgnoreRemainingEvents()
         }
     }
 
     @Test
-    fun `on reset button clicked should restart routine`() = coroutineRule {
+    fun `should restart routine on reset`() = coroutineRule {
         val expectedStart = TimerViewState.Counting(
             step = SegmentStep(
                 count = Count(seconds = 3.seconds, isRunning = false, isCompleted = false),
@@ -166,33 +172,35 @@ class TimerViewModelTest {
         )
         val sut = buildSut()
 
-        sut.viewState.testEager {
+        sut.viewState.test {
             advanceTimeBy(5000)
-            skip(5)
-            advanceTimeBy(1000)
-            assertEquals(expectedStartFirstSegment, item())
 
-            sut.onResetButtonClick()
+            advanceTimeBy(1000)
+            assertEquals(expectedStartFirstSegment, expectMostRecentItem())
+
+            sut.onReset()
 
             advanceTimeBy(100)
-            assertEquals(expectedStart, item())
+            assertEquals(expectedStart, awaitItem())
+
+            cancelAndIgnoreRemainingEvents()
         }
     }
 
     @Test
-    fun `test onDoneButtonClick should go to routines`() = coroutineRule {
+    fun `on done should go to routines`() = coroutineRule {
         val sut = buildSut()
 
-        sut.onDoneButtonClick()
+        sut.onDone()
 
         navigator.assertGoTo(route = RoutinesRoute, input = RoutinesRouteInput)
     }
 
     @Test
-    fun `test onCloseButtonClick should go to routines`() = coroutineRule {
+    fun `should go to routines on close`() = coroutineRule {
         val sut = buildSut()
 
-        sut.onCloseButtonClick()
+        sut.onClose()
 
         navigator.assertGoTo(route = RoutinesRoute, input = RoutinesRouteInput)
     }
