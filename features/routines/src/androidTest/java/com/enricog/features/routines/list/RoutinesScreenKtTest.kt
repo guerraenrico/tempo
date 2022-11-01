@@ -27,7 +27,8 @@ class RoutinesScreenKtTest {
                     onCreateRoutineClick = {},
                     onRoutineClick = {},
                     onRoutineDelete = {},
-                    onRetryLoadClick = {}
+                    onRetryLoadClick = {},
+                    onSnackbarEvent = {}
                 )
             }
         }
@@ -36,6 +37,7 @@ class RoutinesScreenKtTest {
 
         onNodeWithTag(RoutinesEmptySceneTestTag).assertDoesNotExist()
         onNodeWithTag(RoutinesSceneTestTag).assertDoesNotExist()
+        onNodeWithTag(RoutinesErrorSceneTestTag).assertDoesNotExist()
     }
 
     @Test
@@ -48,7 +50,8 @@ class RoutinesScreenKtTest {
                     onCreateRoutineClick = {},
                     onRoutineClick = {},
                     onRoutineDelete = {},
-                    onRetryLoadClick = {}
+                    onRetryLoadClick = {},
+                    onSnackbarEvent = {}
                 )
             }
         }
@@ -62,7 +65,7 @@ class RoutinesScreenKtTest {
 
     @Test
     fun shouldRenderRoutinesSceneWhenStateIsData() = composeRule {
-        val viewState = RoutinesViewState.Data(emptyList())
+        val viewState = RoutinesViewState.Data(routines = emptyList(), message = null)
 
         setContent {
             TempoTheme {
@@ -70,7 +73,8 @@ class RoutinesScreenKtTest {
                     onCreateRoutineClick = {},
                     onRoutineClick = {},
                     onRoutineDelete = {},
-                    onRetryLoadClick = {}
+                    onRetryLoadClick = {},
+                    onSnackbarEvent = {}
                 )
             }
         }
@@ -93,7 +97,8 @@ class RoutinesScreenKtTest {
                     onCreateRoutineClick = {},
                     onRoutineClick = {},
                     onRoutineDelete = {},
-                    onRetryLoadClick = {}
+                    onRetryLoadClick = {},
+                    onSnackbarEvent = {}
                 )
             }
         }

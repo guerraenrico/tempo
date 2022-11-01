@@ -12,6 +12,7 @@ import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.platform.testTag
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
 import com.enricog.data.routines.api.entities.Routine
@@ -50,7 +51,9 @@ internal fun RoutinesScene(
         state = snackbarHostState,
         content = {
             LazyColumn(
-                modifier = Modifier.fillMaxSize(),
+                modifier = Modifier
+                    .testTag(RoutinesSceneTestTag)
+                    .fillMaxSize(),
                 verticalArrangement = Arrangement.spacedBy(TempoTheme.dimensions.spaceM),
                 contentPadding = PaddingValues(TempoTheme.dimensions.spaceM)
             ) {

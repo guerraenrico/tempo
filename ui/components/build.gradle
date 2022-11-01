@@ -49,4 +49,11 @@ dependencies {
     testImplementation Libs.Test.junitJupiterApi
     testImplementation Libs.Test.junitJupiterEngine
     testImplementation Libs.Test.junitJupiterParams
+
+    androidTestImplementation project(":core:compose:testing")
+    androidTestImplementation Libs.Test.junit
+    androidTestImplementation Libs.AndroidX.Test.core
+    androidTestImplementation Libs.AndroidX.Test.rules
+    androidTestImplementation Libs.AndroidX.Compose.uiTest
+    androidTestImplementation Libs.AndroidX.Compose.activity
 }

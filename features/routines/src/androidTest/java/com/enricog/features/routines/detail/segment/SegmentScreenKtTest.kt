@@ -7,6 +7,7 @@ import com.enricog.core.compose.testing.invoke
 import com.enricog.data.routines.api.entities.TimeType
 import com.enricog.features.routines.detail.segment.models.SegmentFields
 import com.enricog.features.routines.detail.segment.models.SegmentViewState
+import com.enricog.features.routines.detail.segment.ui_components.SegmentErrorSceneTestTag
 import com.enricog.features.routines.detail.segment.ui_components.SegmentFormSceneTestTag
 import com.enricog.ui.components.extensions.toTextFieldValue
 import com.enricog.ui.components.textField.timeText
@@ -29,12 +30,15 @@ class SegmentScreenKtTest {
                     onSegmentNameChange = {},
                     onSegmentTimeChange = {},
                     onSegmentTimeTypeChange = {},
-                    onSegmentConfirmed = {}
+                    onSegmentConfirmed = {},
+                    onRetryLoadClick = {},
+                    onSnackbarEvent = {}
                 )
             }
         }
 
         onNodeWithTag(SegmentFormSceneTestTag).assertDoesNotExist()
+        onNodeWithTag(SegmentErrorSceneTestTag).assertDoesNotExist()
     }
 
     @Test
@@ -46,7 +50,8 @@ class SegmentScreenKtTest {
                 type = TimeType.TIMER
             ),
             errors = emptyMap(),
-            timeTypes = listOf(TimeType.TIMER, TimeType.REST, TimeType.STOPWATCH)
+            timeTypes = listOf(TimeType.TIMER, TimeType.REST, TimeType.STOPWATCH),
+            message = null
         )
 
         setContent {
@@ -55,11 +60,33 @@ class SegmentScreenKtTest {
                     onSegmentNameChange = {},
                     onSegmentTimeChange = {},
                     onSegmentTimeTypeChange = {},
-                    onSegmentConfirmed = {}
+                    onSegmentConfirmed = {},
+                    onRetryLoadClick = {},
+                    onSnackbarEvent = {}
                 )
             }
         }
 
         onNodeWithTag(SegmentFormSceneTestTag).assertIsDisplayed()
+        onNodeWithTag(SegmentErrorSceneTestTag).assertDoesNotExist()
+    }
+
+    @Test
+    fun shouldRenderSegmentErrorSceneWhenStateIsError() = composeRule {
+        val viewState = SegmentViewState.Error(throwable = Exception())
+
+        setContent {
+            viewState.Compose(
+                onSegmentNameChange = {},
+                onSegmentTimeChange = {},
+                onSegmentTimeTypeChange = {},
+                onSegmentConfirmed = {},
+                onRetryLoadClick = {},
+                onSnackbarEvent = {}
+            )
+        }
+
+        onNodeWithTag(SegmentFormSceneTestTag).assertDoesNotExist()
+        onNodeWithTag(SegmentErrorSceneTestTag).assertIsDisplayed()
     }
 }

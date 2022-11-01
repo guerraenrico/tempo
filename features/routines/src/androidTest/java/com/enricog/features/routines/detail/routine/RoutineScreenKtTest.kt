@@ -6,6 +6,7 @@ import androidx.compose.ui.test.onNodeWithTag
 import com.enricog.core.compose.testing.invoke
 import com.enricog.features.routines.detail.routine.models.RoutineFields
 import com.enricog.features.routines.detail.routine.models.RoutineViewState
+import com.enricog.features.routines.detail.routine.ui_components.RoutineErrorSceneTestTag
 import com.enricog.features.routines.detail.routine.ui_components.RoutineFormSceneTestTag
 import com.enricog.ui.components.extensions.toTextFieldValue
 import com.enricog.ui.components.textField.timeText
@@ -28,12 +29,15 @@ class RoutineScreenKtTest {
                     onRoutineNameChange = {},
                     onStartTimeOffsetChange = {},
                     onRoutineSave = {},
-                    onStartTimeInfoClick = {}
+                    onStartTimeInfoClick = {},
+                    onRetryLoadClick = {},
+                    onSnackbarEvent = {}
                 )
             }
         }
 
         onNodeWithTag(RoutineFormSceneTestTag).assertDoesNotExist()
+        onNodeWithTag(RoutineErrorSceneTestTag).assertDoesNotExist()
     }
 
     @Test
@@ -43,7 +47,8 @@ class RoutineScreenKtTest {
                 name = "".toTextFieldValue(),
                 startTimeOffset = "".timeText
             ),
-            errors = emptyMap()
+            errors = emptyMap(),
+            message = null
         )
 
         setContent {
@@ -52,11 +57,33 @@ class RoutineScreenKtTest {
                     onRoutineNameChange = {},
                     onStartTimeOffsetChange = {},
                     onRoutineSave = {},
-                    onStartTimeInfoClick = {}
+                    onStartTimeInfoClick = {},
+                    onRetryLoadClick = {},
+                    onSnackbarEvent = {}
                 )
             }
         }
 
         onNodeWithTag(RoutineFormSceneTestTag).assertIsDisplayed()
+        onNodeWithTag(RoutineErrorSceneTestTag).assertDoesNotExist()
+    }
+
+    @Test
+    fun shouldRenderRoutineErrorSceneWhenStateIsError() = composeRule {
+        val viewState = RoutineViewState.Error(throwable = Exception())
+
+        setContent {
+            viewState.Compose(
+                onRoutineNameChange = {},
+                onStartTimeOffsetChange = {},
+                onRoutineSave = {},
+                onStartTimeInfoClick = {},
+                onRetryLoadClick = {},
+                onSnackbarEvent = {}
+            )
+        }
+
+        onNodeWithTag(RoutineFormSceneTestTag).assertDoesNotExist()
+        onNodeWithTag(RoutineErrorSceneTestTag).assertIsDisplayed()
     }
 }

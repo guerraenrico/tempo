@@ -1,9 +1,11 @@
 package com.enricog.features.routines.detail.summary
 
+import androidx.compose.ui.test.assertIsDisplayed
 import androidx.compose.ui.test.junit4.createComposeRule
 import androidx.compose.ui.test.onNodeWithTag
 import com.enricog.core.compose.testing.invoke
 import com.enricog.features.routines.detail.summary.models.RoutineSummaryViewState
+import com.enricog.features.routines.detail.summary.ui_components.RoutineSummaryErrorSceneTag
 import com.enricog.features.routines.detail.summary.ui_components.RoutineSummarySceneTestTag
 import com.enricog.ui.theme.TempoTheme
 import org.junit.Rule
@@ -26,19 +28,20 @@ class RoutineSummaryScreenKtTest {
                     onSegmentDelete = {},
                     onRoutineStart = {},
                     onRoutineEdit = {},
-                    onSegmentMoved = { _, _ -> }
+                    onSegmentMoved = { _, _ -> },
+                    onSnackbarEvent = {},
+                    onRetryLoadClick = {}
                 )
             }
         }
 
-        waitForIdle()
-
         onNodeWithTag(RoutineSummarySceneTestTag).assertDoesNotExist()
+        onNodeWithTag(RoutineSummaryErrorSceneTag).assertDoesNotExist()
     }
 
     @Test
     fun shouldRenderRoutineSummarySceneWhenStateIsData() = composeRule {
-        val viewState = RoutineSummaryViewState.Data(items = emptyList())
+        val viewState = RoutineSummaryViewState.Data(items = emptyList(), message = null)
 
         setContent {
             TempoTheme {
@@ -48,13 +51,35 @@ class RoutineSummaryScreenKtTest {
                     onSegmentDelete = {},
                     onRoutineStart = {},
                     onRoutineEdit = {},
-                    onSegmentMoved = { _, _ -> }
+                    onSegmentMoved = { _, _ -> },
+                    onSnackbarEvent = {},
+                    onRetryLoadClick = {}
                 )
             }
         }
 
-        waitForIdle()
-
         onNodeWithTag(RoutineSummarySceneTestTag).assertExists()
+        onNodeWithTag(RoutineSummaryErrorSceneTag).assertDoesNotExist()
+    }
+
+    @Test
+    fun shouldRenderRoutineSummaryErrorSceneWhenStateIsError() = composeRule {
+        val viewState = RoutineSummaryViewState.Error(throwable = Exception())
+
+        setContent {
+            viewState.Compose(
+                onSegmentAdd = {},
+                onSegmentSelected = {},
+                onSegmentDelete = {},
+                onRoutineStart = {},
+                onRoutineEdit = {},
+                onSegmentMoved = { _, _ -> },
+                onSnackbarEvent = {},
+                onRetryLoadClick = {}
+            )
+        }
+
+        onNodeWithTag(RoutineSummarySceneTestTag).assertDoesNotExist()
+        onNodeWithTag(RoutineSummaryErrorSceneTag).assertIsDisplayed()
     }
 }

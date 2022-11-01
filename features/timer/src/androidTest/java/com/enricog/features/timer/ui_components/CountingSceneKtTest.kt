@@ -1,6 +1,5 @@
 package com.enricog.features.timer.ui_components
 
-import androidx.compose.runtime.Composable
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.test.assertIsDisplayed
 import androidx.compose.ui.test.assertTextEquals
@@ -127,17 +126,5 @@ class CountingSceneKtTest {
 
         onNodeWithTag(StepTitleTestTag).assertTextEquals("GO")
         onNodeWithTag(SegmentNameTestTag).assertTextEquals("segment name")
-    }
-
-    @Composable
-    private fun Scene(state: TimerViewState.Counting) {
-        CountingScene(
-            state = state,
-            onToggleTimer = {},
-            onRestartSegment = {},
-            onReset = {},
-            onDone = {},
-            onClose = {}
-        )
     }
 }

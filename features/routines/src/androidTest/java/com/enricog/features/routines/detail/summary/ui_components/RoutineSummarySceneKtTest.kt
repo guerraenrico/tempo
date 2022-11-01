@@ -36,12 +36,14 @@ class RoutineSummarySceneKtTest {
                 TempoTheme {
                     RoutineSummaryScene(
                         summaryItems = items,
+                        message = null,
                         onSegmentAdd = {},
                         onSegmentSelected = {},
                         onSegmentDelete = {},
                         onRoutineStart = {},
                         onRoutineEdit = {},
-                        onSegmentMoved = { _, _ -> }
+                        onSegmentMoved = { _, _ -> },
+                        onSnackbarEvent = {}
                     )
                 }
             }
@@ -76,12 +78,14 @@ class RoutineSummarySceneKtTest {
             TempoTheme {
                 RoutineSummaryScene(
                     summaryItems = items,
+                    message = null,
                     onSegmentAdd = {},
                     onSegmentSelected = {},
                     onSegmentDelete = {},
                     onRoutineStart = {},
                     onRoutineEdit = {},
-                    onSegmentMoved = { _, _ -> }
+                    onSegmentMoved = { _, _ -> },
+                    onSnackbarEvent = {}
                 )
             }
         }

@@ -11,6 +11,7 @@ import com.enricog.features.timer.models.SegmentStep
 import com.enricog.features.timer.models.SegmentStepType
 import com.enricog.features.timer.models.TimerViewState
 import com.enricog.features.timer.ui_components.CountingSceneTestTag
+import com.enricog.features.timer.ui_components.TimerErrorSceneTestTag
 import org.junit.Rule
 import org.junit.Test
 
@@ -29,11 +30,13 @@ class TimerScreenKtTest {
                 onRestartSegment = {},
                 onReset = {},
                 onDone = {},
-                onClose = {}
+                onClose = {},
+                onRetryLoad = {}
             )
         }
 
         onNodeWithTag(CountingSceneTestTag).assertDoesNotExist()
+        onNodeWithTag(TimerErrorSceneTestTag).assertDoesNotExist()
     }
 
     @Test
@@ -59,10 +62,31 @@ class TimerScreenKtTest {
                 onRestartSegment = {},
                 onReset = {},
                 onDone = {},
-                onClose = {}
+                onClose = {},
+                onRetryLoad = {}
             )
         }
 
         onNodeWithTag(CountingSceneTestTag).assertIsDisplayed()
+        onNodeWithTag(TimerErrorSceneTestTag).assertDoesNotExist()
+    }
+
+    @Test
+    fun shouldRenderTimerErrorSceneWhenStateIsError() = composeRule {
+        val viewState = TimerViewState.Error(throwable = Exception())
+
+        setContent {
+            viewState.Compose(
+                onToggleTimer = {},
+                onRestartSegment = {},
+                onReset = {},
+                onDone = {},
+                onClose = {},
+                onRetryLoad = {}
+            )
+        }
+
+        onNodeWithTag(CountingSceneTestTag).assertDoesNotExist()
+        onNodeWithTag(TimerErrorSceneTestTag).assertIsDisplayed()
     }
 }
