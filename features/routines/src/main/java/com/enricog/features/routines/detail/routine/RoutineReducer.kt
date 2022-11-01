@@ -60,7 +60,7 @@ internal class RoutineReducer @Inject constructor() {
         return state.copy(action = SaveRoutineError)
     }
 
-    fun onActionHandled(state: RoutineState.Data): RoutineState.Data {
+    fun actionHandled(state: RoutineState.Data): RoutineState.Data {
         return state.copy(action = null)
     }
 }

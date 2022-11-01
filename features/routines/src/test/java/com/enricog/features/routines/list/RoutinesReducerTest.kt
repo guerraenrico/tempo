@@ -60,7 +60,7 @@ class RoutinesReducerTest {
         val state = RoutinesState.Data(routines = routines, action = DeleteRoutineError(routine))
         val expected = RoutinesState.Data(routines = routines, action = null)
 
-        val result = sut.onActionHandled(state = state)
+        val result = sut.actionHandled(state = state)
 
         assertEquals(expected, result)
     }

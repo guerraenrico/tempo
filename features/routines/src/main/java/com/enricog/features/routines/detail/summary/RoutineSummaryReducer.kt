@@ -37,7 +37,7 @@ internal class RoutineSummaryReducer @Inject constructor() {
         return state.copy(errors = errors)
     }
 
-    fun onActionHandled(state: RoutineSummaryState.Data): RoutineSummaryState.Data {
+    fun actionHandled(state: RoutineSummaryState.Data): RoutineSummaryState.Data {
         return state.copy(action = null)
     }
 }

@@ -18,9 +18,11 @@ import com.enricog.features.routines.navigation.RoutinesNavigationActions
 import com.enricog.navigation.api.routes.SegmentRoute
 import com.enricog.navigation.api.routes.SegmentRouteInput
 import com.enricog.ui.components.snackbar.TempoSnackbarEvent
+import com.enricog.ui.components.snackbar.TempoSnackbarEvent.ActionPerformed
 import com.enricog.ui.components.textField.TimeText
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.CoroutineExceptionHandler
+import kotlinx.coroutines.delay
 import javax.inject.Inject
 
 @HiltViewModel
@@ -114,14 +116,20 @@ internal class SegmentViewModel @Inject constructor(
     }
 
     fun onSnackbarEvent(snackbarEvent: TempoSnackbarEvent) {
-        runWhen<SegmentState.Data> {
-            if (snackbarEvent == TempoSnackbarEvent.ActionPerformed) {
-                when (it.action) {
+        launchWhen<SegmentState.Data> {
+            val previousAction = it.action
+            updateStateWhen(reducer::actionHandled)
+            delay(SNACKBAR_ACTION_DELAY)
+            if (snackbarEvent == ActionPerformed) {
+                when (previousAction) {
                     SaveSegmentError -> onSegmentConfirmed()
-                    null -> { /* no-op */ }
+                    null -> Unit
                 }
             }
         }
-        updateStateWhen<SegmentState.Data> { reducer.onActionHandled(it) }
+    }
+
+    private companion object {
+        const val SNACKBAR_ACTION_DELAY = 100L
     }
 }

@@ -16,6 +16,7 @@ import com.enricog.features.routines.navigation.RoutinesNavigationActions
 import com.enricog.navigation.api.routes.RoutineRoute
 import com.enricog.navigation.api.routes.RoutineRouteInput
 import com.enricog.ui.components.snackbar.TempoSnackbarEvent
+import com.enricog.ui.components.snackbar.TempoSnackbarEvent.ActionPerformed
 import com.enricog.ui.components.textField.TimeText
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.CoroutineExceptionHandler
@@ -115,9 +116,9 @@ internal class RoutineViewModel @Inject constructor(
     fun onSnackbarEvent(snackbarEvent: TempoSnackbarEvent) {
         launchWhen<RoutineState.Data> {
             val previousAction = it.action
-            updateStateWhen(reducer::onActionHandled)
+            updateStateWhen(reducer::actionHandled)
             delay(SNACKBAR_ACTION_DELAY)
-            if (snackbarEvent == TempoSnackbarEvent.ActionPerformed) {
+            if (snackbarEvent == ActionPerformed) {
                 when (previousAction) {
                     SaveRoutineError -> onRoutineSave()
                     null -> Unit

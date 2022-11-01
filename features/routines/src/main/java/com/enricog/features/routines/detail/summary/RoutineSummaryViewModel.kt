@@ -18,8 +18,10 @@ import com.enricog.features.routines.navigation.RoutinesNavigationActions
 import com.enricog.navigation.api.routes.RoutineSummaryRoute
 import com.enricog.navigation.api.routes.RoutineSummaryRouteInput
 import com.enricog.ui.components.snackbar.TempoSnackbarEvent
+import com.enricog.ui.components.snackbar.TempoSnackbarEvent.ActionPerformed
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.CoroutineExceptionHandler
+import kotlinx.coroutines.delay
 import kotlinx.coroutines.flow.catch
 import kotlinx.coroutines.flow.launchIn
 import kotlinx.coroutines.flow.onEach
@@ -125,16 +127,21 @@ internal class RoutineSummaryViewModel @Inject constructor(
     }
 
     fun onSnackbarEvent(snackbarEvent: TempoSnackbarEvent) {
-        runWhen<RoutineSummaryState.Data> {
-            if (snackbarEvent == TempoSnackbarEvent.ActionPerformed) {
-                when (it.action) {
-                    is DeleteSegmentError -> onSegmentDelete(it.action.segment)
+        launchWhen<RoutineSummaryState.Data> {
+            val previousAction = it.action
+            updateStateWhen(reducer::actionHandled)
+            delay(SNACKBAR_ACTION_DELAY)
+            if (snackbarEvent == ActionPerformed) {
+                when (previousAction) {
+                    is DeleteSegmentError -> onSegmentDelete(segment = previousAction.segment)
                     MoveSegmentError,
-                    null -> { /* no-op */
-                    }
+                    null -> Unit
                 }
             }
         }
-        updateStateWhen<RoutineSummaryState.Data> { reducer.onActionHandled(it) }
+    }
+
+    private companion object {
+        const val SNACKBAR_ACTION_DELAY = 100L
     }
 }

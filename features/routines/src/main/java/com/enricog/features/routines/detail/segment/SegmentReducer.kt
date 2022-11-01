@@ -88,7 +88,7 @@ internal class SegmentReducer @Inject constructor() {
         return state.copy(action = SaveSegmentError)
     }
 
-    fun onActionHandled(state: SegmentState.Data): SegmentState.Data {
+    fun actionHandled(state: SegmentState.Data): SegmentState.Data {
         return state.copy(action = null)
     }
 }

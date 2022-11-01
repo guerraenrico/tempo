@@ -23,7 +23,7 @@ internal class RoutinesReducer @Inject constructor() {
         return state.copy(action = DeleteRoutineError(routine = routine))
     }
 
-    fun onActionHandled(state: RoutinesState.Data): RoutinesState.Data {
+    fun actionHandled(state: RoutinesState.Data): RoutinesState.Data {
         return state.copy(action = null)
     }
 }

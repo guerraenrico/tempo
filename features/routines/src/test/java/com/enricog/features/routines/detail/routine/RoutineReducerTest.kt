@@ -198,7 +198,7 @@ class RoutineReducerTest {
             action = null
         )
 
-        val actual = sut.onActionHandled(state = state)
+        val actual = sut.actionHandled(state = state)
 
         assertEquals(expected, actual)
     }
