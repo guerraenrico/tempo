@@ -9,10 +9,12 @@ import com.enricog.data.routines.testing.FakeRoutineDataSource
 import com.enricog.data.routines.testing.entities.EMPTY
 import com.enricog.entities.asID
 import com.enricog.entities.seconds
+import com.enricog.features.routines.R
 import com.enricog.features.routines.detail.routine.models.RoutineField
 import com.enricog.features.routines.detail.routine.models.RoutineFieldError
 import com.enricog.features.routines.detail.routine.models.RoutineFields
 import com.enricog.features.routines.detail.routine.models.RoutineViewState
+import com.enricog.features.routines.detail.routine.models.RoutineViewState.Data.Message
 import com.enricog.features.routines.detail.routine.usecase.RoutineUseCase
 import com.enricog.features.routines.navigation.RoutinesNavigationActions
 import com.enricog.navigation.api.routes.RoutineSummaryRoute
@@ -20,14 +22,17 @@ import com.enricog.navigation.api.routes.RoutineSummaryRouteInput
 import com.enricog.navigation.testing.FakeNavigator
 import com.enricog.ui.components.extensions.toTextFieldValue
 import com.enricog.ui.components.textField.timeText
+import kotlinx.coroutines.test.StandardTestDispatcher
+import kotlinx.coroutines.test.advanceUntilIdle
 import org.junit.Rule
 import org.junit.Test
 import kotlin.test.assertEquals
+import kotlin.test.assertIs
 
 class RoutineViewModelTest {
 
     @get:Rule
-    val coroutineRule = CoroutineRule()
+    val coroutineRule = CoroutineRule(StandardTestDispatcher())
 
     private val routine = Routine.EMPTY.copy(
         id = 1.asID,
@@ -43,39 +48,76 @@ class RoutineViewModelTest {
     private val navigator = FakeNavigator()
 
     @Test
-    fun `should get routine on load`() = coroutineRule {
+    fun `should show data when load succeeds`() = coroutineRule {
         val expected = RoutineViewState.Data(
             routine = routineFields,
-            errors = emptyMap()
+            errors = emptyMap(),
+            message = null
         )
 
         val sut = buildSut()
+        advanceUntilIdle()
 
         sut.viewState.test { assertEquals(expected, awaitItem()) }
     }
 
     @Test
-    fun `should update routine when name change`() = coroutineRule {
+    fun `should show error when load fails`() = coroutineRule {
+        val store = FakeStore(listOf(routine))
+        store.enableErrorOnNextAccess()
+
+        val sut = buildSut(store = store)
+        advanceUntilIdle()
+
+        sut.viewState.test { assertIs<RoutineViewState.Error>(awaitItem()) }
+    }
+
+    @Test
+    fun `should reload when retry`()  = coroutineRule {
+        val store = FakeStore(listOf(routine))
+        val expected = RoutineViewState.Data(
+            routine = routineFields,
+            errors = emptyMap(),
+            message = null
+        )
+        store.enableErrorOnNextAccess()
+        val sut = buildSut(store = store)
+        advanceUntilIdle()
+
+        sut.onRetryLoadClick()
+        advanceUntilIdle()
+
+        sut.viewState.test { assertEquals(expected, awaitItem()) }
+    }
+
+    @Test
+    fun `should update routine when name changes`() = coroutineRule {
         val expected = RoutineViewState.Data(
             routine = routineFields.copy(name = "Routine Name Modified".toTextFieldValue()),
-            errors = emptyMap()
+            errors = emptyMap(),
+            message = null
         )
         val sut = buildSut()
+        advanceUntilIdle()
 
         sut.onRoutineNameTextChange(textFieldValue = "Routine Name Modified".toTextFieldValue())
+        advanceUntilIdle()
 
         sut.viewState.test { assertEquals(expected, awaitItem()) }
     }
 
     @Test
-    fun `should update routine when start offset time change`() = coroutineRule {
+    fun `should update routine when start offset time changes`() = coroutineRule {
         val expected = RoutineViewState.Data(
             routine = routineFields.copy(startTimeOffset = "10".timeText),
-            errors = emptyMap()
+            errors = emptyMap(),
+            message = null
         )
         val sut = buildSut()
+        advanceUntilIdle()
 
         sut.onRoutineStartTimeOffsetChange(text = "10".timeText)
+        advanceUntilIdle()
 
         sut.viewState.test { assertEquals(expected, awaitItem()) }
     }
@@ -93,12 +135,16 @@ class RoutineViewModelTest {
     fun `should show errors when saving a routine with errors`() = coroutineRule {
         val expected = RoutineViewState.Data(
             routine = routineFields.copy(name = "".toTextFieldValue()),
-            errors = mapOf(RoutineField.Name to RoutineFieldError.BlankRoutineName)
+            errors = mapOf(RoutineField.Name to RoutineFieldError.BlankRoutineName),
+            message = null
         )
         val sut = buildSut()
+        advanceUntilIdle()
         sut.onRoutineNameTextChange(textFieldValue = "".toTextFieldValue())
+        advanceUntilIdle()
 
         sut.onRoutineSave()
+        advanceUntilIdle()
 
         sut.viewState.test { assertEquals(expected, awaitItem()) }
         navigator.assertNoActions()
@@ -110,9 +156,12 @@ class RoutineViewModelTest {
         val store = FakeStore(emptyList<Routine>())
         val savedStateHandle = SavedStateHandle(mapOf("routineId" to 0L))
         val sut = buildSut(store = store, savedStateHandle = savedStateHandle)
+        advanceUntilIdle()
         sut.onRoutineNameTextChange(textFieldValue = "New Routine Name".toTextFieldValue())
+        advanceUntilIdle()
 
         sut.onRoutineSave()
+        advanceUntilIdle()
 
         store.get().first().let { actual ->
             assertEquals(expected.name, actual.name)
@@ -131,12 +180,37 @@ class RoutineViewModelTest {
         val expected = routine.copy(name = "Routine Name Modified")
         val store = FakeStore(listOf(routine))
         val sut = buildSut(store)
+        advanceUntilIdle()
         sut.onRoutineNameTextChange(textFieldValue = "Routine Name Modified".toTextFieldValue())
+        advanceUntilIdle()
 
         sut.onRoutineSave()
+        advanceUntilIdle()
 
         assertEquals(expected, store.get().first())
         navigator.assertGoBack()
+    }
+
+    @Test
+    fun `should show message when save fails`() = coroutineRule {
+        val store =  FakeStore(listOf(routine))
+        val expected = RoutineViewState.Data(
+            routine = routineFields,
+            errors = emptyMap(),
+            message = Message(
+                textResId = R.string.label_segment_save_error,
+                actionTextResId = R.string.action_text_segment_save_error
+            )
+        )
+        val sut = buildSut(store = store)
+        advanceUntilIdle()
+
+        store.enableErrorOnNextAccess()
+        sut.onRoutineSave()
+        advanceUntilIdle()
+
+        sut.viewState.test { assertEquals(expected, awaitItem()) }
+        navigator.assertNoActions()
     }
 
     private fun buildSut(

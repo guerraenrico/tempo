@@ -69,8 +69,9 @@ internal fun SegmentFormScene(
 
     if (message != null) {
         val messageText = stringResource(id = message.textResId)
+        val actionText = stringResource(id = message.actionTextResId)
         LaunchedEffect(snackbarHostState) {
-            val event = snackbarHostState.show(message = messageText, actionText = null)
+            val event = snackbarHostState.show(message = messageText, actionText = actionText)
             onSnackbarEvent(event)
         }
     }

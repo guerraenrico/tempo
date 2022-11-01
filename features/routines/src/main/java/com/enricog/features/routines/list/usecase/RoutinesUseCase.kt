@@ -2,7 +2,6 @@ package com.enricog.features.routines.list.usecase
 
 import com.enricog.data.routines.api.RoutineDataSource
 import com.enricog.data.routines.api.entities.Routine
-import kotlinx.coroutines.delay
 import kotlinx.coroutines.flow.Flow
 import javax.inject.Inject
 

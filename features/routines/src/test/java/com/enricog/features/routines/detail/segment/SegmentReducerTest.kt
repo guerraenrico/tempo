@@ -415,7 +415,7 @@ class SegmentReducerTest {
     }
 
     @Test
-    fun `should apply segment error when save throws an error`() {
+    fun `should apply segment error action when save throws an error`() {
         val state = SegmentState.Data(
             routine = Routine.EMPTY,
             segment = Segment.EMPTY,

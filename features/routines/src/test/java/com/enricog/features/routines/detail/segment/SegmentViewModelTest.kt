@@ -80,7 +80,7 @@ class SegmentViewModelTest {
     }
 
     @Test
-    fun `should retry loads when fails`() = coroutineRule {
+    fun `should reload when retry`() = coroutineRule {
         val store = FakeStore(listOf(routine))
         val expected = SegmentViewState.Data(
             segment = SegmentFields(

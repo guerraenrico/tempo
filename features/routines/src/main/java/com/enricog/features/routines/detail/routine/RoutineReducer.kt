@@ -7,6 +7,7 @@ import com.enricog.features.routines.detail.routine.models.RoutineField
 import com.enricog.features.routines.detail.routine.models.RoutineFieldError
 import com.enricog.features.routines.detail.routine.models.RoutineInputs
 import com.enricog.features.routines.detail.routine.models.RoutineState
+import com.enricog.features.routines.detail.routine.models.RoutineState.Data.Action.SaveRoutineError
 import com.enricog.ui.components.extensions.toTextFieldValue
 import com.enricog.ui.components.textField.TimeText
 import com.enricog.ui.components.textField.timeText
@@ -22,11 +23,19 @@ internal class RoutineReducer @Inject constructor() {
         return RoutineState.Data(
             routine = routine,
             errors = emptyMap(),
-            inputs = inputs
+            inputs = inputs,
+            action = null
         )
     }
 
-    fun updateRoutineName(state: RoutineState.Data, textFieldValue: TextFieldValue): RoutineState.Data {
+    fun error(throwable: Throwable): RoutineState {
+        return RoutineState.Error(throwable = throwable)
+    }
+
+    fun updateRoutineName(
+        state: RoutineState.Data,
+        textFieldValue: TextFieldValue
+    ): RoutineState.Data {
         val inputs = state.inputs.copy(name = textFieldValue)
         val errors = state.errors.filterKeys { it != RoutineField.Name }
         return state.copy(inputs = inputs, errors = errors)
@@ -45,5 +54,13 @@ internal class RoutineReducer @Inject constructor() {
         errors: Map<RoutineField, RoutineFieldError>
     ): RoutineState.Data {
         return state.copy(errors = errors)
+    }
+
+    fun saveRoutineError(state: RoutineState.Data): RoutineState.Data {
+        return state.copy(action = SaveRoutineError)
+    }
+
+    fun onActionHandled(state: RoutineState.Data): RoutineState.Data {
+        return state.copy(action = null)
     }
 }

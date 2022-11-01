@@ -7,6 +7,7 @@ import com.enricog.features.routines.detail.routine.models.RoutineField
 import com.enricog.features.routines.detail.routine.models.RoutineFieldError
 import com.enricog.features.routines.detail.routine.models.RoutineInputs
 import com.enricog.features.routines.detail.routine.models.RoutineState
+import com.enricog.features.routines.detail.routine.models.RoutineState.Data.Action.SaveRoutineError
 import com.enricog.ui.components.extensions.toTextFieldValue
 import com.enricog.ui.components.textField.timeText
 import org.junit.Test
@@ -17,7 +18,7 @@ class RoutineReducerTest {
     private val sut = RoutineReducer()
 
     @Test
-    fun `should set routine`() {
+    fun `should setup state with routine`() {
         val routine = Routine.EMPTY.copy(
             name = "routine name",
             startTimeOffset = 50.seconds
@@ -28,10 +29,21 @@ class RoutineReducerTest {
             inputs = RoutineInputs(
                 name = "routine name".toTextFieldValue(),
                 startTimeOffset = "50".timeText
-            )
+            ),
+            action = null
         )
 
         val actual = sut.setup(routine = routine)
+
+        assertEquals(expected, actual)
+    }
+
+    @Test
+    fun `should setup error state`() {
+        val exception = Exception()
+        val expected = RoutineState.Error(throwable = exception)
+
+        val actual = sut.error(throwable = exception)
 
         assertEquals(expected, actual)
     }
@@ -44,7 +56,8 @@ class RoutineReducerTest {
             inputs = RoutineInputs(
                 name = "".toTextFieldValue(),
                 startTimeOffset = "50".timeText
-            )
+            ),
+            action = null
         )
         val expected = RoutineState.Data(
             routine = Routine.EMPTY,
@@ -52,7 +65,8 @@ class RoutineReducerTest {
             inputs = RoutineInputs(
                 name = "name".toTextFieldValue(),
                 startTimeOffset = "50".timeText
-            )
+            ),
+            action = null
         )
 
         val actual = sut.updateRoutineName(state = state, textFieldValue = "name".toTextFieldValue())
@@ -68,7 +82,8 @@ class RoutineReducerTest {
             inputs = RoutineInputs(
                 name = "name".toTextFieldValue(),
                 startTimeOffset = "50".timeText
-            )
+            ),
+            action = null
         )
         val expected = RoutineState.Data(
             routine = Routine.EMPTY,
@@ -76,7 +91,8 @@ class RoutineReducerTest {
             inputs = RoutineInputs(
                 name = "name".toTextFieldValue(),
                 startTimeOffset = "51".timeText
-            )
+            ),
+            action = null
         )
 
         val actual = sut.updateRoutineStartTimeOffset(state = state, text = "51".timeText)
@@ -94,7 +110,8 @@ class RoutineReducerTest {
             inputs = RoutineInputs(
                 name = "name".toTextFieldValue(),
                 startTimeOffset = "50".timeText
-            )
+            ),
+            action = null
         )
 
         val actual = sut.updateRoutineStartTimeOffset(
@@ -116,7 +133,8 @@ class RoutineReducerTest {
             inputs = RoutineInputs(
                 name = "".toTextFieldValue(),
                 startTimeOffset = "50".timeText
-            )
+            ),
+            action = null
         )
         val expected = RoutineState.Data(
             routine = Routine.EMPTY,
@@ -124,10 +142,63 @@ class RoutineReducerTest {
             inputs = RoutineInputs(
                 name = "".toTextFieldValue(),
                 startTimeOffset = "50".timeText
-            )
+            ),
+            action = null
         )
 
         val actual = sut.applyRoutineErrors(state = state, errors = errors)
+
+        assertEquals(expected, actual)
+    }
+
+    @Test
+    fun `should apply routine error action when save throws an error`() {
+        val state = RoutineState.Data(
+            routine = Routine.EMPTY,
+            errors = emptyMap(),
+            inputs = RoutineInputs(
+                name = "".toTextFieldValue(),
+                startTimeOffset = "50".timeText
+            ),
+            action = null
+        )
+        val expected = RoutineState.Data(
+            routine = Routine.EMPTY,
+            errors = emptyMap(),
+            inputs = RoutineInputs(
+                name = "".toTextFieldValue(),
+                startTimeOffset = "50".timeText
+            ),
+            action = SaveRoutineError
+        )
+
+        val actual = sut.saveRoutineError(state = state)
+
+        assertEquals(expected, actual)
+    }
+
+    @Test
+    fun `should reset action when it is handled`() {
+        val state = RoutineState.Data(
+            routine = Routine.EMPTY,
+            errors = emptyMap(),
+            inputs = RoutineInputs(
+                name = "".toTextFieldValue(),
+                startTimeOffset = "50".timeText
+            ),
+            action = SaveRoutineError
+        )
+        val expected = RoutineState.Data(
+            routine = Routine.EMPTY,
+            errors = emptyMap(),
+            inputs = RoutineInputs(
+                name = "".toTextFieldValue(),
+                startTimeOffset = "50".timeText
+            ),
+            action = null
+        )
+
+        val actual = sut.onActionHandled(state = state)
 
         assertEquals(expected, actual)
     }

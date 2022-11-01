@@ -38,6 +38,17 @@ class SegmentStateConverterTest {
     }
 
     @Test
+    fun `test map error state`() = coroutineRule {
+        val exception = Exception()
+        val state = SegmentState.Error(exception)
+        val expected = SegmentViewState.Error(exception)
+
+        val result = sut.convert(state = state)
+
+        assertEquals(expected, result)
+    }
+
+    @Test
     fun `should map data state without action`() = coroutineRule {
         val state = SegmentState.Data(
             routine = Routine.EMPTY,
