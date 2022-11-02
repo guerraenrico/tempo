@@ -31,9 +31,9 @@ internal const val RoutinesSceneTestTag = "RoutinesSceneTestTag"
 internal fun RoutinesScene(
     routines: List<Routine>,
     message: Message?,
-    onRoutineClick: (Routine) -> Unit,
+    onRoutine: (Routine) -> Unit,
     onRoutineDelete: (Routine) -> Unit,
-    onCreateRoutineClick: () -> Unit,
+    onCreateRoutine: () -> Unit,
     onSnackbarEvent: (TempoSnackbarEvent) -> Unit
 ) {
     val snackbarHostState = rememberSnackbarHostState()
@@ -64,7 +64,7 @@ internal fun RoutinesScene(
                     RoutineItem(
                         modifier = Modifier.fillMaxWidth(),
                         routine = routine,
-                        onClick = onRoutineClick,
+                        onClick = onRoutine,
                         onDelete = onRoutineDelete
                     )
                 }
@@ -76,7 +76,7 @@ internal fun RoutinesScene(
                     modifier = Modifier
                         .align(Alignment.BottomEnd)
                         .padding(TempoTheme.dimensions.spaceM),
-                    onClick = onCreateRoutineClick,
+                    onClick = onCreateRoutine,
                     icon = painterResource(R.drawable.ic_add),
                     color = TempoButtonColor.Accent,
                     contentDescription = stringResource(R.string.content_description_button_create_routine)

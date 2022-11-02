@@ -63,7 +63,7 @@ internal class RoutineSummaryViewModel @Inject constructor(
             .launchIn(viewModelScope)
     }
 
-    fun onRetryLoadClick() {
+    fun onRetryLoad() {
         load(input)
     }
 

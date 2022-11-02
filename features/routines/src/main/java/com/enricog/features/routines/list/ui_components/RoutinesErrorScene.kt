@@ -6,6 +6,6 @@ import com.enricog.ui.components.extensions.getLayout
 internal const val RoutinesErrorSceneTestTag = "RoutinesErrorSceneTestTag"
 
 @Composable
-internal fun RoutinesErrorScene(throwable: Throwable, onRetryLoadClick: () -> Unit) {
-    throwable.getLayout(layoutTestTag = RoutinesErrorSceneTestTag, onButtonClick = onRetryLoadClick)
+internal fun RoutinesErrorScene(throwable: Throwable, onRetryLoad: () -> Unit) {
+    throwable.getLayout(layoutTestTag = RoutinesErrorSceneTestTag, onButtonClick = onRetryLoad)
 }

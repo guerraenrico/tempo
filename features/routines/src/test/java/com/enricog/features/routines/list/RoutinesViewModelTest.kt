@@ -67,7 +67,7 @@ class RoutinesViewModelTest {
     fun `should navigate to routine detail when create routine button clicked`() = coroutineRule {
         val sut = buildSut()
 
-        sut.onCreateRoutineClick()
+        sut.onCreateRoutine()
 
         navigator.assertGoTo(
             route = RoutineRoute,
@@ -80,7 +80,7 @@ class RoutinesViewModelTest {
         val routine = Routine.EMPTY.copy(id = 1.asID)
         val sut = buildSut()
 
-        sut.onRoutineClick(routine)
+        sut.onRoutine(routine)
 
         navigator.assertGoTo(
             route = RoutineSummaryRoute,
@@ -161,7 +161,7 @@ class RoutinesViewModelTest {
         val sut = buildSut()
         store.update { routines -> routines.filter { it.id == secondRoutine.id } }
 
-        sut.onRetryLoadClick()
+        sut.onRetryLoad()
 
         sut.viewState.test { assertEquals(expected, awaitItem()) }
     }

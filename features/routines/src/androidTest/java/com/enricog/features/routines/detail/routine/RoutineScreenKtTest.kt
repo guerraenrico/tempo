@@ -29,8 +29,8 @@ class RoutineScreenKtTest {
                     onRoutineNameChange = {},
                     onStartTimeOffsetChange = {},
                     onRoutineSave = {},
-                    onStartTimeInfoClick = {},
-                    onRetryLoadClick = {},
+                    onStartTimeInfo = {},
+                    onRetryLoad = {},
                     onSnackbarEvent = {}
                 )
             }
@@ -57,8 +57,8 @@ class RoutineScreenKtTest {
                     onRoutineNameChange = {},
                     onStartTimeOffsetChange = {},
                     onRoutineSave = {},
-                    onStartTimeInfoClick = {},
-                    onRetryLoadClick = {},
+                    onStartTimeInfo = {},
+                    onRetryLoad = {},
                     onSnackbarEvent = {}
                 )
             }
@@ -77,8 +77,8 @@ class RoutineScreenKtTest {
                 onRoutineNameChange = {},
                 onStartTimeOffsetChange = {},
                 onRoutineSave = {},
-                onStartTimeInfoClick = {},
-                onRetryLoadClick = {},
+                onStartTimeInfo = {},
+                onRetryLoad = {},
                 onSnackbarEvent = {}
             )
         }

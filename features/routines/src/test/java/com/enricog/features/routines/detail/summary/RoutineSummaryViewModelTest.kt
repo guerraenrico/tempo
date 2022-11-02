@@ -12,6 +12,7 @@ import com.enricog.entities.ID
 import com.enricog.entities.Rank
 import com.enricog.entities.asID
 import com.enricog.features.routines.R
+import com.enricog.features.routines.detail.summary.models.RoutineSummaryField.Segments
 import com.enricog.features.routines.detail.summary.models.RoutineSummaryItem
 import com.enricog.features.routines.detail.summary.models.RoutineSummaryViewState
 import com.enricog.features.routines.detail.summary.models.RoutineSummaryViewState.Data.Message
@@ -28,6 +29,7 @@ import com.enricog.navigation.testing.FakeNavigator
 import com.enricog.ui.components.snackbar.TempoSnackbarEvent
 import kotlinx.coroutines.test.StandardTestDispatcher
 import kotlinx.coroutines.test.advanceUntilIdle
+import kotlinx.coroutines.test.runCurrent
 import org.junit.Rule
 import org.junit.Test
 import kotlin.test.assertEquals
@@ -104,7 +106,7 @@ class RoutineSummaryViewModelTest {
         val sut = buildSut(store = store)
         advanceUntilIdle()
 
-        sut.onRetryLoadClick()
+        sut.onRetryLoad()
         advanceUntilIdle()
 
         sut.viewState.test { assertEquals(expected, awaitItem()) }
@@ -286,6 +288,7 @@ class RoutineSummaryViewModelTest {
         advanceUntilIdle()
 
         sut.onRoutineStart()
+        advanceUntilIdle()
 
         navigator.assertGoTo(
             route = TimerRoute,
@@ -303,7 +306,9 @@ class RoutineSummaryViewModelTest {
         val expected = RoutineSummaryViewState.Data(
             items = listOf(
                 RoutineSummaryItem.RoutineInfo(routineName = "Routine Name"),
-                RoutineSummaryItem.SegmentSectionTitle(error = null),
+                RoutineSummaryItem.SegmentSectionTitle(
+                    error = Segments to R.string.field_error_message_routine_no_segments
+                ),
                 RoutineSummaryItem.Space
             ),
             message = null
@@ -312,6 +317,7 @@ class RoutineSummaryViewModelTest {
         advanceUntilIdle()
 
         sut.onRoutineStart()
+        advanceUntilIdle()
 
         sut.viewState.test { assertEquals(expected, awaitItem()) }
         navigator.assertNoActions()
@@ -323,6 +329,7 @@ class RoutineSummaryViewModelTest {
         advanceUntilIdle()
 
         sut.onRoutineEdit()
+        runCurrent()
 
         navigator.assertGoTo(
             route = RoutineRoute,
@@ -336,6 +343,7 @@ class RoutineSummaryViewModelTest {
         advanceUntilIdle()
 
         sut.onBack()
+        runCurrent()
 
         navigator.assertGoBack()
     }

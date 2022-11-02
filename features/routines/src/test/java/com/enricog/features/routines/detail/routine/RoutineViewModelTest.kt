@@ -84,7 +84,7 @@ class RoutineViewModelTest {
         val sut = buildSut(store = store)
         advanceUntilIdle()
 
-        sut.onRetryLoadClick()
+        sut.onRetryLoad()
         advanceUntilIdle()
 
         sut.viewState.test { assertEquals(expected, awaitItem()) }

@@ -30,8 +30,8 @@ class SegmentScreenKtTest {
                     onSegmentNameChange = {},
                     onSegmentTimeChange = {},
                     onSegmentTimeTypeChange = {},
-                    onSegmentConfirmed = {},
-                    onRetryLoadClick = {},
+                    onSegmentSave = {},
+                    onRetryLoad = {},
                     onSnackbarEvent = {}
                 )
             }
@@ -60,8 +60,8 @@ class SegmentScreenKtTest {
                     onSegmentNameChange = {},
                     onSegmentTimeChange = {},
                     onSegmentTimeTypeChange = {},
-                    onSegmentConfirmed = {},
-                    onRetryLoadClick = {},
+                    onSegmentSave = {},
+                    onRetryLoad = {},
                     onSnackbarEvent = {}
                 )
             }
@@ -80,8 +80,8 @@ class SegmentScreenKtTest {
                 onSegmentNameChange = {},
                 onSegmentTimeChange = {},
                 onSegmentTimeTypeChange = {},
-                onSegmentConfirmed = {},
-                onRetryLoadClick = {},
+                onSegmentSave = {},
+                onRetryLoad = {},
                 onSnackbarEvent = {}
             )
         }

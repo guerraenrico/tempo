@@ -25,7 +25,7 @@ internal fun RoutineSummaryScreen(viewModel: RoutineSummaryViewModel) {
             onSegmentMoved = viewModel::onSegmentMoved,
             onRoutineStart = viewModel::onRoutineStart,
             onRoutineEdit = viewModel::onRoutineEdit,
-            onRetryLoadClick = viewModel::onRetryLoadClick,
+            onRetryLoad = viewModel::onRetryLoad,
             onSnackbarEvent = viewModel::onSnackbarEvent
         )
     }
@@ -39,7 +39,7 @@ internal fun RoutineSummaryViewState.Compose(
     onSegmentMoved: (Segment, Segment?) -> Unit,
     onRoutineStart: () -> Unit,
     onRoutineEdit: () -> Unit,
-    onRetryLoadClick: () -> Unit,
+    onRetryLoad: () -> Unit,
     onSnackbarEvent: (TempoSnackbarEvent) -> Unit
 ) {
     when (this) {
@@ -59,7 +59,7 @@ internal fun RoutineSummaryViewState.Compose(
         }
         is RoutineSummaryViewState.Error -> RoutineSummaryErrorScene(
             throwable = throwable,
-            onRetryLoadClick = onRetryLoadClick
+            onRetryLoad = onRetryLoad
         )
     }
 }

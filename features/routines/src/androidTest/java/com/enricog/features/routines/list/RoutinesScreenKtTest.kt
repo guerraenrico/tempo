@@ -24,10 +24,10 @@ class RoutinesScreenKtTest {
         setContent {
             TempoTheme {
                 viewState.Compose(
-                    onCreateRoutineClick = {},
-                    onRoutineClick = {},
+                    onCreateRoutine = {},
+                    onRoutine = {},
                     onRoutineDelete = {},
-                    onRetryLoadClick = {},
+                    onRetryLoad = {},
                     onSnackbarEvent = {}
                 )
             }
@@ -47,10 +47,10 @@ class RoutinesScreenKtTest {
         setContent {
             TempoTheme {
                 viewState.Compose(
-                    onCreateRoutineClick = {},
-                    onRoutineClick = {},
+                    onCreateRoutine = {},
+                    onRoutine = {},
                     onRoutineDelete = {},
-                    onRetryLoadClick = {},
+                    onRetryLoad = {},
                     onSnackbarEvent = {}
                 )
             }
@@ -70,10 +70,10 @@ class RoutinesScreenKtTest {
         setContent {
             TempoTheme {
                 viewState.Compose(
-                    onCreateRoutineClick = {},
-                    onRoutineClick = {},
+                    onCreateRoutine = {},
+                    onRoutine = {},
                     onRoutineDelete = {},
-                    onRetryLoadClick = {},
+                    onRetryLoad = {},
                     onSnackbarEvent = {}
                 )
             }
@@ -94,10 +94,10 @@ class RoutinesScreenKtTest {
         setContent {
             TempoTheme {
                 viewState.Compose(
-                    onCreateRoutineClick = {},
-                    onRoutineClick = {},
+                    onCreateRoutine = {},
+                    onRoutine = {},
                     onRoutineDelete = {},
-                    onRetryLoadClick = {},
+                    onRetryLoad = {},
                     onSnackbarEvent = {}
                 )
             }

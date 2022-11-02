@@ -25,8 +25,8 @@ internal fun SegmentScreen(viewModel: SegmentViewModel) {
             onSegmentNameChange = viewModel::onSegmentNameTextChange,
             onSegmentTimeChange = viewModel::onSegmentTimeChange,
             onSegmentTimeTypeChange = viewModel::onSegmentTypeChange,
-            onSegmentConfirmed = viewModel::onSegmentConfirmed,
-            onRetryLoadClick = viewModel::onRetryLoadClick,
+            onSegmentSave = viewModel::onSegmentSave,
+            onRetryLoad = viewModel::onRetryLoad,
             onSnackbarEvent = viewModel::onSnackbarEvent
         )
     }
@@ -37,8 +37,8 @@ internal fun SegmentViewState.Compose(
     onSegmentNameChange: (TextFieldValue) -> Unit,
     onSegmentTimeChange: (TimeText) -> Unit,
     onSegmentTimeTypeChange: (TimeType) -> Unit,
-    onSegmentConfirmed: () -> Unit,
-    onRetryLoadClick: () -> Unit,
+    onSegmentSave: () -> Unit,
+    onRetryLoad: () -> Unit,
     onSnackbarEvent: (TempoSnackbarEvent) -> Unit
 ) {
     when (this) {
@@ -51,12 +51,12 @@ internal fun SegmentViewState.Compose(
             onSegmentNameChange = onSegmentNameChange,
             onSegmentTimeChange = onSegmentTimeChange,
             onSegmentTimeTypeChange = onSegmentTimeTypeChange,
-            onSegmentConfirmed = onSegmentConfirmed,
+            onSegmentConfirmed = onSegmentSave,
             onSnackbarEvent = onSnackbarEvent
         )
         is SegmentViewState.Error -> SegmentErrorScene(
             throwable = throwable,
-            onRetryLoadClick = onRetryLoadClick
+            onRetryLoadClick = onRetryLoad
         )
     }
 }

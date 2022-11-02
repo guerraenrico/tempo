@@ -52,13 +52,13 @@ internal class RoutinesViewModel @Inject constructor(
             .launchIn(viewModelScope)
     }
 
-    fun onCreateRoutineClick() {
+    fun onCreateRoutine() {
         launch {
             navigationActions.goToRoutine(routineId = ID.new())
         }
     }
 
-    fun onRoutineClick(routine: Routine) {
+    fun onRoutine(routine: Routine) {
         launch {
             navigationActions.goToRoutineSummary(routineId = routine.id)
         }
@@ -76,7 +76,7 @@ internal class RoutinesViewModel @Inject constructor(
         }
     }
 
-    fun onRetryLoadClick() {
+    fun onRetryLoad() {
         load()
     }
 

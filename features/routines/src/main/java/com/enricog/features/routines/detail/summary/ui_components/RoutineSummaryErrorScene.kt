@@ -6,9 +6,9 @@ import com.enricog.ui.components.extensions.getLayout
 internal const val RoutineSummaryErrorSceneTag = "RoutineSummaryErrorSceneTag"
 
 @Composable
-fun RoutineSummaryErrorScene(throwable: Throwable, onRetryLoadClick: () -> Unit) {
+fun RoutineSummaryErrorScene(throwable: Throwable, onRetryLoad: () -> Unit) {
     throwable.getLayout(
         layoutTestTag = RoutineSummaryErrorSceneTag,
-        onButtonClick = onRetryLoadClick
+        onButtonClick = onRetryLoad
     )
 }

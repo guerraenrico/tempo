@@ -23,10 +23,10 @@ internal fun RoutinesScreen(viewModel: RoutinesViewModel) {
     Column(modifier = Modifier.fillMaxSize()) {
         TempoToolbar(title = stringResource(R.string.title_routines))
         viewState.Compose(
-            onCreateRoutineClick = viewModel::onCreateRoutineClick,
-            onRoutineClick = viewModel::onRoutineClick,
+            onCreateRoutine = viewModel::onCreateRoutine,
+            onRoutine = viewModel::onRoutine,
             onRoutineDelete = viewModel::onRoutineDelete,
-            onRetryLoadClick = viewModel::onRetryLoadClick,
+            onRetryLoad = viewModel::onRetryLoad,
             onSnackbarEvent = viewModel::onSnackbarEvent
         )
     }
@@ -34,31 +34,31 @@ internal fun RoutinesScreen(viewModel: RoutinesViewModel) {
 
 @Composable
 internal fun RoutinesViewState.Compose(
-    onCreateRoutineClick: () -> Unit,
-    onRoutineClick: (Routine) -> Unit,
+    onCreateRoutine: () -> Unit,
+    onRoutine: (Routine) -> Unit,
     onRoutineDelete: (Routine) -> Unit,
-    onRetryLoadClick: () -> Unit,
+    onRetryLoad: () -> Unit,
     onSnackbarEvent: (TempoSnackbarEvent) -> Unit
 ) {
     when (this) {
         RoutinesViewState.Idle -> Unit
         RoutinesViewState.Empty ->
             RoutinesEmptyScene(
-                onCreateSegmentClick = onCreateRoutineClick
+                onCreateSegment = onCreateRoutine
             )
         is RoutinesViewState.Data ->
             RoutinesScene(
                 routines = routines,
                 message = message,
-                onRoutineClick = onRoutineClick,
+                onRoutine = onRoutine,
                 onRoutineDelete = onRoutineDelete,
-                onCreateRoutineClick = onCreateRoutineClick,
+                onCreateRoutine = onCreateRoutine,
                 onSnackbarEvent = onSnackbarEvent
             )
         is RoutinesViewState.Error ->
             RoutinesErrorScene(
                 throwable = throwable,
-                onRetryLoadClick = onRetryLoadClick
+                onRetryLoad = onRetryLoad
             )
     }
 }

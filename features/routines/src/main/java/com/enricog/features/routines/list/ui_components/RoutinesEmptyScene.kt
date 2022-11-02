@@ -12,14 +12,14 @@ import com.enricog.ui.components.layout.message.TempoLayoutMessage
 internal const val RoutinesEmptySceneTestTag = "RoutinesEmptySceneTestTag"
 
 @Composable
-internal fun RoutinesEmptyScene(onCreateSegmentClick: () -> Unit) {
+internal fun RoutinesEmptyScene(onCreateSegment: () -> Unit) {
     TempoLayoutMessage(
         modifier = Modifier.testTag(RoutinesEmptySceneTestTag),
         title = stringResource(R.string.label_no_routines_title),
         description = stringResource(R.string.label_no_routines_description),
         button = {
             TempoButton(
-                onClick = onCreateSegmentClick,
+                onClick = onCreateSegment,
                 text = stringResource(R.string.button_create_routine),
                 color = TempoButtonColor.Accent,
                 contentDescription = stringResource(R.string.content_description_button_create_routine)

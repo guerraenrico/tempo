@@ -49,7 +49,7 @@ internal fun RoutineFormScene(
     message: Message?,
     onRoutineNameChange: (TextFieldValue) -> Unit,
     onStartTimeOffsetChange: (TimeText) -> Unit,
-    onStartTimeInfoClick: () -> Unit,
+    onStartTimeInfo: () -> Unit,
     onRoutineSave: () -> Unit,
     onSnackbarEvent: (TempoSnackbarEvent) -> Unit
 ) {
@@ -109,7 +109,7 @@ internal fun RoutineFormScene(
                             onDone = { keyboardController?.hide() }
                         ),
                         trailingIcon = {
-                            StartTimeInfoIcon(onStartTimeInfoClick)
+                            StartTimeInfoIcon(onStartTimeInfo)
                         }
                     )
                 }

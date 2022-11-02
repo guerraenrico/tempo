@@ -78,7 +78,7 @@ internal class SegmentViewModel @Inject constructor(
         }
     }
 
-    fun onSegmentConfirmed() {
+    fun onSegmentSave() {
         runWhen<SegmentState.Data> { stateData ->
             val errors = validator.validate(inputs = stateData.inputs)
             if (errors.isEmpty()) {
@@ -111,7 +111,7 @@ internal class SegmentViewModel @Inject constructor(
         launch { navigationActions.goBack() }
     }
 
-    fun onRetryLoadClick() {
+    fun onRetryLoad() {
         load(input = input)
     }
 
@@ -122,7 +122,7 @@ internal class SegmentViewModel @Inject constructor(
             delay(SNACKBAR_ACTION_DELAY)
             if (snackbarEvent == ActionPerformed) {
                 when (previousAction) {
-                    SaveSegmentError -> onSegmentConfirmed()
+                    SaveSegmentError -> onSegmentSave()
                     null -> Unit
                 }
             }

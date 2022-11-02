@@ -30,7 +30,7 @@ class RoutineSummaryScreenKtTest {
                     onRoutineEdit = {},
                     onSegmentMoved = { _, _ -> },
                     onSnackbarEvent = {},
-                    onRetryLoadClick = {}
+                    onRetryLoad = {}
                 )
             }
         }
@@ -53,7 +53,7 @@ class RoutineSummaryScreenKtTest {
                     onRoutineEdit = {},
                     onSegmentMoved = { _, _ -> },
                     onSnackbarEvent = {},
-                    onRetryLoadClick = {}
+                    onRetryLoad = {}
                 )
             }
         }
@@ -75,7 +75,7 @@ class RoutineSummaryScreenKtTest {
                 onRoutineEdit = {},
                 onSegmentMoved = { _, _ -> },
                 onSnackbarEvent = {},
-                onRetryLoadClick = {}
+                onRetryLoad = {}
             )
         }
 

@@ -96,7 +96,7 @@ class SegmentViewModelTest {
         val sut = buildSut(store = store)
         advanceUntilIdle()
 
-        sut.onRetryLoadClick()
+        sut.onRetryLoad()
         advanceUntilIdle()
 
         sut.viewState.test { assertEquals(expected, awaitItem()) }
@@ -182,7 +182,7 @@ class SegmentViewModelTest {
         sut.onSegmentNameTextChange(textFieldValue = "".toTextFieldValue())
         advanceUntilIdle()
 
-        sut.onSegmentConfirmed()
+        sut.onSegmentSave()
         advanceUntilIdle()
 
         navigator.assertNoActions()
@@ -200,7 +200,7 @@ class SegmentViewModelTest {
         sut.onSegmentNameTextChange(textFieldValue = "Segment Name Modified".toTextFieldValue())
         advanceUntilIdle()
 
-        sut.onSegmentConfirmed()
+        sut.onSegmentSave()
         advanceUntilIdle()
 
         navigator.assertGoBack()
@@ -227,7 +227,7 @@ class SegmentViewModelTest {
         advanceUntilIdle()
 
         store.enableErrorOnNextAccess()
-        sut.onSegmentConfirmed()
+        sut.onSegmentSave()
         advanceUntilIdle()
 
         sut.viewState.test { assertEquals(expected, awaitItem()) }

@@ -70,7 +70,7 @@ internal class RoutineViewModel @Inject constructor(
         }
     }
 
-    fun onRoutineStartTimeInfoClick() {
+    fun onRoutineStartTimeInfo() {
         launch {
             navigationActions.openRoutineStartTimeInfo()
         }
@@ -109,7 +109,7 @@ internal class RoutineViewModel @Inject constructor(
         }
     }
 
-    fun onRetryLoadClick() {
+    fun onRetryLoad() {
         load(input = input)
     }
 
