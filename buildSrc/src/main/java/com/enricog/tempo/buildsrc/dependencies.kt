@@ -12,9 +12,9 @@ object Versions {
         versionMajor * 1000000 + versionMinor * 10000 + versionPatch * 100 + versionBuild
     const val appVersionName: String = "$versionMajor.$versionMinor.$versionPatch"
 
-    const val compileSdk = 32
+    const val compileSdk = 33
     const val minSdk = 24
-    const val targetSdk = 32
+    const val targetSdk = 33
 
     const val jvmTarget = "1.8"
 }
