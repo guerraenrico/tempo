@@ -44,11 +44,11 @@ internal const val SegmentNameTestTag = "SegmentNameTestTag"
 @Composable
 internal fun CountingScene(
     state: TimerViewState.Counting,
-    onStartStopButtonClick: () -> Unit,
-    onRestartSegmentButtonClick: () -> Unit,
-    onResetButtonClick: () -> Unit,
-    onDoneButtonClick: () -> Unit,
-    onCloseButtonClick: () -> Unit
+    onToggleTimer: () -> Unit,
+    onRestartSegment: () -> Unit,
+    onReset: () -> Unit,
+    onDone: () -> Unit,
+    onClose: () -> Unit
 ) {
     val configuration = LocalConfiguration.current
 
@@ -133,10 +133,10 @@ internal fun CountingScene(
             ActionsBar(
                 isTimeRunning = count.isRunning,
                 isRoutineCompleted = state.isRoutineCompleted,
-                onStartStopButtonClick = onStartStopButtonClick,
-                onRestartSegmentButtonClick = onRestartSegmentButtonClick,
-                onResetButtonClick = onResetButtonClick,
-                onDoneButtonClick = onDoneButtonClick,
+                onStartStopButtonClick = onToggleTimer,
+                onRestartSegmentButtonClick = onRestartSegment,
+                onResetButtonClick = onReset,
+                onDoneButtonClick = onDone,
                 modifier = Modifier
                     .offset(y = actionBarOffset)
                     .constrainAs(actionBar) {
@@ -154,7 +154,7 @@ internal fun CountingScene(
                 description = stringResource(R.string.dialog_exit_time_description),
                 positiveAction = TempoDialogAction(
                     text = stringResource(R.string.dialog_exit_time_action_positive),
-                    onClick = onCloseButtonClick,
+                    onClick = onClose,
                     contentDescription = stringResource(R.string.content_description_dialog_quite_routine_button_positive)
                 ),
                 negativeAction = TempoDialogAction(

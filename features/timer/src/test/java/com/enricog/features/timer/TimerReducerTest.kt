@@ -1,24 +1,24 @@
 package com.enricog.features.timer
 
-import com.enricog.data.routines.testing.entities.EMPTY
-import com.enricog.entities.asID
 import com.enricog.data.routines.api.entities.Routine
 import com.enricog.data.routines.api.entities.Segment
 import com.enricog.data.routines.api.entities.TimeType
+import com.enricog.data.routines.testing.entities.EMPTY
+import com.enricog.entities.asID
 import com.enricog.entities.seconds
 import com.enricog.features.timer.models.Count
 import com.enricog.features.timer.models.SegmentStep
 import com.enricog.features.timer.models.SegmentStepType
 import com.enricog.features.timer.models.TimerState
-import kotlin.test.assertEquals
 import org.junit.Test
+import kotlin.test.assertEquals
 
 class TimerReducerTest {
 
     private val sut = TimerReducer()
 
     @Test
-    fun `test setup should set SegmentStep#type to SegmentStepType#STARTING when Routine#startTimeOffsetInSeconds is more than 0`() {
+    fun `should setup state with starting segment when start timer offset is more than 0`() {
         val segment = Segment.EMPTY
         val routine = Routine.EMPTY.copy(
             startTimeOffset = 10.seconds,
@@ -39,7 +39,7 @@ class TimerReducerTest {
     }
 
     @Test
-    fun `test setup should set SegmentStep#type to SegmentStepType#IN_PROGRESS when Routine#startTimeOffsetInSeconds is 0`() {
+    fun `should setup state with segment in progress when start timer offset is 0`() {
         val segment = Segment.EMPTY
         val routine = Routine.EMPTY.copy(
             startTimeOffset = 0.seconds,
@@ -60,7 +60,17 @@ class TimerReducerTest {
     }
 
     @Test
-    fun `test progressTime should return same state when count is not running`() {
+    fun `should return error state on error`() {
+        val exception = Exception()
+        val expected = TimerState.Error(throwable = exception)
+
+        val actual = sut.error(throwable = exception)
+
+        assertEquals(expected, actual)
+    }
+
+    @Test
+    fun `should return same state on progressing time when count is not running`() {
         val segment = Segment.EMPTY.copy(time = 10.seconds, type = TimeType.TIMER)
         val routine = Routine.EMPTY.copy(
             segments = listOf(segment)
@@ -80,7 +90,7 @@ class TimerReducerTest {
     }
 
     @Test
-    fun `test progressTime should update state when count is running`() {
+    fun `should update state progressing the time when count is running`() {
         val segment = Segment.EMPTY.copy(time = 10.seconds, type = TimeType.TIMER)
         val routine = Routine.EMPTY.copy(
             segments = listOf(segment)
@@ -108,7 +118,7 @@ class TimerReducerTest {
     }
 
     @Test
-    fun `test progressTime should progress by -1 when step#type is STARTING`() {
+    fun `should update state progressing time by counting down when running a starting segment`() {
         val state = TimerState.Counting(
             routine = Routine.EMPTY,
             runningSegment = Segment.EMPTY.copy(type = TimeType.STOPWATCH, time = 0.seconds),
@@ -132,31 +142,7 @@ class TimerReducerTest {
     }
 
     @Test
-    fun `test progressTime should progress by -1 when segmentStepType is STARTING`() {
-        val state = TimerState.Counting(
-            routine = Routine.EMPTY,
-            runningSegment = Segment.EMPTY.copy(type = TimeType.STOPWATCH, time = 0.seconds),
-            step = SegmentStep(
-                count = Count.start(seconds = 10.seconds),
-                type = SegmentStepType.STARTING
-            )
-        )
-        val expected = TimerState.Counting(
-            routine = Routine.EMPTY,
-            runningSegment = Segment.EMPTY.copy(type = TimeType.STOPWATCH, time = 0.seconds),
-            step = SegmentStep(
-                count = Count.start(seconds = 9.seconds),
-                type = SegmentStepType.STARTING
-            )
-        )
-
-        val result = sut.progressTime(state)
-
-        assertEquals(expected, result)
-    }
-
-    @Test
-    fun `test progressTime should progress by timerType#progress when segmentStepType is not STARTING`() {
+    fun `should update state by progressing the time base on the segment type defined progress`() {
         val state = TimerState.Counting(
             routine = Routine.EMPTY,
             runningSegment = Segment.EMPTY.copy(type = TimeType.STOPWATCH, time = 0.seconds),
@@ -180,7 +166,7 @@ class TimerReducerTest {
     }
 
     @Test
-    fun `test progressTime step#type#STARTING should complete when seconds is 0`() {
+    fun `should update state by completing the step on progressing time when a starting segment is running and count reach zero`() {
         val state = TimerState.Counting(
             routine = Routine.EMPTY,
             runningSegment = Segment.EMPTY.copy(type = TimeType.TIMER, time = 10.seconds),
@@ -204,7 +190,7 @@ class TimerReducerTest {
     }
 
     @Test
-    fun `test progressTime runningSegment#type#TIMER should complete when seconds is 0`() {
+    fun `should update state by completing the step on progressing time when a timer segment is running and count reach zero`() {
         val state = TimerState.Counting(
             routine = Routine.EMPTY,
             runningSegment = Segment.EMPTY.copy(type = TimeType.TIMER, time = 10.seconds),
@@ -228,7 +214,7 @@ class TimerReducerTest {
     }
 
     @Test
-    fun `test progressTime runningSegment#type#REST should complete when seconds is 0`() {
+    fun `should update state by completing the step on progressing time when a rest segment is running and count reach zero`() {
         val state = TimerState.Counting(
             routine = Routine.EMPTY,
             runningSegment = Segment.EMPTY.copy(type = TimeType.REST, time = 10.seconds),
@@ -252,7 +238,7 @@ class TimerReducerTest {
     }
 
     @Test
-    fun `test progressTime runningSegment#type#STOPWATCH should not complete when seconds is 0`() {
+    fun `should update state by increasing the step count on progressing time when a stopwatch segment is running and count is zero`() {
         val state = TimerState.Counting(
             routine = Routine.EMPTY,
             runningSegment = Segment.EMPTY.copy(type = TimeType.STOPWATCH, time = 1.seconds),
@@ -276,7 +262,7 @@ class TimerReducerTest {
     }
 
     @Test
-    fun `test toggleTimeRunning should return the same state when count is completed`() {
+    fun `should return same state on toggling the timer when the count is completed`() {
         val segment = Segment.EMPTY.copy(time = 10.seconds, type = TimeType.TIMER)
         val routine = Routine.EMPTY.copy(
             segments = listOf(segment)
@@ -296,7 +282,7 @@ class TimerReducerTest {
     }
 
     @Test
-    fun `test toggleTimeRunning should just complete count when isStopwatchRunning`() {
+    fun `should update the state with completed count on toggling the timer when stopwatch segment is running`() {
         val segment = Segment.EMPTY.copy(time = 10.seconds, type = TimeType.STOPWATCH)
         val routine = Routine.EMPTY.copy(
             segments = listOf(segment)
@@ -324,7 +310,7 @@ class TimerReducerTest {
     }
 
     @Test
-    fun `test toggleTimeRunning should toggle time running`() {
+    fun `should update state with count not running on toggle timer when a not stopwatch segment count is not completed and running`() {
         val segment = Segment.EMPTY.copy(time = 10.seconds, type = TimeType.TIMER)
         val routine = Routine.EMPTY.copy(
             segments = listOf(segment)
@@ -352,31 +338,7 @@ class TimerReducerTest {
     }
 
     @Test
-    fun `test toggleTimeRunning should completeCount when is running segment type is STOPWATCH`() {
-        val state = TimerState.Counting(
-            routine = Routine.EMPTY,
-            runningSegment = Segment.EMPTY.copy(type = TimeType.STOPWATCH),
-            step = SegmentStep(
-                count = Count(seconds = 1.seconds, isRunning = true, isCompleted = false),
-                type = SegmentStepType.IN_PROGRESS
-            )
-        )
-        val expected = TimerState.Counting(
-            routine = Routine.EMPTY,
-            runningSegment = Segment.EMPTY.copy(type = TimeType.STOPWATCH),
-            step = SegmentStep(
-                count = Count(seconds = 1.seconds, isRunning = true, isCompleted = true),
-                type = SegmentStepType.IN_PROGRESS
-            )
-        )
-
-        val result = sut.toggleTimeRunning(state)
-
-        assertEquals(expected, result)
-    }
-
-    @Test
-    fun `test restartTime should set count seconds with the one in the segment when  when SegmentStepType#IN_PROGRESS`() {
+    fun `should update state with reset second count on reset timer when a segment is running`() {
         val segment = Segment.EMPTY.copy(time = 10.seconds, type = TimeType.TIMER)
         val routine = Routine.EMPTY.copy(
             segments = listOf(segment)
@@ -404,7 +366,7 @@ class TimerReducerTest {
     }
 
     @Test
-    fun `test restartTime should set count seconds with startTimeOffsetInSeconds when SegmentStepType#STARTING`() {
+    fun `should update state with reset second count on reset timer when a segment is starting`() {
         val state = TimerState.Counting(
             routine = Routine.EMPTY.copy(startTimeOffset = 10.seconds),
             runningSegment = Segment.EMPTY.copy(time = 99.seconds),
@@ -428,7 +390,7 @@ class TimerReducerTest {
     }
 
     @Test
-    fun `test nextStep should return the same state when last segment is running`() {
+    fun `should return the same state on next step when last segment is running`() {
         val segment = Segment.EMPTY.copy(time = 10.seconds, type = TimeType.TIMER)
         val routine = Routine.EMPTY.copy(
             segments = listOf(segment)
@@ -448,7 +410,7 @@ class TimerReducerTest {
     }
 
     @Test
-    fun `test nextStep should move to next segment`() {
+    fun `should update state with new segment on next step`() {
         val segment = Segment.EMPTY.copy(time = 10.seconds, type = TimeType.TIMER)
         val routine = Routine.EMPTY.copy(
             startTimeOffset = 5.seconds,
@@ -477,7 +439,7 @@ class TimerReducerTest {
     }
 
     @Test
-    fun `test nextStep should return same state when routine is completed`() {
+    fun `should return the same state on next step when routine is completed`() {
         val segment = Segment.EMPTY.copy(time = 10.seconds, type = TimeType.TIMER)
         val routine = Routine.EMPTY.copy(
             segments = listOf(segment)
@@ -497,7 +459,7 @@ class TimerReducerTest {
     }
 
     @Test
-    fun `test nextStep should set segmentStepType to IN_PROGRESS when segmentStepType is STARTING`() {
+    fun `should update state with starting segment on next step when segment starting count is completed`() {
         val state = TimerState.Counting(
             routine = Routine.EMPTY,
             runningSegment = Segment.EMPTY.copy(time = 10.seconds),
@@ -521,7 +483,7 @@ class TimerReducerTest {
     }
 
     @Test
-    fun `test nextStep should set next segment with segmentStepType STARTING when segmentStepType is IN_PROGRESS`() {
+    fun `should update state with next segment starting on next step when current segment is completed`() {
         val state = TimerState.Counting(
             routine = Routine.EMPTY.copy(
                 startTimeOffset = 5.seconds,
@@ -555,7 +517,7 @@ class TimerReducerTest {
     }
 
     @Test
-    fun `test nextStep should set next segment with segmentStepType IN_PROGRESS when the next segment timeType is REST (skip STARTIING)`() {
+    fun `should update state with reset segment (skip starting) on next step when current segment is completed and next segment is a rest`() {
         val state = TimerState.Counting(
             routine = Routine.EMPTY.copy(
                 startTimeOffset = 5.seconds,
@@ -564,7 +526,11 @@ class TimerReducerTest {
                     Segment.EMPTY.copy(id = 2.asID, time = 20.seconds, type = TimeType.REST)
                 )
             ),
-            runningSegment = Segment.EMPTY.copy(id = 1.asID, time = 10.seconds, type = TimeType.TIMER),
+            runningSegment = Segment.EMPTY.copy(
+                id = 1.asID,
+                time = 10.seconds,
+                type = TimeType.TIMER
+            ),
             step = SegmentStep(
                 count = Count(seconds = 0.seconds, isRunning = true, isCompleted = true),
                 type = SegmentStepType.IN_PROGRESS
@@ -578,7 +544,11 @@ class TimerReducerTest {
                     Segment.EMPTY.copy(id = 2.asID, time = 20.seconds, type = TimeType.REST)
                 )
             ),
-            runningSegment = Segment.EMPTY.copy(id = 2.asID, time = 20.seconds, type = TimeType.REST),
+            runningSegment = Segment.EMPTY.copy(
+                id = 2.asID,
+                time = 20.seconds,
+                type = TimeType.REST
+            ),
             step = SegmentStep(
                 count = Count.start(seconds = 20.seconds),
                 type = SegmentStepType.IN_PROGRESS

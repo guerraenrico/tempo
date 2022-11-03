@@ -6,7 +6,11 @@ import com.enricog.features.routines.detail.summary.models.RoutineSummaryField
 import com.enricog.features.routines.detail.summary.models.RoutineSummaryFieldError
 import com.enricog.features.routines.detail.summary.models.RoutineSummaryItem
 import com.enricog.features.routines.detail.summary.models.RoutineSummaryState
+import com.enricog.features.routines.detail.summary.models.RoutineSummaryState.Data.Action
+import com.enricog.features.routines.detail.summary.models.RoutineSummaryState.Data.Action.DeleteSegmentError
+import com.enricog.features.routines.detail.summary.models.RoutineSummaryState.Data.Action.MoveSegmentError
 import com.enricog.features.routines.detail.summary.models.RoutineSummaryViewState
+import com.enricog.features.routines.detail.summary.models.RoutineSummaryViewState.Data.Message
 import javax.inject.Inject
 
 internal class RoutineSummaryStateConverter @Inject constructor() :
@@ -16,6 +20,7 @@ internal class RoutineSummaryStateConverter @Inject constructor() :
         return when (state) {
             RoutineSummaryState.Idle -> RoutineSummaryViewState.Idle
             is RoutineSummaryState.Data -> state.toViewState()
+            is RoutineSummaryState.Error -> RoutineSummaryViewState.Error(throwable = state.throwable)
         }
     }
 
@@ -39,13 +44,24 @@ internal class RoutineSummaryStateConverter @Inject constructor() :
             )
             add(RoutineSummaryItem.Space)
         }
-        return RoutineSummaryViewState.Data(items = items)
+        return RoutineSummaryViewState.Data(items = items, message = action?.toMessage())
     }
 
     private val RoutineSummaryFieldError.stringResourceId: Int
-        get() {
-            return when (this) {
-                RoutineSummaryFieldError.NoSegments -> R.string.field_error_message_routine_no_segments
-            }
+        get() = when (this) {
+            RoutineSummaryFieldError.NoSegments -> R.string.field_error_message_routine_no_segments
         }
+
+    private fun Action.toMessage(): Message {
+        return when (this) {
+            is DeleteSegmentError -> Message(
+                textResId = R.string.label_routine_summary_segment_delete_error,
+                actionTextResId = R.string.action_text_routine_summary_segment_delete_error
+            )
+            MoveSegmentError -> Message(
+                textResId = R.string.label_routine_summary_segment_move_error,
+                actionTextResId = null
+            )
+        }
+    }
 }

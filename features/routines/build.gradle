@@ -28,7 +28,7 @@ android {
         compose true
     }
     composeOptions {
-        kotlinCompilerExtensionVersion Libs.AndroidX.Compose.version
+        kotlinCompilerExtensionVersion Libs.AndroidX.Compose.compilerVersion
     }
     packagingOptions {
         jniLibs {
@@ -45,6 +45,7 @@ dependencies {
     implementation project(":base:extensions")
     implementation project(":core:coroutines:api")
     implementation project(":core:compose:api")
+    implementation project(":core:logger:api")
     implementation project(':base:viewmodel')
     implementation project(':ui:components')
     implementation project(":ui:theme")

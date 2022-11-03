@@ -5,6 +5,7 @@ import com.enricog.data.routines.api.entities.Segment
 import com.enricog.data.routines.api.entities.TimeType
 
 internal sealed class SegmentState {
+
     object Idle : SegmentState()
 
     data class Data(
@@ -12,6 +13,13 @@ internal sealed class SegmentState {
         val segment: Segment,
         val errors: Map<SegmentField, SegmentFieldError>,
         val timeTypes: List<TimeType>,
-        val inputs: SegmentInputs
-    ) : SegmentState()
+        val inputs: SegmentInputs,
+        val action: Action?
+    ) : SegmentState() {
+        sealed class Action {
+            object SaveSegmentError : Action()
+        }
+    }
+
+    data class Error(val throwable: Throwable) : SegmentState()
 }

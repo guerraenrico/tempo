@@ -5,7 +5,8 @@ import androidx.compose.ui.test.junit4.createComposeRule
 import androidx.compose.ui.test.onNodeWithTag
 import com.enricog.core.compose.testing.invoke
 import com.enricog.features.routines.list.models.RoutinesViewState
-import com.enricog.features.routines.list.ui_components.EmptySceneTestTag
+import com.enricog.features.routines.list.ui_components.RoutinesEmptySceneTestTag
+import com.enricog.features.routines.list.ui_components.RoutinesErrorSceneTestTag
 import com.enricog.features.routines.list.ui_components.RoutinesSceneTestTag
 import com.enricog.ui.theme.TempoTheme
 import org.junit.Rule
@@ -23,17 +24,20 @@ class RoutinesScreenKtTest {
         setContent {
             TempoTheme {
                 viewState.Compose(
-                    onCreateRoutineClick = {},
-                    onRoutineClick = {},
-                    onRoutineDelete = {}
+                    onCreateRoutine = {},
+                    onRoutine = {},
+                    onRoutineDelete = {},
+                    onRetryLoad = {},
+                    onSnackbarEvent = {}
                 )
             }
         }
 
         waitForIdle()
 
-        onNodeWithTag(EmptySceneTestTag).assertDoesNotExist()
+        onNodeWithTag(RoutinesEmptySceneTestTag).assertDoesNotExist()
         onNodeWithTag(RoutinesSceneTestTag).assertDoesNotExist()
+        onNodeWithTag(RoutinesErrorSceneTestTag).assertDoesNotExist()
     }
 
     @Test
@@ -43,36 +47,66 @@ class RoutinesScreenKtTest {
         setContent {
             TempoTheme {
                 viewState.Compose(
-                    onCreateRoutineClick = {},
-                    onRoutineClick = {},
-                    onRoutineDelete = {}
+                    onCreateRoutine = {},
+                    onRoutine = {},
+                    onRoutineDelete = {},
+                    onRetryLoad = {},
+                    onSnackbarEvent = {}
                 )
             }
         }
 
         waitForIdle()
 
-        onNodeWithTag(EmptySceneTestTag).assertIsDisplayed()
+        onNodeWithTag(RoutinesEmptySceneTestTag).assertIsDisplayed()
         onNodeWithTag(RoutinesSceneTestTag).assertDoesNotExist()
+        onNodeWithTag(RoutinesErrorSceneTestTag).assertDoesNotExist()
     }
 
     @Test
     fun shouldRenderRoutinesSceneWhenStateIsData() = composeRule {
-        val viewState = RoutinesViewState.Data(emptyList())
+        val viewState = RoutinesViewState.Data(routines = emptyList(), message = null)
 
         setContent {
             TempoTheme {
                 viewState.Compose(
-                    onCreateRoutineClick = {},
-                    onRoutineClick = {},
-                    onRoutineDelete = {}
+                    onCreateRoutine = {},
+                    onRoutine = {},
+                    onRoutineDelete = {},
+                    onRetryLoad = {},
+                    onSnackbarEvent = {}
                 )
             }
         }
 
         waitForIdle()
 
-        onNodeWithTag(EmptySceneTestTag).assertDoesNotExist()
+        onNodeWithTag(RoutinesEmptySceneTestTag).assertDoesNotExist()
         onNodeWithTag(RoutinesSceneTestTag).assertIsDisplayed()
+        onNodeWithTag(RoutinesErrorSceneTestTag).assertDoesNotExist()
+    }
+
+    @Test
+    fun shouldRenderRoutinesErrorSceneWhenStateIsError() = composeRule {
+        val exception = Exception("something went wrong")
+        val viewState = RoutinesViewState.Error(throwable = exception)
+
+        setContent {
+            TempoTheme {
+                viewState.Compose(
+                    onCreateRoutine = {},
+                    onRoutine = {},
+                    onRoutineDelete = {},
+                    onRetryLoad = {},
+                    onSnackbarEvent = {}
+                )
+            }
+        }
+
+        waitForIdle()
+
+        onNodeWithTag(RoutinesEmptySceneTestTag).assertDoesNotExist()
+        onNodeWithTag(RoutinesSceneTestTag).assertDoesNotExist()
+        onNodeWithTag(RoutinesErrorSceneTestTag).assertIsDisplayed()
     }
 }

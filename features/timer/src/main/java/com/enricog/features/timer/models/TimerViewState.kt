@@ -14,4 +14,6 @@ internal sealed class TimerViewState {
         val clockBackgroundColor: Color,
         val isRoutineCompleted: Boolean
     ) : TimerViewState()
+
+    data class Error(val throwable: Throwable) : TimerViewState()
 }

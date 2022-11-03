@@ -49,7 +49,8 @@ object Libs {
         }
 
         object Compose {
-            const val version = "1.2.0"
+            const val compilerVersion = "1.2.0"
+            const val version = "1.2.1"
 
             const val runtime = "androidx.compose.runtime:runtime:$version"
             const val foundation = "androidx.compose.foundation:foundation:$version"
@@ -58,7 +59,7 @@ object Libs {
             const val material = "androidx.compose.material:material:$version"
             const val ui = "androidx.compose.ui:ui:$version"
             const val tooling = "androidx.compose.ui:ui-tooling:$version"
-            const val uiUtil = "androidx.compose.ui:ui-util:${version}"
+            const val util = "androidx.compose.ui:ui-util:${version}"
             const val animation = "androidx.compose.animation:animation:${version}"
 
             const val test = "androidx.compose.ui:ui-test:$version"
@@ -108,7 +109,7 @@ object Libs {
         const val ktx = "androidx.room:room-ktx:$version"
     }
 
-    const val Timber = "com.jakewharton.timber:timber:4.7.1"
+    const val Timber = "com.jakewharton.timber:timber:5.0.1"
 
     object Lint {
         private const val version = "26.4.1"
@@ -140,7 +141,7 @@ object Libs {
         const val junitJupiterEngine = "org.junit.jupiter:junit-jupiter-engine:$junitJupiter"
         const val junitJupiterParams = "org.junit.jupiter:junit-jupiter-params:$junitJupiter"
         const val junit = "junit:junit:4.12"
-        const val flow = "app.cash.turbine:turbine:0.8.0"
+        const val flow = "app.cash.turbine:turbine:0.12.0"
     }
 
     const val Robolectric = "org.robolectric:robolectric:4.3.1"

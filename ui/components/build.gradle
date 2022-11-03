@@ -25,7 +25,7 @@ android {
         compose true
     }
     composeOptions {
-        kotlinCompilerExtensionVersion Libs.AndroidX.Compose.version
+        kotlinCompilerExtensionVersion Libs.AndroidX.Compose.compilerVersion
     }
 }
 
@@ -43,9 +43,16 @@ dependencies {
     implementation Libs.AndroidX.Compose.tooling
     implementation Libs.AndroidX.Compose.material
     implementation Libs.AndroidX.Compose.animation
+    implementation Libs.AndroidX.Compose.util
 
     testImplementation Libs.Kotlin.Test.kotlin
     testImplementation Libs.Test.junitJupiterApi
     testImplementation Libs.Test.junitJupiterEngine
     testImplementation Libs.Test.junitJupiterParams
+
+    androidTestImplementation project(":core:compose:testing")
+    androidTestImplementation Libs.Test.junit
+    androidTestImplementation Libs.AndroidX.Test.core
+    androidTestImplementation Libs.AndroidX.Test.rules
+    androidTestImplementation Libs.AndroidX.Compose.uiTest
 }

@@ -68,13 +68,14 @@ android {
     }
 
     composeOptions {
-        kotlinCompilerExtensionVersion Libs.AndroidX.Compose.version
+        kotlinCompilerExtensionVersion Libs.AndroidX.Compose.compilerVersion
     }
 }
 
 dependencies {
     implementation project(":base:extensions")
     implementation project(":core:coroutines:api")
+    implementation project(":core:logger:api")
     implementation project(':data:routines:api')
     implementation project(':data:local:database')
     implementation project(":features:timer")

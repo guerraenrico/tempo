@@ -6,44 +6,47 @@ import androidx.compose.runtime.Composable
 import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
 import androidx.compose.ui.Modifier
-import com.enricog.base.extensions.exhaustive
 import com.enricog.features.timer.models.TimerViewState
 import com.enricog.features.timer.ui_components.CountingScene
+import com.enricog.features.timer.ui_components.TimerErrorScene
 
 @Composable
 internal fun TimerScreen(viewModel: TimerViewModel) {
     val viewState by viewModel.viewState.collectAsState(TimerViewState.Idle)
     Column(modifier = Modifier.fillMaxSize()) {
         viewState.Compose(
-            onStartStopButtonClick = viewModel::onStartStopButtonClick,
-            onRestartSegmentButtonClick = viewModel::onRestartSegmentButtonClick,
-            onResetButtonClick = viewModel::onResetButtonClick,
-            onDoneButtonClick = viewModel::onDoneButtonClick,
-            onCloseButtonClick = viewModel::onCloseButtonClick,
+            onToggleTimer = viewModel::onToggleTimer,
+            onRestartSegment = viewModel::onRestartSegment,
+            onReset = viewModel::onReset,
+            onDone = viewModel::onDone,
+            onClose = viewModel::onClose,
+            onRetryLoad = viewModel::onRetryLoad
         )
     }
 }
 
 @Composable
 internal fun TimerViewState.Compose(
-    onStartStopButtonClick: () -> Unit,
-    onRestartSegmentButtonClick: () -> Unit,
-    onResetButtonClick: () -> Unit,
-    onDoneButtonClick: () -> Unit,
-    onCloseButtonClick: () -> Unit
+    onToggleTimer: () -> Unit,
+    onRestartSegment: () -> Unit,
+    onReset: () -> Unit,
+    onDone: () -> Unit,
+    onClose: () -> Unit,
+    onRetryLoad: () -> Unit
 ) {
     when (this) {
-        TimerViewState.Idle -> {
-        }
-        is TimerViewState.Counting -> {
-            CountingScene(
+        TimerViewState.Idle -> Unit
+        is TimerViewState.Counting -> CountingScene(
                 state = this,
-                onStartStopButtonClick = onStartStopButtonClick,
-                onRestartSegmentButtonClick = onRestartSegmentButtonClick,
-                onResetButtonClick = onResetButtonClick,
-                onDoneButtonClick = onDoneButtonClick,
-                onCloseButtonClick = onCloseButtonClick
+                onToggleTimer = onToggleTimer,
+                onRestartSegment = onRestartSegment,
+                onReset = onReset,
+                onDone = onDone,
+                onClose = onClose
             )
-        }
-    }.exhaustive
+        is TimerViewState.Error -> TimerErrorScene(
+            throwable = throwable,
+            onRetryLoadClick = onRetryLoad
+        )
+    }
 }

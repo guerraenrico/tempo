@@ -2,21 +2,25 @@ package com.enricog.features.routines.detail.routine
 
 import androidx.compose.ui.text.input.TextFieldValue
 import androidx.lifecycle.SavedStateHandle
-import androidx.lifecycle.viewModelScope
 import com.enricog.base.viewmodel.BaseViewModel
 import com.enricog.base.viewmodel.ViewModelConfiguration
 import com.enricog.core.coroutines.dispatchers.CoroutineDispatchers
 import com.enricog.core.coroutines.job.autoCancelableJob
+import com.enricog.core.logger.api.TempoLogger
 import com.enricog.data.routines.api.entities.Routine
 import com.enricog.features.routines.detail.routine.models.RoutineState
+import com.enricog.features.routines.detail.routine.models.RoutineState.Data.Action.SaveRoutineError
 import com.enricog.features.routines.detail.routine.models.RoutineViewState
 import com.enricog.features.routines.detail.routine.usecase.RoutineUseCase
 import com.enricog.features.routines.navigation.RoutinesNavigationActions
 import com.enricog.navigation.api.routes.RoutineRoute
 import com.enricog.navigation.api.routes.RoutineRouteInput
+import com.enricog.ui.components.snackbar.TempoSnackbarEvent
+import com.enricog.ui.components.snackbar.TempoSnackbarEvent.ActionPerformed
 import com.enricog.ui.components.textField.TimeText
 import dagger.hilt.android.lifecycle.HiltViewModel
-import kotlinx.coroutines.launch
+import kotlinx.coroutines.CoroutineExceptionHandler
+import kotlinx.coroutines.delay
 import javax.inject.Inject
 
 @HiltViewModel
@@ -35,15 +39,20 @@ internal class RoutineViewModel @Inject constructor(
     configuration = ViewModelConfiguration(debounce = 0)
 ) {
 
+    private val input = RoutineRoute.extractInput(savedStateHandle)
     private var saveRoutineJob by autoCancelableJob()
 
     init {
-        val input = RoutineRoute.extractInput(savedStateHandle)
-        load(input)
+        load(input = input)
     }
 
     private fun load(input: RoutineRouteInput) {
-        viewModelScope.launch {
+        val exceptionHandler = CoroutineExceptionHandler { _, throwable ->
+            TempoLogger.e(throwable = throwable, message = "Error loading routine")
+            updateState { reducer.error(throwable = throwable) }
+        }
+
+        launch(exceptionHandler = exceptionHandler) {
             val routine = routineUseCase.get(routineId = input.routineId)
             updateState { reducer.setup(routine = routine) }
         }
@@ -61,32 +70,64 @@ internal class RoutineViewModel @Inject constructor(
         }
     }
 
-    fun onRoutineStartTimeInfoClick() = launch {
-        navigationActions.openRoutineStartTimeInfo()
+    fun onRoutineStartTimeInfo() {
+        launch {
+            navigationActions.openRoutineStartTimeInfo()
+        }
     }
 
-    fun onRoutineBack() = launch {
-        navigationActions.goBack()
+    fun onRoutineBack() {
+        launch {
+            navigationActions.goBack()
+        }
     }
 
-    fun onRoutineSave() = runWhen<RoutineState.Data> { stateData ->
-        val errors = validator.validate(inputs = stateData.inputs)
-        if (errors.isEmpty()) {
-            save(routine = stateData.inputs.mergeToRoutine(routine = stateData.routine))
-        } else {
-            updateStateWhen<RoutineState.Data> {
-                reducer.applyRoutineErrors(state = it, errors = errors)
+    fun onRoutineSave() {
+        runWhen<RoutineState.Data> { stateData ->
+            val errors = validator.validate(inputs = stateData.inputs)
+            if (errors.isEmpty()) {
+                save(routine = stateData.inputs.mergeToRoutine(routine = stateData.routine))
+            } else {
+                updateStateWhen<RoutineState.Data> {
+                    reducer.applyRoutineErrors(state = it, errors = errors)
+                }
             }
         }
     }
 
     private fun save(routine: Routine) {
-        saveRoutineJob = viewModelScope.launch {
+        val exceptionHandler = CoroutineExceptionHandler { _, throwable ->
+            TempoLogger.e(throwable = throwable, message = "Error saving routine")
+            updateStateWhen(reducer::saveRoutineError)
+        }
+        saveRoutineJob = launch(exceptionHandler = exceptionHandler) {
             val routineId = routineUseCase.save(routine = routine)
             when {
                 routine.isNew -> navigationActions.goToRoutineSummary(routineId = routineId)
                 else -> navigationActions.goBack()
             }
         }
+    }
+
+    fun onRetryLoad() {
+        load(input = input)
+    }
+
+    fun onSnackbarEvent(snackbarEvent: TempoSnackbarEvent) {
+        launchWhen<RoutineState.Data> {
+            val previousAction = it.action
+            updateStateWhen(reducer::actionHandled)
+            delay(SNACKBAR_ACTION_DELAY)
+            if (snackbarEvent == ActionPerformed) {
+                when (previousAction) {
+                    SaveRoutineError -> onRoutineSave()
+                    null -> Unit
+                }
+            }
+        }
+    }
+
+    private companion object {
+        const val SNACKBAR_ACTION_DELAY = 100L
     }
 }

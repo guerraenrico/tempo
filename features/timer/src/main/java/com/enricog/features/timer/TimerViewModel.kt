@@ -1,10 +1,10 @@
 package com.enricog.features.timer
 
 import androidx.lifecycle.SavedStateHandle
-import androidx.lifecycle.viewModelScope
 import com.enricog.base.viewmodel.BaseViewModel
 import com.enricog.core.coroutines.dispatchers.CoroutineDispatchers
 import com.enricog.core.coroutines.job.autoCancelableJob
+import com.enricog.core.logger.api.TempoLogger
 import com.enricog.data.routines.api.entities.Routine
 import com.enricog.features.timer.models.TimerState
 import com.enricog.features.timer.models.TimerViewState
@@ -13,8 +13,8 @@ import com.enricog.features.timer.usecase.TimerUseCase
 import com.enricog.navigation.api.routes.TimerRoute
 import com.enricog.navigation.api.routes.TimerRouteInput
 import dagger.hilt.android.lifecycle.HiltViewModel
+import kotlinx.coroutines.CoroutineExceptionHandler
 import kotlinx.coroutines.delay
-import kotlinx.coroutines.launch
 import javax.inject.Inject
 
 @HiltViewModel
@@ -32,24 +32,28 @@ internal class TimerViewModel @Inject constructor(
     dispatchers = dispatchers
 ) {
 
+    private val input = TimerRoute.extractInput(savedStateHandle)
     private var countingJob by autoCancelableJob()
     private var loadJob by autoCancelableJob()
     private var startJob by autoCancelableJob()
 
     init {
-        val input = TimerRoute.extractInput(savedStateHandle)
         load(input)
     }
 
     private fun load(input: TimerRouteInput) {
-        loadJob = viewModelScope.launch {
+        val exceptionHandler = CoroutineExceptionHandler { _, throwable ->
+            TempoLogger.e(throwable = throwable, message = "Error loading timer routine")
+            updateState { reducer.error(throwable = throwable) }
+        }
+        loadJob = launch(exceptionHandler = exceptionHandler) {
             val routine = timerUseCase.get(input.routineId)
             start(routine)
         }
     }
 
     private fun start(routine: Routine) {
-        startJob = viewModelScope.launch {
+        startJob = launch {
             updateState { reducer.setup(routine) }
 
             delay(1000)
@@ -58,20 +62,35 @@ internal class TimerViewModel @Inject constructor(
         }
     }
 
-    fun onStartStopButtonClick() {
+    fun onToggleTimer() {
         updateState { reducer.toggleTimeRunning(it) }
     }
 
-    fun onRestartSegmentButtonClick() {
+    fun onRestartSegment() {
         updateState { reducer.restartTime(it) }
     }
 
-    fun onResetButtonClick() = runWhen<TimerState.Counting> { state ->
-        start(state.routine)
+    fun onReset() {
+        runWhen<TimerState.Counting> { state ->
+            start(state.routine)
+        }
     }
 
-    fun onDoneButtonClick() = launch {
-        navigationActions.backToRoutines()
+    fun onDone() {
+        launch {
+            navigationActions.backToRoutines()
+        }
+    }
+
+    fun onClose() {
+        launch {
+            stopCounting()
+            navigationActions.backToRoutines()
+        }
+    }
+
+    fun onRetryLoad() {
+        load(input = input)
     }
 
     override fun onStateUpdated(currentState: TimerState) {
@@ -90,20 +109,17 @@ internal class TimerViewModel @Inject constructor(
         stopCounting()
     }
 
-    fun onCloseButtonClick() = launch {
-        stopCounting()
-        navigationActions.backToRoutines()
-    }
-
-    private fun onCountCompleted() = launch {
-        delay(1000)
-        updateState { reducer.nextStep(it) }
+    private fun onCountCompleted() {
+        launch {
+            delay(1000)
+            updateState { reducer.nextStep(it) }
+        }
     }
 
     private fun startCounting() {
         if (countingJob?.isActive == true) return
 
-        countingJob = viewModelScope.launch {
+        countingJob = launch {
             while (true) {
                 delay(1000)
                 updateState { reducer.progressTime(it) }

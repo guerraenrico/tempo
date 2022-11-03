@@ -10,6 +10,7 @@ import com.enricog.features.routines.detail.segment.models.SegmentField
 import com.enricog.features.routines.detail.segment.models.SegmentFieldError
 import com.enricog.features.routines.detail.segment.models.SegmentInputs
 import com.enricog.features.routines.detail.segment.models.SegmentState
+import com.enricog.features.routines.detail.segment.models.SegmentState.Data.Action.SaveSegmentError
 import com.enricog.ui.components.extensions.toTextFieldValue
 import com.enricog.ui.components.textField.TimeText
 import com.enricog.ui.components.textField.timeText
@@ -32,8 +33,13 @@ internal class SegmentReducer @Inject constructor() {
             segment = segment,
             errors = emptyMap(),
             timeTypes = timeTypes,
-            inputs = inputs
+            inputs = inputs,
+            action = null
         )
+    }
+
+    fun error(throwable: Throwable): SegmentState {
+        return SegmentState.Error(throwable = throwable)
     }
 
     fun updateSegmentName(
@@ -76,5 +82,13 @@ internal class SegmentReducer @Inject constructor() {
         errors: Map<SegmentField, SegmentFieldError>
     ): SegmentState.Data {
         return state.copy(errors = errors)
+    }
+
+    fun saveSegmentError(state: SegmentState.Data): SegmentState.Data {
+        return state.copy(action = SaveSegmentError)
+    }
+
+    fun actionHandled(state: SegmentState.Data): SegmentState.Data {
+        return state.copy(action = null)
     }
 }

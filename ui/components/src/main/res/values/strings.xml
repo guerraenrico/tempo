@@ -1,8 +1,18 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
 
+    <!-- Toolbar -->
     <string name="content_description_toolbar_button_back">Go back</string>
 
+    <!-- LayoutError -->
+    <string name="label_generic_error_title">Ehm…</string>
+    <string name="label_generic_error_description">Something went wrong for some reason</string>
+    <string name="content_description_generic_error_icon">Error</string>
+
+    <string name="content_description_button_retry">Try the operation again</string>
+    <string name="button_retry">Try again</string>
+
+    <!-- Common -->
     <string name="label_minutes_acronym">m</string>
     <string name="label_seconds_acronym">s</string>
 </resources>
