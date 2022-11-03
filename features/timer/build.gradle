@@ -57,6 +57,7 @@ dependencies {
     implementation Libs.Lifecycle.viewModelKtx
 
     // Compose
+    implementation platform(Libs.AndroidX.Compose.bom)
     implementation Libs.AndroidX.Compose.ui
     implementation Libs.AndroidX.Compose.foundation
     implementation Libs.AndroidX.Compose.tooling
@@ -76,6 +77,7 @@ dependencies {
     testImplementation Libs.Kotlin.Test.kotlin
     testImplementation Libs.Test.junit
 
+    androidTestImplementation platform(Libs.AndroidX.Compose.bom)
     androidTestImplementation project(":core:compose:testing")
     androidTestImplementation Libs.Test.junit
     androidTestImplementation Libs.AndroidX.Test.core

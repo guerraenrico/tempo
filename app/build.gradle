@@ -94,6 +94,8 @@ dependencies {
     implementation Libs.Room.ktx
 
     // Compose
+    implementation platform(Libs.AndroidX.Compose.bom)
+    androidTestImplementation platform(Libs.AndroidX.Compose.bom)
     implementation Libs.AndroidX.Compose.ui
     implementation Libs.AndroidX.Compose.material
     implementation Libs.AndroidX.Compose.tooling

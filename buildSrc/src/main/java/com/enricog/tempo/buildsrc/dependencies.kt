@@ -50,20 +50,22 @@ object Libs {
 
         object Compose {
             const val compilerVersion = "1.2.0"
-            const val version = "1.2.1"
+            private const val version = "2022.10.00"
 
-            const val runtime = "androidx.compose.runtime:runtime:$version"
-            const val foundation = "androidx.compose.foundation:foundation:$version"
-            const val layout = "androidx.compose.foundation:foundation-layout:$version"
+            const val bom = "androidx.compose:compose-bom:$version"
 
-            const val material = "androidx.compose.material:material:$version"
-            const val ui = "androidx.compose.ui:ui:$version"
-            const val tooling = "androidx.compose.ui:ui-tooling:$version"
-            const val util = "androidx.compose.ui:ui-util:${version}"
-            const val animation = "androidx.compose.animation:animation:${version}"
+            const val runtime = "androidx.compose.runtime:runtime"
+            const val foundation = "androidx.compose.foundation:foundation"
+            const val layout = "androidx.compose.foundation:foundation-layout"
 
-            const val test = "androidx.compose.ui:ui-test:$version"
-            const val uiTest = "androidx.compose.ui:ui-test-junit4:$version"
+            const val material = "androidx.compose.material:material"
+            const val ui = "androidx.compose.ui:ui"
+            const val tooling = "androidx.compose.ui:ui-tooling"
+            const val util = "androidx.compose.ui:ui-util"
+            const val animation = "androidx.compose.animation:animation"
+
+            const val test = "androidx.compose.ui:ui-test"
+            const val uiTest = "androidx.compose.ui:ui-test-junit4"
 
             const val activity = "androidx.activity:activity-compose:1.5.1"
 

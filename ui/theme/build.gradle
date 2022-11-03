@@ -30,6 +30,7 @@ android {
 
 dependencies {
     // Compose
+    implementation platform(Libs.AndroidX.Compose.bom)
     implementation Libs.AndroidX.Compose.foundation
     implementation Libs.AndroidX.Compose.material
 }
