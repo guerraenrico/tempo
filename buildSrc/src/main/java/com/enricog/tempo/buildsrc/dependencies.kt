@@ -49,7 +49,7 @@ object Libs {
         }
 
         object Compose {
-            const val compilerVersion = "1.2.0"
+            const val compilerVersion = "1.3.2"
             private const val version = "2022.10.00"
 
             const val bom = "androidx.compose:compose-bom:$version"
@@ -69,7 +69,7 @@ object Libs {
 
             const val activity = "androidx.activity:activity-compose:1.5.1"
 
-            const val navigation = "androidx.navigation:navigation-compose:2.5.1"
+            const val navigation = "androidx.navigation:navigation-compose:2.5.3"
             const val viewModel = "androidx.lifecycle:lifecycle-viewmodel-compose:2.5.1"
             const val constraintLayout = "androidx.constraintlayout:constraintlayout-compose:1.0.1"
         }
@@ -79,7 +79,7 @@ object Libs {
         const val material = "com.google.android.material:material:1.2.0"
 
         object Accompanist {
-            const val navigation = "com.google.accompanist:accompanist-navigation-material:0.25.0"
+            const val navigation = "com.google.accompanist:accompanist-navigation-material:0.27.0"
         }
     }
 
@@ -91,7 +91,7 @@ object Libs {
     }
 
     object Hilt {
-        const val androidVersion = "2.43.1"
+        const val androidVersion = "2.44"
         private const val version = "1.0.0"
 
         const val android = "com.google.dagger:hilt-android:$androidVersion"
