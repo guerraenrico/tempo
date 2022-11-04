@@ -12,9 +12,9 @@ object Versions {
         versionMajor * 1000000 + versionMinor * 10000 + versionPatch * 100 + versionBuild
     const val appVersionName: String = "$versionMajor.$versionMinor.$versionPatch"
 
-    const val compileSdk = 32
+    const val compileSdk = 33
     const val minSdk = 24
-    const val targetSdk = 32
+    const val targetSdk = 33
 
     const val jvmTarget = "1.8"
 }
@@ -22,8 +22,8 @@ object Versions {
 object Libs {
 
     object Kotlin {
-        const val version = "1.7.0"
-        private const val coroutineVersion = "1.6.0"
+        const val version = "1.7.20"
+        private const val coroutineVersion = "1.6.4"
 
         const val coroutines = "org.jetbrains.kotlinx:kotlinx-coroutines-android:$coroutineVersion"
         const val stdlib = "org.jetbrains.kotlin:kotlin-stdlib-jdk8:$version"
@@ -49,25 +49,27 @@ object Libs {
         }
 
         object Compose {
-            const val compilerVersion = "1.2.0"
-            const val version = "1.2.1"
+            const val compilerVersion = "1.3.2"
+            private const val version = "2022.10.00"
 
-            const val runtime = "androidx.compose.runtime:runtime:$version"
-            const val foundation = "androidx.compose.foundation:foundation:$version"
-            const val layout = "androidx.compose.foundation:foundation-layout:$version"
+            const val bom = "androidx.compose:compose-bom:$version"
 
-            const val material = "androidx.compose.material:material:$version"
-            const val ui = "androidx.compose.ui:ui:$version"
-            const val tooling = "androidx.compose.ui:ui-tooling:$version"
-            const val util = "androidx.compose.ui:ui-util:${version}"
-            const val animation = "androidx.compose.animation:animation:${version}"
+            const val runtime = "androidx.compose.runtime:runtime"
+            const val foundation = "androidx.compose.foundation:foundation"
+            const val layout = "androidx.compose.foundation:foundation-layout"
 
-            const val test = "androidx.compose.ui:ui-test:$version"
-            const val uiTest = "androidx.compose.ui:ui-test-junit4:$version"
+            const val material = "androidx.compose.material:material"
+            const val ui = "androidx.compose.ui:ui"
+            const val tooling = "androidx.compose.ui:ui-tooling"
+            const val util = "androidx.compose.ui:ui-util"
+            const val animation = "androidx.compose.animation:animation"
+
+            const val test = "androidx.compose.ui:ui-test"
+            const val uiTest = "androidx.compose.ui:ui-test-junit4"
 
             const val activity = "androidx.activity:activity-compose:1.5.1"
 
-            const val navigation = "androidx.navigation:navigation-compose:2.5.1"
+            const val navigation = "androidx.navigation:navigation-compose:2.5.3"
             const val viewModel = "androidx.lifecycle:lifecycle-viewmodel-compose:2.5.1"
             const val constraintLayout = "androidx.constraintlayout:constraintlayout-compose:1.0.1"
         }
@@ -77,7 +79,7 @@ object Libs {
         const val material = "com.google.android.material:material:1.2.0"
 
         object Accompanist {
-            const val navigation = "com.google.accompanist:accompanist-navigation-material:0.25.0"
+            const val navigation = "com.google.accompanist:accompanist-navigation-material:0.27.0"
         }
     }
 
@@ -89,7 +91,7 @@ object Libs {
     }
 
     object Hilt {
-        const val androidVersion = "2.43.1"
+        const val androidVersion = "2.44"
         private const val version = "1.0.0"
 
         const val android = "com.google.dagger:hilt-android:$androidVersion"
@@ -123,7 +125,7 @@ object Libs {
     }
 
     object Firebase {
-        private const val version = "30.3.1"
+        private const val version = "31.0.2"
 
         const val bom = "com.google.firebase:firebase-bom:$version"
         const val crashlytics = "com.google.firebase:firebase-crashlytics-ktx"

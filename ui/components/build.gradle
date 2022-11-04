@@ -38,6 +38,7 @@ dependencies {
     implementation Libs.AndroidX.coreKtx
 
     // Compose
+    implementation platform(Libs.AndroidX.Compose.bom)
     implementation Libs.AndroidX.Compose.ui
     implementation Libs.AndroidX.Compose.foundation
     implementation Libs.AndroidX.Compose.tooling
@@ -50,6 +51,7 @@ dependencies {
     testImplementation Libs.Test.junitJupiterEngine
     testImplementation Libs.Test.junitJupiterParams
 
+    androidTestImplementation platform(Libs.AndroidX.Compose.bom)
     androidTestImplementation project(":core:compose:testing")
     androidTestImplementation Libs.Test.junit
     androidTestImplementation Libs.AndroidX.Test.core
