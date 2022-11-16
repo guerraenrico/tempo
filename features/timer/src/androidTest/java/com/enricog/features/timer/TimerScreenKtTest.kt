@@ -10,7 +10,7 @@ import com.enricog.features.timer.models.Count
 import com.enricog.features.timer.models.SegmentStep
 import com.enricog.features.timer.models.SegmentStepType
 import com.enricog.features.timer.models.TimerViewState
-import com.enricog.features.timer.ui_components.CountingSceneTestTag
+import com.enricog.features.timer.ui_components.TimerCountingSceneTestTag
 import com.enricog.features.timer.ui_components.TimerErrorSceneTestTag
 import org.junit.Rule
 import org.junit.Test
@@ -35,7 +35,7 @@ class TimerScreenKtTest {
             )
         }
 
-        onNodeWithTag(CountingSceneTestTag).assertDoesNotExist()
+        onNodeWithTag(TimerCountingSceneTestTag).assertDoesNotExist()
         onNodeWithTag(TimerErrorSceneTestTag).assertDoesNotExist()
     }
 
@@ -67,7 +67,7 @@ class TimerScreenKtTest {
             )
         }
 
-        onNodeWithTag(CountingSceneTestTag).assertIsDisplayed()
+        onNodeWithTag(TimerCountingSceneTestTag).assertIsDisplayed()
         onNodeWithTag(TimerErrorSceneTestTag).assertDoesNotExist()
     }
 
@@ -86,7 +86,7 @@ class TimerScreenKtTest {
             )
         }
 
-        onNodeWithTag(CountingSceneTestTag).assertDoesNotExist()
+        onNodeWithTag(TimerCountingSceneTestTag).assertDoesNotExist()
         onNodeWithTag(TimerErrorSceneTestTag).assertIsDisplayed()
     }
 }

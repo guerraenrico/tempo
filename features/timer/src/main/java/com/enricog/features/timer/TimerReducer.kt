@@ -1,31 +1,27 @@
 package com.enricog.features.timer
 
 import com.enricog.data.routines.api.entities.Routine
-import com.enricog.data.routines.api.entities.Segment
 import com.enricog.data.routines.api.entities.TimeType
-import com.enricog.entities.Seconds
 import com.enricog.entities.seconds
 import com.enricog.features.timer.models.Count
 import com.enricog.features.timer.models.SegmentStep
 import com.enricog.features.timer.models.SegmentStepType
 import com.enricog.features.timer.models.TimerState
+import com.enricog.features.timer.models.TimerState.Counting.Companion.getSegmentStepFrom
 import javax.inject.Inject
 
 internal class TimerReducer @Inject constructor() {
 
     fun setup(routine: Routine): TimerState {
         val segment = routine.segments.first()
-        val (type, time) = getStepTypeAndTime(
-            segment = segment,
-            startTimeOffset = routine.startTimeOffset
+        val segmentStep = getSegmentStepFrom(
+            routine = routine,
+            segment = segment
         )
         return TimerState.Counting(
             routine = routine,
-            runningSegment = routine.segments.first(),
-            step = SegmentStep(
-                count = Count.idle(seconds = time),
-                type = type
-            )
+            runningSegment = segment,
+            step = segmentStep
         )
     }
 
@@ -87,44 +83,26 @@ internal class TimerReducer @Inject constructor() {
         if (state !is TimerState.Counting || !state.isCountCompleted || state.isRoutineCompleted) return state
 
         val step = state.step
-        val runningSegment = state.runningSegment
 
         return when (step.type) {
             SegmentStepType.STARTING -> {
                 state.copy(
                     step = SegmentStep(
-                        count = Count.start(runningSegment.time),
+                        count = Count.start(state.runningSegment.time),
                         type = SegmentStepType.IN_PROGRESS
                     )
                 )
             }
             SegmentStepType.IN_PROGRESS -> {
-                val routine = state.routine
-                val indexRunningSegment = routine.segments.indexOf(runningSegment)
-                val segment = routine.segments[indexRunningSegment + 1]
-                val (type, time) = getStepTypeAndTime(
-                    segment = segment,
-                    startTimeOffset = routine.startTimeOffset
-                )
+                val runningSegment = requireNotNull(state.nextSegment)
+                val nextSegmentStep = requireNotNull(state.nextSegmentStep)
                 state.copy(
-                    runningSegment = segment,
-                    step = SegmentStep(
-                        count = Count.start(seconds = time),
-                        type = type
+                    runningSegment = runningSegment,
+                    step = nextSegmentStep.copy(
+                        count = Count.start(nextSegmentStep.count.seconds)
                     )
                 )
             }
-        }
-    }
-
-    private fun getStepTypeAndTime(
-        segment: Segment,
-        startTimeOffset: Seconds
-    ): Pair<SegmentStepType, Seconds> {
-        return if (segment.type != TimeType.REST && startTimeOffset > 0.seconds) {
-            SegmentStepType.STARTING to startTimeOffset
-        } else {
-            SegmentStepType.IN_PROGRESS to segment.time
         }
     }
 }

@@ -7,6 +7,7 @@ import com.enricog.data.routines.api.entities.TimeType
 import com.enricog.features.timer.models.SegmentStepType
 import com.enricog.features.timer.models.TimerState
 import com.enricog.features.timer.models.TimerViewState
+import com.enricog.features.timer.models.TimerViewState.Counting.BackgroundColor
 import com.enricog.ui.theme.TimeTypeColors
 import javax.inject.Inject
 
@@ -31,13 +32,39 @@ internal class TimerStateConverter @Inject constructor() :
         )
     }
 
-    private fun TimerState.Counting.getClockBackgroundColor(): Color {
+    private fun TimerState.Counting.getClockBackgroundColor(): BackgroundColor {
+        val nextSegmentStep = nextSegmentStep
         return when {
-            step.type == SegmentStepType.STARTING -> TimeTypeColors.STARTING
-            runningSegment.type == TimeType.REST -> TimeTypeColors.REST
-            runningSegment.type == TimeType.TIMER -> TimeTypeColors.TIMER
-            runningSegment.type == TimeType.STOPWATCH -> TimeTypeColors.STOPWATCH
+            step.type == SegmentStepType.STARTING -> BackgroundColor(
+                foreground = step.type.getColor(),
+                ripple = when {
+                    isCountCompleted -> runningSegment.type.getColor()
+                    else -> null
+                }
+            )
+            else -> BackgroundColor(
+                foreground = runningSegment.type.getColor(),
+                ripple = when {
+                    isCountCompleted -> if (nextSegmentStep?.type == SegmentStepType.STARTING)
+                        nextSegmentStep.type.getColor() else nextSegment?.type?.getColor()
+                    else -> null
+                }
+            )
+        }
+    }
+
+    private fun SegmentStepType.getColor(): Color {
+        return when (this) {
+            SegmentStepType.STARTING -> TimeTypeColors.STARTING
             else -> throw IllegalArgumentException("unhandled case")
+        }
+    }
+
+    private fun TimeType.getColor(): Color {
+        return when (this) {
+            TimeType.REST -> TimeTypeColors.REST
+            TimeType.TIMER -> TimeTypeColors.TIMER
+            TimeType.STOPWATCH -> TimeTypeColors.STOPWATCH
         }
     }
 

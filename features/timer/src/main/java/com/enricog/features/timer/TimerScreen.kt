@@ -7,7 +7,7 @@ import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
 import androidx.compose.ui.Modifier
 import com.enricog.features.timer.models.TimerViewState
-import com.enricog.features.timer.ui_components.CountingScene
+import com.enricog.features.timer.ui_components.TimerCountingScene
 import com.enricog.features.timer.ui_components.TimerErrorScene
 
 @Composable
@@ -36,7 +36,7 @@ internal fun TimerViewState.Compose(
 ) {
     when (this) {
         TimerViewState.Idle -> Unit
-        is TimerViewState.Counting -> CountingScene(
+        is TimerViewState.Counting -> TimerCountingScene(
                 state = this,
                 onToggleTimer = onToggleTimer,
                 onRestartSegment = onRestartSegment,

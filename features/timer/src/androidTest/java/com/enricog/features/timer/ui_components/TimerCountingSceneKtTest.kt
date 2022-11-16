@@ -16,7 +16,7 @@ import com.enricog.ui.theme.TempoTheme
 import org.junit.Rule
 import org.junit.Test
 
-class CountingSceneKtTest {
+class TimerCountingSceneKtTest {
 
     @get:Rule
     val composeTestRule = createComposeRule()
@@ -40,7 +40,7 @@ class CountingSceneKtTest {
 
         setContent {
             TempoTheme {
-                CountingScene(
+                TimerCountingScene(
                     state = viewState,
                     onToggleTimer = {},
                     onRestartSegment = {},
@@ -76,7 +76,7 @@ class CountingSceneKtTest {
 
         setContent {
             TempoTheme {
-                CountingScene(
+                TimerCountingScene(
                     state = viewState,
                     onToggleTimer = {},
                     onRestartSegment = {},
@@ -113,7 +113,7 @@ class CountingSceneKtTest {
 
         setContent {
             TempoTheme {
-                CountingScene(
+                TimerCountingScene(
                     state = viewState,
                     onToggleTimer = {},
                     onRestartSegment = {},
