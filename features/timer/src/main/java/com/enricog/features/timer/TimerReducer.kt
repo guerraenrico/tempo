@@ -7,14 +7,13 @@ import com.enricog.features.timer.models.Count
 import com.enricog.features.timer.models.SegmentStep
 import com.enricog.features.timer.models.SegmentStepType
 import com.enricog.features.timer.models.TimerState
-import com.enricog.features.timer.models.TimerState.Counting.Companion.getSegmentStepFrom
 import javax.inject.Inject
 
 internal class TimerReducer @Inject constructor() {
 
     fun setup(routine: Routine): TimerState {
         val segment = routine.segments.first()
-        val segmentStep = getSegmentStepFrom(
+        val segmentStep = SegmentStep.from(
             routine = routine,
             segment = segment
         )
