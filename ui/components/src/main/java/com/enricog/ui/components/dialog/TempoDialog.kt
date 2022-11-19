@@ -22,6 +22,7 @@ import com.enricog.ui.theme.TempoTheme
 
 @Composable
 fun TempoDialogAlert(
+    modifier: Modifier = Modifier,
     title: String,
     description: String,
     positiveAction: TempoDialogAction,
@@ -31,7 +32,7 @@ fun TempoDialogAlert(
 ) {
     TempoDialogBase(onDismiss = onDismiss, isCancellable = isCancellable) {
         Column(
-            modifier = Modifier
+            modifier = modifier
                 .fillMaxWidth(0.8f)
                 .background(
                     color = TempoTheme.colors.background,
