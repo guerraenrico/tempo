@@ -71,10 +71,9 @@ private fun DoneActions(
     onResetButtonClick: () -> Unit,
     onDoneButtonClick: () -> Unit
 ) {
-    TempoButton(
+    TempoIconButton(
         onClick = onResetButtonClick,
-        text = stringResource(R.string.button_reset),
-        color = TempoButtonColor.Normal,
+        icon = painterResource(R.drawable.ic_timer_restart),
         modifier = Modifier.testTag(ButtonResetTestTag),
         contentDescription = stringResource(R.string.content_description_button_reset_routine)
     )
@@ -92,7 +91,7 @@ private fun DoneActions(
 private fun RestartButton(onClick: () -> Unit) {
     TempoIconButton(
         onClick = onClick,
-        icon = painterResource(R.drawable.ic_timer_restart),
+        icon = painterResource(R.drawable.ic_timer_back),
         modifier = Modifier.testTag(ButtonRestartTestTag),
         contentDescription = stringResource(R.string.content_description_button_restart_routine_segment)
     )
