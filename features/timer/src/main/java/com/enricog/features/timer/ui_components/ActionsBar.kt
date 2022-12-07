@@ -78,10 +78,9 @@ private fun DoneActions(
         contentDescription = stringResource(R.string.content_description_button_reset_routine)
     )
     Spacer(modifier = Modifier.width(20.dp))
-    TempoButton(
+    TempoIconButton(
         onClick = onDoneButtonClick,
-        text = stringResource(R.string.button_done),
-        color = TempoButtonColor.Accent,
+        icon = painterResource(R.drawable.ic_timer_done),
         modifier = Modifier.testTag(ButtonDoneTestTag),
         contentDescription = stringResource(R.string.content_description_button_done_routine)
     )
