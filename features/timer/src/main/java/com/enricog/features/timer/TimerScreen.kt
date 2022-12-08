@@ -1,5 +1,13 @@
 package com.enricog.features.timer
 
+import androidx.compose.animation.AnimatedContent
+import androidx.compose.animation.EnterTransition
+import androidx.compose.animation.ExitTransition
+import androidx.compose.animation.core.tween
+import androidx.compose.animation.fadeIn
+import androidx.compose.animation.fadeOut
+import androidx.compose.animation.scaleIn
+import androidx.compose.animation.with
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.fillMaxSize
@@ -17,6 +25,7 @@ import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.zIndex
 import com.enricog.features.timer.models.TimerViewState
 import com.enricog.features.timer.ui_components.TimerCloseDialog
+import com.enricog.features.timer.ui_components.TimerCompletedScene
 import com.enricog.features.timer.ui_components.TimerCountingScene
 import com.enricog.features.timer.ui_components.TimerErrorScene
 import com.enricog.ui.components.button.TempoButtonColor
@@ -42,6 +51,7 @@ internal fun TimerScreen(viewModel: TimerViewModel) {
                 contentDescription = stringResource(R.string.content_description_button_exit_routine)
             )
         }
+
         viewState.Compose(
             onToggleTimer = viewModel::onToggleTimer,
             onRestartSegment = viewModel::onRestartSegment,
@@ -67,18 +77,33 @@ internal fun TimerViewState.Compose(
     onDone: () -> Unit,
     onRetryLoad: () -> Unit
 ) {
-    when (this) {
-        TimerViewState.Idle -> Unit
-        is TimerViewState.Counting -> TimerCountingScene(
-            state = this,
-            onToggleTimer = onToggleTimer,
-            onRestartSegment = onRestartSegment,
-            onReset = onReset,
-            onDone = onDone
-        )
-        is TimerViewState.Error -> TimerErrorScene(
-            throwable = throwable,
-            onRetryLoadClick = onRetryLoad
-        )
+    AnimatedContent(
+        targetState = this,
+        transitionSpec = {
+            if (targetState::class == initialState::class) {
+                EnterTransition.None with ExitTransition.None
+            } else {
+                fadeIn(animationSpec = tween(440, delayMillis = 440)) +
+                        scaleIn(initialScale = 0.92f, animationSpec = tween(440, delayMillis = 440)) with
+                        fadeOut(animationSpec = tween(440))
+            }
+        }
+    ) { state ->
+        when (state) {
+            TimerViewState.Idle -> Unit
+            is TimerViewState.Counting -> TimerCountingScene(
+                state = state,
+                onToggleTimer = onToggleTimer,
+                onRestartSegment = onRestartSegment
+            )
+            TimerViewState.Completed -> TimerCompletedScene(
+                onReset = onReset,
+                onDone = onDone
+            )
+            is TimerViewState.Error -> TimerErrorScene(
+                throwable = state.throwable,
+                onRetryLoadClick = onRetryLoad
+            )
+        }
     }
 }

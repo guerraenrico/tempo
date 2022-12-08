@@ -12,7 +12,6 @@ import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.draw.alpha
 import androidx.compose.ui.draw.drawBehind
 import androidx.compose.ui.platform.LocalConfiguration
 import androidx.compose.ui.platform.testTag
@@ -34,23 +33,21 @@ internal const val SegmentNameTestTag = "SegmentNameTestTag"
 internal fun TimerCountingScene(
     state: TimerViewState.Counting,
     onToggleTimer: () -> Unit,
-    onRestartSegment: () -> Unit,
-    onReset: () -> Unit,
-    onDone: () -> Unit,
+    onRestartSegment: () -> Unit
 ) {
     val configuration = LocalConfiguration.current
     val orientation = configuration.orientation
 
     val count = state.step.count
 
-    val alpha by updateTransition(targetState = state.isRoutineCompleted, label = "alpha")
-        .animateFloat(label = "alpha") { if (it) 0f else 1f }
-
     val circleTransitionSize = if (orientation == ORIENTATION_PORTRAIT) {
         configuration.screenHeightDp.dp
     } else {
         configuration.screenWidthDp.dp
     }
+
+    println("[TEST] state.clockBackgroundColor.ripple : ${state.clockBackgroundColor.ripple}")
+
     val circleScale by updateTransition(
         targetState = state.clockBackgroundColor.ripple != null,
         label = "circleScale"
@@ -78,7 +75,6 @@ internal fun TimerCountingScene(
 
             Title(
                 modifier = Modifier
-                    .alpha(alpha)
                     .constrainAs(title) {
                         top.linkTo(parent.top)
                         start.linkTo(parent.start)
@@ -111,11 +107,8 @@ internal fun TimerCountingScene(
 
             ActionsBar(
                 isTimeRunning = count.isRunning,
-                isRoutineCompleted = state.isRoutineCompleted,
                 onStartStopButtonClick = onToggleTimer,
                 onRestartSegmentButtonClick = onRestartSegment,
-                onResetButtonClick = onReset,
-                onDoneButtonClick = onDone,
                 modifier = Modifier
                     .constrainAs(actionBar) {
                         top.linkTo(clock.bottom)

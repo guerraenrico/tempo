@@ -16,6 +16,7 @@ import com.enricog.features.timer.models.Count
 import com.enricog.features.timer.models.SegmentStep
 import com.enricog.features.timer.models.SegmentStepType
 import com.enricog.features.timer.models.TimerViewState
+import com.enricog.features.timer.models.TimerViewState.Counting.BackgroundColor
 import com.enricog.features.timer.navigation.TimerNavigationActions
 import com.enricog.features.timer.usecase.TimerUseCase
 import com.enricog.navigation.api.routes.RoutinesRoute
@@ -66,8 +67,10 @@ class TimerViewModelTest {
             ),
             stepTitleId = R.string.title_segment_step_type_starting,
             segmentName = "First Segment",
-            clockBackgroundColor = TimeTypeColors.STARTING,
-            isRoutineCompleted = false,
+            clockBackgroundColor = BackgroundColor(
+                foreground = TimeTypeColors.STARTING,
+                ripple = null
+            ),
         )
         val expectedOnStart = TimerViewState.Counting(
             step = SegmentStep(
@@ -76,8 +79,10 @@ class TimerViewModelTest {
             ),
             stepTitleId = R.string.title_segment_step_type_starting,
             segmentName = "First Segment",
-            clockBackgroundColor = TimeTypeColors.STARTING,
-            isRoutineCompleted = false,
+            clockBackgroundColor = BackgroundColor(
+                foreground =  TimeTypeColors.STARTING,
+                ripple = null
+            )
         )
         val sut = buildSut()
 
@@ -103,8 +108,10 @@ class TimerViewModelTest {
             ),
             stepTitleId = R.string.title_segment_step_type_starting,
             segmentName = "First Segment",
-            clockBackgroundColor = TimeTypeColors.STARTING,
-            isRoutineCompleted = false,
+            clockBackgroundColor = BackgroundColor(
+                foreground =  TimeTypeColors.STARTING,
+                ripple = null
+            )
         )
         val sut = buildSut()
 
@@ -131,8 +138,10 @@ class TimerViewModelTest {
             ),
             stepTitleId = R.string.title_segment_step_type_starting,
             segmentName = "First Segment",
-            clockBackgroundColor = TimeTypeColors.STARTING,
-            isRoutineCompleted = false,
+            clockBackgroundColor = BackgroundColor(
+                foreground =  TimeTypeColors.STARTING,
+                ripple = null
+            )
         )
         val sut = buildSut()
 
@@ -157,8 +166,10 @@ class TimerViewModelTest {
             ),
             stepTitleId = R.string.title_segment_step_type_starting,
             segmentName = "First Segment",
-            clockBackgroundColor = TimeTypeColors.STARTING,
-            isRoutineCompleted = false,
+            clockBackgroundColor = BackgroundColor(
+                foreground =  TimeTypeColors.STARTING,
+                ripple = null
+            )
         )
         val expectedStartFirstSegment = TimerViewState.Counting(
             step = SegmentStep(
@@ -167,8 +178,10 @@ class TimerViewModelTest {
             ),
             stepTitleId = R.string.title_segment_step_type_in_progress,
             segmentName = "First Segment",
-            clockBackgroundColor = TimeTypeColors.TIMER,
-            isRoutineCompleted = false,
+            clockBackgroundColor = BackgroundColor(
+                foreground =  TimeTypeColors.TIMER,
+                ripple = null
+            )
         )
         val sut = buildSut()
 

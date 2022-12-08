@@ -22,20 +22,23 @@ internal class TimerStateConverter @Inject constructor() :
         }
     }
 
-    private fun mapCounting(state: TimerState.Counting): TimerViewState.Counting {
-        return TimerViewState.Counting(
-            step = state.step,
-            stepTitleId = state.getStepTitleId(),
-            segmentName = state.runningSegment.name,
-            clockBackgroundColor = state.getClockBackgroundColor(),
-            isRoutineCompleted = state.isRoutineCompleted
-        )
+    private fun mapCounting(state: TimerState.Counting): TimerViewState {
+        return if (state.isRoutineCompleted) {
+            TimerViewState.Completed
+        } else {
+            TimerViewState.Counting(
+                step = state.step,
+                stepTitleId = state.getStepTitleId(),
+                segmentName = state.runningSegment.name,
+                clockBackgroundColor = state.getClockBackgroundColor()
+            )
+        }
     }
 
     private fun TimerState.Counting.getClockBackgroundColor(): BackgroundColor {
         val nextSegmentStep = nextSegmentStep
-        return when {
-            step.type == SegmentStepType.STARTING -> BackgroundColor(
+        return when (step.type) {
+            SegmentStepType.STARTING -> BackgroundColor(
                 foreground = step.type.getColor(),
                 ripple = when {
                     isCountCompleted -> runningSegment.type.getColor()

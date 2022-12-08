@@ -11,6 +11,7 @@ import com.enricog.features.timer.models.SegmentStep
 import com.enricog.features.timer.models.SegmentStepType
 import com.enricog.features.timer.models.TimerState
 import com.enricog.features.timer.models.TimerViewState
+import com.enricog.features.timer.models.TimerViewState.Counting.BackgroundColor
 import com.enricog.ui.theme.TimeTypeColors
 import org.junit.Rule
 import org.junit.Test
@@ -62,8 +63,10 @@ class TimerStateConverterTest {
             ),
             stepTitleId = R.string.title_segment_time_type_rest,
             segmentName = "segment name",
-            clockBackgroundColor = TimeTypeColors.REST,
-            isRoutineCompleted = true,
+            clockBackgroundColor = BackgroundColor(
+                foreground =  TimeTypeColors.REST,
+                ripple = null
+            )
         )
 
         val result = sut.convert(state)
@@ -89,8 +92,10 @@ class TimerStateConverterTest {
                 ),
                 stepTitleId = R.string.title_segment_time_type_rest,
                 segmentName = "segment name",
-                clockBackgroundColor = TimeTypeColors.STARTING,
-                isRoutineCompleted = false,
+                clockBackgroundColor = BackgroundColor(
+                    foreground =  TimeTypeColors.STARTING,
+                    ripple = null
+                )
             )
 
             val result = sut.convert(state)
@@ -116,8 +121,10 @@ class TimerStateConverterTest {
                 ),
                 stepTitleId = R.string.title_segment_time_type_rest,
                 segmentName = "segment name",
-                clockBackgroundColor = TimeTypeColors.REST,
-                isRoutineCompleted = true,
+                clockBackgroundColor = BackgroundColor(
+                    foreground =  TimeTypeColors.REST,
+                    ripple = null
+                )
             )
 
             val result = sut.convert(state)
@@ -143,8 +150,10 @@ class TimerStateConverterTest {
                 ),
                 stepTitleId = R.string.title_segment_step_type_in_progress,
                 segmentName = "segment name",
-                clockBackgroundColor = TimeTypeColors.TIMER,
-                isRoutineCompleted = true,
+                clockBackgroundColor = BackgroundColor(
+                    foreground =  TimeTypeColors.TIMER,
+                    ripple = null
+                )
             )
 
             val result = sut.convert(state)
@@ -173,8 +182,10 @@ class TimerStateConverterTest {
                 ),
                 stepTitleId = R.string.title_segment_step_type_in_progress,
                 segmentName = "segment name",
-                clockBackgroundColor = TimeTypeColors.STOPWATCH,
-                isRoutineCompleted = true,
+                clockBackgroundColor = BackgroundColor(
+                    foreground =  TimeTypeColors.STOPWATCH,
+                    ripple = null
+                )
             )
 
             val result = sut.convert(state)
