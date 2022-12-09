@@ -52,13 +52,29 @@ internal fun TimerScreen(viewModel: TimerViewModel) {
             )
         }
 
-        viewState.Compose(
-            onToggleTimer = viewModel::onToggleTimer,
-            onRestartSegment = viewModel::onRestartSegment,
-            onReset = viewModel::onReset,
-            onDone = viewModel::onDone,
-            onRetryLoad = viewModel::onRetryLoad
-        )
+        AnimatedContent(
+            targetState = viewState,
+            transitionSpec = {
+                if (targetState::class == initialState::class) {
+                    EnterTransition.None with ExitTransition.None
+                } else {
+                    fadeIn(
+                        animationSpec = tween(durationMillis = 440, delayMillis = 440)
+                    ) + scaleIn(
+                        initialScale = 0.92f,
+                        animationSpec = tween(durationMillis = 440, delayMillis = 440)
+                    ) with fadeOut(animationSpec = tween(durationMillis = 440))
+                }
+            }
+        ) { targetViewState ->
+            targetViewState.Compose(
+                onToggleTimer = viewModel::onToggleTimer,
+                onRestartSegment = viewModel::onRestartSegment,
+                onReset = viewModel::onReset,
+                onDone = viewModel::onDone,
+                onRetryLoad = viewModel::onRetryLoad
+            )
+        }
     }
 
     if (showCloseDialog) {
@@ -77,33 +93,20 @@ internal fun TimerViewState.Compose(
     onDone: () -> Unit,
     onRetryLoad: () -> Unit
 ) {
-    AnimatedContent(
-        targetState = this,
-        transitionSpec = {
-            if (targetState::class == initialState::class) {
-                EnterTransition.None with ExitTransition.None
-            } else {
-                fadeIn(animationSpec = tween(440, delayMillis = 440)) +
-                        scaleIn(initialScale = 0.92f, animationSpec = tween(440, delayMillis = 440)) with
-                        fadeOut(animationSpec = tween(440))
-            }
-        }
-    ) { state ->
-        when (state) {
-            TimerViewState.Idle -> Unit
-            is TimerViewState.Counting -> TimerCountingScene(
-                state = state,
-                onToggleTimer = onToggleTimer,
-                onRestartSegment = onRestartSegment
-            )
-            TimerViewState.Completed -> TimerCompletedScene(
-                onReset = onReset,
-                onDone = onDone
-            )
-            is TimerViewState.Error -> TimerErrorScene(
-                throwable = state.throwable,
-                onRetryLoadClick = onRetryLoad
-            )
-        }
+    when (this) {
+        TimerViewState.Idle -> Unit
+        is TimerViewState.Counting -> TimerCountingScene(
+            state = this,
+            onToggleTimer = onToggleTimer,
+            onRestartSegment = onRestartSegment
+        )
+        TimerViewState.Completed -> TimerCompletedScene(
+            onReset = onReset,
+            onDone = onDone
+        )
+        is TimerViewState.Error -> TimerErrorScene(
+            throwable = throwable,
+            onRetryLoadClick = onRetryLoad
+        )
     }
 }
