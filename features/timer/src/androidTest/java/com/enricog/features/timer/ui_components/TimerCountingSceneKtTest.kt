@@ -12,6 +12,7 @@ import com.enricog.features.timer.models.Count
 import com.enricog.features.timer.models.SegmentStep
 import com.enricog.features.timer.models.SegmentStepType
 import com.enricog.features.timer.models.TimerViewState
+import com.enricog.features.timer.models.TimerViewState.Counting.BackgroundColor
 import com.enricog.ui.theme.TempoTheme
 import org.junit.Rule
 import org.junit.Test
@@ -22,7 +23,7 @@ class TimerCountingSceneKtTest {
     val composeTestRule = createComposeRule()
 
     @Test
-    fun shouldShowTitlesClockAndActionBarWhenRoutineIsNotCompleted() = composeTestRule {
+    fun shouldShowTitlesClockAndActionBar() = composeTestRule {
         val viewState = TimerViewState.Counting(
             stepTitleId = R.string.title_segment_step_type_in_progress,
             segmentName = "segment name",
@@ -34,8 +35,10 @@ class TimerCountingSceneKtTest {
                 ),
                 type = SegmentStepType.IN_PROGRESS
             ),
-            clockBackgroundColor = Color.Blue,
-            isRoutineCompleted = false
+            clockBackgroundColor = BackgroundColor(
+                foreground = Color.Blue,
+                ripple = null
+            )
         )
 
         setContent {
@@ -43,53 +46,13 @@ class TimerCountingSceneKtTest {
                 TimerCountingScene(
                     state = viewState,
                     onToggleTimer = {},
-                    onRestartSegment = {},
-                    onReset = {},
-                    onDone = {},
-                    onClose = {}
+                    onRestartSegment = {}
                 )
             }
         }
 
         onNodeWithTag(StepTitleTestTag).assertIsDisplayed()
         onNodeWithTag(SegmentNameTestTag).assertIsDisplayed()
-        onNodeWithTag(ClockTestTag).assertIsDisplayed()
-        onNodeWithTag(ActionBarTestTag).assertIsDisplayed()
-    }
-
-    @Test
-    fun shouldShowClockAndActionBarWhenRoutineIsCompleted() = composeTestRule {
-        val viewState = TimerViewState.Counting(
-            stepTitleId = R.string.title_segment_step_type_in_progress,
-            segmentName = "segment name",
-            step = SegmentStep(
-                count = Count(
-                    seconds = 1.seconds,
-                    isRunning = true,
-                    isCompleted = false
-                ),
-                type = SegmentStepType.IN_PROGRESS
-            ),
-            clockBackgroundColor = Color.Blue,
-            isRoutineCompleted = true
-        )
-
-        setContent {
-            TempoTheme {
-                TimerCountingScene(
-                    state = viewState,
-                    onToggleTimer = {},
-                    onRestartSegment = {},
-                    onReset = {},
-                    onDone = {},
-                    onClose = {}
-                )
-            }
-        }
-
-        // FIXME right now assertIsNotDisplayed doesn't consider alpha at 0 to be notDisplayed
-        // onNodeWithTag(StepTitleTestTag).assertIsNotDisplayed()
-        // onNodeWithTag(SegmentNameTestTag).assertIsNotDisplayed()
         onNodeWithTag(ClockTestTag).assertIsDisplayed()
         onNodeWithTag(ActionBarTestTag).assertIsDisplayed()
     }
@@ -107,8 +70,10 @@ class TimerCountingSceneKtTest {
                 ),
                 type = SegmentStepType.IN_PROGRESS
             ),
-            clockBackgroundColor = Color.Blue,
-            isRoutineCompleted = false
+            clockBackgroundColor = BackgroundColor(
+                foreground = Color.Blue,
+                ripple = null
+            )
         )
 
         setContent {
@@ -116,10 +81,7 @@ class TimerCountingSceneKtTest {
                 TimerCountingScene(
                     state = viewState,
                     onToggleTimer = {},
-                    onRestartSegment = {},
-                    onReset = {},
-                    onDone = {},
-                    onClose = {}
+                    onRestartSegment = {}
                 )
             }
         }

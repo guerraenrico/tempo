@@ -3,7 +3,9 @@ package com.enricog.features.timer.ui_components
 import androidx.compose.ui.test.assertIsDisplayed
 import androidx.compose.ui.test.junit4.createComposeRule
 import androidx.compose.ui.test.onNodeWithTag
+import com.enricog.core.compose.testing.drawable.assertDrawable
 import com.enricog.core.compose.testing.invoke
+import com.enricog.features.timer.R
 import com.enricog.ui.theme.TempoTheme
 import org.junit.Rule
 import org.junit.Test
@@ -14,44 +16,36 @@ class ActionsBarKtTest {
     val composeRule = createComposeRule()
 
     @Test
-    fun shouldShowDoneActionsWhenRoutineIsCompleted() = composeRule {
+    fun shouldShowActionWithStopIconWhenTimeIsRunning() = composeRule {
         setContent {
             TempoTheme {
                 ActionsBar(
                     isTimeRunning = true,
-                    isRoutineCompleted = true,
                     onStartStopButtonClick = {},
-                    onRestartSegmentButtonClick = {},
-                    onResetButtonClick = {},
-                    onDoneButtonClick = {}
+                    onRestartSegmentButtonClick = {}
                 )
             }
         }
 
-        onNodeWithTag(ButtonDoneTestTag).assertIsDisplayed()
-        onNodeWithTag(ButtonResetTestTag).assertIsDisplayed()
-        onNodeWithTag(ButtonStartStopTestTag).assertDoesNotExist()
-        onNodeWithTag(ButtonRestartTestTag).assertDoesNotExist()
+        onNodeWithTag(ButtonStartStopTestTag).assertIsDisplayed()
+        onNodeWithTag(ButtonStartStopTestTag).assertDrawable(R.drawable.ic_timer_stop)
+        onNodeWithTag(ButtonRestartTestTag).assertIsDisplayed()
     }
 
     @Test
-    fun shouldShowRunningActionsWhenRoutineIsNotCompleted() = composeRule {
+    fun shouldShowActionWithPlayIconWhenTimeIsNotRunning() = composeRule {
         setContent {
             TempoTheme {
                 ActionsBar(
-                    isTimeRunning = true,
-                    isRoutineCompleted = false,
+                    isTimeRunning = false,
                     onStartStopButtonClick = {},
-                    onRestartSegmentButtonClick = {},
-                    onResetButtonClick = {},
-                    onDoneButtonClick = {}
+                    onRestartSegmentButtonClick = {}
                 )
             }
         }
 
-        onNodeWithTag(ButtonDoneTestTag).assertDoesNotExist()
-        onNodeWithTag(ButtonResetTestTag).assertDoesNotExist()
         onNodeWithTag(ButtonStartStopTestTag).assertIsDisplayed()
+        onNodeWithTag(ButtonStartStopTestTag).assertDrawable(R.drawable.ic_timer_play)
         onNodeWithTag(ButtonRestartTestTag).assertIsDisplayed()
     }
 }

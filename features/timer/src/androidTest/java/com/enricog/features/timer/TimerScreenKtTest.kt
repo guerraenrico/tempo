@@ -10,8 +10,11 @@ import com.enricog.features.timer.models.Count
 import com.enricog.features.timer.models.SegmentStep
 import com.enricog.features.timer.models.SegmentStepType
 import com.enricog.features.timer.models.TimerViewState
+import com.enricog.features.timer.models.TimerViewState.Counting.BackgroundColor
+import com.enricog.features.timer.ui_components.TimerCompletedSceneTestTag
 import com.enricog.features.timer.ui_components.TimerCountingSceneTestTag
 import com.enricog.features.timer.ui_components.TimerErrorSceneTestTag
+import com.enricog.ui.theme.TempoTheme
 import org.junit.Rule
 import org.junit.Test
 
@@ -21,26 +24,28 @@ class TimerScreenKtTest {
     val composeRule = createComposeRule()
 
     @Test
-    fun shouldNotShowCountingScene() = composeRule {
+    fun shouldNotShowCountingSceneWhenIdle() = composeRule {
         val viewState = TimerViewState.Idle
 
         setContent {
-            viewState.Compose(
-                onToggleTimer = {},
-                onRestartSegment = {},
-                onReset = {},
-                onDone = {},
-                onClose = {},
-                onRetryLoad = {}
-            )
+            TempoTheme {
+                viewState.Compose(
+                    onToggleTimer = {},
+                    onRestartSegment = {},
+                    onReset = {},
+                    onDone = {},
+                    onRetryLoad = {}
+                )
+            }
         }
 
         onNodeWithTag(TimerCountingSceneTestTag).assertDoesNotExist()
         onNodeWithTag(TimerErrorSceneTestTag).assertDoesNotExist()
+        onNodeWithTag(TimerCompletedSceneTestTag).assertDoesNotExist()
     }
 
     @Test
-    fun shouldShowCountingScene() = composeRule {
+    fun shouldShowCountingSceneWhenRoutineIsCounting() = composeRule {
         val viewState = TimerViewState.Counting(
             stepTitleId = R.string.title_segment_step_type_in_progress,
             segmentName = "segment name",
@@ -52,41 +57,68 @@ class TimerScreenKtTest {
                 ),
                 type = SegmentStepType.STARTING
             ),
-            clockBackgroundColor = Color.Blue,
-            isRoutineCompleted = false
+            clockBackgroundColor = BackgroundColor(
+                foreground = Color.Blue,
+                ripple = null
+            )
         )
 
         setContent {
-            viewState.Compose(
-                onToggleTimer = {},
-                onRestartSegment = {},
-                onReset = {},
-                onDone = {},
-                onClose = {},
-                onRetryLoad = {}
-            )
+            TempoTheme {
+                viewState.Compose(
+                    onToggleTimer = {},
+                    onRestartSegment = {},
+                    onReset = {},
+                    onDone = {},
+                    onRetryLoad = {}
+                )
+            }
         }
 
         onNodeWithTag(TimerCountingSceneTestTag).assertIsDisplayed()
         onNodeWithTag(TimerErrorSceneTestTag).assertDoesNotExist()
+        onNodeWithTag(TimerCompletedSceneTestTag).assertDoesNotExist()
     }
 
     @Test
-    fun shouldRenderTimerErrorSceneWhenStateIsError() = composeRule {
+    fun shouldRenderErrorSceneWhenThereIsAnError() = composeRule {
         val viewState = TimerViewState.Error(throwable = Exception())
 
         setContent {
-            viewState.Compose(
-                onToggleTimer = {},
-                onRestartSegment = {},
-                onReset = {},
-                onDone = {},
-                onClose = {},
-                onRetryLoad = {}
-            )
+            TempoTheme {
+                viewState.Compose(
+                    onToggleTimer = {},
+                    onRestartSegment = {},
+                    onReset = {},
+                    onDone = {},
+                    onRetryLoad = {}
+                )
+            }
         }
 
         onNodeWithTag(TimerCountingSceneTestTag).assertDoesNotExist()
         onNodeWithTag(TimerErrorSceneTestTag).assertIsDisplayed()
+        onNodeWithTag(TimerCompletedSceneTestTag).assertDoesNotExist()
+    }
+
+    @Test
+    fun shouldShowCompleteSceneWhenRoutineIsComplete() = composeRule {
+        val viewState = TimerViewState.Completed
+
+        setContent {
+            TempoTheme {
+                viewState.Compose(
+                    onToggleTimer = {},
+                    onRestartSegment = {},
+                    onReset = {},
+                    onDone = {},
+                    onRetryLoad = {}
+                )
+            }
+        }
+
+        onNodeWithTag(TimerCountingSceneTestTag).assertDoesNotExist()
+        onNodeWithTag(TimerErrorSceneTestTag).assertDoesNotExist()
+        onNodeWithTag(TimerCompletedSceneTestTag).assertIsDisplayed()
     }
 }
