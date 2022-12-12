@@ -4,7 +4,6 @@ import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.platform.testTag
-import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.sp
 import androidx.constraintlayout.compose.ConstraintLayout
@@ -59,7 +58,7 @@ internal fun SegmentSectionTitle(
             },
             onClick = onAddSegmentClick,
             size = TempoIconButtonSize.Small,
-            icon = painterResource(R.drawable.ic_add),
+            iconResId = R.drawable.ic_add,
             color = TempoButtonColor.TransparentPrimary,
             drawShadow = false,
             contentDescription = stringResource(R.string.content_description_button_add_segment)

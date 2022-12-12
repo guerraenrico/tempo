@@ -12,7 +12,6 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.platform.testTag
-import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
@@ -56,14 +55,14 @@ internal fun TimerCompletedScene(
         ) {
             TempoIconButton(
                 onClick = onReset,
-                icon = painterResource(R.drawable.ic_timer_restart),
+                iconResId = R.drawable.ic_timer_restart,
                 modifier = Modifier.testTag(ButtonResetTestTag),
                 contentDescription = stringResource(R.string.content_description_button_reset_routine)
             )
             Spacer(modifier = Modifier.width(20.dp))
             TempoIconButton(
                 onClick = onDone,
-                icon = painterResource(R.drawable.ic_timer_done),
+                iconResId = R.drawable.ic_timer_done,
                 color = TempoButtonColor.Accent,
                 modifier = Modifier.testTag(ButtonDoneTestTag),
                 contentDescription = stringResource(R.string.content_description_button_done_routine)

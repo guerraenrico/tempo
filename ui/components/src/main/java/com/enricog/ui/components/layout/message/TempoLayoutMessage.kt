@@ -10,7 +10,6 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
-import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.tooling.preview.Preview
@@ -66,7 +65,7 @@ private fun TempoLayoutMessagePreview() {
     TempoLayoutMessage(
         icon = {
             TempoIcon(
-                icon = painterResource(id = R.drawable.ic_error_unknown),
+                iconResId = R.drawable.ic_error_unknown,
                 contentDescription = stringResource(id = R.string.content_description_generic_error_icon),
                 size = TempoIconSize.Original,
                 color = Color.Unspecified

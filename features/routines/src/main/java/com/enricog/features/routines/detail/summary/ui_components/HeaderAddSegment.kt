@@ -7,7 +7,6 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.platform.testTag
-import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
 import com.enricog.features.routines.R
 import com.enricog.ui.components.button.TempoButton
@@ -28,7 +27,7 @@ internal fun HeaderAddSegment(
     ) {
         TempoButton(
             onClick = onAddSegmentClick,
-            icon = painterResource(id = R.drawable.ic_add),
+            iconResId = R.drawable.ic_add,
             contentDescription = stringResource(R.string.content_description_button_add_segment),
             text = stringResource(R.string.button_add_segment),
             enabled = enabled,

@@ -20,7 +20,6 @@ import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.zIndex
 import com.enricog.features.timer.models.TimerViewState
@@ -45,7 +44,7 @@ internal fun TimerScreen(viewModel: TimerViewModel) {
         ) {
             TempoIconButton(
                 onClick = { showCloseDialog = true },
-                icon = painterResource(R.drawable.ic_timer_close),
+                iconResId = R.drawable.ic_timer_close,
                 color = TempoButtonColor.TransparentPrimary,
                 drawShadow = false,
                 contentDescription = stringResource(R.string.content_description_button_exit_routine)

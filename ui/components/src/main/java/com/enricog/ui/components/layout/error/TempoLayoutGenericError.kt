@@ -4,7 +4,6 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.platform.testTag
-import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
 import com.enricog.ui.components.R
 import com.enricog.ui.components.button.TempoButton
@@ -19,7 +18,7 @@ internal fun TempoLayoutGenericError(layoutTestTag: String, onButtonClick: () ->
         modifier = Modifier.testTag(layoutTestTag),
         icon = {
             TempoIcon(
-                icon = painterResource(id = R.drawable.ic_error_unknown),
+                iconResId = R.drawable.ic_error_unknown,
                 contentDescription = stringResource(id = R.string.content_description_generic_error_icon),
                 size = TempoIconSize.Original,
                 color = Color.Unspecified
