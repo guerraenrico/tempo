@@ -2,8 +2,8 @@ package com.enricog.features.timer.ui_components
 
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
-import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
+import androidx.compose.foundation.layout.fillMaxHeight
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
@@ -14,11 +14,13 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.platform.testTag
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.font.FontWeight
+import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import com.enricog.features.timer.R
 import com.enricog.ui.components.button.TempoButtonColor
 import com.enricog.ui.components.button.icon.TempoIconButton
+import com.enricog.ui.components.button.icon.TempoIconButtonSize
 import com.enricog.ui.components.text.TempoText
 import com.enricog.ui.theme.TempoTheme
 
@@ -47,26 +49,27 @@ internal fun TimerCompletedScene(
                 fontSize = 30.sp
             )
         )
-        Spacer(modifier = Modifier.height(40.dp))
-        Row(
-            modifier = Modifier.fillMaxWidth(),
-            verticalAlignment = Alignment.CenterVertically,
-            horizontalArrangement = Arrangement.Center
-        ) {
-            TempoIconButton(
-                onClick = onReset,
-                iconResId = R.drawable.ic_timer_restart,
-                modifier = Modifier.testTag(ButtonResetTestTag),
-                contentDescription = stringResource(R.string.content_description_button_reset_routine)
-            )
-            Spacer(modifier = Modifier.width(20.dp))
-            TempoIconButton(
-                onClick = onDone,
-                iconResId = R.drawable.ic_timer_done,
-                color = TempoButtonColor.Accent,
-                modifier = Modifier.testTag(ButtonDoneTestTag),
-                contentDescription = stringResource(R.string.content_description_button_done_routine)
-            )
-        }
+        Spacer(modifier = Modifier.height(50.dp))
+        TempoIconButton(
+            onClick = onReset,
+            iconResId = R.drawable.ic_timer_restart,
+            modifier = Modifier.testTag(ButtonResetTestTag),
+            contentDescription = stringResource(R.string.content_description_button_reset_routine)
+        )
+        Spacer(modifier = Modifier.height(30.dp))
+        TempoIconButton(
+            onClick = onDone,
+            iconResId = R.drawable.ic_timer_done,
+            color = TempoButtonColor.Accent,
+            size = TempoIconButtonSize.Large,
+            modifier = Modifier.testTag(ButtonDoneTestTag),
+            contentDescription = stringResource(R.string.content_description_button_done_routine)
+        )
     }
+}
+
+@Preview
+@Composable
+private fun Preview() {
+    TimerCompletedScene(onReset = {}, onDone = {})
 }
