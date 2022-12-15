@@ -1,5 +1,6 @@
 package com.enricog.ui.components.button.icon
 
+import androidx.annotation.DrawableRes
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.shape.CircleShape
@@ -15,7 +16,7 @@ import com.enricog.ui.components.icon.TempoIcon
 @Composable
 fun TempoIconButton(
     onClick: () -> Unit,
-    icon: Painter,
+    @DrawableRes iconResId: Int,
     contentDescription: String,
     modifier: Modifier = Modifier,
     color: TempoButtonColor = TempoButtonColor.Normal,
@@ -40,7 +41,7 @@ fun TempoIconButton(
         enabled = enabled
     ) {
         TempoIcon(
-            icon = icon,
+            iconResId = iconResId,
             color = color.buttonColors().contentColor(enabled).value,
             size = size.icon,
             contentDescription = contentDescription

@@ -11,9 +11,16 @@ internal sealed class TimerViewState {
         val step: SegmentStep,
         @StringRes val stepTitleId: Int,
         val segmentName: String,
-        val clockBackgroundColor: Color,
-        val isRoutineCompleted: Boolean
-    ) : TimerViewState()
+        val clockBackgroundColor: BackgroundColor
+    ) : TimerViewState() {
+
+        data class BackgroundColor(
+            val foreground: Color,
+            val ripple: Color?
+        )
+    }
+
+    object Completed: TimerViewState()
 
     data class Error(val throwable: Throwable) : TimerViewState()
 }

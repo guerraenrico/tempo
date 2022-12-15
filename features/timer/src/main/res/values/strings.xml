@@ -6,6 +6,7 @@
     <string name="title_segment_step_type_starting">STARTING</string>
     <string name="title_segment_step_type_in_progress">GO</string>
     <string name="title_segment_time_type_rest">REST</string>
+    <string name="title_routine_completed">Completed</string>
 
     <string name="dialog_exit_time_title">Quit</string>
     <string name="dialog_exit_time_description">Do you want to exit?</string>

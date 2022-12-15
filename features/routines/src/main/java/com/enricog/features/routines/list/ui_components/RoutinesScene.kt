@@ -13,7 +13,6 @@ import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.platform.testTag
-import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
 import com.enricog.data.routines.api.entities.Routine
 import com.enricog.features.routines.R
@@ -77,7 +76,7 @@ internal fun RoutinesScene(
                         .align(Alignment.BottomEnd)
                         .padding(TempoTheme.dimensions.spaceM),
                     onClick = onCreateRoutine,
-                    icon = painterResource(R.drawable.ic_add),
+                    iconResId = R.drawable.ic_add,
                     color = TempoButtonColor.Accent,
                     contentDescription = stringResource(R.string.content_description_button_create_routine)
                 )

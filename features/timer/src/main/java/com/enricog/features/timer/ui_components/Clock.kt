@@ -1,29 +1,19 @@
 package com.enricog.features.timer.ui_components
 
-import androidx.compose.animation.animateColorAsState
-import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Arrangement
-import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
-import androidx.compose.foundation.layout.height
-import androidx.compose.foundation.layout.width
-import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.runtime.Composable
-import androidx.compose.runtime.getValue
 import androidx.compose.runtime.remember
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.platform.testTag
 import androidx.compose.ui.text.AnnotatedString
 import androidx.compose.ui.text.SpanStyle
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.BaselineShift
 import androidx.compose.ui.text.style.TextAlign
-import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.sp
 import com.enricog.entities.Seconds
-import com.enricog.ui.components.shadow.Shadow
 import com.enricog.ui.components.text.TempoText
 import com.enricog.ui.theme.FontFamilyMono
 import com.enricog.ui.theme.white
@@ -34,26 +24,14 @@ internal const val ClockTimeTextTestTag = "ClockTimeTextTestTag"
 @Composable
 internal fun Clock(
     modifier: Modifier = Modifier,
-    backgroundColor: Color,
     seconds: Seconds,
-    size: Dp
 ) {
-    val animatedBackgroundColor by animateColorAsState(backgroundColor)
-
-    Box(modifier = modifier) {
-        Shadow(size = size / 100 * 10) {
-            Column(
-                modifier = Modifier
-                    .testTag(ClockTestTag)
-                    .background(color = animatedBackgroundColor, shape = CircleShape)
-                    .height(size)
-                    .width(size),
-                verticalArrangement = Arrangement.Center,
-                horizontalAlignment = Alignment.CenterHorizontally,
-            ) {
-                TimeText(timeInSeconds = seconds.value)
-            }
-        }
+    Column(
+        modifier = modifier.testTag(ClockTestTag),
+        verticalArrangement = Arrangement.Center,
+        horizontalAlignment = Alignment.CenterHorizontally,
+    ) {
+        TimeText(timeInSeconds = seconds.value)
     }
 }
 
@@ -69,14 +47,14 @@ private fun TimeText(timeInSeconds: Long) {
 
 private val NumberStyle = SpanStyle(
     color = white,
-    fontSize = 65.sp,
+    fontSize = 110.sp,
     fontFamily = FontFamilyMono,
     fontWeight = FontWeight.ExtraBold,
 )
 
 private val SeparatorStyle = SpanStyle(
     color = white,
-    fontSize = 30.sp,
+    fontSize = 55.sp,
     fontFamily = FontFamilyMono,
     fontWeight = FontWeight.ExtraBold,
     baselineShift = BaselineShift(0.8f),

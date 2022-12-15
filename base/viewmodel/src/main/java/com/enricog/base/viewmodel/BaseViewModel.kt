@@ -48,11 +48,15 @@ open class BaseViewModel<ViewModelState : Any, ViewState : Any>(
             .flowOn(dispatchers.cpu)
             .distinctUntilChanged()
             .onEach { viewStateFlow.value = it }
-            .catch { TempoLogger.e(throwable = it, message = "Error viewState value") }
+            .catch { updateStateError(it) }
             .launchIn(viewModelScope)
     }
 
     protected open fun onStateUpdated(currentState: ViewModelState) {}
+
+    protected open fun updateStateError(throwable: Throwable) {
+        TempoLogger.e(throwable = throwable, message = "Error viewState value")
+    }
 
     protected fun launch(
         exceptionHandler: CoroutineExceptionHandler = defaultExceptionHandler,

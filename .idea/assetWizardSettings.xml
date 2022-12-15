@@ -301,25 +301,11 @@
                   <entry key="vectorAssetStep">
                     <value>
                       <PersistentState>
-                        <option name="children">
-                          <map>
-                            <entry key="clipartAsset">
-                              <value>
-                                <PersistentState>
-                                  <option name="values">
-                                    <map>
-                                      <entry key="url" value="jar:file:/C:/Program%20Files/Android/Android%20Studio%20Dolphin/plugins/android/lib/android.jar!/images/material/icons/materialiconsoutlined/help_outline/outline_help_outline_24.xml" />
-                                    </map>
-                                  </option>
-                                </PersistentState>
-                              </value>
-                            </entry>
-                          </map>
-                        </option>
                         <option name="values">
                           <map>
-                            <entry key="outputName" value="ic_routine_help" />
-                            <entry key="sourceFile" value="C:\Users\fd\Desktop\Senza titolo-1.svg" />
+                            <entry key="assetSourceType" value="FILE" />
+                            <entry key="outputName" value="ic_timer_done" />
+                            <entry key="sourceFile" value="C:\Users\fd\Desktop\ic_done_2.svg" />
                           </map>
                         </option>
                       </PersistentState>

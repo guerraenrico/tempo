@@ -11,6 +11,7 @@ import com.enricog.features.timer.models.SegmentStep
 import com.enricog.features.timer.models.SegmentStepType
 import com.enricog.features.timer.models.TimerState
 import com.enricog.features.timer.models.TimerViewState
+import com.enricog.features.timer.models.TimerViewState.Counting.BackgroundColor
 import com.enricog.ui.theme.TimeTypeColors
 import org.junit.Rule
 import org.junit.Test
@@ -48,22 +49,26 @@ class TimerStateConverterTest {
     @Test
     fun `test map counting state`() = coroutineRule {
         val state = TimerState.Counting(
-            routine = Routine.EMPTY,
+            routine =  Routine.EMPTY.copy(
+                segments = listOf(Segment.EMPTY.copy(name = "segment name", type = TimeType.REST))
+            ),
             runningSegment = Segment.EMPTY.copy(name = "segment name", type = TimeType.REST),
             step = SegmentStep(
-                count = Count(seconds = 5.seconds, isRunning = true, isCompleted = true),
+                count = Count(seconds = 5.seconds, isRunning = true, isCompleted = false),
                 type = SegmentStepType.IN_PROGRESS
             )
         )
         val expected = TimerViewState.Counting(
             step = SegmentStep(
-                count = Count(seconds = 5.seconds, isRunning = true, isCompleted = true),
+                count = Count(seconds = 5.seconds, isRunning = true, isCompleted = false),
                 type = SegmentStepType.IN_PROGRESS
             ),
             stepTitleId = R.string.title_segment_time_type_rest,
             segmentName = "segment name",
-            clockBackgroundColor = TimeTypeColors.REST,
-            isRoutineCompleted = true,
+            clockBackgroundColor = BackgroundColor(
+                foreground =  TimeTypeColors.REST,
+                ripple = null
+            )
         )
 
         val result = sut.convert(state)
@@ -72,25 +77,29 @@ class TimerStateConverterTest {
     }
 
     @Test
-    fun `test map backgroundColor and stepTitle when rest segment is starting`() =
+    fun `should map state with -rest- background color and title when rest segment is in progress`() =
         coroutineRule {
             val state = TimerState.Counting(
-                routine = Routine.EMPTY,
+                routine =  Routine.EMPTY.copy(
+                    segments = listOf(Segment.EMPTY.copy(name = "segment name", type = TimeType.REST))
+                ),
                 runningSegment = Segment.EMPTY.copy(name = "segment name", type = TimeType.REST),
                 step = SegmentStep(
-                    count = Count(seconds = 5.seconds, isRunning = true, isCompleted = true),
-                    type = SegmentStepType.STARTING
+                    count = Count(seconds = 5.seconds, isRunning = true, isCompleted = false),
+                    type = SegmentStepType.IN_PROGRESS
                 )
             )
             val expected = TimerViewState.Counting(
                 step = SegmentStep(
-                    count = Count(seconds = 5.seconds, isRunning = true, isCompleted = true),
-                    type = SegmentStepType.STARTING
+                    count = Count(seconds = 5.seconds, isRunning = true, isCompleted = false),
+                    type = SegmentStepType.IN_PROGRESS
                 ),
                 stepTitleId = R.string.title_segment_time_type_rest,
                 segmentName = "segment name",
-                clockBackgroundColor = TimeTypeColors.STARTING,
-                isRoutineCompleted = false,
+                clockBackgroundColor = BackgroundColor(
+                    foreground =  TimeTypeColors.REST,
+                    ripple = null
+                )
             )
 
             val result = sut.convert(state)
@@ -99,52 +108,29 @@ class TimerStateConverterTest {
         }
 
     @Test
-    fun `test map backgroundColor and stepTitle when rest segment is in progress`() =
+    fun `should map state with -timer- background color and -in progress- title when timer segment is in progress`() =
         coroutineRule {
             val state = TimerState.Counting(
-                routine = Routine.EMPTY,
-                runningSegment = Segment.EMPTY.copy(name = "segment name", type = TimeType.REST),
-                step = SegmentStep(
-                    count = Count(seconds = 5.seconds, isRunning = true, isCompleted = true),
-                    type = SegmentStepType.IN_PROGRESS
-                )
-            )
-            val expected = TimerViewState.Counting(
-                step = SegmentStep(
-                    count = Count(seconds = 5.seconds, isRunning = true, isCompleted = true),
-                    type = SegmentStepType.IN_PROGRESS
+                routine = Routine.EMPTY.copy(
+                    segments = listOf(Segment.EMPTY.copy(name = "segment name", type = TimeType.TIMER))
                 ),
-                stepTitleId = R.string.title_segment_time_type_rest,
-                segmentName = "segment name",
-                clockBackgroundColor = TimeTypeColors.REST,
-                isRoutineCompleted = true,
-            )
-
-            val result = sut.convert(state)
-
-            assertEquals(expected, result)
-        }
-
-    @Test
-    fun `test map backgroundColor and stepTitle when timer segment is in progress`() =
-        coroutineRule {
-            val state = TimerState.Counting(
-                routine = Routine.EMPTY,
                 runningSegment = Segment.EMPTY.copy(name = "segment name", type = TimeType.TIMER),
                 step = SegmentStep(
-                    count = Count(seconds = 5.seconds, isRunning = true, isCompleted = true),
+                    count = Count(seconds = 5.seconds, isRunning = true, isCompleted = false),
                     type = SegmentStepType.IN_PROGRESS
                 )
             )
             val expected = TimerViewState.Counting(
                 step = SegmentStep(
-                    count = Count(seconds = 5.seconds, isRunning = true, isCompleted = true),
+                    count = Count(seconds = 5.seconds, isRunning = true, isCompleted = false),
                     type = SegmentStepType.IN_PROGRESS
                 ),
                 stepTitleId = R.string.title_segment_step_type_in_progress,
                 segmentName = "segment name",
-                clockBackgroundColor = TimeTypeColors.TIMER,
-                isRoutineCompleted = true,
+                clockBackgroundColor = BackgroundColor(
+                    foreground =  TimeTypeColors.TIMER,
+                    ripple = null
+                )
             )
 
             val result = sut.convert(state)
@@ -153,14 +139,82 @@ class TimerStateConverterTest {
         }
 
     @Test
-    fun `test map backgroundColor and stepTitle when stopwatch segment is in progress`() =
+    fun `should map state with -stopwatch- background color and -in progress- title when stopwatch segment is in progress`() =
         coroutineRule {
             val state = TimerState.Counting(
-                routine = Routine.EMPTY,
-                runningSegment = Segment.EMPTY.copy(
-                    name = "segment name",
-                    type = TimeType.STOPWATCH
+                routine =  Routine.EMPTY.copy(
+                    segments = listOf(Segment.EMPTY.copy(name = "segment name", type = TimeType.STOPWATCH))
                 ),
+                runningSegment = Segment.EMPTY.copy(name = "segment name", type = TimeType.STOPWATCH),
+                step = SegmentStep(
+                    count = Count(seconds = 5.seconds, isRunning = true, isCompleted = false),
+                    type = SegmentStepType.IN_PROGRESS
+                )
+            )
+            val expected = TimerViewState.Counting(
+                step = SegmentStep(
+                    count = Count(seconds = 5.seconds, isRunning = true, isCompleted = false),
+                    type = SegmentStepType.IN_PROGRESS
+                ),
+                stepTitleId = R.string.title_segment_step_type_in_progress,
+                segmentName = "segment name",
+                clockBackgroundColor = BackgroundColor(
+                    foreground =  TimeTypeColors.STOPWATCH,
+                    ripple = null
+                )
+            )
+
+            val result = sut.convert(state)
+
+            assertEquals(expected, result)
+        }
+
+    @Test
+    fun `should map state with -starting- background and -stopwatch- ripple color when stopwatch segment in starting step is completed`() =
+        coroutineRule {
+            val state = TimerState.Counting(
+                routine =  Routine.EMPTY.copy(
+                    startTimeOffset = 5.seconds,
+                    segments = listOf(
+                        Segment.EMPTY.copy(name = "segment name", type = TimeType.STOPWATCH)
+                    )
+                ),
+                runningSegment = Segment.EMPTY.copy(name = "segment name", type = TimeType.STOPWATCH),
+                step = SegmentStep(
+                    count = Count(seconds = 5.seconds, isRunning = true, isCompleted = true),
+                    type = SegmentStepType.STARTING
+                )
+            )
+            val expected = TimerViewState.Counting(
+                step = SegmentStep(
+                    count = Count(seconds = 5.seconds, isRunning = true, isCompleted = true),
+                    type = SegmentStepType.STARTING
+                ),
+                stepTitleId = R.string.title_segment_step_type_starting,
+                segmentName = "segment name",
+                clockBackgroundColor = BackgroundColor(
+                    foreground =  TimeTypeColors.STARTING,
+                    ripple = TimeTypeColors.STOPWATCH
+                )
+            )
+
+            val result = sut.convert(state)
+
+            assertEquals(expected, result)
+        }
+
+    @Test
+    fun `should map state with -stopwatch- background and -starting- ripple color when stopwatch segment is completed and next step is starting`() =
+        coroutineRule {
+            val state = TimerState.Counting(
+                routine =  Routine.EMPTY.copy(
+                    startTimeOffset = 5.seconds,
+                    segments = listOf(
+                        Segment.EMPTY.copy(name = "segment name stopwatch", type = TimeType.STOPWATCH),
+                        Segment.EMPTY.copy(name = "segment name timer", type = TimeType.TIMER)
+                    )
+                ),
+                runningSegment = Segment.EMPTY.copy(name = "segment name stopwatch", type = TimeType.STOPWATCH),
                 step = SegmentStep(
                     count = Count(seconds = 5.seconds, isRunning = true, isCompleted = true),
                     type = SegmentStepType.IN_PROGRESS
@@ -172,9 +226,11 @@ class TimerStateConverterTest {
                     type = SegmentStepType.IN_PROGRESS
                 ),
                 stepTitleId = R.string.title_segment_step_type_in_progress,
-                segmentName = "segment name",
-                clockBackgroundColor = TimeTypeColors.STOPWATCH,
-                isRoutineCompleted = true,
+                segmentName = "segment name stopwatch",
+                clockBackgroundColor = BackgroundColor(
+                    foreground =  TimeTypeColors.STOPWATCH,
+                    ripple = TimeTypeColors.STARTING
+                )
             )
 
             val result = sut.convert(state)

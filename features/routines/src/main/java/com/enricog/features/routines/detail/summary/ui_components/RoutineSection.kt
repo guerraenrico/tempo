@@ -4,7 +4,6 @@ import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.platform.testTag
-import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
 import androidx.constraintlayout.compose.ConstraintLayout
 import androidx.constraintlayout.compose.Dimension
@@ -50,7 +49,7 @@ internal fun RoutineSection(
             },
             onClick = onEditRoutine,
             size = TempoIconButtonSize.Small,
-            icon = painterResource(R.drawable.ic_routine_edit),
+            iconResId = R.drawable.ic_routine_edit,
             color = TempoButtonColor.TransparentSecondary,
             drawShadow = false,
             contentDescription = stringResource(R.string.content_description_button_edit_routine)

@@ -29,6 +29,8 @@ android {
 
 
 dependencies {
+    implementation project(":core:compose:api")
+
     implementation platform(Libs.AndroidX.Compose.bom)
     implementation Libs.AndroidX.Compose.uiTest
 }

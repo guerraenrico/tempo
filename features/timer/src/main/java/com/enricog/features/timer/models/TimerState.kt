@@ -29,6 +29,15 @@ internal sealed class TimerState {
             get() = runningSegment.type == TimeType.STOPWATCH &&
                     step.type == SegmentStepType.IN_PROGRESS &&
                     isCountRunning
+
+        val nextSegment: Segment?
+            get() {
+                val indexRunningSegment = routine.segments.indexOf(runningSegment)
+                return routine.segments.getOrNull(indexRunningSegment + 1)
+            }
+
+        val nextSegmentStep: SegmentStep?
+            get() = nextSegment?.let { SegmentStep.from(routine = routine, segment = it) }
     }
 
     data class Error(val throwable: Throwable) : TimerState()

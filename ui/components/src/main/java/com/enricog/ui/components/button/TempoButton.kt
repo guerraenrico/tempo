@@ -1,5 +1,6 @@
 package com.enricog.ui.components.button
 
+import androidx.annotation.DrawableRes
 import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxWidth
@@ -11,8 +12,6 @@ import androidx.compose.runtime.Composable
 import androidx.compose.runtime.ReadOnlyComposable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Shape
-import androidx.compose.ui.graphics.painter.Painter
-import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.dp
@@ -28,7 +27,7 @@ fun TempoButton(
     text: String,
     contentDescription: String,
     modifier: Modifier = Modifier,
-    icon: Painter? = null,
+    @DrawableRes iconResId: Int? = null,
     iconSpacing: Dp = TempoButtonDefaults.IconSpacing,
     color: TempoButtonColor = TempoButtonColor.Normal,
     enabled: Boolean = true
@@ -45,9 +44,9 @@ fun TempoButton(
         elevation = TempoButtonDefaults.Elevation,
         contentPadding = TempoButtonDefaults.ContentPadding
     ) {
-        if (icon != null) {
+        if (iconResId != null) {
             TempoButtonIcon(
-                icon = icon,
+                iconResId = iconResId,
                 color = color,
                 contentDescription = contentDescription,
             )
@@ -59,7 +58,7 @@ fun TempoButton(
 
 @Composable
 private fun TempoButtonIcon(
-    icon: Painter,
+    @DrawableRes iconResId: Int,
     contentDescription: String,
     modifier: Modifier = Modifier,
     color: TempoButtonColor = TempoButtonColor.Normal,
@@ -67,7 +66,7 @@ private fun TempoButtonIcon(
 ) {
     TempoIcon(
         modifier = modifier,
-        icon = icon,
+        iconResId = iconResId,
         color = color.buttonColors().contentColor(enabled).value,
         contentDescription = contentDescription,
         size = TempoIconSize.Normal
@@ -131,6 +130,6 @@ private fun Preview() {
         onClick = {},
         text = "Button",
         contentDescription = "content description",
-        icon = painterResource(id = R.drawable.ic_back)
+        iconResId = R.drawable.ic_back
     )
 }
