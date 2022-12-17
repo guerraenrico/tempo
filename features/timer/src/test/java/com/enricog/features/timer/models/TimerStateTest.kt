@@ -1,138 +1,192 @@
 package com.enricog.features.timer.models
 
-import com.enricog.data.routines.testing.entities.EMPTY
-import com.enricog.entities.asID
 import com.enricog.data.routines.api.entities.Routine
 import com.enricog.data.routines.api.entities.Segment
+import com.enricog.data.routines.api.entities.TimeType
+import com.enricog.data.routines.testing.entities.EMPTY
+import com.enricog.entities.asID
 import com.enricog.entities.seconds
-import kotlin.test.assertFalse
-import kotlin.test.assertTrue
 import org.junit.Test
+import kotlin.test.assertEquals
 
-class TimerStateTest {
+internal class TimerStateTest {
+
+    private val count = Count(seconds = 10.seconds, isRunning = true, isCompleted = false)
+    private val state = TimerState.Counting(
+        routine = Routine.EMPTY.copy(
+            segments = listOf(
+                Segment.EMPTY.copy(id = 1.asID), Segment.EMPTY.copy(id = 2.asID)
+            )
+        ),
+        runningSegment = Segment.EMPTY.copy(id = 2.asID),
+        step = SegmentStep(
+            count = count,
+            type = SegmentStepType.STARTING
+        )
+    )
 
     @Test
-    fun `test isCountRunning`() {
-        var sut = TimerState.Counting(
-            routine = Routine.EMPTY,
-            runningSegment = Segment.EMPTY,
-            step = SegmentStep(
-                count = Count(seconds = 10.seconds, isRunning = true, isCompleted = false),
-                type = SegmentStepType.STARTING
-            )
+    fun `test when step count is running`() {
+        val arguments = listOf(
+            count.copy(isRunning = true, isCompleted = false) to true,
+            count.copy(isRunning = true, isCompleted = true) to false,
+            count.copy(isRunning = false, isCompleted = true) to false,
+            count.copy(isRunning = false, isCompleted = false) to false
         )
-        assertTrue(sut.isStepCountRunning)
+        val inputs = arguments.map { (count, expected) ->
+            state.copy(step = state.step.copy(count = count)) to expected
+        }
 
-        sut = TimerState.Counting(
-            routine = Routine.EMPTY,
-            runningSegment = Segment.EMPTY,
-            step = SegmentStep(
-                count = Count(seconds = 10.seconds, isRunning = true, isCompleted = true),
-                type = SegmentStepType.STARTING
-            )
-        )
-        assertFalse(sut.isStepCountRunning)
-
-        sut = TimerState.Counting(
-            routine = Routine.EMPTY,
-            runningSegment = Segment.EMPTY,
-            step = SegmentStep(
-                count = Count(seconds = 10.seconds, isRunning = false, isCompleted = true),
-                type = SegmentStepType.STARTING
-            )
-        )
-        assertFalse(sut.isStepCountRunning)
-
-        sut = TimerState.Counting(
-            routine = Routine.EMPTY,
-            runningSegment = Segment.EMPTY,
-            step = SegmentStep(
-                count = Count(seconds = 10.seconds, isRunning = false, isCompleted = false),
-                type = SegmentStepType.STARTING
-            )
-        )
-        assertFalse(sut.isStepCountRunning)
+        inputs.forEach { (state, expected) ->
+            val actual = state.isStepCountRunning
+            assertEquals(expected, actual)
+        }
     }
 
     @Test
-    fun `test isCountCompleted`() {
-        var sut = TimerState.Counting(
-            routine = Routine.EMPTY,
-            runningSegment = Segment.EMPTY,
-            step = SegmentStep(
-                count = Count(seconds = 10.seconds, isRunning = true, isCompleted = true),
-                type = SegmentStepType.STARTING
-            )
+    fun `test when step count is completed`() {
+        val arguments = listOf(
+            count.copy(isRunning = true, isCompleted = false) to false,
+            count.copy(isRunning = true, isCompleted = true) to true
         )
-        assertTrue(sut.isStepCountCompleted)
+        val inputs = arguments.map { (count, expected) ->
+            state.copy(step = state.step.copy(count = count)) to expected
+        }
 
-        sut = TimerState.Counting(
-            routine = Routine.EMPTY,
-            runningSegment = Segment.EMPTY,
-            step = SegmentStep(
-                count = Count(seconds = 10.seconds, isRunning = true, isCompleted = false),
-                type = SegmentStepType.STARTING
-            )
-        )
-        assertFalse(sut.isStepCountCompleted)
+        inputs.forEach { (state, expected) ->
+            val actual = state.isStepCountCompleted
+            assertEquals(expected, actual)
+        }
     }
 
     @Test
-    fun `test isRoutineCompleted`() {
-        var sut = TimerState.Counting(
-            routine = Routine.EMPTY.copy(
-                segments = listOf(
-                    Segment.EMPTY.copy(id = 1.asID), Segment.EMPTY.copy(id = 2.asID)
+    fun `test when step count is completing`() {
+        val inputs = listOf(
+            state.copy(
+                runningSegment = Segment.EMPTY.copy(id = 2.asID, type = TimeType.TIMER),
+                step = SegmentStep(
+                    count = count.copy(seconds = 10.seconds, isRunning = true, isCompleted = false),
+                    type = SegmentStepType.IN_PROGRESS
                 )
-            ),
-            runningSegment = Segment.EMPTY.copy(id = 2.asID),
-            step = SegmentStep(
-                count = Count(seconds = 0.seconds, isRunning = true, isCompleted = true),
-                type = SegmentStepType.IN_PROGRESS
-            )
+            ) to false,
+            state.copy(
+                runningSegment = Segment.EMPTY.copy(id = 2.asID, type = TimeType.TIMER),
+                step = SegmentStep(
+                    count = count.copy(seconds = 5.seconds, isRunning = true, isCompleted = false),
+                    type = SegmentStepType.IN_PROGRESS
+                )
+            ) to true,
+            state.copy(
+                runningSegment = Segment.EMPTY.copy(id = 2.asID, type = TimeType.STOPWATCH),
+                step = SegmentStep(
+                    count = count.copy(seconds = 5.seconds, isRunning = true, isCompleted = false),
+                    type = SegmentStepType.IN_PROGRESS
+                )
+            ) to false,
+            state.copy(
+                runningSegment = Segment.EMPTY.copy(id = 2.asID, type = TimeType.TIMER),
+                step = SegmentStep(
+                    count = count.copy(seconds = 5.seconds, isRunning = false, isCompleted = false),
+                    type = SegmentStepType.IN_PROGRESS
+                )
+            ) to false,
+            state.copy(
+                runningSegment = Segment.EMPTY.copy(id = 2.asID, type = TimeType.TIMER),
+                step = SegmentStep(
+                    count = count.copy(seconds = 0.seconds, isRunning = true, isCompleted = true),
+                    type = SegmentStepType.IN_PROGRESS
+                )
+            ) to false,
         )
-        assertTrue(sut.isRoutineCompleted)
 
-        sut = TimerState.Counting(
-            routine = Routine.EMPTY.copy(
-                segments = listOf(
-                    Segment.EMPTY.copy(id = 1.asID), Segment.EMPTY.copy(id = 2.asID)
-                )
-            ),
-            runningSegment = Segment.EMPTY.copy(id = 1.asID),
-            step = SegmentStep(
-                count = Count(seconds = 0.seconds, isRunning = true, isCompleted = true),
-                type = SegmentStepType.IN_PROGRESS
-            )
-        )
-        assertFalse(sut.isRoutineCompleted)
+        inputs.forEach { (state, expected) ->
+            val actual = state.isStepCountCompleting
+            assertEquals(expected, actual)
+        }
+    }
 
-        sut = TimerState.Counting(
-            routine = Routine.EMPTY.copy(
-                segments = listOf(
-                    Segment.EMPTY.copy(id = 1.asID), Segment.EMPTY.copy(id = 2.asID)
+    @Test
+    fun `test when routine is completed`() {
+        val inputs = listOf(
+            state.copy(
+                runningSegment = Segment.EMPTY.copy(id = 2.asID),
+                step = SegmentStep(
+                    count = count.copy(isRunning = true, isCompleted = true),
+                    type = SegmentStepType.IN_PROGRESS
                 )
-            ),
-            runningSegment = Segment.EMPTY.copy(id = 2.asID),
-            step = SegmentStep(
-                count = Count(seconds = 0.seconds, isRunning = true, isCompleted = true),
-                type = SegmentStepType.STARTING
-            )
+            ) to true,
+            state.copy(
+                runningSegment = Segment.EMPTY.copy(id = 1.asID),
+                step = SegmentStep(
+                    count = count.copy(isRunning = true, isCompleted = true),
+                    type = SegmentStepType.IN_PROGRESS
+                )
+            ) to false,
+            state.copy(
+                runningSegment = Segment.EMPTY.copy(id = 2.asID),
+                step = SegmentStep(
+                    count = count.copy(isRunning = true, isCompleted = true),
+                    type = SegmentStepType.STARTING
+                )
+            ) to false,
+            state.copy(
+                runningSegment = Segment.EMPTY.copy(id = 2.asID),
+                step = SegmentStep(
+                    count = count.copy(isRunning = true, isCompleted = false),
+                    type = SegmentStepType.IN_PROGRESS
+                )
+            ) to false
         )
-        assertFalse(sut.isRoutineCompleted)
 
-        sut = TimerState.Counting(
-            routine = Routine.EMPTY.copy(
-                segments = listOf(
-                    Segment.EMPTY.copy(id = 1.asID), Segment.EMPTY.copy(id = 2.asID)
+        inputs.forEach { (state, expected) ->
+            val actual = state.isRoutineCompleted
+            assertEquals(expected, actual)
+        }
+    }
+
+    @Test
+    fun `test when stopwatch is running`() {
+        val inputs = listOf(
+            state.copy(
+                runningSegment = Segment.EMPTY.copy(id = 1.asID, type = TimeType.STOPWATCH),
+                step = SegmentStep(
+                    count = count.copy(isRunning = true, isCompleted = false),
+                    type = SegmentStepType.IN_PROGRESS
                 )
-            ),
-            runningSegment = Segment.EMPTY.copy(id = 2.asID),
-            step = SegmentStep(
-                count = Count(seconds = 0.seconds, isRunning = true, isCompleted = false),
-                type = SegmentStepType.IN_PROGRESS
-            )
+            ) to true,
+            state.copy(
+                runningSegment = Segment.EMPTY.copy(id = 1.asID, type = TimeType.TIMER),
+                step = SegmentStep(
+                    count = count.copy(isRunning = true, isCompleted = false),
+                    type = SegmentStepType.IN_PROGRESS
+                )
+            ) to false,
+            state.copy(
+                runningSegment = Segment.EMPTY.copy(id = 1.asID, type = TimeType.STOPWATCH),
+                step = SegmentStep(
+                    count = count.copy(isRunning = false, isCompleted = false),
+                    type = SegmentStepType.IN_PROGRESS
+                )
+            ) to false,
+            state.copy(
+                runningSegment = Segment.EMPTY.copy(id = 1.asID, type = TimeType.STOPWATCH),
+                step = SegmentStep(
+                    count = count.copy(isRunning = true, isCompleted = true),
+                    type = SegmentStepType.IN_PROGRESS
+                )
+            ) to false,
+            state.copy(
+                runningSegment = Segment.EMPTY.copy(id = 2.asID, type = TimeType.STOPWATCH),
+                step = SegmentStep(
+                    count = count.copy(seconds = 0.seconds, isRunning = true, isCompleted = false),
+                    type = SegmentStepType.STARTING
+                )
+            ) to false,
         )
-        assertFalse(sut.isRoutineCompleted)
+
+        inputs.forEach { (state, expected) ->
+            val actual = state.isStopwatchRunning
+            assertEquals(expected, actual)
+        }
     }
 }

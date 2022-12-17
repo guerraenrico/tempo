@@ -2,31 +2,34 @@ package com.enricog.libraries.sound.testing
 
 import com.enricog.libraries.sound.api.SoundPlayer
 import kotlin.test.assertContains
+import kotlin.test.assertEquals
 import kotlin.test.assertFalse
 
 class FakeSoundPlayer : SoundPlayer {
 
-    private val fakePlayers = mutableSetOf<Int>()
+    private val playedSounds = mutableMapOf<Int, Int>()
 
     override fun play(soundResId: Int) {
-        fakePlayers.add(soundResId)
+        val count = playedSounds.putIfAbsent(soundResId, 0) ?: 0
+        playedSounds[soundResId] = count + 1
     }
 
     override fun release(soundResId: Int) {
-        fakePlayers.remove(soundResId)
+        playedSounds.remove(soundResId)
     }
 
     override fun close() {
-        fakePlayers.clear()
+        playedSounds.clear()
     }
 
-    fun assertSoundPlayed(soundResId: Int) {
-        assertContains(fakePlayers, soundResId)
+    fun assertSoundPlayed(soundResId: Int, times: Int) {
+        assertContains(playedSounds, soundResId)
+        assertEquals(times, playedSounds[soundResId])
     }
 
     fun assertSoundNotPlayed(soundResId: Int) {
-        assertFalse("Expected the collection to contain the element.\nCollection <$fakePlayers>, element <$soundResId>.") {
-            fakePlayers.contains(soundResId)
+        assertFalse("Expected the collection to contain the element.\nCollection <$playedSounds>, element <$soundResId>.") {
+            playedSounds.contains(soundResId)
         }
     }
 }
