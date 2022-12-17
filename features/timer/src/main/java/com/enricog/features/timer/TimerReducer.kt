@@ -29,7 +29,7 @@ internal class TimerReducer @Inject constructor() {
     }
 
     fun progressTime(state: TimerState): TimerState {
-        if (state !is TimerState.Counting || !state.isCountRunning) return state
+        if (state !is TimerState.Counting || !state.isStepCountRunning) return state
 
         val step = state.step
         val runningSegment = state.runningSegment
@@ -55,7 +55,7 @@ internal class TimerReducer @Inject constructor() {
     }
 
     fun toggleTimeRunning(state: TimerState): TimerState {
-        if (state !is TimerState.Counting || state.isCountCompleted) return state
+        if (state !is TimerState.Counting || state.isStepCountCompleted) return state
 
         val step = state.step
         return if (state.isStopwatchRunning) {
@@ -79,7 +79,7 @@ internal class TimerReducer @Inject constructor() {
     }
 
     fun nextStep(state: TimerState): TimerState {
-        if (state !is TimerState.Counting || !state.isCountCompleted || state.isRoutineCompleted) return state
+        if (state !is TimerState.Counting || !state.isStepCountCompleted || state.isRoutineCompleted) return state
 
         val step = state.step
 

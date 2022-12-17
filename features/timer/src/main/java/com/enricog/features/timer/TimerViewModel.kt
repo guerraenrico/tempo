@@ -58,7 +58,7 @@ internal class TimerViewModel @Inject constructor(
         startJob = launch {
             updateState { reducer.setup(routine) }
 
-            delay(1000)
+            delay(ONE_SECOND)
 
             updateState { reducer.toggleTimeRunning(it) }
         }
@@ -98,11 +98,11 @@ internal class TimerViewModel @Inject constructor(
     override fun onStateUpdated(currentState: TimerState) {
         toggleKeepScreenOn(currentState)
         if (currentState is TimerState.Counting) {
-            if (currentState.isCountRunning) {
+            if (currentState.isStepCountRunning) {
                 startCounting()
                 return
             }
-            if (currentState.isCountCompleted) {
+            if (currentState.isStepCountCompleted) {
                 stopCounting()
                 onCountCompleted()
                 return
@@ -113,7 +113,7 @@ internal class TimerViewModel @Inject constructor(
 
     private fun onCountCompleted() {
         launch {
-            delay(1000)
+            delay(ONE_SECOND)
             updateState { reducer.nextStep(it) }
         }
     }
@@ -123,9 +123,9 @@ internal class TimerViewModel @Inject constructor(
 
         countingJob = launch {
             while (true) {
-                delay(1000)
-                updateState { reducer.progressTime(it) }
-                soundPlayer.play(R.raw.sound_count_down)
+                delay(ONE_SECOND)
+                val newState = updateState { reducer.progressTime(it) }
+                playSoundIfNeeded(state = newState)
             }
         }
     }
@@ -134,13 +134,28 @@ internal class TimerViewModel @Inject constructor(
         countingJob?.cancel()
     }
 
+    private fun playSoundIfNeeded(state: TimerState) {
+        if (state !is TimerState.Counting) return
+
+        when {
+            state.isStepCountCompleting -> soundPlayer.play(COUNT_DOWN_SOUND)
+            state.isStepCountCompleted -> soundPlayer.play(COUNT_DOWN_COMPLETED_SOUND)
+        }
+    }
+
     private fun toggleKeepScreenOn(currentState: TimerState) {
         val enableKeepScreenOn = currentState is TimerState.Counting &&
-                currentState.isCountRunning && !currentState.isRoutineCompleted
+                currentState.isStepCountRunning && !currentState.isRoutineCompleted
         windowScreenManager.toggleKeepScreenOnFlag(enableKeepScreenOn)
     }
 
     override fun onCleared() {
         soundPlayer.close()
+    }
+
+    private companion object {
+        const val ONE_SECOND = 1000L
+        val COUNT_DOWN_SOUND = R.raw.sound_count_down
+        val COUNT_DOWN_COMPLETED_SOUND = R.raw.sound_count_down_end
     }
 }

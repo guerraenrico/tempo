@@ -21,7 +21,7 @@ class TimerStateTest {
                 type = SegmentStepType.STARTING
             )
         )
-        assertTrue(sut.isCountRunning)
+        assertTrue(sut.isStepCountRunning)
 
         sut = TimerState.Counting(
             routine = Routine.EMPTY,
@@ -31,7 +31,7 @@ class TimerStateTest {
                 type = SegmentStepType.STARTING
             )
         )
-        assertFalse(sut.isCountRunning)
+        assertFalse(sut.isStepCountRunning)
 
         sut = TimerState.Counting(
             routine = Routine.EMPTY,
@@ -41,7 +41,7 @@ class TimerStateTest {
                 type = SegmentStepType.STARTING
             )
         )
-        assertFalse(sut.isCountRunning)
+        assertFalse(sut.isStepCountRunning)
 
         sut = TimerState.Counting(
             routine = Routine.EMPTY,
@@ -51,7 +51,7 @@ class TimerStateTest {
                 type = SegmentStepType.STARTING
             )
         )
-        assertFalse(sut.isCountRunning)
+        assertFalse(sut.isStepCountRunning)
     }
 
     @Test
@@ -64,7 +64,7 @@ class TimerStateTest {
                 type = SegmentStepType.STARTING
             )
         )
-        assertTrue(sut.isCountCompleted)
+        assertTrue(sut.isStepCountCompleted)
 
         sut = TimerState.Counting(
             routine = Routine.EMPTY,
@@ -74,7 +74,7 @@ class TimerStateTest {
                 type = SegmentStepType.STARTING
             )
         )
-        assertFalse(sut.isCountCompleted)
+        assertFalse(sut.isStepCountCompleted)
     }
 
     @Test

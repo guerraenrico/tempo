@@ -3,6 +3,7 @@ package com.enricog.features.timer.models
 import com.enricog.data.routines.api.entities.Routine
 import com.enricog.data.routines.api.entities.Segment
 import com.enricog.data.routines.api.entities.TimeType
+import com.enricog.entities.seconds
 
 internal sealed class TimerState {
 
@@ -14,11 +15,15 @@ internal sealed class TimerState {
         val step: SegmentStep
     ) : TimerState() {
 
-        val isCountRunning: Boolean
+        val isStepCountRunning: Boolean
             get() = step.count.isRunning && !step.count.isCompleted
 
-        val isCountCompleted: Boolean
+        val isStepCountCompleted: Boolean
             get() = step.count.isCompleted
+
+        val isStepCountCompleting: Boolean
+            get() = isStepCountRunning && !isStopwatchRunning &&
+                    step.count.seconds <= STEP_COMPLETING_THRESHOLD
 
         val isRoutineCompleted: Boolean
             get() = routine.segments.indexOf(runningSegment) == routine.segments.size - 1 &&
@@ -28,7 +33,7 @@ internal sealed class TimerState {
         val isStopwatchRunning: Boolean
             get() = runningSegment.type == TimeType.STOPWATCH &&
                     step.type == SegmentStepType.IN_PROGRESS &&
-                    isCountRunning
+                    isStepCountRunning
 
         val nextSegment: Segment?
             get() {
@@ -38,6 +43,10 @@ internal sealed class TimerState {
 
         val nextSegmentStep: SegmentStep?
             get() = nextSegment?.let { SegmentStep.from(routine = routine, segment = it) }
+
+        private companion object {
+            val STEP_COMPLETING_THRESHOLD = 5.seconds
+        }
     }
 
     data class Error(val throwable: Throwable) : TimerState()

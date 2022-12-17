@@ -41,14 +41,14 @@ internal class TimerStateConverter @Inject constructor() :
             SegmentStepType.STARTING -> BackgroundColor(
                 foreground = step.type.getColor(),
                 ripple = when {
-                    isCountCompleted -> runningSegment.type.getColor()
+                    isStepCountCompleted -> runningSegment.type.getColor()
                     else -> null
                 }
             )
             else -> BackgroundColor(
                 foreground = runningSegment.type.getColor(),
                 ripple = when {
-                    isCountCompleted -> if (nextSegmentStep?.type == SegmentStepType.STARTING)
+                    isStepCountCompleted -> if (nextSegmentStep?.type == SegmentStepType.STARTING)
                         nextSegmentStep.type.getColor() else nextSegment?.type?.getColor()
                     else -> null
                 }
