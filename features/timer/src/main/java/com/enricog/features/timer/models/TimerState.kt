@@ -12,7 +12,8 @@ internal sealed class TimerState {
     data class Counting(
         val routine: Routine,
         val runningSegment: Segment,
-        val step: SegmentStep
+        val step: SegmentStep,
+        val isSoundEnabled: Boolean
     ) : TimerState() {
 
         val isStepCountRunning: Boolean

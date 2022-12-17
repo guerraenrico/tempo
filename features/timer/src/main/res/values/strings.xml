@@ -20,5 +20,6 @@
     <string name="content_description_dialog_quite_routine_button_positive">Yes, quit routine</string>
     <string name="content_description_dialog_quite_routine_button_negative">No, continue routine</string>
     <string name="content_description_button_exit_routine">Exit routine</string>
+    <string name="content_description_button_toggle_sound">Toggle sound</string>
 
 </resources>

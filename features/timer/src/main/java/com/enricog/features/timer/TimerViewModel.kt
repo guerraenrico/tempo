@@ -56,7 +56,7 @@ internal class TimerViewModel @Inject constructor(
 
     private fun start(routine: Routine) {
         startJob = launch {
-            updateState { reducer.setup(routine) }
+            updateState { reducer.setup(it, routine) }
 
             delay(ONE_SECOND)
 
@@ -66,6 +66,10 @@ internal class TimerViewModel @Inject constructor(
 
     fun onToggleTimer() {
         updateState { reducer.toggleTimeRunning(it) }
+    }
+
+    fun toggleSound() {
+        updateState { reducer.toggleSound(it) }
     }
 
     fun onRestartSegment() {
@@ -135,7 +139,7 @@ internal class TimerViewModel @Inject constructor(
     }
 
     private fun playSoundIfNeeded(state: TimerState) {
-        if (state !is TimerState.Counting) return
+        if (state !is TimerState.Counting || !state.isSoundEnabled) return
 
         when {
             state.isStepCountCompleting -> soundPlayer.play(COUNT_DOWN_SOUND)

@@ -26,6 +26,7 @@ import com.enricog.navigation.testing.FakeNavigator
 import com.enricog.ui.theme.TimeTypeColors
 import kotlinx.coroutines.test.StandardTestDispatcher
 import kotlinx.coroutines.test.advanceTimeBy
+import kotlinx.coroutines.test.runCurrent
 import org.junit.After
 import org.junit.Rule
 import org.junit.Test
@@ -116,20 +117,20 @@ class TimerViewModelTest {
 
             advanceTimeBy(3000)
             // When segment starting is completing should play sounds
-            soundPlayer.assertSoundPlayed(R.raw.sound_count_down, times = 2)
+            soundPlayer.assertSoundPlayed(soundResId = R.raw.sound_count_down, times = 2)
             advanceTimeBy(1000)
-            soundPlayer.assertSoundPlayed(R.raw.sound_count_down_end, times = 1)
+            soundPlayer.assertSoundPlayed(soundResId = R.raw.sound_count_down_end, times = 1)
 
             advanceTimeBy(5000)
             // When segment count is not completing should not play sounds
-            soundPlayer.assertSoundPlayed(R.raw.sound_count_down, times = 2)
-            soundPlayer.assertSoundPlayed(R.raw.sound_count_down_end, times = 1)
+            soundPlayer.assertSoundPlayed(soundResId = R.raw.sound_count_down, times = 2)
+            soundPlayer.assertSoundPlayed(soundResId = R.raw.sound_count_down_end, times = 1)
 
             advanceTimeBy(5000)
             // When segment count is completing should play sounds
-            soundPlayer.assertSoundPlayed(R.raw.sound_count_down, times = 7)
+            soundPlayer.assertSoundPlayed(soundResId = R.raw.sound_count_down, times = 7)
             advanceTimeBy(1000)
-            soundPlayer.assertSoundPlayed(R.raw.sound_count_down_end, times = 2)
+            soundPlayer.assertSoundPlayed(soundResId = R.raw.sound_count_down_end, times = 2)
 
             cancelAndIgnoreRemainingEvents()
         }

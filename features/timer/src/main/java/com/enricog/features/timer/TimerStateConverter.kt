@@ -30,7 +30,8 @@ internal class TimerStateConverter @Inject constructor() :
                 step = state.step,
                 stepTitleId = state.getStepTitleId(),
                 segmentName = state.runningSegment.name,
-                clockBackgroundColor = state.getClockBackgroundColor()
+                clockBackgroundColor = state.getClockBackgroundColor(),
+                isSoundEnabled = state.isSoundEnabled
             )
         }
     }
