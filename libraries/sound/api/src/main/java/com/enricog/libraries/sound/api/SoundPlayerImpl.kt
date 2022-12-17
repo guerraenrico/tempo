@@ -1,11 +1,10 @@
-package com.enricog.tempo.managers
+package com.enricog.libraries.sound.api
 
 import android.content.Context
 import android.media.MediaPlayer
 import android.media.MediaPlayer.OnErrorListener
 import androidx.annotation.RawRes
 import com.enricog.core.logger.api.TempoLogger
-import com.enricog.features.timer.SoundPlayer
 import dagger.hilt.android.qualifiers.ApplicationContext
 import java.util.concurrent.ConcurrentHashMap
 import javax.inject.Inject

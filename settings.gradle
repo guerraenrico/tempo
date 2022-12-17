@@ -25,3 +25,5 @@ include ':navigation:testing'
 
 include ':ui:components'
 include ':ui:theme'
+
+include ':libraries:sound:api'

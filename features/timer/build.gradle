@@ -51,6 +51,7 @@ dependencies {
     implementation project(":ui:theme")
     implementation project(':data:routines:api')
     implementation project(":navigation:api")
+    implementation project(":libraries:sound:api")
 
     implementation Libs.AndroidX.appCompat
     implementation Libs.AndroidX.coreKtx

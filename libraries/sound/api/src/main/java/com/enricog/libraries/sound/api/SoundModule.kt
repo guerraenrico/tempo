@@ -1,6 +1,5 @@
-package com.enricog.tempo.managers
+package com.enricog.libraries.sound.api
 
-import com.enricog.features.timer.WindowScreenManager
 import dagger.Binds
 import dagger.Module
 import dagger.hilt.InstallIn
@@ -9,9 +8,9 @@ import javax.inject.Singleton
 
 @Module
 @InstallIn(SingletonComponent::class)
-internal abstract class ManagersModule {
+internal abstract class SoundModule {
 
     @Binds
     @Singleton
-    abstract fun provideWindowScreenManager(impl: WindowScreenManagerImpl): WindowScreenManager
+    abstract fun provideSoundPlayer(impl: SoundPlayerImpl): SoundPlayer
 }
