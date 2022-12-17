@@ -1,5 +1,6 @@
 package com.enricog.tempo.managers
 
+import com.enricog.features.timer.SoundPlayer
 import com.enricog.features.timer.WindowScreenManager
 import dagger.Binds
 import dagger.Module
@@ -7,11 +8,15 @@ import dagger.hilt.InstallIn
 import dagger.hilt.components.SingletonComponent
 import javax.inject.Singleton
 
-@InstallIn(SingletonComponent::class)
 @Module
+@InstallIn(SingletonComponent::class)
 internal abstract class ManagersModule {
 
     @Binds
     @Singleton
     abstract fun provideWindowScreenManager(impl: WindowScreenManagerImpl): WindowScreenManager
+
+    @Binds
+    @Singleton
+    abstract fun provideSoundPlayer(impl: SoundPlayerImpl): SoundPlayer
 }

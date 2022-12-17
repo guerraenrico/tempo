@@ -25,7 +25,8 @@ internal class TimerViewModel @Inject constructor(
     private val navigationActions: TimerNavigationActions,
     private val reducer: TimerReducer,
     private val timerUseCase: TimerUseCase,
-    private val windowScreenManager: WindowScreenManager
+    private val windowScreenManager: WindowScreenManager,
+    private val soundPlayer: SoundPlayer
 ) : BaseViewModel<TimerState, TimerViewState>(
     initialState = TimerState.Idle,
     converter = converter,
@@ -123,6 +124,7 @@ internal class TimerViewModel @Inject constructor(
             while (true) {
                 delay(1000)
                 updateState { reducer.progressTime(it) }
+                soundPlayer.play(R.raw.sound_count_down)
             }
         }
     }
@@ -135,5 +137,9 @@ internal class TimerViewModel @Inject constructor(
         val enableKeepScreenOn = currentState is TimerState.Counting &&
                 currentState.isCountRunning && !currentState.isRoutineCompleted
         windowScreenManager.toggleKeepScreenOnFlag(enableKeepScreenOn)
+    }
+
+    override fun onCleared() {
+        soundPlayer.close()
     }
 }
