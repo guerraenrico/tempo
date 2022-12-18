@@ -24,6 +24,7 @@ import androidx.compose.ui.platform.testTag
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.input.ImeAction
 import androidx.compose.ui.text.input.TextFieldValue
+import androidx.compose.ui.unit.dp
 import com.enricog.core.compose.api.extensions.stringResourceOrNull
 import com.enricog.core.compose.api.modifiers.swipeable.rememberSwipeableState
 import com.enricog.data.routines.api.entities.TimeType
@@ -95,6 +96,7 @@ internal fun SegmentFormScene(
                     modifier = Modifier
                         .fillMaxSize()
                         .verticalScroll(rememberScrollState(0))
+                        .padding(bottom = 85.dp)
                 ) {
                     TempoTextField(
                         value = segment.name,

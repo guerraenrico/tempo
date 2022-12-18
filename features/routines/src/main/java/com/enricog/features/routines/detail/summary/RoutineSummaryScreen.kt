@@ -1,22 +1,20 @@
 package com.enricog.features.routines.detail.summary
 
-import androidx.compose.foundation.layout.Column
-import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
-import androidx.compose.ui.Modifier
 import com.enricog.data.routines.api.entities.Segment
 import com.enricog.features.routines.detail.summary.models.RoutineSummaryViewState
 import com.enricog.features.routines.detail.summary.ui_components.RoutineSummaryErrorScene
 import com.enricog.features.routines.detail.summary.ui_components.RoutineSummaryScene
+import com.enricog.ui.components.layout.scafold.TempoScreenScaffold
 import com.enricog.ui.components.snackbar.TempoSnackbarEvent
 import com.enricog.ui.components.toolbar.TempoToolbar
 
 @Composable
 internal fun RoutineSummaryScreen(viewModel: RoutineSummaryViewModel) {
     val viewState by viewModel.viewState.collectAsState(RoutineSummaryViewState.Idle)
-    Column(modifier = Modifier.fillMaxSize()) {
+    TempoScreenScaffold {
         TempoToolbar(onBack = viewModel::onBack)
         viewState.Compose(
             onSegmentAdd = viewModel::onSegmentAdd,
