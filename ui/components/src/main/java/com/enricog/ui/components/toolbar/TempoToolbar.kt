@@ -38,7 +38,8 @@ fun TempoToolbar(
                     TempoIconButton(
                         onClick = onBack,
                         iconResId = R.drawable.ic_back,
-                        contentDescription = stringResource(R.string.content_description_toolbar_button_back)
+                        contentDescription = stringResource(R.string.content_description_toolbar_button_back),
+                        drawShadow = false
                     )
                 }
                 if (title != null) {
