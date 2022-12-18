@@ -22,7 +22,8 @@ internal class TimerStateTest {
         step = SegmentStep(
             count = count,
             type = SegmentStepType.STARTING
-        )
+        ),
+        isSoundEnabled = true
     )
 
     @Test

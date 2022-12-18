@@ -26,7 +26,6 @@ import com.enricog.navigation.testing.FakeNavigator
 import com.enricog.ui.theme.TimeTypeColors
 import kotlinx.coroutines.test.StandardTestDispatcher
 import kotlinx.coroutines.test.advanceTimeBy
-import kotlinx.coroutines.test.runCurrent
 import org.junit.After
 import org.junit.Rule
 import org.junit.Test
@@ -80,6 +79,7 @@ class TimerViewModelTest {
                 foreground = TimeTypeColors.STARTING,
                 ripple = null
             ),
+            isSoundEnabled = true
         )
         val expectedOnStart = TimerViewState.Counting(
             step = SegmentStep(
@@ -91,7 +91,8 @@ class TimerViewModelTest {
             clockBackgroundColor = BackgroundColor(
                 foreground = TimeTypeColors.STARTING,
                 ripple = null
-            )
+            ),
+            isSoundEnabled = true
         )
         val sut = buildSut()
 
@@ -109,7 +110,7 @@ class TimerViewModelTest {
     }
 
     @Test
-    fun `should play sounds when segment count is completing`() = coroutineRule {
+    fun `should play sounds when segment count is completing and sound is enabled`() = coroutineRule {
         val sut = buildSut()
 
         sut.viewState.test {
@@ -137,6 +138,36 @@ class TimerViewModelTest {
     }
 
     @Test
+    fun `should not play sounds when segment count is completing and sound is disabled`() = coroutineRule {
+        val sut = buildSut()
+
+        sut.viewState.test {
+            advanceTimeBy(1000)
+
+            sut.onToggleTimer()
+
+            advanceTimeBy(3000)
+            // When segment starting is completing should not play sounds
+            soundPlayer.assertSoundNotPlayed(soundResId = R.raw.sound_count_down)
+            advanceTimeBy(1000)
+            soundPlayer.assertSoundNotPlayed(soundResId = R.raw.sound_count_down_end)
+
+            advanceTimeBy(5000)
+            // When segment count is not completing should not play sounds
+            soundPlayer.assertSoundNotPlayed(soundResId = R.raw.sound_count_down)
+            soundPlayer.assertSoundNotPlayed(soundResId = R.raw.sound_count_down_end)
+
+            advanceTimeBy(5000)
+            // When segment count is completing should not play sounds
+            soundPlayer.assertSoundNotPlayed(soundResId = R.raw.sound_count_down)
+            advanceTimeBy(1000)
+            soundPlayer.assertSoundNotPlayed(soundResId = R.raw.sound_count_down_end)
+
+            cancelAndIgnoreRemainingEvents()
+        }
+    }
+
+    @Test
     fun `should stop routine on toggle when timer is running`() = coroutineRule {
         val expected = TimerViewState.Counting(
             step = SegmentStep(
@@ -148,7 +179,8 @@ class TimerViewModelTest {
             clockBackgroundColor = BackgroundColor(
                 foreground = TimeTypeColors.STARTING,
                 ripple = null
-            )
+            ),
+            isSoundEnabled = true
         )
         val sut = buildSut()
 
@@ -178,7 +210,8 @@ class TimerViewModelTest {
             clockBackgroundColor = BackgroundColor(
                 foreground = TimeTypeColors.STARTING,
                 ripple = null
-            )
+            ),
+            isSoundEnabled = true
         )
         val sut = buildSut()
 
@@ -206,7 +239,8 @@ class TimerViewModelTest {
             clockBackgroundColor = BackgroundColor(
                 foreground = TimeTypeColors.STARTING,
                 ripple = null
-            )
+            ),
+            isSoundEnabled = true
         )
         val expectedStartFirstSegment = TimerViewState.Counting(
             step = SegmentStep(
@@ -218,7 +252,8 @@ class TimerViewModelTest {
             clockBackgroundColor = BackgroundColor(
                 foreground = TimeTypeColors.TIMER,
                 ripple = null
-            )
+            ),
+            isSoundEnabled = true
         )
         val sut = buildSut()
 
