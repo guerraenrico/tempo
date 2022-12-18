@@ -6,6 +6,7 @@ import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
 import androidx.compose.runtime.DisposableEffect
 import androidx.compose.runtime.LaunchedEffect
+import androidx.core.view.WindowCompat
 import androidx.lifecycle.lifecycleScope
 import androidx.navigation.NavController.OnDestinationChangedListener
 import androidx.navigation.compose.NavHost
@@ -40,6 +41,7 @@ internal class MainActivity : ComponentActivity() {
     lateinit var dispatchers: CoroutineDispatchers
 
     override fun onCreate(savedInstanceState: Bundle?) {
+        WindowCompat.setDecorFitsSystemWindows(window, false)
         super.onCreate(savedInstanceState)
         setContent {
             TempoTheme {

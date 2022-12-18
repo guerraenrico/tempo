@@ -1,16 +1,14 @@
 package com.enricog.features.routines.detail.segment
 
-import androidx.compose.foundation.layout.Column
-import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
-import androidx.compose.ui.Modifier
 import androidx.compose.ui.text.input.TextFieldValue
 import com.enricog.data.routines.api.entities.TimeType
 import com.enricog.features.routines.detail.segment.models.SegmentViewState
 import com.enricog.features.routines.detail.segment.ui_components.SegmentErrorScene
 import com.enricog.features.routines.detail.segment.ui_components.SegmentFormScene
+import com.enricog.ui.components.layout.scafold.TempoScreenScaffold
 import com.enricog.ui.components.snackbar.TempoSnackbarEvent
 import com.enricog.ui.components.textField.TimeText
 import com.enricog.ui.components.toolbar.TempoToolbar
@@ -18,7 +16,7 @@ import com.enricog.ui.components.toolbar.TempoToolbar
 @Composable
 internal fun SegmentScreen(viewModel: SegmentViewModel) {
     val viewState by viewModel.viewState.collectAsState(SegmentViewState.Idle)
-    Column(modifier = Modifier.fillMaxSize()) {
+    TempoScreenScaffold {
         TempoToolbar(onBack = viewModel::onSegmentBack)
 
         viewState.Compose(
