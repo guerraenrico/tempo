@@ -1,7 +1,11 @@
 package com.enricog.features.routines.detail.start_time
 
 import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.WindowInsets
+import androidx.compose.foundation.layout.navigationBars
 import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.layout.statusBars
+import androidx.compose.foundation.layout.windowInsetsPadding
 import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.verticalScroll
 import androidx.compose.runtime.Composable
@@ -24,6 +28,8 @@ internal fun StartTimeInfoScene() {
     Column(
         modifier = Modifier
             .verticalScroll(scrollState)
+            .windowInsetsPadding(WindowInsets.navigationBars)
+            .windowInsetsPadding(WindowInsets.statusBars)
             .padding(TempoTheme.dimensions.spaceM)
             .testTag(StartTimeInfoSceneTestTag)
     ) {
