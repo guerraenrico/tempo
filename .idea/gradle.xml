@@ -36,6 +36,10 @@
             <option value="$PROJECT_DIR$/features" />
             <option value="$PROJECT_DIR$/features/routines" />
             <option value="$PROJECT_DIR$/features/timer" />
+            <option value="$PROJECT_DIR$/libraries" />
+            <option value="$PROJECT_DIR$/libraries/sound" />
+            <option value="$PROJECT_DIR$/libraries/sound/api" />
+            <option value="$PROJECT_DIR$/libraries/sound/testing" />
             <option value="$PROJECT_DIR$/navigation" />
             <option value="$PROJECT_DIR$/navigation/api" />
             <option value="$PROJECT_DIR$/navigation/testing" />

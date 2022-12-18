@@ -1,6 +1,7 @@
 package com.enricog.features.timer.ui_components
 
 import android.content.res.Configuration.ORIENTATION_PORTRAIT
+import android.media.MediaPlayer
 import androidx.compose.animation.core.Animatable
 import androidx.compose.animation.core.tween
 import androidx.compose.foundation.layout.Column
@@ -15,6 +16,7 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.drawBehind
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.platform.LocalConfiguration
+import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.platform.testTag
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.font.FontWeight
@@ -41,7 +43,7 @@ internal fun TimerCountingScene(
 
     val count = state.step.count
 
-    val circleTransitionSize =  if (orientation == ORIENTATION_PORTRAIT) {
+    val circleTransitionSize = if (orientation == ORIENTATION_PORTRAIT) {
         configuration.screenHeightDp.dp.toPx()
     } else {
         configuration.screenWidthDp.dp.toPx()

@@ -9,9 +9,7 @@ import androidx.compose.animation.fadeOut
 import androidx.compose.animation.scaleIn
 import androidx.compose.animation.with
 import androidx.compose.foundation.layout.Box
-import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.fillMaxSize
-import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
@@ -20,15 +18,13 @@ import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.zIndex
 import com.enricog.features.timer.models.TimerViewState
 import com.enricog.features.timer.ui_components.TimerCloseDialog
 import com.enricog.features.timer.ui_components.TimerCompletedScene
 import com.enricog.features.timer.ui_components.TimerCountingScene
 import com.enricog.features.timer.ui_components.TimerErrorScene
-import com.enricog.ui.components.button.TempoButtonColor
-import com.enricog.ui.components.button.icon.TempoIconButton
+import com.enricog.features.timer.ui_components.TimerToolbar
 
 @Composable
 internal fun TimerScreen(viewModel: TimerViewModel) {
@@ -36,20 +32,14 @@ internal fun TimerScreen(viewModel: TimerViewModel) {
     var showCloseDialog by remember { mutableStateOf(false) }
 
     Box(modifier = Modifier.fillMaxSize()) {
-        Row(
+        TimerToolbar(
             modifier = Modifier
-                .fillMaxWidth()
                 .align(Alignment.TopStart)
-                .zIndex(1f)
-        ) {
-            TempoIconButton(
-                onClick = { showCloseDialog = true },
-                iconResId = R.drawable.ic_timer_close,
-                color = TempoButtonColor.TransparentPrimary,
-                drawShadow = false,
-                contentDescription = stringResource(R.string.content_description_button_exit_routine)
-            )
-        }
+                .zIndex(1f),
+            state = viewState,
+            onCloseClick = { showCloseDialog = true },
+            onSoundClick = viewModel::toggleSound
+        )
 
         AnimatedContent(
             targetState = viewState,

@@ -30,7 +30,8 @@ internal class TimerStateConverter @Inject constructor() :
                 step = state.step,
                 stepTitleId = state.getStepTitleId(),
                 segmentName = state.runningSegment.name,
-                clockBackgroundColor = state.getClockBackgroundColor()
+                clockBackgroundColor = state.getClockBackgroundColor(),
+                isSoundEnabled = state.isSoundEnabled
             )
         }
     }
@@ -41,14 +42,14 @@ internal class TimerStateConverter @Inject constructor() :
             SegmentStepType.STARTING -> BackgroundColor(
                 foreground = step.type.getColor(),
                 ripple = when {
-                    isCountCompleted -> runningSegment.type.getColor()
+                    isStepCountCompleted -> runningSegment.type.getColor()
                     else -> null
                 }
             )
             else -> BackgroundColor(
                 foreground = runningSegment.type.getColor(),
                 ripple = when {
-                    isCountCompleted -> if (nextSegmentStep?.type == SegmentStepType.STARTING)
+                    isStepCountCompleted -> if (nextSegmentStep?.type == SegmentStepType.STARTING)
                         nextSegmentStep.type.getColor() else nextSegment?.type?.getColor()
                     else -> null
                 }

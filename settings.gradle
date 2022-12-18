@@ -20,6 +20,9 @@ include ':data:routines:testing'
 include ':features:routines'
 include ':features:timer'
 
+include ':libraries:sound:api'
+include ':libraries:sound:testing'
+
 include ':navigation:api'
 include ':navigation:testing'
 

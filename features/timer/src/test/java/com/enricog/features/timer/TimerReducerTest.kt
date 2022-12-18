@@ -19,44 +19,79 @@ class TimerReducerTest {
 
     @Test
     fun `should setup state with starting segment when start timer offset is more than 0`() {
-        val segment = Segment.EMPTY
+        val segment = Segment.EMPTY.copy(time = 5.seconds)
         val routine = Routine.EMPTY.copy(
             startTimeOffset = 10.seconds,
             segments = listOf(segment)
         )
+        val state = TimerState.Idle
         val expected = TimerState.Counting(
             routine = routine,
             runningSegment = segment,
             step = SegmentStep(
-                count = Count.idle(seconds = routine.startTimeOffset),
+                count = Count.idle(seconds = 10.seconds),
                 type = SegmentStepType.STARTING
-            )
+            ),
+            isSoundEnabled = true
         )
 
-        val result = sut.setup(routine)
+        val actual = sut.setup(state = state, routine = routine)
 
-        assertEquals(expected, result)
+        assertEquals(expected, actual)
     }
 
     @Test
     fun `should setup state with segment in progress when start timer offset is 0`() {
-        val segment = Segment.EMPTY
+        val segment = Segment.EMPTY.copy(time = 5.seconds)
         val routine = Routine.EMPTY.copy(
             startTimeOffset = 0.seconds,
             segments = listOf(segment)
+        )
+        val state = TimerState.Idle
+        val expected = TimerState.Counting(
+            routine = routine,
+            runningSegment = segment,
+            step = SegmentStep(
+                count = Count.idle(seconds = 5.seconds),
+                type = SegmentStepType.IN_PROGRESS
+            ),
+            isSoundEnabled = true
+        )
+
+        val actual = sut.setup(state = state, routine = routine)
+
+        assertEquals(expected, actual)
+    }
+
+    @Test
+    fun `should setup state with same sound enable status when current state is counting`() {
+        val segment = Segment.EMPTY.copy(time = 5.seconds)
+        val routine = Routine.EMPTY.copy(
+            startTimeOffset = 10.seconds,
+            segments = listOf(segment)
+        )
+        val state = TimerState.Counting(
+            routine = routine,
+            runningSegment = segment,
+            step = SegmentStep(
+                count = Count.start(seconds = 3.seconds),
+                type = SegmentStepType.IN_PROGRESS
+            ),
+            isSoundEnabled = false
         )
         val expected = TimerState.Counting(
             routine = routine,
             runningSegment = segment,
             step = SegmentStep(
-                count = Count.idle(seconds = routine.startTimeOffset),
-                type = SegmentStepType.IN_PROGRESS
-            )
+                count = Count.idle(seconds = 10.seconds),
+                type = SegmentStepType.STARTING
+            ),
+            isSoundEnabled = false
         )
 
-        val result = sut.setup(routine)
+        val actual = sut.setup(state = state, routine = routine)
 
-        assertEquals(expected, result)
+        assertEquals(expected, actual)
     }
 
     @Test
@@ -81,12 +116,13 @@ class TimerReducerTest {
             step = SegmentStep(
                 count = Count(seconds = 10.seconds, isRunning = false, isCompleted = false),
                 type = SegmentStepType.IN_PROGRESS
-            )
+            ),
+            isSoundEnabled = true
         )
 
-        val result = sut.progressTime(state)
+        val actual = sut.progressTime(state)
 
-        assertEquals(state, result)
+        assertEquals(state, actual)
     }
 
     @Test
@@ -101,7 +137,8 @@ class TimerReducerTest {
             step = SegmentStep(
                 count = Count(seconds = 10.seconds, isRunning = true, isCompleted = false),
                 type = SegmentStepType.IN_PROGRESS
-            )
+            ),
+            isSoundEnabled = true
         )
         val expected = TimerState.Counting(
             routine = routine,
@@ -109,12 +146,13 @@ class TimerReducerTest {
             step = SegmentStep(
                 count = Count(seconds = 9.seconds, isRunning = true, isCompleted = false),
                 type = SegmentStepType.IN_PROGRESS
-            )
+            ),
+            isSoundEnabled = true
         )
 
-        val result = sut.progressTime(state)
+        val actual = sut.progressTime(state)
 
-        assertEquals(expected, result)
+        assertEquals(expected, actual)
     }
 
     @Test
@@ -125,7 +163,8 @@ class TimerReducerTest {
             step = SegmentStep(
                 count = Count.start(seconds = 10.seconds),
                 type = SegmentStepType.STARTING
-            )
+            ),
+            isSoundEnabled = true
         )
         val expected = TimerState.Counting(
             routine = Routine.EMPTY,
@@ -133,12 +172,13 @@ class TimerReducerTest {
             step = SegmentStep(
                 count = Count.start(seconds = 9.seconds),
                 type = SegmentStepType.STARTING
-            )
+            ),
+            isSoundEnabled = true
         )
 
-        val result = sut.progressTime(state)
+        val actual = sut.progressTime(state)
 
-        assertEquals(expected, result)
+        assertEquals(expected, actual)
     }
 
     @Test
@@ -149,7 +189,8 @@ class TimerReducerTest {
             step = SegmentStep(
                 count = Count.start(seconds = 10.seconds),
                 type = SegmentStepType.IN_PROGRESS
-            )
+            ),
+            isSoundEnabled = true
         )
         val expected = TimerState.Counting(
             routine = Routine.EMPTY,
@@ -157,12 +198,13 @@ class TimerReducerTest {
             step = SegmentStep(
                 count = Count.start(seconds = 11.seconds),
                 type = SegmentStepType.IN_PROGRESS
-            )
+            ),
+            isSoundEnabled = true
         )
 
-        val result = sut.progressTime(state)
+        val actual = sut.progressTime(state)
 
-        assertEquals(expected, result)
+        assertEquals(expected, actual)
     }
 
     @Test
@@ -173,7 +215,8 @@ class TimerReducerTest {
             step = SegmentStep(
                 count = Count.start(seconds = 1.seconds),
                 type = SegmentStepType.STARTING
-            )
+            ),
+            isSoundEnabled = true
         )
         val expected = TimerState.Counting(
             routine = Routine.EMPTY,
@@ -181,12 +224,13 @@ class TimerReducerTest {
             step = SegmentStep(
                 count = Count(seconds = 0.seconds, isRunning = true, isCompleted = true),
                 type = SegmentStepType.STARTING
-            )
+            ),
+            isSoundEnabled = true
         )
 
-        val result = sut.progressTime(state)
+        val actual = sut.progressTime(state)
 
-        assertEquals(expected, result)
+        assertEquals(expected, actual)
     }
 
     @Test
@@ -197,7 +241,8 @@ class TimerReducerTest {
             step = SegmentStep(
                 count = Count.start(seconds = 1.seconds),
                 type = SegmentStepType.IN_PROGRESS
-            )
+            ),
+            isSoundEnabled = true
         )
         val expected = TimerState.Counting(
             routine = Routine.EMPTY,
@@ -205,12 +250,13 @@ class TimerReducerTest {
             step = SegmentStep(
                 count = Count(seconds = 0.seconds, isRunning = true, isCompleted = true),
                 type = SegmentStepType.IN_PROGRESS
-            )
+            ),
+            isSoundEnabled = true
         )
 
-        val result = sut.progressTime(state)
+        val actual = sut.progressTime(state)
 
-        assertEquals(expected, result)
+        assertEquals(expected, actual)
     }
 
     @Test
@@ -221,7 +267,8 @@ class TimerReducerTest {
             step = SegmentStep(
                 count = Count.start(seconds = 1.seconds),
                 type = SegmentStepType.IN_PROGRESS
-            )
+            ),
+            isSoundEnabled = true
         )
         val expected = TimerState.Counting(
             routine = Routine.EMPTY,
@@ -229,12 +276,13 @@ class TimerReducerTest {
             step = SegmentStep(
                 count = Count(seconds = 0.seconds, isRunning = true, isCompleted = true),
                 type = SegmentStepType.IN_PROGRESS
-            )
+            ),
+            isSoundEnabled = true
         )
 
-        val result = sut.progressTime(state)
+        val actual = sut.progressTime(state)
 
-        assertEquals(expected, result)
+        assertEquals(expected, actual)
     }
 
     @Test
@@ -245,7 +293,8 @@ class TimerReducerTest {
             step = SegmentStep(
                 count = Count.start(seconds = 0.seconds),
                 type = SegmentStepType.IN_PROGRESS
-            )
+            ),
+            isSoundEnabled = true
         )
         val expected = TimerState.Counting(
             routine = Routine.EMPTY,
@@ -253,12 +302,13 @@ class TimerReducerTest {
             step = SegmentStep(
                 count = Count(seconds = 1.seconds, isRunning = true, isCompleted = false),
                 type = SegmentStepType.IN_PROGRESS
-            )
+            ),
+            isSoundEnabled = true
         )
 
-        val result = sut.progressTime(state)
+        val actual = sut.progressTime(state)
 
-        assertEquals(expected, result)
+        assertEquals(expected, actual)
     }
 
     @Test
@@ -273,12 +323,13 @@ class TimerReducerTest {
             step = SegmentStep(
                 count = Count(seconds = 10.seconds, isRunning = true, isCompleted = true),
                 type = SegmentStepType.IN_PROGRESS
-            )
+            ),
+            isSoundEnabled = true
         )
 
-        val result = sut.toggleTimeRunning(state)
+        val actual = sut.toggleTimeRunning(state)
 
-        assertEquals(state, result)
+        assertEquals(state, actual)
     }
 
     @Test
@@ -293,7 +344,8 @@ class TimerReducerTest {
             step = SegmentStep(
                 count = Count(seconds = 10.seconds, isRunning = true, isCompleted = false),
                 type = SegmentStepType.IN_PROGRESS
-            )
+            ),
+            isSoundEnabled = true
         )
         val expected = TimerState.Counting(
             routine = routine,
@@ -301,12 +353,13 @@ class TimerReducerTest {
             step = SegmentStep(
                 count = Count(seconds = 10.seconds, isRunning = true, isCompleted = true),
                 type = SegmentStepType.IN_PROGRESS
-            )
+            ),
+            isSoundEnabled = true
         )
 
-        val result = sut.toggleTimeRunning(state)
+        val actual = sut.toggleTimeRunning(state)
 
-        assertEquals(expected, result)
+        assertEquals(expected, actual)
     }
 
     @Test
@@ -321,7 +374,8 @@ class TimerReducerTest {
             step = SegmentStep(
                 count = Count(seconds = 10.seconds, isRunning = true, isCompleted = false),
                 type = SegmentStepType.IN_PROGRESS
-            )
+            ),
+            isSoundEnabled = true
         )
         val expected = TimerState.Counting(
             routine = routine,
@@ -329,12 +383,13 @@ class TimerReducerTest {
             step = SegmentStep(
                 count = Count(seconds = 10.seconds, isRunning = false, isCompleted = false),
                 type = SegmentStepType.IN_PROGRESS
-            )
+            ),
+            isSoundEnabled = true
         )
 
-        val result = sut.toggleTimeRunning(state)
+        val actual = sut.toggleTimeRunning(state)
 
-        assertEquals(expected, result)
+        assertEquals(expected, actual)
     }
 
     @Test
@@ -349,7 +404,8 @@ class TimerReducerTest {
             step = SegmentStep(
                 count = Count(seconds = 5.seconds, isRunning = true, isCompleted = false),
                 type = SegmentStepType.IN_PROGRESS
-            )
+            ),
+            isSoundEnabled = true
         )
         val expected = TimerState.Counting(
             routine = routine,
@@ -357,12 +413,13 @@ class TimerReducerTest {
             step = SegmentStep(
                 count = Count(seconds = 10.seconds, isRunning = false, isCompleted = false),
                 type = SegmentStepType.IN_PROGRESS
-            )
+            ),
+            isSoundEnabled = true
         )
 
-        val result = sut.restartTime(state)
+        val actual = sut.restartTime(state)
 
-        assertEquals(expected, result)
+        assertEquals(expected, actual)
     }
 
     @Test
@@ -373,7 +430,8 @@ class TimerReducerTest {
             step = SegmentStep(
                 count = Count(seconds = 5.seconds, isRunning = true, isCompleted = false),
                 type = SegmentStepType.STARTING
-            )
+            ),
+            isSoundEnabled = true
         )
         val expected = TimerState.Counting(
             routine = Routine.EMPTY.copy(startTimeOffset = 10.seconds),
@@ -381,12 +439,13 @@ class TimerReducerTest {
             step = SegmentStep(
                 count = Count(seconds = 10.seconds, isRunning = false, isCompleted = false),
                 type = SegmentStepType.STARTING
-            )
+            ),
+            isSoundEnabled = true
         )
 
-        val result = sut.restartTime(state)
+        val actual = sut.restartTime(state)
 
-        assertEquals(expected, result)
+        assertEquals(expected, actual)
     }
 
     @Test
@@ -401,12 +460,13 @@ class TimerReducerTest {
             step = SegmentStep(
                 count = Count(seconds = 0.seconds, isRunning = false, isCompleted = false),
                 type = SegmentStepType.IN_PROGRESS
-            )
+            ),
+            isSoundEnabled = true
         )
 
-        val result = sut.nextStep(state)
+        val actual = sut.nextStep(state)
 
-        assertEquals(state, result)
+        assertEquals(state, actual)
     }
 
     @Test
@@ -422,7 +482,8 @@ class TimerReducerTest {
             step = SegmentStep(
                 count = Count(seconds = 0.seconds, isRunning = false, isCompleted = true),
                 type = SegmentStepType.IN_PROGRESS
-            )
+            ),
+            isSoundEnabled = true
         )
         val expected = TimerState.Counting(
             routine = routine,
@@ -430,12 +491,13 @@ class TimerReducerTest {
             step = SegmentStep(
                 count = Count(seconds = 5.seconds, isRunning = true, isCompleted = false),
                 type = SegmentStepType.STARTING
-            )
+            ),
+            isSoundEnabled = true
         )
 
-        val result = sut.nextStep(state)
+        val actual = sut.nextStep(state)
 
-        assertEquals(expected, result)
+        assertEquals(expected, actual)
     }
 
     @Test
@@ -450,12 +512,13 @@ class TimerReducerTest {
             step = SegmentStep(
                 count = Count(seconds = 0.seconds, isRunning = false, isCompleted = true),
                 type = SegmentStepType.IN_PROGRESS
-            )
+            ),
+            isSoundEnabled = true
         )
 
-        val result = sut.nextStep(state)
+        val actual = sut.nextStep(state)
 
-        assertEquals(state, result)
+        assertEquals(state, actual)
     }
 
     @Test
@@ -466,7 +529,8 @@ class TimerReducerTest {
             step = SegmentStep(
                 count = Count(seconds = 0.seconds, isRunning = true, isCompleted = true),
                 type = SegmentStepType.STARTING
-            )
+            ),
+            isSoundEnabled = true
         )
         val expected = TimerState.Counting(
             routine = Routine.EMPTY,
@@ -474,12 +538,13 @@ class TimerReducerTest {
             step = SegmentStep(
                 count = Count.start(seconds = 10.seconds),
                 type = SegmentStepType.IN_PROGRESS
-            )
+            ),
+            isSoundEnabled = true
         )
 
-        val result = sut.nextStep(state)
+        val actual = sut.nextStep(state)
 
-        assertEquals(expected, result)
+        assertEquals(expected, actual)
     }
 
     @Test
@@ -495,7 +560,8 @@ class TimerReducerTest {
             step = SegmentStep(
                 count = Count(seconds = 0.seconds, isRunning = true, isCompleted = true),
                 type = SegmentStepType.IN_PROGRESS
-            )
+            ),
+            isSoundEnabled = true
         )
         val expected = TimerState.Counting(
             routine = Routine.EMPTY.copy(
@@ -508,12 +574,13 @@ class TimerReducerTest {
             step = SegmentStep(
                 count = Count.start(seconds = 5.seconds),
                 type = SegmentStepType.STARTING
-            )
+            ),
+            isSoundEnabled = true
         )
 
-        val result = sut.nextStep(state)
+        val actual = sut.nextStep(state)
 
-        assertEquals(expected, result)
+        assertEquals(expected, actual)
     }
 
     @Test
@@ -534,7 +601,8 @@ class TimerReducerTest {
             step = SegmentStep(
                 count = Count(seconds = 0.seconds, isRunning = true, isCompleted = true),
                 type = SegmentStepType.IN_PROGRESS
-            )
+            ),
+            isSoundEnabled = true
         )
         val expected = TimerState.Counting(
             routine = Routine.EMPTY.copy(
@@ -552,11 +620,42 @@ class TimerReducerTest {
             step = SegmentStep(
                 count = Count.start(seconds = 20.seconds),
                 type = SegmentStepType.IN_PROGRESS
-            )
+            ),
+            isSoundEnabled = true
         )
 
-        val result = sut.nextStep(state)
+        val actual = sut.nextStep(state)
 
-        assertEquals(expected, result)
+        assertEquals(expected, actual)
+    }
+
+    @Test
+    fun `should update state with sound disabled on toggling the sound`() {
+        val segment = Segment.EMPTY.copy(time = 10.seconds, type = TimeType.TIMER)
+        val routine = Routine.EMPTY.copy(
+            segments = listOf(segment)
+        )
+        val state = TimerState.Counting(
+            routine = routine,
+            runningSegment = segment,
+            step = SegmentStep(
+                count = Count(seconds = 10.seconds, isRunning = true, isCompleted = true),
+                type = SegmentStepType.IN_PROGRESS
+            ),
+            isSoundEnabled = true
+        )
+        val expected = TimerState.Counting(
+            routine = routine,
+            runningSegment = segment,
+            step = SegmentStep(
+                count = Count(seconds = 10.seconds, isRunning = true, isCompleted = true),
+                type = SegmentStepType.IN_PROGRESS
+            ),
+            isSoundEnabled = false
+        )
+
+        val actual = sut.toggleSound(state)
+
+        assertEquals(expected, actual)
     }
 }

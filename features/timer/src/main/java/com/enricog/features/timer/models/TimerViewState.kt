@@ -11,7 +11,8 @@ internal sealed class TimerViewState {
         val step: SegmentStep,
         @StringRes val stepTitleId: Int,
         val segmentName: String,
-        val clockBackgroundColor: BackgroundColor
+        val clockBackgroundColor: BackgroundColor,
+        val isSoundEnabled: Boolean
     ) : TimerViewState() {
 
         data class BackgroundColor(

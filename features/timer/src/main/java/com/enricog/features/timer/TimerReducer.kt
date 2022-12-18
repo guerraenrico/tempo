@@ -11,7 +11,7 @@ import javax.inject.Inject
 
 internal class TimerReducer @Inject constructor() {
 
-    fun setup(routine: Routine): TimerState {
+    fun setup(state: TimerState, routine: Routine): TimerState {
         val segment = routine.segments.first()
         val segmentStep = SegmentStep.from(
             routine = routine,
@@ -20,7 +20,8 @@ internal class TimerReducer @Inject constructor() {
         return TimerState.Counting(
             routine = routine,
             runningSegment = segment,
-            step = segmentStep
+            step = segmentStep,
+            isSoundEnabled = if (state is TimerState.Counting) state.isSoundEnabled else true
         )
     }
 
@@ -29,7 +30,7 @@ internal class TimerReducer @Inject constructor() {
     }
 
     fun progressTime(state: TimerState): TimerState {
-        if (state !is TimerState.Counting || !state.isCountRunning) return state
+        if (state !is TimerState.Counting || !state.isStepCountRunning) return state
 
         val step = state.step
         val runningSegment = state.runningSegment
@@ -55,7 +56,7 @@ internal class TimerReducer @Inject constructor() {
     }
 
     fun toggleTimeRunning(state: TimerState): TimerState {
-        if (state !is TimerState.Counting || state.isCountCompleted) return state
+        if (state !is TimerState.Counting || state.isStepCountCompleted) return state
 
         val step = state.step
         return if (state.isStopwatchRunning) {
@@ -63,6 +64,12 @@ internal class TimerReducer @Inject constructor() {
         } else {
             state.copy(step = step.copy(count = step.count.copy(isRunning = !step.count.isRunning)))
         }
+    }
+
+    fun toggleSound(state: TimerState): TimerState {
+        if (state !is TimerState.Counting) return state
+
+        return state.copy(isSoundEnabled = !state.isSoundEnabled)
     }
 
     fun restartTime(state: TimerState): TimerState {
@@ -79,7 +86,7 @@ internal class TimerReducer @Inject constructor() {
     }
 
     fun nextStep(state: TimerState): TimerState {
-        if (state !is TimerState.Counting || !state.isCountCompleted || state.isRoutineCompleted) return state
+        if (state !is TimerState.Counting || !state.isStepCountCompleted || state.isRoutineCompleted) return state
 
         val step = state.step
 

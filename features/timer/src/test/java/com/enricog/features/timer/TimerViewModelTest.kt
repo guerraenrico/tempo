@@ -19,12 +19,14 @@ import com.enricog.features.timer.models.TimerViewState
 import com.enricog.features.timer.models.TimerViewState.Counting.BackgroundColor
 import com.enricog.features.timer.navigation.TimerNavigationActions
 import com.enricog.features.timer.usecase.TimerUseCase
+import com.enricog.libraries.sound.testing.FakeSoundPlayer
 import com.enricog.navigation.api.routes.RoutinesRoute
 import com.enricog.navigation.api.routes.RoutinesRouteInput
 import com.enricog.navigation.testing.FakeNavigator
 import com.enricog.ui.theme.TimeTypeColors
 import kotlinx.coroutines.test.StandardTestDispatcher
 import kotlinx.coroutines.test.advanceTimeBy
+import org.junit.After
 import org.junit.Rule
 import org.junit.Test
 import kotlin.test.assertEquals
@@ -38,7 +40,7 @@ class TimerViewModelTest {
     private val firstSegment = Segment.EMPTY.copy(
         id = 1.asID,
         name = "First Segment",
-        time = 5.seconds,
+        time = 10.seconds,
         type = TimeType.TIMER
     )
     private val secondSegment = Segment.EMPTY.copy(
@@ -56,7 +58,13 @@ class TimerViewModelTest {
     private val navigator = FakeNavigator()
     private val store = FakeStore(listOf(routine))
     private val windowScreenManager = FakeWindowScreenManager()
+    private val soundPlayer = FakeSoundPlayer()
     private val savedStateHandle = SavedStateHandle(mapOf("routineId" to 1L))
+
+    @After
+    fun reset() {
+        soundPlayer.close()
+    }
 
     @Test
     fun `on init should setup routine and start count down`() = coroutineRule {
@@ -71,6 +79,7 @@ class TimerViewModelTest {
                 foreground = TimeTypeColors.STARTING,
                 ripple = null
             ),
+            isSoundEnabled = true
         )
         val expectedOnStart = TimerViewState.Counting(
             step = SegmentStep(
@@ -80,9 +89,10 @@ class TimerViewModelTest {
             stepTitleId = R.string.title_segment_step_type_starting,
             segmentName = "First Segment",
             clockBackgroundColor = BackgroundColor(
-                foreground =  TimeTypeColors.STARTING,
+                foreground = TimeTypeColors.STARTING,
                 ripple = null
-            )
+            ),
+            isSoundEnabled = true
         )
         val sut = buildSut()
 
@@ -100,6 +110,64 @@ class TimerViewModelTest {
     }
 
     @Test
+    fun `should play sounds when segment count is completing and sound is enabled`() = coroutineRule {
+        val sut = buildSut()
+
+        sut.viewState.test {
+            advanceTimeBy(1000)
+
+            advanceTimeBy(3000)
+            // When segment starting is completing should play sounds
+            soundPlayer.assertSoundPlayed(soundResId = R.raw.sound_count_down, times = 2)
+            advanceTimeBy(1000)
+            soundPlayer.assertSoundPlayed(soundResId = R.raw.sound_count_down_end, times = 1)
+
+            advanceTimeBy(5000)
+            // When segment count is not completing should not play sounds
+            soundPlayer.assertSoundPlayed(soundResId = R.raw.sound_count_down, times = 2)
+            soundPlayer.assertSoundPlayed(soundResId = R.raw.sound_count_down_end, times = 1)
+
+            advanceTimeBy(5000)
+            // When segment count is completing should play sounds
+            soundPlayer.assertSoundPlayed(soundResId = R.raw.sound_count_down, times = 7)
+            advanceTimeBy(1000)
+            soundPlayer.assertSoundPlayed(soundResId = R.raw.sound_count_down_end, times = 2)
+
+            cancelAndIgnoreRemainingEvents()
+        }
+    }
+
+    @Test
+    fun `should not play sounds when segment count is completing and sound is disabled`() = coroutineRule {
+        val sut = buildSut()
+
+        sut.viewState.test {
+            advanceTimeBy(1000)
+
+            sut.onToggleTimer()
+
+            advanceTimeBy(3000)
+            // When segment starting is completing should not play sounds
+            soundPlayer.assertSoundNotPlayed(soundResId = R.raw.sound_count_down)
+            advanceTimeBy(1000)
+            soundPlayer.assertSoundNotPlayed(soundResId = R.raw.sound_count_down_end)
+
+            advanceTimeBy(5000)
+            // When segment count is not completing should not play sounds
+            soundPlayer.assertSoundNotPlayed(soundResId = R.raw.sound_count_down)
+            soundPlayer.assertSoundNotPlayed(soundResId = R.raw.sound_count_down_end)
+
+            advanceTimeBy(5000)
+            // When segment count is completing should not play sounds
+            soundPlayer.assertSoundNotPlayed(soundResId = R.raw.sound_count_down)
+            advanceTimeBy(1000)
+            soundPlayer.assertSoundNotPlayed(soundResId = R.raw.sound_count_down_end)
+
+            cancelAndIgnoreRemainingEvents()
+        }
+    }
+
+    @Test
     fun `should stop routine on toggle when timer is running`() = coroutineRule {
         val expected = TimerViewState.Counting(
             step = SegmentStep(
@@ -109,9 +177,10 @@ class TimerViewModelTest {
             stepTitleId = R.string.title_segment_step_type_starting,
             segmentName = "First Segment",
             clockBackgroundColor = BackgroundColor(
-                foreground =  TimeTypeColors.STARTING,
+                foreground = TimeTypeColors.STARTING,
                 ripple = null
-            )
+            ),
+            isSoundEnabled = true
         )
         val sut = buildSut()
 
@@ -139,9 +208,10 @@ class TimerViewModelTest {
             stepTitleId = R.string.title_segment_step_type_starting,
             segmentName = "First Segment",
             clockBackgroundColor = BackgroundColor(
-                foreground =  TimeTypeColors.STARTING,
+                foreground = TimeTypeColors.STARTING,
                 ripple = null
-            )
+            ),
+            isSoundEnabled = true
         )
         val sut = buildSut()
 
@@ -167,21 +237,23 @@ class TimerViewModelTest {
             stepTitleId = R.string.title_segment_step_type_starting,
             segmentName = "First Segment",
             clockBackgroundColor = BackgroundColor(
-                foreground =  TimeTypeColors.STARTING,
+                foreground = TimeTypeColors.STARTING,
                 ripple = null
-            )
+            ),
+            isSoundEnabled = true
         )
         val expectedStartFirstSegment = TimerViewState.Counting(
             step = SegmentStep(
-                count = Count(seconds = 5.seconds, isRunning = true, isCompleted = false),
+                count = Count(seconds = 10.seconds, isRunning = true, isCompleted = false),
                 type = SegmentStepType.IN_PROGRESS
             ),
             stepTitleId = R.string.title_segment_step_type_in_progress,
             segmentName = "First Segment",
             clockBackgroundColor = BackgroundColor(
-                foreground =  TimeTypeColors.TIMER,
+                foreground = TimeTypeColors.TIMER,
                 ripple = null
-            )
+            ),
+            isSoundEnabled = true
         )
         val sut = buildSut()
 
@@ -201,7 +273,7 @@ class TimerViewModelTest {
     }
 
     @Test
-    fun `on done should go to routines`() = coroutineRule {
+    fun `should go to routines on done`() = coroutineRule {
         val sut = buildSut()
 
         sut.onDone()
@@ -226,7 +298,8 @@ class TimerViewModelTest {
             reducer = TimerReducer(),
             timerUseCase = TimerUseCase(routineDataSource = FakeRoutineDataSource(store = store)),
             navigationActions = TimerNavigationActions(navigator),
-            windowScreenManager = windowScreenManager
+            windowScreenManager = windowScreenManager,
+            soundPlayer = soundPlayer
         )
     }
 }

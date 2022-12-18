@@ -10,6 +10,7 @@ import com.enricog.features.timer.models.TimerState
 import com.enricog.features.timer.models.TimerViewState
 import com.enricog.features.timer.navigation.TimerNavigationActions
 import com.enricog.features.timer.usecase.TimerUseCase
+import com.enricog.libraries.sound.api.SoundPlayer
 import com.enricog.navigation.api.routes.TimerRoute
 import com.enricog.navigation.api.routes.TimerRouteInput
 import dagger.hilt.android.lifecycle.HiltViewModel
@@ -25,7 +26,8 @@ internal class TimerViewModel @Inject constructor(
     private val navigationActions: TimerNavigationActions,
     private val reducer: TimerReducer,
     private val timerUseCase: TimerUseCase,
-    private val windowScreenManager: WindowScreenManager
+    private val windowScreenManager: WindowScreenManager,
+    private val soundPlayer: SoundPlayer
 ) : BaseViewModel<TimerState, TimerViewState>(
     initialState = TimerState.Idle,
     converter = converter,
@@ -54,9 +56,9 @@ internal class TimerViewModel @Inject constructor(
 
     private fun start(routine: Routine) {
         startJob = launch {
-            updateState { reducer.setup(routine) }
+            updateState { reducer.setup(it, routine) }
 
-            delay(1000)
+            delay(ONE_SECOND)
 
             updateState { reducer.toggleTimeRunning(it) }
         }
@@ -64,6 +66,10 @@ internal class TimerViewModel @Inject constructor(
 
     fun onToggleTimer() {
         updateState { reducer.toggleTimeRunning(it) }
+    }
+
+    fun toggleSound() {
+        updateState { reducer.toggleSound(it) }
     }
 
     fun onRestartSegment() {
@@ -96,11 +102,11 @@ internal class TimerViewModel @Inject constructor(
     override fun onStateUpdated(currentState: TimerState) {
         toggleKeepScreenOn(currentState)
         if (currentState is TimerState.Counting) {
-            if (currentState.isCountRunning) {
+            if (currentState.isStepCountRunning) {
                 startCounting()
                 return
             }
-            if (currentState.isCountCompleted) {
+            if (currentState.isStepCountCompleted) {
                 stopCounting()
                 onCountCompleted()
                 return
@@ -111,7 +117,7 @@ internal class TimerViewModel @Inject constructor(
 
     private fun onCountCompleted() {
         launch {
-            delay(1000)
+            delay(ONE_SECOND)
             updateState { reducer.nextStep(it) }
         }
     }
@@ -121,8 +127,9 @@ internal class TimerViewModel @Inject constructor(
 
         countingJob = launch {
             while (true) {
-                delay(1000)
-                updateState { reducer.progressTime(it) }
+                delay(ONE_SECOND)
+                val newState = updateState { reducer.progressTime(it) }
+                playSoundIfNeeded(state = newState)
             }
         }
     }
@@ -131,9 +138,28 @@ internal class TimerViewModel @Inject constructor(
         countingJob?.cancel()
     }
 
+    private fun playSoundIfNeeded(state: TimerState) {
+        if (state !is TimerState.Counting || !state.isSoundEnabled) return
+
+        when {
+            state.isStepCountCompleting -> soundPlayer.play(COUNT_DOWN_SOUND)
+            state.isStepCountCompleted -> soundPlayer.play(COUNT_DOWN_COMPLETED_SOUND)
+        }
+    }
+
     private fun toggleKeepScreenOn(currentState: TimerState) {
         val enableKeepScreenOn = currentState is TimerState.Counting &&
-                currentState.isCountRunning && !currentState.isRoutineCompleted
+                currentState.isStepCountRunning && !currentState.isRoutineCompleted
         windowScreenManager.toggleKeepScreenOnFlag(enableKeepScreenOn)
+    }
+
+    override fun onCleared() {
+        soundPlayer.close()
+    }
+
+    private companion object {
+        const val ONE_SECOND = 1000L
+        val COUNT_DOWN_SOUND = R.raw.sound_count_down
+        val COUNT_DOWN_COMPLETED_SOUND = R.raw.sound_count_down_end
     }
 }

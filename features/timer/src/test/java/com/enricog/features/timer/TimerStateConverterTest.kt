@@ -29,9 +29,9 @@ class TimerStateConverterTest {
         val state = TimerState.Idle
         val expected = TimerViewState.Idle
 
-        val result = sut.convert(state)
+        val actual = sut.convert(state)
 
-        assertEquals(expected, result)
+        assertEquals(expected, actual)
     }
 
     @Test
@@ -40,9 +40,9 @@ class TimerStateConverterTest {
         val state = TimerState.Error(throwable = exception)
         val expected = TimerViewState.Error(throwable = exception)
 
-        val result = sut.convert(state)
+        val actual = sut.convert(state)
 
-        assertEquals(expected, result)
+        assertEquals(expected, actual)
     }
 
 
@@ -56,7 +56,8 @@ class TimerStateConverterTest {
             step = SegmentStep(
                 count = Count(seconds = 5.seconds, isRunning = true, isCompleted = false),
                 type = SegmentStepType.IN_PROGRESS
-            )
+            ),
+            isSoundEnabled = true
         )
         val expected = TimerViewState.Counting(
             step = SegmentStep(
@@ -68,12 +69,13 @@ class TimerStateConverterTest {
             clockBackgroundColor = BackgroundColor(
                 foreground =  TimeTypeColors.REST,
                 ripple = null
-            )
+            ),
+            isSoundEnabled = true
         )
 
-        val result = sut.convert(state)
+        val actual = sut.convert(state)
 
-        assertEquals(expected, result)
+        assertEquals(expected, actual)
     }
 
     @Test
@@ -87,7 +89,8 @@ class TimerStateConverterTest {
                 step = SegmentStep(
                     count = Count(seconds = 5.seconds, isRunning = true, isCompleted = false),
                     type = SegmentStepType.IN_PROGRESS
-                )
+                ),
+                isSoundEnabled = true
             )
             val expected = TimerViewState.Counting(
                 step = SegmentStep(
@@ -99,12 +102,13 @@ class TimerStateConverterTest {
                 clockBackgroundColor = BackgroundColor(
                     foreground =  TimeTypeColors.REST,
                     ripple = null
-                )
+                ),
+                isSoundEnabled = true
             )
 
-            val result = sut.convert(state)
+            val actual = sut.convert(state)
 
-            assertEquals(expected, result)
+            assertEquals(expected, actual)
         }
 
     @Test
@@ -118,7 +122,8 @@ class TimerStateConverterTest {
                 step = SegmentStep(
                     count = Count(seconds = 5.seconds, isRunning = true, isCompleted = false),
                     type = SegmentStepType.IN_PROGRESS
-                )
+                ),
+                isSoundEnabled = true
             )
             val expected = TimerViewState.Counting(
                 step = SegmentStep(
@@ -130,12 +135,13 @@ class TimerStateConverterTest {
                 clockBackgroundColor = BackgroundColor(
                     foreground =  TimeTypeColors.TIMER,
                     ripple = null
-                )
+                ),
+                isSoundEnabled = true
             )
 
-            val result = sut.convert(state)
+            val actual = sut.convert(state)
 
-            assertEquals(expected, result)
+            assertEquals(expected, actual)
         }
 
     @Test
@@ -149,7 +155,8 @@ class TimerStateConverterTest {
                 step = SegmentStep(
                     count = Count(seconds = 5.seconds, isRunning = true, isCompleted = false),
                     type = SegmentStepType.IN_PROGRESS
-                )
+                ),
+                isSoundEnabled = true
             )
             val expected = TimerViewState.Counting(
                 step = SegmentStep(
@@ -161,12 +168,13 @@ class TimerStateConverterTest {
                 clockBackgroundColor = BackgroundColor(
                     foreground =  TimeTypeColors.STOPWATCH,
                     ripple = null
-                )
+                ),
+                isSoundEnabled = true
             )
 
-            val result = sut.convert(state)
+            val actual = sut.convert(state)
 
-            assertEquals(expected, result)
+            assertEquals(expected, actual)
         }
 
     @Test
@@ -183,7 +191,8 @@ class TimerStateConverterTest {
                 step = SegmentStep(
                     count = Count(seconds = 5.seconds, isRunning = true, isCompleted = true),
                     type = SegmentStepType.STARTING
-                )
+                ),
+                isSoundEnabled = true
             )
             val expected = TimerViewState.Counting(
                 step = SegmentStep(
@@ -195,12 +204,13 @@ class TimerStateConverterTest {
                 clockBackgroundColor = BackgroundColor(
                     foreground =  TimeTypeColors.STARTING,
                     ripple = TimeTypeColors.STOPWATCH
-                )
+                ),
+                isSoundEnabled = true
             )
 
-            val result = sut.convert(state)
+            val actual = sut.convert(state)
 
-            assertEquals(expected, result)
+            assertEquals(expected, actual)
         }
 
     @Test
@@ -218,7 +228,8 @@ class TimerStateConverterTest {
                 step = SegmentStep(
                     count = Count(seconds = 5.seconds, isRunning = true, isCompleted = true),
                     type = SegmentStepType.IN_PROGRESS
-                )
+                ),
+                isSoundEnabled = true
             )
             val expected = TimerViewState.Counting(
                 step = SegmentStep(
@@ -230,11 +241,12 @@ class TimerStateConverterTest {
                 clockBackgroundColor = BackgroundColor(
                     foreground =  TimeTypeColors.STOPWATCH,
                     ripple = TimeTypeColors.STARTING
-                )
+                ),
+                isSoundEnabled = true
             )
 
-            val result = sut.convert(state)
+            val actual = sut.convert(state)
 
-            assertEquals(expected, result)
+            assertEquals(expected, actual)
         }
 }
