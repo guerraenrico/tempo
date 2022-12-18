@@ -1,5 +1,6 @@
 package com.enricog.features.routines.detail.segment.ui_components
 
+import android.content.res.Configuration.ORIENTATION_PORTRAIT
 import androidx.compose.foundation.layout.BoxWithConstraints
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.fillMaxWidth
@@ -8,6 +9,7 @@ import androidx.compose.foundation.layout.padding
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.platform.LocalConfiguration
 import androidx.compose.ui.unit.dp
 import com.enricog.core.compose.api.extensions.stringResourceOrNull
 import com.enricog.core.compose.api.extensions.toPx
@@ -33,9 +35,11 @@ internal fun SegmentPager(
     modifier: Modifier = Modifier
 ) = BoxWithConstraints(modifier = modifier) {
 
-    val errorMessage = stringResourceOrNull(errors[SegmentField.Time]?.stringResId) ?: ""
+    val configuration = LocalConfiguration.current
 
-    val circleRadius = maxWidth / 3
+    val circleShrinkFactor = if (configuration.orientation == ORIENTATION_PORTRAIT) 3 else 6
+
+    val circleRadius = maxWidth / circleShrinkFactor
     val center = maxWidth / 2
     val circleSpace = 120.dp
 
@@ -69,7 +73,7 @@ internal fun SegmentPager(
                 .height(35.dp)
                 .padding(vertical = TempoTheme.dimensions.spaceS)
                 .align(alignment = Alignment.CenterHorizontally),
-            text = errorMessage,
+            text = stringResourceOrNull(errors[SegmentField.Time]?.stringResId) ?: "",
             style = TempoTheme.typography.caption.copy(
                 color = TempoTheme.colors.error
             ),
