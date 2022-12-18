@@ -60,7 +60,8 @@ class TimerScreenKtTest {
             clockBackgroundColor = BackgroundColor(
                 foreground = Color.Blue,
                 ripple = null
-            )
+            ),
+            isSoundEnabled = true
         )
 
         setContent {

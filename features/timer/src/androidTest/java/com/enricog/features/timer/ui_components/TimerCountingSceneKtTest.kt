@@ -38,7 +38,8 @@ class TimerCountingSceneKtTest {
             clockBackgroundColor = BackgroundColor(
                 foreground = Color.Blue,
                 ripple = null
-            )
+            ),
+            isSoundEnabled = true
         )
 
         setContent {
@@ -73,7 +74,8 @@ class TimerCountingSceneKtTest {
             clockBackgroundColor = BackgroundColor(
                 foreground = Color.Blue,
                 ripple = null
-            )
+            ),
+            isSoundEnabled = true
         )
 
         setContent {

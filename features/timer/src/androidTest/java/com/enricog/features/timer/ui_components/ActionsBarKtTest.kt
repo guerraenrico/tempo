@@ -27,8 +27,10 @@ class ActionsBarKtTest {
             }
         }
 
-        onNodeWithTag(ButtonStartStopTestTag).assertIsDisplayed()
-        onNodeWithTag(ButtonStartStopTestTag).assertDrawable(R.drawable.ic_timer_stop)
+        onNodeWithTag(ButtonStartStopTestTag).run {
+            assertIsDisplayed()
+            assertDrawable(R.drawable.ic_timer_stop)
+        }
         onNodeWithTag(ButtonRestartTestTag).assertIsDisplayed()
     }
 
@@ -44,8 +46,10 @@ class ActionsBarKtTest {
             }
         }
 
-        onNodeWithTag(ButtonStartStopTestTag).assertIsDisplayed()
-        onNodeWithTag(ButtonStartStopTestTag).assertDrawable(R.drawable.ic_timer_play)
+        onNodeWithTag(ButtonStartStopTestTag).run {
+            assertIsDisplayed()
+            assertDrawable(R.drawable.ic_timer_play)
+        }
         onNodeWithTag(ButtonRestartTestTag).assertIsDisplayed()
     }
 }
