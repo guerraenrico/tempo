@@ -15,6 +15,7 @@ plugins {
 play {
     serviceAccountCredentials.set(file(getPropValue("SERVICE_ACCOUNT_FILE_PATH", "")))
     releaseName.set("${Versions.appVersionCode} (${Versions.appVersionName})")
+    track.set("internal")
 }
 
 android {
