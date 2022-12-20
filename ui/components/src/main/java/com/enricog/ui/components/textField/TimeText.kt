@@ -79,7 +79,12 @@ value class TimeText private constructor(private val value: String) : Comparable
         }
 
         fun from(value: String): TimeText {
-            return TimeText(value.replace(oldValue = TIME_SEPARATOR, newValue = ""))
+            val sanitizedValue = value
+                .replace(oldValue = TIME_SEPARATOR, newValue = "")
+                .replace(oldValue = "\n", newValue = "")
+                .replace(oldValue = "\r", newValue = "")
+                .trimStart('0')
+            return TimeText(sanitizedValue)
         }
     }
 }

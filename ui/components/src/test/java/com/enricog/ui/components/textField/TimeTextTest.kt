@@ -22,6 +22,13 @@ class TimeTextTest {
     private class ValidArgumentProvider : ArgumentsProvider {
         override fun provideArguments(context: ExtensionContext?): Stream<out Arguments> {
             return Stream.of(
+                """0
+""" to 0,
+                "0\n" to 0,
+                "0\r" to 0,
+                "0\r\n" to 0,
+                "0\n0" to 0,
+                "0000" to 0,
                 "9" to 9,
                 "89" to 89,
                 "891" to 571,
@@ -31,6 +38,7 @@ class TimeTextTest {
                 "000052" to 52,
                 "200052" to 72052,
                 "201052" to 72652,
+                "2010\n52" to 72652,
                 "6000" to 3600,
                 "60000" to 21600,
                 // Over max value
