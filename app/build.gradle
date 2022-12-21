@@ -52,7 +52,7 @@ android {
             minifyEnabled true
             proguardFiles 'proguard-rules.pro'
             firebaseCrashlytics {
-                mappingFileUploadEnabled false
+                mappingFileUploadEnabled true
             }
         }
     }
