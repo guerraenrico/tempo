@@ -16,7 +16,7 @@ import com.enricog.ui.components.snackbar.TempoSnackbarEvent
 import com.enricog.ui.components.toolbar.TempoToolbar
 
 @Composable
-internal fun RoutinesScreen(viewModel: Routine`sViewModel) {
+internal fun RoutinesScreen(viewModel: RoutinesViewModel) {
     val viewState by viewModel.viewState.collectAsState(RoutinesViewState.Idle)
 
     TempoScreenScaffold {
