@@ -1,7 +1,7 @@
 package com.enricog.features.routines.detail.summary
 
 import com.enricog.data.routines.api.entities.Routine
-import com.enricog.data.routines.api.entities.Segment
+import com.enricog.entities.ID
 import com.enricog.features.routines.detail.summary.models.RoutineSummaryField
 import com.enricog.features.routines.detail.summary.models.RoutineSummaryFieldError
 import com.enricog.features.routines.detail.summary.models.RoutineSummaryState
@@ -21,9 +21,9 @@ internal class RoutineSummaryReducer @Inject constructor() {
 
     fun deleteSegmentError(
         state: RoutineSummaryState.Data,
-        segment: Segment
+        segmentId: ID
     ): RoutineSummaryState.Data {
-        return state.copy(action = DeleteSegmentError(segment = segment))
+        return state.copy(action = DeleteSegmentError(segmentId = segmentId))
     }
 
     fun segmentMoveError(state: RoutineSummaryState.Data): RoutineSummaryState.Data {

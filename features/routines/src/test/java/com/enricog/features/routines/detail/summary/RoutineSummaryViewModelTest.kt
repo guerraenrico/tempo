@@ -2,6 +2,7 @@ package com.enricog.features.routines.detail.summary
 
 import androidx.lifecycle.SavedStateHandle
 import app.cash.turbine.test
+import com.enricog.core.compose.api.classes.immutableListOf
 import com.enricog.core.coroutines.testing.CoroutineRule
 import com.enricog.data.local.testing.FakeStore
 import com.enricog.data.routines.api.entities.Routine
@@ -11,6 +12,7 @@ import com.enricog.data.routines.testing.entities.EMPTY
 import com.enricog.entities.ID
 import com.enricog.entities.Rank
 import com.enricog.entities.asID
+import com.enricog.entities.seconds
 import com.enricog.features.routines.R
 import com.enricog.features.routines.detail.summary.models.RoutineSummaryField.Segments
 import com.enricog.features.routines.detail.summary.models.RoutineSummaryItem
@@ -18,6 +20,7 @@ import com.enricog.features.routines.detail.summary.models.RoutineSummaryViewSta
 import com.enricog.features.routines.detail.summary.models.RoutineSummaryViewState.Data.Message
 import com.enricog.features.routines.detail.summary.usecase.MoveSegmentUseCase
 import com.enricog.features.routines.detail.summary.usecase.RoutineSummaryUseCase
+import com.enricog.features.routines.detail.ui.time_type.TimeType
 import com.enricog.features.routines.navigation.RoutinesNavigationActions
 import com.enricog.navigation.api.routes.RoutineRoute
 import com.enricog.navigation.api.routes.RoutineRouteInput
@@ -27,6 +30,7 @@ import com.enricog.navigation.api.routes.TimerRoute
 import com.enricog.navigation.api.routes.TimerRouteInput
 import com.enricog.navigation.testing.FakeNavigator
 import com.enricog.ui.components.snackbar.TempoSnackbarEvent
+import com.enricog.ui.theme.TimeTypeColors
 import kotlinx.coroutines.test.StandardTestDispatcher
 import kotlinx.coroutines.test.advanceUntilIdle
 import kotlinx.coroutines.test.runCurrent
@@ -40,20 +44,41 @@ class RoutineSummaryViewModelTest {
     @get:Rule
     val coroutineRule = CoroutineRule(StandardTestDispatcher())
 
-    private val firstSegment = Segment.EMPTY.copy(
+    private val firstSegmentItem = RoutineSummaryItem.SegmentItem(
         id = 1.asID,
         name = "First Segment",
-        rank = Rank.from("bbbbbb")
+        time = 0.seconds,
+        type = TimeType(
+            nameStringResId = R.string.chip_time_type_timer_name,
+            color = TimeTypeColors.TIMER
+        ),
+        rank = "bbbbbb"
     )
-    private val secondSegment = Segment.EMPTY.copy(
+    private val secondSegmentItem = RoutineSummaryItem.SegmentItem(
         id = 2.asID,
         name = "Second Segment",
-        rank = Rank.from("cccccc")
+        time = 0.seconds,
+        type = TimeType(
+            nameStringResId = R.string.chip_time_type_timer_name,
+            color = TimeTypeColors.TIMER
+        ),
+        rank = "cccccc"
     )
     private val routine = Routine.EMPTY.copy(
         id = 1.asID,
         name = "Routine Name",
-        segments = listOf(firstSegment, secondSegment)
+        segments = listOf(
+            Segment.EMPTY.copy(
+                id = 1.asID,
+                name = "First Segment",
+                rank = Rank.from("bbbbbb")
+            ),
+            Segment.EMPTY.copy(
+                id = 2.asID,
+                name = "Second Segment",
+                rank = Rank.from("cccccc")
+            )
+        )
     )
 
     private val navigator = FakeNavigator()
@@ -62,11 +87,11 @@ class RoutineSummaryViewModelTest {
     @Test
     fun `should show data when load succeeds`() = coroutineRule {
         val expected = RoutineSummaryViewState.Data(
-            items = listOf(
+            items = immutableListOf(
                 RoutineSummaryItem.RoutineInfo(routineName = "Routine Name"),
                 RoutineSummaryItem.SegmentSectionTitle(error = null),
-                RoutineSummaryItem.SegmentItem(segment = firstSegment),
-                RoutineSummaryItem.SegmentItem(segment = secondSegment),
+                firstSegmentItem,
+                secondSegmentItem,
                 RoutineSummaryItem.Space
             ),
             message = null
@@ -93,11 +118,11 @@ class RoutineSummaryViewModelTest {
     fun `should retry load when fails`() = coroutineRule {
         val store = FakeStore(listOf(routine))
         val expected = RoutineSummaryViewState.Data(
-            items = listOf(
+            items = immutableListOf(
                 RoutineSummaryItem.RoutineInfo(routineName = "Routine Name"),
                 RoutineSummaryItem.SegmentSectionTitle(error = null),
-                RoutineSummaryItem.SegmentItem(segment = firstSegment),
-                RoutineSummaryItem.SegmentItem(segment = secondSegment),
+                firstSegmentItem,
+                secondSegmentItem,
                 RoutineSummaryItem.Space
             ),
             message = null
@@ -131,7 +156,7 @@ class RoutineSummaryViewModelTest {
         val sut = buildSut()
         advanceUntilIdle()
 
-        sut.onSegmentSelected(segment = secondSegment)
+        sut.onSegmentSelected(segmentId = 2.asID)
         advanceUntilIdle()
 
         navigator.assertGoTo(
@@ -143,10 +168,10 @@ class RoutineSummaryViewModelTest {
     @Test
     fun `should update routine when segment is deleted`() = coroutineRule {
         val expected = RoutineSummaryViewState.Data(
-            items = listOf(
+            items = immutableListOf(
                 RoutineSummaryItem.RoutineInfo(routineName = "Routine Name"),
                 RoutineSummaryItem.SegmentSectionTitle(error = null),
-                RoutineSummaryItem.SegmentItem(segment = firstSegment),
+                firstSegmentItem,
                 RoutineSummaryItem.Space
             ),
             message = null
@@ -154,7 +179,7 @@ class RoutineSummaryViewModelTest {
         val sut = buildSut()
         advanceUntilIdle()
 
-        sut.onSegmentDelete(segment = secondSegment)
+        sut.onSegmentDelete(segmentId = 2.asID)
         advanceUntilIdle()
 
         sut.viewState.test { assertEquals(expected, awaitItem()) }
@@ -164,11 +189,11 @@ class RoutineSummaryViewModelTest {
     fun `should show message when delete segment fails`() = coroutineRule {
         val store = FakeStore(listOf(routine))
         val expected = RoutineSummaryViewState.Data(
-            items = listOf(
+            items = immutableListOf(
                 RoutineSummaryItem.RoutineInfo(routineName = "Routine Name"),
                 RoutineSummaryItem.SegmentSectionTitle(error = null),
-                RoutineSummaryItem.SegmentItem(segment = firstSegment),
-                RoutineSummaryItem.SegmentItem(segment = secondSegment),
+                firstSegmentItem,
+                secondSegmentItem,
                 RoutineSummaryItem.Space
             ),
             message = Message(
@@ -180,7 +205,7 @@ class RoutineSummaryViewModelTest {
         advanceUntilIdle()
 
         store.enableErrorOnNextAccess()
-        sut.onSegmentDelete(segment = secondSegment)
+        sut.onSegmentDelete(segmentId = 2.asID)
         advanceUntilIdle()
 
         sut.viewState.test { assertEquals(expected, awaitItem()) }
@@ -190,10 +215,10 @@ class RoutineSummaryViewModelTest {
     fun `should retry delete segment when action is performed`() = coroutineRule {
         val store = FakeStore(listOf(routine))
         val expected = RoutineSummaryViewState.Data(
-            items = listOf(
+            items = immutableListOf(
                 RoutineSummaryItem.RoutineInfo(routineName = "Routine Name"),
                 RoutineSummaryItem.SegmentSectionTitle(error = null),
-                RoutineSummaryItem.SegmentItem(segment = firstSegment),
+                firstSegmentItem,
                 RoutineSummaryItem.Space
             ),
             message = null
@@ -201,7 +226,7 @@ class RoutineSummaryViewModelTest {
         val sut = buildSut(store = store)
         advanceUntilIdle()
         store.enableErrorOnNextAccess()
-        sut.onSegmentDelete(segment = secondSegment)
+        sut.onSegmentDelete(segmentId = 2.asID)
         advanceUntilIdle()
 
         sut.onSnackbarEvent(snackbarEvent = TempoSnackbarEvent.ActionPerformed)
@@ -213,11 +238,11 @@ class RoutineSummaryViewModelTest {
     @Test
     fun `should move segment when segment is moved`() = coroutineRule {
         val expected = RoutineSummaryViewState.Data(
-            items = listOf(
+            items = immutableListOf(
                 RoutineSummaryItem.RoutineInfo(routineName = "Routine Name"),
                 RoutineSummaryItem.SegmentSectionTitle(error = null),
-                RoutineSummaryItem.SegmentItem(segment = secondSegment.copy(rank = Rank.from("annnnn"))),
-                RoutineSummaryItem.SegmentItem(segment = firstSegment),
+                secondSegmentItem.copy(rank = "annnnn"),
+                firstSegmentItem,
                 RoutineSummaryItem.Space
             ),
             message = null
@@ -225,7 +250,7 @@ class RoutineSummaryViewModelTest {
         val sut = buildSut()
         advanceUntilIdle()
 
-        sut.onSegmentMoved(segment = secondSegment, hoveredSegment = null)
+        sut.onSegmentMoved(draggedSegmentId = 2.asID, hoveredSegmentId = null)
         advanceUntilIdle()
 
         sut.viewState.test { assertEquals(expected, awaitItem()) }
@@ -235,11 +260,11 @@ class RoutineSummaryViewModelTest {
     fun `should show message when move segment fails`() = coroutineRule {
         val store = FakeStore(listOf(routine))
         val expected = RoutineSummaryViewState.Data(
-            items = listOf(
+            items = immutableListOf(
                 RoutineSummaryItem.RoutineInfo(routineName = "Routine Name"),
                 RoutineSummaryItem.SegmentSectionTitle(error = null),
-                RoutineSummaryItem.SegmentItem(segment = firstSegment),
-                RoutineSummaryItem.SegmentItem(segment = secondSegment),
+                firstSegmentItem,
+                secondSegmentItem,
                 RoutineSummaryItem.Space
             ),
             message = Message(
@@ -251,7 +276,7 @@ class RoutineSummaryViewModelTest {
         advanceUntilIdle()
 
         store.enableErrorOnNextAccess()
-        sut.onSegmentMoved(segment = secondSegment, hoveredSegment = null)
+        sut.onSegmentMoved(draggedSegmentId = 2.asID, hoveredSegmentId = null)
         advanceUntilIdle()
 
         sut.viewState.test { assertEquals(expected, awaitItem()) }
@@ -261,11 +286,11 @@ class RoutineSummaryViewModelTest {
     fun `should hide message when move segment fails and action is performed`() = coroutineRule {
         val store = FakeStore(listOf(routine))
         val expected = RoutineSummaryViewState.Data(
-            items = listOf(
+            items = immutableListOf(
                 RoutineSummaryItem.RoutineInfo(routineName = "Routine Name"),
                 RoutineSummaryItem.SegmentSectionTitle(error = null),
-                RoutineSummaryItem.SegmentItem(segment = firstSegment),
-                RoutineSummaryItem.SegmentItem(segment = secondSegment),
+                firstSegmentItem,
+                secondSegmentItem,
                 RoutineSummaryItem.Space
             ),
             message = null
@@ -273,7 +298,7 @@ class RoutineSummaryViewModelTest {
         val sut = buildSut(store = store)
         advanceUntilIdle()
         store.enableErrorOnNextAccess()
-        sut.onSegmentMoved(segment = secondSegment, hoveredSegment = null)
+        sut.onSegmentMoved(draggedSegmentId = 2.asID, hoveredSegmentId = null)
         advanceUntilIdle()
 
         sut.onSnackbarEvent(snackbarEvent = TempoSnackbarEvent.ActionPerformed)
@@ -304,7 +329,7 @@ class RoutineSummaryViewModelTest {
             segments = emptyList()
         )
         val expected = RoutineSummaryViewState.Data(
-            items = listOf(
+            items = immutableListOf(
                 RoutineSummaryItem.RoutineInfo(routineName = "Routine Name"),
                 RoutineSummaryItem.SegmentSectionTitle(
                     error = Segments to R.string.field_error_message_routine_no_segments

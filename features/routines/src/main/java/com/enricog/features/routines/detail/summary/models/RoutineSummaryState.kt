@@ -1,7 +1,7 @@
 package com.enricog.features.routines.detail.summary.models
 
 import com.enricog.data.routines.api.entities.Routine
-import com.enricog.data.routines.api.entities.Segment
+import com.enricog.entities.ID
 
 internal sealed class RoutineSummaryState {
 
@@ -13,7 +13,7 @@ internal sealed class RoutineSummaryState {
         val action: Action?
     ) : RoutineSummaryState() {
         sealed class Action {
-            data class DeleteSegmentError(val segment: Segment) : Action()
+            data class DeleteSegmentError(val segmentId: ID) : Action()
             object MoveSegmentError : Action()
         }
     }

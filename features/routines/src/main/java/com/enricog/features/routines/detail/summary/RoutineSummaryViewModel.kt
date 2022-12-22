@@ -6,7 +6,6 @@ import com.enricog.base.viewmodel.BaseViewModel
 import com.enricog.core.coroutines.dispatchers.CoroutineDispatchers
 import com.enricog.core.coroutines.job.autoCancelableJob
 import com.enricog.core.logger.api.TempoLogger
-import com.enricog.data.routines.api.entities.Segment
 import com.enricog.entities.ID
 import com.enricog.features.routines.detail.summary.models.RoutineSummaryState
 import com.enricog.features.routines.detail.summary.models.RoutineSummaryState.Data.Action.DeleteSegmentError
@@ -73,31 +72,35 @@ internal class RoutineSummaryViewModel @Inject constructor(
         }
     }
 
-    fun onSegmentSelected(segment: Segment) {
+    fun onSegmentSelected(segmentId: ID) {
         launchWhen<RoutineSummaryState.Data> { stateData ->
-            navigationActions.goToSegment(routineId = stateData.routine.id, segmentId = segment.id)
+            navigationActions.goToSegment(routineId = stateData.routine.id, segmentId = segmentId)
         }
     }
 
-    fun onSegmentDelete(segment: Segment) {
+    fun onSegmentDelete(segmentId: ID) {
         val exceptionHandler = CoroutineExceptionHandler { _, throwable ->
             TempoLogger.e(throwable = throwable)
             updateStateWhen<RoutineSummaryState.Data> {
-                reducer.deleteSegmentError(state = it, segment = segment)
+                reducer.deleteSegmentError(state = it, segmentId = segmentId)
             }
         }
         deleteJob = launchWhen<RoutineSummaryState.Data>(exceptionHandler) {
-            routineSummaryUseCase.deleteSegment(routine = it.routine, segment = segment)
+            routineSummaryUseCase.deleteSegment(routine = it.routine, segmentId = segmentId)
         }
     }
 
-    fun onSegmentMoved(segment: Segment, hoveredSegment: Segment?) {
+    fun onSegmentMoved(draggedSegmentId: ID, hoveredSegmentId: ID?) {
         val exceptionHandler = CoroutineExceptionHandler { _, throwable ->
             TempoLogger.e(throwable = throwable)
             updateStateWhen<RoutineSummaryState.Data> { reducer.segmentMoveError(state = it) }
         }
         moveJob = launchWhen<RoutineSummaryState.Data>(exceptionHandler) {
-            moveSegmentUseCase(it.routine, segment, hoveredSegment)
+            moveSegmentUseCase(
+                routine = it.routine,
+                draggedSegmentId = draggedSegmentId,
+                hoveredSegmentId = hoveredSegmentId
+            )
         }
     }
 
@@ -133,7 +136,7 @@ internal class RoutineSummaryViewModel @Inject constructor(
             delay(SNACKBAR_ACTION_DELAY)
             if (snackbarEvent == ActionPerformed) {
                 when (previousAction) {
-                    is DeleteSegmentError -> onSegmentDelete(segment = previousAction.segment)
+                    is DeleteSegmentError -> onSegmentDelete(segmentId = previousAction.segmentId)
                     MoveSegmentError,
                     null -> Unit
                 }

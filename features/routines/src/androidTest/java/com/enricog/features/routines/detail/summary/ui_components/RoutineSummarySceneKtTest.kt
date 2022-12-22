@@ -6,14 +6,17 @@ import androidx.compose.ui.test.junit4.createComposeRule
 import androidx.compose.ui.test.onNodeWithTag
 import androidx.compose.ui.test.performTouchInput
 import androidx.compose.ui.test.swipe
+import com.enricog.core.compose.api.classes.immutableListOf
 import com.enricog.core.compose.testing.invoke
-import com.enricog.data.routines.api.entities.Segment
-import com.enricog.data.routines.testing.entities.EMPTY
 import com.enricog.entities.asID
+import com.enricog.entities.seconds
+import com.enricog.features.routines.R
 import com.enricog.features.routines.detail.summary.models.RoutineSummaryItem.RoutineInfo
 import com.enricog.features.routines.detail.summary.models.RoutineSummaryItem.SegmentItem
 import com.enricog.features.routines.detail.summary.models.RoutineSummaryItem.SegmentSectionTitle
+import com.enricog.features.routines.detail.ui.time_type.TimeType
 import com.enricog.ui.theme.TempoTheme
+import com.enricog.ui.theme.TimeTypeColors
 import org.junit.Rule
 import org.junit.Test
 import kotlin.math.roundToInt
@@ -26,10 +29,10 @@ class RoutineSummarySceneKtTest {
     @Test
     fun shouldRender_RoutineSection_SegmentSectionTitle_SegmentItems_notHeaderAddSegmentButton() =
         composeRule {
-            val items = listOf(
+            val items = immutableListOf(
                 RoutineInfo(routineName = "routineName"),
                 SegmentSectionTitle(error = null),
-                SegmentItem(segment = Segment.EMPTY),
+                baseSegmentItem
             )
 
             setContent {
@@ -58,20 +61,20 @@ class RoutineSummarySceneKtTest {
 
     @Test
     fun shouldRender_HeaderAddSegmentButton_when_SegmentSectionTitle_isNotVisible() = composeRule {
-        val items = listOf(
+        val items = immutableListOf(
             RoutineInfo(routineName = "routineName"),
             SegmentSectionTitle(error = null),
-            SegmentItem(segment = Segment.EMPTY.copy(id = 0.asID, name = "item0")),
-            SegmentItem(segment = Segment.EMPTY.copy(id = 1.asID, name = "item1")),
-            SegmentItem(segment = Segment.EMPTY.copy(id = 2.asID, name = "item2")),
-            SegmentItem(segment = Segment.EMPTY.copy(id = 3.asID, name = "item3")),
-            SegmentItem(segment = Segment.EMPTY.copy(id = 4.asID, name = "item4")),
-            SegmentItem(segment = Segment.EMPTY.copy(id = 5.asID, name = "item5")),
-            SegmentItem(segment = Segment.EMPTY.copy(id = 6.asID, name = "item6")),
-            SegmentItem(segment = Segment.EMPTY.copy(id = 7.asID, name = "item7")),
-            SegmentItem(segment = Segment.EMPTY.copy(id = 8.asID, name = "item8")),
-            SegmentItem(segment = Segment.EMPTY.copy(id = 9.asID, name = "item9")),
-            SegmentItem(segment = Segment.EMPTY.copy(id = 10.asID, name = "item10")),
+            baseSegmentItem.copy(id = 0.asID, name = "item0"),
+            baseSegmentItem.copy(id = 1.asID, name = "item1"),
+            baseSegmentItem.copy(id = 2.asID, name = "item2"),
+            baseSegmentItem.copy(id = 3.asID, name = "item3"),
+            baseSegmentItem.copy(id = 4.asID, name = "item4"),
+            baseSegmentItem.copy(id = 5.asID, name = "item5"),
+            baseSegmentItem.copy(id = 6.asID, name = "item6"),
+            baseSegmentItem.copy(id = 7.asID, name = "item7"),
+            baseSegmentItem.copy(id = 8.asID, name = "item8"),
+            baseSegmentItem.copy(id = 9.asID, name = "item9"),
+            baseSegmentItem.copy(id = 10.asID, name = "item10")
         )
 
         setContent {
@@ -107,4 +110,15 @@ class RoutineSummarySceneKtTest {
         onNodeWithTag(SegmentSectionTitleTestTag).assertDoesNotExist()
         onNodeWithTag(HeaderAddSegmentButtonTestTag).assertIsDisplayed()
     }
+
+    private val baseSegmentItem = SegmentItem(
+        id = 1.asID,
+        name = "",
+        time = 0.seconds,
+        type = TimeType(
+            nameStringResId = R.string.chip_time_type_timer_name,
+            color = TimeTypeColors.TIMER
+        ),
+        rank = "aaaaaa"
+    )
 }

@@ -1,6 +1,7 @@
 package com.enricog.features.routines.detail.summary
 
 import com.enricog.base.viewmodel.StateConverter
+import com.enricog.core.compose.api.classes.asImmutableList
 import com.enricog.features.routines.R
 import com.enricog.features.routines.detail.summary.models.RoutineSummaryField
 import com.enricog.features.routines.detail.summary.models.RoutineSummaryFieldError
@@ -39,12 +40,15 @@ internal class RoutineSummaryStateConverter @Inject constructor() :
 
             addAll(
                 routine.segments.map {
-                    RoutineSummaryItem.SegmentItem(segment = it)
+                    RoutineSummaryItem.SegmentItem.from(segment = it)
                 }
             )
             add(RoutineSummaryItem.Space)
         }
-        return RoutineSummaryViewState.Data(items = items, message = action?.toMessage())
+        return RoutineSummaryViewState.Data(
+            items = items.asImmutableList(),
+            message = action?.toMessage()
+        )
     }
 
     private val RoutineSummaryFieldError.stringResourceId: Int
