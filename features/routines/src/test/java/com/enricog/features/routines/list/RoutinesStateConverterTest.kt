@@ -1,8 +1,10 @@
 package com.enricog.features.routines.list
 
+import com.enricog.core.compose.api.classes.emptyImmutableList
+import com.enricog.core.compose.api.classes.immutableListOf
 import com.enricog.core.coroutines.testing.CoroutineRule
-import com.enricog.data.routines.api.entities.Routine
 import com.enricog.data.routines.testing.entities.EMPTY
+import com.enricog.entities.asID
 import com.enricog.features.routines.R
 import com.enricog.features.routines.list.models.RoutinesState
 import com.enricog.features.routines.list.models.RoutinesState.Data.Action
@@ -11,6 +13,7 @@ import com.enricog.features.routines.list.models.RoutinesViewState.Data.Message
 import org.junit.Rule
 import org.junit.Test
 import kotlin.test.assertEquals
+import com.enricog.data.routines.api.entities.Routine.Companion as RoutineEntity
 
 class RoutinesStateConverterTest {
 
@@ -42,7 +45,7 @@ class RoutinesStateConverterTest {
     @Test
     fun `test map data with no action`() = coroutineRule {
         val state = RoutinesState.Data(routines = emptyList(), action = null)
-        val viewState = RoutinesViewState.Data(routines = emptyList(), message = null)
+        val viewState = RoutinesViewState.Data(routines = emptyImmutableList(), message = null)
 
         val result = sut.convert(state)
 
@@ -51,13 +54,14 @@ class RoutinesStateConverterTest {
 
     @Test
     fun `test map data with delete routine error action`() = coroutineRule {
-        val routine = Routine.EMPTY
+        val routineEntity = RoutineEntity.EMPTY
+        val routine = RoutinesViewState.Data.Routine(id = 0.asID, name = "")
         val state = RoutinesState.Data(
-            routines = listOf(routine),
-            action = Action.DeleteRoutineError(routine)
+            routines = listOf(routineEntity),
+            action = Action.DeleteRoutineError(routineEntity.id)
         )
         val viewState = RoutinesViewState.Data(
-            routines = listOf(routine),
+            routines = immutableListOf(routine),
             message = Message(
                 textResId = R.string.label_routines_delete_error,
                 actionTextResId = R.string.action_text_routines_delete_error
