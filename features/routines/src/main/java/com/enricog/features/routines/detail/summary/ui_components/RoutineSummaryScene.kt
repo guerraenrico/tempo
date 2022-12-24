@@ -47,7 +47,10 @@ internal fun RoutineSummaryScene(
     onSnackbarEvent: (TempoSnackbarEvent) -> Unit
 ) {
 
-    val listDraggableState = rememberListDraggableState(key = summaryItems)
+    val listDraggableState = rememberListDraggableState(
+        key = summaryItems,
+        isItemDraggable = { index -> summaryItems[index] is SegmentItem }
+    )
     val snackbarHostState = rememberSnackbarHostState()
 
     if (message != null) {
