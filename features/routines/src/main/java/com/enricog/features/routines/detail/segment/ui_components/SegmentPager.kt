@@ -12,6 +12,7 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.platform.LocalConfiguration
 import androidx.compose.ui.unit.dp
 import com.enricog.core.compose.api.classes.ImmutableList
+import com.enricog.core.compose.api.classes.ImmutableMap
 import com.enricog.core.compose.api.classes.toImmutableMapMap
 import com.enricog.core.compose.api.extensions.stringResourceOrNull
 import com.enricog.core.compose.api.extensions.toPx
@@ -32,7 +33,7 @@ internal fun SegmentPager(
     selectedType: TimeType,
     onSelectTimeTypeChange: (TimeType) -> Unit,
     onTimeTextChange: (TimeText) -> Unit,
-    errors: Map<SegmentField, SegmentFieldError>,
+    errors: ImmutableMap<SegmentField, SegmentFieldError>,
     segmentTimeFieldIme: SegmentTimeFieldIme,
     modifier: Modifier = Modifier
 ) = BoxWithConstraints(modifier = modifier) {
