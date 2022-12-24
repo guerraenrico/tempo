@@ -34,10 +34,17 @@ import kotlinx.coroutines.launch
 @Composable
 fun rememberListDraggableState(
     key: Any,
+    isItemDraggable: (index: Int) -> Boolean = { true },
     scope: CoroutineScope = rememberCoroutineScope(),
     listState: LazyListState = rememberLazyListState()
 ): ListDraggableState {
-    return remember(key) { ListDraggableState(listState = listState, scope = scope) }
+    return remember(key) {
+        ListDraggableState(
+            listState = listState,
+            scope = scope,
+            isItemDraggable = isItemDraggable
+        )
+    }
 }
 
 fun Modifier.listDraggable(
@@ -71,7 +78,8 @@ fun Modifier.listDraggable(
 
 class ListDraggableState(
     val listState: LazyListState,
-    private val scope: CoroutineScope
+    private val scope: CoroutineScope,
+    private val isItemDraggable: (Int) -> Boolean
 ) {
 
     private var scrollJob by autoCancelableJob()
@@ -96,11 +104,13 @@ class ListDraggableState(
         get() = listState.firstVisibleItemIndex
 
     internal fun onDragStarted(dragAmount: Offset) {
-        draggedItem = listState.draggedItemInfo(dragAmount.y)?.also { item ->
-            val index = item.index
-            hoveredItemIndex = index
-            draggedItemOffsetY += item.offset
-        }
+        draggedItem = listState.draggedItemInfo(dragAmount.y)
+            ?.takeIf { item -> isItemDraggable(item.index) }
+            ?.also { item ->
+                val index = item.index
+                hoveredItemIndex = index
+                draggedItemOffsetY += item.offset
+            }
     }
 
     internal fun onDrag(dragAmount: Offset) {
