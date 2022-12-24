@@ -6,11 +6,7 @@ import androidx.compose.ui.test.junit4.createComposeRule
 import androidx.compose.ui.test.onNodeWithTag
 import com.enricog.core.compose.testing.drawable.assertDrawable
 import com.enricog.core.compose.testing.invoke
-import com.enricog.entities.seconds
 import com.enricog.features.timer.R
-import com.enricog.features.timer.models.Count
-import com.enricog.features.timer.models.SegmentStep
-import com.enricog.features.timer.models.SegmentStepType
 import com.enricog.features.timer.models.TimerViewState
 import com.enricog.ui.theme.TempoTheme
 import org.junit.Rule
@@ -29,14 +25,8 @@ class TimerToolbarKtTest {
                     state = TimerViewState.Counting(
                         stepTitleId = R.string.title_segment_step_type_in_progress,
                         segmentName = "segment name",
-                        step = SegmentStep(
-                            count = Count(
-                                seconds = 1.seconds,
-                                isRunning = true,
-                                isCompleted = false
-                            ),
-                            type = SegmentStepType.IN_PROGRESS
-                        ),
+                        timeInSeconds = 1,
+                        isRunning = true,
                         clockBackgroundColor = TimerViewState.Counting.BackgroundColor(
                             foreground = Color.Blue,
                             ripple = null
@@ -63,14 +53,8 @@ class TimerToolbarKtTest {
                     state = TimerViewState.Counting(
                         stepTitleId = R.string.title_segment_step_type_in_progress,
                         segmentName = "segment name",
-                        step = SegmentStep(
-                            count = Count(
-                                seconds = 1.seconds,
-                                isRunning = true,
-                                isCompleted = false
-                            ),
-                            type = SegmentStepType.IN_PROGRESS
-                        ),
+                        timeInSeconds = 1,
+                        isRunning = true,
                         clockBackgroundColor = TimerViewState.Counting.BackgroundColor(
                             foreground = Color.Blue,
                             ripple = null

@@ -3,6 +3,7 @@ package com.enricog.features.routines.detail.summary
 import androidx.compose.ui.test.assertIsDisplayed
 import androidx.compose.ui.test.junit4.createComposeRule
 import androidx.compose.ui.test.onNodeWithTag
+import com.enricog.core.compose.api.classes.emptyImmutableList
 import com.enricog.core.compose.testing.invoke
 import com.enricog.features.routines.detail.summary.models.RoutineSummaryViewState
 import com.enricog.features.routines.detail.summary.ui_components.RoutineSummaryErrorSceneTag
@@ -41,7 +42,7 @@ class RoutineSummaryScreenKtTest {
 
     @Test
     fun shouldRenderRoutineSummarySceneWhenStateIsData() = composeRule {
-        val viewState = RoutineSummaryViewState.Data(items = emptyList(), message = null)
+        val viewState = RoutineSummaryViewState.Data(items = emptyImmutableList(), message = null)
 
         setContent {
             TempoTheme {

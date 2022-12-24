@@ -8,6 +8,7 @@ import com.enricog.data.routines.testing.FakeRoutineDataSource
 import com.enricog.data.routines.testing.entities.EMPTY
 import com.enricog.entities.ID
 import com.enricog.entities.Rank
+import com.enricog.entities.asID
 import org.junit.Rule
 import org.junit.Test
 import kotlin.test.assertEquals
@@ -20,7 +21,8 @@ class MoveSegmentUseCaseTest {
     private val segment1 = Segment.EMPTY.copy(id = ID.from(1), rank = Rank.from("bbbbbb"))
     private val segment2 = Segment.EMPTY.copy(id = ID.from(2), rank = Rank.from("cccccc"))
     private val segment3 = Segment.EMPTY.copy(id = ID.from(3), rank = Rank.from("dddddd"))
-    private val routine = Routine.EMPTY.copy(id = ID.from(1), segments = listOf(segment1, segment2, segment3))
+    private val routine =
+        Routine.EMPTY.copy(id = ID.from(1), segments = listOf(segment1, segment2, segment3))
 
     private val store = FakeStore(listOf(routine))
     private val sut = MoveSegmentUseCase(routineDataSource = FakeRoutineDataSource(store))
@@ -28,15 +30,15 @@ class MoveSegmentUseCaseTest {
 
     @Test
     fun `should do nothing when item has not been moved`() = coroutineRule {
-        sut(routine, segment1, segment1)
+        sut(routine = routine, draggedSegmentId = 1.asID, hoveredSegmentId = 1.asID)
 
         assertEquals(routine, store.get().first())
     }
 
     @Test
     fun `should do nothing when moved segment is not found`() = coroutineRule {
-        val segmentUnknown = Segment.EMPTY.copy(id = ID.from(4), rank = Rank.from("asdfgh"))
-        sut(routine = routine, segment = segmentUnknown, hoveredSegment = segment1)
+        val segmentIdUnknown = 4.asID
+        sut(routine = routine, draggedSegmentId = segmentIdUnknown, hoveredSegmentId = 1.asID)
 
         assertEquals(routine, store.get().first())
     }
@@ -51,7 +53,7 @@ class MoveSegmentUseCaseTest {
             )
         )
 
-        sut(routine = routine, segment = segment1, hoveredSegment = segment3)
+        sut(routine = routine, draggedSegmentId = 1.asID, hoveredSegmentId = 3.asID)
 
         assertEquals(expected, store.get().first())
     }
@@ -66,7 +68,7 @@ class MoveSegmentUseCaseTest {
             )
         )
 
-        sut(routine = routine, segment = segment3, hoveredSegment = null)
+        sut(routine = routine, draggedSegmentId = 3.asID, hoveredSegmentId = null)
 
         assertEquals(expected, store.get().first())
     }

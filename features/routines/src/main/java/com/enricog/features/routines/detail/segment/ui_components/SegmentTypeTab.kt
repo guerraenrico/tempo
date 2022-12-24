@@ -9,11 +9,11 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.platform.testTag
+import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.TextStyle
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.sp
-import com.enricog.data.routines.api.entities.TimeType
-import com.enricog.features.routines.detail.ui.time_type.text
+import com.enricog.features.routines.detail.ui.time_type.TimeType
 import com.enricog.ui.components.text.TempoText
 import com.enricog.ui.theme.TempoTheme
 import com.enricog.ui.theme.white
@@ -34,7 +34,7 @@ internal fun SegmentTypeTab(
         contentAlignment = Alignment.Center
     ) {
         TempoText(
-            text = value.text(),
+            text = stringResource(id = value.nameStringResId),
             style = TextStyle(
                 color = white,
                 fontWeight = FontWeight.Bold,

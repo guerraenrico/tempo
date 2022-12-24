@@ -1,5 +1,6 @@
 package com.enricog.features.routines.detail.routine
 
+import com.enricog.core.compose.api.classes.immutableMapOf
 import com.enricog.core.coroutines.testing.CoroutineRule
 import com.enricog.data.routines.api.entities.Routine
 import com.enricog.data.routines.testing.entities.EMPTY
@@ -63,7 +64,7 @@ class RoutineStateConverterTest {
                 name = "name".toTextFieldValue(),
                 startTimeOffset = "50".timeText
             ),
-            errors = mapOf(
+            errors = immutableMapOf(
                 RoutineField.Name to RoutineFieldError.BlankRoutineName
             ),
             message = null
@@ -92,7 +93,7 @@ class RoutineStateConverterTest {
                 name = "name".toTextFieldValue(),
                 startTimeOffset = "50".timeText
             ),
-            errors = mapOf(
+            errors = immutableMapOf(
                 RoutineField.Name to RoutineFieldError.BlankRoutineName
             ),
             message = RoutineViewState.Data.Message(

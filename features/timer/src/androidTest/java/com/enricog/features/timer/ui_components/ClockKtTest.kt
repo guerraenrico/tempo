@@ -5,7 +5,6 @@ import androidx.compose.ui.test.assertTextEquals
 import androidx.compose.ui.test.junit4.createComposeRule
 import androidx.compose.ui.test.onNodeWithTag
 import com.enricog.core.compose.testing.invoke
-import com.enricog.entities.seconds
 import com.enricog.ui.theme.TempoTheme
 import org.junit.Rule
 import org.junit.Test
@@ -17,10 +16,9 @@ class ClockKtTest {
 
     @Test
     fun shouldShowClockWitSeconds() = composeRule {
-        val time = 10.seconds
         setContent {
             TempoTheme {
-                Clock(seconds = time)
+                Clock(timeInSeconds = 10)
             }
         }
 
@@ -30,10 +28,9 @@ class ClockKtTest {
 
     @Test
     fun shouldShowClockWitMinutesAndSeconds() = composeRule {
-        val time = 90.seconds
         setContent {
             TempoTheme {
-                Clock(seconds = time)
+                Clock(timeInSeconds = 90)
             }
         }
 

@@ -1,10 +1,12 @@
 package com.enricog.features.routines.detail.summary
 
+import com.enricog.core.compose.api.classes.immutableListOf
 import com.enricog.core.coroutines.testing.CoroutineRule
 import com.enricog.data.routines.api.entities.Routine
 import com.enricog.data.routines.api.entities.Segment
 import com.enricog.data.routines.testing.entities.EMPTY
 import com.enricog.entities.asID
+import com.enricog.entities.seconds
 import com.enricog.features.routines.R
 import com.enricog.features.routines.detail.summary.models.RoutineSummaryField
 import com.enricog.features.routines.detail.summary.models.RoutineSummaryFieldError
@@ -13,6 +15,8 @@ import com.enricog.features.routines.detail.summary.models.RoutineSummaryState
 import com.enricog.features.routines.detail.summary.models.RoutineSummaryState.Data.Action
 import com.enricog.features.routines.detail.summary.models.RoutineSummaryViewState
 import com.enricog.features.routines.detail.summary.models.RoutineSummaryViewState.Data.Message
+import com.enricog.features.routines.detail.ui.time_type.TimeType
+import com.enricog.ui.theme.TimeTypeColors
 import org.junit.Rule
 import org.junit.Test
 import kotlin.test.assertEquals
@@ -48,13 +52,33 @@ class RoutineSummaryStateConverterTest {
             action = null
         )
         val expected = RoutineSummaryViewState.Data(
-            items = listOf(
+            items = immutableListOf(
                 RoutineSummaryItem.RoutineInfo(routineName = "routineName"),
                 RoutineSummaryItem.SegmentSectionTitle(
                     error = RoutineSummaryField.Segments to R.string.field_error_message_routine_no_segments
                 ),
-                RoutineSummaryItem.SegmentItem(segment = Segment.EMPTY.copy(id = 1.asID)),
-                RoutineSummaryItem.SegmentItem(segment = Segment.EMPTY.copy(id = 2.asID)),
+                RoutineSummaryItem.SegmentItem(
+                    id = 1.asID,
+                    name = "",
+                    time = 0.seconds,
+                    type = TimeType(
+                        nameStringResId = R.string.chip_time_type_timer_name,
+                        color = TimeTypeColors.TIMER,
+                        id = "TIMER"
+                    ),
+                    rank = "aaaaaa"
+                ),
+                RoutineSummaryItem.SegmentItem(
+                    id = 2.asID,
+                    name = "",
+                    time = 0.seconds,
+                    type = TimeType(
+                        nameStringResId = R.string.chip_time_type_timer_name,
+                        color = TimeTypeColors.TIMER,
+                        id = "TIMER"
+                    ),
+                    rank = "aaaaaa"
+                ),
                 RoutineSummaryItem.Space
             ),
             message = null
@@ -76,16 +100,36 @@ class RoutineSummaryStateConverterTest {
                 )
             ),
             errors = mapOf(RoutineSummaryField.Segments to RoutineSummaryFieldError.NoSegments),
-            action = Action.DeleteSegmentError(Segment.EMPTY.copy(id = 1.asID))
+            action = Action.DeleteSegmentError(segmentId = 1.asID)
         )
         val expected = RoutineSummaryViewState.Data(
-            items = listOf(
+            items = immutableListOf(
                 RoutineSummaryItem.RoutineInfo(routineName = "routineName"),
                 RoutineSummaryItem.SegmentSectionTitle(
                     error = RoutineSummaryField.Segments to R.string.field_error_message_routine_no_segments
                 ),
-                RoutineSummaryItem.SegmentItem(segment = Segment.EMPTY.copy(id = 1.asID)),
-                RoutineSummaryItem.SegmentItem(segment = Segment.EMPTY.copy(id = 2.asID)),
+                RoutineSummaryItem.SegmentItem(
+                    id = 1.asID,
+                    name = "",
+                    time = 0.seconds,
+                    type = TimeType(
+                        nameStringResId = R.string.chip_time_type_timer_name,
+                        color = TimeTypeColors.TIMER,
+                        id = "TIMER"
+                    ),
+                    rank = "aaaaaa"
+                ),
+                RoutineSummaryItem.SegmentItem(
+                    id = 2.asID,
+                    name = "",
+                    time = 0.seconds,
+                    type = TimeType(
+                        nameStringResId = R.string.chip_time_type_timer_name,
+                        color = TimeTypeColors.TIMER,
+                        id = "TIMER"
+                    ),
+                    rank = "aaaaaa"
+                ),
                 RoutineSummaryItem.Space
             ),
             message = Message(
@@ -113,13 +157,33 @@ class RoutineSummaryStateConverterTest {
             action = Action.MoveSegmentError
         )
         val expected = RoutineSummaryViewState.Data(
-            items = listOf(
+            items = immutableListOf(
                 RoutineSummaryItem.RoutineInfo(routineName = "routineName"),
                 RoutineSummaryItem.SegmentSectionTitle(
                     error = RoutineSummaryField.Segments to R.string.field_error_message_routine_no_segments
                 ),
-                RoutineSummaryItem.SegmentItem(segment = Segment.EMPTY.copy(id = 1.asID)),
-                RoutineSummaryItem.SegmentItem(segment = Segment.EMPTY.copy(id = 2.asID)),
+                RoutineSummaryItem.SegmentItem(
+                    id = 1.asID,
+                    name = "",
+                    time = 0.seconds,
+                    type = TimeType(
+                        nameStringResId = R.string.chip_time_type_timer_name,
+                        color = TimeTypeColors.TIMER,
+                        id = "TIMER"
+                    ),
+                    rank = "aaaaaa"
+                ),
+                RoutineSummaryItem.SegmentItem(
+                    id = 2.asID,
+                    name = "",
+                    time = 0.seconds,
+                    type = TimeType(
+                        nameStringResId = R.string.chip_time_type_timer_name,
+                        color = TimeTypeColors.TIMER,
+                        id = "TIMER"
+                    ),
+                    rank = "aaaaaa"
+                ),
                 RoutineSummaryItem.Space
             ),
             message = Message(

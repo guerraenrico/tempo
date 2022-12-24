@@ -13,7 +13,6 @@ import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.BaselineShift
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.sp
-import com.enricog.entities.Seconds
 import com.enricog.ui.components.text.TempoText
 import com.enricog.ui.theme.FontFamilyMono
 import com.enricog.ui.theme.white
@@ -24,14 +23,14 @@ internal const val ClockTimeTextTestTag = "ClockTimeTextTestTag"
 @Composable
 internal fun Clock(
     modifier: Modifier = Modifier,
-    seconds: Seconds,
+    timeInSeconds: Long,
 ) {
     Column(
         modifier = modifier.testTag(ClockTestTag),
         verticalArrangement = Arrangement.Center,
         horizontalAlignment = Alignment.CenterHorizontally,
     ) {
-        TimeText(timeInSeconds = seconds.value)
+        TimeText(timeInSeconds = timeInSeconds)
     }
 }
 

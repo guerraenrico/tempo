@@ -9,36 +9,37 @@ import androidx.compose.ui.platform.testTag
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.constraintlayout.compose.ConstraintLayout
 import androidx.constraintlayout.compose.Dimension
-import com.enricog.data.routines.api.entities.Segment
-import com.enricog.data.routines.api.entities.TimeType
-import com.enricog.entities.Rank
+import com.enricog.entities.ID
 import com.enricog.entities.asID
 import com.enricog.entities.seconds
+import com.enricog.features.routines.detail.summary.models.RoutineSummaryItem.SegmentItem
+import com.enricog.features.routines.detail.ui.time_type.TimeType
 import com.enricog.features.routines.detail.ui.time_type.TimeTypeChip
 import com.enricog.features.routines.ui_components.DeletableListItem
 import com.enricog.ui.components.extensions.format
 import com.enricog.ui.components.text.TempoText
 import com.enricog.ui.theme.TempoTheme
+import com.enricog.data.routines.api.entities.TimeType as TimeTypeEntity
 
 internal const val SegmentItemTestTag = "SegmentItemTestTag"
 
 @Composable
 internal fun SegmentItem(
     modifier: Modifier,
-    segment: Segment,
+    segment: SegmentItem,
     enableClick: Boolean,
-    onClick: (Segment) -> Unit,
-    onDelete: (Segment) -> Unit
+    onClick: (ID) -> Unit,
+    onDelete: (ID) -> Unit
 ) {
     DeletableListItem(
         modifier = modifier
             .testTag(SegmentItemTestTag),
-        onDelete = { onDelete(segment) }
+        onDelete = { onDelete(segment.id) }
     ) {
         ConstraintLayout(
             modifier = Modifier
                 .fillMaxWidth()
-                .clickable(enabled = enableClick) { onClick(segment) }
+                .clickable(enabled = enableClick) { onClick(segment.id) }
                 .padding(TempoTheme.dimensions.spaceM)
         ) {
             val (name, type, time) = createRefs()
@@ -87,12 +88,12 @@ internal fun SegmentItem(
 private fun SegmentItemPreview() {
     SegmentItem(
         modifier = Modifier,
-        segment = Segment(
+        segment = SegmentItem(
             id = 0.asID,
             name = "Segment name",
             time = 100.seconds,
-            type = TimeType.REST,
-            rank = Rank.from(value = "aaaa")
+            type = TimeType.from(TimeTypeEntity.TIMER),
+            rank = ""
         ),
         onClick = {},
         onDelete = {},

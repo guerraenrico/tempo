@@ -1,5 +1,6 @@
 package com.enricog.features.routines.detail.segment
 
+import androidx.compose.runtime.Immutable
 import androidx.compose.ui.text.input.TextFieldValue
 import androidx.lifecycle.SavedStateHandle
 import com.enricog.base.viewmodel.BaseViewModel
@@ -9,11 +10,11 @@ import com.enricog.core.coroutines.job.autoCancelableJob
 import com.enricog.core.logger.api.TempoLogger
 import com.enricog.data.routines.api.entities.Routine
 import com.enricog.data.routines.api.entities.Segment
-import com.enricog.data.routines.api.entities.TimeType
 import com.enricog.features.routines.detail.segment.models.SegmentState
 import com.enricog.features.routines.detail.segment.models.SegmentState.Data.Action.SaveSegmentError
 import com.enricog.features.routines.detail.segment.models.SegmentViewState
 import com.enricog.features.routines.detail.segment.usecase.SegmentUseCase
+import com.enricog.features.routines.detail.ui.time_type.TimeType
 import com.enricog.features.routines.navigation.RoutinesNavigationActions
 import com.enricog.navigation.api.routes.SegmentRoute
 import com.enricog.navigation.api.routes.SegmentRouteInput
@@ -25,6 +26,7 @@ import kotlinx.coroutines.CoroutineExceptionHandler
 import kotlinx.coroutines.delay
 import javax.inject.Inject
 
+@Immutable
 @HiltViewModel
 internal class SegmentViewModel @Inject constructor(
     savedStateHandle: SavedStateHandle,
@@ -74,7 +76,7 @@ internal class SegmentViewModel @Inject constructor(
 
     fun onSegmentTypeChange(timeType: TimeType) {
         updateStateWhen<SegmentState.Data> { stateData ->
-            reducer.updateSegmentTimeType(state = stateData, timeType = timeType)
+            reducer.updateSegmentTimeType(state = stateData, timeType = timeType.toEntity())
         }
     }
 

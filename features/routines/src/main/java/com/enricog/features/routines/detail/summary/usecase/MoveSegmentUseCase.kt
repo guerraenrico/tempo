@@ -1,18 +1,18 @@
 package com.enricog.features.routines.detail.summary.usecase
 
 import com.enricog.data.routines.api.RoutineDataSource
-import com.enricog.entities.Rank
 import com.enricog.data.routines.api.entities.Routine
-import com.enricog.data.routines.api.entities.Segment
+import com.enricog.entities.ID
+import com.enricog.entities.Rank
 import javax.inject.Inject
 
 internal class MoveSegmentUseCase @Inject constructor(
     private val routineDataSource: RoutineDataSource
 ) {
 
-    suspend operator fun invoke(routine: Routine, segment: Segment, hoveredSegment: Segment?) {
-        val itemIndex = routine.segments.indexOf(segment)
-        val newIndex = routine.segments.indexOf(hoveredSegment)
+    suspend operator fun invoke(routine: Routine, draggedSegmentId: ID, hoveredSegmentId: ID?) {
+        val itemIndex = routine.segments.indexOfFirst { it.id == draggedSegmentId }
+        val newIndex = routine.segments.indexOfFirst { it.id == hoveredSegmentId }
 
         if (itemIndex == newIndex || itemIndex < 0) {
             return
@@ -23,7 +23,7 @@ internal class MoveSegmentUseCase @Inject constructor(
         val newRank = Rank.calculate(rank1 = rank1, rank2 = rank2)
         val segments = routine.segments
             .map {
-                if (it.id == segment.id) {
+                if (it.id == draggedSegmentId) {
                     it.copy(rank = newRank)
                 } else {
                     it

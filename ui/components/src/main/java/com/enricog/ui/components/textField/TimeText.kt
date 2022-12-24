@@ -1,5 +1,6 @@
 package com.enricog.ui.components.textField
 
+import androidx.compose.runtime.Immutable
 import com.enricog.entities.Seconds
 import com.enricog.entities.seconds
 import kotlin.math.pow
@@ -18,6 +19,7 @@ import kotlin.math.pow
  *  - 89 seconds -> "129" (1:29)
  *  - 891 seconds -> "1531" (15:31)
  */
+@Immutable
 @JvmInline
 value class TimeText private constructor(private val value: String) : Comparable<TimeText> {
 

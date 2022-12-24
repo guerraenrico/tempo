@@ -44,7 +44,7 @@ class RoutineSummaryUseCaseTest {
 
     @Test
     fun `should delete segment`() = coroutineRule {
-        val segment = Segment.EMPTY.copy(id = 2.asID)
+        val segmentId = 2.asID
         val expected = Routine.EMPTY.copy(
             id = 1.asID,
             name = "Routine Name",
@@ -53,7 +53,7 @@ class RoutineSummaryUseCaseTest {
             )
         )
 
-        sut.deleteSegment(routine = routine, segment = segment)
+        sut.deleteSegment(routine = routine, segmentId = segmentId)
 
         assertEquals(expected, store.get().first())
     }

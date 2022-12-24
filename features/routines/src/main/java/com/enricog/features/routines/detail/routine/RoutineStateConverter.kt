@@ -1,6 +1,7 @@
 package com.enricog.features.routines.detail.routine
 
 import com.enricog.base.viewmodel.StateConverter
+import com.enricog.core.compose.api.classes.asImmutableMap
 import com.enricog.features.routines.R
 import com.enricog.features.routines.detail.routine.models.RoutineFields
 import com.enricog.features.routines.detail.routine.models.RoutineState
@@ -27,7 +28,7 @@ internal class RoutineStateConverter @Inject constructor() :
                 name = inputs.name,
                 startTimeOffset = inputs.startTimeOffset
             ),
-            errors = errors,
+            errors = errors.asImmutableMap(),
             message = action?.toMessage()
         )
     }

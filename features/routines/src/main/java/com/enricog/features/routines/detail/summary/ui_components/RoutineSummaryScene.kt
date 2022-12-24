@@ -18,10 +18,11 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.platform.testTag
 import androidx.compose.ui.res.stringResource
+import com.enricog.core.compose.api.classes.ImmutableList
 import com.enricog.core.compose.api.extensions.stringResourceOrNull
 import com.enricog.core.compose.api.modifiers.draggable.listDraggable
 import com.enricog.core.compose.api.modifiers.draggable.rememberListDraggableState
-import com.enricog.data.routines.api.entities.Segment
+import com.enricog.entities.ID
 import com.enricog.features.routines.detail.summary.models.RoutineSummaryItem
 import com.enricog.features.routines.detail.summary.models.RoutineSummaryItem.SegmentItem
 import com.enricog.features.routines.detail.summary.models.RoutineSummaryItem.SegmentSectionTitle
@@ -35,12 +36,12 @@ internal const val RoutineSummarySceneTestTag = "RoutineSummaryScene"
 
 @Composable
 internal fun RoutineSummaryScene(
-    summaryItems: List<RoutineSummaryItem>,
+    summaryItems: ImmutableList<RoutineSummaryItem>,
     message: Message?,
     onSegmentAdd: () -> Unit,
-    onSegmentSelected: (Segment) -> Unit,
-    onSegmentDelete: (Segment) -> Unit,
-    onSegmentMoved: (Segment, Segment?) -> Unit,
+    onSegmentSelected: (ID) -> Unit,
+    onSegmentDelete: (ID) -> Unit,
+    onSegmentMoved: (ID, ID?) -> Unit,
     onRoutineStart: () -> Unit,
     onRoutineEdit: () -> Unit,
     onSnackbarEvent: (TempoSnackbarEvent) -> Unit
@@ -60,10 +61,10 @@ internal fun RoutineSummaryScene(
 
     LaunchedEffect(summaryItems) {
         listDraggableState.itemMovedEvent.collect { itemMoved ->
-            val item = summaryItems[itemMoved.indexDraggedItem] as? SegmentItem
-            val hoveredItem = summaryItems[itemMoved.indexHoveredItem] as? SegmentItem
-            if (item != null) {
-                onSegmentMoved(item.segment, hoveredItem?.segment)
+            val draggedSegment = summaryItems[itemMoved.indexDraggedItem] as? SegmentItem
+            val hoveredSegment = summaryItems[itemMoved.indexHoveredItem] as? SegmentItem
+            if (draggedSegment != null) {
+                onSegmentMoved(draggedSegment.id, hoveredSegment?.id)
             }
         }
     }
@@ -109,7 +110,7 @@ internal fun RoutineSummaryScene(
                 if (listDraggableState.isDragging) {
                     DraggedSegment(
                         modifier = Modifier.padding(horizontal = TempoTheme.dimensions.spaceM),
-                        item = summaryItems[listDraggableState.draggedItem?.index!!] as SegmentItem,
+                        segment = summaryItems[listDraggableState.draggedItem?.index!!] as SegmentItem,
                         offset = listDraggableState.draggedItemOffsetY
                     )
                 }

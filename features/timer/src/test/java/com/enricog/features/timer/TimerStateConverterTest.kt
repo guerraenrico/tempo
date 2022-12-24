@@ -60,10 +60,8 @@ class TimerStateConverterTest {
             isSoundEnabled = true
         )
         val expected = TimerViewState.Counting(
-            step = SegmentStep(
-                count = Count(seconds = 5.seconds, isRunning = true, isCompleted = false),
-                type = SegmentStepType.IN_PROGRESS
-            ),
+            timeInSeconds = 5,
+            isRunning = true,
             stepTitleId = R.string.title_segment_time_type_rest,
             segmentName = "segment name",
             clockBackgroundColor = BackgroundColor(
@@ -93,10 +91,8 @@ class TimerStateConverterTest {
                 isSoundEnabled = true
             )
             val expected = TimerViewState.Counting(
-                step = SegmentStep(
-                    count = Count(seconds = 5.seconds, isRunning = true, isCompleted = false),
-                    type = SegmentStepType.IN_PROGRESS
-                ),
+                timeInSeconds = 5,
+                isRunning = true,
                 stepTitleId = R.string.title_segment_time_type_rest,
                 segmentName = "segment name",
                 clockBackgroundColor = BackgroundColor(
@@ -126,10 +122,8 @@ class TimerStateConverterTest {
                 isSoundEnabled = true
             )
             val expected = TimerViewState.Counting(
-                step = SegmentStep(
-                    count = Count(seconds = 5.seconds, isRunning = true, isCompleted = false),
-                    type = SegmentStepType.IN_PROGRESS
-                ),
+                timeInSeconds = 5,
+                isRunning = true,
                 stepTitleId = R.string.title_segment_step_type_in_progress,
                 segmentName = "segment name",
                 clockBackgroundColor = BackgroundColor(
@@ -159,10 +153,8 @@ class TimerStateConverterTest {
                 isSoundEnabled = true
             )
             val expected = TimerViewState.Counting(
-                step = SegmentStep(
-                    count = Count(seconds = 5.seconds, isRunning = true, isCompleted = false),
-                    type = SegmentStepType.IN_PROGRESS
-                ),
+                timeInSeconds = 5,
+                isRunning = true,
                 stepTitleId = R.string.title_segment_step_type_in_progress,
                 segmentName = "segment name",
                 clockBackgroundColor = BackgroundColor(
@@ -195,10 +187,8 @@ class TimerStateConverterTest {
                 isSoundEnabled = true
             )
             val expected = TimerViewState.Counting(
-                step = SegmentStep(
-                    count = Count(seconds = 5.seconds, isRunning = true, isCompleted = true),
-                    type = SegmentStepType.STARTING
-                ),
+                timeInSeconds = 5,
+                isRunning = true,
                 stepTitleId = R.string.title_segment_step_type_starting,
                 segmentName = "segment name",
                 clockBackgroundColor = BackgroundColor(
@@ -232,10 +222,8 @@ class TimerStateConverterTest {
                 isSoundEnabled = true
             )
             val expected = TimerViewState.Counting(
-                step = SegmentStep(
-                    count = Count(seconds = 5.seconds, isRunning = true, isCompleted = true),
-                    type = SegmentStepType.IN_PROGRESS
-                ),
+                timeInSeconds = 5,
+                isRunning = true,
                 stepTitleId = R.string.title_segment_step_type_in_progress,
                 segmentName = "segment name stopwatch",
                 clockBackgroundColor = BackgroundColor(

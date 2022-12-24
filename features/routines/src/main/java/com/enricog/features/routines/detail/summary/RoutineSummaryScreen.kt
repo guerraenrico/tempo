@@ -3,7 +3,7 @@ package com.enricog.features.routines.detail.summary
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
-import com.enricog.data.routines.api.entities.Segment
+import com.enricog.entities.ID
 import com.enricog.features.routines.detail.summary.models.RoutineSummaryViewState
 import com.enricog.features.routines.detail.summary.ui_components.RoutineSummaryErrorScene
 import com.enricog.features.routines.detail.summary.ui_components.RoutineSummaryScene
@@ -32,9 +32,9 @@ internal fun RoutineSummaryScreen(viewModel: RoutineSummaryViewModel) {
 @Composable
 internal fun RoutineSummaryViewState.Compose(
     onSegmentAdd: () -> Unit,
-    onSegmentSelected: (Segment) -> Unit,
-    onSegmentDelete: (Segment) -> Unit,
-    onSegmentMoved: (Segment, Segment?) -> Unit,
+    onSegmentSelected: (ID) -> Unit,
+    onSegmentDelete: (ID) -> Unit,
+    onSegmentMoved: (ID, ID?) -> Unit,
     onRoutineStart: () -> Unit,
     onRoutineEdit: () -> Unit,
     onRetryLoad: () -> Unit,

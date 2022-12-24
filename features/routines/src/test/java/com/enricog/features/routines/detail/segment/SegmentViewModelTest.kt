@@ -2,11 +2,13 @@ package com.enricog.features.routines.detail.segment
 
 import androidx.lifecycle.SavedStateHandle
 import app.cash.turbine.test
+import com.enricog.core.compose.api.classes.emptyImmutableMap
+import com.enricog.core.compose.api.classes.immutableListOf
+import com.enricog.core.compose.api.classes.immutableMapOf
 import com.enricog.core.coroutines.testing.CoroutineRule
 import com.enricog.data.local.testing.FakeStore
 import com.enricog.data.routines.api.entities.Routine
 import com.enricog.data.routines.api.entities.Segment
-import com.enricog.data.routines.api.entities.TimeType
 import com.enricog.data.routines.testing.FakeRoutineDataSource
 import com.enricog.data.routines.testing.entities.EMPTY
 import com.enricog.entities.asID
@@ -17,6 +19,7 @@ import com.enricog.features.routines.detail.segment.models.SegmentFieldError
 import com.enricog.features.routines.detail.segment.models.SegmentFields
 import com.enricog.features.routines.detail.segment.models.SegmentViewState
 import com.enricog.features.routines.detail.segment.usecase.SegmentUseCase
+import com.enricog.features.routines.detail.ui.time_type.TimeType
 import com.enricog.features.routines.navigation.RoutinesNavigationActions
 import com.enricog.navigation.testing.FakeNavigator
 import com.enricog.ui.components.extensions.toTextFieldValue
@@ -27,6 +30,7 @@ import org.junit.Rule
 import org.junit.Test
 import kotlin.test.assertEquals
 import kotlin.test.assertIs
+import com.enricog.data.routines.api.entities.TimeType as TimeTypeEntity
 
 class SegmentViewModelTest {
 
@@ -37,7 +41,7 @@ class SegmentViewModelTest {
         id = 2.asID,
         name = "Segment Name",
         time = 30.seconds,
-        type = TimeType.TIMER
+        type = TimeTypeEntity.TIMER
     )
     private val routine = Routine.EMPTY.copy(
         id = 1.asID,
@@ -55,10 +59,14 @@ class SegmentViewModelTest {
             segment = SegmentFields(
                 name = "Segment Name".toTextFieldValue(),
                 time = "30".timeText,
-                type = TimeType.TIMER
+                type = TimeType.from(TimeTypeEntity.TIMER)
             ),
-            errors = emptyMap(),
-            timeTypes = listOf(TimeType.TIMER, TimeType.REST, TimeType.STOPWATCH),
+            errors = emptyImmutableMap(),
+            timeTypes = immutableListOf(
+                TimeType.from(TimeTypeEntity.TIMER),
+                TimeType.from(TimeTypeEntity.REST),
+                TimeType.from(TimeTypeEntity.STOPWATCH)
+            ),
             message = null
         )
 
@@ -86,10 +94,14 @@ class SegmentViewModelTest {
             segment = SegmentFields(
                 name = "Segment Name".toTextFieldValue(),
                 time = "30".timeText,
-                type = TimeType.TIMER
+                type = TimeType.from(TimeTypeEntity.TIMER)
             ),
-            errors = emptyMap(),
-            timeTypes = listOf(TimeType.TIMER, TimeType.REST, TimeType.STOPWATCH),
+            errors = immutableMapOf(),
+            timeTypes = immutableListOf(
+                TimeType.from(TimeTypeEntity.TIMER),
+                TimeType.from(TimeTypeEntity.REST),
+                TimeType.from(TimeTypeEntity.STOPWATCH)
+            ),
             message = null
         )
         store.enableErrorOnNextAccess()
@@ -108,10 +120,14 @@ class SegmentViewModelTest {
             segment = SegmentFields(
                 name = "Segment Name Modified".toTextFieldValue(),
                 time = "30".timeText,
-                type = TimeType.TIMER
+                type = TimeType.from(TimeTypeEntity.TIMER)
             ),
-            errors = emptyMap(),
-            timeTypes = listOf(TimeType.TIMER, TimeType.REST, TimeType.STOPWATCH),
+            errors = emptyImmutableMap(),
+            timeTypes = immutableListOf(
+                TimeType.from(TimeTypeEntity.TIMER),
+                TimeType.from(TimeTypeEntity.REST),
+                TimeType.from(TimeTypeEntity.STOPWATCH)
+            ),
             message = null
         )
         val sut = buildSut()
@@ -129,10 +145,14 @@ class SegmentViewModelTest {
             segment = SegmentFields(
                 name = "Segment Name".toTextFieldValue(),
                 time = "10".timeText,
-                type = TimeType.TIMER
+                type = TimeType.from(TimeTypeEntity.TIMER)
             ),
-            errors = emptyMap(),
-            timeTypes = listOf(TimeType.TIMER, TimeType.REST, TimeType.STOPWATCH),
+            errors = emptyImmutableMap(),
+            timeTypes = immutableListOf(
+                TimeType.from(TimeTypeEntity.TIMER),
+                TimeType.from(TimeTypeEntity.REST),
+                TimeType.from(TimeTypeEntity.STOPWATCH)
+            ),
             message = null
         )
         val sut = buildSut()
@@ -150,16 +170,20 @@ class SegmentViewModelTest {
             segment = SegmentFields(
                 name = "Segment Name".toTextFieldValue(),
                 time = "".timeText,
-                type = TimeType.STOPWATCH
+                type = TimeType.from(TimeTypeEntity.STOPWATCH)
             ),
-            errors = emptyMap(),
-            timeTypes = listOf(TimeType.TIMER, TimeType.REST, TimeType.STOPWATCH),
+            errors = emptyImmutableMap(),
+            timeTypes = immutableListOf(
+                TimeType.from(TimeTypeEntity.TIMER),
+                TimeType.from(TimeTypeEntity.REST),
+                TimeType.from(TimeTypeEntity.STOPWATCH)
+            ),
             message = null
         )
         val sut = buildSut()
         advanceUntilIdle()
 
-        sut.onSegmentTypeChange(timeType = TimeType.STOPWATCH)
+        sut.onSegmentTypeChange(timeType = TimeType.from(TimeTypeEntity.STOPWATCH))
         advanceUntilIdle()
 
         sut.viewState.test { assertEquals(expected, awaitItem()) }
@@ -171,10 +195,14 @@ class SegmentViewModelTest {
             segment = SegmentFields(
                 name = "".toTextFieldValue(),
                 time = "30".timeText,
-                type = TimeType.TIMER
+                type = TimeType.from(TimeTypeEntity.TIMER),
             ),
-            errors = mapOf(SegmentField.Name to SegmentFieldError.BlankSegmentName),
-            timeTypes = listOf(TimeType.TIMER, TimeType.REST, TimeType.STOPWATCH),
+            errors = immutableMapOf(SegmentField.Name to SegmentFieldError.BlankSegmentName),
+            timeTypes = immutableListOf(
+                TimeType.from(TimeTypeEntity.TIMER),
+                TimeType.from(TimeTypeEntity.REST),
+                TimeType.from(TimeTypeEntity.STOPWATCH)
+            ),
             message = null
         )
         val sut = buildSut()
@@ -214,10 +242,14 @@ class SegmentViewModelTest {
             segment = SegmentFields(
                 name = "Segment Name".toTextFieldValue(),
                 time = "30".timeText,
-                type = TimeType.TIMER
+                type = TimeType.from(TimeTypeEntity.TIMER)
             ),
-            errors = emptyMap(),
-            timeTypes = listOf(TimeType.TIMER, TimeType.REST, TimeType.STOPWATCH),
+            errors = emptyImmutableMap(),
+            timeTypes = immutableListOf(
+                TimeType.from(TimeTypeEntity.TIMER),
+                TimeType.from(TimeTypeEntity.REST),
+                TimeType.from(TimeTypeEntity.STOPWATCH)
+            ),
             message = SegmentViewState.Data.Message(
                 textResId = R.string.label_segment_save_error,
                 actionTextResId = R.string.action_text_segment_save_error

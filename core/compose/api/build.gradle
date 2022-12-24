@@ -37,4 +37,6 @@ dependencies {
     implementation Libs.AndroidX.Compose.tooling
     implementation Libs.AndroidX.Compose.animation
     implementation Libs.AndroidX.Compose.material
+
+    testImplementation Libs.Test.junit
 }

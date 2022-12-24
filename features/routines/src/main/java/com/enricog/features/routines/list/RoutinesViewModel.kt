@@ -1,11 +1,11 @@
 package com.enricog.features.routines.list
 
+import androidx.compose.runtime.Immutable
 import androidx.lifecycle.viewModelScope
 import com.enricog.base.viewmodel.BaseViewModel
 import com.enricog.core.coroutines.dispatchers.CoroutineDispatchers
 import com.enricog.core.coroutines.job.autoCancelableJob
 import com.enricog.core.logger.api.TempoLogger
-import com.enricog.data.routines.api.entities.Routine
 import com.enricog.entities.ID
 import com.enricog.features.routines.list.models.RoutinesState
 import com.enricog.features.routines.list.models.RoutinesState.Data.Action.DeleteRoutineError
@@ -22,6 +22,7 @@ import kotlinx.coroutines.flow.launchIn
 import kotlinx.coroutines.flow.onEach
 import javax.inject.Inject
 
+@Immutable
 @HiltViewModel
 internal class RoutinesViewModel @Inject constructor(
     dispatchers: CoroutineDispatchers,
@@ -58,20 +59,21 @@ internal class RoutinesViewModel @Inject constructor(
         }
     }
 
-    fun onRoutine(routine: Routine) {
+    fun onRoutine(routineId: ID) {
         launch {
-            navigationActions.goToRoutineSummary(routineId = routine.id)
+            navigationActions.goToRoutineSummary(routineId = routineId)
         }
     }
 
-    fun onRoutineDelete(routine: Routine) {
+    fun onRoutineDelete(routineId: ID) {
         val exceptionHandler = CoroutineExceptionHandler { _, throwable ->
             TempoLogger.e(throwable = throwable)
             updateStateWhen<RoutinesState.Data> {
-                reducer.deleteRoutineError(state = it, routine = routine)
+                reducer.deleteRoutineError(state = it, routineId = routineId)
             }
         }
-        deleteJob = launchWhen<RoutinesState.Data>(exceptionHandler) {
+        deleteJob = launchWhen<RoutinesState.Data>(exceptionHandler) { state ->
+            val routine = state.routines.first { it.id == routineId }
             routinesUseCase.delete(routine)
         }
     }
@@ -87,7 +89,7 @@ internal class RoutinesViewModel @Inject constructor(
             delay(SNACKBAR_ACTION_DELAY)
             if (snackbarEvent == ActionPerformed) {
                 when (previousAction) {
-                    is DeleteRoutineError -> onRoutineDelete(routine = previousAction.routine)
+                    is DeleteRoutineError -> onRoutineDelete(routineId = previousAction.routineId)
                     null -> Unit
                 }
             }

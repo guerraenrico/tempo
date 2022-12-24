@@ -15,9 +15,10 @@ import androidx.compose.ui.draw.alpha
 import androidx.compose.ui.graphics.graphicsLayer
 import androidx.compose.ui.platform.testTag
 import androidx.compose.ui.unit.dp
+import com.enricog.core.compose.api.classes.ImmutableList
 import com.enricog.core.compose.api.extensions.toPx
 import com.enricog.core.compose.api.modifiers.draggable.ListDraggableState
-import com.enricog.data.routines.api.entities.Segment
+import com.enricog.entities.ID
 import com.enricog.features.routines.detail.summary.models.RoutineSummaryItem
 import com.enricog.ui.theme.TempoTheme
 
@@ -27,10 +28,10 @@ internal const val RoutineSummaryColumnTestTag = "RoutineSummaryColumn"
 internal fun SummaryList(
     modifier: Modifier = Modifier,
     dragState: ListDraggableState,
-    items: List<RoutineSummaryItem>,
+    items: ImmutableList<RoutineSummaryItem>,
     onSegmentAdd: () -> Unit,
-    onSegmentSelected: (Segment) -> Unit,
-    onSegmentDelete: (Segment) -> Unit,
+    onSegmentSelected: (ID) -> Unit,
+    onSegmentDelete: (ID) -> Unit,
     onRoutineEdit: () -> Unit
 ) {
     LazyColumn(
@@ -47,7 +48,7 @@ internal fun SummaryList(
                 when (item) {
                     is RoutineSummaryItem.RoutineInfo -> item.hashCode()
                     is RoutineSummaryItem.SegmentSectionTitle -> item.hashCode()
-                    is RoutineSummaryItem.SegmentItem -> item.segment.id.toLong()
+                    is RoutineSummaryItem.SegmentItem -> item.id.toLong()
                     RoutineSummaryItem.Space -> item.hashCode()
                 }
             }
@@ -76,7 +77,7 @@ internal fun SummaryList(
                     val animate = animateFloatAsState(targetValue = offsetY)
                     if (!isDragged) {
                         SegmentItem(
-                            segment = item.segment,
+                            segment = item,
                             enableClick = !dragState.isDragging,
                             onClick = onSegmentSelected,
                             onDelete = onSegmentDelete,
@@ -88,7 +89,7 @@ internal fun SummaryList(
                         )
                     } else {
                         SegmentItem(
-                            segment = item.segment,
+                            segment = item,
                             enableClick = false,
                             onClick = { },
                             onDelete = { },

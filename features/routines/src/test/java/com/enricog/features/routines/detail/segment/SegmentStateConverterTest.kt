@@ -1,9 +1,11 @@
 package com.enricog.features.routines.detail.segment
 
+import com.enricog.core.compose.api.classes.emptyImmutableList
+import com.enricog.core.compose.api.classes.immutableListOf
+import com.enricog.core.compose.api.classes.immutableMapOf
 import com.enricog.core.coroutines.testing.CoroutineRule
 import com.enricog.data.routines.api.entities.Routine
 import com.enricog.data.routines.api.entities.Segment
-import com.enricog.data.routines.api.entities.TimeType
 import com.enricog.data.routines.testing.entities.EMPTY
 import com.enricog.features.routines.R
 import com.enricog.features.routines.detail.segment.models.SegmentField
@@ -14,11 +16,13 @@ import com.enricog.features.routines.detail.segment.models.SegmentState
 import com.enricog.features.routines.detail.segment.models.SegmentState.Data.Action.SaveSegmentError
 import com.enricog.features.routines.detail.segment.models.SegmentViewState
 import com.enricog.features.routines.detail.segment.models.SegmentViewState.Data.Message
+import com.enricog.features.routines.detail.ui.time_type.TimeType
 import com.enricog.ui.components.extensions.toTextFieldValue
 import com.enricog.ui.components.textField.timeText
 import org.junit.Rule
 import org.junit.Test
 import kotlin.test.assertEquals
+import com.enricog.data.routines.api.entities.TimeType as TimeTypeEntity
 
 class SegmentStateConverterTest {
 
@@ -61,7 +65,7 @@ class SegmentStateConverterTest {
             inputs = SegmentInputs(
                 name = "name".toTextFieldValue(),
                 time = "10".timeText,
-                type = TimeType.REST
+                type = TimeTypeEntity.REST
             ),
             action = null
         )
@@ -69,13 +73,13 @@ class SegmentStateConverterTest {
             segment = SegmentFields(
                 name = "name".toTextFieldValue(),
                 time = "10".timeText,
-                type = TimeType.REST
+                type = TimeType.from(TimeTypeEntity.REST)
             ),
-            errors = mapOf(
+            errors = immutableMapOf(
                 SegmentField.Name to SegmentFieldError.BlankSegmentName,
                 SegmentField.Time to SegmentFieldError.InvalidSegmentTime
             ),
-            timeTypes = emptyList(),
+            timeTypes = emptyImmutableList(),
             message = null
         )
 
@@ -97,7 +101,7 @@ class SegmentStateConverterTest {
             inputs = SegmentInputs(
                 name = "name".toTextFieldValue(),
                 time = "10".timeText,
-                type = TimeType.REST
+                type = TimeTypeEntity.REST
             ),
             action = SaveSegmentError
         )
@@ -105,13 +109,13 @@ class SegmentStateConverterTest {
             segment = SegmentFields(
                 name = "name".toTextFieldValue(),
                 time = "10".timeText,
-                type = TimeType.REST
+                type = TimeType.from(TimeTypeEntity.REST)
             ),
-            errors = mapOf(
+            errors = immutableMapOf(
                 SegmentField.Name to SegmentFieldError.BlankSegmentName,
                 SegmentField.Time to SegmentFieldError.InvalidSegmentTime
             ),
-            timeTypes = emptyList(),
+            timeTypes = immutableListOf(),
             message = Message(
                 textResId = R.string.label_segment_save_error,
                 actionTextResId = R.string.action_text_segment_save_error

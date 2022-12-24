@@ -14,9 +14,11 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.platform.testTag
 import androidx.compose.ui.res.stringResource
-import com.enricog.data.routines.api.entities.Routine
+import com.enricog.core.compose.api.classes.ImmutableList
+import com.enricog.entities.ID
 import com.enricog.features.routines.R
 import com.enricog.features.routines.list.models.RoutinesViewState.Data.Message
+import com.enricog.features.routines.list.models.RoutinesViewState.Data.Routine
 import com.enricog.ui.components.button.TempoButtonColor
 import com.enricog.ui.components.button.icon.TempoIconButton
 import com.enricog.ui.components.snackbar.TempoSnackbarEvent
@@ -28,10 +30,10 @@ internal const val RoutinesSceneTestTag = "RoutinesSceneTestTag"
 
 @Composable
 internal fun RoutinesScene(
-    routines: List<Routine>,
+    routines: ImmutableList<Routine>,
     message: Message?,
-    onRoutine: (Routine) -> Unit,
-    onRoutineDelete: (Routine) -> Unit,
+    onRoutine: (ID) -> Unit,
+    onRoutineDelete: (ID) -> Unit,
     onCreateRoutine: () -> Unit,
     onSnackbarEvent: (TempoSnackbarEvent) -> Unit
 ) {

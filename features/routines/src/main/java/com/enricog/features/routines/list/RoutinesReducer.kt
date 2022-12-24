@@ -1,6 +1,7 @@
 package com.enricog.features.routines.list
 
 import com.enricog.data.routines.api.entities.Routine
+import com.enricog.entities.ID
 import com.enricog.features.routines.list.models.RoutinesState
 import com.enricog.features.routines.list.models.RoutinesState.Data.Action.DeleteRoutineError
 import javax.inject.Inject
@@ -19,8 +20,8 @@ internal class RoutinesReducer @Inject constructor() {
         return RoutinesState.Error(throwable = throwable)
     }
 
-    fun deleteRoutineError(state: RoutinesState.Data, routine: Routine): RoutinesState.Data {
-        return state.copy(action = DeleteRoutineError(routine = routine))
+    fun deleteRoutineError(state: RoutinesState.Data, routineId: ID): RoutinesState.Data {
+        return state.copy(action = DeleteRoutineError(routineId = routineId))
     }
 
     fun actionHandled(state: RoutinesState.Data): RoutinesState.Data {

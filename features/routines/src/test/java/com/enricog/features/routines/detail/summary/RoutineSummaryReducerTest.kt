@@ -66,7 +66,8 @@ class RoutineSummaryReducerTest {
 
     @Test
     fun `should apply delete segment error action`() {
-        val segment = Segment.EMPTY.copy(id = 1.asID)
+        val segmentId = 1.asID
+        val segment = Segment.EMPTY.copy(id = segmentId)
         val state = RoutineSummaryState.Data(
             routine = Routine.EMPTY.copy(
                 segments = listOf(segment)
@@ -79,10 +80,10 @@ class RoutineSummaryReducerTest {
                 segments = listOf(segment)
             ),
             errors = emptyMap(),
-            action = Action.DeleteSegmentError(segment = segment)
+            action = Action.DeleteSegmentError(segmentId = segmentId)
         )
 
-        val result = sut.deleteSegmentError(state = state, segment = segment)
+        val result = sut.deleteSegmentError(state = state, segmentId = segmentId)
 
         assertEquals(expected, result)
     }

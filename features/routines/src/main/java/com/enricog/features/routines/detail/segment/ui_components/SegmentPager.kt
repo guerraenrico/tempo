@@ -11,12 +11,15 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.platform.LocalConfiguration
 import androidx.compose.ui.unit.dp
+import com.enricog.core.compose.api.classes.ImmutableList
+import com.enricog.core.compose.api.classes.ImmutableMap
+import com.enricog.core.compose.api.classes.toImmutableMapMap
 import com.enricog.core.compose.api.extensions.stringResourceOrNull
 import com.enricog.core.compose.api.extensions.toPx
 import com.enricog.core.compose.api.modifiers.swipeable.SwipeableState
-import com.enricog.data.routines.api.entities.TimeType
 import com.enricog.features.routines.detail.segment.models.SegmentField
 import com.enricog.features.routines.detail.segment.models.SegmentFieldError
+import com.enricog.features.routines.detail.ui.time_type.TimeType
 import com.enricog.ui.components.text.TempoText
 import com.enricog.ui.components.textField.TimeText
 import com.enricog.ui.theme.TempoTheme
@@ -26,11 +29,11 @@ import kotlin.math.abs
 internal fun SegmentPager(
     swipeState: SwipeableState<TimeType>,
     timeText: TimeText,
-    timeTypes: List<TimeType>,
+    timeTypes: ImmutableList<TimeType>,
     selectedType: TimeType,
     onSelectTimeTypeChange: (TimeType) -> Unit,
     onTimeTextChange: (TimeText) -> Unit,
-    errors: Map<SegmentField, SegmentFieldError>,
+    errors: ImmutableMap<SegmentField, SegmentFieldError>,
     segmentTimeFieldIme: SegmentTimeFieldIme,
     modifier: Modifier = Modifier
 ) = BoxWithConstraints(modifier = modifier) {
@@ -47,7 +50,7 @@ internal fun SegmentPager(
     val tabWidth = (maxWidth - (tabSpace * (timeTypes.size + 1))) / timeTypes.size
     val tabAnchors = timeTypes
         .mapIndexed { index, timeType -> (tabWidth.toPx() * index) + (tabSpace.toPx() * index) to timeType }
-        .toMap()
+        .toImmutableMapMap()
 
     val tabDiff = abs(tabAnchors.keys.elementAt(0) - tabAnchors.keys.elementAt(1))
     val offset = ((center + circleSpace) * swipeState.offset.value / tabDiff).toPx() * -1
@@ -55,7 +58,7 @@ internal fun SegmentPager(
         .mapIndexed { index, timeType ->
             timeType to (center * (index + 1) + (circleSpace * index)).toPx() + offset
         }
-        .toMap()
+        .toImmutableMapMap()
 
     Column(
         modifier = Modifier.fillMaxWidth()

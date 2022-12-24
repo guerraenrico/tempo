@@ -58,7 +58,21 @@ subprojects {
             freeCompilerArgs += "-opt-in=com.google.accompanist.navigation.material.ExperimentalMaterialNavigationApi"
 
             // "-P",
-            // "plugin:androidx.compose.compiler.plugins.kotlin:suppressKotlinVersionCompatibilityCheck=true"
+            // "plugin:androidx.compose.compiler.plugins.kotlin:suppressKotlinVersionCompatibilityCheck=true
+
+            // Compose compiler metrics
+            if (project.findProperty("enableComposeCompilerReports") == "true") {
+                freeCompilerArgs += [
+                        "-P",
+                        "plugin:androidx.compose.compiler.plugins.kotlin:reportsDestination=" +
+                                project.buildDir.absolutePath + "/compose_metrics"
+                ]
+                freeCompilerArgs += [
+                        "-P",
+                        "plugin:androidx.compose.compiler.plugins.kotlin:metricsDestination=" +
+                                project.buildDir.absolutePath + "/compose_metrics"
+                ]
+            }
 
             jvmTarget = Versions.jvmTarget
         }

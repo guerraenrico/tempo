@@ -3,6 +3,7 @@ package com.enricog.features.routines.list
 import androidx.compose.ui.test.assertIsDisplayed
 import androidx.compose.ui.test.junit4.createComposeRule
 import androidx.compose.ui.test.onNodeWithTag
+import com.enricog.core.compose.api.classes.emptyImmutableList
 import com.enricog.core.compose.testing.invoke
 import com.enricog.features.routines.list.models.RoutinesViewState
 import com.enricog.features.routines.list.ui_components.RoutinesEmptySceneTestTag
@@ -65,7 +66,7 @@ class RoutinesScreenKtTest {
 
     @Test
     fun shouldRenderRoutinesSceneWhenStateIsData() = composeRule {
-        val viewState = RoutinesViewState.Data(routines = emptyList(), message = null)
+        val viewState = RoutinesViewState.Data(routines = emptyImmutableList(), message = null)
 
         setContent {
             TempoTheme {

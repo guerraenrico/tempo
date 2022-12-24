@@ -15,11 +15,11 @@ internal const val DraggedSegmentTestTag = "DraggedSegment"
 @Composable
 internal fun DraggedSegment(
     modifier: Modifier = Modifier,
-    item: RoutineSummaryItem.SegmentItem,
+    segment: RoutineSummaryItem.SegmentItem,
     offset: Float
 ) {
     SegmentItem(
-        segment = item.segment,
+        segment = segment,
         enableClick = false,
         onClick = {},
         onDelete = {},

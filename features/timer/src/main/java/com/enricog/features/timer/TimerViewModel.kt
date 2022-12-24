@@ -1,5 +1,6 @@
 package com.enricog.features.timer
 
+import androidx.compose.runtime.Immutable
 import androidx.lifecycle.SavedStateHandle
 import com.enricog.base.viewmodel.BaseViewModel
 import com.enricog.core.coroutines.dispatchers.CoroutineDispatchers
@@ -18,6 +19,7 @@ import kotlinx.coroutines.CoroutineExceptionHandler
 import kotlinx.coroutines.delay
 import javax.inject.Inject
 
+@Immutable
 @HiltViewModel
 internal class TimerViewModel @Inject constructor(
     savedStateHandle: SavedStateHandle,
