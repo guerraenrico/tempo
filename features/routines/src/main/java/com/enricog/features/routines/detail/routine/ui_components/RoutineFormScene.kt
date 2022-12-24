@@ -21,6 +21,7 @@ import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.semantics.Role
 import androidx.compose.ui.text.input.ImeAction
 import androidx.compose.ui.text.input.TextFieldValue
+import com.enricog.core.compose.api.classes.ImmutableMap
 import com.enricog.core.compose.api.extensions.stringResourceOrNull
 import com.enricog.features.routines.R
 import com.enricog.features.routines.detail.routine.models.RoutineField
@@ -44,7 +45,7 @@ internal const val RoutineFormSceneTestTag = "RoutineFormSceneTestTag"
 @Composable
 internal fun RoutineFormScene(
     routine: RoutineFields,
-    errors: Map<RoutineField, RoutineFieldError>,
+    errors: ImmutableMap<RoutineField, RoutineFieldError>,
     message: Message?,
     onRoutineNameChange: (TextFieldValue) -> Unit,
     onStartTimeOffsetChange: (TimeText) -> Unit,

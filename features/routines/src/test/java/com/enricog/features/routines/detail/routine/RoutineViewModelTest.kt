@@ -2,6 +2,8 @@ package com.enricog.features.routines.detail.routine
 
 import androidx.lifecycle.SavedStateHandle
 import app.cash.turbine.test
+import com.enricog.core.compose.api.classes.emptyImmutableMap
+import com.enricog.core.compose.api.classes.immutableMapOf
 import com.enricog.core.coroutines.testing.CoroutineRule
 import com.enricog.data.local.testing.FakeStore
 import com.enricog.data.routines.api.entities.Routine
@@ -51,7 +53,7 @@ class RoutineViewModelTest {
     fun `should show data when load succeeds`() = coroutineRule {
         val expected = RoutineViewState.Data(
             routine = routineFields,
-            errors = emptyMap(),
+            errors = emptyImmutableMap(),
             message = null
         )
 
@@ -77,7 +79,7 @@ class RoutineViewModelTest {
         val store = FakeStore(listOf(routine))
         val expected = RoutineViewState.Data(
             routine = routineFields,
-            errors = emptyMap(),
+            errors = emptyImmutableMap(),
             message = null
         )
         store.enableErrorOnNextAccess()
@@ -94,7 +96,7 @@ class RoutineViewModelTest {
     fun `should update routine when name changes`() = coroutineRule {
         val expected = RoutineViewState.Data(
             routine = routineFields.copy(name = "Routine Name Modified".toTextFieldValue()),
-            errors = emptyMap(),
+            errors = emptyImmutableMap(),
             message = null
         )
         val sut = buildSut()
@@ -110,7 +112,7 @@ class RoutineViewModelTest {
     fun `should update routine when start offset time changes`() = coroutineRule {
         val expected = RoutineViewState.Data(
             routine = routineFields.copy(startTimeOffset = "10".timeText),
-            errors = emptyMap(),
+            errors = emptyImmutableMap(),
             message = null
         )
         val sut = buildSut()
@@ -135,7 +137,7 @@ class RoutineViewModelTest {
     fun `should show errors when saving a routine with errors`() = coroutineRule {
         val expected = RoutineViewState.Data(
             routine = routineFields.copy(name = "".toTextFieldValue()),
-            errors = mapOf(RoutineField.Name to RoutineFieldError.BlankRoutineName),
+            errors = immutableMapOf(RoutineField.Name to RoutineFieldError.BlankRoutineName),
             message = null
         )
         val sut = buildSut()
@@ -196,7 +198,7 @@ class RoutineViewModelTest {
         val store =  FakeStore(listOf(routine))
         val expected = RoutineViewState.Data(
             routine = routineFields,
-            errors = emptyMap(),
+            errors = emptyImmutableMap(),
             message = Message(
                 textResId = R.string.label_segment_save_error,
                 actionTextResId = R.string.action_text_segment_save_error

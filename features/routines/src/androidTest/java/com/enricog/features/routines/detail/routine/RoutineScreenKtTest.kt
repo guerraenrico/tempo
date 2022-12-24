@@ -3,6 +3,7 @@ package com.enricog.features.routines.detail.routine
 import androidx.compose.ui.test.assertIsDisplayed
 import androidx.compose.ui.test.junit4.createComposeRule
 import androidx.compose.ui.test.onNodeWithTag
+import com.enricog.core.compose.api.classes.emptyImmutableMap
 import com.enricog.core.compose.testing.invoke
 import com.enricog.features.routines.detail.routine.models.RoutineFields
 import com.enricog.features.routines.detail.routine.models.RoutineViewState
@@ -47,7 +48,7 @@ class RoutineScreenKtTest {
                 name = "".toTextFieldValue(),
                 startTimeOffset = "".timeText
             ),
-            errors = emptyMap(),
+            errors = emptyImmutableMap(),
             message = null
         )
 
