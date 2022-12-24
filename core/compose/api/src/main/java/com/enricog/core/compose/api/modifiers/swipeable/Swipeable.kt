@@ -9,6 +9,7 @@ import androidx.compose.runtime.Immutable
 import androidx.compose.runtime.Stable
 import androidx.compose.runtime.State
 import androidx.compose.runtime.saveable.Saver
+import androidx.compose.runtime.saveable.autoSaver
 import androidx.compose.runtime.saveable.rememberSaveable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.Dp
@@ -51,10 +52,21 @@ open class SwipeableState<T>(
 
         fun <T : Any> Saver(
             animationSpec: AnimationSpec<Float>,
-            confirmStateChange: (T) -> Boolean
-        ) = Saver<SwipeableState<T>, T>(
-            save = { it.materialSwipeableState.currentValue },
-            restore = { SwipeableState(it, animationSpec, confirmStateChange) }
+            confirmStateChange: (T) -> Boolean,
+            valueSaver: Saver<T, Any>,
+        ) = Saver<SwipeableState<T>, Any>(
+            save = { swipeableState ->
+                with(valueSaver) { save(swipeableState.currentValue) }
+            },
+            restore = { saveableValue ->
+                valueSaver.restore(saveableValue)?.let { value ->
+                    SwipeableState(
+                        initialValue = value,
+                        animationSpec = animationSpec,
+                        confirmStateChange = confirmStateChange
+                    )
+                }
+            }
         )
     }
 }
@@ -81,15 +93,18 @@ internal fun ThresholdConfig.toMaterialThresholdConfig(): MaterialThresholdConfi
 
 
 @Composable
+@Suppress("UNCHECKED_CAST")
 fun <T : Any> rememberSwipeableState(
     initialValue: T,
+    valueSaver: Saver<T, out Any> = autoSaver(),
     animationSpec: AnimationSpec<Float> = SpringSpec(),
     confirmStateChange: (newValue: T) -> Boolean = { true }
 ): SwipeableState<T> {
     return rememberSaveable(
         saver = SwipeableState.Saver(
             animationSpec = animationSpec,
-            confirmStateChange = confirmStateChange
+            confirmStateChange = confirmStateChange,
+            valueSaver = valueSaver as Saver<T, Any>
         )
     ) {
         SwipeableState(

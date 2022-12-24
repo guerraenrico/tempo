@@ -15,12 +15,13 @@ import androidx.compose.ui.geometry.CornerRadius
 import androidx.compose.ui.geometry.Offset
 import androidx.compose.ui.geometry.Size
 import androidx.compose.ui.unit.Dp
+import com.enricog.core.compose.api.classes.ImmutableList
+import com.enricog.core.compose.api.classes.ImmutableMap
 import com.enricog.core.compose.api.modifiers.spacing.horizontalListItemSpacing
 import com.enricog.core.compose.api.modifiers.swipeable.FractionalThreshold
 import com.enricog.core.compose.api.modifiers.swipeable.SwipeableState
 import com.enricog.core.compose.api.modifiers.swipeable.swipeable
-import com.enricog.data.routines.api.entities.TimeType
-import com.enricog.features.routines.detail.ui.time_type.color
+import com.enricog.features.routines.detail.ui.time_type.TimeType
 import com.enricog.ui.theme.TempoTheme
 import kotlinx.coroutines.launch
 
@@ -28,9 +29,9 @@ import kotlinx.coroutines.launch
 internal fun SegmentTypeTabs(
     tabSpace: Dp,
     tabWidth: Dp,
-    tabAnchors: Map<Float, TimeType>,
+    tabAnchors: ImmutableMap<Float, TimeType>,
     swipeState: SwipeableState<TimeType>,
-    timeTypes: List<TimeType>,
+    timeTypes: ImmutableList<TimeType>,
     selectedTimeType: TimeType,
     onSelectTimeTypeChange: (TimeType) -> Unit,
     modifier: Modifier = Modifier
@@ -43,7 +44,7 @@ internal fun SegmentTypeTabs(
             .fillMaxWidth()
             .drawBehind {
                 drawRoundRect(
-                    color = selectedTimeType.color(),
+                    color = selectedTimeType.color,
                     cornerRadius = CornerRadius(x = 50f, y = 50f),
                     topLeft = Offset(x = swipeState.offset.value, y = tabSpace.toPx()),
                     size = Size(width = tabWidth.toPx(), height = 85f)

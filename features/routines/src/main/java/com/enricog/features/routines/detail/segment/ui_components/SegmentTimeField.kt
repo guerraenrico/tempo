@@ -18,8 +18,8 @@ import androidx.compose.ui.text.input.ImeAction
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.sp
-import com.enricog.data.routines.api.entities.TimeType
-import com.enricog.features.routines.detail.ui.time_type.color
+import com.enricog.core.compose.api.classes.ImmutableMap
+import com.enricog.features.routines.detail.ui.time_type.TimeType
 import com.enricog.ui.components.textField.TempoTimeField
 import com.enricog.ui.components.textField.TimeText
 import com.enricog.ui.theme.TempoTheme
@@ -27,7 +27,7 @@ import com.enricog.ui.theme.TempoTheme
 @Composable
 internal fun SegmentTimeField(
     circleRadius: Dp,
-    anchors: Map<TimeType, Float>,
+    anchors: ImmutableMap<TimeType, Float>,
     timeText: TimeText,
     onTimeTextChange: (TimeText) -> Unit,
     timeFieldIme: SegmentTimeFieldIme,
@@ -40,7 +40,7 @@ internal fun SegmentTimeField(
             .drawBehind {
                 anchors.map { (timeType, offset) ->
                     drawCircle(
-                        color = timeType.color(),
+                        color = timeType.color,
                         center = Offset(x = offset, y = circleRadius.toPx()),
                         radius = circleRadius.toPx()
                     )

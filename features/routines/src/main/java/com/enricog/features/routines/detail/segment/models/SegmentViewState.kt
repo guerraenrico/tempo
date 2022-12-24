@@ -1,15 +1,18 @@
 package com.enricog.features.routines.detail.segment.models
 
 import androidx.annotation.StringRes
-import com.enricog.data.routines.api.entities.TimeType
+import com.enricog.core.compose.api.classes.ImmutableList
+import com.enricog.core.compose.api.classes.ImmutableMap
+import com.enricog.features.routines.detail.ui.time_type.TimeType
 
 internal sealed class SegmentViewState {
+
     object Idle : SegmentViewState()
 
     data class Data(
         val segment: SegmentFields,
-        val errors: Map<SegmentField, SegmentFieldError>,
-        val timeTypes: List<TimeType>,
+        val errors: ImmutableMap<SegmentField, SegmentFieldError>,
+        val timeTypes: ImmutableList<TimeType>,
         val message: Message?
     ) : SegmentViewState() {
         data class Message(@StringRes val textResId: Int, @StringRes val actionTextResId: Int)

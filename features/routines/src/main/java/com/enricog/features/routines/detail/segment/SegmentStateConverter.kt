@@ -1,12 +1,15 @@
 package com.enricog.features.routines.detail.segment
 
 import com.enricog.base.viewmodel.StateConverter
+import com.enricog.core.compose.api.classes.asImmutableList
+import com.enricog.core.compose.api.classes.asImmutableMap
 import com.enricog.features.routines.R
 import com.enricog.features.routines.detail.segment.models.SegmentFields
 import com.enricog.features.routines.detail.segment.models.SegmentState
 import com.enricog.features.routines.detail.segment.models.SegmentState.Data.Action
 import com.enricog.features.routines.detail.segment.models.SegmentViewState
 import com.enricog.features.routines.detail.segment.models.SegmentViewState.Data.Message
+import com.enricog.features.routines.detail.ui.time_type.TimeType
 import javax.inject.Inject
 
 internal class SegmentStateConverter @Inject constructor() :
@@ -25,10 +28,10 @@ internal class SegmentStateConverter @Inject constructor() :
             segment = SegmentFields(
                 name = inputs.name,
                 time = inputs.time,
-                type = inputs.type,
+                type = TimeType.from(timeType = inputs.type),
             ),
-            errors = errors,
-            timeTypes = timeTypes,
+            errors = errors.asImmutableMap(),
+            timeTypes = timeTypes.map { TimeType.from(timeType = it) }.asImmutableList(),
             message = action?.toMessage()
         )
     }

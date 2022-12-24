@@ -117,7 +117,8 @@ class RoutineSummarySceneKtTest {
         time = 0.seconds,
         type = TimeType(
             nameStringResId = R.string.chip_time_type_timer_name,
-            color = TimeTypeColors.TIMER
+            color = TimeTypeColors.TIMER,
+            id = "TIMER"
         ),
         rank = "aaaaaa"
     )

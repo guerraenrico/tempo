@@ -4,10 +4,10 @@ import androidx.compose.runtime.Composable
 import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
 import androidx.compose.ui.text.input.TextFieldValue
-import com.enricog.data.routines.api.entities.TimeType
 import com.enricog.features.routines.detail.segment.models.SegmentViewState
 import com.enricog.features.routines.detail.segment.ui_components.SegmentErrorScene
 import com.enricog.features.routines.detail.segment.ui_components.SegmentFormScene
+import com.enricog.features.routines.detail.ui.time_type.TimeType
 import com.enricog.ui.components.layout.scafold.TempoScreenScaffold
 import com.enricog.ui.components.snackbar.TempoSnackbarEvent
 import com.enricog.ui.components.textField.TimeText

@@ -29,7 +29,7 @@ internal sealed class RoutineSummaryItem {
                 id = segment.id,
                 name = segment.name,
                 time = segment.time,
-                type = TimeType.from(timeType = segment.type),
+                type = TimeType.from(segment.type),
                 rank = segment.rank.toString()
             )
         }

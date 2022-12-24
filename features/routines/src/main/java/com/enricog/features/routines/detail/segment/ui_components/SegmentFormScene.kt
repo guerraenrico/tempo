@@ -25,14 +25,16 @@ import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.input.ImeAction
 import androidx.compose.ui.text.input.TextFieldValue
 import androidx.compose.ui.unit.dp
+import com.enricog.core.compose.api.classes.ImmutableList
+import com.enricog.core.compose.api.classes.ImmutableMap
 import com.enricog.core.compose.api.extensions.stringResourceOrNull
 import com.enricog.core.compose.api.modifiers.swipeable.rememberSwipeableState
-import com.enricog.data.routines.api.entities.TimeType
 import com.enricog.features.routines.R
 import com.enricog.features.routines.detail.segment.models.SegmentField
 import com.enricog.features.routines.detail.segment.models.SegmentFieldError
 import com.enricog.features.routines.detail.segment.models.SegmentFields
 import com.enricog.features.routines.detail.segment.models.SegmentViewState.Data.Message
+import com.enricog.features.routines.detail.ui.time_type.TimeType
 import com.enricog.ui.components.button.TempoButton
 import com.enricog.ui.components.button.TempoButtonColor
 import com.enricog.ui.components.snackbar.TempoSnackbarEvent
@@ -47,8 +49,8 @@ internal const val SegmentFormSceneTestTag = "SegmentFormSceneTestTag"
 @Composable
 internal fun SegmentFormScene(
     segment: SegmentFields,
-    errors: Map<SegmentField, SegmentFieldError>,
-    timeTypes: List<TimeType>,
+    errors: ImmutableMap<SegmentField, SegmentFieldError>,
+    timeTypes: ImmutableList<TimeType>,
     message: Message?,
     onSegmentNameChange: (TextFieldValue) -> Unit,
     onSegmentTimeChange: (TimeText) -> Unit,
@@ -60,7 +62,10 @@ internal fun SegmentFormScene(
     val (segmentNameRef, segmentTimeRef) = remember { FocusRequester.createRefs() }
 
     val snackbarHostState = rememberSnackbarHostState()
-    val swipeState = rememberSwipeableState(initialValue = segment.type) {
+    val swipeState = rememberSwipeableState(
+        initialValue = segment.type,
+        valueSaver = TimeType.Saver()
+    ) {
         onSegmentTimeTypeChange(it)
         true
     }

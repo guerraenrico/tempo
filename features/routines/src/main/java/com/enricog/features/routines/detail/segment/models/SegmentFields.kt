@@ -1,7 +1,7 @@
 package com.enricog.features.routines.detail.segment.models
 
 import androidx.compose.ui.text.input.TextFieldValue
-import com.enricog.data.routines.api.entities.TimeType
+import com.enricog.features.routines.detail.ui.time_type.TimeType
 import com.enricog.ui.components.textField.TimeText
 
 internal data class SegmentFields(

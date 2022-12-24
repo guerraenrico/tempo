@@ -12,7 +12,6 @@ import androidx.constraintlayout.compose.Dimension
 import com.enricog.entities.ID
 import com.enricog.entities.asID
 import com.enricog.entities.seconds
-import com.enricog.features.routines.R
 import com.enricog.features.routines.detail.summary.models.RoutineSummaryItem.SegmentItem
 import com.enricog.features.routines.detail.ui.time_type.TimeType
 import com.enricog.features.routines.detail.ui.time_type.TimeTypeChip
@@ -20,7 +19,7 @@ import com.enricog.features.routines.ui_components.DeletableListItem
 import com.enricog.ui.components.extensions.format
 import com.enricog.ui.components.text.TempoText
 import com.enricog.ui.theme.TempoTheme
-import com.enricog.ui.theme.TimeTypeColors
+import com.enricog.data.routines.api.entities.TimeType as TimeTypeEntity
 
 internal const val SegmentItemTestTag = "SegmentItemTestTag"
 
@@ -93,10 +92,7 @@ private fun SegmentItemPreview() {
             id = 0.asID,
             name = "Segment name",
             time = 100.seconds,
-            type = TimeType(
-                nameStringResId = R.string.chip_time_type_timer_name,
-                color = TimeTypeColors.TIMER
-            ),
+            type = TimeType.from(TimeTypeEntity.TIMER),
             rank = ""
         ),
         onClick = {},
