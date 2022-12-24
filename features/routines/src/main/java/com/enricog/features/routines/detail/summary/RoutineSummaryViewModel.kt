@@ -1,5 +1,6 @@
 package com.enricog.features.routines.detail.summary
 
+import androidx.compose.runtime.Immutable
 import androidx.lifecycle.SavedStateHandle
 import androidx.lifecycle.viewModelScope
 import com.enricog.base.viewmodel.BaseViewModel
@@ -26,6 +27,7 @@ import kotlinx.coroutines.flow.launchIn
 import kotlinx.coroutines.flow.onEach
 import javax.inject.Inject
 
+@Immutable
 @HiltViewModel
 internal class RoutineSummaryViewModel @Inject constructor(
     savedStateHandle: SavedStateHandle,

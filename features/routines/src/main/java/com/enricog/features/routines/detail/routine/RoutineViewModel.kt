@@ -1,5 +1,6 @@
 package com.enricog.features.routines.detail.routine
 
+import androidx.compose.runtime.Immutable
 import androidx.compose.ui.text.input.TextFieldValue
 import androidx.lifecycle.SavedStateHandle
 import com.enricog.base.viewmodel.BaseViewModel
@@ -23,6 +24,7 @@ import kotlinx.coroutines.CoroutineExceptionHandler
 import kotlinx.coroutines.delay
 import javax.inject.Inject
 
+@Immutable
 @HiltViewModel
 internal class RoutineViewModel @Inject constructor(
     savedStateHandle: SavedStateHandle,
