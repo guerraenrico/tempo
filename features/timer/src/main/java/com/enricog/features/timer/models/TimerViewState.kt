@@ -8,7 +8,8 @@ internal sealed class TimerViewState {
     object Idle : TimerViewState()
 
     data class Counting(
-        val step: SegmentStep,
+        val timeInSeconds: Long,
+        val isRunning: Boolean,
         @StringRes val stepTitleId: Int,
         val segmentName: String,
         val clockBackgroundColor: BackgroundColor,

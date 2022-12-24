@@ -27,7 +27,8 @@ internal class TimerStateConverter @Inject constructor() :
             TimerViewState.Completed
         } else {
             TimerViewState.Counting(
-                step = state.step,
+                timeInSeconds = state.step.count.seconds.value,
+                isRunning = state.step.count.isRunning,
                 stepTitleId = state.getStepTitleId(),
                 segmentName = state.runningSegment.name,
                 clockBackgroundColor = state.getClockBackgroundColor(),

@@ -39,8 +39,6 @@ internal fun TimerCountingScene(
     val configuration = LocalConfiguration.current
     val orientation = configuration.orientation
 
-    val count = state.step.count
-
     val circleTransitionSize = if (orientation == ORIENTATION_PORTRAIT) {
         configuration.screenHeightDp.dp.toPx()
     } else {
@@ -89,7 +87,7 @@ internal fun TimerCountingScene(
             )
 
             Clock(
-                seconds = count.seconds,
+                timeInSeconds = state.timeInSeconds,
                 modifier = Modifier
                     .constrainAs(clock) {
                         if (orientation == ORIENTATION_PORTRAIT) {
@@ -105,7 +103,7 @@ internal fun TimerCountingScene(
             )
 
             ActionsBar(
-                isTimeRunning = count.isRunning,
+                isTimeRunning = state.isRunning,
                 onStartStopButtonClick = onToggleTimer,
                 onRestartSegmentButtonClick = onRestartSegment,
                 modifier = Modifier

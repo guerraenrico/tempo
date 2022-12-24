@@ -12,9 +12,6 @@ import com.enricog.data.routines.testing.entities.EMPTY
 import com.enricog.entities.asID
 import com.enricog.entities.seconds
 import com.enricog.features.timer.fakes.FakeWindowScreenManager
-import com.enricog.features.timer.models.Count
-import com.enricog.features.timer.models.SegmentStep
-import com.enricog.features.timer.models.SegmentStepType
 import com.enricog.features.timer.models.TimerViewState
 import com.enricog.features.timer.models.TimerViewState.Counting.BackgroundColor
 import com.enricog.features.timer.navigation.TimerNavigationActions
@@ -69,10 +66,8 @@ class TimerViewModelTest {
     @Test
     fun `on init should setup routine and start count down`() = coroutineRule {
         val expectedOnSetup = TimerViewState.Counting(
-            step = SegmentStep(
-                count = Count(seconds = 3.seconds, isRunning = false, isCompleted = false),
-                type = SegmentStepType.STARTING
-            ),
+            timeInSeconds = 3,
+            isRunning = false,
             stepTitleId = R.string.title_segment_step_type_starting,
             segmentName = "First Segment",
             clockBackgroundColor = BackgroundColor(
@@ -82,10 +77,8 @@ class TimerViewModelTest {
             isSoundEnabled = true
         )
         val expectedOnStart = TimerViewState.Counting(
-            step = SegmentStep(
-                count = Count(seconds = 3.seconds, isRunning = true, isCompleted = false),
-                type = SegmentStepType.STARTING
-            ),
+            timeInSeconds = 3,
+            isRunning = true,
             stepTitleId = R.string.title_segment_step_type_starting,
             segmentName = "First Segment",
             clockBackgroundColor = BackgroundColor(
@@ -170,10 +163,8 @@ class TimerViewModelTest {
     @Test
     fun `should stop routine on toggle when timer is running`() = coroutineRule {
         val expected = TimerViewState.Counting(
-            step = SegmentStep(
-                count = Count(seconds = 2.seconds, isRunning = false, isCompleted = false),
-                type = SegmentStepType.STARTING
-            ),
+            timeInSeconds = 2,
+            isRunning = false,
             stepTitleId = R.string.title_segment_step_type_starting,
             segmentName = "First Segment",
             clockBackgroundColor = BackgroundColor(
@@ -201,10 +192,8 @@ class TimerViewModelTest {
     @Test
     fun `should restart timer when restart`() = coroutineRule {
         val expected = TimerViewState.Counting(
-            step = SegmentStep(
-                count = Count(seconds = 3.seconds, isRunning = false, isCompleted = false),
-                type = SegmentStepType.STARTING
-            ),
+            timeInSeconds = 3,
+            isRunning = false,
             stepTitleId = R.string.title_segment_step_type_starting,
             segmentName = "First Segment",
             clockBackgroundColor = BackgroundColor(
@@ -230,10 +219,8 @@ class TimerViewModelTest {
     @Test
     fun `should restart routine on reset`() = coroutineRule {
         val expectedStart = TimerViewState.Counting(
-            step = SegmentStep(
-                count = Count(seconds = 3.seconds, isRunning = false, isCompleted = false),
-                type = SegmentStepType.STARTING
-            ),
+            timeInSeconds = 3,
+            isRunning = false,
             stepTitleId = R.string.title_segment_step_type_starting,
             segmentName = "First Segment",
             clockBackgroundColor = BackgroundColor(
@@ -243,10 +230,8 @@ class TimerViewModelTest {
             isSoundEnabled = true
         )
         val expectedStartFirstSegment = TimerViewState.Counting(
-            step = SegmentStep(
-                count = Count(seconds = 10.seconds, isRunning = true, isCompleted = false),
-                type = SegmentStepType.IN_PROGRESS
-            ),
+            timeInSeconds = 10,
+            isRunning = true,
             stepTitleId = R.string.title_segment_step_type_in_progress,
             segmentName = "First Segment",
             clockBackgroundColor = BackgroundColor(
