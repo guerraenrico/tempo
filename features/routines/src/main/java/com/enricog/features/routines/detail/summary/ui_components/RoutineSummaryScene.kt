@@ -49,7 +49,7 @@ internal fun RoutineSummaryScene(
 
     val listDraggableState = rememberListDraggableState(
         key = summaryItems,
-        isItemDraggable = { index -> summaryItems[index] is SegmentItem }
+        isItemDraggable = { index -> summaryItems[index].isDraggable }
     )
     val snackbarHostState = rememberSnackbarHostState()
 

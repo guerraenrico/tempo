@@ -8,13 +8,19 @@ import com.enricog.features.routines.detail.ui.time_type.TimeType
 
 internal sealed class RoutineSummaryItem {
 
+    abstract val isDraggable: Boolean
+
     data class RoutineInfo(
         val routineName: String
-    ) : RoutineSummaryItem()
+    ) : RoutineSummaryItem() {
+        override val isDraggable: Boolean = false
+    }
 
     data class SegmentSectionTitle(
         @Stable val error: Pair<RoutineSummaryField.Segments, Int>?
-    ) : RoutineSummaryItem()
+    ) : RoutineSummaryItem() {
+        override val isDraggable: Boolean = false
+    }
 
     data class SegmentItem(
         @Stable val id: ID,
@@ -23,6 +29,7 @@ internal sealed class RoutineSummaryItem {
         val type: TimeType,
         val rank: String
     ) : RoutineSummaryItem() {
+        override val isDraggable: Boolean = true
 
         companion object {
             fun from(segment: Segment) = SegmentItem(
@@ -35,5 +42,7 @@ internal sealed class RoutineSummaryItem {
         }
     }
 
-    object Space : RoutineSummaryItem()
+    object Space : RoutineSummaryItem() {
+        override val isDraggable: Boolean = false
+    }
 }
