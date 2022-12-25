@@ -2,11 +2,11 @@
   "formatVersion": 1,
   "database": {
     "version": 1,
-    "identityHash": "298529df1f045a78983c62158d7764e5",
+    "identityHash": "16677cb21c9fcb71cb991c73755b44bd",
     "entities": [
       {
         "tableName": "Routines",
-        "createSql": "CREATE TABLE IF NOT EXISTS `${TABLE_NAME}` (`routineId` INTEGER PRIMARY KEY AUTOINCREMENT NOT NULL, `name` TEXT NOT NULL, `startTimeOffsetInSeconds` INTEGER NOT NULL, `createdAt` TEXT NOT NULL, `updatedAt` TEXT NOT NULL)",
+        "createSql": "CREATE TABLE IF NOT EXISTS `${TABLE_NAME}` (`routineId` INTEGER PRIMARY KEY AUTOINCREMENT NOT NULL, `name` TEXT NOT NULL, `startTimeOffsetInSeconds` INTEGER NOT NULL, `createdAt` TEXT NOT NULL, `updatedAt` TEXT NOT NULL, `rank` TEXT NOT NULL)",
         "fields": [
           {
             "fieldPath": "id",
@@ -35,6 +35,12 @@
           {
             "fieldPath": "updatedAt",
             "columnName": "updatedAt",
+            "affinity": "TEXT",
+            "notNull": true
+          },
+          {
+            "fieldPath": "rank",
+            "columnName": "rank",
             "affinity": "TEXT",
             "notNull": true
           }
@@ -124,7 +130,7 @@
     "views": [],
     "setupQueries": [
       "CREATE TABLE IF NOT EXISTS room_master_table (id INTEGER PRIMARY KEY,identity_hash TEXT)",
-      "INSERT OR REPLACE INTO room_master_table (id,identity_hash) VALUES(42, '298529df1f045a78983c62158d7764e5')"
+      "INSERT OR REPLACE INTO room_master_table (id,identity_hash) VALUES(42, '16677cb21c9fcb71cb991c73755b44bd')"
     ]
   }
 }

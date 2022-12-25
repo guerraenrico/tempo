@@ -6,6 +6,7 @@ import com.enricog.features.routines.R
 import com.enricog.features.routines.list.models.RoutinesState
 import com.enricog.features.routines.list.models.RoutinesState.Data.Action
 import com.enricog.features.routines.list.models.RoutinesState.Data.Action.DeleteRoutineError
+import com.enricog.features.routines.list.models.RoutinesState.Data.Action.MoveRoutineError
 import com.enricog.features.routines.list.models.RoutinesViewState
 import com.enricog.features.routines.list.models.RoutinesViewState.Data
 import com.enricog.features.routines.list.models.RoutinesViewState.Data.Message
@@ -32,6 +33,10 @@ internal class RoutinesStateConverter @Inject constructor() :
             is DeleteRoutineError -> Message(
                 textResId = R.string.label_routines_delete_error,
                 actionTextResId = R.string.action_text_routines_delete_error
+            )
+            MoveRoutineError -> Message(
+                textResId = R.string.label_routines_move_error,
+                actionTextResId = null
             )
         }
     }

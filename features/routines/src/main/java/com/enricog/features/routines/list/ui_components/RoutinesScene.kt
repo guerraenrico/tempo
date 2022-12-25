@@ -15,6 +15,7 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.platform.testTag
 import androidx.compose.ui.res.stringResource
 import com.enricog.core.compose.api.classes.ImmutableList
+import com.enricog.core.compose.api.extensions.stringResourceOrNull
 import com.enricog.core.compose.api.modifiers.draggable.rememberListDraggableState
 import com.enricog.entities.ID
 import com.enricog.features.routines.R
@@ -42,7 +43,7 @@ internal fun RoutinesScene(
     val snackbarHostState = rememberSnackbarHostState()
     if (message != null) {
         val messageText = stringResource(id = message.textResId)
-        val actionText = stringResource(id = message.actionTextResId)
+        val actionText = stringResourceOrNull(id = message.actionTextResId)
         LaunchedEffect(snackbarHostState) {
             val event = snackbarHostState.show(message = messageText, actionText = actionText)
             onSnackbarEvent(event)

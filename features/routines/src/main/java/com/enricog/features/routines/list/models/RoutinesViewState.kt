@@ -24,7 +24,7 @@ internal sealed class RoutinesViewState {
             }
         }
 
-        data class Message(@StringRes val textResId: Int, @StringRes val actionTextResId: Int)
+        data class Message(@StringRes val textResId: Int, @StringRes val actionTextResId: Int?)
     }
 
     data class Error(val throwable: Throwable) : RoutinesViewState()

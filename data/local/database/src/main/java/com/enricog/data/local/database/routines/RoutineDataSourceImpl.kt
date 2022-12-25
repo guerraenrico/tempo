@@ -32,6 +32,12 @@ internal class RoutineDataSourceImpl @Inject constructor(
             .map(InternalRoutineWithSegments::toEntity)
     }
 
+    override suspend fun getAll(): List<Routine> {
+        return database.routineDao().getAll()
+            .map(InternalRoutineWithSegments::toEntity)
+            .sortedByRank()
+    }
+
     override suspend fun get(id: ID): Routine {
         return database.routineDao().get(id.toLong()).toEntity()
     }
