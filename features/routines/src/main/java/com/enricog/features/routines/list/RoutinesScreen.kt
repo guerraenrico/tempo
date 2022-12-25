@@ -4,7 +4,6 @@ import androidx.compose.runtime.Composable
 import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
 import androidx.compose.ui.res.stringResource
-import com.enricog.data.routines.api.entities.Routine
 import com.enricog.entities.ID
 import com.enricog.features.routines.R
 import com.enricog.features.routines.list.models.RoutinesViewState
@@ -25,6 +24,7 @@ internal fun RoutinesScreen(viewModel: RoutinesViewModel) {
             onCreateRoutine = viewModel::onCreateRoutine,
             onRoutine = viewModel::onRoutine,
             onRoutineDelete = viewModel::onRoutineDelete,
+            onRoutineMoved = viewModel::onRoutineMoved,
             onRetryLoad = viewModel::onRetryLoad,
             onSnackbarEvent = viewModel::onSnackbarEvent
         )
@@ -36,6 +36,7 @@ internal fun RoutinesViewState.Compose(
     onCreateRoutine: () -> Unit,
     onRoutine: (ID) -> Unit,
     onRoutineDelete: (ID) -> Unit,
+    onRoutineMoved: (ID, ID?) -> Unit,
     onRetryLoad: () -> Unit,
     onSnackbarEvent: (TempoSnackbarEvent) -> Unit
 ) {
@@ -52,6 +53,7 @@ internal fun RoutinesViewState.Compose(
                 onRoutine = onRoutine,
                 onRoutineDelete = onRoutineDelete,
                 onCreateRoutine = onCreateRoutine,
+                onRoutineMoved = onRoutineMoved,
                 onSnackbarEvent = onSnackbarEvent
             )
         is RoutinesViewState.Error ->

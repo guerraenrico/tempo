@@ -11,16 +11,16 @@ internal class MoveSegmentUseCase @Inject constructor(
 ) {
 
     suspend operator fun invoke(routine: Routine, draggedSegmentId: ID, hoveredSegmentId: ID?) {
-        val itemIndex = routine.segments.indexOfFirst { it.id == draggedSegmentId }
+        val currentIndex = routine.segments.indexOfFirst { it.id == draggedSegmentId }
         val newIndex = routine.segments.indexOfFirst { it.id == hoveredSegmentId }
 
-        if (itemIndex == newIndex || itemIndex < 0) {
+        if (currentIndex == newIndex || currentIndex < 0) {
             return
         }
 
-        val rank1 = routine.segments.getOrNull(newIndex)?.rank
-        val rank2 = routine.segments.getOrNull(newIndex + 1)?.rank
-        val newRank = Rank.calculate(rank1 = rank1, rank2 = rank2)
+        val rankTop = routine.segments.getOrNull(newIndex)?.rank
+        val rankBottom = routine.segments.getOrNull(newIndex + 1)?.rank
+        val newRank = Rank.calculate(rankTop = rankTop, rankBottom = rankBottom)
         val segments = routine.segments
             .map {
                 if (it.id == draggedSegmentId) {

@@ -6,6 +6,7 @@ import androidx.room.PrimaryKey
 import com.enricog.data.routines.api.entities.Routine
 import com.enricog.data.routines.api.entities.sortedByRank
 import com.enricog.entities.ID
+import com.enricog.entities.Rank
 import com.enricog.entities.seconds
 import java.time.OffsetDateTime
 
@@ -15,7 +16,8 @@ internal data class InternalRoutine(
     @ColumnInfo(name = "name") val name: String,
     @ColumnInfo(name = "startTimeOffsetInSeconds") val startTimeOffsetInSeconds: Long,
     @ColumnInfo(name = "createdAt") val createdAt: OffsetDateTime,
-    @ColumnInfo(name = "updatedAt") val updatedAt: OffsetDateTime
+    @ColumnInfo(name = "updatedAt") val updatedAt: OffsetDateTime,
+    @ColumnInfo(name = "rank") val rank: String
 ) {
     fun toEntity(segments: List<InternalSegment>): Routine {
         return Routine(
@@ -26,7 +28,8 @@ internal data class InternalRoutine(
             updatedAt = updatedAt,
             segments = segments
                 .map { it.toEntity() }
-                .sortedByRank()
+                .sortedByRank(),
+            rank = Rank.from(rank)
         )
     }
 }
@@ -37,6 +40,7 @@ internal fun Routine.toInternal(): InternalRoutine {
         name = name,
         startTimeOffsetInSeconds = startTimeOffset.value,
         createdAt = createdAt,
-        updatedAt = updatedAt
+        updatedAt = updatedAt,
+        rank = rank.toString()
     )
 }

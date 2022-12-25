@@ -15,6 +15,7 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.platform.testTag
 import androidx.compose.ui.res.stringResource
 import com.enricog.core.compose.api.classes.ImmutableList
+import com.enricog.core.compose.api.modifiers.draggable.rememberListDraggableState
 import com.enricog.entities.ID
 import com.enricog.features.routines.R
 import com.enricog.features.routines.list.models.RoutinesViewState.Data.Message
@@ -35,10 +36,10 @@ internal fun RoutinesScene(
     onRoutine: (ID) -> Unit,
     onRoutineDelete: (ID) -> Unit,
     onCreateRoutine: () -> Unit,
+    onRoutineMoved: (ID, ID?) -> Unit,
     onSnackbarEvent: (TempoSnackbarEvent) -> Unit
 ) {
     val snackbarHostState = rememberSnackbarHostState()
-
     if (message != null) {
         val messageText = stringResource(id = message.textResId)
         val actionText = stringResource(id = message.actionTextResId)
@@ -48,25 +49,44 @@ internal fun RoutinesScene(
         }
     }
 
+    val listDraggableState = rememberListDraggableState(key = routines)
+    LaunchedEffect(routines) {
+        listDraggableState.itemMovedEvent.collect { itemMoved ->
+            val draggedSegment = routines[itemMoved.indexDraggedItem]
+            val hoveredSegment = routines[itemMoved.indexHoveredItem]
+            onRoutineMoved(draggedSegment.id, hoveredSegment.id)
+        }
+    }
+
     TempoSnackbarHost(
         state = snackbarHostState,
         content = {
-            LazyColumn(
+            Box(
                 modifier = Modifier
                     .testTag(RoutinesSceneTestTag)
-                    .fillMaxSize(),
-                verticalArrangement = Arrangement.spacedBy(TempoTheme.dimensions.spaceM),
-                contentPadding = PaddingValues(TempoTheme.dimensions.spaceM)
+                    .fillMaxSize()
             ) {
-                items(
-                    items = routines,
-                    key = { routine -> routine.id.toLong() }
-                ) { routine ->
-                    RoutineItem(
-                        modifier = Modifier.fillMaxWidth(),
-                        routine = routine,
-                        onClick = onRoutine,
-                        onDelete = onRoutineDelete
+                LazyColumn(
+                    modifier = Modifier.fillMaxSize(),
+                    verticalArrangement = Arrangement.spacedBy(TempoTheme.dimensions.spaceM),
+                    contentPadding = PaddingValues(TempoTheme.dimensions.spaceM)
+                ) {
+                    items(
+                        items = routines,
+                        key = { routine -> routine.id.toLong() }
+                    ) { routine ->
+                        RoutineItem(
+                            modifier = Modifier.fillMaxWidth(),
+                            routine = routine,
+                            onClick = onRoutine,
+                            onDelete = onRoutineDelete
+                        )
+                    }
+                }
+                if (listDraggableState.isDragging) {
+                    DraggedRoutine(
+                        routine = routines[listDraggableState.draggedItem!!.index],
+                        offsetProvider = { listDraggableState.draggedItemOffsetY }
                     )
                 }
             }

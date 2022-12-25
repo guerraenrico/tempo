@@ -113,8 +113,8 @@ internal fun RoutineSummaryScene(
                 if (listDraggableState.isDragging) {
                     DraggedSegment(
                         modifier = Modifier.padding(horizontal = TempoTheme.dimensions.spaceM),
-                        segment = summaryItems[listDraggableState.draggedItem?.index!!] as SegmentItem,
-                        offset = listDraggableState.draggedItemOffsetY
+                        segment = summaryItems[listDraggableState.draggedItem!!.index] as SegmentItem,
+                        offsetProvider = { listDraggableState.draggedItemOffsetY }
                     )
                 }
             }
