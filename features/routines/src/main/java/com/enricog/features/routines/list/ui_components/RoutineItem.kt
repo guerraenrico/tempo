@@ -18,6 +18,7 @@ internal const val RoutineItemTestTag = "RoutineItemTestTag"
 internal fun RoutineItem(
     modifier: Modifier = Modifier,
     routine: Routine,
+    enableClick: Boolean,
     onClick: (ID) -> Unit,
     onDelete: (ID) -> Unit
 ) {
@@ -26,7 +27,7 @@ internal fun RoutineItem(
             .testTag(RoutineItemTestTag),
         onDelete = { onDelete(routine.id) }
     ) {
-        Box(modifier = Modifier.clickable { onClick(routine.id) }) {
+        Box(modifier = Modifier.clickable(enabled = enableClick) { onClick(routine.id) }) {
             TempoText(
                 modifier = Modifier.padding(TempoTheme.dimensions.spaceM),
                 text = routine.name,

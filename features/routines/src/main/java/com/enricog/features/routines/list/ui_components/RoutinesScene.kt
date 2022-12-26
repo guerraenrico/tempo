@@ -1,5 +1,6 @@
 package com.enricog.features.routines.list.ui_components
 
+import androidx.compose.animation.core.animateFloatAsState
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.PaddingValues
@@ -7,15 +8,19 @@ import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.lazy.LazyColumn
-import androidx.compose.foundation.lazy.items
+import androidx.compose.foundation.lazy.itemsIndexed
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.draw.alpha
+import androidx.compose.ui.graphics.graphicsLayer
 import androidx.compose.ui.platform.testTag
 import androidx.compose.ui.res.stringResource
 import com.enricog.core.compose.api.classes.ImmutableList
 import com.enricog.core.compose.api.extensions.stringResourceOrNull
+import com.enricog.core.compose.api.extensions.toPx
+import com.enricog.core.compose.api.modifiers.draggable.listDraggable
 import com.enricog.core.compose.api.modifiers.draggable.rememberListDraggableState
 import com.enricog.entities.ID
 import com.enricog.features.routines.R
@@ -68,24 +73,60 @@ internal fun RoutinesScene(
                     .fillMaxSize()
             ) {
                 LazyColumn(
-                    modifier = Modifier.fillMaxSize(),
+                    state = listDraggableState.listState,
+                    modifier = Modifier
+                        .listDraggable(key = routines, state = listDraggableState)
+                        .fillMaxSize(),
                     verticalArrangement = Arrangement.spacedBy(TempoTheme.dimensions.spaceM),
                     contentPadding = PaddingValues(TempoTheme.dimensions.spaceM)
                 ) {
-                    items(
+                    itemsIndexed(
                         items = routines,
-                        key = { routine -> routine.id.toLong() }
-                    ) { routine ->
-                        RoutineItem(
-                            modifier = Modifier.fillMaxWidth(),
-                            routine = routine,
-                            onClick = onRoutine,
-                            onDelete = onRoutineDelete
-                        )
+                        key = { _, routine -> routine.id.toLong() }
+                    ) { index, routine ->
+                        val isDragged =
+                            listDraggableState.isDragging && index == listDraggableState.draggedItem?.index
+                        val offsetY = listDraggableState.hoveredItemIndex?.let { hoveredIndex ->
+                            val draggedItem = listDraggableState.draggedItem ?: return@let 0f
+                            val itemHeight = draggedItem.size + TempoTheme.dimensions.spaceM.toPx()
+                            when {
+                                draggedItem.index == hoveredIndex -> 0f
+                                index in (draggedItem.index + 1)..hoveredIndex -> itemHeight.times(-1)
+                                index in hoveredIndex until draggedItem.index -> itemHeight
+                                else -> 0f
+                            }
+                        } ?: 0f
+
+                        val animate = animateFloatAsState(targetValue = offsetY)
+                        if (!isDragged) {
+                            RoutineItem(
+                                modifier = Modifier
+                                    .fillMaxWidth()
+                                    .graphicsLayer {
+                                        translationY =
+                                            if (listDraggableState.isDragging) animate.value else offsetY
+                                    },
+                                enableClick = !listDraggableState.isDragging,
+                                routine = routine,
+                                onClick = onRoutine,
+                                onDelete = onRoutineDelete
+                            )
+                        } else {
+                            RoutineItem(
+                                modifier = Modifier
+                                    .fillMaxWidth()
+                                    .alpha(0f),
+                                enableClick = false,
+                                routine = routine,
+                                onClick = { },
+                                onDelete = { }
+                            )
+                        }
                     }
                 }
                 if (listDraggableState.isDragging) {
                     DraggedRoutine(
+                        modifier = Modifier.padding(horizontal = TempoTheme.dimensions.spaceM),
                         routine = routines[listDraggableState.draggedItem!!.index],
                         offsetProvider = { listDraggableState.draggedItemOffsetY }
                     )

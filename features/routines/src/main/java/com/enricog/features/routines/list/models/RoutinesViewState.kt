@@ -17,10 +17,18 @@ internal sealed class RoutinesViewState {
         val message: Message?
     ) : RoutinesViewState() {
 
-        data class Routine(@Stable val id: ID, val name: String) {
+        data class Routine(
+            @Stable val id: ID,
+            val name: String,
+            val rank: String
+        ) {
 
             companion object {
-                fun from(routine: RoutineEntity) = Routine(id = routine.id, name = routine.name)
+                fun from(routine: RoutineEntity) = Routine(
+                    id = routine.id,
+                    name = routine.name,
+                    rank = routine.rank.toString()
+                )
             }
         }
 

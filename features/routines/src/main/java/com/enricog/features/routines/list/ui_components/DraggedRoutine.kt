@@ -22,6 +22,7 @@ internal fun DraggedRoutine(
         routine = routine,
         onClick = {},
         onDelete = {},
+        enableClick = false,
         modifier = modifier
             .testTag(DraggedRoutineTestTag)
             .fillMaxWidth()
