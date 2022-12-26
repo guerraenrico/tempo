@@ -6,7 +6,6 @@ import com.enricog.data.routines.api.entities.TimeType
 import com.enricog.entities.Rank
 import com.enricog.entities.asID
 import com.enricog.entities.seconds
-import org.junit.Assert
 import org.junit.Assert.assertEquals
 import org.junit.Test
 import java.time.OffsetDateTime
@@ -31,7 +30,8 @@ class InternalRoutineWithSegmentsTest {
             name = "name",
             startTimeOffsetInSeconds = 2,
             createdAt = now,
-            updatedAt = now
+            updatedAt = now,
+            rank = "abcdef"
         )
         val expected = Routine(
             id = 1.asID,
@@ -47,7 +47,8 @@ class InternalRoutineWithSegmentsTest {
                     type = TimeType.TIMER,
                     rank = Rank.from("aaaaaa")
                 )
-            )
+            ),
+            rank = Rank.from(value = "abcdef")
         )
         val internalRoutineWithSegments = InternalRoutineWithSegments(
             routine = internalRoutine,

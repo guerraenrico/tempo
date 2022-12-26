@@ -18,7 +18,7 @@ class InternalSegmentTest {
             name = "name",
             time = 3.seconds,
             type = TimeType.TIMER,
-            rank = Rank.from("aaaaaa")
+            rank = Rank.from(value = "aaaaaa")
         )
         val expected = InternalSegment(
             id = 2,
@@ -49,7 +49,7 @@ class InternalSegmentTest {
             name = "name",
             time = 3.seconds,
             type = TimeType.TIMER,
-            rank = Rank.from("aaaaaa")
+            rank = Rank.from(value = "aaaaaa")
         )
 
         val result = internalSegment.toEntity()
