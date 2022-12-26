@@ -24,6 +24,10 @@ class FakeRoutineDataSource(
             .map { it.orderSegments() }
     }
 
+    override suspend fun getAll(): List<Routine> {
+        return store.get()
+    }
+
     override suspend fun get(id: ID): Routine {
         return store.get()
             .first { it.id == id }

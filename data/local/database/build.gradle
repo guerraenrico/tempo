@@ -15,6 +15,8 @@ android {
     defaultConfig {
         minSdkVersion Versions.minSdk
 
+        testInstrumentationRunner 'androidx.test.runner.AndroidJUnitRunner'
+
         javaCompileOptions {
             annotationProcessorOptions {
                 arguments = [
@@ -35,6 +37,10 @@ android {
         unitTests {
             includeAndroidResources = true
         }
+    }
+
+    sourceSets {
+        androidTest.assets.srcDirs += files("$projectDir/schemas".toString())
     }
 }
 
@@ -61,4 +67,11 @@ dependencies {
     testImplementation Libs.AndroidX.Test.archCore
     testImplementation Libs.Test.junit
     testImplementation Libs.Robolectric
+
+    androidTestImplementation project(':data:routines:testing')
+    androidTestImplementation Libs.Room.testing
+    androidTestImplementation Libs.AndroidX.Test.junitKtx
+    androidTestImplementation Libs.Test.junit
+    androidTestImplementation Libs.AndroidX.Test.core
+    androidTestImplementation Libs.AndroidX.Test.rules
 }

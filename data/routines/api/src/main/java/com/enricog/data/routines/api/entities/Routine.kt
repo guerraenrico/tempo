@@ -30,7 +30,7 @@ data class Routine(
 
     fun getNewSegmentRank(): Rank {
         return when {
-            segments.isEmpty() -> Rank.calculateFist()
+            segments.isEmpty() -> Rank.calculateFirst()
             else -> Rank.calculateBottom(segments.last().rank)
         }
     }

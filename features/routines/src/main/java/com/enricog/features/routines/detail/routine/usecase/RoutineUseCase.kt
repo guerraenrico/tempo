@@ -14,7 +14,7 @@ internal class RoutineUseCase @Inject constructor(
         return when {
             routineId.isNew -> {
                 val topRoutine = routineDataSource.getAll().firstOrNull()
-                val rank = if (topRoutine == null) Rank.calculateFist() else
+                val rank = if (topRoutine == null) Rank.calculateFirst() else
                     Rank.calculateTop(rank = topRoutine.rank)
                 Routine.create(rank = rank)
             }

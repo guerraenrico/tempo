@@ -11,7 +11,7 @@ class RankTest {
     fun `calculateFist should return middle rank`() {
         val expected = Rank.from("mzzzzz")
 
-        val actual = Rank.calculateFist()
+        val actual = Rank.calculateFirst()
 
         assertEquals(expected, actual)
     }
