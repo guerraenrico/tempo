@@ -45,7 +45,7 @@ class RoutinesStateConverterTest {
     @Test
     fun `test map data with no action`() = coroutineRule {
         val state = RoutinesState.Data(routines = emptyList(), action = null)
-        val viewState = RoutinesViewState.Data(routines = emptyImmutableList(), message = null)
+        val viewState = RoutinesViewState.Data(routinesItems = emptyImmutableList(), message = null)
 
         val result = sut.convert(state)
 
@@ -55,13 +55,13 @@ class RoutinesStateConverterTest {
     @Test
     fun `test map data with delete routine error action`() = coroutineRule {
         val routineEntity = RoutineEntity.EMPTY
-        val routine = RoutinesViewState.Data.Routine(id = 0.asID, name = "")
+        val routine = RoutinesViewState.Data.RoutineItem(id = 0.asID, name = "")
         val state = RoutinesState.Data(
             routines = listOf(routineEntity),
             action = Action.DeleteRoutineError(routineEntity.id)
         )
         val viewState = RoutinesViewState.Data(
-            routines = immutableListOf(routine),
+            routinesItems = immutableListOf(routine),
             message = Message(
                 textResId = R.string.label_routines_delete_error,
                 actionTextResId = R.string.action_text_routines_delete_error

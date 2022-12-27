@@ -10,7 +10,7 @@ import com.enricog.entities.ID
 import com.enricog.entities.asID
 import com.enricog.features.routines.R
 import com.enricog.features.routines.list.models.RoutinesViewState
-import com.enricog.features.routines.list.models.RoutinesViewState.Data.Routine
+import com.enricog.features.routines.list.models.RoutinesViewState.Data.RoutineItem
 import com.enricog.features.routines.list.usecase.RoutinesUseCase
 import com.enricog.features.routines.navigation.RoutinesNavigationActions
 import com.enricog.navigation.api.routes.RoutineRoute
@@ -40,11 +40,11 @@ class RoutinesViewModelTest {
         id = 2.asID,
         name = "Second Routine",
     )
-    private val firstRoutine = Routine(
+    private val firstRoutine = RoutineItem(
         id = 1.asID,
         name = "First Routine",
     )
-    private val secondRoutine = Routine(
+    private val secondRoutine = RoutineItem(
         id = 2.asID,
         name = "Second Routine",
     )
@@ -54,7 +54,7 @@ class RoutinesViewModelTest {
     @Test
     fun `should should show data when load succeeds`() = coroutineRule {
         val expected = RoutinesViewState.Data(
-            routines = immutableListOf(firstRoutine, secondRoutine),
+            routinesItems = immutableListOf(firstRoutine, secondRoutine),
             message = null
         )
         val sut = buildSut()
@@ -100,7 +100,7 @@ class RoutinesViewModelTest {
 
     @Test
     fun `should remove routine when delete routine clicked`() = coroutineRule {
-        val expected = RoutinesViewState.Data(routines = immutableListOf(secondRoutine), message = null)
+        val expected = RoutinesViewState.Data(routinesItems = immutableListOf(secondRoutine), message = null)
         val sut = buildSut()
         advanceUntilIdle()
 
@@ -113,7 +113,7 @@ class RoutinesViewModelTest {
     @Test
     fun `should show message when delete routine clicked and deletion fails`() = coroutineRule {
         val expected = RoutinesViewState.Data(
-            routines = immutableListOf(firstRoutine, secondRoutine),
+            routinesItems = immutableListOf(firstRoutine, secondRoutine),
             message = RoutinesViewState.Data.Message(
                 textResId = R.string.label_routines_delete_error,
                 actionTextResId = R.string.action_text_routines_delete_error
@@ -132,7 +132,7 @@ class RoutinesViewModelTest {
     @Test
     fun `should hide message when when snackbar is dismissed`() = coroutineRule {
         val expected = RoutinesViewState.Data(
-            routines = immutableListOf(firstRoutine, secondRoutine),
+            routinesItems = immutableListOf(firstRoutine, secondRoutine),
             message = null
         )
         val sut = buildSut()
@@ -150,7 +150,7 @@ class RoutinesViewModelTest {
     @Test
     fun `should retry delete when when snackbar action is clicked`() = coroutineRule {
         val expected = RoutinesViewState.Data(
-            routines = immutableListOf(secondRoutine),
+            routinesItems = immutableListOf(secondRoutine),
             message = null
         )
         val sut = buildSut()
@@ -168,7 +168,7 @@ class RoutinesViewModelTest {
     @Test
     fun `should reload when retry button clicked`() = coroutineRule {
         val expected = RoutinesViewState.Data(
-            routines = immutableListOf(secondRoutine),
+            routinesItems = immutableListOf(secondRoutine),
             message = null
         )
         val sut = buildSut()

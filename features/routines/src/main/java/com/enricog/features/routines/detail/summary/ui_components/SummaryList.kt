@@ -69,7 +69,7 @@ internal fun SummaryList(
                         when {
                             draggedItem.index == hoveredIndex -> 0f
                             index in (draggedItem.index + 1)..hoveredIndex -> itemHeight.times(-1)
-                            index in (hoveredIndex + 1) until draggedItem.index -> itemHeight
+                            index in hoveredIndex until draggedItem.index -> itemHeight
                             else -> 0f
                         }
                     } ?: 0f

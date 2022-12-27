@@ -66,7 +66,7 @@ class RoutinesScreenKtTest {
 
     @Test
     fun shouldRenderRoutinesSceneWhenStateIsData() = composeRule {
-        val viewState = RoutinesViewState.Data(routines = emptyImmutableList(), message = null)
+        val viewState = RoutinesViewState.Data(routinesItems = emptyImmutableList(), message = null)
 
         setContent {
             TempoTheme {

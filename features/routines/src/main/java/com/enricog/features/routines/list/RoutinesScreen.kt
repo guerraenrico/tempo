@@ -48,7 +48,7 @@ internal fun RoutinesViewState.Compose(
             )
         is RoutinesViewState.Data ->
             RoutinesScene(
-                routines = routines,
+                routinesItems = routinesItems,
                 message = message,
                 onRoutine = onRoutine,
                 onRoutineDelete = onRoutineDelete,

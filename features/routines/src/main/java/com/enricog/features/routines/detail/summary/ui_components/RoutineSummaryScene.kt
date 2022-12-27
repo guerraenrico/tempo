@@ -122,8 +122,8 @@ internal fun RoutineSummaryScene(
         anchor = {
             AnimatedVisibility(
                 visible = !listDraggableState.isDragging,
-                enter = slideInVertically(initialOffsetY = { it }),
-                exit = slideOutVertically(targetOffsetY = { it }),
+                enter = slideInVertically(initialOffsetY = { it * 2 }),
+                exit = slideOutVertically(targetOffsetY = { it * 2}),
                 modifier = Modifier.fillMaxWidth()
             ) {
                 Box(modifier = Modifier.fillMaxWidth()) {

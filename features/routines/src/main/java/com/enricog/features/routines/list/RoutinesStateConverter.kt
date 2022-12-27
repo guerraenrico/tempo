@@ -3,6 +3,8 @@ package com.enricog.features.routines.list
 import com.enricog.base.viewmodel.StateConverter
 import com.enricog.core.compose.api.classes.asImmutableList
 import com.enricog.features.routines.R
+import com.enricog.features.routines.list.models.RoutinesItem.RoutineItem
+import com.enricog.features.routines.list.models.RoutinesItem.Space
 import com.enricog.features.routines.list.models.RoutinesState
 import com.enricog.features.routines.list.models.RoutinesState.Data.Action
 import com.enricog.features.routines.list.models.RoutinesState.Data.Action.DeleteRoutineError
@@ -10,7 +12,6 @@ import com.enricog.features.routines.list.models.RoutinesState.Data.Action.MoveR
 import com.enricog.features.routines.list.models.RoutinesViewState
 import com.enricog.features.routines.list.models.RoutinesViewState.Data
 import com.enricog.features.routines.list.models.RoutinesViewState.Data.Message
-import com.enricog.features.routines.list.models.RoutinesViewState.Data.Routine
 import javax.inject.Inject
 
 internal class RoutinesStateConverter @Inject constructor() :
@@ -21,7 +22,10 @@ internal class RoutinesStateConverter @Inject constructor() :
             RoutinesState.Idle -> RoutinesViewState.Idle
             RoutinesState.Empty -> RoutinesViewState.Empty
             is RoutinesState.Data -> Data(
-                routines = state.routines.map { Routine.from(routine = it) }.asImmutableList(),
+                routinesItems = buildList {
+                    addAll(state.routines.map { RoutineItem.from(routine = it) })
+                    add(Space)
+                }.asImmutableList(),
                 message = state.action?.toMessage()
             )
             is RoutinesState.Error -> RoutinesViewState.Error(throwable = state.throwable)

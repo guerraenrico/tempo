@@ -18,8 +18,13 @@ internal class MoveSegmentUseCase @Inject constructor(
             return
         }
 
-        val rankTop = routine.segments.getOrNull(newIndex)?.rank
-        val rankBottom = routine.segments.getOrNull(newIndex + 1)?.rank
+        fun getRank(index: Int): Rank? = routine.segments.getOrNull(index)?.rank
+
+        val (rankTop, rankBottom) = if (currentIndex > newIndex) {
+            getRank(index = newIndex - 1) to getRank(index = newIndex)
+        } else {
+            getRank(index = newIndex) to getRank(index = newIndex + 1)
+        }
         val newRank = Rank.calculate(rankTop = rankTop, rankBottom = rankBottom)
         val segments = routine.segments
             .map {
