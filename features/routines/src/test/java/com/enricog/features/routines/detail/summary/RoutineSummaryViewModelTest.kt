@@ -252,7 +252,7 @@ class RoutineSummaryViewModelTest {
         val sut = buildSut()
         advanceUntilIdle()
 
-        sut.onSegmentMoved(draggedSegmentId = 2.asID, hoveredSegmentId = null)
+        sut.onSegmentMoved(draggedSegmentId = 2.asID, hoveredSegmentId = 1.asID)
         advanceUntilIdle()
 
         sut.viewState.test { assertEquals(expected, awaitItem()) }
@@ -278,7 +278,7 @@ class RoutineSummaryViewModelTest {
         advanceUntilIdle()
 
         store.enableErrorOnNextAccess()
-        sut.onSegmentMoved(draggedSegmentId = 2.asID, hoveredSegmentId = null)
+        sut.onSegmentMoved(draggedSegmentId = 2.asID, hoveredSegmentId = 1.asID)
         advanceUntilIdle()
 
         sut.viewState.test { assertEquals(expected, awaitItem()) }
@@ -300,7 +300,7 @@ class RoutineSummaryViewModelTest {
         val sut = buildSut(store = store)
         advanceUntilIdle()
         store.enableErrorOnNextAccess()
-        sut.onSegmentMoved(draggedSegmentId = 2.asID, hoveredSegmentId = null)
+        sut.onSegmentMoved(draggedSegmentId = 2.asID, hoveredSegmentId = 1.asID)
         advanceUntilIdle()
 
         sut.onSnackbarEvent(snackbarEvent = TempoSnackbarEvent.ActionPerformed)

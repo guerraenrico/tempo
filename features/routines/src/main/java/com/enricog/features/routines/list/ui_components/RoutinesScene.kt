@@ -48,7 +48,7 @@ internal fun RoutinesScene(
     onRoutine: (ID) -> Unit,
     onRoutineDelete: (ID) -> Unit,
     onCreateRoutine: () -> Unit,
-    onRoutineMoved: (ID, ID?) -> Unit,
+    onRoutineMoved: (ID, ID) -> Unit,
     onSnackbarEvent: (TempoSnackbarEvent) -> Unit
 ) {
     val snackbarHostState = rememberSnackbarHostState()
@@ -71,8 +71,8 @@ internal fun RoutinesScene(
                     as? RoutinesItem.RoutineItem
             val hoveredSegment = routinesItems[itemMoved.indexHoveredItem]
                     as? RoutinesItem.RoutineItem
-            if (draggedSegment != null) {
-                onRoutineMoved(draggedSegment.id, hoveredSegment?.id)
+            if (draggedSegment != null && hoveredSegment != null) {
+                onRoutineMoved(draggedSegment.id, hoveredSegment.id)
             }
         }
     }
@@ -126,7 +126,7 @@ internal fun RoutinesScene(
                                                     if (draggableState.isDragging) animate.value else offsetY
                                             },
                                         enableClick = !draggableState.isDragging,
-                                        routine = item,
+                                        routineItem = item,
                                         onClick = onRoutine,
                                         onDelete = onRoutineDelete
                                     )
@@ -136,7 +136,7 @@ internal fun RoutinesScene(
                                             .fillMaxWidth()
                                             .alpha(0f),
                                         enableClick = false,
-                                        routine = item,
+                                        routineItem = item,
                                         onClick = { },
                                         onDelete = { }
                                     )

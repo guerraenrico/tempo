@@ -41,7 +41,7 @@ internal fun RoutineSummaryScene(
     onSegmentAdd: () -> Unit,
     onSegmentSelected: (ID) -> Unit,
     onSegmentDelete: (ID) -> Unit,
-    onSegmentMoved: (ID, ID?) -> Unit,
+    onSegmentMoved: (ID, ID) -> Unit,
     onRoutineStart: () -> Unit,
     onRoutineEdit: () -> Unit,
     onSnackbarEvent: (TempoSnackbarEvent) -> Unit
@@ -66,8 +66,8 @@ internal fun RoutineSummaryScene(
         listDraggableState.itemMovedEvent.collect { itemMoved ->
             val draggedSegment = summaryItems[itemMoved.indexDraggedItem] as? SegmentItem
             val hoveredSegment = summaryItems[itemMoved.indexHoveredItem] as? SegmentItem
-            if (draggedSegment != null) {
-                onSegmentMoved(draggedSegment.id, hoveredSegment?.id)
+            if (draggedSegment != null && hoveredSegment != null) {
+                onSegmentMoved(draggedSegment.id, hoveredSegment.id)
             }
         }
     }

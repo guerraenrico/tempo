@@ -1,11 +1,11 @@
 package com.enricog.features.routines.list
 
-import com.enricog.core.compose.api.classes.emptyImmutableList
 import com.enricog.core.compose.api.classes.immutableListOf
 import com.enricog.core.coroutines.testing.CoroutineRule
 import com.enricog.data.routines.testing.entities.EMPTY
 import com.enricog.entities.asID
 import com.enricog.features.routines.R
+import com.enricog.features.routines.list.models.RoutinesItem
 import com.enricog.features.routines.list.models.RoutinesState
 import com.enricog.features.routines.list.models.RoutinesState.Data.Action
 import com.enricog.features.routines.list.models.RoutinesViewState
@@ -43,9 +43,14 @@ class RoutinesStateConverterTest {
     }
 
     @Test
-    fun `test map data with no action`() = coroutineRule {
-        val state = RoutinesState.Data(routines = emptyList(), action = null)
-        val viewState = RoutinesViewState.Data(routinesItems = emptyImmutableList(), message = null)
+    fun `test map data`() = coroutineRule {
+        val routineEntity = RoutineEntity.EMPTY
+        val routineItem = RoutinesItem.RoutineItem(id = 0.asID, name = "", rank = "aaaaaa")
+        val state = RoutinesState.Data(routines = listOf(routineEntity), action = null)
+        val viewState = RoutinesViewState.Data(
+            routinesItems = immutableListOf(routineItem, RoutinesItem.Space),
+            message = null
+        )
 
         val result = sut.convert(state)
 
@@ -55,16 +60,37 @@ class RoutinesStateConverterTest {
     @Test
     fun `test map data with delete routine error action`() = coroutineRule {
         val routineEntity = RoutineEntity.EMPTY
-        val routine = RoutinesViewState.Data.RoutineItem(id = 0.asID, name = "")
+        val routineItem = RoutinesItem.RoutineItem(id = 0.asID, name = "", rank = "aaaaaa")
         val state = RoutinesState.Data(
             routines = listOf(routineEntity),
             action = Action.DeleteRoutineError(routineEntity.id)
         )
         val viewState = RoutinesViewState.Data(
-            routinesItems = immutableListOf(routine),
+            routinesItems = immutableListOf(routineItem, RoutinesItem.Space),
             message = Message(
                 textResId = R.string.label_routines_delete_error,
                 actionTextResId = R.string.action_text_routines_delete_error
+            )
+        )
+
+        val result = sut.convert(state)
+
+        assertEquals(viewState, result)
+    }
+
+    @Test
+    fun `test map data with move routine error action`() = coroutineRule {
+        val routineEntity = RoutineEntity.EMPTY
+        val routineItem = RoutinesItem.RoutineItem(id = 0.asID, name = "", rank = "aaaaaa")
+        val state = RoutinesState.Data(
+            routines = listOf(routineEntity),
+            action = Action.MoveRoutineError
+        )
+        val viewState = RoutinesViewState.Data(
+            routinesItems = immutableListOf(routineItem, RoutinesItem.Space),
+            message = Message(
+                textResId = R.string.label_routines_move_error,
+                actionTextResId = null
             )
         )
 

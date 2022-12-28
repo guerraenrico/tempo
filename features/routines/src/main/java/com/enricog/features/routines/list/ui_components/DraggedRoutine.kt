@@ -7,9 +7,7 @@ import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.graphicsLayer
 import androidx.compose.ui.platform.testTag
 import androidx.compose.ui.zIndex
-import com.enricog.features.routines.list.models.RoutinesItem
 import com.enricog.features.routines.list.models.RoutinesItem.RoutineItem
-import com.enricog.features.routines.list.models.RoutinesViewState
 import com.enricog.ui.theme.TempoTheme
 
 internal const val DraggedRoutineTestTag = "DraggedRoutineTestTag"
@@ -21,7 +19,7 @@ internal fun DraggedRoutine(
     modifier: Modifier = Modifier
 ) {
     RoutineItem(
-        routine = routine,
+        routineItem = routine,
         onClick = {},
         onDelete = {},
         enableClick = false,

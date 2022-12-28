@@ -15,7 +15,9 @@ class FakeRoutineDataSource(
 ) : RoutineDataSource {
 
     override fun observeAll(): Flow<List<Routine>> {
-        return store.asFlow().map { it.orderSegments() }
+        return store.asFlow()
+            .map { it.orderSegments() }
+            .map { it.sortedByRank() }
     }
 
     override fun observe(id: ID): Flow<Routine> {
@@ -25,7 +27,7 @@ class FakeRoutineDataSource(
     }
 
     override suspend fun getAll(): List<Routine> {
-        return store.get()
+        return store.get().sortedByRank()
     }
 
     override suspend fun get(id: ID): Routine {

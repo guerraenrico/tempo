@@ -12,6 +12,10 @@ class ImmutableList<T : Any> internal constructor(private val list: List<T>) : L
     override fun hashCode(): Int {
         return list.hashCode()
     }
+
+    override fun toString(): String {
+        return list.toString()
+    }
 }
 
 fun <T : Any> immutableListOf(vararg elements: T): ImmutableList<T> = ImmutableList(

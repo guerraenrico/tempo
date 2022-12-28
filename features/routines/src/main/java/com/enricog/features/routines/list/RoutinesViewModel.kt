@@ -82,7 +82,7 @@ internal class RoutinesViewModel @Inject constructor(
         }
     }
 
-    fun onRoutineMoved(draggedRoutineId: ID, hoveredRoutineId: ID?) {
+    fun onRoutineMoved(draggedRoutineId: ID, hoveredRoutineId: ID) {
         val exceptionHandler = CoroutineExceptionHandler { _, throwable ->
             TempoLogger.e(throwable = throwable)
             updateStateWhen<RoutinesState.Data> { reducer.moveRoutineError(state = it) }

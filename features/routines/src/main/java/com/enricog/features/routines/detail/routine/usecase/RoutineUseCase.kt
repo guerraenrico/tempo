@@ -13,9 +13,9 @@ internal class RoutineUseCase @Inject constructor(
     suspend fun get(routineId: ID): Routine {
         return when {
             routineId.isNew -> {
-                val topRoutine = routineDataSource.getAll().firstOrNull()
-                val rank = if (topRoutine == null) Rank.calculateFirst() else
-                    Rank.calculateTop(rank = topRoutine.rank)
+                val firstRoutine = routineDataSource.getAll().firstOrNull()
+                val rank = if (firstRoutine == null) Rank.calculateFirst() else
+                    Rank.calculateTop(rank = firstRoutine.rank)
                 Routine.create(rank = rank)
             }
             else -> routineDataSource.get(routineId)

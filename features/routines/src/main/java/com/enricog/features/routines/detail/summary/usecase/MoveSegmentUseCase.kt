@@ -10,11 +10,13 @@ internal class MoveSegmentUseCase @Inject constructor(
     private val routineDataSource: RoutineDataSource
 ) {
 
-    suspend operator fun invoke(routine: Routine, draggedSegmentId: ID, hoveredSegmentId: ID?) {
+    suspend operator fun invoke(routine: Routine, draggedSegmentId: ID, hoveredSegmentId: ID) {
         val currentIndex = routine.segments.indexOfFirst { it.id == draggedSegmentId }
+            .takeIf { it >= 0 } ?: return
         val newIndex = routine.segments.indexOfFirst { it.id == hoveredSegmentId }
+            .takeIf { it >= 0 } ?: return
 
-        if (currentIndex == newIndex || currentIndex < 0) {
+        if (currentIndex == newIndex) {
             return
         }
 

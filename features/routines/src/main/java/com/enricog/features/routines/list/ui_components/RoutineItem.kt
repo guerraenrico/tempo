@@ -7,7 +7,6 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.platform.testTag
 import com.enricog.entities.ID
-import com.enricog.features.routines.list.models.RoutinesItem
 import com.enricog.features.routines.list.models.RoutinesItem.RoutineItem
 import com.enricog.features.routines.ui_components.DeletableListItem
 import com.enricog.ui.components.text.TempoText
@@ -18,7 +17,7 @@ internal const val RoutineItemTestTag = "RoutineItemTestTag"
 @Composable
 internal fun RoutineItem(
     modifier: Modifier = Modifier,
-    routine: RoutineItem,
+    routineItem: RoutineItem,
     enableClick: Boolean,
     onClick: (ID) -> Unit,
     onDelete: (ID) -> Unit
@@ -26,12 +25,12 @@ internal fun RoutineItem(
     DeletableListItem(
         modifier = modifier
             .testTag(RoutineItemTestTag),
-        onDelete = { onDelete(routine.id) }
+        onDelete = { onDelete(routineItem.id) }
     ) {
-        Box(modifier = Modifier.clickable(enabled = enableClick) { onClick(routine.id) }) {
+        Box(modifier = Modifier.clickable(enabled = enableClick) { onClick(routineItem.id) }) {
             TempoText(
                 modifier = Modifier.padding(TempoTheme.dimensions.spaceM),
-                text = routine.name,
+                text = routineItem.name,
                 style = TempoTheme.typography.h2
             )
         }

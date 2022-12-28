@@ -28,6 +28,7 @@ class RoutinesScreenKtTest {
                     onCreateRoutine = {},
                     onRoutine = {},
                     onRoutineDelete = {},
+                    onRoutineMoved = { _, _ -> },
                     onRetryLoad = {},
                     onSnackbarEvent = {}
                 )
@@ -51,6 +52,7 @@ class RoutinesScreenKtTest {
                     onCreateRoutine = {},
                     onRoutine = {},
                     onRoutineDelete = {},
+                    onRoutineMoved = { _, _ -> },
                     onRetryLoad = {},
                     onSnackbarEvent = {}
                 )
@@ -74,6 +76,7 @@ class RoutinesScreenKtTest {
                     onCreateRoutine = {},
                     onRoutine = {},
                     onRoutineDelete = {},
+                    onRoutineMoved = { _, _ -> },
                     onRetryLoad = {},
                     onSnackbarEvent = {}
                 )
@@ -98,6 +101,7 @@ class RoutinesScreenKtTest {
                     onCreateRoutine = {},
                     onRoutine = {},
                     onRoutineDelete = {},
+                    onRoutineMoved = { _, _ -> },
                     onRetryLoad = {},
                     onSnackbarEvent = {}
                 )

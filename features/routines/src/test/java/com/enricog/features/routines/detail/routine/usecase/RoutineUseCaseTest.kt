@@ -6,6 +6,7 @@ import com.enricog.data.routines.api.entities.Routine
 import com.enricog.data.routines.testing.FakeRoutineDataSource
 import com.enricog.data.routines.testing.entities.EMPTY
 import com.enricog.entities.ID
+import com.enricog.entities.Rank
 import com.enricog.entities.asID
 import org.junit.Rule
 import org.junit.Test
@@ -17,18 +18,52 @@ class RoutineUseCaseTest {
     val coroutineRule = CoroutineRule()
 
     @Test
-    fun `test get should return new routine when routine id is new`() = coroutineRule {
-        val expected = Routine.NEW
-        val routineId = ID.new()
-        val sut = buildSut()
+    fun `test get should return new routine with initial rank when routine id is new and there are no saved routines`() =
+        coroutineRule {
+            val store = FakeStore(emptyList<Routine>())
+            val expected = Routine.EMPTY.copy(
+                id = 0.asID,
+                rank = Rank.from(value = "mzzzzz")
+            )
+            val routineId = ID.new()
+            val sut = buildSut(store = store)
 
-        val actual = sut.get(routineId)
+            val actual = sut.get(routineId)
 
-        assertEquals(expected.id, actual.id)
-        assertEquals(expected.name, actual.name)
-        assertEquals(expected.startTimeOffset, actual.startTimeOffset)
-        assertEquals(expected.segments, actual.segments)
-    }
+            assertEquals(expected.id, actual.id)
+            assertEquals(expected.name, actual.name)
+            assertEquals(expected.startTimeOffset, actual.startTimeOffset)
+            assertEquals(expected.segments, actual.segments)
+            assertEquals(expected.rank, actual.rank)
+        }
+
+    @Test
+    fun `test get should return new routine with rank on top when routine id is new and there are saved routines`() =
+        coroutineRule {
+            val store = FakeStore(
+                listOf(
+                    Routine.EMPTY.copy(
+                        id = 1.asID,
+                        name = "Routine Name",
+                        rank = Rank.from(value = "mzzzzz")
+                    )
+                )
+            )
+            val expected = Routine.EMPTY.copy(
+                id = 0.asID,
+                rank = Rank.from(value = "gmzzzz")
+            )
+            val routineId = ID.new()
+            val sut = buildSut(store = store)
+
+            val actual = sut.get(routineId)
+
+            assertEquals(expected.id, actual.id)
+            assertEquals(expected.name, actual.name)
+            assertEquals(expected.startTimeOffset, actual.startTimeOffset)
+            assertEquals(expected.segments, actual.segments)
+            assertEquals(expected.rank, actual.rank)
+        }
 
     @Test
     fun `test get should return a routine when routine id is not new`() = coroutineRule {

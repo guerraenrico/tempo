@@ -13,12 +13,14 @@ internal class MoveRoutineUseCase @Inject constructor(
     suspend operator fun invoke(
         routines: List<Routine>,
         draggedRoutineId: ID,
-        hoveredRoutineId: ID?
+        hoveredRoutineId: ID
     ) {
         val currentIndex = routines.indexOfFirst { it.id == draggedRoutineId }
+            .takeIf { it >= 0 } ?: return
         val newIndex = routines.indexOfFirst { it.id == hoveredRoutineId }
+            .takeIf { it >= 0 } ?: return
 
-        if (currentIndex == newIndex || currentIndex < 0) {
+        if (currentIndex == newIndex) {
             return
         }
 

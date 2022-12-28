@@ -36,7 +36,7 @@ internal fun RoutinesViewState.Compose(
     onCreateRoutine: () -> Unit,
     onRoutine: (ID) -> Unit,
     onRoutineDelete: (ID) -> Unit,
-    onRoutineMoved: (ID, ID?) -> Unit,
+    onRoutineMoved: (ID, ID) -> Unit,
     onRetryLoad: () -> Unit,
     onSnackbarEvent: (TempoSnackbarEvent) -> Unit
 ) {
