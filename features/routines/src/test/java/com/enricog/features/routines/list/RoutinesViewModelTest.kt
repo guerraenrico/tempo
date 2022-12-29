@@ -47,12 +47,14 @@ class RoutinesViewModelTest {
     private val firstRoutine = RoutinesItem.RoutineItem(
         id = 1.asID,
         name = "First Routine",
-        rank = "aaaaaa"
+        rank = "aaaaaa",
+        segmentsSummary = null
     )
     private val secondRoutine = RoutinesItem.RoutineItem(
         id = 2.asID,
         name = "Second Routine",
-        rank = "bbbbbb"
+        rank = "bbbbbb",
+        segmentsSummary = null
     )
     private val navigator = FakeNavigator()
     private val store = FakeStore(listOf(firstRoutineEntity, secondRoutineEntity))

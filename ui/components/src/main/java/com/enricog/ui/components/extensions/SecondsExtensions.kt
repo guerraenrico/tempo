@@ -10,9 +10,12 @@ fun Seconds.format(): String {
     return buildString {
         val (m, s) = inMinutes
         if (m > 0) {
-            append("$m${stringResource(id = R.string.label_minutes_acronym)} ")
+            append("$m${stringResource(id = R.string.label_minutes_acronym)}")
         }
         if (s > 0) {
+            if (m > 0) {
+                append(" ")
+            }
             append("$s${stringResource(id = R.string.label_seconds_acronym)}")
         }
     }
