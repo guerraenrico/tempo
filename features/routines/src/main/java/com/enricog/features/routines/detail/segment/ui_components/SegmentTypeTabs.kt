@@ -65,7 +65,7 @@ internal fun SegmentTypeTabs(
                     orientation = Orientation.Horizontal
                 )
         ) {
-            timeTypes.mapIndexed { index, timeType ->
+            timeTypes.forEachIndexed { index, timeType ->
                 SegmentTypeTab(
                     value = timeType,
                     onClick = {
@@ -77,7 +77,8 @@ internal fun SegmentTypeTabs(
                     modifier = Modifier
                         .horizontalListItemSpacing(
                             itemPosition = index,
-                            spacing = tabSpace,
+                            spacingHorizontal = tabSpace,
+                            spacingVertical = tabSpace,
                             includeEdge = false
                         )
                         .width(width = tabWidth)

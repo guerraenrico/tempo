@@ -3,8 +3,13 @@ package com.enricog.features.routines.list
 import androidx.compose.ui.test.assertIsDisplayed
 import androidx.compose.ui.test.junit4.createComposeRule
 import androidx.compose.ui.test.onNodeWithTag
-import com.enricog.core.compose.api.classes.emptyImmutableList
+import com.enricog.core.compose.api.classes.immutableListOf
+import com.enricog.core.compose.api.classes.immutableMapOf
 import com.enricog.core.compose.testing.invoke
+import com.enricog.entities.asID
+import com.enricog.entities.seconds
+import com.enricog.features.routines.detail.ui.time_type.TimeType
+import com.enricog.features.routines.list.models.RoutinesItem
 import com.enricog.features.routines.list.models.RoutinesViewState
 import com.enricog.features.routines.list.ui_components.RoutinesEmptySceneTestTag
 import com.enricog.features.routines.list.ui_components.RoutinesErrorSceneTestTag
@@ -12,6 +17,7 @@ import com.enricog.features.routines.list.ui_components.RoutinesSceneTestTag
 import com.enricog.ui.theme.TempoTheme
 import org.junit.Rule
 import org.junit.Test
+import com.enricog.data.routines.api.entities.TimeType as TimeTypeEntity
 
 class RoutinesScreenKtTest {
 
@@ -68,7 +74,25 @@ class RoutinesScreenKtTest {
 
     @Test
     fun shouldRenderRoutinesSceneWhenStateIsData() = composeRule {
-        val viewState = RoutinesViewState.Data(routinesItems = emptyImmutableList(), message = null)
+        val viewState = RoutinesViewState.Data(
+            routinesItems = immutableListOf(
+                RoutinesItem.RoutineItem(
+                    id = 0.asID,
+                    name = "Routine",
+                    rank = "aaaaaa",
+                    segmentsSummary = RoutinesItem.RoutineItem.SegmentsSummary(
+                        totalTime = 12.seconds,
+                        segmentTypesCount = immutableMapOf(
+                            TimeType.from(TimeTypeEntity.TIMER) to 2,
+                            TimeType.from(TimeTypeEntity.REST) to 1,
+                            TimeType.from(TimeTypeEntity.STOPWATCH) to 1
+                        )
+                    )
+                ),
+                RoutinesItem.Space
+            ),
+            message = null
+        )
 
         setContent {
             TempoTheme {

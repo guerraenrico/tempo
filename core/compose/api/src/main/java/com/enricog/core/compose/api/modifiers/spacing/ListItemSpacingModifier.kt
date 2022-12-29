@@ -7,7 +7,8 @@ import androidx.compose.ui.unit.dp
 
 fun Modifier.verticalListItemSpacing(
     itemPosition: Int,
-    spacing: Dp,
+    spacingVertical: Dp,
+    spacingHorizontal: Dp,
     includeEdge: Boolean = true
 ): Modifier {
     var top = 0.dp
@@ -15,18 +16,18 @@ fun Modifier.verticalListItemSpacing(
 
     if (includeEdge) {
         if (itemPosition == 0) {
-            top = spacing
+            top = spacingVertical
         }
-        bottom = spacing
+        bottom = spacingVertical
     } else {
         if (itemPosition > 0) {
-            top = spacing
+            top = spacingVertical
         }
     }
 
     return padding(
-        start = spacing,
-        end = spacing,
+        start = spacingHorizontal,
+        end = spacingHorizontal,
         top = top,
         bottom = bottom
     )
@@ -34,7 +35,8 @@ fun Modifier.verticalListItemSpacing(
 
 fun Modifier.horizontalListItemSpacing(
     itemPosition: Int,
-    spacing: Dp,
+    spacingVertical: Dp,
+    spacingHorizontal: Dp,
     includeEdge: Boolean = true
 ): Modifier {
     var start = 0.dp
@@ -42,19 +44,19 @@ fun Modifier.horizontalListItemSpacing(
 
     if (includeEdge) {
         if (itemPosition == 0) {
-            start = spacing
+            start = spacingHorizontal
         }
-        end = spacing
+        end = spacingHorizontal
     } else {
         if (itemPosition > 0) {
-            start = spacing
+            start = spacingHorizontal
         }
     }
 
     return padding(
         start = start,
         end = end,
-        top = spacing,
-        bottom = spacing
+        top = spacingVertical,
+        bottom = spacingVertical
     )
 }
