@@ -12,7 +12,8 @@ data class Routine(
     val startTimeOffset: Seconds,
     val createdAt: OffsetDateTime,
     val updatedAt: OffsetDateTime,
-    val segments: List<Segment>
+    val segments: List<Segment>,
+    val rank: Rank
 ) {
 
     init {
@@ -29,25 +30,29 @@ data class Routine(
 
     fun getNewSegmentRank(): Rank {
         return when {
-            segments.isEmpty() -> Rank.calculateFist()
+            segments.isEmpty() -> Rank.calculateFirst()
             else -> Rank.calculateBottom(segments.last().rank)
         }
     }
 
     companion object {
-        val NEW: Routine
-            get() {
-                val now = OffsetDateTime.now()
-                return Routine(
-                    id = ID.new(),
-                    name = "",
-                    startTimeOffset = 0.seconds,
-                    createdAt = now,
-                    updatedAt = now,
-                    segments = emptyList()
-                )
-            }
+        fun create(rank: Rank): Routine {
+            val now = OffsetDateTime.now()
+            return Routine(
+                id = ID.new(),
+                name = "",
+                startTimeOffset = 0.seconds,
+                createdAt = now,
+                updatedAt = now,
+                segments = emptyList(),
+                rank = rank
+            )
+        }
 
         val MAX_START_TIME_OFFSET = 60.seconds
     }
+}
+
+fun List<Routine>.sortedByRank(): List<Routine> {
+    return sortedBy { it.rank }
 }

@@ -107,8 +107,7 @@ class ListDraggableState(
         draggedItem = listState.draggedItemInfo(dragAmount.y)
             ?.takeIf { item -> isItemDraggable(item.index) }
             ?.also { item ->
-                val index = item.index
-                hoveredItemIndex = index
+                hoveredItemIndex = item.index
                 draggedItemOffsetY += item.offset
             }
     }
@@ -138,6 +137,7 @@ class ListDraggableState(
                                 else -> startOffset > itemInfo.offset && startOffset < itemInfo.offsetEnd
                             }
                         }
+                        ?.takeIf { itemInfo -> isItemDraggable(itemInfo.index) } // Only draggable items can be hovered
                         ?.let { itemInfo -> hoveredItemIndex = itemInfo.index }
                 }
 

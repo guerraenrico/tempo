@@ -106,7 +106,7 @@ class RoutineSummaryReducerTest {
             action = Action.MoveSegmentError
         )
 
-        val result = sut.segmentMoveError(state = state)
+        val result = sut.moveSegmentError(state = state)
 
         assertEquals(expected, result)
     }

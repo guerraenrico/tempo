@@ -1,4 +1,4 @@
-package com.enricog.features.routines.detail.summary.ui_components
+package com.enricog.features.routines.list.ui_components
 
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.runtime.Composable
@@ -7,24 +7,24 @@ import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.graphicsLayer
 import androidx.compose.ui.platform.testTag
 import androidx.compose.ui.zIndex
-import com.enricog.features.routines.detail.summary.models.RoutineSummaryItem
+import com.enricog.features.routines.list.models.RoutinesItem.RoutineItem
 import com.enricog.ui.theme.TempoTheme
 
-internal const val DraggedSegmentTestTag = "DraggedSegment"
+internal const val DraggedRoutineTestTag = "DraggedRoutineTestTag"
 
 @Composable
-internal fun DraggedSegment(
-    segment: RoutineSummaryItem.SegmentItem,
+internal fun DraggedRoutine(
+    routine: RoutineItem,
     offsetProvider: () -> Float,
     modifier: Modifier = Modifier
 ) {
-    SegmentItem(
-        segment = segment,
-        enableClick = false,
+    RoutineItem(
+        routineItem = routine,
         onClick = {},
         onDelete = {},
+        enableClick = false,
         modifier = modifier
-            .testTag(DraggedSegmentTestTag)
+            .testTag(DraggedRoutineTestTag)
             .fillMaxWidth()
             .graphicsLayer {
                 translationY = offsetProvider()

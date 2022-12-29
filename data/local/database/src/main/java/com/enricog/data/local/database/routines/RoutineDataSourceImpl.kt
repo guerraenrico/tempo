@@ -1,12 +1,13 @@
 package com.enricog.data.local.database.routines
 
 import android.annotation.SuppressLint
-import com.enricog.data.routines.api.RoutineDataSource
-import com.enricog.entities.ID
-import com.enricog.data.routines.api.entities.Routine
 import com.enricog.data.local.database.TempoDatabase
 import com.enricog.data.local.database.routines.model.InternalRoutineWithSegments
 import com.enricog.data.local.database.routines.model.toInternal
+import com.enricog.data.routines.api.RoutineDataSource
+import com.enricog.data.routines.api.entities.Routine
+import com.enricog.data.routines.api.entities.sortedByRank
+import com.enricog.entities.ID
 import kotlinx.coroutines.NonCancellable
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.map
@@ -23,11 +24,18 @@ internal class RoutineDataSourceImpl @Inject constructor(
     override fun observeAll(): Flow<List<Routine>> {
         return database.routineDao().observeAll()
             .map { list -> list.map(InternalRoutineWithSegments::toEntity) }
+            .map { list -> list.sortedByRank() }
     }
 
     override fun observe(id: ID): Flow<Routine> {
         return database.routineDao().observe(id.toLong())
             .map(InternalRoutineWithSegments::toEntity)
+    }
+
+    override suspend fun getAll(): List<Routine> {
+        return database.routineDao().getAll()
+            .map(InternalRoutineWithSegments::toEntity)
+            .sortedByRank()
     }
 
     override suspend fun get(id: ID): Routine {

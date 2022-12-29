@@ -26,7 +26,7 @@ internal class RoutineSummaryReducer @Inject constructor() {
         return state.copy(action = DeleteSegmentError(segmentId = segmentId))
     }
 
-    fun segmentMoveError(state: RoutineSummaryState.Data): RoutineSummaryState.Data {
+    fun moveSegmentError(state: RoutineSummaryState.Data): RoutineSummaryState.Data {
         return state.copy(action = MoveSegmentError)
     }
 

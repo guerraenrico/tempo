@@ -41,7 +41,7 @@ internal fun RoutineSummaryScene(
     onSegmentAdd: () -> Unit,
     onSegmentSelected: (ID) -> Unit,
     onSegmentDelete: (ID) -> Unit,
-    onSegmentMoved: (ID, ID?) -> Unit,
+    onSegmentMoved: (ID, ID) -> Unit,
     onRoutineStart: () -> Unit,
     onRoutineEdit: () -> Unit,
     onSnackbarEvent: (TempoSnackbarEvent) -> Unit
@@ -49,7 +49,7 @@ internal fun RoutineSummaryScene(
 
     val listDraggableState = rememberListDraggableState(
         key = summaryItems,
-        isItemDraggable = { index -> summaryItems[index] is SegmentItem }
+        isItemDraggable = { index -> summaryItems[index].isDraggable }
     )
     val snackbarHostState = rememberSnackbarHostState()
 
@@ -66,8 +66,8 @@ internal fun RoutineSummaryScene(
         listDraggableState.itemMovedEvent.collect { itemMoved ->
             val draggedSegment = summaryItems[itemMoved.indexDraggedItem] as? SegmentItem
             val hoveredSegment = summaryItems[itemMoved.indexHoveredItem] as? SegmentItem
-            if (draggedSegment != null) {
-                onSegmentMoved(draggedSegment.id, hoveredSegment?.id)
+            if (draggedSegment != null && hoveredSegment != null) {
+                onSegmentMoved(draggedSegment.id, hoveredSegment.id)
             }
         }
     }
@@ -113,8 +113,8 @@ internal fun RoutineSummaryScene(
                 if (listDraggableState.isDragging) {
                     DraggedSegment(
                         modifier = Modifier.padding(horizontal = TempoTheme.dimensions.spaceM),
-                        segment = summaryItems[listDraggableState.draggedItem?.index!!] as SegmentItem,
-                        offset = listDraggableState.draggedItemOffsetY
+                        segment = summaryItems[listDraggableState.draggedItem!!.index] as SegmentItem,
+                        offsetProvider = { listDraggableState.draggedItemOffsetY }
                     )
                 }
             }
@@ -122,8 +122,8 @@ internal fun RoutineSummaryScene(
         anchor = {
             AnimatedVisibility(
                 visible = !listDraggableState.isDragging,
-                enter = slideInVertically(initialOffsetY = { it }),
-                exit = slideOutVertically(targetOffsetY = { it }),
+                enter = slideInVertically(initialOffsetY = { it * 2 }),
+                exit = slideOutVertically(targetOffsetY = { it * 2}),
                 modifier = Modifier.fillMaxWidth()
             ) {
                 Box(modifier = Modifier.fillMaxWidth()) {

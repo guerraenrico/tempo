@@ -11,7 +11,7 @@ class RankTest {
     fun `calculateFist should return middle rank`() {
         val expected = Rank.from("mzzzzz")
 
-        val actual = Rank.calculateFist()
+        val actual = Rank.calculateFirst()
 
         assertEquals(expected, actual)
     }
@@ -42,7 +42,7 @@ class RankTest {
         val rank2 = Rank.from("cccccc")
         val expected = Rank.from("bbbbbb")
 
-        val actual = Rank.calculate(rank1 = rank1, rank2 = rank2)
+        val actual = Rank.calculate(rankTop = rank1, rankBottom = rank2)
 
         assertEquals(expected, actual)
     }
@@ -65,7 +65,7 @@ class RankTest {
         val rank1 = Rank.from("cccccc")
         val rank2 = Rank.from("aaaaaa")
 
-        Rank.calculate(rank1 = rank1, rank2 = rank2)
+        Rank.calculate(rankTop = rank1, rankBottom = rank2)
     }
 
     @Test(expected = IllegalArgumentException::class)
@@ -73,6 +73,6 @@ class RankTest {
         val rank1 = Rank.from("aaaaaa")
         val rank2 = Rank.from("aaaaaa")
 
-        Rank.calculate(rank1 = rank1, rank2 = rank2)
+        Rank.calculate(rankTop = rank1, rankBottom = rank2)
     }
 }

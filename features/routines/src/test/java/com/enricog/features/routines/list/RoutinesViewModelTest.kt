@@ -7,10 +7,12 @@ import com.enricog.data.local.testing.FakeStore
 import com.enricog.data.routines.testing.FakeRoutineDataSource
 import com.enricog.data.routines.testing.entities.EMPTY
 import com.enricog.entities.ID
+import com.enricog.entities.Rank
 import com.enricog.entities.asID
 import com.enricog.features.routines.R
+import com.enricog.features.routines.list.models.RoutinesItem
 import com.enricog.features.routines.list.models.RoutinesViewState
-import com.enricog.features.routines.list.models.RoutinesViewState.Data.Routine
+import com.enricog.features.routines.list.usecase.MoveRoutineUseCase
 import com.enricog.features.routines.list.usecase.RoutinesUseCase
 import com.enricog.features.routines.navigation.RoutinesNavigationActions
 import com.enricog.navigation.api.routes.RoutineRoute
@@ -35,26 +37,31 @@ class RoutinesViewModelTest {
     private val firstRoutineEntity = RoutineEntity.EMPTY.copy(
         id = 1.asID,
         name = "First Routine",
+        rank = Rank.from(value = "aaaaaa")
     )
     private val secondRoutineEntity = RoutineEntity.EMPTY.copy(
         id = 2.asID,
         name = "Second Routine",
+        rank = Rank.from(value = "bbbbbb")
     )
-    private val firstRoutine = Routine(
+    private val firstRoutine = RoutinesItem.RoutineItem(
         id = 1.asID,
         name = "First Routine",
+        rank = "aaaaaa"
     )
-    private val secondRoutine = Routine(
+    private val secondRoutine = RoutinesItem.RoutineItem(
         id = 2.asID,
         name = "Second Routine",
+        rank = "bbbbbb"
     )
     private val navigator = FakeNavigator()
     private val store = FakeStore(listOf(firstRoutineEntity, secondRoutineEntity))
+    private val routineDataSource = FakeRoutineDataSource(store = store)
 
     @Test
     fun `should should show data when load succeeds`() = coroutineRule {
         val expected = RoutinesViewState.Data(
-            routines = immutableListOf(firstRoutine, secondRoutine),
+            routinesItems = immutableListOf(firstRoutine, secondRoutine, RoutinesItem.Space),
             message = null
         )
         val sut = buildSut()
@@ -100,7 +107,10 @@ class RoutinesViewModelTest {
 
     @Test
     fun `should remove routine when delete routine clicked`() = coroutineRule {
-        val expected = RoutinesViewState.Data(routines = immutableListOf(secondRoutine), message = null)
+        val expected = RoutinesViewState.Data(
+            routinesItems = immutableListOf(secondRoutine, RoutinesItem.Space),
+            message = null
+        )
         val sut = buildSut()
         advanceUntilIdle()
 
@@ -113,7 +123,7 @@ class RoutinesViewModelTest {
     @Test
     fun `should show message when delete routine clicked and deletion fails`() = coroutineRule {
         val expected = RoutinesViewState.Data(
-            routines = immutableListOf(firstRoutine, secondRoutine),
+            routinesItems = immutableListOf(firstRoutine, secondRoutine, RoutinesItem.Space),
             message = RoutinesViewState.Data.Message(
                 textResId = R.string.label_routines_delete_error,
                 actionTextResId = R.string.action_text_routines_delete_error
@@ -132,7 +142,7 @@ class RoutinesViewModelTest {
     @Test
     fun `should hide message when when snackbar is dismissed`() = coroutineRule {
         val expected = RoutinesViewState.Data(
-            routines = immutableListOf(firstRoutine, secondRoutine),
+            routinesItems = immutableListOf(firstRoutine, secondRoutine, RoutinesItem.Space),
             message = null
         )
         val sut = buildSut()
@@ -150,7 +160,7 @@ class RoutinesViewModelTest {
     @Test
     fun `should retry delete when when snackbar action is clicked`() = coroutineRule {
         val expected = RoutinesViewState.Data(
-            routines = immutableListOf(secondRoutine),
+            routinesItems = immutableListOf(secondRoutine, RoutinesItem.Space),
             message = null
         )
         val sut = buildSut()
@@ -168,7 +178,7 @@ class RoutinesViewModelTest {
     @Test
     fun `should reload when retry button clicked`() = coroutineRule {
         val expected = RoutinesViewState.Data(
-            routines = immutableListOf(secondRoutine),
+            routinesItems = immutableListOf(secondRoutine, RoutinesItem.Space),
             message = null
         )
         val sut = buildSut()
@@ -186,7 +196,10 @@ class RoutinesViewModelTest {
             navigationActions = RoutinesNavigationActions(navigator),
             reducer = RoutinesReducer(),
             routinesUseCase = RoutinesUseCase(
-                routineDataSource = FakeRoutineDataSource(store = store)
+                routineDataSource = routineDataSource
+            ),
+            moveRoutineUseCase = MoveRoutineUseCase(
+                routineDataSource = routineDataSource
             )
         )
     }

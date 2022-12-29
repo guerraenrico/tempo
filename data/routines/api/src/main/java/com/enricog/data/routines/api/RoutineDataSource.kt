@@ -10,6 +10,8 @@ interface RoutineDataSource {
 
     fun observe(id: ID): Flow<Routine>
 
+    suspend fun getAll(): List<Routine>
+
     suspend fun get(id: ID): Routine
 
     suspend fun create(routine: Routine): ID

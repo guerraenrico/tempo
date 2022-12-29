@@ -9,7 +9,9 @@ import com.enricog.core.logger.api.TempoLogger
 import com.enricog.entities.ID
 import com.enricog.features.routines.list.models.RoutinesState
 import com.enricog.features.routines.list.models.RoutinesState.Data.Action.DeleteRoutineError
+import com.enricog.features.routines.list.models.RoutinesState.Data.Action.MoveRoutineError
 import com.enricog.features.routines.list.models.RoutinesViewState
+import com.enricog.features.routines.list.usecase.MoveRoutineUseCase
 import com.enricog.features.routines.list.usecase.RoutinesUseCase
 import com.enricog.features.routines.navigation.RoutinesNavigationActions
 import com.enricog.ui.components.snackbar.TempoSnackbarEvent
@@ -29,7 +31,8 @@ internal class RoutinesViewModel @Inject constructor(
     converter: RoutinesStateConverter,
     private val navigationActions: RoutinesNavigationActions,
     private val reducer: RoutinesReducer,
-    private val routinesUseCase: RoutinesUseCase
+    private val routinesUseCase: RoutinesUseCase,
+    private val moveRoutineUseCase: MoveRoutineUseCase
 ) : BaseViewModel<RoutinesState, RoutinesViewState>(
     initialState = RoutinesState.Idle,
     converter = converter,
@@ -38,6 +41,7 @@ internal class RoutinesViewModel @Inject constructor(
 
     private var loadJob by autoCancelableJob()
     private var deleteJob by autoCancelableJob()
+    private var moveJob by autoCancelableJob()
 
     init {
         load()
@@ -78,6 +82,20 @@ internal class RoutinesViewModel @Inject constructor(
         }
     }
 
+    fun onRoutineMoved(draggedRoutineId: ID, hoveredRoutineId: ID) {
+        val exceptionHandler = CoroutineExceptionHandler { _, throwable ->
+            TempoLogger.e(throwable = throwable)
+            updateStateWhen<RoutinesState.Data> { reducer.moveRoutineError(state = it) }
+        }
+        moveJob = launchWhen<RoutinesState.Data>(exceptionHandler) {
+            moveRoutineUseCase(
+                routines = it.routines,
+                draggedRoutineId = draggedRoutineId,
+                hoveredRoutineId = hoveredRoutineId
+            )
+        }
+    }
+
     fun onRetryLoad() {
         load()
     }
@@ -90,6 +108,7 @@ internal class RoutinesViewModel @Inject constructor(
             if (snackbarEvent == ActionPerformed) {
                 when (previousAction) {
                     is DeleteRoutineError -> onRoutineDelete(routineId = previousAction.routineId)
+                    MoveRoutineError,
                     null -> Unit
                 }
             }

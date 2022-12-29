@@ -1,8 +1,12 @@
 package com.enricog.entities
 
-import java.lang.IllegalStateException
 import kotlin.math.pow
 
+/**
+ * Lexorank based implementation simplified.
+ * It is used to order items in the databased without changing all items
+ * but only the item that has been moved.
+ */
 @JvmInline
 value class Rank private constructor(private val value: String) : Comparable<Rank> {
 
@@ -32,47 +36,47 @@ value class Rank private constructor(private val value: String) : Comparable<Ran
             return Rank(value)
         }
 
-        fun calculate(rank1: Rank?, rank2: Rank?): Rank {
+        fun calculate(rankTop: Rank?, rankBottom: Rank?): Rank {
             return when {
-                rank1 == null && rank2 != null -> calculateTop(rank2)
-                rank1 != null && rank2 == null -> calculateBottom(rank1)
-                rank1 != null && rank2 != null -> calculate(rank1, rank2)
-                rank1 == null && rank2 == null -> calculateFist()
-                else -> throw IllegalStateException("Is this life?")
+                rankTop == null && rankBottom != null -> calculateTop(rankBottom)
+                rankTop != null && rankBottom == null -> calculateBottom(rankTop)
+                rankTop != null && rankBottom != null -> calculate(rankTop, rankBottom)
+                // else is same as rankTop == null && rankBottom == null
+                else -> calculateFirst()
             }
         }
 
         /**
          * Calculate the rank of the very first item of the list.
          */
-        fun calculateFist(): Rank {
-            return calculate(rank1 = MIN_RANK, rank2 = MAX_RANK)
+        fun calculateFirst(): Rank {
+            return calculate(rankTop = MIN_RANK, rankBottom = MAX_RANK)
         }
 
         /**
          * Calculate the rank for the fist item of the list.
          */
         fun calculateTop(rank: Rank): Rank {
-            return calculate(rank1 = MIN_RANK, rank2 = rank)
+            return calculate(rankTop = MIN_RANK, rankBottom = rank)
         }
 
         /**
          * Calculate the rank for the last item of the list.
          */
         fun calculateBottom(rank: Rank): Rank {
-            return calculate(rank1 = rank, rank2 = MAX_RANK)
+            return calculate(rankTop = rank, rankBottom = MAX_RANK)
         }
 
         /**
          * Calculate the rank between two other ranks
          */
-        fun calculate(rank1: Rank, rank2: Rank): Rank {
-            if (rank1 >= rank2) {
-                throw IllegalArgumentException("$rank1 is higher or equal to $rank2")
+        fun calculate(rankTop: Rank, rankBottom: Rank): Rank {
+            if (rankTop >= rankBottom) {
+                throw IllegalArgumentException("RankTop($rankTop) is higher or equal to RankBottom($rankBottom)")
             }
 
-            val codePoints1 = rank1.value.codePoints().toArray()
-            val codePoints2 = rank2.value.codePoints().toArray()
+            val codePoints1 = rankTop.value.codePoints().toArray()
+            val codePoints2 = rankBottom.value.codePoints().toArray()
 
             var diff = 0.0
             for (i in RANK_LENGTH - 1 downTo 0) {
@@ -89,7 +93,7 @@ value class Rank private constructor(private val value: String) : Comparable<Ran
             }
 
             if (diff <= 1) {
-                return from(rank1.value + Char(MIN_CHAR.code + ALPHABET_SIZE / 2).toString())
+                return from(rankTop.value + Char(MIN_CHAR.code + ALPHABET_SIZE / 2).toString())
             }
 
             diff /= 2
@@ -99,7 +103,7 @@ value class Rank private constructor(private val value: String) : Comparable<Ran
                 for (i in 0 until RANK_LENGTH) {
                     val diffInSymbols = (diff / ALPHABET_SIZE.toDouble().pow(i) % ALPHABET_SIZE)
                         .toInt()
-                    var elementCode = rank1.value
+                    var elementCode = rankTop.value
                         .codePointAt(RANK_LENGTH - i - 1) + diffInSymbols + offset
                     offset = 0
                     if (elementCode > MAX_CHAR.code) {

@@ -5,6 +5,7 @@ import com.enricog.data.routines.testing.entities.EMPTY
 import com.enricog.entities.asID
 import com.enricog.features.routines.list.models.RoutinesState
 import com.enricog.features.routines.list.models.RoutinesState.Data.Action.DeleteRoutineError
+import com.enricog.features.routines.list.models.RoutinesState.Data.Action.MoveRoutineError
 import org.junit.Test
 import kotlin.test.assertEquals
 
@@ -43,7 +44,7 @@ class RoutinesReducerTest {
     }
 
     @Test
-    fun `should set state with delete routine error action`() {
+    fun `should apply delete routine error action`() {
         val routineId = 1.asID
         val routine = Routine.EMPTY.copy(id = routineId)
         val routines = listOf(routine)
@@ -54,6 +55,22 @@ class RoutinesReducerTest {
         )
 
         val result = sut.deleteRoutineError(state = state, routineId = routineId)
+
+        assertEquals(expected, result)
+    }
+
+    @Test
+    fun `should apply move segment error action`() {
+        val routineId = 1.asID
+        val routine = Routine.EMPTY.copy(id = routineId)
+        val routines = listOf(routine)
+        val state = RoutinesState.Data(routines = routines, action = null)
+        val expected = RoutinesState.Data(
+            routines = routines,
+            action = MoveRoutineError
+        )
+
+        val result = sut.moveRoutineError(state = state)
 
         assertEquals(expected, result)
     }

@@ -13,6 +13,10 @@ class ImmutableMap<K : Any, V : Any> internal constructor(private val map: Map<K
     override fun hashCode(): Int {
         return map.hashCode()
     }
+
+    override fun toString(): String {
+        return map.toString()
+    }
 }
 
 fun <K : Any, V : Any> immutableMapOf(vararg pairs: Pair<K, V>): ImmutableMap<K, V> = ImmutableMap(

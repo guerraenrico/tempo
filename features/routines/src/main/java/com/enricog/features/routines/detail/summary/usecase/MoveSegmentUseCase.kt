@@ -10,17 +10,24 @@ internal class MoveSegmentUseCase @Inject constructor(
     private val routineDataSource: RoutineDataSource
 ) {
 
-    suspend operator fun invoke(routine: Routine, draggedSegmentId: ID, hoveredSegmentId: ID?) {
-        val itemIndex = routine.segments.indexOfFirst { it.id == draggedSegmentId }
+    suspend operator fun invoke(routine: Routine, draggedSegmentId: ID, hoveredSegmentId: ID) {
+        val currentIndex = routine.segments.indexOfFirst { it.id == draggedSegmentId }
+            .takeIf { it >= 0 } ?: return
         val newIndex = routine.segments.indexOfFirst { it.id == hoveredSegmentId }
+            .takeIf { it >= 0 } ?: return
 
-        if (itemIndex == newIndex || itemIndex < 0) {
+        if (currentIndex == newIndex) {
             return
         }
 
-        val rank1 = routine.segments.getOrNull(newIndex)?.rank
-        val rank2 = routine.segments.getOrNull(newIndex + 1)?.rank
-        val newRank = Rank.calculate(rank1 = rank1, rank2 = rank2)
+        fun getRank(index: Int): Rank? = routine.segments.getOrNull(index)?.rank
+
+        val (rankTop, rankBottom) = if (currentIndex > newIndex) {
+            getRank(index = newIndex - 1) to getRank(index = newIndex)
+        } else {
+            getRank(index = newIndex) to getRank(index = newIndex + 1)
+        }
+        val newRank = Rank.calculate(rankTop = rankTop, rankBottom = rankBottom)
         val segments = routine.segments
             .map {
                 if (it.id == draggedSegmentId) {

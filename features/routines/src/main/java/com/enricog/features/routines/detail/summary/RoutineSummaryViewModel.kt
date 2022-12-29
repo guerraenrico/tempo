@@ -92,10 +92,10 @@ internal class RoutineSummaryViewModel @Inject constructor(
         }
     }
 
-    fun onSegmentMoved(draggedSegmentId: ID, hoveredSegmentId: ID?) {
+    fun onSegmentMoved(draggedSegmentId: ID, hoveredSegmentId: ID) {
         val exceptionHandler = CoroutineExceptionHandler { _, throwable ->
             TempoLogger.e(throwable = throwable)
-            updateStateWhen<RoutineSummaryState.Data> { reducer.segmentMoveError(state = it) }
+            updateStateWhen<RoutineSummaryState.Data> { reducer.moveSegmentError(state = it) }
         }
         moveJob = launchWhen<RoutineSummaryState.Data>(exceptionHandler) {
             moveSegmentUseCase(
