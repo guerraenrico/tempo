@@ -1,6 +1,7 @@
 package com.enricog.data.routines.api.entities
 
 import com.enricog.data.routines.api.entities.Routine.Companion.MAX_START_TIME_OFFSET
+import com.enricog.entities.Rank
 import com.enricog.entities.asID
 import com.enricog.entities.seconds
 import java.time.OffsetDateTime
@@ -26,7 +27,8 @@ class RoutineTest {
             startTimeOffset = startTimeOffset,
             createdAt = OffsetDateTime.MAX,
             updatedAt = OffsetDateTime.MAX,
-            segments = emptyList()
+            segments = emptyList(),
+            rank = Rank.from("aaaaaa")
         )
     }
 
@@ -43,7 +45,8 @@ class RoutineTest {
             startTimeOffset = startTimeOffset,
             createdAt = OffsetDateTime.MAX,
             updatedAt = OffsetDateTime.MAX,
-            segments = emptyList()
+            segments = emptyList(),
+            rank = Rank.from("aaaaaa")
         )
     }
 
@@ -61,7 +64,8 @@ class RoutineTest {
             startTimeOffset = 50.seconds,
             createdAt = OffsetDateTime.MAX,
             updatedAt = OffsetDateTime.MAX,
-            segments = emptyList()
+            segments = emptyList(),
+            rank = Rank.from("aaaaaa")
         )
         routine.copy(startTimeOffset = startTimeOffset)
     }
@@ -80,7 +84,8 @@ class RoutineTest {
             startTimeOffset = 50.seconds,
             createdAt = OffsetDateTime.MAX,
             updatedAt = OffsetDateTime.MAX,
-            segments = emptyList()
+            segments = emptyList(),
+            rank = Rank.from("aaaaaa")
         )
         routine.copy(startTimeOffset = startTimeOffset)
     }
@@ -93,7 +98,8 @@ class RoutineTest {
             startTimeOffset = MAX_START_TIME_OFFSET,
             createdAt = OffsetDateTime.MAX,
             updatedAt = OffsetDateTime.MAX,
-            segments = emptyList()
+            segments = emptyList(),
+            rank = Rank.from("aaaaaa")
         )
     }
 
@@ -106,7 +112,8 @@ class RoutineTest {
             startTimeOffset = 50.seconds,
             createdAt = OffsetDateTime.MAX,
             updatedAt = OffsetDateTime.MAX,
-            segments = emptyList()
+            segments = emptyList(),
+            rank = Rank.from("aaaaaa")
         )
         routine.copy(startTimeOffset = MAX_START_TIME_OFFSET)
     }
