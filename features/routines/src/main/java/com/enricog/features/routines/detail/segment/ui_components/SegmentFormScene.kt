@@ -72,9 +72,13 @@ internal fun SegmentFormScene(
         content = {
             SegmentPager(
                 modifier = Modifier
-                    .padding(TempoTheme.dimensions.spaceM)
                     .fillMaxSize()
-                    .padding(bottom = 85.dp),
+                    .padding(
+                        top = TempoTheme.dimensions.spaceM,
+                        start = TempoTheme.dimensions.spaceM,
+                        end = TempoTheme.dimensions.spaceM,
+                        bottom = 85.dp
+                    ),
                 timeTypes = state.timeTypes,
                 selectedType = state.segment.type,
                 onSelectTimeTypeChange = onSegmentTimeTypeChange
