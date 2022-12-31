@@ -48,7 +48,7 @@ class TimerStateConverterTest {
 
 
     @Test
-    fun `test map counting state`() = coroutineRule {
+    fun `test map counting state with timer running`() = coroutineRule {
         val state = TimerState.Counting(
             routine =  Routine.EMPTY.copy(
                 segments = listOf(Segment.EMPTY.copy(name = "segment name", type = TimeType.REST))
@@ -78,6 +78,47 @@ class TimerStateConverterTest {
                 toggleStart = TimerViewState.Counting.Actions.Button(
                     iconResId =  R.drawable.ic_timer_stop,
                     contentDescriptionResId =  R.string.content_description_button_stop_routine_segment,
+                    size = TempoIconButtonSize.Normal
+                )
+            )
+        )
+
+        val actual = sut.convert(state)
+
+        assertEquals(expected, actual)
+    }
+
+    @Test
+    fun `test map counting state with timer not running`() = coroutineRule {
+        val state = TimerState.Counting(
+            routine =  Routine.EMPTY.copy(
+                segments = listOf(Segment.EMPTY.copy(name = "segment name", type = TimeType.REST))
+            ),
+            runningSegment = Segment.EMPTY.copy(name = "segment name", type = TimeType.REST),
+            step = SegmentStep(
+                count = Count(seconds = 5.seconds, isRunning = false, isCompleted = false),
+                type = SegmentStepType.IN_PROGRESS
+            ),
+            isSoundEnabled = true
+        )
+        val expected = TimerViewState.Counting(
+            timeInSeconds = 5,
+            stepTitleId = R.string.title_segment_time_type_rest,
+            segmentName = "segment name",
+            clockBackgroundColor = BackgroundColor(
+                foreground =  TimeTypeColors.REST,
+                ripple = null
+            ),
+            isSoundEnabled = true,
+            timerActions = TimerViewState.Counting.Actions(
+                restart = TimerViewState.Counting.Actions.Button(
+                    iconResId = R.drawable.ic_timer_back,
+                    contentDescriptionResId = R.string.content_description_button_restart_routine_segment,
+                    size = TempoIconButtonSize.Normal
+                ),
+                toggleStart = TimerViewState.Counting.Actions.Button(
+                    iconResId =  R.drawable.ic_timer_play,
+                    contentDescriptionResId =  R.string.content_description_button_start_routine_segment,
                     size = TempoIconButtonSize.Normal
                 )
             )
