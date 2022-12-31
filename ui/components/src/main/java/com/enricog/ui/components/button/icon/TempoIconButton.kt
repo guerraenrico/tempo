@@ -8,7 +8,6 @@ import androidx.compose.material.IconButton
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.shadow
-import androidx.compose.ui.graphics.painter.Painter
 import androidx.compose.ui.unit.dp
 import com.enricog.ui.components.button.TempoButtonColor
 import com.enricog.ui.components.icon.TempoIcon

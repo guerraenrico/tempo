@@ -20,6 +20,7 @@ import com.enricog.libraries.sound.testing.FakeSoundPlayer
 import com.enricog.navigation.api.routes.RoutinesRoute
 import com.enricog.navigation.api.routes.RoutinesRouteInput
 import com.enricog.navigation.testing.FakeNavigator
+import com.enricog.ui.components.button.icon.TempoIconButtonSize
 import com.enricog.ui.theme.TimeTypeColors
 import kotlinx.coroutines.test.StandardTestDispatcher
 import kotlinx.coroutines.test.advanceTimeBy
@@ -67,25 +68,47 @@ class TimerViewModelTest {
     fun `on init should setup routine and start count down`() = coroutineRule {
         val expectedOnSetup = TimerViewState.Counting(
             timeInSeconds = 3,
-            isRunning = false,
             stepTitleId = R.string.title_segment_step_type_starting,
             segmentName = "First Segment",
             clockBackgroundColor = BackgroundColor(
                 foreground = TimeTypeColors.STARTING,
                 ripple = null
             ),
-            isSoundEnabled = true
+            isSoundEnabled = true,
+            timerActions = TimerViewState.Counting.Actions(
+                restart = TimerViewState.Counting.Actions.Button(
+                    iconResId = R.drawable.ic_timer_back,
+                    contentDescriptionResId = R.string.content_description_button_restart_routine_segment,
+                    size = TempoIconButtonSize.Normal
+                ),
+                toggleStart = TimerViewState.Counting.Actions.Button(
+                    iconResId = R.drawable.ic_timer_play,
+                    contentDescriptionResId = R.string.content_description_button_start_routine_segment,
+                    size = TempoIconButtonSize.Normal
+                )
+            )
         )
         val expectedOnStart = TimerViewState.Counting(
             timeInSeconds = 3,
-            isRunning = true,
             stepTitleId = R.string.title_segment_step_type_starting,
             segmentName = "First Segment",
             clockBackgroundColor = BackgroundColor(
                 foreground = TimeTypeColors.STARTING,
                 ripple = null
             ),
-            isSoundEnabled = true
+            isSoundEnabled = true,
+            timerActions = TimerViewState.Counting.Actions(
+                restart = TimerViewState.Counting.Actions.Button(
+                    iconResId = R.drawable.ic_timer_back,
+                    contentDescriptionResId = R.string.content_description_button_restart_routine_segment,
+                    size = TempoIconButtonSize.Normal
+                ),
+                toggleStart = TimerViewState.Counting.Actions.Button(
+                    iconResId =  R.drawable.ic_timer_stop,
+                    contentDescriptionResId =  R.string.content_description_button_stop_routine_segment,
+                    size = TempoIconButtonSize.Normal
+                )
+            )
         )
         val sut = buildSut()
 
@@ -163,14 +186,25 @@ class TimerViewModelTest {
     fun `should stop routine on toggle when timer is running`() = coroutineRule {
         val expected = TimerViewState.Counting(
             timeInSeconds = 2,
-            isRunning = false,
             stepTitleId = R.string.title_segment_step_type_starting,
             segmentName = "First Segment",
             clockBackgroundColor = BackgroundColor(
                 foreground = TimeTypeColors.STARTING,
                 ripple = null
             ),
-            isSoundEnabled = true
+            isSoundEnabled = true,
+            timerActions = TimerViewState.Counting.Actions(
+                restart = TimerViewState.Counting.Actions.Button(
+                    iconResId = R.drawable.ic_timer_back,
+                    contentDescriptionResId = R.string.content_description_button_restart_routine_segment,
+                    size = TempoIconButtonSize.Normal
+                ),
+                toggleStart = TimerViewState.Counting.Actions.Button(
+                    iconResId = R.drawable.ic_timer_play,
+                    contentDescriptionResId = R.string.content_description_button_start_routine_segment,
+                    size = TempoIconButtonSize.Normal
+                )
+            )
         )
         val sut = buildSut()
 
@@ -192,14 +226,25 @@ class TimerViewModelTest {
     fun `should restart timer when restart`() = coroutineRule {
         val expected = TimerViewState.Counting(
             timeInSeconds = 3,
-            isRunning = false,
             stepTitleId = R.string.title_segment_step_type_starting,
             segmentName = "First Segment",
             clockBackgroundColor = BackgroundColor(
                 foreground = TimeTypeColors.STARTING,
                 ripple = null
             ),
-            isSoundEnabled = true
+            isSoundEnabled = true,
+            timerActions = TimerViewState.Counting.Actions(
+                restart = TimerViewState.Counting.Actions.Button(
+                    iconResId = R.drawable.ic_timer_back,
+                    contentDescriptionResId = R.string.content_description_button_restart_routine_segment,
+                    size = TempoIconButtonSize.Normal
+                ),
+                toggleStart = TimerViewState.Counting.Actions.Button(
+                    iconResId = R.drawable.ic_timer_play,
+                    contentDescriptionResId = R.string.content_description_button_start_routine_segment,
+                    size = TempoIconButtonSize.Normal
+                )
+            )
         )
         val sut = buildSut()
 
@@ -219,25 +264,47 @@ class TimerViewModelTest {
     fun `should restart routine on reset`() = coroutineRule {
         val expectedStart = TimerViewState.Counting(
             timeInSeconds = 3,
-            isRunning = false,
             stepTitleId = R.string.title_segment_step_type_starting,
             segmentName = "First Segment",
             clockBackgroundColor = BackgroundColor(
                 foreground = TimeTypeColors.STARTING,
                 ripple = null
             ),
-            isSoundEnabled = true
+            isSoundEnabled = true,
+            timerActions = TimerViewState.Counting.Actions(
+                restart = TimerViewState.Counting.Actions.Button(
+                    iconResId = R.drawable.ic_timer_back,
+                    contentDescriptionResId = R.string.content_description_button_restart_routine_segment,
+                    size = TempoIconButtonSize.Normal
+                ),
+                toggleStart = TimerViewState.Counting.Actions.Button(
+                    iconResId = R.drawable.ic_timer_play,
+                    contentDescriptionResId = R.string.content_description_button_start_routine_segment,
+                    size = TempoIconButtonSize.Normal
+                )
+            )
         )
         val expectedStartFirstSegment = TimerViewState.Counting(
             timeInSeconds = 10,
-            isRunning = true,
             stepTitleId = R.string.title_segment_step_type_in_progress,
             segmentName = "First Segment",
             clockBackgroundColor = BackgroundColor(
                 foreground = TimeTypeColors.TIMER,
                 ripple = null
             ),
-            isSoundEnabled = true
+            isSoundEnabled = true,
+            timerActions = TimerViewState.Counting.Actions(
+                restart = TimerViewState.Counting.Actions.Button(
+                    iconResId = R.drawable.ic_timer_back,
+                    contentDescriptionResId = R.string.content_description_button_restart_routine_segment,
+                    size = TempoIconButtonSize.Normal
+                ),
+                toggleStart = TimerViewState.Counting.Actions.Button(
+                    iconResId =  R.drawable.ic_timer_stop,
+                    contentDescriptionResId =  R.string.content_description_button_stop_routine_segment,
+                    size = TempoIconButtonSize.Normal
+                )
+            )
         )
         val sut = buildSut()
 

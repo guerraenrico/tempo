@@ -12,6 +12,7 @@ import com.enricog.features.timer.models.SegmentStepType
 import com.enricog.features.timer.models.TimerState
 import com.enricog.features.timer.models.TimerViewState
 import com.enricog.features.timer.models.TimerViewState.Counting.BackgroundColor
+import com.enricog.ui.components.button.icon.TempoIconButtonSize
 import com.enricog.ui.theme.TimeTypeColors
 import org.junit.Rule
 import org.junit.Test
@@ -47,7 +48,7 @@ class TimerStateConverterTest {
 
 
     @Test
-    fun `test map counting state`() = coroutineRule {
+    fun `test map counting state with timer running`() = coroutineRule {
         val state = TimerState.Counting(
             routine =  Routine.EMPTY.copy(
                 segments = listOf(Segment.EMPTY.copy(name = "segment name", type = TimeType.REST))
@@ -61,14 +62,66 @@ class TimerStateConverterTest {
         )
         val expected = TimerViewState.Counting(
             timeInSeconds = 5,
-            isRunning = true,
             stepTitleId = R.string.title_segment_time_type_rest,
             segmentName = "segment name",
             clockBackgroundColor = BackgroundColor(
                 foreground =  TimeTypeColors.REST,
                 ripple = null
             ),
+            isSoundEnabled = true,
+            timerActions = TimerViewState.Counting.Actions(
+                restart = TimerViewState.Counting.Actions.Button(
+                    iconResId = R.drawable.ic_timer_back,
+                    contentDescriptionResId = R.string.content_description_button_restart_routine_segment,
+                    size = TempoIconButtonSize.Normal
+                ),
+                toggleStart = TimerViewState.Counting.Actions.Button(
+                    iconResId =  R.drawable.ic_timer_stop,
+                    contentDescriptionResId =  R.string.content_description_button_stop_routine_segment,
+                    size = TempoIconButtonSize.Normal
+                )
+            )
+        )
+
+        val actual = sut.convert(state)
+
+        assertEquals(expected, actual)
+    }
+
+    @Test
+    fun `test map counting state with timer not running`() = coroutineRule {
+        val state = TimerState.Counting(
+            routine =  Routine.EMPTY.copy(
+                segments = listOf(Segment.EMPTY.copy(name = "segment name", type = TimeType.REST))
+            ),
+            runningSegment = Segment.EMPTY.copy(name = "segment name", type = TimeType.REST),
+            step = SegmentStep(
+                count = Count(seconds = 5.seconds, isRunning = false, isCompleted = false),
+                type = SegmentStepType.IN_PROGRESS
+            ),
             isSoundEnabled = true
+        )
+        val expected = TimerViewState.Counting(
+            timeInSeconds = 5,
+            stepTitleId = R.string.title_segment_time_type_rest,
+            segmentName = "segment name",
+            clockBackgroundColor = BackgroundColor(
+                foreground =  TimeTypeColors.REST,
+                ripple = null
+            ),
+            isSoundEnabled = true,
+            timerActions = TimerViewState.Counting.Actions(
+                restart = TimerViewState.Counting.Actions.Button(
+                    iconResId = R.drawable.ic_timer_back,
+                    contentDescriptionResId = R.string.content_description_button_restart_routine_segment,
+                    size = TempoIconButtonSize.Normal
+                ),
+                toggleStart = TimerViewState.Counting.Actions.Button(
+                    iconResId =  R.drawable.ic_timer_play,
+                    contentDescriptionResId =  R.string.content_description_button_start_routine_segment,
+                    size = TempoIconButtonSize.Normal
+                )
+            )
         )
 
         val actual = sut.convert(state)
@@ -92,14 +145,25 @@ class TimerStateConverterTest {
             )
             val expected = TimerViewState.Counting(
                 timeInSeconds = 5,
-                isRunning = true,
                 stepTitleId = R.string.title_segment_time_type_rest,
                 segmentName = "segment name",
                 clockBackgroundColor = BackgroundColor(
                     foreground =  TimeTypeColors.REST,
                     ripple = null
                 ),
-                isSoundEnabled = true
+                isSoundEnabled = true,
+                timerActions = TimerViewState.Counting.Actions(
+                    restart = TimerViewState.Counting.Actions.Button(
+                        iconResId = R.drawable.ic_timer_back,
+                        contentDescriptionResId = R.string.content_description_button_restart_routine_segment,
+                        size = TempoIconButtonSize.Normal
+                    ),
+                    toggleStart = TimerViewState.Counting.Actions.Button(
+                        iconResId =  R.drawable.ic_timer_stop,
+                        contentDescriptionResId =  R.string.content_description_button_stop_routine_segment,
+                        size = TempoIconButtonSize.Normal
+                    )
+                )
             )
 
             val actual = sut.convert(state)
@@ -123,14 +187,25 @@ class TimerStateConverterTest {
             )
             val expected = TimerViewState.Counting(
                 timeInSeconds = 5,
-                isRunning = true,
                 stepTitleId = R.string.title_segment_step_type_in_progress,
                 segmentName = "segment name",
                 clockBackgroundColor = BackgroundColor(
                     foreground =  TimeTypeColors.TIMER,
                     ripple = null
                 ),
-                isSoundEnabled = true
+                isSoundEnabled = true,
+                timerActions = TimerViewState.Counting.Actions(
+                    restart = TimerViewState.Counting.Actions.Button(
+                        iconResId = R.drawable.ic_timer_back,
+                        contentDescriptionResId = R.string.content_description_button_restart_routine_segment,
+                        size = TempoIconButtonSize.Normal
+                    ),
+                    toggleStart = TimerViewState.Counting.Actions.Button(
+                        iconResId =  R.drawable.ic_timer_stop,
+                        contentDescriptionResId =  R.string.content_description_button_stop_routine_segment,
+                        size = TempoIconButtonSize.Normal
+                    )
+                )
             )
 
             val actual = sut.convert(state)
@@ -154,14 +229,25 @@ class TimerStateConverterTest {
             )
             val expected = TimerViewState.Counting(
                 timeInSeconds = 5,
-                isRunning = true,
                 stepTitleId = R.string.title_segment_step_type_in_progress,
                 segmentName = "segment name",
                 clockBackgroundColor = BackgroundColor(
                     foreground =  TimeTypeColors.STOPWATCH,
                     ripple = null
                 ),
-                isSoundEnabled = true
+                isSoundEnabled = true,
+                timerActions = TimerViewState.Counting.Actions(
+                    restart = TimerViewState.Counting.Actions.Button(
+                        iconResId = R.drawable.ic_timer_back,
+                        contentDescriptionResId = R.string.content_description_button_restart_routine_segment,
+                        size = TempoIconButtonSize.Normal
+                    ),
+                    toggleStart = TimerViewState.Counting.Actions.Button(
+                        iconResId =  R.drawable.ic_timer_stop,
+                        contentDescriptionResId =  R.string.content_description_button_stop_routine_segment,
+                        size = TempoIconButtonSize.Large
+                    )
+                )
             )
 
             val actual = sut.convert(state)
@@ -188,14 +274,25 @@ class TimerStateConverterTest {
             )
             val expected = TimerViewState.Counting(
                 timeInSeconds = 5,
-                isRunning = true,
                 stepTitleId = R.string.title_segment_step_type_starting,
                 segmentName = "segment name",
                 clockBackgroundColor = BackgroundColor(
                     foreground =  TimeTypeColors.STARTING,
                     ripple = TimeTypeColors.STOPWATCH
                 ),
-                isSoundEnabled = true
+                isSoundEnabled = true,
+                timerActions = TimerViewState.Counting.Actions(
+                    restart = TimerViewState.Counting.Actions.Button(
+                        iconResId = R.drawable.ic_timer_back,
+                        contentDescriptionResId = R.string.content_description_button_restart_routine_segment,
+                        size = TempoIconButtonSize.Normal
+                    ),
+                    toggleStart = TimerViewState.Counting.Actions.Button(
+                        iconResId =  R.drawable.ic_timer_stop,
+                        contentDescriptionResId =  R.string.content_description_button_stop_routine_segment,
+                        size = TempoIconButtonSize.Large
+                    )
+                )
             )
 
             val actual = sut.convert(state)
@@ -223,14 +320,25 @@ class TimerStateConverterTest {
             )
             val expected = TimerViewState.Counting(
                 timeInSeconds = 5,
-                isRunning = true,
                 stepTitleId = R.string.title_segment_step_type_in_progress,
                 segmentName = "segment name stopwatch",
                 clockBackgroundColor = BackgroundColor(
                     foreground =  TimeTypeColors.STOPWATCH,
                     ripple = TimeTypeColors.STARTING
                 ),
-                isSoundEnabled = true
+                isSoundEnabled = true,
+                timerActions = TimerViewState.Counting.Actions(
+                    restart = TimerViewState.Counting.Actions.Button(
+                        iconResId = R.drawable.ic_timer_back,
+                        contentDescriptionResId = R.string.content_description_button_restart_routine_segment,
+                        size = TempoIconButtonSize.Normal
+                    ),
+                    toggleStart = TimerViewState.Counting.Actions.Button(
+                        iconResId =  R.drawable.ic_timer_stop,
+                        contentDescriptionResId =  R.string.content_description_button_stop_routine_segment,
+                        size = TempoIconButtonSize.Large
+                    )
+                )
             )
 
             val actual = sut.convert(state)
