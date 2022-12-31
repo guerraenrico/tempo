@@ -96,9 +96,8 @@ class TimerViewModelTest {
             assertEquals(expectedOnStart, awaitItem())
             advanceTimeBy(1000)
 
-            windowScreenManager.keepScreenOn.test { assertEquals(true, awaitItem()) }
-
             cancelAndIgnoreRemainingEvents()
+            windowScreenManager.keepScreenOn.test { assertEquals(true, awaitItem()) }
         }
     }
 
