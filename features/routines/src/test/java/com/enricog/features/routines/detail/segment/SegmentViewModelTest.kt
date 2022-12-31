@@ -169,7 +169,7 @@ class SegmentViewModelTest {
         val expected = SegmentViewState.Data(
             segment = SegmentFields(
                 name = "Segment Name".toTextFieldValue(),
-                time = "".timeText,
+                time = null,
                 type = TimeType.from(TimeTypeEntity.STOPWATCH)
             ),
             errors = emptyImmutableMap(),

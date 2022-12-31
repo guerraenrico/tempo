@@ -1,6 +1,7 @@
 package com.enricog.features.routines.detail.segment
 
 import com.enricog.core.compose.api.classes.emptyImmutableList
+import com.enricog.core.compose.api.classes.emptyImmutableMap
 import com.enricog.core.compose.api.classes.immutableListOf
 import com.enricog.core.compose.api.classes.immutableMapOf
 import com.enricog.core.coroutines.testing.CoroutineRule
@@ -120,6 +121,44 @@ class SegmentStateConverterTest {
                 textResId = R.string.label_segment_save_error,
                 actionTextResId = R.string.action_text_segment_save_error
             )
+        )
+
+        val actual = sut.convert(state)
+
+        assertEquals(expected, actual)
+    }
+
+    @Test
+    fun `should map data state without time when selected stopwatch time type`() = coroutineRule {
+        val state = SegmentState.Data(
+            routine = Routine.EMPTY,
+            segment = Segment.EMPTY,
+            errors = emptyMap(),
+            timeTypes = listOf(
+                TimeTypeEntity.TIMER,
+                TimeTypeEntity.REST,
+                TimeTypeEntity.STOPWATCH
+            ),
+            inputs = SegmentInputs(
+                name = "name".toTextFieldValue(),
+                time = "0".timeText,
+                type = TimeTypeEntity.STOPWATCH
+            ),
+            action = null
+        )
+        val expected = SegmentViewState.Data(
+            segment = SegmentFields(
+                name = "name".toTextFieldValue(),
+                time = null,
+                type = TimeType.from(TimeTypeEntity.STOPWATCH)
+            ),
+            errors = emptyImmutableMap(),
+            timeTypes = immutableListOf(
+                TimeType.from(TimeTypeEntity.TIMER),
+                TimeType.from(TimeTypeEntity.REST),
+                TimeType.from(TimeTypeEntity.STOPWATCH)
+            ),
+            message = null
         )
 
         val actual = sut.convert(state)

@@ -42,10 +42,7 @@ internal fun SegmentViewState.Compose(
     when (this) {
         SegmentViewState.Idle -> Unit
         is SegmentViewState.Data -> SegmentFormScene(
-            segment = segment,
-            errors = errors,
-            timeTypes = timeTypes,
-            message = message,
+            state = this,
             onSegmentNameChange = onSegmentNameChange,
             onSegmentTimeChange = onSegmentTimeChange,
             onSegmentTimeTypeChange = onSegmentTimeTypeChange,

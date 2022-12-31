@@ -15,7 +15,11 @@ internal sealed class SegmentViewState {
         val timeTypes: ImmutableList<TimeType>,
         val message: Message?
     ) : SegmentViewState() {
-        data class Message(@StringRes val textResId: Int, @StringRes val actionTextResId: Int)
+
+        data class Message(
+            @StringRes val textResId: Int,
+            @StringRes val actionTextResId: Int
+        )
     }
 
     data class Error(val throwable: Throwable) : SegmentViewState()

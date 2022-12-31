@@ -93,7 +93,9 @@ private fun Counts(
     ) {
         if (segmentsSummary.totalTime != null) {
             TempoText(
-                modifier = Modifier.testTag(RoutineItemTotalTimeTestTag),
+                modifier = Modifier
+                    .testTag(RoutineItemTotalTimeTestTag)
+                    .padding(bottom = TempoTheme.dimensions.spaceXS),
                 text = segmentsSummary.totalTime.format(),
                 style = TempoTheme.typography.h3,
                 textAlign = TextAlign.End
@@ -106,7 +108,7 @@ private fun Counts(
                         .horizontalListItemSpacing(
                             itemPosition = index,
                             spacingHorizontal = 5.dp,
-                            spacingVertical = TempoTheme.dimensions.spaceXS,
+                            spacingVertical = 0.dp,
                             includeEdge = false
                         )
                         .size(21.dp)
@@ -125,7 +127,6 @@ private fun Counts(
                         style = TempoTheme.typography.h6
                     )
                 }
-
             }
         }
     }

@@ -1,18 +1,15 @@
 package com.enricog.features.routines.detail.segment.ui_components
 
-import androidx.compose.foundation.background
-import androidx.compose.foundation.gestures.Orientation
-import androidx.compose.foundation.gestures.draggable
-import androidx.compose.foundation.gestures.rememberDraggableState
-import androidx.compose.foundation.layout.Box
-import androidx.compose.foundation.layout.Column
+import androidx.compose.animation.AnimatedVisibility
+import androidx.compose.animation.fadeIn
+import androidx.compose.animation.fadeOut
+import androidx.compose.animation.slideInHorizontally
+import androidx.compose.animation.slideOutHorizontally
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
-import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.text.KeyboardActions
 import androidx.compose.foundation.text.KeyboardOptions
-import androidx.compose.foundation.verticalScroll
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.remember
@@ -22,18 +19,17 @@ import androidx.compose.ui.focus.focusRequester
 import androidx.compose.ui.platform.LocalSoftwareKeyboardController
 import androidx.compose.ui.platform.testTag
 import androidx.compose.ui.res.stringResource
+import androidx.compose.ui.text.TextStyle
+import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.input.ImeAction
 import androidx.compose.ui.text.input.TextFieldValue
 import androidx.compose.ui.unit.dp
-import com.enricog.core.compose.api.classes.ImmutableList
-import com.enricog.core.compose.api.classes.ImmutableMap
+import androidx.compose.ui.unit.sp
 import com.enricog.core.compose.api.extensions.stringResourceOrNull
-import com.enricog.core.compose.api.modifiers.swipeable.rememberSwipeableState
+import com.enricog.entities.seconds
 import com.enricog.features.routines.R
 import com.enricog.features.routines.detail.segment.models.SegmentField
-import com.enricog.features.routines.detail.segment.models.SegmentFieldError
-import com.enricog.features.routines.detail.segment.models.SegmentFields
-import com.enricog.features.routines.detail.segment.models.SegmentViewState.Data.Message
+import com.enricog.features.routines.detail.segment.models.SegmentViewState
 import com.enricog.features.routines.detail.ui.time_type.TimeType
 import com.enricog.ui.components.button.TempoButton
 import com.enricog.ui.components.button.TempoButtonColor
@@ -41,6 +37,7 @@ import com.enricog.ui.components.snackbar.TempoSnackbarEvent
 import com.enricog.ui.components.snackbar.TempoSnackbarHost
 import com.enricog.ui.components.snackbar.rememberSnackbarHostState
 import com.enricog.ui.components.textField.TempoTextField
+import com.enricog.ui.components.textField.TempoTimeField
 import com.enricog.ui.components.textField.TimeText
 import com.enricog.ui.theme.TempoTheme
 
@@ -48,10 +45,7 @@ internal const val SegmentFormSceneTestTag = "SegmentFormSceneTestTag"
 
 @Composable
 internal fun SegmentFormScene(
-    segment: SegmentFields,
-    errors: ImmutableMap<SegmentField, SegmentFieldError>,
-    timeTypes: ImmutableList<TimeType>,
-    message: Message?,
+    state: SegmentViewState.Data,
     onSegmentNameChange: (TextFieldValue) -> Unit,
     onSegmentTimeChange: (TimeText) -> Unit,
     onSegmentTimeTypeChange: (TimeType) -> Unit,
@@ -62,20 +56,10 @@ internal fun SegmentFormScene(
     val (segmentNameRef, segmentTimeRef) = remember { FocusRequester.createRefs() }
 
     val snackbarHostState = rememberSnackbarHostState()
-    val swipeState = rememberSwipeableState(
-        initialValue = segment.type,
-        valueSaver = TimeType.Saver()
-    ) {
-        onSegmentTimeTypeChange(it)
-        true
-    }
-    val draggableState = rememberDraggableState {
-        swipeState.drag(it)
-    }
 
-    if (message != null) {
-        val messageText = stringResource(id = message.textResId)
-        val actionText = stringResource(id = message.actionTextResId)
+    if (state.message != null) {
+        val messageText = stringResource(id = state.message.textResId)
+        val actionText = stringResource(id = state.message.actionTextResId)
         LaunchedEffect(snackbarHostState) {
             val event = snackbarHostState.show(message = messageText, actionText = actionText)
             onSnackbarEvent(event)
@@ -83,57 +67,58 @@ internal fun SegmentFormScene(
     }
 
     TempoSnackbarHost(
+        modifier = Modifier.testTag(SegmentFormSceneTestTag),
         state = snackbarHostState,
         content = {
-            Box(
+            SegmentPager(
                 modifier = Modifier
-                    .testTag(SegmentFormSceneTestTag)
                     .fillMaxSize()
-                    .background(TempoTheme.colors.background)
-                    .draggable(
-                        state = draggableState,
-                        orientation = Orientation.Horizontal,
-                        reverseDirection = true,
-                        onDragStopped = { swipeState.fling(it) }
-                    )
+                    .padding(
+                        top = TempoTheme.dimensions.spaceM,
+                        start = TempoTheme.dimensions.spaceM,
+                        end = TempoTheme.dimensions.spaceM,
+                        bottom = 85.dp
+                    ),
+                timeTypes = state.timeTypes,
+                selectedType = state.segment.type,
+                onSelectTimeTypeChange = onSegmentTimeTypeChange
             ) {
-                Column(
+                TempoTextField(
+                    value = state.segment.name,
+                    onValueChange = onSegmentNameChange,
                     modifier = Modifier
-                        .fillMaxSize()
-                        .verticalScroll(rememberScrollState(0))
-                        .padding(bottom = 85.dp)
-                ) {
-                    TempoTextField(
-                        value = segment.name,
-                        onValueChange = onSegmentNameChange,
-                        modifier = Modifier
-                            .fillMaxWidth()
-                            .padding(TempoTheme.dimensions.spaceM)
-                            .focusRequester(segmentNameRef),
-                        labelText = stringResource(R.string.field_label_segment_name),
-                        errorText = stringResourceOrNull(id = errors[SegmentField.Name]?.stringResId),
-                        singleLine = true,
-                        keyboardOptions = KeyboardOptions(imeAction = ImeAction.Next),
-                        keyboardActions = KeyboardActions(
-                            onNext = { segmentTimeRef.requestFocus() }
-                        )
+                        .fillMaxWidth()
+                        .padding(top = TempoTheme.dimensions.spaceXL)
+                        .focusRequester(segmentNameRef),
+                    labelText = stringResource(R.string.field_label_segment_name),
+                    errorText = stringResourceOrNull(id = state.errors[SegmentField.Name]?.stringResId),
+                    singleLine = true,
+                    keyboardOptions = KeyboardOptions(imeAction = ImeAction.Next),
+                    keyboardActions = KeyboardActions(
+                        onNext = { segmentTimeRef.requestFocus() }
                     )
+                )
 
-                    SegmentPager(
-                        modifier = Modifier.fillMaxWidth(),
-                        swipeState = swipeState,
-                        timeText = segment.time,
-                        timeTypes = timeTypes,
-                        selectedType = segment.type,
-                        onSelectTimeTypeChange = onSegmentTimeTypeChange,
-                        onTimeTextChange = onSegmentTimeChange,
-                        errors = errors,
-                        segmentTimeFieldIme = SegmentTimeFieldIme(
-                            action = ImeAction.Done,
-                            keyboardActions = KeyboardActions(
-                                onDone = { keyboardController?.hide() }
-                            ),
-                            focusRequester = segmentTimeRef
+                AnimatedVisibility(
+                    visible = state.segment.time != null,
+                    enter = fadeIn() + slideInHorizontally(),
+                    exit = fadeOut() + slideOutHorizontally(),
+                ) {
+                    TempoTimeField(
+                        value = state.segment.time ?: TimeText.from(0.seconds),
+                        onValueChange = onSegmentTimeChange,
+                        modifier = Modifier
+                            .focusRequester(segmentTimeRef),
+                        labelText = stringResource(R.string.field_label_segment_time),
+                        errorText = stringResourceOrNull(state.errors[SegmentField.Time]?.stringResId),
+                        supportingText = stringResource(R.string.field_support_text_segment_time),
+                        imeAction = ImeAction.Done,
+                        keyboardActions = KeyboardActions(
+                            onDone = { keyboardController?.hide() }
+                        ),
+                        textStyle = TextStyle(
+                            fontSize = 50.sp,
+                            fontWeight = FontWeight.Bold
                         )
                     )
                 }
