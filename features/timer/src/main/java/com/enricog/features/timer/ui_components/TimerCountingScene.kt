@@ -103,7 +103,7 @@ internal fun TimerCountingScene(
             )
 
             ActionsBar(
-                isTimeRunning = state.isRunning,
+                timerActions = state.timerActions,
                 onStartStopButtonClick = onToggleTimer,
                 onRestartSegmentButtonClick = onRestartSegment,
                 modifier = Modifier

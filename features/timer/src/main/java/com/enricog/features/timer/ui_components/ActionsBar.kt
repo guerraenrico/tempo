@@ -11,16 +11,16 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.platform.testTag
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
-import com.enricog.features.timer.R
+import com.enricog.features.timer.models.TimerViewState.Counting.Actions
 import com.enricog.ui.components.button.icon.TempoIconButton
 
 internal const val ActionBarTestTag = "ActionBarTestTag"
-internal const val ButtonStartStopTestTag = "ButtonStartStopTestTag"
+internal const val ButtonToggleStartTestTag = "ButtonToggleStartTestTag"
 internal const val ButtonRestartTestTag = "ButtonRestartTestTag"
 
 @Composable
 internal fun ActionsBar(
-    isTimeRunning: Boolean,
+    timerActions: Actions,
     onStartStopButtonClick: () -> Unit,
     onRestartSegmentButtonClick: () -> Unit,
     modifier: Modifier = Modifier
@@ -32,33 +32,36 @@ internal fun ActionsBar(
         verticalAlignment = Alignment.CenterVertically,
         horizontalArrangement = Arrangement.Center
     ) {
-        RestartButton(onClick = onRestartSegmentButtonClick)
+        RestartButton(
+            restartButton = timerActions.restart,
+            onClick = onRestartSegmentButtonClick
+        )
         Spacer(modifier = Modifier.width(20.dp))
-        StartStopButton(isRunning = isTimeRunning, onClick = onStartStopButtonClick)
+        ToggleStartButton(
+            toggleStartButton = timerActions.toggleStart,
+            onClick = onStartStopButtonClick
+        )
     }
 }
 
 @Composable
-private fun RestartButton(onClick: () -> Unit) {
+private fun RestartButton(restartButton: Actions.Button, onClick: () -> Unit) {
     TempoIconButton(
         onClick = onClick,
-        iconResId = R.drawable.ic_timer_back,
+        iconResId = restartButton.iconResId,
         modifier = Modifier.testTag(ButtonRestartTestTag),
-        contentDescription = stringResource(R.string.content_description_button_restart_routine_segment)
+        contentDescription = stringResource(restartButton.contentDescriptionResId),
+        size = restartButton.size
     )
 }
 
 @Composable
-private fun StartStopButton(isRunning: Boolean, onClick: () -> Unit) {
-    val icon = if (isRunning) {
-        R.drawable.ic_timer_stop
-    } else {
-        R.drawable.ic_timer_play
-    }
+private fun ToggleStartButton(toggleStartButton: Actions.Button, onClick: () -> Unit) {
     TempoIconButton(
         onClick = onClick,
-        iconResId = icon,
-        modifier = Modifier.testTag(ButtonStartStopTestTag),
-        contentDescription = stringResource(R.string.content_description_button_stop_routine_segment)
+        iconResId = toggleStartButton.iconResId,
+        modifier = Modifier.testTag(ButtonToggleStartTestTag),
+        contentDescription = stringResource(toggleStartButton.contentDescriptionResId),
+        size = toggleStartButton.size
     )
 }
