@@ -6,6 +6,6 @@ import com.enricog.ui.components.textField.TimeText
 
 internal data class SegmentFields(
     val name: TextFieldValue,
-    val time: TimeText,
+    val time: TimeText?,
     val type: TimeType,
 )

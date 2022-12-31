@@ -12,6 +12,7 @@ import androidx.compose.foundation.interaction.collectIsFocusedAsState
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.fillMaxSize
+import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.text.KeyboardActions
@@ -105,7 +106,7 @@ internal fun TempoTextFieldBase(
             onValueChange = onValueChange,
             modifier = Modifier
                 .clip(shape)
-                .fillMaxSize()
+                .fillMaxWidth()
                 .semantics { if (isError) error(requireNotNull(errorText)) },
             textStyle = TempoTextFieldBaseDefaults.textStyle.merge(textStyle),
             label = label,

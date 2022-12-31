@@ -11,6 +11,7 @@ import com.enricog.features.routines.detail.segment.models.SegmentViewState
 import com.enricog.features.routines.detail.segment.models.SegmentViewState.Data.Message
 import com.enricog.features.routines.detail.ui.time_type.TimeType
 import javax.inject.Inject
+import com.enricog.data.routines.api.entities.TimeType as TimeTypeEntity
 
 internal class SegmentStateConverter @Inject constructor() :
     StateConverter<SegmentState, SegmentViewState> {
@@ -27,7 +28,7 @@ internal class SegmentStateConverter @Inject constructor() :
         return SegmentViewState.Data(
             segment = SegmentFields(
                 name = inputs.name,
-                time = inputs.time,
+                time = if (inputs.type != TimeTypeEntity.STOPWATCH) inputs.time else null,
                 type = TimeType.from(timeType = inputs.type),
             ),
             errors = errors.asImmutableMap(),

@@ -40,7 +40,6 @@ internal fun SegmentTypeTabs(
 
     Box(
         modifier = modifier
-            .padding(TempoTheme.dimensions.spaceS)
             .fillMaxWidth()
             .drawBehind {
                 drawRoundRect(
@@ -51,7 +50,6 @@ internal fun SegmentTypeTabs(
                 )
             }
     ) {
-
         Row(
             modifier = Modifier
                 .fillMaxWidth()
@@ -61,7 +59,7 @@ internal fun SegmentTypeTabs(
                     anchors = tabAnchors,
                     enabled = false,
                     reverseDirection = true,
-                    thresholds = { _, _ -> FractionalThreshold(0.5f) },
+                    thresholds = { _, _ -> FractionalThreshold(fraction = 0.5f) },
                     orientation = Orientation.Horizontal
                 )
         ) {

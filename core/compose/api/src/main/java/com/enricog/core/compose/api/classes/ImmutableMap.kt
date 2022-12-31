@@ -27,4 +27,4 @@ fun <K : Any, V : Any> emptyImmutableMap(): ImmutableMap<K, V> = ImmutableMap(ma
 
 fun <K : Any, V : Any> Map<K, V>.asImmutableMap() = ImmutableMap(map = this)
 
-fun <K : Any, V : Any> Iterable<Pair<K, V>>.toImmutableMapMap(): ImmutableMap<K, V> = ImmutableMap(map = toMap())
+fun <K : Any, V : Any> Iterable<Pair<K, V>>.toImmutableMap(): ImmutableMap<K, V> = ImmutableMap(map = toMap())
