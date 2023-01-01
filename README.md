@@ -14,6 +14,7 @@
 
 ### Screenshot
 
-![Routine List](https://github.com/guerraenrico/tempo/blob/master/art/1.jpg?raw=true)
-![Routine Summary](https://github.com/guerraenrico/tempo/blob/master/art/2.jpg?raw=true)
-![Timer](https://github.com/guerraenrico/tempo/blob/master/art/3.jpg?raw=true)
+<img src="https://github.com/guerraenrico/tempo/blob/master/art/1.png?raw=true" alt="Routine List" />
+<img src="https://github.com/guerraenrico/tempo/blob/master/art/2.jpg?raw=true" alt="Routine Summary" />
+<img src="https://github.com/guerraenrico/tempo/blob/master/art/3.png?raw=true" alt="Segment Detail" />
+<img src="https://github.com/guerraenrico/tempo/blob/master/art/4.jpg?raw=true" alt="Timer" />
