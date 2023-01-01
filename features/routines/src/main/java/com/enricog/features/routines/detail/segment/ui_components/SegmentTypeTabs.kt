@@ -4,7 +4,6 @@ import androidx.compose.foundation.gestures.Orientation
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.fillMaxWidth
-import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.selection.selectableGroup
 import androidx.compose.runtime.Composable
@@ -15,6 +14,7 @@ import androidx.compose.ui.geometry.CornerRadius
 import androidx.compose.ui.geometry.Offset
 import androidx.compose.ui.geometry.Size
 import androidx.compose.ui.unit.Dp
+import androidx.compose.ui.unit.dp
 import com.enricog.core.compose.api.classes.ImmutableList
 import com.enricog.core.compose.api.classes.ImmutableMap
 import com.enricog.core.compose.api.modifiers.spacing.horizontalListItemSpacing
@@ -22,7 +22,6 @@ import com.enricog.core.compose.api.modifiers.swipeable.FractionalThreshold
 import com.enricog.core.compose.api.modifiers.swipeable.SwipeableState
 import com.enricog.core.compose.api.modifiers.swipeable.swipeable
 import com.enricog.features.routines.detail.ui.time_type.TimeType
-import com.enricog.ui.theme.TempoTheme
 import kotlinx.coroutines.launch
 
 @Composable
@@ -46,7 +45,7 @@ internal fun SegmentTypeTabs(
                     color = selectedTimeType.color,
                     cornerRadius = CornerRadius(x = 50f, y = 50f),
                     topLeft = Offset(x = swipeState.offset.value, y = tabSpace.toPx()),
-                    size = Size(width = tabWidth.toPx(), height = 85f)
+                    size = Size(width = tabWidth.toPx(), height = 31.dp.toPx())
                 )
             }
     ) {

@@ -93,9 +93,17 @@ internal fun SegmentFormScene(
                     labelText = stringResource(R.string.field_label_segment_name),
                     errorText = stringResourceOrNull(id = state.errors[SegmentField.Name]?.stringResId),
                     singleLine = true,
-                    keyboardOptions = KeyboardOptions(imeAction = ImeAction.Next),
+                    keyboardOptions = KeyboardOptions(
+                        imeAction = if (state.segment.time != null) ImeAction.Next else ImeAction.Done
+                    ),
                     keyboardActions = KeyboardActions(
-                        onNext = { segmentTimeRef.requestFocus() }
+                        onNext = {
+                            if (state.segment.time != null) {
+                                segmentTimeRef.requestFocus()
+                            } else {
+                                keyboardController?.hide()
+                            }
+                        }
                     )
                 )
 
