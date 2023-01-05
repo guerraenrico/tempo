@@ -22,7 +22,7 @@ val grey200 = Color(0xff_B4B7C2)
 val white = Color(0xff_FFFFFF)
 val black = Color(0xff_000000)
 
-val red = Color(0xff_F44336)
+val red = Color(0xff_F56C62)
 
 @Immutable
 class TempoColors internal constructor() {
@@ -39,7 +39,7 @@ class TempoColors internal constructor() {
     val onBackground: Color = white
     val onSurface: Color = white
     val onSurfaceSecondary: Color = grey200
-    val onError: Color = white
+    val onError: Color = darkBlue500
     val isLight: Boolean = false
 
     override fun equals(other: Any?): Boolean {
@@ -101,6 +101,10 @@ fun TempoColors.contentColorFor(backgroundColor: Color): Color {
         background -> onBackground
         surface -> onSurface
         error -> onError
+        TimeTypeColors.STARTING -> darkBlue500
+        TimeTypeColors.STOPWATCH -> darkBlue500
+        TimeTypeColors.TIMER -> darkBlue500
+        TimeTypeColors.REST -> darkBlue500
         else -> Color.Unspecified
     }
 }
@@ -126,8 +130,8 @@ internal fun TempoColors.toMaterialColors(): Colors {
 }
 
 object TimeTypeColors {
-    val STARTING = Color(0xff_8E96FF)
-    val STOPWATCH = Color(0xff_A06AFA)
-    val TIMER = Color(0xff_4DB4E9)
+    val STARTING = Color(0xff_A0A6FF)
+    val STOPWATCH = Color(0xff_BC92FF)
+    val TIMER = Color(0xff_57C0F5)
     val REST = Color(0xff_FF968E)
 }
