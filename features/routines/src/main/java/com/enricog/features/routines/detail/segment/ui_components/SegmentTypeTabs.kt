@@ -7,6 +7,7 @@ import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.selection.selectableGroup
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.getValue
 import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.drawBehind
@@ -23,6 +24,8 @@ import com.enricog.core.compose.api.modifiers.swipeable.SwipeableState
 import com.enricog.core.compose.api.modifiers.swipeable.swipeable
 import com.enricog.features.routines.detail.ui.time_type.TimeType
 import kotlinx.coroutines.launch
+import java.lang.Float.min
+import kotlin.math.abs
 
 @Composable
 internal fun SegmentTypeTabs(
@@ -62,9 +65,16 @@ internal fun SegmentTypeTabs(
                     orientation = Orientation.Horizontal
                 )
         ) {
+            val anchors = tabAnchors.map { it.value to it.key }.toMap()
+            val offset by swipeState.offset
+            val offsetRange = anchors[timeTypes[1]] ?: 1f
+
             timeTypes.forEachIndexed { index, timeType ->
+                val anchor = anchors[timeType] ?: 1f
+
                 SegmentTypeTab(
-                    value = timeType,
+                    progress = min(1f, abs(anchor - offset) / offsetRange),
+                    timeType = timeType,
                     onClick = {
                         coroutineScope.launch {
                             onSelectTimeTypeChange(it)
