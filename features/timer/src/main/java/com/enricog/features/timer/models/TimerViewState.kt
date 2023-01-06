@@ -19,7 +19,7 @@ internal sealed class TimerViewState {
     ) : TimerViewState() {
 
         data class BackgroundColor(
-            val foreground: Color,
+            val background: Color,
             val ripple: Color?
         )
 

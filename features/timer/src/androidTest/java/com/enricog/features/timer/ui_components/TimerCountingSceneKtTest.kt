@@ -26,7 +26,7 @@ class TimerCountingSceneKtTest {
             segmentName = "segment name",
             timeInSeconds = 1,
             clockBackgroundColor = BackgroundColor(
-                foreground = Color.Blue,
+                background = Color.Blue,
                 ripple = null
             ),
             isSoundEnabled = true,
@@ -67,7 +67,7 @@ class TimerCountingSceneKtTest {
             segmentName = "segment name",
             timeInSeconds = 1,
             clockBackgroundColor = BackgroundColor(
-                foreground = Color.Blue,
+                background = Color.Blue,
                 ripple = null
             ),
             isSoundEnabled = true,

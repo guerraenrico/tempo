@@ -6,53 +6,54 @@ import androidx.compose.runtime.Composable
 import androidx.compose.runtime.remember
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.platform.testTag
 import androidx.compose.ui.text.AnnotatedString
 import androidx.compose.ui.text.SpanStyle
+import androidx.compose.ui.text.TextStyle
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.BaselineShift
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.sp
 import com.enricog.ui.components.text.TempoText
 import com.enricog.ui.theme.FontFamilyMono
-import com.enricog.ui.theme.white
 
 internal const val ClockTestTag = "ClockTestTag"
 internal const val ClockTimeTextTestTag = "ClockTimeTextTestTag"
 
 @Composable
 internal fun Clock(
-    modifier: Modifier = Modifier,
     timeInSeconds: Long,
+    textColor: Color,
+    modifier: Modifier = Modifier,
 ) {
     Column(
         modifier = modifier.testTag(ClockTestTag),
         verticalArrangement = Arrangement.Center,
         horizontalAlignment = Alignment.CenterHorizontally,
     ) {
-        TimeText(timeInSeconds = timeInSeconds)
+        TimeText(timeInSeconds = timeInSeconds, textColor = textColor)
     }
 }
 
 @Composable
-private fun TimeText(timeInSeconds: Long) {
+private fun TimeText(timeInSeconds: Long, textColor: Color) {
     val timeText = remember(timeInSeconds) { buildTimeText(timeInSeconds) }
     TempoText(
         text = timeText,
         textAlign = TextAlign.Center,
+        style = TextStyle(color = textColor),
         modifier = Modifier.testTag(ClockTimeTextTestTag)
     )
 }
 
 private val NumberStyle = SpanStyle(
-    color = white,
     fontSize = 110.sp,
     fontFamily = FontFamilyMono,
     fontWeight = FontWeight.ExtraBold,
 )
 
 private val SeparatorStyle = SpanStyle(
-    color = white,
     fontSize = 55.sp,
     fontFamily = FontFamilyMono,
     fontWeight = FontWeight.ExtraBold,

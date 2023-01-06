@@ -48,7 +48,7 @@ class TimerScreenKtTest {
             segmentName = "segment name",
             timeInSeconds = 1,
             clockBackgroundColor = BackgroundColor(
-                foreground = Color.Blue,
+                background = Color.Blue,
                 ripple = null
             ),
             isSoundEnabled = true,

@@ -65,7 +65,7 @@ class TimerStateConverterTest {
             stepTitleId = R.string.title_segment_time_type_rest,
             segmentName = "segment name",
             clockBackgroundColor = BackgroundColor(
-                foreground =  TimeTypeColors.REST,
+                background =  TimeTypeColors.REST,
                 ripple = null
             ),
             isSoundEnabled = true,
@@ -106,7 +106,7 @@ class TimerStateConverterTest {
             stepTitleId = R.string.title_segment_time_type_rest,
             segmentName = "segment name",
             clockBackgroundColor = BackgroundColor(
-                foreground =  TimeTypeColors.REST,
+                background =  TimeTypeColors.REST,
                 ripple = null
             ),
             isSoundEnabled = true,
@@ -148,7 +148,7 @@ class TimerStateConverterTest {
                 stepTitleId = R.string.title_segment_time_type_rest,
                 segmentName = "segment name",
                 clockBackgroundColor = BackgroundColor(
-                    foreground =  TimeTypeColors.REST,
+                    background =  TimeTypeColors.REST,
                     ripple = null
                 ),
                 isSoundEnabled = true,
@@ -190,7 +190,7 @@ class TimerStateConverterTest {
                 stepTitleId = R.string.title_segment_step_type_in_progress,
                 segmentName = "segment name",
                 clockBackgroundColor = BackgroundColor(
-                    foreground =  TimeTypeColors.TIMER,
+                    background =  TimeTypeColors.TIMER,
                     ripple = null
                 ),
                 isSoundEnabled = true,
@@ -232,7 +232,7 @@ class TimerStateConverterTest {
                 stepTitleId = R.string.title_segment_step_type_in_progress,
                 segmentName = "segment name",
                 clockBackgroundColor = BackgroundColor(
-                    foreground =  TimeTypeColors.STOPWATCH,
+                    background =  TimeTypeColors.STOPWATCH,
                     ripple = null
                 ),
                 isSoundEnabled = true,
@@ -277,7 +277,7 @@ class TimerStateConverterTest {
                 stepTitleId = R.string.title_segment_step_type_starting,
                 segmentName = "segment name",
                 clockBackgroundColor = BackgroundColor(
-                    foreground =  TimeTypeColors.STARTING,
+                    background =  TimeTypeColors.STARTING,
                     ripple = TimeTypeColors.STOPWATCH
                 ),
                 isSoundEnabled = true,
@@ -323,7 +323,7 @@ class TimerStateConverterTest {
                 stepTitleId = R.string.title_segment_step_type_in_progress,
                 segmentName = "segment name stopwatch",
                 clockBackgroundColor = BackgroundColor(
-                    foreground =  TimeTypeColors.STOPWATCH,
+                    background =  TimeTypeColors.STOPWATCH,
                     ripple = TimeTypeColors.STARTING
                 ),
                 isSoundEnabled = true,

@@ -25,6 +25,7 @@ import com.enricog.core.compose.api.extensions.toPx
 import com.enricog.features.timer.models.TimerViewState
 import com.enricog.ui.components.text.TempoText
 import com.enricog.ui.theme.TempoTheme
+import com.enricog.ui.theme.contentColorFor
 
 internal const val TimerCountingSceneTestTag = "TimerCountingSceneTestTag"
 internal const val StepTitleTestTag = "StepTitleTestTag"
@@ -58,7 +59,7 @@ internal fun TimerCountingScene(
         modifier = Modifier
             .fillMaxSize()
             .drawBehind {
-                drawRect(color = state.clockBackgroundColor.foreground)
+                drawRect(color = state.clockBackgroundColor.background)
                 drawCircle(
                     color = state.clockBackgroundColor.ripple ?: Color.Transparent,
                     radius = circleRadius.value
@@ -88,6 +89,9 @@ internal fun TimerCountingScene(
 
             Clock(
                 timeInSeconds = state.timeInSeconds,
+                textColor = TempoTheme.colors.contentColorFor(
+                    backgroundColor = state.clockBackgroundColor.background
+                ),
                 modifier = Modifier
                     .constrainAs(clock) {
                         if (orientation == ORIENTATION_PORTRAIT) {
@@ -139,7 +143,8 @@ private fun Title(
             text = segmentName,
             style = TempoTheme.typography.h1.copy(
                 fontWeight = FontWeight.Normal,
-                fontSize = 35.sp
+                fontSize = 35.sp,
+                color = TempoTheme.colors.background
             ),
             modifier = Modifier.testTag(SegmentNameTestTag)
         )
@@ -147,7 +152,8 @@ private fun Title(
         TempoText(
             text = stepTitle,
             style = TempoTheme.typography.h1.copy(
-                fontSize = 25.sp
+                fontSize = 25.sp,
+                color = TempoTheme.colors.background
             ),
             modifier = Modifier.testTag(StepTitleTestTag)
         )
