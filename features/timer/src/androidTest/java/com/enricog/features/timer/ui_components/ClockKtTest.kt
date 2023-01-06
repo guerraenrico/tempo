@@ -1,5 +1,6 @@
 package com.enricog.features.timer.ui_components
 
+import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.test.assertIsDisplayed
 import androidx.compose.ui.test.assertTextEquals
 import androidx.compose.ui.test.junit4.createComposeRule
@@ -18,7 +19,7 @@ class ClockKtTest {
     fun shouldShowClockWitSeconds() = composeRule {
         setContent {
             TempoTheme {
-                Clock(timeInSeconds = 10)
+                Clock(timeInSeconds = 10, textColor = Color.White)
             }
         }
 
@@ -30,7 +31,7 @@ class ClockKtTest {
     fun shouldShowClockWitMinutesAndSeconds() = composeRule {
         setContent {
             TempoTheme {
-                Clock(timeInSeconds = 90)
+                Clock(timeInSeconds = 90, textColor = Color.White)
             }
         }
 
