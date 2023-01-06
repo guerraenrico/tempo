@@ -1,5 +1,6 @@
 package com.enricog.features.timer.ui_components
 
+import androidx.compose.foundation.layout.fillMaxHeight
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
@@ -7,6 +8,9 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.platform.testTag
 import androidx.compose.ui.res.stringResource
 import androidx.constraintlayout.compose.ConstraintLayout
+import com.enricog.core.compose.api.ScreenConfiguration
+import com.enricog.core.compose.api.ScreenConfiguration.Orientation.LANDSCAPE
+import com.enricog.core.compose.api.ScreenConfiguration.Orientation.PORTRAIT
 import com.enricog.features.timer.R
 import com.enricog.features.timer.models.TimerViewState
 import com.enricog.ui.components.button.TempoButtonColor
@@ -24,6 +28,8 @@ internal fun TimerToolbar(
     onSoundClick: () -> Unit,
     modifier: Modifier = Modifier
 ) {
+    val orientation = ScreenConfiguration.orientation
+
     val buttonColor = when (state) {
         is TimerViewState.Error,
         TimerViewState.Completed,
@@ -40,7 +46,12 @@ internal fun TimerToolbar(
         )
     }
 
-    ConstraintLayout(modifier = modifier.fillMaxWidth()) {
+    ConstraintLayout(
+        modifier = when (orientation) {
+            PORTRAIT -> modifier.fillMaxWidth()
+            LANDSCAPE -> modifier.fillMaxHeight()
+        }
+    ) {
         val (closeButton, soundButton) = createRefs()
 
         TempoIconButton(
@@ -48,7 +59,10 @@ internal fun TimerToolbar(
                 .testTag(TimerToolbarCloseButtonTestTag)
                 .constrainAs(closeButton) {
                     top.linkTo(parent.top)
-                    bottom.linkTo(parent.bottom)
+                    when (orientation) {
+                        PORTRAIT -> bottom.linkTo(parent.bottom)
+                        LANDSCAPE -> end.linkTo(parent.end)
+                    }
                     start.linkTo(parent.start)
                 },
             onClick = onCloseClick,
@@ -63,7 +77,10 @@ internal fun TimerToolbar(
                 modifier = Modifier
                     .testTag(TimerToolbarSoundButtonTestTag)
                     .constrainAs(soundButton) {
-                        top.linkTo(parent.top)
+                        when (orientation) {
+                            PORTRAIT -> top.linkTo(parent.top)
+                            LANDSCAPE -> start.linkTo(parent.start)
+                        }
                         bottom.linkTo(parent.bottom)
                         end.linkTo(parent.end)
                     },
