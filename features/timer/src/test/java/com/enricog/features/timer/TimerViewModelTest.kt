@@ -120,8 +120,8 @@ class TimerViewModelTest {
             advanceTimeBy(1000)
 
             cancelAndIgnoreRemainingEvents()
-            windowScreenManager.keepScreenOn.test { assertEquals(true, awaitItem()) }
         }
+        windowScreenManager.keepScreenOn.test { assertEquals(true, awaitItem()) }
     }
 
     @Test
