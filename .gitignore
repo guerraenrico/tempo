@@ -14,11 +14,4 @@ config.properties
 .externalNativeBuild
 
 # IntelliJ .idea folder
-.idea/workspace.xml
-.idea/libraries
-.idea/caches
-.idea/navEditor.xml
-.idea/tasks.xml
-.idea/modules.xml
-.idea/compiler.xml
-/.idea/jarRepositories.xml
+.idea
