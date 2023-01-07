@@ -1,10 +1,9 @@
 *.iml
 .gradle
 /captures
-/build
-buildSrc/build
-*/build
 app/google-services.json
+buildSrc/build
+build/*
 
 /local.properties
 config.properties
