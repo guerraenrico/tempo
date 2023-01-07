@@ -35,14 +35,14 @@ object Libs {
     }
 
     object AndroidX {
-        const val coreKtx = "androidx.core:core-ktx:1.7.0"
+        const val coreKtx = "androidx.core:core-ktx:1.9.0"
 
-        const val appCompat = "androidx.appcompat:appcompat:1.4.2"
+        const val appCompat = "androidx.appcompat:appcompat:1.5.1"
 
         object Test {
-            const val junitKtx = "androidx.test.ext:junit-ktx:1.1.3"
+            const val junitKtx = "androidx.test.ext:junit-ktx:1.1.5"
 
-            private const val version = "1.4.0"
+            private const val version = "1.5.0"
             const val core = "androidx.test:core:$version"
             const val rules = "androidx.test:rules:$version"
             const val archCore = "androidx.arch.core:core-testing:2.1.0"
@@ -67,7 +67,7 @@ object Libs {
             const val test = "androidx.compose.ui:ui-test"
             const val uiTest = "androidx.compose.ui:ui-test-junit4"
 
-            const val activity = "androidx.activity:activity-compose:1.5.1"
+            const val activity = "androidx.activity:activity-compose:1.6.1"
 
             const val navigation = "androidx.navigation:navigation-compose:2.5.3"
             const val viewModel = "androidx.lifecycle:lifecycle-viewmodel-compose:2.5.1"
@@ -79,7 +79,7 @@ object Libs {
         const val material = "com.google.android.material:material:1.2.0"
 
         object Accompanist {
-            const val navigation = "com.google.accompanist:accompanist-navigation-material:0.27.0"
+            const val navigation = "com.google.accompanist:accompanist-navigation-material:0.28.0"
         }
     }
 
@@ -122,11 +122,11 @@ object Libs {
     }
 
     object Tools {
-        const val desugar = "com.android.tools:desugar_jdk_libs:1.1.5"
+        const val desugar = "com.android.tools:desugar_jdk_libs:1.2.2"
     }
 
     object Firebase {
-        private const val version = "31.0.2"
+        private const val version = "31.1.1"
 
         const val bom = "com.google.firebase:firebase-bom:$version"
         const val crashlytics = "com.google.firebase:firebase-crashlytics-ktx"
