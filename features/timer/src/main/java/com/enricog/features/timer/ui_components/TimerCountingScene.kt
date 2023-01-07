@@ -1,6 +1,5 @@
 package com.enricog.features.timer.ui_components
 
-import android.content.res.Configuration.ORIENTATION_PORTRAIT
 import androidx.compose.animation.core.Animatable
 import androidx.compose.animation.core.tween
 import androidx.compose.foundation.layout.Box
@@ -21,7 +20,6 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.drawBehind
 import androidx.compose.ui.graphics.Color
-import androidx.compose.ui.platform.LocalConfiguration
 import androidx.compose.ui.platform.testTag
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.style.TextAlign
@@ -49,12 +47,27 @@ internal fun TimerCountingScene(
     onToggleTimer: () -> Unit,
     onRestartSegment: () -> Unit
 ) {
-    val orientation = ScreenConfiguration.orientation
+    when (ScreenConfiguration.orientation) {
+        PORTRAIT -> TimerCountingScenePortrait(
+            state = state,
+            onToggleTimer = onToggleTimer,
+            onRestartSegment = onRestartSegment
+        )
+        LANDSCAPE -> TimerCountingSceneLandscape(
+            state = state,
+            onToggleTimer = onToggleTimer,
+            onRestartSegment = onRestartSegment
+        )
+    }
+}
 
-    TimerBackground(
-        modifier = Modifier.testTag(TimerCountingSceneTestTag),
-        clockBackgroundColor = state.clockBackgroundColor
-    ) {
+@Composable
+private fun TimerCountingScenePortrait(
+    state: TimerViewState.Counting,
+    onToggleTimer: () -> Unit,
+    onRestartSegment: () -> Unit
+) {
+    TimerBackground(clockBackgroundColor = state.clockBackgroundColor) {
         ConstraintLayout(
             modifier = Modifier
                 .windowInsetsPadding(WindowInsets.statusBars)
@@ -63,75 +76,88 @@ internal fun TimerCountingScene(
             val (title, clock, actionBar) = createRefs()
 
             Title(
-                modifier = Modifier
-                    .padding(
-                        start = TempoTheme.dimensions.spaceXL,
-                        end = TempoTheme.dimensions.spaceXL
-                    )
-                    .constrainAs(title) {
-                        when (orientation) {
-                            PORTRAIT -> {
-                                top.linkTo(parent.top)
-                                bottom.linkTo(clock.top)
-                                start.linkTo(parent.start)
-                                end.linkTo(parent.end)
-                            }
-                            LANDSCAPE -> {
-                                top.linkTo(parent.top)
-                                bottom.linkTo(clock.top)
-                                start.linkTo(parent.start)
-                                end.linkTo(actionBar.start)
-                            }
-                        }
-                        width = Dimension.fillToConstraints
-                    },
+                modifier = Modifier.constrainAs(title) {
+                    top.linkTo(parent.top)
+                    bottom.linkTo(clock.top)
+                    start.linkTo(parent.start)
+                    end.linkTo(parent.end)
+                    width = Dimension.fillToConstraints
+                },
                 stepTitle = stringResource(state.stepTitleId),
                 segmentName = state.segmentName
             )
-
             Clock(
                 timeInSeconds = state.timeInSeconds,
                 textColor = TempoTheme.colors.contentColorFor(
                     backgroundColor = state.clockBackgroundColor.background
                 ),
-                modifier = Modifier
-                    .constrainAs(clock) {
-                        when (orientation) {
-                            PORTRAIT -> {
-                                top.linkTo(title.bottom)
-                                bottom.linkTo(actionBar.top)
-                                start.linkTo(parent.start)
-                                end.linkTo(parent.end)
-                            }
-                            LANDSCAPE -> {
-                                bottom.linkTo(parent.bottom)
-                                start.linkTo(parent.start)
-                                end.linkTo(actionBar.start)
-                            }
-                        }
-                    }
+                modifier = Modifier.constrainAs(clock) {
+                    top.linkTo(title.bottom)
+                    bottom.linkTo(actionBar.top)
+                    start.linkTo(parent.start)
+                    end.linkTo(parent.end)
+                }
             )
-
             ActionsBar(
                 timerActions = state.timerActions,
                 onStartStopButtonClick = onToggleTimer,
                 onRestartSegmentButtonClick = onRestartSegment,
-                modifier = Modifier
-                    .constrainAs(actionBar) {
-                        when (orientation) {
-                            PORTRAIT -> {
-                                top.linkTo(clock.bottom)
-                                bottom.linkTo(parent.bottom)
-                                start.linkTo(parent.start)
-                                end.linkTo(parent.end)
-                            }
-                            LANDSCAPE -> {
-                                top.linkTo(parent.top)
-                                bottom.linkTo(parent.bottom)
-                                end.linkTo(parent.end)
-                            }
-                        }
-                    }
+                modifier = Modifier.constrainAs(actionBar) {
+                    top.linkTo(clock.bottom)
+                    bottom.linkTo(parent.bottom)
+                    start.linkTo(parent.start)
+                    end.linkTo(parent.end)
+                }
+            )
+        }
+    }
+}
+
+@Composable
+private fun TimerCountingSceneLandscape(
+    state: TimerViewState.Counting,
+    onToggleTimer: () -> Unit,
+    onRestartSegment: () -> Unit
+) {
+    TimerBackground(clockBackgroundColor = state.clockBackgroundColor) {
+        ConstraintLayout(
+            modifier = Modifier
+                .windowInsetsPadding(WindowInsets.statusBars)
+                .fillMaxSize()
+        ) {
+            val (title, clock, actionBar) = createRefs()
+
+            Title(
+                modifier = Modifier.constrainAs(title) {
+                    top.linkTo(parent.top)
+                    bottom.linkTo(clock.top)
+                    start.linkTo(parent.start)
+                    end.linkTo(actionBar.start)
+                    width = Dimension.fillToConstraints
+                },
+                stepTitle = stringResource(state.stepTitleId),
+                segmentName = state.segmentName
+            )
+            Clock(
+                timeInSeconds = state.timeInSeconds,
+                textColor = TempoTheme.colors.contentColorFor(
+                    backgroundColor = state.clockBackgroundColor.background
+                ),
+                modifier = Modifier.constrainAs(clock) {
+                    bottom.linkTo(parent.bottom)
+                    start.linkTo(parent.start)
+                    end.linkTo(actionBar.start)
+                }
+            )
+            ActionsBar(
+                timerActions = state.timerActions,
+                onStartStopButtonClick = onToggleTimer,
+                onRestartSegmentButtonClick = onRestartSegment,
+                modifier = Modifier.constrainAs(actionBar) {
+                    top.linkTo(parent.top)
+                    bottom.linkTo(parent.bottom)
+                    end.linkTo(parent.end)
+                }
             )
         }
     }
@@ -143,13 +169,9 @@ private fun TimerBackground(
     modifier: Modifier = Modifier,
     content: @Composable BoxScope.() -> Unit
 ) {
-    val configuration = LocalConfiguration.current
-    val orientation = configuration.orientation
-
-    val circleTransitionSize = if (orientation == ORIENTATION_PORTRAIT) {
-        configuration.screenHeightDp.dp.toPx()
-    } else {
-        configuration.screenWidthDp.dp.toPx()
+    val circleTransitionSize = when (ScreenConfiguration.orientation) {
+        PORTRAIT -> ScreenConfiguration.height.toPx()
+        LANDSCAPE -> ScreenConfiguration.width.toPx()
     }
 
     val circleRadius = remember { Animatable(initialValue = 0f) }
@@ -163,6 +185,7 @@ private fun TimerBackground(
 
     Box(
         modifier = modifier
+            .testTag(TimerCountingSceneTestTag)
             .fillMaxSize()
             .drawBehind {
                 drawRect(color = clockBackgroundColor.background)
@@ -182,7 +205,12 @@ private fun Title(
     modifier: Modifier = Modifier
 ) {
     Column(
-        modifier = modifier.fillMaxWidth(),
+        modifier = modifier
+            .fillMaxWidth()
+            .padding(
+                start = TempoTheme.dimensions.spaceXL,
+                end = TempoTheme.dimensions.spaceXL
+            ),
         horizontalAlignment = Alignment.CenterHorizontally
     ) {
         TempoText(

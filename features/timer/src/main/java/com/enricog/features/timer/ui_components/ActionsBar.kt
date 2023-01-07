@@ -1,13 +1,18 @@
 package com.enricog.features.timer.ui_components
 
+import androidx.compose.foundation.background
+import androidx.compose.foundation.layout.Box
+import androidx.compose.foundation.layout.BoxScope
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxHeight
+import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.width
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.platform.testTag
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
@@ -32,103 +37,143 @@ internal fun ActionsBar(
     onRestartSegmentButtonClick: () -> Unit,
     modifier: Modifier = Modifier
 ) {
-    val orientation = ScreenConfiguration.orientation
-
-    ConstraintLayout(
-        modifier = modifier
-            .padding(TempoTheme.dimensions.spaceM)
-            .testTag(ActionBarTestTag) then
-                when (orientation) {
-                    PORTRAIT -> Modifier
-                        .height(TempoIconButtonSize.Large.box)
-                        .fillMaxWidth()
-                    LANDSCAPE -> Modifier
-                        .width(TempoIconButtonSize.Large.box)
-                        .fillMaxHeight()
-                }
-    ) {
-        val (restartButton, spacer, toggleStartButton) = createRefs()
-        when (orientation) {
-            PORTRAIT -> {
-                createHorizontalChain(
-                    restartButton,
-                    spacer,
-                    toggleStartButton,
-                    chainStyle = ChainStyle.Packed
-                )
-            }
-            LANDSCAPE -> {
-                createVerticalChain(
-                    restartButton,
-                    spacer,
-                    toggleStartButton,
-                    chainStyle = ChainStyle.Packed
-                )
-            }
-        }
-
-        RestartButton(
-            restartButton = timerActions.restart,
-            onClick = onRestartSegmentButtonClick,
-            modifier = Modifier.constrainAs(restartButton) {
-                when (orientation) {
-                    PORTRAIT -> {
-                        top.linkTo(parent.top)
-                        bottom.linkTo(parent.bottom)
-                        start.linkTo(parent.start)
-                        end.linkTo(spacer.start)
-                    }
-                    LANDSCAPE -> {
-                        top.linkTo(parent.top)
-                        bottom.linkTo(spacer.top)
-                        start.linkTo(parent.start)
-                        end.linkTo(parent.end)
-                    }
-                }
-            }
+    when (ScreenConfiguration.orientation) {
+        PORTRAIT -> ActionsBarPortrait(
+            timerActions = timerActions,
+            onStartStopButtonClick = onStartStopButtonClick,
+            onRestartSegmentButtonClick = onRestartSegmentButtonClick,
+            modifier = modifier
         )
-        Spacer(
-            modifier = Modifier
-                .width(20.dp)
-                .height(20.dp)
-                .constrainAs(spacer) {
-                    when (orientation) {
-                        PORTRAIT -> {
-                            top.linkTo(parent.top)
-                            bottom.linkTo(parent.bottom)
-                            start.linkTo(restartButton.end)
-                            end.linkTo(toggleStartButton.start)
-                        }
-                        LANDSCAPE -> {
-                            top.linkTo(restartButton.bottom)
-                            bottom.linkTo(toggleStartButton.top)
-                            start.linkTo(parent.start)
-                            end.linkTo(parent.end)
-                        }
-                    }
-                }
-        )
-        ToggleStartButton(
-            toggleStartButton = timerActions.toggleStart,
-            onClick = onStartStopButtonClick,
-            modifier = Modifier.constrainAs(toggleStartButton) {
-                when (orientation) {
-                    PORTRAIT -> {
-                        top.linkTo(parent.top)
-                        bottom.linkTo(parent.bottom)
-                        start.linkTo(spacer.end)
-                        end.linkTo(parent.end)
-                    }
-                    LANDSCAPE -> {
-                        top.linkTo(spacer.bottom)
-                        bottom.linkTo(parent.bottom)
-                        start.linkTo(parent.start)
-                        end.linkTo(parent.end)
-                    }
-                }
-            }
+        LANDSCAPE -> ActionsBarLandscape(
+            timerActions = timerActions,
+            onStartStopButtonClick = onStartStopButtonClick,
+            onRestartSegmentButtonClick = onRestartSegmentButtonClick,
+            modifier = modifier
         )
     }
+}
+
+@Composable
+private fun ActionsBarPortrait(
+    timerActions: Actions,
+    onStartStopButtonClick: () -> Unit,
+    onRestartSegmentButtonClick: () -> Unit,
+    modifier: Modifier = Modifier
+) {
+    Container(
+        modifier = modifier
+            .height(TempoIconButtonSize.Large.box)
+            .fillMaxWidth()
+    ) {
+        ConstraintLayout(modifier = Modifier.fillMaxSize()) {
+            val (restartButton, spacer, toggleStartButton) = createRefs()
+            createHorizontalChain(
+                restartButton,
+                spacer,
+                toggleStartButton,
+                chainStyle = ChainStyle.Packed
+            )
+
+            RestartButton(
+                restartButton = timerActions.restart,
+                onClick = onRestartSegmentButtonClick,
+                modifier = Modifier.constrainAs(restartButton) {
+                    top.linkTo(parent.top)
+                    bottom.linkTo(parent.bottom)
+                    start.linkTo(parent.start)
+                    end.linkTo(spacer.start)
+                }
+            )
+            Spacer(
+                modifier = Modifier
+                    .width(20.dp)
+                    .height(20.dp)
+                    .constrainAs(spacer) {
+                        top.linkTo(parent.top)
+                        bottom.linkTo(parent.bottom)
+                        start.linkTo(restartButton.end)
+                        end.linkTo(toggleStartButton.start)
+                    }
+            )
+            ToggleStartButton(
+                toggleStartButton = timerActions.toggleStart,
+                onClick = onStartStopButtonClick,
+                modifier = Modifier.constrainAs(toggleStartButton) {
+                    top.linkTo(parent.top)
+                    bottom.linkTo(parent.bottom)
+                    start.linkTo(spacer.end)
+                    end.linkTo(parent.end)
+                }
+            )
+        }
+    }
+}
+
+@Composable
+internal fun ActionsBarLandscape(
+    timerActions: Actions,
+    onStartStopButtonClick: () -> Unit,
+    onRestartSegmentButtonClick: () -> Unit,
+    modifier: Modifier = Modifier
+) {
+    Container(
+        modifier = modifier
+            .width(TempoIconButtonSize.Large.box)
+            .fillMaxHeight()
+    ) {
+        ConstraintLayout(modifier = Modifier.fillMaxSize()) {
+            val (restartButton, spacer, toggleStartButton) = createRefs()
+            createVerticalChain(
+                restartButton,
+                spacer,
+                toggleStartButton,
+                chainStyle = ChainStyle.Packed
+            )
+
+            RestartButton(
+                restartButton = timerActions.restart,
+                onClick = onRestartSegmentButtonClick,
+                modifier = Modifier.constrainAs(restartButton) {
+                    top.linkTo(parent.top)
+                    bottom.linkTo(spacer.top)
+                    start.linkTo(parent.start)
+                    end.linkTo(parent.end)
+                }
+            )
+            Spacer(
+                modifier = Modifier
+                    .width(20.dp)
+                    .height(20.dp)
+                    .constrainAs(spacer) {
+                        top.linkTo(restartButton.bottom)
+                        bottom.linkTo(toggleStartButton.top)
+                        start.linkTo(parent.start)
+                        end.linkTo(parent.end)
+                    }
+            )
+            ToggleStartButton(
+                toggleStartButton = timerActions.toggleStart,
+                onClick = onStartStopButtonClick,
+                modifier = Modifier.constrainAs(toggleStartButton) {
+                    top.linkTo(spacer.bottom)
+                    bottom.linkTo(parent.bottom)
+                    start.linkTo(parent.start)
+                    end.linkTo(parent.end)
+                }
+            )
+        }
+    }
+}
+
+@Composable
+private fun Container(modifier: Modifier = Modifier, content: @Composable BoxScope.() -> Unit) {
+    Box(
+        modifier = Modifier
+            .background(Color.Magenta)
+            .padding(TempoTheme.dimensions.spaceM)
+            .testTag(ActionBarTestTag) then modifier,
+        content = content
+    )
 }
 
 @Composable

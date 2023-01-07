@@ -4,6 +4,8 @@ import android.content.res.Configuration
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.ReadOnlyComposable
 import androidx.compose.ui.platform.LocalConfiguration
+import androidx.compose.ui.unit.Dp
+import androidx.compose.ui.unit.dp
 
 object ScreenConfiguration {
 
@@ -15,6 +17,16 @@ object ScreenConfiguration {
             Configuration.ORIENTATION_LANDSCAPE -> Orientation.LANDSCAPE
             else -> Orientation.PORTRAIT
         }
+
+    val height: Dp
+        @ReadOnlyComposable
+        @Composable
+        get() = LocalConfiguration.current.screenHeightDp.dp
+
+    val width: Dp
+        @ReadOnlyComposable
+        @Composable
+        get() = LocalConfiguration.current.screenWidthDp.dp
 
     enum class Orientation {
         PORTRAIT, LANDSCAPE

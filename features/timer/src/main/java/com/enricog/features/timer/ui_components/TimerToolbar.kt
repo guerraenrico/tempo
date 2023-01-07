@@ -46,50 +46,122 @@ internal fun TimerToolbar(
         )
     }
 
-    ConstraintLayout(
-        modifier = when (orientation) {
-            PORTRAIT -> modifier.fillMaxWidth()
-            LANDSCAPE -> modifier.fillMaxHeight()
-        }
-    ) {
+    when (orientation) {
+        PORTRAIT -> TimerToolbarPortrait(
+            state = state,
+            buttonColor = buttonColor,
+            onCloseClick = onCloseClick,
+            onSoundClick = onSoundClick,
+            modifier = modifier
+        )
+        LANDSCAPE -> TimerToolbarLandscape(
+            state = state,
+            buttonColor = buttonColor,
+            onCloseClick = onCloseClick,
+            onSoundClick = onSoundClick,
+            modifier = modifier
+        )
+    }
+}
+
+@Composable
+private fun TimerToolbarPortrait(
+    state: TimerViewState,
+    buttonColor: TempoButtonColor,
+    onCloseClick: () -> Unit,
+    onSoundClick: () -> Unit,
+    modifier: Modifier = Modifier
+) {
+    ConstraintLayout(modifier = modifier.fillMaxWidth()) {
         val (closeButton, soundButton) = createRefs()
 
-        TempoIconButton(
+        CloseButton(
+            modifier = Modifier.constrainAs(closeButton) {
+                top.linkTo(parent.top)
+                bottom.linkTo(parent.bottom)
+                start.linkTo(parent.start)
+            },
+            buttonColor = buttonColor,
+            onClick = onCloseClick
+        )
+        SoundButton(
+            modifier = Modifier.constrainAs(soundButton) {
+                top.linkTo(parent.top)
+                bottom.linkTo(parent.bottom)
+                end.linkTo(parent.end)
+            },
+            state = state,
+            buttonColor = buttonColor,
+            onClick = onSoundClick
+        )
+    }
+}
+
+@Composable
+private fun TimerToolbarLandscape(
+    state: TimerViewState,
+    buttonColor: TempoButtonColor,
+    onCloseClick: () -> Unit,
+    onSoundClick: () -> Unit,
+    modifier: Modifier = Modifier
+) {
+    ConstraintLayout(modifier = modifier.fillMaxHeight()) {
+        val (closeButton, soundButton) = createRefs()
+
+        CloseButton(
             modifier = Modifier
-                .testTag(TimerToolbarCloseButtonTestTag)
                 .constrainAs(closeButton) {
                     top.linkTo(parent.top)
-                    when (orientation) {
-                        PORTRAIT -> bottom.linkTo(parent.bottom)
-                        LANDSCAPE -> end.linkTo(parent.end)
-                    }
+                    end.linkTo(parent.end)
                     start.linkTo(parent.start)
                 },
-            onClick = onCloseClick,
-            iconResId = R.drawable.ic_timer_close,
+            buttonColor = buttonColor,
+            onClick = onCloseClick
+        )
+        SoundButton(
+            modifier = Modifier.constrainAs(soundButton) {
+                start.linkTo(parent.start)
+                bottom.linkTo(parent.bottom)
+                end.linkTo(parent.end)
+            },
+            state = state,
+            buttonColor = buttonColor,
+            onClick = onSoundClick,
+        )
+    }
+}
+
+@Composable
+private fun CloseButton(
+    buttonColor: TempoButtonColor,
+    onClick: () -> Unit,
+    modifier: Modifier = Modifier
+) {
+    TempoIconButton(
+        modifier = modifier.testTag(TimerToolbarCloseButtonTestTag),
+        onClick = onClick,
+        iconResId = R.drawable.ic_timer_close,
+        color = buttonColor,
+        drawShadow = false,
+        contentDescription = stringResource(R.string.content_description_button_exit_routine)
+    )
+}
+
+@Composable
+private fun SoundButton(
+    state: TimerViewState,
+    buttonColor: TempoButtonColor,
+    onClick: () -> Unit,
+    modifier: Modifier = Modifier
+) {
+    if (state is TimerViewState.Counting) {
+        TempoIconButton(
+            modifier = modifier.testTag(TimerToolbarSoundButtonTestTag),
+            onClick = onClick,
+            iconResId = if (state.isSoundEnabled) R.drawable.ic_timer_sound_enabled else R.drawable.ic_timer_sound_disabled,
             color = buttonColor,
             drawShadow = false,
-            contentDescription = stringResource(R.string.content_description_button_exit_routine)
+            contentDescription = stringResource(R.string.content_description_button_toggle_sound)
         )
-
-        if (state is TimerViewState.Counting) {
-            TempoIconButton(
-                modifier = Modifier
-                    .testTag(TimerToolbarSoundButtonTestTag)
-                    .constrainAs(soundButton) {
-                        when (orientation) {
-                            PORTRAIT -> top.linkTo(parent.top)
-                            LANDSCAPE -> start.linkTo(parent.start)
-                        }
-                        bottom.linkTo(parent.bottom)
-                        end.linkTo(parent.end)
-                    },
-                onClick = onSoundClick,
-                iconResId = if (state.isSoundEnabled) R.drawable.ic_timer_sound_enabled else R.drawable.ic_timer_sound_disabled,
-                color = buttonColor,
-                drawShadow = false,
-                contentDescription = stringResource(R.string.content_description_button_toggle_sound)
-            )
-        }
     }
 }
