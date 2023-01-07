@@ -169,7 +169,6 @@ internal fun ActionsBarLandscape(
 private fun Container(modifier: Modifier = Modifier, content: @Composable BoxScope.() -> Unit) {
     Box(
         modifier = Modifier
-            .background(Color.Magenta)
             .padding(TempoTheme.dimensions.spaceM)
             .testTag(ActionBarTestTag) then modifier,
         content = content
