@@ -71,7 +71,7 @@ class TimerViewModelTest {
             stepTitleId = R.string.title_segment_step_type_starting,
             segmentName = "First Segment",
             clockBackgroundColor = BackgroundColor(
-                foreground = TimeTypeColors.STARTING,
+                background = TimeTypeColors.STARTING,
                 ripple = null
             ),
             isSoundEnabled = true,
@@ -93,7 +93,7 @@ class TimerViewModelTest {
             stepTitleId = R.string.title_segment_step_type_starting,
             segmentName = "First Segment",
             clockBackgroundColor = BackgroundColor(
-                foreground = TimeTypeColors.STARTING,
+                background = TimeTypeColors.STARTING,
                 ripple = null
             ),
             isSoundEnabled = true,
@@ -117,10 +117,9 @@ class TimerViewModelTest {
             assertEquals(expectedOnSetup, awaitItem())
             advanceTimeBy(1000)
             assertEquals(expectedOnStart, awaitItem())
-            advanceTimeBy(1000)
 
-            cancelAndIgnoreRemainingEvents()
             windowScreenManager.keepScreenOn.test { assertEquals(true, awaitItem()) }
+            cancelAndIgnoreRemainingEvents()
         }
     }
 
@@ -189,7 +188,7 @@ class TimerViewModelTest {
             stepTitleId = R.string.title_segment_step_type_starting,
             segmentName = "First Segment",
             clockBackgroundColor = BackgroundColor(
-                foreground = TimeTypeColors.STARTING,
+                background = TimeTypeColors.STARTING,
                 ripple = null
             ),
             isSoundEnabled = true,
@@ -229,7 +228,7 @@ class TimerViewModelTest {
             stepTitleId = R.string.title_segment_step_type_starting,
             segmentName = "First Segment",
             clockBackgroundColor = BackgroundColor(
-                foreground = TimeTypeColors.STARTING,
+                background = TimeTypeColors.STARTING,
                 ripple = null
             ),
             isSoundEnabled = true,
@@ -267,7 +266,7 @@ class TimerViewModelTest {
             stepTitleId = R.string.title_segment_step_type_starting,
             segmentName = "First Segment",
             clockBackgroundColor = BackgroundColor(
-                foreground = TimeTypeColors.STARTING,
+                background = TimeTypeColors.STARTING,
                 ripple = null
             ),
             isSoundEnabled = true,
@@ -289,7 +288,7 @@ class TimerViewModelTest {
             stepTitleId = R.string.title_segment_step_type_in_progress,
             segmentName = "First Segment",
             clockBackgroundColor = BackgroundColor(
-                foreground = TimeTypeColors.TIMER,
+                background = TimeTypeColors.TIMER,
                 ripple = null
             ),
             isSoundEnabled = true,

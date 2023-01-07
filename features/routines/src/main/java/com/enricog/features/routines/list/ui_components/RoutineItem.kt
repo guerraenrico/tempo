@@ -24,6 +24,7 @@ import com.enricog.features.routines.ui_components.DeletableListItem
 import com.enricog.ui.components.extensions.format
 import com.enricog.ui.components.text.TempoText
 import com.enricog.ui.theme.TempoTheme
+import com.enricog.ui.theme.contentColorFor
 
 internal const val RoutineItemTestTag = "RoutineItemTestTag"
 internal const val RoutineItemCountTestTag = "RoutineItemCountTestTag"
@@ -124,7 +125,11 @@ private fun Counts(
                             )
                         ),
                         text = count.toString(),
-                        style = TempoTheme.typography.h6
+                        style = TempoTheme.typography.h6.copy(
+                            color = TempoTheme.colors.contentColorFor(
+                                backgroundColor = timeType.color
+                            )
+                        )
                     )
                 }
             }

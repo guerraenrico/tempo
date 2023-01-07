@@ -10,12 +10,9 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.platform.testTag
 import androidx.compose.ui.res.stringResource
-import androidx.compose.ui.text.TextStyle
-import androidx.compose.ui.text.font.FontWeight
-import androidx.compose.ui.unit.sp
 import com.enricog.ui.components.text.TempoText
 import com.enricog.ui.theme.TempoTheme
-import com.enricog.ui.theme.white
+import com.enricog.ui.theme.contentColorFor
 
 internal const val TimeTypeChipTestTag = "TimeTypeChipTestTag"
 private val chipShape = RoundedCornerShape(percent = 50)
@@ -34,10 +31,10 @@ internal fun TimeTypeChip(
     ) {
         TempoText(
             text = stringResource(id = value.nameStringResId),
-            style = TextStyle(
-                color = white,
-                fontWeight = FontWeight.Bold,
-                fontSize = 14.sp,
+            style = TempoTheme.typography.h4.copy(
+                color = TempoTheme.colors.contentColorFor(
+                    backgroundColor = value.color
+                )
             ),
             modifier = Modifier.padding(
                 horizontal = TempoTheme.dimensions.spaceM,

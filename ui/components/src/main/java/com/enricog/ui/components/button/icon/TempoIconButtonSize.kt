@@ -7,9 +7,9 @@ import com.enricog.ui.components.icon.TempoIconSize
 
 @Immutable
 enum class TempoIconButtonSize(
-    internal val box: Dp,
-    internal val icon: TempoIconSize,
-    internal val shadow: Dp
+    val box: Dp,
+    val icon: TempoIconSize,
+    val shadow: Dp
 ) {
     Small(box = 48.dp, icon = TempoIconSize.Small, shadow = 2.dp),
     Normal(box = 55.dp, icon = TempoIconSize.Normal, shadow = 4.dp),

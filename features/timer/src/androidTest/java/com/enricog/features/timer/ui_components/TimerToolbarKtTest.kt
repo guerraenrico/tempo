@@ -28,7 +28,7 @@ class TimerToolbarKtTest {
                         segmentName = "segment name",
                         timeInSeconds = 1,
                         clockBackgroundColor = TimerViewState.Counting.BackgroundColor(
-                            foreground = Color.Blue,
+                            background = Color.Blue,
                             ripple = null
                         ),
                         isSoundEnabled = true,
@@ -67,7 +67,7 @@ class TimerToolbarKtTest {
                         segmentName = "segment name",
                         timeInSeconds = 1,
                         clockBackgroundColor = TimerViewState.Counting.BackgroundColor(
-                            foreground = Color.Blue,
+                            background = Color.Blue,
                             ripple = null
                         ),
                         isSoundEnabled = false,

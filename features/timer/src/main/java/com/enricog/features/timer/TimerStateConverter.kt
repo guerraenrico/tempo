@@ -42,14 +42,14 @@ internal class TimerStateConverter @Inject constructor() :
         val nextSegmentStep = nextSegmentStep
         return when (step.type) {
             SegmentStepType.STARTING -> BackgroundColor(
-                foreground = step.type.getColor(),
+                background = step.type.getColor(),
                 ripple = when {
                     isStepCountCompleted -> runningSegment.type.getColor()
                     else -> null
                 }
             )
             else -> BackgroundColor(
-                foreground = runningSegment.type.getColor(),
+                background = runningSegment.type.getColor(),
                 ripple = when {
                     isStepCountCompleted -> if (nextSegmentStep?.type == SegmentStepType.STARTING)
                         nextSegmentStep.type.getColor() else nextSegment?.type?.getColor()

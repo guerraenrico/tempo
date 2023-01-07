@@ -74,6 +74,22 @@ sealed class TempoButtonColor {
             disabledContentColor = grey100
         )
     }
+
+    data class Adaptive(
+        private val enabledBackgroundColor: Color,
+        private val disabledBackgroundColor: Color,
+        private val enabledContentColor: Color,
+        private val disabledContentColor: Color
+    ) : TempoButtonColor() {
+
+        @Composable
+        override fun buttonColors(): TempoButtonColors = TempoButtonColors(
+            enabledBackgroundColor = enabledBackgroundColor,
+            disabledBackgroundColor = disabledBackgroundColor,
+            enabledContentColor = enabledContentColor,
+            disabledContentColor = disabledContentColor
+        )
+    }
 }
 
 internal data class TempoButtonColors(
