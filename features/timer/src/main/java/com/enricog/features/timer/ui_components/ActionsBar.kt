@@ -1,6 +1,5 @@
 package com.enricog.features.timer.ui_components
 
-import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.BoxScope
 import androidx.compose.foundation.layout.Spacer
@@ -12,7 +11,6 @@ import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.width
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.platform.testTag
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
@@ -110,7 +108,7 @@ private fun ActionsBarPortrait(
 }
 
 @Composable
-internal fun ActionsBarLandscape(
+private fun ActionsBarLandscape(
     timerActions: Actions,
     onStartStopButtonClick: () -> Unit,
     onRestartSegmentButtonClick: () -> Unit,
