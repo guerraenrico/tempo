@@ -24,6 +24,7 @@ import com.enricog.ui.components.button.icon.TempoIconButtonSize
 import com.enricog.ui.theme.TimeTypeColors
 import kotlinx.coroutines.test.StandardTestDispatcher
 import kotlinx.coroutines.test.advanceTimeBy
+import kotlinx.coroutines.test.runCurrent
 import org.junit.After
 import org.junit.Rule
 import org.junit.Test
@@ -113,12 +114,20 @@ class TimerViewModelTest {
         val sut = buildSut()
 
         sut.viewState.test {
-            advanceTimeBy(100)
+            advanceTimeBy(50)
             assertEquals(expectedOnSetup, awaitItem())
             advanceTimeBy(1000)
             assertEquals(expectedOnStart, awaitItem())
 
-            windowScreenManager.keepScreenOn.test { assertEquals(true, awaitItem()) }
+            windowScreenManager.keepScreenOn.test {
+                runCurrent()
+                advanceTimeBy(50)
+                runCurrent()
+
+                assertEquals(true, awaitItem())
+                cancelAndIgnoreRemainingEvents()
+            }
+
             cancelAndIgnoreRemainingEvents()
         }
     }

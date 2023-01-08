@@ -64,11 +64,10 @@ dependencies {
     testImplementation Libs.AndroidX.Test.core
     testImplementation Libs.AndroidX.Test.rules
     testImplementation Libs.AndroidX.Test.junitKtx
-    testImplementation Libs.AndroidX.Test.archCore
     testImplementation Libs.Test.junit
-    testImplementation Libs.Robolectric
 
     androidTestImplementation project(':data:routines:testing')
+    androidTestImplementation project(":core:coroutines:testing")
     androidTestImplementation Libs.Room.testing
     androidTestImplementation Libs.AndroidX.Test.junitKtx
     androidTestImplementation Libs.Test.junit

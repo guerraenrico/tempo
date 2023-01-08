@@ -14,7 +14,7 @@ import org.junit.Test
 class InternalRoutineTest {
 
     @Test
-    fun testMappingToInternal() {
+    fun `map to internal model`() {
         val now = OffsetDateTime.now()
         val routine = Routine(
             id = 1.asID,
@@ -48,7 +48,7 @@ class InternalRoutineTest {
     }
 
     @Test
-    fun testMappingToEntity() {
+    fun `map to entity`() {
         val now = OffsetDateTime.now()
         val internalSegments = listOf(
             InternalSegment(
