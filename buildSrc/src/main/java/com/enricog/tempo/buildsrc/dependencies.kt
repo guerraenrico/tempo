@@ -45,7 +45,6 @@ object Libs {
             private const val version = "1.5.0"
             const val core = "androidx.test:core:$version"
             const val rules = "androidx.test:rules:$version"
-            const val archCore = "androidx.arch.core:core-testing:2.1.0"
         }
 
         object Compose {
@@ -146,6 +145,4 @@ object Libs {
         const val junit = "junit:junit:4.12"
         const val flow = "app.cash.turbine:turbine:0.12.0"
     }
-
-    const val Robolectric = "org.robolectric:robolectric:4.3.1"
 }

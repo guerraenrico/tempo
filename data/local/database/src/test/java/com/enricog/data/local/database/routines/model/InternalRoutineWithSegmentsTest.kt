@@ -13,7 +13,7 @@ import java.time.OffsetDateTime
 class InternalRoutineWithSegmentsTest {
 
     @Test
-    fun testMappingToEntity() {
+    fun `map to entity`() {
         val now = OffsetDateTime.now()
         val internalSegments = listOf(
             InternalSegment(

@@ -1,9 +1,9 @@
 package com.enricog.data.local.database.routines
 
 import android.content.Context
-import androidx.arch.core.executor.testing.InstantTaskExecutorRule
 import androidx.room.Room
 import androidx.test.core.app.ApplicationProvider
+import androidx.test.ext.junit.runners.AndroidJUnit4
 import com.enricog.core.coroutines.testing.CoroutineRule
 import com.enricog.data.local.database.TempoDatabase
 import com.enricog.data.local.database.routines.model.InternalRoutine
@@ -22,18 +22,12 @@ import org.junit.Before
 import org.junit.Rule
 import org.junit.Test
 import org.junit.runner.RunWith
-import org.robolectric.RobolectricTestRunner
-import org.robolectric.annotation.Config
 import java.io.IOException
 import java.time.OffsetDateTime
 import java.time.temporal.ChronoUnit
 
-@RunWith(RobolectricTestRunner::class)
-@Config(sdk = [28])
+@RunWith(AndroidJUnit4::class)
 class RoutineDataSourceImplTest {
-
-    @get:Rule
-    val instantTaskExecutorRule = InstantTaskExecutorRule()
 
     @get:Rule
     val coroutineRule = CoroutineRule()
@@ -57,7 +51,7 @@ class RoutineDataSourceImplTest {
     }
 
     @Test
-    fun `should observe all routines`() = coroutineRule {
+    fun shoulObserveAllRoutines() = coroutineRule {
         val now = OffsetDateTime.now()
         val internalSegment = InternalSegment(
             id = 1,
@@ -103,7 +97,7 @@ class RoutineDataSourceImplTest {
     }
 
     @Test
-    fun `should observe single routine`() = coroutineRule {
+    fun shouldObserveSingleRoutine() = coroutineRule {
         val now = OffsetDateTime.now()
         val internalSegment = InternalSegment(
             id = 1,
@@ -148,7 +142,7 @@ class RoutineDataSourceImplTest {
     }
 
     @Test
-    fun `should return all routines`() = coroutineRule {
+    fun shouldReturnAllRoutines() = coroutineRule {
         val now = OffsetDateTime.now()
         val internalSegment = InternalSegment(
             id = 1,
@@ -194,7 +188,7 @@ class RoutineDataSourceImplTest {
     }
 
     @Test
-    fun `should return single routine`() = coroutineRule {
+    fun shouldReturnSingleRoutine() = coroutineRule {
         val now = OffsetDateTime.now()
         val internalSegment = InternalSegment(
             id = 1,
@@ -239,7 +233,7 @@ class RoutineDataSourceImplTest {
     }
 
     @Test
-    fun `should create a routine`() = coroutineRule {
+    fun shouldCreateRoutine() = coroutineRule {
         val max = OffsetDateTime.MIN
         val now = OffsetDateTime.now()
         val routine = Routine(
@@ -286,7 +280,7 @@ class RoutineDataSourceImplTest {
     }
 
     @Test
-    fun `should update routine`() = coroutineRule {
+    fun shouldUpdateRoutine() = coroutineRule {
         val max = OffsetDateTime.MIN
         val now = OffsetDateTime.now()
         val internalSegment = InternalSegment(
@@ -335,7 +329,7 @@ class RoutineDataSourceImplTest {
     }
 
     @Test
-    fun `should update routine and segment`() = coroutineRule {
+    fun shouldUpdateRoutineAndSegment() = coroutineRule {
         val max = OffsetDateTime.MAX
         val now = OffsetDateTime.now()
         val internalSegment = InternalSegment(
@@ -384,7 +378,7 @@ class RoutineDataSourceImplTest {
     }
 
     @Test
-    fun `should update routine and delete segment`() = coroutineRule {
+    fun shouldUpdateRoutineAndDeleteSegment() = coroutineRule {
         val max = OffsetDateTime.MAX
         val now = OffsetDateTime.now()
         val internalSegment = InternalSegment(
@@ -425,7 +419,7 @@ class RoutineDataSourceImplTest {
     }
 
     @Test
-    fun `should update routine and create segment`() = coroutineRule {
+    fun shouldUpdateRoutineAndCreateSegment() = coroutineRule {
         val max = OffsetDateTime.MAX
         val now = OffsetDateTime.now()
         val internalRoutine = InternalRoutine(
@@ -482,7 +476,7 @@ class RoutineDataSourceImplTest {
     }
 
     @Test
-    fun `should update routine and create and delete segments`() = coroutineRule {
+    fun shouldUpdateRoutineAndCreateAndDeleteSegments() = coroutineRule {
         val max = OffsetDateTime.MAX
         val now = OffsetDateTime.now()
         val internalSegment = InternalSegment(
@@ -548,7 +542,7 @@ class RoutineDataSourceImplTest {
     }
 
     @Test
-    fun `should update routine and create, delete and update segments`() = coroutineRule {
+    fun shouldUpdateRoutineCreateDeleteAndUpdateSegments() = coroutineRule {
         val max = OffsetDateTime.MAX
         val now = OffsetDateTime.now()
         val internalSegment1 = InternalSegment(
@@ -636,7 +630,7 @@ class RoutineDataSourceImplTest {
     }
 
     @Test
-    fun `should delete routine and all relative segments`() = coroutineRule {
+    fun shouldDeleteRoutineAndAllRelativeSegments() = coroutineRule {
         val now = OffsetDateTime.now()
         val internalSegment = InternalSegment(
             id = 1,

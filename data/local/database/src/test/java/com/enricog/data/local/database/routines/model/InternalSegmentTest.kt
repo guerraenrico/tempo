@@ -11,7 +11,7 @@ import org.junit.Test
 class InternalSegmentTest {
 
     @Test
-    fun testMappingToInternal() {
+    fun `map to internal model`() {
         val routineId = 1L
         val segment = Segment(
             id = 2.asID,
@@ -35,7 +35,7 @@ class InternalSegmentTest {
     }
 
     @Test
-    fun testMappingToEntity() {
+    fun `map to entity`() {
         val internalSegment = InternalSegment(
             id = 1,
             routineId = 2,
