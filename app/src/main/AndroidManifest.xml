@@ -10,9 +10,9 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/Theme.Tempo">
+
         <activity
             android:name="com.enricog.tempo.MainActivity"
-            android:label="@string/app_name"
             android:theme="@style/Theme.Tempo"
             android:exported="true">
             <intent-filter>
@@ -21,6 +21,7 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
+
     </application>
 
 </manifest>
