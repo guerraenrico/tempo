@@ -34,7 +34,8 @@ internal fun SegmentItem(
     DeletableListItem(
         modifier = modifier
             .testTag(SegmentItemTestTag),
-        onDelete = { onDelete(segment.id) }
+        onDelete = { println("[TEST] delete") },
+        onDuplicate = { println("[TEST] duplicate") }
     ) {
         ConstraintLayout(
             modifier = Modifier
