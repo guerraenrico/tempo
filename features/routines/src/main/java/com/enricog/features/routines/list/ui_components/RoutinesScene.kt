@@ -47,6 +47,7 @@ internal fun RoutinesScene(
     message: Message?,
     onRoutine: (ID) -> Unit,
     onRoutineDelete: (ID) -> Unit,
+    onRoutineDuplicate: (ID) -> Unit,
     onCreateRoutine: () -> Unit,
     onRoutineMoved: (ID, ID) -> Unit,
     onSnackbarEvent: (TempoSnackbarEvent) -> Unit
@@ -128,7 +129,8 @@ internal fun RoutinesScene(
                                         enableClick = !draggableState.isDragging,
                                         routineItem = item,
                                         onClick = onRoutine,
-                                        onDelete = onRoutineDelete
+                                        onDelete = onRoutineDelete,
+                                        onDuplicate = onRoutineDuplicate
                                     )
                                 } else {
                                     RoutineItem(
@@ -138,7 +140,8 @@ internal fun RoutinesScene(
                                         enableClick = false,
                                         routineItem = item,
                                         onClick = { },
-                                        onDelete = { }
+                                        onDelete = { },
+                                        onDuplicate = onRoutineDuplicate
                                     )
                                 }
                             }

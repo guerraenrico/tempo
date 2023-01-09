@@ -24,6 +24,7 @@ internal fun RoutinesScreen(viewModel: RoutinesViewModel) {
             onCreateRoutine = viewModel::onCreateRoutine,
             onRoutine = viewModel::onRoutine,
             onRoutineDelete = viewModel::onRoutineDelete,
+            onRoutineDuplicate = viewModel::onRoutineDuplicate,
             onRoutineMoved = viewModel::onRoutineMoved,
             onRetryLoad = viewModel::onRetryLoad,
             onSnackbarEvent = viewModel::onSnackbarEvent
@@ -36,6 +37,7 @@ internal fun RoutinesViewState.Compose(
     onCreateRoutine: () -> Unit,
     onRoutine: (ID) -> Unit,
     onRoutineDelete: (ID) -> Unit,
+    onRoutineDuplicate: (ID) -> Unit,
     onRoutineMoved: (ID, ID) -> Unit,
     onRetryLoad: () -> Unit,
     onSnackbarEvent: (TempoSnackbarEvent) -> Unit
@@ -52,6 +54,7 @@ internal fun RoutinesViewState.Compose(
                 message = message,
                 onRoutine = onRoutine,
                 onRoutineDelete = onRoutineDelete,
+                onRoutineDuplicate = onRoutineDuplicate,
                 onCreateRoutine = onCreateRoutine,
                 onRoutineMoved = onRoutineMoved,
                 onSnackbarEvent = onSnackbarEvent

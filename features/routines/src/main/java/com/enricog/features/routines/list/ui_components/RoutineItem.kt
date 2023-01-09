@@ -38,13 +38,14 @@ internal fun RoutineItem(
     enableClick: Boolean,
     onClick: (ID) -> Unit,
     onDelete: (ID) -> Unit,
+    onDuplicate: (ID) -> Unit,
     modifier: Modifier = Modifier
 ) {
     DeletableListItem(
         modifier = modifier
             .testTag(RoutineItemTestTag),
-        onDelete = { println("[TEST] delete") },
-        onDuplicate = { println("[TEST] duplicate") }
+        onDelete = { onDelete(routineItem.id) },
+        onDuplicate = { onDuplicate(routineItem.id) }
     ) {
         ConstraintLayout(
             modifier = Modifier

@@ -22,6 +22,7 @@ internal fun DraggedRoutine(
         routineItem = routine,
         onClick = {},
         onDelete = {},
+        onDuplicate = {},
         enableClick = false,
         modifier = modifier
             .testTag(DraggedRoutineTestTag)
