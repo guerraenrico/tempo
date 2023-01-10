@@ -20,7 +20,7 @@ import androidx.constraintlayout.compose.Dimension
 import com.enricog.core.compose.api.modifiers.spacing.horizontalListItemSpacing
 import com.enricog.entities.ID
 import com.enricog.features.routines.list.models.RoutinesItem.RoutineItem
-import com.enricog.features.routines.ui_components.DeletableListItem
+import com.enricog.features.routines.ui_components.SwipeableListItem
 import com.enricog.ui.components.extensions.format
 import com.enricog.ui.components.text.TempoText
 import com.enricog.ui.theme.TempoTheme
@@ -41,7 +41,7 @@ internal fun RoutineItem(
     onDuplicate: (ID) -> Unit,
     modifier: Modifier = Modifier
 ) {
-    DeletableListItem(
+    SwipeableListItem(
         modifier = modifier
             .testTag(RoutineItemTestTag),
         onDelete = { onDelete(routineItem.id) },

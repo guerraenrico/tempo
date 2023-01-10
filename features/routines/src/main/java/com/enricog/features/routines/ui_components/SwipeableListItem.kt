@@ -29,7 +29,7 @@ private enum class SwipeableState {
 }
 
 @Composable
-internal fun DeletableListItem(
+internal fun SwipeableListItem(
     modifier: Modifier = Modifier,
     onDelete: () -> Unit,
     onDuplicate: () -> Unit,

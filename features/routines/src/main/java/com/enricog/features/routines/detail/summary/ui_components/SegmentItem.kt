@@ -15,7 +15,7 @@ import com.enricog.entities.seconds
 import com.enricog.features.routines.detail.summary.models.RoutineSummaryItem.SegmentItem
 import com.enricog.features.routines.detail.ui.time_type.TimeType
 import com.enricog.features.routines.detail.ui.time_type.TimeTypeChip
-import com.enricog.features.routines.ui_components.DeletableListItem
+import com.enricog.features.routines.ui_components.SwipeableListItem
 import com.enricog.ui.components.extensions.format
 import com.enricog.ui.components.text.TempoText
 import com.enricog.ui.theme.TempoTheme
@@ -31,7 +31,7 @@ internal fun SegmentItem(
     onClick: (ID) -> Unit,
     onDelete: (ID) -> Unit
 ) {
-    DeletableListItem(
+    SwipeableListItem(
         modifier = modifier
             .testTag(SegmentItemTestTag),
         onDelete = { println("[TEST] delete") },
