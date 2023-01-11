@@ -10,6 +10,7 @@ import com.enricog.entities.ID
 import com.enricog.features.routines.list.models.RoutinesState
 import com.enricog.features.routines.list.models.RoutinesState.Data.Action.DeleteRoutineError
 import com.enricog.features.routines.list.models.RoutinesState.Data.Action.MoveRoutineError
+import com.enricog.features.routines.list.models.RoutinesState.Data.Action.DuplicateRoutineError
 import com.enricog.features.routines.list.models.RoutinesViewState
 import com.enricog.features.routines.list.usecase.DuplicateRoutineUseCase
 import com.enricog.features.routines.list.usecase.MoveRoutineUseCase
@@ -103,7 +104,7 @@ internal class RoutinesViewModel @Inject constructor(
         val exceptionHandler = CoroutineExceptionHandler { _, throwable ->
             TempoLogger.e(throwable = throwable)
             updateStateWhen<RoutinesState.Data> {
-                reducer.deleteRoutineError(state = it, routineId = routineId)
+                reducer.duplicateRoutineError(state = it)
             }
         }
         duplicateJob = launchWhen<RoutinesState.Data>(exceptionHandler) { state ->
@@ -124,6 +125,7 @@ internal class RoutinesViewModel @Inject constructor(
                 when (previousAction) {
                     is DeleteRoutineError -> onRoutineDelete(routineId = previousAction.routineId)
                     MoveRoutineError,
+                    DuplicateRoutineError,
                     null -> Unit
                 }
             }

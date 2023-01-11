@@ -29,13 +29,14 @@ internal fun SegmentItem(
     segment: SegmentItem,
     enableClick: Boolean,
     onClick: (ID) -> Unit,
-    onDelete: (ID) -> Unit
+    onDelete: (ID) -> Unit,
+    onDuplicate: (ID) -> Unit
 ) {
     SwipeableListItem(
         modifier = modifier
             .testTag(SegmentItemTestTag),
-        onDelete = { println("[TEST] delete") },
-        onDuplicate = { println("[TEST] duplicate") }
+        onDelete = { onDelete(segment.id) },
+        onDuplicate = { onDuplicate(segment.id) }
     ) {
         ConstraintLayout(
             modifier = Modifier
@@ -98,6 +99,7 @@ private fun SegmentItemPreview() {
         ),
         onClick = {},
         onDelete = {},
+        onDuplicate = {},
         enableClick = true
     )
 }

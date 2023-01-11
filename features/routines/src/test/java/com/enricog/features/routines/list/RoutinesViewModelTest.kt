@@ -171,8 +171,8 @@ class RoutinesViewModelTest {
             val expected = RoutinesViewState.Data(
                 routinesItems = immutableListOf(firstRoutine, secondRoutine, RoutinesItem.Space),
                 message = RoutinesViewState.Data.Message(
-                    textResId = R.string.label_routines_delete_error,
-                    actionTextResId = R.string.action_text_routines_delete_error
+                    textResId = R.string.label_routines_duplicate_error,
+                    actionTextResId = null
                 )
             )
             val sut = buildSut()

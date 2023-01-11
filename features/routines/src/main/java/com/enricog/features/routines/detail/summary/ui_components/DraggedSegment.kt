@@ -23,6 +23,7 @@ internal fun DraggedSegment(
         enableClick = false,
         onClick = {},
         onDelete = {},
+        onDuplicate = {},
         modifier = modifier
             .testTag(DraggedSegmentTestTag)
             .fillMaxWidth()

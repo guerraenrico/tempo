@@ -14,9 +14,7 @@ internal class DuplicateRoutineUseCase @Inject constructor(
         val routineIndex = routines.indexOfFirst { it.id == routineId }.takeIf { it >= 0 } ?: return
         val bottomRoutine = routines.getOrNull(routineIndex + 1)
         val routine = routines[routineIndex]
-
-        val routineRank = if (bottomRoutine == null) Rank.calculateBottom(rank = routine.rank) else
-            Rank.calculate(rankTop = routine.rank, rankBottom = bottomRoutine.rank)
+        val routineRank = Rank.calculate(rankTop = routine.rank, rankBottom = bottomRoutine?.rank)
 
         val duplicatedRoutine = routine.copy(
             id = ID.new(),

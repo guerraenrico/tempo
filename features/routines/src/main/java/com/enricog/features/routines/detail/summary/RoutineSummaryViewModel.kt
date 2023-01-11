@@ -11,7 +11,9 @@ import com.enricog.entities.ID
 import com.enricog.features.routines.detail.summary.models.RoutineSummaryState
 import com.enricog.features.routines.detail.summary.models.RoutineSummaryState.Data.Action.DeleteSegmentError
 import com.enricog.features.routines.detail.summary.models.RoutineSummaryState.Data.Action.MoveSegmentError
+import com.enricog.features.routines.detail.summary.models.RoutineSummaryState.Data.Action.DuplicateSegmentError
 import com.enricog.features.routines.detail.summary.models.RoutineSummaryViewState
+import com.enricog.features.routines.detail.summary.usecase.DuplicateSegmentUseCase
 import com.enricog.features.routines.detail.summary.usecase.MoveSegmentUseCase
 import com.enricog.features.routines.detail.summary.usecase.RoutineSummaryUseCase
 import com.enricog.features.routines.navigation.RoutinesNavigationActions
@@ -37,6 +39,7 @@ internal class RoutineSummaryViewModel @Inject constructor(
     private val reducer: RoutineSummaryReducer,
     private val routineSummaryUseCase: RoutineSummaryUseCase,
     private val moveSegmentUseCase: MoveSegmentUseCase,
+    private val duplicateSegmentUseCase: DuplicateSegmentUseCase,
     private val validator: RoutineSummaryValidator
 ) : BaseViewModel<RoutineSummaryState, RoutineSummaryViewState>(
     dispatchers = dispatchers,
@@ -47,6 +50,7 @@ internal class RoutineSummaryViewModel @Inject constructor(
     private var loadJob by autoCancelableJob()
     private var deleteJob by autoCancelableJob()
     private var moveJob by autoCancelableJob()
+    private var duplicateJob by autoCancelableJob()
 
     init {
         load(input)
@@ -89,6 +93,18 @@ internal class RoutineSummaryViewModel @Inject constructor(
         }
         deleteJob = launchWhen<RoutineSummaryState.Data>(exceptionHandler) {
             routineSummaryUseCase.deleteSegment(routine = it.routine, segmentId = segmentId)
+        }
+    }
+
+    fun onSegmentDuplicate(segmentId: ID) {
+        val exceptionHandler = CoroutineExceptionHandler { _, throwable ->
+            TempoLogger.e(throwable = throwable)
+            updateStateWhen<RoutineSummaryState.Data> {
+                reducer.duplicateSegmentError(state = it)
+            }
+        }
+        duplicateJob = launchWhen<RoutineSummaryState.Data>(exceptionHandler) {
+            duplicateSegmentUseCase(routine = it.routine, segmentId = segmentId)
         }
     }
 
@@ -140,6 +156,7 @@ internal class RoutineSummaryViewModel @Inject constructor(
                 when (previousAction) {
                     is DeleteSegmentError -> onSegmentDelete(segmentId = previousAction.segmentId)
                     MoveSegmentError,
+                    DuplicateSegmentError,
                     null -> Unit
                 }
             }

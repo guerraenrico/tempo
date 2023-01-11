@@ -18,6 +18,7 @@ import com.enricog.features.routines.detail.summary.models.RoutineSummaryField.S
 import com.enricog.features.routines.detail.summary.models.RoutineSummaryItem
 import com.enricog.features.routines.detail.summary.models.RoutineSummaryViewState
 import com.enricog.features.routines.detail.summary.models.RoutineSummaryViewState.Data.Message
+import com.enricog.features.routines.detail.summary.usecase.DuplicateSegmentUseCase
 import com.enricog.features.routines.detail.summary.usecase.MoveSegmentUseCase
 import com.enricog.features.routines.detail.summary.usecase.RoutineSummaryUseCase
 import com.enricog.features.routines.detail.ui.time_type.TimeType
@@ -238,6 +239,57 @@ class RoutineSummaryViewModelTest {
     }
 
     @Test
+    fun `should update routine when segment is duplicated`() = coroutineRule {
+        val expected = RoutineSummaryViewState.Data(
+            items = immutableListOf(
+                RoutineSummaryItem.RoutineInfo(routineName = "Routine Name"),
+                RoutineSummaryItem.SegmentSectionTitle(error = null),
+                firstSegmentItem,
+                firstSegmentItem.copy(
+                    id = ID.from(value = 3),
+                    rank = "booooo"
+                ),
+                secondSegmentItem,
+                RoutineSummaryItem.Space
+            ),
+            message = null
+        )
+        val sut = buildSut()
+        advanceUntilIdle()
+
+        sut.onSegmentDuplicate(segmentId = 1.asID)
+        advanceUntilIdle()
+
+        sut.viewState.test { assertEquals(expected, awaitItem()) }
+    }
+
+    @Test
+    fun `should show message when duplicate segment fails`() = coroutineRule {
+        val store = FakeStore(listOf(routine))
+        val expected = RoutineSummaryViewState.Data(
+            items = immutableListOf(
+                RoutineSummaryItem.RoutineInfo(routineName = "Routine Name"),
+                RoutineSummaryItem.SegmentSectionTitle(error = null),
+                firstSegmentItem,
+                secondSegmentItem,
+                RoutineSummaryItem.Space
+            ),
+            message = Message(
+                textResId = R.string.label_routine_summary_segment_duplicate_error,
+                actionTextResId = null
+            )
+        )
+        val sut = buildSut(store = store)
+        advanceUntilIdle()
+
+        store.enableErrorOnNextAccess()
+        sut.onSegmentDuplicate(segmentId = 1.asID)
+        advanceUntilIdle()
+
+        sut.viewState.test { assertEquals(expected, awaitItem()) }
+    }
+
+    @Test
     fun `should move segment when segment is moved`() = coroutineRule {
         val expected = RoutineSummaryViewState.Data(
             items = immutableListOf(
@@ -310,7 +362,7 @@ class RoutineSummaryViewModelTest {
     }
 
     @Test
-    fun `should goToTimer when starting routine without errors`() = coroutineRule {
+    fun `should go to timer when starting routine without errors`() = coroutineRule {
         val sut = buildSut()
         advanceUntilIdle()
 
@@ -384,6 +436,7 @@ class RoutineSummaryViewModelTest {
             reducer = RoutineSummaryReducer(),
             routineSummaryUseCase = RoutineSummaryUseCase(FakeRoutineDataSource(store)),
             moveSegmentUseCase = MoveSegmentUseCase(FakeRoutineDataSource(store)),
+            duplicateSegmentUseCase = DuplicateSegmentUseCase(FakeRoutineDataSource(store)),
             validator = RoutineSummaryValidator()
         )
     }

@@ -20,7 +20,7 @@ class SegmentUseCaseTest {
     val coroutineRule = CoroutineRule()
 
     private val segment = Segment.EMPTY.copy(
-        id = 2.asID,
+        id = 1.asID,
         name = "Segment Name",
         time = 30.seconds,
         type = TimeType.TIMER
@@ -48,7 +48,7 @@ class SegmentUseCaseTest {
             time = 10.seconds,
             type = TimeType.TIMER
         )
-        val expected = routine.copy(segments = listOf(segment, newSegment))
+        val expected = routine.copy(segments = listOf(segment, newSegment.copy(ID.from(value = 2))))
 
         sut.save(routine = routine, segment = newSegment)
 

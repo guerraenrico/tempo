@@ -10,6 +10,7 @@ import com.enricog.features.routines.detail.summary.models.RoutineSummaryState
 import com.enricog.features.routines.detail.summary.models.RoutineSummaryState.Data.Action
 import com.enricog.features.routines.detail.summary.models.RoutineSummaryState.Data.Action.DeleteSegmentError
 import com.enricog.features.routines.detail.summary.models.RoutineSummaryState.Data.Action.MoveSegmentError
+import com.enricog.features.routines.detail.summary.models.RoutineSummaryState.Data.Action.DuplicateSegmentError
 import com.enricog.features.routines.detail.summary.models.RoutineSummaryViewState
 import com.enricog.features.routines.detail.summary.models.RoutineSummaryViewState.Data.Message
 import javax.inject.Inject
@@ -64,6 +65,10 @@ internal class RoutineSummaryStateConverter @Inject constructor() :
             )
             MoveSegmentError -> Message(
                 textResId = R.string.label_routine_summary_segment_move_error,
+                actionTextResId = null
+            )
+            DuplicateSegmentError -> Message(
+                textResId = R.string.label_routine_summary_segment_duplicate_error,
                 actionTextResId = null
             )
         }

@@ -50,7 +50,16 @@ class FakeRoutineDataSource(
     }
 
     override suspend fun update(routine: Routine): ID {
-        store.update { l -> l.replace(routine) { r -> r.id == routine.id } }
+        val routineToSave = routine.copy(
+            segments = routine.segments.mapIndexed { index, segment ->
+                if (segment.id.isNew) {
+                    segment.copy(id = ID.from(value = index.toLong() + 1))
+                } else {
+                    segment
+                }
+            }
+        )
+        store.update { l -> l.replace(routineToSave) { r -> r.id == routineToSave.id } }
         return routine.id
     }
 

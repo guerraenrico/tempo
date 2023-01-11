@@ -6,6 +6,7 @@ import com.enricog.entities.asID
 import com.enricog.features.routines.list.models.RoutinesState
 import com.enricog.features.routines.list.models.RoutinesState.Data.Action.DeleteRoutineError
 import com.enricog.features.routines.list.models.RoutinesState.Data.Action.MoveRoutineError
+import com.enricog.features.routines.list.models.RoutinesState.Data.Action.DuplicateRoutineError
 import org.junit.Test
 import kotlin.test.assertEquals
 
@@ -60,7 +61,7 @@ class RoutinesReducerTest {
     }
 
     @Test
-    fun `should apply move segment error action`() {
+    fun `should apply move routine error action`() {
         val routineId = 1.asID
         val routine = Routine.EMPTY.copy(id = routineId)
         val routines = listOf(routine)
@@ -71,6 +72,22 @@ class RoutinesReducerTest {
         )
 
         val result = sut.moveRoutineError(state = state)
+
+        assertEquals(expected, result)
+    }
+
+    @Test
+    fun `should apply duplicate routine error action`() {
+        val routineId = 1.asID
+        val routine = Routine.EMPTY.copy(id = routineId)
+        val routines = listOf(routine)
+        val state = RoutinesState.Data(routines = routines, action = null)
+        val expected = RoutinesState.Data(
+            routines = routines,
+            action = DuplicateRoutineError
+        )
+
+        val result = sut.duplicateRoutineError(state = state)
 
         assertEquals(expected, result)
     }
