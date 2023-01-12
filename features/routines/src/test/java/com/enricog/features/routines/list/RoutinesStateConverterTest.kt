@@ -218,6 +218,35 @@ class RoutinesStateConverterTest {
     }
 
     @Test
+    fun `should map data with duplicate routine error action`() = coroutineRule {
+        val routineEntity = RoutineEntity.EMPTY.copy(
+            name = "Routine",
+            segments = emptyList()
+        )
+        val routineItem = RoutinesItem.RoutineItem(
+            id = 0.asID,
+            name = "Routine",
+            rank = "aaaaaa",
+            segmentsSummary = null
+        )
+        val state = RoutinesState.Data(
+            routines = listOf(routineEntity),
+            action = Action.DuplicateRoutineError
+        )
+        val viewState = RoutinesViewState.Data(
+            routinesItems = immutableListOf(routineItem, RoutinesItem.Space),
+            message = Message(
+                textResId = R.string.label_routines_duplicate_error,
+                actionTextResId = null
+            )
+        )
+
+        val result = sut.convert(state)
+
+        assertEquals(viewState, result)
+    }
+
+    @Test
     fun `should map error`() = coroutineRule {
         val exception = Exception("something went wrong")
         val state = RoutinesState.Error(throwable = exception)

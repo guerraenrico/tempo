@@ -13,6 +13,7 @@ internal sealed class RoutinesState {
         sealed class Action {
             data class DeleteRoutineError(val routineId: ID) : Action()
             object MoveRoutineError: Action()
+            object DuplicateRoutineError: Action()
         }
     }
 

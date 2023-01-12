@@ -12,6 +12,7 @@ import com.enricog.entities.asID
 import com.enricog.features.routines.R
 import com.enricog.features.routines.list.models.RoutinesItem
 import com.enricog.features.routines.list.models.RoutinesViewState
+import com.enricog.features.routines.list.usecase.DuplicateRoutineUseCase
 import com.enricog.features.routines.list.usecase.MoveRoutineUseCase
 import com.enricog.features.routines.list.usecase.RoutinesUseCase
 import com.enricog.features.routines.navigation.RoutinesNavigationActions
@@ -142,6 +143,49 @@ class RoutinesViewModelTest {
     }
 
     @Test
+    fun `should duplicate routine when duplicate routine clicked`() = coroutineRule {
+        val expected = RoutinesViewState.Data(
+            routinesItems = immutableListOf(
+                firstRoutine,
+                firstRoutine.copy(
+                    id = ID.from(value = 3),
+                    rank = "annnnn"
+                ),
+                secondRoutine,
+                RoutinesItem.Space
+            ),
+            message = null
+        )
+        val sut = buildSut()
+        advanceUntilIdle()
+
+        sut.onRoutineDuplicate(routineId = firstRoutine.id)
+        advanceUntilIdle()
+
+        sut.viewState.test { assertEquals(expected, awaitItem()) }
+    }
+
+    @Test
+    fun `should show message when duplicate routine clicked and duplication fails`() =
+        coroutineRule {
+            val expected = RoutinesViewState.Data(
+                routinesItems = immutableListOf(firstRoutine, secondRoutine, RoutinesItem.Space),
+                message = RoutinesViewState.Data.Message(
+                    textResId = R.string.label_routines_duplicate_error,
+                    actionTextResId = null
+                )
+            )
+            val sut = buildSut()
+            advanceUntilIdle()
+            store.enableErrorOnNextAccess()
+
+            sut.onRoutineDuplicate(routineId = firstRoutine.id)
+            advanceUntilIdle()
+
+            sut.viewState.test { assertEquals(expected, awaitItem()) }
+        }
+
+    @Test
     fun `should hide message when when snackbar is dismissed`() = coroutineRule {
         val expected = RoutinesViewState.Data(
             routinesItems = immutableListOf(firstRoutine, secondRoutine, RoutinesItem.Space),
@@ -201,6 +245,9 @@ class RoutinesViewModelTest {
                 routineDataSource = routineDataSource
             ),
             moveRoutineUseCase = MoveRoutineUseCase(
+                routineDataSource = routineDataSource
+            ),
+            duplicateRoutineUseCase = DuplicateRoutineUseCase(
                 routineDataSource = routineDataSource
             )
         )

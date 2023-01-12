@@ -10,7 +10,9 @@ import com.enricog.entities.ID
 import com.enricog.features.routines.list.models.RoutinesState
 import com.enricog.features.routines.list.models.RoutinesState.Data.Action.DeleteRoutineError
 import com.enricog.features.routines.list.models.RoutinesState.Data.Action.MoveRoutineError
+import com.enricog.features.routines.list.models.RoutinesState.Data.Action.DuplicateRoutineError
 import com.enricog.features.routines.list.models.RoutinesViewState
+import com.enricog.features.routines.list.usecase.DuplicateRoutineUseCase
 import com.enricog.features.routines.list.usecase.MoveRoutineUseCase
 import com.enricog.features.routines.list.usecase.RoutinesUseCase
 import com.enricog.features.routines.navigation.RoutinesNavigationActions
@@ -32,7 +34,8 @@ internal class RoutinesViewModel @Inject constructor(
     private val navigationActions: RoutinesNavigationActions,
     private val reducer: RoutinesReducer,
     private val routinesUseCase: RoutinesUseCase,
-    private val moveRoutineUseCase: MoveRoutineUseCase
+    private val moveRoutineUseCase: MoveRoutineUseCase,
+    private val duplicateRoutineUseCase: DuplicateRoutineUseCase
 ) : BaseViewModel<RoutinesState, RoutinesViewState>(
     initialState = RoutinesState.Idle,
     converter = converter,
@@ -42,6 +45,7 @@ internal class RoutinesViewModel @Inject constructor(
     private var loadJob by autoCancelableJob()
     private var deleteJob by autoCancelableJob()
     private var moveJob by autoCancelableJob()
+    private var duplicateJob by autoCancelableJob()
 
     init {
         load()
@@ -96,6 +100,18 @@ internal class RoutinesViewModel @Inject constructor(
         }
     }
 
+    fun onRoutineDuplicate(routineId: ID) {
+        val exceptionHandler = CoroutineExceptionHandler { _, throwable ->
+            TempoLogger.e(throwable = throwable)
+            updateStateWhen<RoutinesState.Data> {
+                reducer.duplicateRoutineError(state = it)
+            }
+        }
+        duplicateJob = launchWhen<RoutinesState.Data>(exceptionHandler) { state ->
+            duplicateRoutineUseCase(routines = state.routines, routineId = routineId)
+        }
+    }
+
     fun onRetryLoad() {
         load()
     }
@@ -109,6 +125,7 @@ internal class RoutinesViewModel @Inject constructor(
                 when (previousAction) {
                     is DeleteRoutineError -> onRoutineDelete(routineId = previousAction.routineId)
                     MoveRoutineError,
+                    DuplicateRoutineError,
                     null -> Unit
                 }
             }

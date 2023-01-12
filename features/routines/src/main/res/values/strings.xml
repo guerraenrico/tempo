@@ -10,6 +10,7 @@
     <string name="label_routines_delete_error">An error happen</string>
     <string name="action_text_routines_delete_error">Retry</string>
     <string name="label_routines_move_error">An error happen</string>
+    <string name="label_routines_duplicate_error">An error happen</string>
 
     <!-- Routine -->
     <string name="field_label_routine_name">Routine name</string>
@@ -31,13 +32,13 @@
     <string name="button_add_segment">Add Segment</string>
     <string name="field_label_routine_segments">SEGMENTS</string>
     <string name="field_error_message_routine_no_segments">Create a new segment</string>
-    <string name="label_delete">DELETE</string>
     <string name="content_description_button_edit_routine">Edit routine</string>
     <string name="content_description_button_start_routine">Start routine</string>
     <string name="content_description_button_add_segment">Add a new segment</string>
     <string name="label_routine_summary_segment_delete_error">An error happen</string>
     <string name="action_text_routine_summary_segment_delete_error">Retry</string>
     <string name="label_routine_summary_segment_move_error">An error happen</string>
+    <string name="label_routine_summary_segment_duplicate_error">An error happen</string>
 
     <!-- Segment -->
     <string name="field_label_segment_name">Segment name</string>
@@ -51,6 +52,9 @@
 
     <!-- Shared -->
     <string name="button_save">Save</string>
+
+    <string name="label_delete">DELETE</string>
+    <string name="label_duplicate">DUPLICATE</string>
 
     <string name="chip_time_type_rest_name">Rest</string>
     <string name="chip_time_type_timer_name">Timer</string>

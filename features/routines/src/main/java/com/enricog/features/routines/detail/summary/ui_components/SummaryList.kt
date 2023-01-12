@@ -32,6 +32,7 @@ internal fun SummaryList(
     onSegmentAdd: () -> Unit,
     onSegmentSelected: (ID) -> Unit,
     onSegmentDelete: (ID) -> Unit,
+    onSegmentDuplicate: (ID) -> Unit,
     onRoutineEdit: () -> Unit
 ) {
     LazyColumn(
@@ -81,6 +82,7 @@ internal fun SummaryList(
                             enableClick = !dragState.isDragging,
                             onClick = onSegmentSelected,
                             onDelete = onSegmentDelete,
+                            onDuplicate = onSegmentDuplicate,
                             modifier = Modifier
                                 .fillMaxWidth()
                                 .graphicsLayer {
@@ -93,6 +95,7 @@ internal fun SummaryList(
                             enableClick = false,
                             onClick = { },
                             onDelete = { },
+                            onDuplicate = {},
                             modifier = Modifier
                                 .fillMaxWidth()
                                 .alpha(0f)

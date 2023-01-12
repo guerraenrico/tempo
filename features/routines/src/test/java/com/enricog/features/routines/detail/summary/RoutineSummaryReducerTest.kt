@@ -112,6 +112,29 @@ class RoutineSummaryReducerTest {
     }
 
     @Test
+    fun `should apply duplicate segment error action`() {
+        val segment = Segment.EMPTY.copy(id = 1.asID)
+        val state = RoutineSummaryState.Data(
+            routine = Routine.EMPTY.copy(
+                segments = listOf(segment)
+            ),
+            errors = emptyMap(),
+            action = null
+        )
+        val expected = RoutineSummaryState.Data(
+            routine = Routine.EMPTY.copy(
+                segments = listOf(segment)
+            ),
+            errors = emptyMap(),
+            action = Action.DuplicateSegmentError
+        )
+
+        val result = sut.duplicateSegmentError(state = state)
+
+        assertEquals(expected, result)
+    }
+
+    @Test
     fun `should cleanup action when handled`() {
         val segment = Segment.EMPTY.copy(id = 1.asID)
         val state = RoutineSummaryState.Data(

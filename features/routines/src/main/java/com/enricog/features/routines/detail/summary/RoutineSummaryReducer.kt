@@ -7,6 +7,7 @@ import com.enricog.features.routines.detail.summary.models.RoutineSummaryFieldEr
 import com.enricog.features.routines.detail.summary.models.RoutineSummaryState
 import com.enricog.features.routines.detail.summary.models.RoutineSummaryState.Data.Action.DeleteSegmentError
 import com.enricog.features.routines.detail.summary.models.RoutineSummaryState.Data.Action.MoveSegmentError
+import com.enricog.features.routines.detail.summary.models.RoutineSummaryState.Data.Action.DuplicateSegmentError
 import javax.inject.Inject
 
 internal class RoutineSummaryReducer @Inject constructor() {
@@ -28,6 +29,10 @@ internal class RoutineSummaryReducer @Inject constructor() {
 
     fun moveSegmentError(state: RoutineSummaryState.Data): RoutineSummaryState.Data {
         return state.copy(action = MoveSegmentError)
+    }
+
+    fun duplicateSegmentError(state: RoutineSummaryState.Data): RoutineSummaryState.Data {
+        return state.copy(action = DuplicateSegmentError)
     }
 
     fun applyRoutineErrors(

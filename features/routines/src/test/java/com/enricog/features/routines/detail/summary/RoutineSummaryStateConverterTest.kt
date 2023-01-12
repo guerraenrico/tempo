@@ -196,4 +196,58 @@ class RoutineSummaryStateConverterTest {
 
         assertEquals(expected, result)
     }
+
+    @Test
+    fun `test map data state with duplicate segment error action`() = coroutineRule {
+        val state = RoutineSummaryState.Data(
+            routine = Routine.EMPTY.copy(
+                name = "routineName",
+                segments = listOf(
+                    Segment.EMPTY.copy(id = 1.asID),
+                    Segment.EMPTY.copy(id = 2.asID),
+                )
+            ),
+            errors = mapOf(RoutineSummaryField.Segments to RoutineSummaryFieldError.NoSegments),
+            action = Action.DuplicateSegmentError
+        )
+        val expected = RoutineSummaryViewState.Data(
+            items = immutableListOf(
+                RoutineSummaryItem.RoutineInfo(routineName = "routineName"),
+                RoutineSummaryItem.SegmentSectionTitle(
+                    error = RoutineSummaryField.Segments to R.string.field_error_message_routine_no_segments
+                ),
+                RoutineSummaryItem.SegmentItem(
+                    id = 1.asID,
+                    name = "",
+                    time = 0.seconds,
+                    type = TimeType(
+                        nameStringResId = R.string.chip_time_type_timer_name,
+                        color = TimeTypeColors.TIMER,
+                        id = "TIMER"
+                    ),
+                    rank = "aaaaaa"
+                ),
+                RoutineSummaryItem.SegmentItem(
+                    id = 2.asID,
+                    name = "",
+                    time = 0.seconds,
+                    type = TimeType(
+                        nameStringResId = R.string.chip_time_type_timer_name,
+                        color = TimeTypeColors.TIMER,
+                        id = "TIMER"
+                    ),
+                    rank = "aaaaaa"
+                ),
+                RoutineSummaryItem.Space
+            ),
+            message = Message(
+                textResId = R.string.label_routine_summary_segment_duplicate_error,
+                actionTextResId = null
+            )
+        )
+
+        val result = sut.convert(state)
+
+        assertEquals(expected, result)
+    }
 }

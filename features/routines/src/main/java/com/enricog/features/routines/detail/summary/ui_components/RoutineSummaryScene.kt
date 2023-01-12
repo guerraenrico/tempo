@@ -41,6 +41,7 @@ internal fun RoutineSummaryScene(
     onSegmentAdd: () -> Unit,
     onSegmentSelected: (ID) -> Unit,
     onSegmentDelete: (ID) -> Unit,
+    onSegmentDuplicate: (ID) -> Unit,
     onSegmentMoved: (ID, ID) -> Unit,
     onRoutineStart: () -> Unit,
     onRoutineEdit: () -> Unit,
@@ -96,6 +97,7 @@ internal fun RoutineSummaryScene(
                     onSegmentAdd = onSegmentAdd,
                     onSegmentSelected = onSegmentSelected,
                     onSegmentDelete = onSegmentDelete,
+                    onSegmentDuplicate = onSegmentDuplicate,
                     onRoutineEdit = onRoutineEdit
                 )
 
@@ -123,7 +125,7 @@ internal fun RoutineSummaryScene(
             AnimatedVisibility(
                 visible = !listDraggableState.isDragging,
                 enter = slideInVertically(initialOffsetY = { it * 2 }),
-                exit = slideOutVertically(targetOffsetY = { it * 2}),
+                exit = slideOutVertically(targetOffsetY = { it * 2 }),
                 modifier = Modifier.fillMaxWidth()
             ) {
                 Box(modifier = Modifier.fillMaxWidth()) {
