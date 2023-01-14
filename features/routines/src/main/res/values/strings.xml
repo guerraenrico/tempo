@@ -11,6 +11,8 @@
     <string name="action_text_routines_delete_error">Retry</string>
     <string name="label_routines_move_error">An error happen</string>
     <string name="label_routines_duplicate_error">An error happen</string>
+    <string name="label_routines_delete_confirm">Routine deleted</string>
+    <string name="action_text_routines_delete_undo">Undo</string>
 
     <!-- Routine -->
     <string name="field_label_routine_name">Routine name</string>

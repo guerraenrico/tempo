@@ -6,11 +6,13 @@ import com.enricog.base.viewmodel.BaseViewModel
 import com.enricog.core.coroutines.dispatchers.CoroutineDispatchers
 import com.enricog.core.coroutines.job.autoCancelableJob
 import com.enricog.core.logger.api.TempoLogger
+import com.enricog.data.routines.api.entities.Routine
 import com.enricog.entities.ID
 import com.enricog.features.routines.list.models.RoutinesState
 import com.enricog.features.routines.list.models.RoutinesState.Data.Action.DeleteRoutineError
-import com.enricog.features.routines.list.models.RoutinesState.Data.Action.MoveRoutineError
+import com.enricog.features.routines.list.models.RoutinesState.Data.Action.DeleteRoutineSuccess
 import com.enricog.features.routines.list.models.RoutinesState.Data.Action.DuplicateRoutineError
+import com.enricog.features.routines.list.models.RoutinesState.Data.Action.MoveRoutineError
 import com.enricog.features.routines.list.models.RoutinesViewState
 import com.enricog.features.routines.list.usecase.DuplicateRoutineUseCase
 import com.enricog.features.routines.list.usecase.MoveRoutineUseCase
@@ -21,7 +23,9 @@ import com.enricog.ui.components.snackbar.TempoSnackbarEvent.ActionPerformed
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.CoroutineExceptionHandler
 import kotlinx.coroutines.delay
+import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.catch
+import kotlinx.coroutines.flow.combine
 import kotlinx.coroutines.flow.launchIn
 import kotlinx.coroutines.flow.onEach
 import javax.inject.Inject
@@ -43,9 +47,10 @@ internal class RoutinesViewModel @Inject constructor(
 ) {
 
     private var loadJob by autoCancelableJob()
-    private var deleteJob by autoCancelableJob()
     private var moveJob by autoCancelableJob()
     private var duplicateJob by autoCancelableJob()
+
+    private val queueRoutineToDelete = MutableStateFlow<Routine?>(null)
 
     init {
         load()
@@ -53,7 +58,8 @@ internal class RoutinesViewModel @Inject constructor(
 
     private fun load() {
         loadJob = routinesUseCase.getAll()
-            .onEach { routines -> updateState { reducer.setup(routines) } }
+            .combine(queueRoutineToDelete) { routines, routineToDelete -> routines.filter { it != routineToDelete } }
+            .onEach { routines -> updateState { reducer.setup(state = it, routines = routines) } }
             .catch { throwable ->
                 TempoLogger.e(throwable = throwable, message = "Error loading routines")
                 updateState { reducer.error(throwable = throwable) }
@@ -74,16 +80,33 @@ internal class RoutinesViewModel @Inject constructor(
     }
 
     fun onRoutineDelete(routineId: ID) {
+        setRoutineToDeleteQueue(routineId = routineId)
+        updateStateWhen<RoutinesState.Data> {
+            reducer.deleteRoutineSuccess(state = it)
+        }
+    }
+
+    private fun setRoutineToDeleteQueue(routineId: ID) {
+        launchWhen<RoutinesState.Data> { state ->
+            runDeleteQueuedRoutine()
+            val routine = state.routines.first { it.id == routineId }
+            queueRoutineToDelete.value = routine
+        }
+    }
+
+    private suspend fun runDeleteQueuedRoutine() {
+        val routineToDelete = queueRoutineToDelete.value ?: return
         val exceptionHandler = CoroutineExceptionHandler { _, throwable ->
             TempoLogger.e(throwable = throwable)
             updateStateWhen<RoutinesState.Data> {
-                reducer.deleteRoutineError(state = it, routineId = routineId)
+                reducer.deleteRoutineError(state = it, routineId = routineToDelete.id)
             }
         }
-        deleteJob = launchWhen<RoutinesState.Data>(exceptionHandler) { state ->
-            val routine = state.routines.first { it.id == routineId }
-            routinesUseCase.delete(routine)
+        val job = launch(exceptionHandler) {
+            routinesUseCase.delete(routineToDelete)
         }
+        job.join()
+        queueRoutineToDelete.value = null
     }
 
     fun onRoutineMoved(draggedRoutineId: ID, hoveredRoutineId: ID) {
@@ -117,19 +140,33 @@ internal class RoutinesViewModel @Inject constructor(
     }
 
     fun onSnackbarEvent(snackbarEvent: TempoSnackbarEvent) {
-        launchWhen<RoutinesState.Data> {
-            val previousAction = it.action
+        launchWhen<RoutinesState.Data> { state ->
+            val previousAction = state.action
             updateStateWhen(reducer::actionHandled)
             delay(SNACKBAR_ACTION_DELAY)
-            if (snackbarEvent == ActionPerformed) {
-                when (previousAction) {
-                    is DeleteRoutineError -> onRoutineDelete(routineId = previousAction.routineId)
-                    MoveRoutineError,
-                    DuplicateRoutineError,
-                    null -> Unit
+            when (previousAction) {
+                is DeleteRoutineError -> {
+                    if (snackbarEvent == ActionPerformed) {
+                        onRoutineDelete(routineId = previousAction.routineId)
+                    }
                 }
+                is DeleteRoutineSuccess -> {
+                    if (snackbarEvent == ActionPerformed) {
+                        queueRoutineToDelete.value = null
+                    } else {
+                        runDeleteQueuedRoutine()
+                    }
+                }
+                MoveRoutineError,
+                DuplicateRoutineError,
+                null -> Unit
             }
         }
+    }
+
+    fun onStop() {
+        updateStateWhen(reducer::actionHandled)
+        launch { runDeleteQueuedRoutine() }
     }
 
     private companion object {
