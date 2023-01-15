@@ -94,27 +94,13 @@ internal class RoutinesViewModel @Inject constructor(
         }
     }
 
-    private suspend fun runDeleteQueuedRoutine() {
-        val routineToDelete = queueRoutineToDelete.value ?: return
-        val exceptionHandler = CoroutineExceptionHandler { _, throwable ->
-            TempoLogger.e(throwable = throwable)
-            updateStateWhen<RoutinesState.Data> {
-                reducer.deleteRoutineError(state = it, routineId = routineToDelete.id)
-            }
-        }
-        val job = launch(exceptionHandler) {
-            routinesUseCase.delete(routineToDelete)
-        }
-        job.join()
-        queueRoutineToDelete.value = null
-    }
-
     fun onRoutineMoved(draggedRoutineId: ID, hoveredRoutineId: ID) {
         val exceptionHandler = CoroutineExceptionHandler { _, throwable ->
             TempoLogger.e(throwable = throwable)
             updateStateWhen<RoutinesState.Data> { reducer.moveRoutineError(state = it) }
         }
         moveJob = launchWhen<RoutinesState.Data>(exceptionHandler) {
+            runDeleteQueuedRoutine()
             moveRoutineUseCase(
                 routines = it.routines,
                 draggedRoutineId = draggedRoutineId,
@@ -131,6 +117,7 @@ internal class RoutinesViewModel @Inject constructor(
             }
         }
         duplicateJob = launchWhen<RoutinesState.Data>(exceptionHandler) { state ->
+            runDeleteQueuedRoutine()
             duplicateRoutineUseCase(routines = state.routines, routineId = routineId)
         }
     }
@@ -167,6 +154,21 @@ internal class RoutinesViewModel @Inject constructor(
     fun onStop() {
         updateStateWhen(reducer::actionHandled)
         launch { runDeleteQueuedRoutine() }
+    }
+
+    private suspend fun runDeleteQueuedRoutine() {
+        val routineToDelete = queueRoutineToDelete.value ?: return
+        val exceptionHandler = CoroutineExceptionHandler { _, throwable ->
+            TempoLogger.e(throwable = throwable)
+            updateStateWhen<RoutinesState.Data> {
+                reducer.deleteRoutineError(state = it, routineId = routineToDelete.id)
+            }
+        }
+        val job = launch(exceptionHandler) {
+            routinesUseCase.delete(routineToDelete)
+        }
+        job.join()
+        queueRoutineToDelete.value = null
     }
 
     private companion object {

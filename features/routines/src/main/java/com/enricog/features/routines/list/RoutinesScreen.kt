@@ -1,14 +1,10 @@
 package com.enricog.features.routines.list
 
 import androidx.compose.runtime.Composable
-import androidx.compose.runtime.DisposableEffect
 import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
-import androidx.compose.ui.platform.LocalLifecycleOwner
 import androidx.compose.ui.res.stringResource
-import androidx.lifecycle.Lifecycle
-import androidx.lifecycle.LifecycleEventObserver
-import androidx.lifecycle.LifecycleOwner
+import com.enricog.core.compose.api.effects.LifecycleObserver
 import com.enricog.entities.ID
 import com.enricog.features.routines.R
 import com.enricog.features.routines.list.models.RoutinesViewState
@@ -20,29 +16,10 @@ import com.enricog.ui.components.snackbar.TempoSnackbarEvent
 import com.enricog.ui.components.toolbar.TempoToolbar
 
 @Composable
-internal fun RoutinesScreen(
-    lifecycleOwner: LifecycleOwner = LocalLifecycleOwner.current,
-    viewModel: RoutinesViewModel
-) {
+internal fun RoutinesScreen(viewModel: RoutinesViewModel) {
     val viewState by viewModel.viewState.collectAsState(RoutinesViewState.Idle)
 
-    DisposableEffect(lifecycleOwner) {
-        // Create an observer that triggers our remembered callbacks
-        // for sending analytics events
-        val observer = LifecycleEventObserver { _, event ->
-            if (event == Lifecycle.Event.ON_STOP) {
-                viewModel.onStop()
-            }
-        }
-
-        // Add the observer to the lifecycle
-        lifecycleOwner.lifecycle.addObserver(observer)
-
-        // When the effect leaves the Composition, remove the observer
-        onDispose {
-            lifecycleOwner.lifecycle.removeObserver(observer)
-        }
-    }
+    LifecycleObserver(onStop = viewModel::onStop)
 
     TempoScreenScaffold {
         TempoToolbar(title = stringResource(R.string.title_routines))

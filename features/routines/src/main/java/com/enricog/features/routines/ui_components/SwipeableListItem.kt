@@ -12,6 +12,7 @@ import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.TextStyle
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.IntOffset
+import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import com.enricog.core.compose.api.modifiers.swipeable.FractionalThreshold
 import com.enricog.core.compose.api.modifiers.swipeable.rememberSwipeableState
@@ -37,7 +38,6 @@ internal fun SwipeableListItem(
 ) = BoxWithConstraints(modifier = modifier) {
 
     val width = constraints.maxWidth.toFloat()
-    val openWidth = width * 0.5f
 
     val swipeState = rememberSwipeableState(
         CLOSE,
@@ -58,7 +58,7 @@ internal fun SwipeableListItem(
 
         }
     )
-    val anchors = mutableMapOf(0f to CLOSE, -openWidth to DELETE, openWidth to DUPLICATE)
+    val anchors = mutableMapOf(0f to CLOSE, -width to DELETE, width to DUPLICATE)
     val (backgroundColor, textColor) = when {
         swipeState.offset.value > 0f -> TempoTheme.colors.secondary to TempoTheme.colors.onSecondary
         swipeState.offset.value < 0f -> TempoTheme.colors.error to TempoTheme.colors.onError
@@ -70,8 +70,9 @@ internal fun SwipeableListItem(
             .swipeable(
                 state = swipeState,
                 anchors = anchors,
-                thresholds = { _, _ -> FractionalThreshold(0.8f) },
-                orientation = Orientation.Horizontal
+                thresholds = { _, _ -> FractionalThreshold(0.6f) },
+                orientation = Orientation.Horizontal,
+                velocityThreshold = 100000.dp
             )
     ) {
         Box(
@@ -85,28 +86,32 @@ internal fun SwipeableListItem(
                     .clip(TempoTheme.shapes.listItem)
                     .background(backgroundColor)
             ) {
-                TempoText(
-                    modifier = Modifier
-                        .padding(TempoTheme.dimensions.spaceM)
-                        .align(Alignment.CenterEnd),
-                    text = stringResource(R.string.label_delete),
-                    style = TextStyle(
-                        fontWeight = FontWeight.Bold,
-                        color = textColor,
-                        fontSize = 12.sp
+                if (swipeState.offset.value < 0f) {
+                    TempoText(
+                        modifier = Modifier
+                            .padding(TempoTheme.dimensions.spaceM)
+                            .align(Alignment.CenterEnd),
+                        text = stringResource(R.string.label_delete),
+                        style = TextStyle(
+                            fontWeight = FontWeight.Bold,
+                            color = textColor,
+                            fontSize = 12.sp
+                        )
                     )
-                )
-                TempoText(
-                    modifier = Modifier
-                        .padding(TempoTheme.dimensions.spaceM)
-                        .align(Alignment.CenterStart),
-                    text = stringResource(R.string.label_duplicate),
-                    style = TextStyle(
-                        fontWeight = FontWeight.Bold,
-                        color = textColor,
-                        fontSize = 12.sp
+                }
+                if (swipeState.offset.value > 0f) {
+                    TempoText(
+                        modifier = Modifier
+                            .padding(TempoTheme.dimensions.spaceM)
+                            .align(Alignment.CenterStart),
+                        text = stringResource(R.string.label_duplicate),
+                        style = TextStyle(
+                            fontWeight = FontWeight.Bold,
+                            color = textColor,
+                            fontSize = 12.sp
+                        )
                     )
-                )
+                }
             }
         }
 
