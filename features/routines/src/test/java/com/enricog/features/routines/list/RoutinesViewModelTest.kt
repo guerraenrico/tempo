@@ -12,9 +12,10 @@ import com.enricog.entities.asID
 import com.enricog.features.routines.R
 import com.enricog.features.routines.list.models.RoutinesItem
 import com.enricog.features.routines.list.models.RoutinesViewState
+import com.enricog.features.routines.list.usecase.DeleteRoutineUseCase
 import com.enricog.features.routines.list.usecase.DuplicateRoutineUseCase
+import com.enricog.features.routines.list.usecase.GetRoutinesUseCase
 import com.enricog.features.routines.list.usecase.MoveRoutineUseCase
-import com.enricog.features.routines.list.usecase.RoutinesUseCase
 import com.enricog.features.routines.navigation.RoutinesNavigationActions
 import com.enricog.navigation.api.routes.RoutineRoute
 import com.enricog.navigation.api.routes.RoutineRouteInput
@@ -241,7 +242,10 @@ class RoutinesViewModelTest {
             converter = RoutinesStateConverter(),
             navigationActions = RoutinesNavigationActions(navigator),
             reducer = RoutinesReducer(),
-            routinesUseCase = RoutinesUseCase(
+            getRoutinesUseCase = GetRoutinesUseCase(
+                routineDataSource = routineDataSource
+            ),
+            deleteRoutineUseCase = DeleteRoutineUseCase(
                 routineDataSource = routineDataSource
             ),
             moveRoutineUseCase = MoveRoutineUseCase(

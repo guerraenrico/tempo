@@ -14,9 +14,10 @@ import com.enricog.features.routines.list.models.RoutinesState.Data.Action.Delet
 import com.enricog.features.routines.list.models.RoutinesState.Data.Action.DuplicateRoutineError
 import com.enricog.features.routines.list.models.RoutinesState.Data.Action.MoveRoutineError
 import com.enricog.features.routines.list.models.RoutinesViewState
+import com.enricog.features.routines.list.usecase.DeleteRoutineUseCase
 import com.enricog.features.routines.list.usecase.DuplicateRoutineUseCase
+import com.enricog.features.routines.list.usecase.GetRoutinesUseCase
 import com.enricog.features.routines.list.usecase.MoveRoutineUseCase
-import com.enricog.features.routines.list.usecase.RoutinesUseCase
 import com.enricog.features.routines.navigation.RoutinesNavigationActions
 import com.enricog.ui.components.snackbar.TempoSnackbarEvent
 import com.enricog.ui.components.snackbar.TempoSnackbarEvent.ActionPerformed
@@ -37,7 +38,8 @@ internal class RoutinesViewModel @Inject constructor(
     converter: RoutinesStateConverter,
     private val navigationActions: RoutinesNavigationActions,
     private val reducer: RoutinesReducer,
-    private val routinesUseCase: RoutinesUseCase,
+    private val getRoutinesUseCase: GetRoutinesUseCase,
+    private val deleteRoutineUseCase: DeleteRoutineUseCase,
     private val moveRoutineUseCase: MoveRoutineUseCase,
     private val duplicateRoutineUseCase: DuplicateRoutineUseCase
 ) : BaseViewModel<RoutinesState, RoutinesViewState>(
@@ -57,7 +59,7 @@ internal class RoutinesViewModel @Inject constructor(
     }
 
     private fun load() {
-        loadJob = routinesUseCase.getAll()
+        loadJob = getRoutinesUseCase()
             .combine(queueRoutineToDelete) { routines, routineToDelete -> routines.filter { it != routineToDelete } }
             .onEach { routines -> updateState { reducer.setup(state = it, routines = routines) } }
             .catch { throwable ->
@@ -165,7 +167,7 @@ internal class RoutinesViewModel @Inject constructor(
             }
         }
         val job = launch(exceptionHandler) {
-            routinesUseCase.delete(routineToDelete)
+            deleteRoutineUseCase(routineToDelete)
         }
         job.join()
         queueRoutineToDelete.value = null
