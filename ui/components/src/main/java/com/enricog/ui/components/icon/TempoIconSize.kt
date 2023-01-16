@@ -9,6 +9,7 @@ enum class TempoIconSize(internal val value: Dp) {
     Small(value = 12.dp),
     Normal(value = 14.dp),
     Large(value = 18.dp),
+    ExtraLarge(value = 24.dp),
 
     Original(value = Dp.Unspecified)
 }

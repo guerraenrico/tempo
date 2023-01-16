@@ -2,24 +2,29 @@ package com.enricog.features.routines.ui_components
 
 import androidx.compose.foundation.background
 import androidx.compose.foundation.gestures.Orientation
-import androidx.compose.foundation.layout.*
+import androidx.compose.foundation.layout.Box
+import androidx.compose.foundation.layout.BoxWithConstraints
+import androidx.compose.foundation.layout.fillMaxHeight
+import androidx.compose.foundation.layout.fillMaxWidth
+import androidx.compose.foundation.layout.offset
+import androidx.compose.foundation.layout.padding
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.res.stringResource
-import androidx.compose.ui.text.TextStyle
-import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.IntOffset
 import androidx.compose.ui.unit.dp
-import androidx.compose.ui.unit.sp
 import com.enricog.core.compose.api.modifiers.swipeable.FractionalThreshold
 import com.enricog.core.compose.api.modifiers.swipeable.rememberSwipeableState
 import com.enricog.core.compose.api.modifiers.swipeable.swipeable
 import com.enricog.features.routines.R
-import com.enricog.features.routines.ui_components.SwipeableState.*
-import com.enricog.ui.components.text.TempoText
+import com.enricog.features.routines.ui_components.SwipeableState.CLOSE
+import com.enricog.features.routines.ui_components.SwipeableState.DELETE
+import com.enricog.features.routines.ui_components.SwipeableState.DUPLICATE
+import com.enricog.ui.components.icon.TempoIcon
+import com.enricog.ui.components.icon.TempoIconSize
 import com.enricog.ui.theme.TempoTheme
 import kotlin.math.roundToInt
 
@@ -85,31 +90,24 @@ internal fun SwipeableListItem(
                     .fillMaxWidth(1f)
                     .clip(TempoTheme.shapes.listItem)
                     .background(backgroundColor)
+                    .padding(horizontal = TempoTheme.dimensions.spaceM)
             ) {
                 if (swipeState.offset.value < 0f) {
-                    TempoText(
-                        modifier = Modifier
-                            .padding(TempoTheme.dimensions.spaceM)
-                            .align(Alignment.CenterEnd),
-                        text = stringResource(R.string.label_delete),
-                        style = TextStyle(
-                            fontWeight = FontWeight.Bold,
-                            color = textColor,
-                            fontSize = 12.sp
-                        )
+                    TempoIcon(
+                        modifier = Modifier.align(Alignment.CenterEnd),
+                        iconResId = R.drawable.ic_delete,
+                        contentDescription = stringResource(id = R.string.label_delete),
+                        size = TempoIconSize.ExtraLarge,
+                        color = textColor
                     )
                 }
                 if (swipeState.offset.value > 0f) {
-                    TempoText(
-                        modifier = Modifier
-                            .padding(TempoTheme.dimensions.spaceM)
-                            .align(Alignment.CenterStart),
-                        text = stringResource(R.string.label_duplicate),
-                        style = TextStyle(
-                            fontWeight = FontWeight.Bold,
-                            color = textColor,
-                            fontSize = 12.sp
-                        )
+                    TempoIcon(
+                        modifier = Modifier.align(Alignment.CenterStart),
+                        iconResId = R.drawable.ic_duplicate,
+                        contentDescription = stringResource(id = R.string.label_duplicate),
+                        size = TempoIconSize.ExtraLarge,
+                        color = textColor
                     )
                 }
             }

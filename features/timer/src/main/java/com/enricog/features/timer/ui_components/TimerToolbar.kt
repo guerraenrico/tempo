@@ -15,6 +15,7 @@ import com.enricog.features.timer.R
 import com.enricog.features.timer.models.TimerViewState
 import com.enricog.ui.components.button.TempoButtonColor
 import com.enricog.ui.components.button.icon.TempoIconButton
+import com.enricog.ui.components.button.icon.TempoIconButtonSize
 import com.enricog.ui.theme.TempoTheme
 import com.enricog.ui.theme.contentColorFor
 
@@ -160,6 +161,7 @@ private fun SoundButton(
             onClick = onClick,
             iconResId = if (state.isSoundEnabled) R.drawable.ic_timer_sound_enabled else R.drawable.ic_timer_sound_disabled,
             color = buttonColor,
+            size = TempoIconButtonSize.Large,
             drawShadow = false,
             contentDescription = stringResource(R.string.content_description_button_toggle_sound)
         )
