@@ -189,6 +189,35 @@ class RoutinesStateConverterTest {
     }
 
     @Test
+    fun `test map data with delete routine success action`() = coroutineRule {
+        val routineEntity = RoutineEntity.EMPTY.copy(
+            name = "Routine",
+            segments = emptyList()
+        )
+        val routineItem = RoutinesItem.RoutineItem(
+            id = 0.asID,
+            name = "Routine",
+            rank = "aaaaaa",
+            segmentsSummary = null
+        )
+        val state = RoutinesState.Data(
+            routines = listOf(routineEntity),
+            action = Action.DeleteRoutineSuccess
+        )
+        val viewState = RoutinesViewState.Data(
+            routinesItems = immutableListOf(routineItem, RoutinesItem.Space),
+            message = Message(
+                textResId = R.string.label_routines_delete_confirm,
+                actionTextResId = R.string.action_text_routines_delete_undo
+            )
+        )
+
+        val result = sut.convert(state)
+
+        assertEquals(viewState, result)
+    }
+
+    @Test
     fun `should map data with move routine error action`() = coroutineRule {
         val routineEntity = RoutineEntity.EMPTY.copy(
             name = "Routine",

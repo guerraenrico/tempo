@@ -167,6 +167,7 @@ internal class RoutinesViewModel @Inject constructor(
             }
         }
         val job = launch(exceptionHandler) {
+            updateStateWhen<RoutinesState.Data> { reducer.actionHandled(state = it) }
             deleteRoutineUseCase(routineToDelete)
         }
         job.join()
