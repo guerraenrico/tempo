@@ -18,9 +18,10 @@ import com.enricog.features.routines.detail.summary.models.RoutineSummaryField.S
 import com.enricog.features.routines.detail.summary.models.RoutineSummaryItem
 import com.enricog.features.routines.detail.summary.models.RoutineSummaryViewState
 import com.enricog.features.routines.detail.summary.models.RoutineSummaryViewState.Data.Message
+import com.enricog.features.routines.detail.summary.usecase.DeleteSegmentUseCase
 import com.enricog.features.routines.detail.summary.usecase.DuplicateSegmentUseCase
+import com.enricog.features.routines.detail.summary.usecase.GetRoutineUseCase
 import com.enricog.features.routines.detail.summary.usecase.MoveSegmentUseCase
-import com.enricog.features.routines.detail.summary.usecase.RoutineSummaryUseCase
 import com.enricog.features.routines.detail.ui.time_type.TimeType
 import com.enricog.features.routines.navigation.RoutinesNavigationActions
 import com.enricog.navigation.api.routes.RoutineRoute
@@ -434,7 +435,8 @@ class RoutineSummaryViewModelTest {
             converter = RoutineSummaryStateConverter(),
             navigationActions = RoutinesNavigationActions(navigator),
             reducer = RoutineSummaryReducer(),
-            routineSummaryUseCase = RoutineSummaryUseCase(FakeRoutineDataSource(store)),
+            getRoutineUseCase = GetRoutineUseCase(FakeRoutineDataSource(store)),
+            deleteSegmentUseCase = DeleteSegmentUseCase(FakeRoutineDataSource(store)),
             moveSegmentUseCase = MoveSegmentUseCase(FakeRoutineDataSource(store)),
             duplicateSegmentUseCase = DuplicateSegmentUseCase(FakeRoutineDataSource(store)),
             validator = RoutineSummaryValidator()

@@ -12,7 +12,7 @@ import org.junit.Rule
 import org.junit.Test
 import kotlin.test.assertEquals
 
-class RoutineSummaryUseCaseTest {
+internal class GetRoutineUseCaseTest {
 
     @get:Rule
     val coroutineRule = CoroutineRule()
@@ -26,7 +26,9 @@ class RoutineSummaryUseCaseTest {
         )
     )
     private val store = FakeStore(listOf(routine))
-    private val sut = RoutineSummaryUseCase(routineDataSource = FakeRoutineDataSource(store))
+    private val getRoutineUseCase = GetRoutineUseCase(
+        routineDataSource = FakeRoutineDataSource(store = store)
+    )
 
     @Test
     fun `should observe routine`() = coroutineRule {
@@ -35,26 +37,10 @@ class RoutineSummaryUseCaseTest {
             name = "Routine Name 2"
         )
 
-        sut.get(1.asID).test {
+        getRoutineUseCase(1.asID).test {
             assertEquals(routine, awaitItem())
             store.update { listOf(expected) }
             assertEquals(expected, awaitItem())
         }
-    }
-
-    @Test
-    fun `should delete segment`() = coroutineRule {
-        val segmentId = 2.asID
-        val expected = Routine.EMPTY.copy(
-            id = 1.asID,
-            name = "Routine Name",
-            segments = listOf(
-                Segment.EMPTY.copy(id = 1.asID),
-            )
-        )
-
-        sut.deleteSegment(routine = routine, segmentId = segmentId)
-
-        assertEquals(expected, store.get().first())
     }
 }

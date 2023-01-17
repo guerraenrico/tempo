@@ -10,12 +10,13 @@ import com.enricog.core.logger.api.TempoLogger
 import com.enricog.entities.ID
 import com.enricog.features.routines.detail.summary.models.RoutineSummaryState
 import com.enricog.features.routines.detail.summary.models.RoutineSummaryState.Data.Action.DeleteSegmentError
-import com.enricog.features.routines.detail.summary.models.RoutineSummaryState.Data.Action.MoveSegmentError
 import com.enricog.features.routines.detail.summary.models.RoutineSummaryState.Data.Action.DuplicateSegmentError
+import com.enricog.features.routines.detail.summary.models.RoutineSummaryState.Data.Action.MoveSegmentError
 import com.enricog.features.routines.detail.summary.models.RoutineSummaryViewState
+import com.enricog.features.routines.detail.summary.usecase.DeleteSegmentUseCase
 import com.enricog.features.routines.detail.summary.usecase.DuplicateSegmentUseCase
+import com.enricog.features.routines.detail.summary.usecase.GetRoutineUseCase
 import com.enricog.features.routines.detail.summary.usecase.MoveSegmentUseCase
-import com.enricog.features.routines.detail.summary.usecase.RoutineSummaryUseCase
 import com.enricog.features.routines.navigation.RoutinesNavigationActions
 import com.enricog.navigation.api.routes.RoutineSummaryRoute
 import com.enricog.navigation.api.routes.RoutineSummaryRouteInput
@@ -37,7 +38,8 @@ internal class RoutineSummaryViewModel @Inject constructor(
     converter: RoutineSummaryStateConverter,
     private val navigationActions: RoutinesNavigationActions,
     private val reducer: RoutineSummaryReducer,
-    private val routineSummaryUseCase: RoutineSummaryUseCase,
+    private val getRoutineUseCase: GetRoutineUseCase,
+    private val deleteSegmentUseCase: DeleteSegmentUseCase,
     private val moveSegmentUseCase: MoveSegmentUseCase,
     private val duplicateSegmentUseCase: DuplicateSegmentUseCase,
     private val validator: RoutineSummaryValidator
@@ -57,7 +59,7 @@ internal class RoutineSummaryViewModel @Inject constructor(
     }
 
     private fun load(input: RoutineSummaryRouteInput) {
-        loadJob = routineSummaryUseCase.get(input.routineId)
+        loadJob = getRoutineUseCase(input.routineId)
             .onEach { routine ->
                 updateState { reducer.setup(routine = routine) }
             }
@@ -92,7 +94,7 @@ internal class RoutineSummaryViewModel @Inject constructor(
             }
         }
         deleteJob = launchWhen<RoutineSummaryState.Data>(exceptionHandler) {
-            routineSummaryUseCase.deleteSegment(routine = it.routine, segmentId = segmentId)
+            deleteSegmentUseCase(routine = it.routine, segmentId = segmentId)
         }
     }
 
