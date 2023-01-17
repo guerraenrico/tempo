@@ -97,7 +97,7 @@ internal fun SwipeableListItem(
                         modifier = Modifier.align(Alignment.CenterEnd),
                         iconResId = R.drawable.ic_delete,
                         contentDescription = stringResource(id = R.string.label_delete),
-                        size = TempoIconSize.ExtraLarge,
+                        size = TempoIconSize.Large,
                         color = textColor
                     )
                 }
