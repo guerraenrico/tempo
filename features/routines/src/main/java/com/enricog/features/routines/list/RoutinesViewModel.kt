@@ -82,13 +82,13 @@ internal class RoutinesViewModel @Inject constructor(
     }
 
     fun onRoutineDelete(routineId: ID) {
-        setRoutineToDeleteQueue(routineId = routineId)
-        updateStateWhen<RoutinesState.Data> {
-            reducer.deleteRoutineSuccess(state = it)
+        setRoutineToDeleteInQueue(routineId = routineId)
+        updateStateWhen<RoutinesState.Data> { state ->
+            reducer.deleteRoutineSuccess(state = state)
         }
     }
 
-    private fun setRoutineToDeleteQueue(routineId: ID) {
+    private fun setRoutineToDeleteInQueue(routineId: ID) {
         launchWhen<RoutinesState.Data> { state ->
             runDeleteQueuedRoutine()
             val routine = state.routines.first { it.id == routineId }
@@ -139,7 +139,7 @@ internal class RoutinesViewModel @Inject constructor(
                         onRoutineDelete(routineId = previousAction.routineId)
                     }
                 }
-                is DeleteRoutineSuccess -> {
+                DeleteRoutineSuccess -> {
                     if (snackbarEvent == ActionPerformed) {
                         queueRoutineToDelete.value = null
                     } else {

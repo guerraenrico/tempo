@@ -24,7 +24,7 @@
     <string name="label_routine_save_error">An error happen</string>
     <string name="action_text_routine_save_error">Retry</string>
 
-    <!-- Summary -->
+    <!-- Start time -->
     <string name="label_routine_start_time_info_title">What is this delay?</string>
     <string name="label_routine_start_time_info_description">This is the amount of time between segments. This delay can be maximum 1 minutes. It can be used as a little timeout between segments.
         For example, if you setup a routine for your workout can be seen as the time you have to setup to start the next exercise.\nIf you need more you can create your own segment for that.\nYou can change this value whenever you want.
@@ -41,6 +41,8 @@
     <string name="action_text_routine_summary_segment_delete_error">Retry</string>
     <string name="label_routine_summary_segment_move_error">An error happen</string>
     <string name="label_routine_summary_segment_duplicate_error">An error happen</string>
+    <string name="label_routine_summary_segment_delete_confirm">Routine deleted</string>
+    <string name="action_text_routine_summary_segment_delete_undo">Undo</string>
 
     <!-- Segment -->
     <string name="field_label_segment_name">Segment name</string>

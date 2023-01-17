@@ -40,7 +40,7 @@ internal class RoutinesStateConverter @Inject constructor() :
                 textResId = R.string.label_routines_delete_error,
                 actionTextResId = R.string.action_text_routines_delete_error
             )
-            is DeleteRoutineSuccess -> Message(
+            DeleteRoutineSuccess -> Message(
                 textResId = R.string.label_routines_delete_confirm,
                 actionTextResId = R.string.action_text_routines_delete_undo
             )

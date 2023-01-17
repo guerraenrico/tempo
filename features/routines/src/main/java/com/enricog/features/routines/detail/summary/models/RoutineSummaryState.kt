@@ -14,6 +14,7 @@ internal sealed class RoutineSummaryState {
     ) : RoutineSummaryState() {
         sealed class Action {
             data class DeleteSegmentError(val segmentId: ID) : Action()
+            object DeleteSegmentSuccess : Action()
             object MoveSegmentError : Action()
             object DuplicateSegmentError : Action()
         }

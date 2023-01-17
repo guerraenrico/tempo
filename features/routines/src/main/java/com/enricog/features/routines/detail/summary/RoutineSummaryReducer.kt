@@ -6,14 +6,18 @@ import com.enricog.features.routines.detail.summary.models.RoutineSummaryField
 import com.enricog.features.routines.detail.summary.models.RoutineSummaryFieldError
 import com.enricog.features.routines.detail.summary.models.RoutineSummaryState
 import com.enricog.features.routines.detail.summary.models.RoutineSummaryState.Data.Action.DeleteSegmentError
-import com.enricog.features.routines.detail.summary.models.RoutineSummaryState.Data.Action.MoveSegmentError
+import com.enricog.features.routines.detail.summary.models.RoutineSummaryState.Data.Action.DeleteSegmentSuccess
 import com.enricog.features.routines.detail.summary.models.RoutineSummaryState.Data.Action.DuplicateSegmentError
+import com.enricog.features.routines.detail.summary.models.RoutineSummaryState.Data.Action.MoveSegmentError
 import javax.inject.Inject
 
 internal class RoutineSummaryReducer @Inject constructor() {
 
-    fun setup(routine: Routine): RoutineSummaryState {
-        return RoutineSummaryState.Data(routine = routine, errors = emptyMap(), action = null)
+    fun setup(state: RoutineSummaryState, routine: Routine): RoutineSummaryState {
+        return when (state) {
+            is RoutineSummaryState.Data -> state.copy(routine = routine)
+            else -> RoutineSummaryState.Data(routine = routine, errors = emptyMap(), action = null)
+        }
     }
 
     fun error(throwable: Throwable): RoutineSummaryState {
@@ -25,6 +29,10 @@ internal class RoutineSummaryReducer @Inject constructor() {
         segmentId: ID
     ): RoutineSummaryState.Data {
         return state.copy(action = DeleteSegmentError(segmentId = segmentId))
+    }
+
+    fun deleteSegmentSuccess(state: RoutineSummaryState.Data): RoutineSummaryState.Data {
+        return state.copy(action = DeleteSegmentSuccess)
     }
 
     fun moveSegmentError(state: RoutineSummaryState.Data): RoutineSummaryState.Data {
