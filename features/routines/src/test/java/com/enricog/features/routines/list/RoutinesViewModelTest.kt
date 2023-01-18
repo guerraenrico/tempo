@@ -73,8 +73,9 @@ class RoutinesViewModelTest {
         segmentsSummary = null
     )
     private val navigator = FakeNavigator()
-    private val store =
-        FakeStore(listOf(firstRoutineEntity, secondRoutineEntity, thirdRoutineEntity))
+    private val store = FakeStore(
+        initialValue = listOf(firstRoutineEntity, secondRoutineEntity, thirdRoutineEntity)
+    )
     private val routineDataSource = FakeRoutineDataSource(store = store)
 
     @Test
@@ -130,25 +131,26 @@ class RoutinesViewModelTest {
     }
 
     @Test
-    fun `should remove routine when delete routine clicked`() = coroutineRule {
-        val expected = RoutinesViewState.Data(
-            routinesItems = immutableListOf(secondRoutine, thirdRoutine, RoutinesItem.Space),
-            message = Message(
-                textResId = R.string.label_routines_delete_confirm,
-                actionTextResId = R.string.action_text_routines_delete_undo
+    fun `should remove routine from list and show message when routine is deleted`() =
+        coroutineRule {
+            val expected = RoutinesViewState.Data(
+                routinesItems = immutableListOf(secondRoutine, thirdRoutine, RoutinesItem.Space),
+                message = Message(
+                    textResId = R.string.label_routines_delete_confirm,
+                    actionTextResId = R.string.action_text_routines_delete_undo
+                )
             )
-        )
-        val expectedDatabaseRoutines =
-            listOf(firstRoutineEntity, secondRoutineEntity, thirdRoutineEntity)
-        val viewModel = buildViewModel()
-        advanceUntilIdle()
+            val expectedDatabaseRoutines =
+                listOf(firstRoutineEntity, secondRoutineEntity, thirdRoutineEntity)
+            val viewModel = buildViewModel()
+            advanceUntilIdle()
 
-        viewModel.onRoutineDelete(routineId = firstRoutine.id)
-        advanceUntilIdle()
+            viewModel.onRoutineDelete(routineId = firstRoutine.id)
+            advanceUntilIdle()
 
-        viewModel.viewState.test { assertEquals(expected, awaitItem()) }
-        assertEquals(expectedDatabaseRoutines, store.get())
-    }
+            viewModel.viewState.test { assertEquals(expected, awaitItem()) }
+            assertEquals(expectedDatabaseRoutines, store.get())
+        }
 
     @Test
     fun `should restore routine when undo delete routine is clicked`() = coroutineRule {
@@ -177,7 +179,7 @@ class RoutinesViewModelTest {
     }
 
     @Test
-    fun `should delete routine in database when snackbar is dismissed`() = coroutineRule {
+    fun `should delete routine from database when snackbar is dismissed`() = coroutineRule {
         val expected = RoutinesViewState.Data(
             routinesItems = immutableListOf(secondRoutine, thirdRoutine, RoutinesItem.Space),
             message = null
@@ -217,7 +219,7 @@ class RoutinesViewModelTest {
     }
 
     @Test
-    fun `should show message when delete routine clicked and deletion fails`() = coroutineRule {
+    fun `should show message when delete routine fails`() = coroutineRule {
         val expected = RoutinesViewState.Data(
             routinesItems = immutableListOf(
                 firstRoutine,
@@ -270,7 +272,7 @@ class RoutinesViewModelTest {
             routinesItems = immutableListOf(
                 firstRoutine,
                 firstRoutine.copy(
-                    id = ID.from(value = 4),
+                    id = 4.asID,
                     rank = "annnnn"
                 ),
                 secondRoutine,
@@ -289,12 +291,12 @@ class RoutinesViewModelTest {
     }
 
     @Test
-    fun `should delete pending routine when routine is duplicated`() = coroutineRule {
+    fun `should delete pending routine when another routine is duplicated`() = coroutineRule {
         val expected = RoutinesViewState.Data(
             routinesItems = immutableListOf(
                 firstRoutine,
                 firstRoutine.copy(
-                    id = ID.from(value = 4),
+                    id = 4.asID,
                     rank = "bbbbbb"
                 ),
                 thirdRoutine,
@@ -304,7 +306,7 @@ class RoutinesViewModelTest {
         )
         val expectedDatabaseRoutines = listOf(
             firstRoutineEntity,
-            firstRoutineEntity.copy(id = ID.from(4), rank = Rank.from("bbbbbb")),
+            firstRoutineEntity.copy(id = 4.asID, rank = Rank.from("bbbbbb")),
             thirdRoutineEntity
         )
         val viewModel = buildViewModel()
@@ -419,7 +421,7 @@ class RoutinesViewModelTest {
         )
         val expectedDatabaseRoutines = listOf(
             secondRoutineEntity,
-            firstRoutineEntity.copy(rank = Rank.from(value ="nnnnnn"))
+            firstRoutineEntity.copy(rank = Rank.from(value = "nnnnnn"))
         )
         val viewModel = buildViewModel()
         advanceUntilIdle()

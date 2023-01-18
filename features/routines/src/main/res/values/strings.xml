@@ -41,7 +41,7 @@
     <string name="action_text_routine_summary_segment_delete_error">Retry</string>
     <string name="label_routine_summary_segment_move_error">An error happen</string>
     <string name="label_routine_summary_segment_duplicate_error">An error happen</string>
-    <string name="label_routine_summary_segment_delete_confirm">Routine deleted</string>
+    <string name="label_routine_summary_segment_delete_confirm">Segment deleted</string>
     <string name="action_text_routine_summary_segment_delete_undo">Undo</string>
 
     <!-- Segment -->

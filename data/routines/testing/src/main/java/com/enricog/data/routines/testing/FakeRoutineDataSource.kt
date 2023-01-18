@@ -50,10 +50,13 @@ class FakeRoutineDataSource(
     }
 
     override suspend fun update(routine: Routine): ID {
+        var maxId = routine.segments.maxByOrNull { it.id }?.id
+            ?: ID.from(value = 1)
         val routineToSave = routine.copy(
-            segments = routine.segments.mapIndexed { index, segment ->
+            segments = routine.segments.map { segment ->
                 if (segment.id.isNew) {
-                    segment.copy(id = ID.from(value = index.toLong() + 1))
+                    maxId = ID.from(value = maxId.toLong() + 1)
+                    segment.copy(id = maxId)
                 } else {
                     segment
                 }
