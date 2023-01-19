@@ -89,10 +89,12 @@ internal class RoutinesViewModel @Inject constructor(
     }
 
     private fun setRoutineToDeleteInQueue(routineId: ID) {
-        launchWhen<RoutinesState.Data> { state ->
+        launch {
             runDeleteQueuedRoutine()
-            val routine = state.routines.first { it.id == routineId }
-            queueRoutineToDelete.value = routine
+            runWhen<RoutinesState.Data> { state ->
+                val routine = state.routines.first { it.id == routineId }
+                queueRoutineToDelete.value = routine
+            }
         }
     }
 
@@ -101,13 +103,15 @@ internal class RoutinesViewModel @Inject constructor(
             TempoLogger.e(throwable = throwable)
             updateStateWhen<RoutinesState.Data> { reducer.moveRoutineError(state = it) }
         }
-        moveJob = launchWhen<RoutinesState.Data>(exceptionHandler) {
+        moveJob = launch(exceptionHandler) {
             runDeleteQueuedRoutine()
-            moveRoutineUseCase(
-                routines = it.routines,
-                draggedRoutineId = draggedRoutineId,
-                hoveredRoutineId = hoveredRoutineId
-            )
+            runWhen<RoutinesState.Data> { state ->
+                moveRoutineUseCase(
+                    routines = state.routines,
+                    draggedRoutineId = draggedRoutineId,
+                    hoveredRoutineId = hoveredRoutineId
+                )
+            }
         }
     }
 
@@ -118,9 +122,11 @@ internal class RoutinesViewModel @Inject constructor(
                 reducer.duplicateRoutineError(state = it)
             }
         }
-        duplicateJob = launchWhen<RoutinesState.Data>(exceptionHandler) { state ->
+        duplicateJob = launch(exceptionHandler) {
             runDeleteQueuedRoutine()
-            duplicateRoutineUseCase(routines = state.routines, routineId = routineId)
+            runWhen<RoutinesState.Data> { state ->
+                duplicateRoutineUseCase(routines = state.routines, routineId = routineId)
+            }
         }
     }
 

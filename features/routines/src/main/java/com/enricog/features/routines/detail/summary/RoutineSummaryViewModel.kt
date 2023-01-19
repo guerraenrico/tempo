@@ -98,10 +98,12 @@ internal class RoutineSummaryViewModel @Inject constructor(
     }
 
     private fun setSegmentToDeleteInQueue(segmentId: ID) {
-        launchWhen<RoutineSummaryState.Data> { state ->
+        launch {
             runDeleteQueuedSegment()
-            val segment = state.routine.segments.first { it.id == segmentId }
-            queueSegmentToDelete.value = segment
+            runWhen<RoutineSummaryState.Data> { state ->
+                val segment = state.routine.segments.first { it.id == segmentId }
+                queueSegmentToDelete.value = segment
+            }
         }
     }
 
@@ -112,9 +114,11 @@ internal class RoutineSummaryViewModel @Inject constructor(
                 reducer.duplicateSegmentError(state = it)
             }
         }
-        duplicateJob = launchWhen<RoutineSummaryState.Data>(exceptionHandler) {
+        duplicateJob = launch(exceptionHandler) {
             runDeleteQueuedSegment()
-            duplicateSegmentUseCase(routine = it.routine, segmentId = segmentId)
+            runWhen<RoutineSummaryState.Data> { state ->
+                duplicateSegmentUseCase(routine = state.routine, segmentId = segmentId)
+            }
         }
     }
 
@@ -123,13 +127,15 @@ internal class RoutineSummaryViewModel @Inject constructor(
             TempoLogger.e(throwable = throwable)
             updateStateWhen<RoutineSummaryState.Data> { reducer.moveSegmentError(state = it) }
         }
-        moveJob = launchWhen<RoutineSummaryState.Data>(exceptionHandler) {
+        moveJob = launch(exceptionHandler) {
             runDeleteQueuedSegment()
-            moveSegmentUseCase(
-                routine = it.routine,
-                draggedSegmentId = draggedSegmentId,
-                hoveredSegmentId = hoveredSegmentId
-            )
+            runWhen<RoutineSummaryState.Data> {
+                moveSegmentUseCase(
+                    routine = it.routine,
+                    draggedSegmentId = draggedSegmentId,
+                    hoveredSegmentId = hoveredSegmentId
+                )
+            }
         }
     }
 
@@ -197,8 +203,9 @@ internal class RoutineSummaryViewModel @Inject constructor(
             }
         }
         val job = launch(exceptionHandler) {
-            val updatedState =
-                updateStateWhen<RoutineSummaryState.Data> { reducer.actionHandled(state = it) }
+            val updatedState = updateStateWhen<RoutineSummaryState.Data> {
+                reducer.actionHandled(state = it)
+            }
             if (updatedState is RoutineSummaryState.Data) {
                 deleteSegmentUseCase(routine = updatedState.routine, segmentId = segmentToDelete.id)
             }
