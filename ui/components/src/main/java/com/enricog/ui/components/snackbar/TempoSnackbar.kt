@@ -35,13 +35,16 @@ fun TempoSnackbar(
             .background(TempoSnackbarDefaults.backgroundColor)
     ) {
         Row(
-            modifier = modifier.padding(
-                horizontal = TempoSnackbarDefaults.paddingHorizontal,
-                vertical = TempoSnackbarDefaults.paddingVertical
-            )
+            modifier = modifier
+                .padding(
+                    horizontal = TempoSnackbarDefaults.paddingHorizontal,
+                    vertical = TempoSnackbarDefaults.paddingVertical
+                )
         ) {
             TempoSnackbarText(
-                modifier = Modifier.weight(1f),
+                modifier = Modifier
+                    .weight(1f)
+                    .align(Alignment.CenterVertically),
                 text = snackbarData.message
             )
             if (actionText != null) {
@@ -71,7 +74,7 @@ private fun TempoSnackbarText(modifier: Modifier = Modifier, text: String) {
 @Composable
 private fun TempoSnackbarAction(modifier: Modifier = Modifier, text: String) {
     TempoText(
-        modifier = modifier,
+        modifier = modifier.padding(TempoTheme.dimensions.spaceS),
         text = text.uppercase(Locale.getDefault()),
         style = TempoTheme.typography.button.copy(
             color = TempoSnackbarDefaults.contentColor
@@ -82,7 +85,7 @@ private fun TempoSnackbarAction(modifier: Modifier = Modifier, text: String) {
 private object TempoSnackbarDefaults {
 
     val backgroundColor: Color
-        @Composable get() = TempoTheme.colors.onSurfaceSecondary.copy(alpha = 0.95f)
+        @Composable get() = TempoTheme.colors.onSurfaceSecondary.copy(alpha = 0.97f)
 
     val contentColor: Color
         @Composable get() = TempoTheme.colors.surface

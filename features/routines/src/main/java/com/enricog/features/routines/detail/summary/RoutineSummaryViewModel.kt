@@ -7,15 +7,18 @@ import com.enricog.base.viewmodel.BaseViewModel
 import com.enricog.core.coroutines.dispatchers.CoroutineDispatchers
 import com.enricog.core.coroutines.job.autoCancelableJob
 import com.enricog.core.logger.api.TempoLogger
+import com.enricog.data.routines.api.entities.Segment
 import com.enricog.entities.ID
 import com.enricog.features.routines.detail.summary.models.RoutineSummaryState
 import com.enricog.features.routines.detail.summary.models.RoutineSummaryState.Data.Action.DeleteSegmentError
-import com.enricog.features.routines.detail.summary.models.RoutineSummaryState.Data.Action.MoveSegmentError
+import com.enricog.features.routines.detail.summary.models.RoutineSummaryState.Data.Action.DeleteSegmentSuccess
 import com.enricog.features.routines.detail.summary.models.RoutineSummaryState.Data.Action.DuplicateSegmentError
+import com.enricog.features.routines.detail.summary.models.RoutineSummaryState.Data.Action.MoveSegmentError
 import com.enricog.features.routines.detail.summary.models.RoutineSummaryViewState
+import com.enricog.features.routines.detail.summary.usecase.DeleteSegmentUseCase
 import com.enricog.features.routines.detail.summary.usecase.DuplicateSegmentUseCase
+import com.enricog.features.routines.detail.summary.usecase.GetRoutineUseCase
 import com.enricog.features.routines.detail.summary.usecase.MoveSegmentUseCase
-import com.enricog.features.routines.detail.summary.usecase.RoutineSummaryUseCase
 import com.enricog.features.routines.navigation.RoutinesNavigationActions
 import com.enricog.navigation.api.routes.RoutineSummaryRoute
 import com.enricog.navigation.api.routes.RoutineSummaryRouteInput
@@ -24,7 +27,9 @@ import com.enricog.ui.components.snackbar.TempoSnackbarEvent.ActionPerformed
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.CoroutineExceptionHandler
 import kotlinx.coroutines.delay
+import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.catch
+import kotlinx.coroutines.flow.combine
 import kotlinx.coroutines.flow.launchIn
 import kotlinx.coroutines.flow.onEach
 import javax.inject.Inject
@@ -37,7 +42,8 @@ internal class RoutineSummaryViewModel @Inject constructor(
     converter: RoutineSummaryStateConverter,
     private val navigationActions: RoutinesNavigationActions,
     private val reducer: RoutineSummaryReducer,
-    private val routineSummaryUseCase: RoutineSummaryUseCase,
+    private val getRoutineUseCase: GetRoutineUseCase,
+    private val deleteSegmentUseCase: DeleteSegmentUseCase,
     private val moveSegmentUseCase: MoveSegmentUseCase,
     private val duplicateSegmentUseCase: DuplicateSegmentUseCase,
     private val validator: RoutineSummaryValidator
@@ -48,19 +54,19 @@ internal class RoutineSummaryViewModel @Inject constructor(
 ) {
     private val input = RoutineSummaryRoute.extractInput(savedStateHandle)
     private var loadJob by autoCancelableJob()
-    private var deleteJob by autoCancelableJob()
     private var moveJob by autoCancelableJob()
     private var duplicateJob by autoCancelableJob()
+
+    private val queueSegmentToDelete = MutableStateFlow<Segment?>(null)
 
     init {
         load(input)
     }
 
     private fun load(input: RoutineSummaryRouteInput) {
-        loadJob = routineSummaryUseCase.get(input.routineId)
-            .onEach { routine ->
-                updateState { reducer.setup(routine = routine) }
-            }
+        loadJob = getRoutineUseCase(input.routineId)
+            .combine(queueSegmentToDelete) { routine, segmentToDelete -> routine.copy(segments = routine.segments.filter { it != segmentToDelete }) }
+            .onEach { routine -> updateState { reducer.setup(state = it, routine = routine) } }
             .catch { throwable ->
                 TempoLogger.e(throwable = throwable, message = "Error loading routine summary")
                 updateState { reducer.error(throwable = throwable) }
@@ -85,14 +91,19 @@ internal class RoutineSummaryViewModel @Inject constructor(
     }
 
     fun onSegmentDelete(segmentId: ID) {
-        val exceptionHandler = CoroutineExceptionHandler { _, throwable ->
-            TempoLogger.e(throwable = throwable)
-            updateStateWhen<RoutineSummaryState.Data> {
-                reducer.deleteSegmentError(state = it, segmentId = segmentId)
-            }
+        setSegmentToDeleteInQueue(segmentId = segmentId)
+        updateStateWhen<RoutineSummaryState.Data> { state ->
+            reducer.deleteSegmentSuccess(state = state)
         }
-        deleteJob = launchWhen<RoutineSummaryState.Data>(exceptionHandler) {
-            routineSummaryUseCase.deleteSegment(routine = it.routine, segmentId = segmentId)
+    }
+
+    private fun setSegmentToDeleteInQueue(segmentId: ID) {
+        launch {
+            runDeleteQueuedSegment()
+            runWhen<RoutineSummaryState.Data> { state ->
+                val segment = state.routine.segments.first { it.id == segmentId }
+                queueSegmentToDelete.value = segment
+            }
         }
     }
 
@@ -103,8 +114,11 @@ internal class RoutineSummaryViewModel @Inject constructor(
                 reducer.duplicateSegmentError(state = it)
             }
         }
-        duplicateJob = launchWhen<RoutineSummaryState.Data>(exceptionHandler) {
-            duplicateSegmentUseCase(routine = it.routine, segmentId = segmentId)
+        duplicateJob = launch(exceptionHandler) {
+            runDeleteQueuedSegment()
+            runWhen<RoutineSummaryState.Data> { state ->
+                duplicateSegmentUseCase(routine = state.routine, segmentId = segmentId)
+            }
         }
     }
 
@@ -113,12 +127,15 @@ internal class RoutineSummaryViewModel @Inject constructor(
             TempoLogger.e(throwable = throwable)
             updateStateWhen<RoutineSummaryState.Data> { reducer.moveSegmentError(state = it) }
         }
-        moveJob = launchWhen<RoutineSummaryState.Data>(exceptionHandler) {
-            moveSegmentUseCase(
-                routine = it.routine,
-                draggedSegmentId = draggedSegmentId,
-                hoveredSegmentId = hoveredSegmentId
-            )
+        moveJob = launch(exceptionHandler) {
+            runDeleteQueuedSegment()
+            runWhen<RoutineSummaryState.Data> {
+                moveSegmentUseCase(
+                    routine = it.routine,
+                    draggedSegmentId = draggedSegmentId,
+                    hoveredSegmentId = hoveredSegmentId
+                )
+            }
         }
     }
 
@@ -152,15 +169,49 @@ internal class RoutineSummaryViewModel @Inject constructor(
             val previousAction = it.action
             updateStateWhen(reducer::actionHandled)
             delay(SNACKBAR_ACTION_DELAY)
-            if (snackbarEvent == ActionPerformed) {
-                when (previousAction) {
-                    is DeleteSegmentError -> onSegmentDelete(segmentId = previousAction.segmentId)
-                    MoveSegmentError,
-                    DuplicateSegmentError,
-                    null -> Unit
+            when (previousAction) {
+                is DeleteSegmentError -> {
+                    if (snackbarEvent == ActionPerformed) {
+                        onSegmentDelete(segmentId = previousAction.segmentId)
+                    }
                 }
+                is DeleteSegmentSuccess -> {
+                    if (snackbarEvent == ActionPerformed) {
+                        queueSegmentToDelete.value = null
+                    } else {
+                        runDeleteQueuedSegment()
+                    }
+                }
+                MoveSegmentError,
+                DuplicateSegmentError,
+                null -> Unit
             }
         }
+    }
+
+    fun onStop() {
+        updateStateWhen(reducer::actionHandled)
+        launch { runDeleteQueuedSegment() }
+    }
+
+    private suspend fun runDeleteQueuedSegment() {
+        val segmentToDelete = queueSegmentToDelete.value ?: return
+        val exceptionHandler = CoroutineExceptionHandler { _, throwable ->
+            TempoLogger.e(throwable = throwable)
+            updateStateWhen<RoutineSummaryState.Data> {
+                reducer.deleteSegmentError(state = it, segmentId = segmentToDelete.id)
+            }
+        }
+        val job = launch(exceptionHandler) {
+            val updatedState = updateStateWhen<RoutineSummaryState.Data> {
+                reducer.actionHandled(state = it)
+            }
+            if (updatedState is RoutineSummaryState.Data) {
+                deleteSegmentUseCase(routine = updatedState.routine, segmentId = segmentToDelete.id)
+            }
+        }
+        job.join()
+        queueSegmentToDelete.value = null
     }
 
     private companion object {

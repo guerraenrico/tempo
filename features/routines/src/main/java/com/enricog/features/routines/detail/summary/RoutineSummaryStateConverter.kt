@@ -9,6 +9,7 @@ import com.enricog.features.routines.detail.summary.models.RoutineSummaryItem
 import com.enricog.features.routines.detail.summary.models.RoutineSummaryState
 import com.enricog.features.routines.detail.summary.models.RoutineSummaryState.Data.Action
 import com.enricog.features.routines.detail.summary.models.RoutineSummaryState.Data.Action.DeleteSegmentError
+import com.enricog.features.routines.detail.summary.models.RoutineSummaryState.Data.Action.DeleteSegmentSuccess
 import com.enricog.features.routines.detail.summary.models.RoutineSummaryState.Data.Action.MoveSegmentError
 import com.enricog.features.routines.detail.summary.models.RoutineSummaryState.Data.Action.DuplicateSegmentError
 import com.enricog.features.routines.detail.summary.models.RoutineSummaryViewState
@@ -62,6 +63,10 @@ internal class RoutineSummaryStateConverter @Inject constructor() :
             is DeleteSegmentError -> Message(
                 textResId = R.string.label_routine_summary_segment_delete_error,
                 actionTextResId = R.string.action_text_routine_summary_segment_delete_error
+            )
+            DeleteSegmentSuccess -> Message(
+                textResId = R.string.label_routine_summary_segment_delete_confirm,
+                actionTextResId = R.string.action_text_routine_summary_segment_delete_undo
             )
             MoveSegmentError -> Message(
                 textResId = R.string.label_routine_summary_segment_move_error,

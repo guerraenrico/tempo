@@ -3,6 +3,7 @@ package com.enricog.features.routines.detail.summary
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
+import com.enricog.core.compose.api.effects.LifecycleObserver
 import com.enricog.entities.ID
 import com.enricog.features.routines.detail.summary.models.RoutineSummaryViewState
 import com.enricog.features.routines.detail.summary.ui_components.RoutineSummaryErrorScene
@@ -14,6 +15,9 @@ import com.enricog.ui.components.toolbar.TempoToolbar
 @Composable
 internal fun RoutineSummaryScreen(viewModel: RoutineSummaryViewModel) {
     val viewState by viewModel.viewState.collectAsState(RoutineSummaryViewState.Idle)
+
+    LifecycleObserver(onStop = viewModel::onStop)
+
     TempoScreenScaffold {
         TempoToolbar(onBack = viewModel::onBack)
         viewState.Compose(

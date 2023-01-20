@@ -4,6 +4,7 @@ import androidx.compose.animation.core.AnimationSpec
 import androidx.compose.animation.core.SpringSpec
 import androidx.compose.foundation.gestures.Orientation
 import androidx.compose.foundation.interaction.MutableInteractionSource
+import androidx.compose.material.SwipeableDefaults
 import androidx.compose.runtime.*
 import androidx.compose.runtime.saveable.Saver
 import androidx.compose.runtime.saveable.autoSaver
@@ -120,6 +121,7 @@ fun <T> Modifier.swipeable(
     reverseDirection: Boolean = false,
     interactionSource: MutableInteractionSource? = null,
     thresholds: (from: T, to: T) -> ThresholdConfig = { _, _ -> FixedThreshold(56.dp) },
+    velocityThreshold: Dp = SwipeableDefaults.VelocityThreshold
 ): Modifier {
     return materialSwipeable(
         state = state.materialSwipeableState,
@@ -129,6 +131,6 @@ fun <T> Modifier.swipeable(
         reverseDirection = reverseDirection,
         interactionSource = interactionSource,
         thresholds = { from, to -> thresholds(from, to).toMaterialThresholdConfig() },
-        velocityThreshold = 1800.dp,
+        velocityThreshold = velocityThreshold,
     )
 }

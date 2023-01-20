@@ -8,6 +8,7 @@ import com.enricog.features.routines.list.models.RoutinesItem.Space
 import com.enricog.features.routines.list.models.RoutinesState
 import com.enricog.features.routines.list.models.RoutinesState.Data.Action
 import com.enricog.features.routines.list.models.RoutinesState.Data.Action.DeleteRoutineError
+import com.enricog.features.routines.list.models.RoutinesState.Data.Action.DeleteRoutineSuccess
 import com.enricog.features.routines.list.models.RoutinesState.Data.Action.MoveRoutineError
 import com.enricog.features.routines.list.models.RoutinesState.Data.Action.DuplicateRoutineError
 import com.enricog.features.routines.list.models.RoutinesViewState
@@ -38,6 +39,10 @@ internal class RoutinesStateConverter @Inject constructor() :
             is DeleteRoutineError -> Message(
                 textResId = R.string.label_routines_delete_error,
                 actionTextResId = R.string.action_text_routines_delete_error
+            )
+            DeleteRoutineSuccess -> Message(
+                textResId = R.string.label_routines_delete_confirm,
+                actionTextResId = R.string.action_text_routines_delete_undo
             )
             MoveRoutineError -> Message(
                 textResId = R.string.label_routines_move_error,

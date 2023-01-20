@@ -11,7 +11,7 @@ import org.junit.Rule
 import org.junit.Test
 import kotlin.test.assertEquals
 
-class RoutinesUseCaseTest {
+internal class GetRoutinesUseCaseTest {
 
     @get:Rule
     val coroutineRule = CoroutineRule()
@@ -26,24 +26,15 @@ class RoutinesUseCaseTest {
     )
     private val store = FakeStore(listOf(firstRoutine, secondRoutine))
 
-    private val sut = RoutinesUseCase(FakeRoutineDataSource(store))
+    private val getRoutinesUseCase = GetRoutinesUseCase(
+        routineDataSource = FakeRoutineDataSource(store = store)
+    )
 
     @Test
-    fun `test get all`() = coroutineRule {
+    fun `should return all routines`() = coroutineRule {
         val expected = listOf(firstRoutine, secondRoutine)
 
-        val actual = sut.getAll().first()
-
-        assertEquals(expected, actual)
-    }
-
-    @Test
-    fun `test delete`() = coroutineRule {
-        val expected = listOf(secondRoutine)
-
-        sut.delete(firstRoutine)
-
-        val actual = store.get()
+        val actual = getRoutinesUseCase().first()
 
         assertEquals(expected, actual)
     }

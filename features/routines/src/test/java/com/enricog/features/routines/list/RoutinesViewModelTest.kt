@@ -4,6 +4,7 @@ import app.cash.turbine.test
 import com.enricog.core.compose.api.classes.immutableListOf
 import com.enricog.core.coroutines.testing.CoroutineRule
 import com.enricog.data.local.testing.FakeStore
+import com.enricog.data.routines.api.entities.sortedByRank
 import com.enricog.data.routines.testing.FakeRoutineDataSource
 import com.enricog.data.routines.testing.entities.EMPTY
 import com.enricog.entities.ID
@@ -12,9 +13,11 @@ import com.enricog.entities.asID
 import com.enricog.features.routines.R
 import com.enricog.features.routines.list.models.RoutinesItem
 import com.enricog.features.routines.list.models.RoutinesViewState
+import com.enricog.features.routines.list.models.RoutinesViewState.Data.Message
+import com.enricog.features.routines.list.usecase.DeleteRoutineUseCase
 import com.enricog.features.routines.list.usecase.DuplicateRoutineUseCase
+import com.enricog.features.routines.list.usecase.GetRoutinesUseCase
 import com.enricog.features.routines.list.usecase.MoveRoutineUseCase
-import com.enricog.features.routines.list.usecase.RoutinesUseCase
 import com.enricog.features.routines.navigation.RoutinesNavigationActions
 import com.enricog.navigation.api.routes.RoutineRoute
 import com.enricog.navigation.api.routes.RoutineRouteInput
@@ -24,6 +27,7 @@ import com.enricog.navigation.testing.FakeNavigator
 import com.enricog.ui.components.snackbar.TempoSnackbarEvent
 import kotlinx.coroutines.test.StandardTestDispatcher
 import kotlinx.coroutines.test.advanceUntilIdle
+import kotlinx.coroutines.test.runCurrent
 import org.junit.Rule
 import org.junit.Test
 import kotlin.test.assertEquals
@@ -45,6 +49,11 @@ class RoutinesViewModelTest {
         name = "Second Routine",
         rank = Rank.from(value = "bbbbbb")
     )
+    private val thirdRoutineEntity = RoutineEntity.EMPTY.copy(
+        id = 3.asID,
+        name = "Third Routine",
+        rank = Rank.from(value = "cccccc")
+    )
     private val firstRoutine = RoutinesItem.RoutineItem(
         id = 1.asID,
         name = "First Routine",
@@ -57,37 +66,50 @@ class RoutinesViewModelTest {
         rank = "bbbbbb",
         segmentsSummary = null
     )
+    private val thirdRoutine = RoutinesItem.RoutineItem(
+        id = 3.asID,
+        name = "Third Routine",
+        rank = "cccccc",
+        segmentsSummary = null
+    )
     private val navigator = FakeNavigator()
-    private val store = FakeStore(listOf(firstRoutineEntity, secondRoutineEntity))
+    private val store = FakeStore(
+        initialValue = listOf(firstRoutineEntity, secondRoutineEntity, thirdRoutineEntity)
+    )
     private val routineDataSource = FakeRoutineDataSource(store = store)
 
     @Test
     fun `should should show data when load succeeds`() = coroutineRule {
         val expected = RoutinesViewState.Data(
-            routinesItems = immutableListOf(firstRoutine, secondRoutine, RoutinesItem.Space),
+            routinesItems = immutableListOf(
+                firstRoutine,
+                secondRoutine,
+                thirdRoutine,
+                RoutinesItem.Space
+            ),
             message = null
         )
-        val sut = buildSut()
+        val viewModel = buildViewModel()
         advanceUntilIdle()
 
-        sut.viewState.test { assertEquals(expected, awaitItem()) }
+        viewModel.viewState.test { assertEquals(expected, awaitItem()) }
     }
 
     @Test
     fun `should show error when load fails`() = coroutineRule {
         store.enableErrorOnNextAccess()
 
-        val sut = buildSut()
+        val viewModel = buildViewModel()
         advanceUntilIdle()
 
-        sut.viewState.test { assertIs<RoutinesViewState.Error>(awaitItem()) }
+        viewModel.viewState.test { assertIs<RoutinesViewState.Error>(awaitItem()) }
     }
 
     @Test
     fun `should navigate to routine detail when create routine button clicked`() = coroutineRule {
-        val sut = buildSut()
+        val viewModel = buildViewModel()
 
-        sut.onCreateRoutine()
+        viewModel.onCreateRoutine()
 
         navigator.assertGoTo(
             route = RoutineRoute,
@@ -98,9 +120,9 @@ class RoutinesViewModelTest {
     @Test
     fun `should navigate to routine summary when routine clicked`() = coroutineRule {
         val routineId = 1.asID
-        val sut = buildSut()
+        val viewModel = buildViewModel()
 
-        sut.onRoutine(routineId = routineId)
+        viewModel.onRoutine(routineId = routineId)
 
         navigator.assertGoTo(
             route = RoutineSummaryRoute,
@@ -109,116 +131,245 @@ class RoutinesViewModelTest {
     }
 
     @Test
-    fun `should remove routine when delete routine clicked`() = coroutineRule {
-        val expected = RoutinesViewState.Data(
-            routinesItems = immutableListOf(secondRoutine, RoutinesItem.Space),
-            message = null
-        )
-        val sut = buildSut()
-        advanceUntilIdle()
-
-        sut.onRoutineDelete(routineId = firstRoutine.id)
-        advanceUntilIdle()
-
-        sut.viewState.test { assertEquals(expected, awaitItem()) }
-    }
-
-    @Test
-    fun `should show message when delete routine clicked and deletion fails`() = coroutineRule {
-        val expected = RoutinesViewState.Data(
-            routinesItems = immutableListOf(firstRoutine, secondRoutine, RoutinesItem.Space),
-            message = RoutinesViewState.Data.Message(
-                textResId = R.string.label_routines_delete_error,
-                actionTextResId = R.string.action_text_routines_delete_error
+    fun `should remove routine from list and show message when routine is deleted`() =
+        coroutineRule {
+            val expected = RoutinesViewState.Data(
+                routinesItems = immutableListOf(secondRoutine, thirdRoutine, RoutinesItem.Space),
+                message = Message(
+                    textResId = R.string.label_routines_delete_confirm,
+                    actionTextResId = R.string.action_text_routines_delete_undo
+                )
             )
-        )
-        val sut = buildSut()
-        advanceUntilIdle()
-        store.enableErrorOnNextAccess()
+            val expectedDatabaseRoutines =
+                listOf(firstRoutineEntity, secondRoutineEntity, thirdRoutineEntity)
+            val viewModel = buildViewModel()
+            advanceUntilIdle()
 
-        sut.onRoutineDelete(routineId = firstRoutine.id)
-        advanceUntilIdle()
+            viewModel.onRoutineDelete(routineId = firstRoutine.id)
+            advanceUntilIdle()
 
-        sut.viewState.test { assertEquals(expected, awaitItem()) }
-    }
+            viewModel.viewState.test { assertEquals(expected, awaitItem()) }
+            assertEquals(expectedDatabaseRoutines, store.get())
+        }
 
     @Test
-    fun `should duplicate routine when duplicate routine clicked`() = coroutineRule {
+    fun `should restore routine when undo delete routine is clicked`() = coroutineRule {
         val expected = RoutinesViewState.Data(
             routinesItems = immutableListOf(
                 firstRoutine,
-                firstRoutine.copy(
-                    id = ID.from(value = 3),
-                    rank = "annnnn"
-                ),
                 secondRoutine,
+                thirdRoutine,
                 RoutinesItem.Space
             ),
             message = null
         )
-        val sut = buildSut()
+        val expectedDatabaseRoutines =
+            listOf(firstRoutineEntity, secondRoutineEntity, thirdRoutineEntity)
+        val viewModel = buildViewModel()
         advanceUntilIdle()
 
-        sut.onRoutineDuplicate(routineId = firstRoutine.id)
+        viewModel.onRoutineDelete(routineId = firstRoutine.id)
         advanceUntilIdle()
 
-        sut.viewState.test { assertEquals(expected, awaitItem()) }
+        viewModel.onSnackbarEvent(TempoSnackbarEvent.ActionPerformed)
+        advanceUntilIdle()
+
+        viewModel.viewState.test { assertEquals(expected, awaitItem()) }
+        assertEquals(expectedDatabaseRoutines, store.get())
+    }
+
+    @Test
+    fun `should delete routine from database when snackbar is dismissed`() = coroutineRule {
+        val expected = RoutinesViewState.Data(
+            routinesItems = immutableListOf(secondRoutine, thirdRoutine, RoutinesItem.Space),
+            message = null
+        )
+        val expectedDatabaseRoutines = listOf(secondRoutineEntity, thirdRoutineEntity)
+        val viewModel = buildViewModel()
+        advanceUntilIdle()
+
+        viewModel.onRoutineDelete(routineId = firstRoutine.id)
+        advanceUntilIdle()
+
+        viewModel.onSnackbarEvent(TempoSnackbarEvent.Dismissed)
+        advanceUntilIdle()
+
+        viewModel.viewState.test { assertEquals(expected, awaitItem()) }
+        assertEquals(expectedDatabaseRoutines, store.get())
+    }
+
+    @Test
+    fun `should delete routine in database when composable stops`() = coroutineRule {
+        val expected = RoutinesViewState.Data(
+            routinesItems = immutableListOf(secondRoutine, thirdRoutine, RoutinesItem.Space),
+            message = null
+        )
+        val expectedDatabaseRoutines = listOf(secondRoutineEntity, thirdRoutineEntity)
+        val viewModel = buildViewModel()
+        advanceUntilIdle()
+
+        viewModel.onRoutineDelete(routineId = firstRoutine.id)
+        advanceUntilIdle()
+
+        viewModel.onStop()
+        advanceUntilIdle()
+
+        viewModel.viewState.test { assertEquals(expected, awaitItem()) }
+        assertEquals(expectedDatabaseRoutines, store.get())
+    }
+
+    @Test
+    fun `should show message when delete routine fails`() = coroutineRule {
+        val expected = RoutinesViewState.Data(
+            routinesItems = immutableListOf(
+                firstRoutine,
+                secondRoutine,
+                thirdRoutine,
+                RoutinesItem.Space
+            ),
+            message = Message(
+                textResId = R.string.label_routines_delete_error,
+                actionTextResId = R.string.action_text_routines_delete_error
+            )
+        )
+        val viewModel = buildViewModel()
+        advanceUntilIdle()
+        store.enableErrorOnNextAccess()
+
+        viewModel.onRoutineDelete(routineId = firstRoutine.id)
+        advanceUntilIdle()
+        viewModel.onSnackbarEvent(TempoSnackbarEvent.Dismissed)
+        advanceUntilIdle()
+
+        viewModel.viewState.test { assertEquals(expected, awaitItem()) }
+    }
+
+    @Test
+    fun `should retry delete when when snackbar action is clicked`() = coroutineRule {
+        val expected = RoutinesViewState.Data(
+            routinesItems = immutableListOf(secondRoutine, thirdRoutine, RoutinesItem.Space),
+            message = null
+        )
+        val viewModel = buildViewModel()
+        advanceUntilIdle()
+        store.enableErrorOnNextAccess()
+        viewModel.onRoutineDelete(routineId = firstRoutine.id)
+        advanceUntilIdle()
+        viewModel.onSnackbarEvent(TempoSnackbarEvent.Dismissed)
+        advanceUntilIdle()
+
+        viewModel.onSnackbarEvent(TempoSnackbarEvent.ActionPerformed)
+        advanceUntilIdle()
+        viewModel.onSnackbarEvent(TempoSnackbarEvent.Dismissed)
+        advanceUntilIdle()
+
+        viewModel.viewState.test { assertEquals(expected, awaitItem()) }
+    }
+
+    @Test
+    fun `should duplicate routine when routine is duplicated`() = coroutineRule {
+        val expected = RoutinesViewState.Data(
+            routinesItems = immutableListOf(
+                firstRoutine,
+                firstRoutine.copy(
+                    id = 4.asID,
+                    rank = "annnnn"
+                ),
+                secondRoutine,
+                thirdRoutine,
+                RoutinesItem.Space
+            ),
+            message = null
+        )
+        val viewModel = buildViewModel()
+        advanceUntilIdle()
+
+        viewModel.onRoutineDuplicate(routineId = firstRoutine.id)
+        advanceUntilIdle()
+
+        viewModel.viewState.test { assertEquals(expected, awaitItem()) }
+    }
+
+    @Test
+    fun `should delete pending routine when another routine is duplicated`() = coroutineRule {
+        val expected = RoutinesViewState.Data(
+            routinesItems = immutableListOf(
+                firstRoutine,
+                firstRoutine.copy(
+                    id = 4.asID,
+                    rank = "bbbbbb"
+                ),
+                thirdRoutine,
+                RoutinesItem.Space
+            ),
+            message = null
+        )
+        val expectedDatabaseRoutines = listOf(
+            firstRoutineEntity,
+            firstRoutineEntity.copy(id = 4.asID, rank = Rank.from("bbbbbb")),
+            thirdRoutineEntity
+        )
+        val viewModel = buildViewModel()
+        advanceUntilIdle()
+        viewModel.onRoutineDelete(routineId = secondRoutine.id)
+        advanceUntilIdle()
+
+        viewModel.onRoutineDuplicate(routineId = firstRoutine.id)
+        advanceUntilIdle()
+
+        viewModel.viewState.test { assertEquals(expected, awaitItem()) }
+        assertEquals(expectedDatabaseRoutines, store.get().sortedByRank())
     }
 
     @Test
     fun `should show message when duplicate routine clicked and duplication fails`() =
         coroutineRule {
             val expected = RoutinesViewState.Data(
-                routinesItems = immutableListOf(firstRoutine, secondRoutine, RoutinesItem.Space),
-                message = RoutinesViewState.Data.Message(
+                routinesItems = immutableListOf(
+                    firstRoutine,
+                    secondRoutine,
+                    thirdRoutine,
+                    RoutinesItem.Space
+                ),
+                message = Message(
                     textResId = R.string.label_routines_duplicate_error,
                     actionTextResId = null
                 )
             )
-            val sut = buildSut()
+            val viewModel = buildViewModel()
             advanceUntilIdle()
             store.enableErrorOnNextAccess()
 
-            sut.onRoutineDuplicate(routineId = firstRoutine.id)
+            viewModel.onRoutineDuplicate(routineId = firstRoutine.id)
             advanceUntilIdle()
 
-            sut.viewState.test { assertEquals(expected, awaitItem()) }
+            viewModel.viewState.test { assertEquals(expected, awaitItem()) }
         }
 
     @Test
-    fun `should hide message when when snackbar is dismissed`() = coroutineRule {
+    fun `should hide message when snackbar is dismissed`() = coroutineRule {
         val expected = RoutinesViewState.Data(
-            routinesItems = immutableListOf(firstRoutine, secondRoutine, RoutinesItem.Space),
+            routinesItems = immutableListOf(
+                firstRoutine,
+                secondRoutine,
+                thirdRoutine,
+                RoutinesItem.Space
+            ),
             message = null
         )
-        val sut = buildSut()
+        val viewModel = buildViewModel()
         advanceUntilIdle()
         store.enableErrorOnNextAccess()
-        sut.onRoutineDelete(routineId = firstRoutine.id)
-        advanceUntilIdle()
-
-        sut.onSnackbarEvent(TempoSnackbarEvent.Dismissed)
-        advanceUntilIdle()
-
-        sut.viewState.test { assertEquals(expected, awaitItem()) }
-    }
-
-    @Test
-    fun `should retry delete when when snackbar action is clicked`() = coroutineRule {
-        val expected = RoutinesViewState.Data(
-            routinesItems = immutableListOf(secondRoutine, RoutinesItem.Space),
-            message = null
+        viewModel.onRoutineMoved(
+            draggedRoutineId = thirdRoutine.id,
+            hoveredRoutineId = secondRoutine.id
         )
-        val sut = buildSut()
-        advanceUntilIdle()
-        store.enableErrorOnNextAccess()
-        sut.onRoutineDelete(routineId = firstRoutine.id)
         advanceUntilIdle()
 
-        sut.onSnackbarEvent(TempoSnackbarEvent.ActionPerformed)
+        viewModel.onSnackbarEvent(TempoSnackbarEvent.Dismissed)
         advanceUntilIdle()
 
-        sut.viewState.test { assertEquals(expected, awaitItem()) }
+        viewModel.viewState.test { assertEquals(expected, awaitItem()) }
     }
 
     @Test
@@ -227,21 +378,77 @@ class RoutinesViewModelTest {
             routinesItems = immutableListOf(secondRoutine, RoutinesItem.Space),
             message = null
         )
-        val sut = buildSut()
+        val viewModel = buildViewModel()
         store.update { routines -> routines.filter { it.id == secondRoutine.id } }
 
-        sut.onRetryLoad()
+        viewModel.onRetryLoad()
 
-        sut.viewState.test { assertEquals(expected, awaitItem()) }
+        viewModel.viewState.test { assertEquals(expected, awaitItem()) }
     }
 
-    private fun buildSut(): RoutinesViewModel {
+    @Test
+    fun `should move routine when routine is moved`() = coroutineRule {
+        val expected = RoutinesViewState.Data(
+            routinesItems = immutableListOf(
+                secondRoutine,
+                firstRoutine.copy(rank = "booooo"),
+                thirdRoutine,
+                RoutinesItem.Space
+            ),
+            message = null
+        )
+        val viewModel = buildViewModel()
+        advanceUntilIdle()
+
+        viewModel.onRoutineMoved(
+            draggedRoutineId = firstRoutine.id,
+            hoveredRoutineId = secondRoutine.id
+        )
+        advanceUntilIdle()
+
+        viewModel.viewState.test { assertEquals(expected, awaitItem()) }
+    }
+
+    @Test
+    fun `should delete pending routine when routine is moved`() = coroutineRule {
+        val expected = RoutinesViewState.Data(
+            routinesItems = immutableListOf(
+                secondRoutine,
+                firstRoutine.copy(rank = "nnnnnn"),
+                RoutinesItem.Space
+            ),
+            message = null
+        )
+        val expectedDatabaseRoutines = listOf(
+            secondRoutineEntity,
+            firstRoutineEntity.copy(rank = Rank.from(value = "nnnnnn"))
+        )
+        val viewModel = buildViewModel()
+        advanceUntilIdle()
+        viewModel.onRoutineDelete(routineId = thirdRoutine.id)
+        advanceUntilIdle()
+
+        viewModel.onRoutineMoved(
+            draggedRoutineId = firstRoutine.id,
+            hoveredRoutineId = secondRoutine.id
+        )
+        advanceUntilIdle()
+        runCurrent()
+
+        viewModel.viewState.test { assertEquals(expected, awaitItem()) }
+        assertEquals(expectedDatabaseRoutines, store.get().sortedByRank())
+    }
+
+    private fun buildViewModel(): RoutinesViewModel {
         return RoutinesViewModel(
             dispatchers = coroutineRule.getDispatchers(),
             converter = RoutinesStateConverter(),
             navigationActions = RoutinesNavigationActions(navigator),
             reducer = RoutinesReducer(),
-            routinesUseCase = RoutinesUseCase(
+            getRoutinesUseCase = GetRoutinesUseCase(
+                routineDataSource = routineDataSource
+            ),
+            deleteRoutineUseCase = DeleteRoutineUseCase(
                 routineDataSource = routineDataSource
             ),
             moveRoutineUseCase = MoveRoutineUseCase(
