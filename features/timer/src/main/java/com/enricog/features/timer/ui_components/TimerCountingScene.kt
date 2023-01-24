@@ -44,19 +44,22 @@ internal const val SegmentNameTestTag = "SegmentNameTestTag"
 @Composable
 internal fun TimerCountingScene(
     state: TimerViewState.Counting,
-    onToggleTimer: () -> Unit,
-    onRestartSegment: () -> Unit
+    onPlay: () -> Unit,
+    onBack: () -> Unit,
+    onNext: () -> Unit
 ) {
     when (ScreenConfiguration.orientation) {
         PORTRAIT -> TimerCountingScenePortrait(
             state = state,
-            onToggleTimer = onToggleTimer,
-            onRestartSegment = onRestartSegment
+            onPlay = onPlay,
+            onBack = onBack,
+            onNext = onNext
         )
         LANDSCAPE -> TimerCountingSceneLandscape(
             state = state,
-            onToggleTimer = onToggleTimer,
-            onRestartSegment = onRestartSegment
+            onPlay = onPlay,
+            onBack = onBack,
+            onNext = onNext
         )
     }
 }
@@ -64,8 +67,9 @@ internal fun TimerCountingScene(
 @Composable
 private fun TimerCountingScenePortrait(
     state: TimerViewState.Counting,
-    onToggleTimer: () -> Unit,
-    onRestartSegment: () -> Unit
+    onPlay: () -> Unit,
+    onBack: () -> Unit,
+    onNext: () -> Unit
 ) {
     TimerBackground(clockBackgroundColor = state.clockBackgroundColor) {
         ConstraintLayout(
@@ -100,8 +104,9 @@ private fun TimerCountingScenePortrait(
             )
             ActionsBar(
                 timerActions = state.timerActions,
-                onStartStopButtonClick = onToggleTimer,
-                onRestartSegmentButtonClick = onRestartSegment,
+                onPlayButtonClick = onPlay,
+                onBackButtonClick = onBack,
+                onNextButtonClick = onNext,
                 modifier = Modifier.constrainAs(actionBar) {
                     top.linkTo(clock.bottom)
                     bottom.linkTo(parent.bottom)
@@ -116,8 +121,9 @@ private fun TimerCountingScenePortrait(
 @Composable
 private fun TimerCountingSceneLandscape(
     state: TimerViewState.Counting,
-    onToggleTimer: () -> Unit,
-    onRestartSegment: () -> Unit
+    onPlay: () -> Unit,
+    onBack: () -> Unit,
+    onNext: () -> Unit
 ) {
     TimerBackground(clockBackgroundColor = state.clockBackgroundColor) {
         ConstraintLayout(
@@ -151,8 +157,9 @@ private fun TimerCountingSceneLandscape(
             )
             ActionsBar(
                 timerActions = state.timerActions,
-                onStartStopButtonClick = onToggleTimer,
-                onRestartSegmentButtonClick = onRestartSegment,
+                onPlayButtonClick = onPlay,
+                onBackButtonClick = onBack,
+                onNextButtonClick = onNext,
                 modifier = Modifier.constrainAs(actionBar) {
                     top.linkTo(parent.top)
                     bottom.linkTo(parent.bottom)

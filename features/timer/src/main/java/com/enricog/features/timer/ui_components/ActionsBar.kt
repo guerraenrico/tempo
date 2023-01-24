@@ -26,26 +26,30 @@ import com.enricog.ui.theme.TempoTheme
 
 internal const val ActionBarTestTag = "ActionBarTestTag"
 internal const val ButtonToggleStartTestTag = "ButtonToggleStartTestTag"
-internal const val ButtonRestartTestTag = "ButtonRestartTestTag"
+internal const val ButtonBackTestTag = "ButtonBackTestTag"
+internal const val ButtonNextTestTag = "ButtonNextTestTag"
 
 @Composable
 internal fun ActionsBar(
     timerActions: Actions,
-    onStartStopButtonClick: () -> Unit,
-    onRestartSegmentButtonClick: () -> Unit,
+    onPlayButtonClick: () -> Unit,
+    onBackButtonClick: () -> Unit,
+    onNextButtonClick: () -> Unit,
     modifier: Modifier = Modifier
 ) {
     when (ScreenConfiguration.orientation) {
         PORTRAIT -> ActionsBarPortrait(
             timerActions = timerActions,
-            onStartStopButtonClick = onStartStopButtonClick,
-            onRestartSegmentButtonClick = onRestartSegmentButtonClick,
+            onPlayButtonClick = onPlayButtonClick,
+            onBackButtonClick = onBackButtonClick,
+            onNextButtonClick = onNextButtonClick,
             modifier = modifier
         )
         LANDSCAPE -> ActionsBarLandscape(
             timerActions = timerActions,
-            onStartStopButtonClick = onStartStopButtonClick,
-            onRestartSegmentButtonClick = onRestartSegmentButtonClick,
+            onPlayButtonClick = onPlayButtonClick,
+            onBackButtonClick = onBackButtonClick,
+            onNextButtonClick = onNextButtonClick,
             modifier = modifier
         )
     }
@@ -54,8 +58,9 @@ internal fun ActionsBar(
 @Composable
 private fun ActionsBarPortrait(
     timerActions: Actions,
-    onStartStopButtonClick: () -> Unit,
-    onRestartSegmentButtonClick: () -> Unit,
+    onPlayButtonClick: () -> Unit,
+    onBackButtonClick: () -> Unit,
+    onNextButtonClick: () -> Unit,
     modifier: Modifier = Modifier
 ) {
     Container(
@@ -64,42 +69,65 @@ private fun ActionsBarPortrait(
             .fillMaxWidth()
     ) {
         ConstraintLayout(modifier = Modifier.fillMaxSize()) {
-            val (restartButton, spacer, toggleStartButton) = createRefs()
+            val (backButton, spacer1, spacer2, playButton, nextButton) = createRefs()
             createHorizontalChain(
-                restartButton,
-                spacer,
-                toggleStartButton,
+                backButton,
+                spacer1,
+                playButton,
+                spacer2,
+                nextButton,
                 chainStyle = ChainStyle.Packed
             )
 
-            RestartButton(
-                restartButton = timerActions.restart,
-                onClick = onRestartSegmentButtonClick,
-                modifier = Modifier.constrainAs(restartButton) {
+            BackButton(
+                backButton = timerActions.back,
+                onClick = onBackButtonClick,
+                modifier = Modifier.constrainAs(backButton) {
                     top.linkTo(parent.top)
                     bottom.linkTo(parent.bottom)
                     start.linkTo(parent.start)
-                    end.linkTo(spacer.start)
+                    end.linkTo(spacer1.start)
                 }
             )
             Spacer(
                 modifier = Modifier
                     .width(20.dp)
                     .height(20.dp)
-                    .constrainAs(spacer) {
+                    .constrainAs(spacer1) {
                         top.linkTo(parent.top)
                         bottom.linkTo(parent.bottom)
-                        start.linkTo(restartButton.end)
-                        end.linkTo(toggleStartButton.start)
+                        start.linkTo(backButton.end)
+                        end.linkTo(playButton.start)
                     }
             )
-            ToggleStartButton(
-                toggleStartButton = timerActions.toggleStart,
-                onClick = onStartStopButtonClick,
-                modifier = Modifier.constrainAs(toggleStartButton) {
+            PlayButton(
+                playButton = timerActions.play,
+                onClick = onPlayButtonClick,
+                modifier = Modifier.constrainAs(playButton) {
                     top.linkTo(parent.top)
                     bottom.linkTo(parent.bottom)
-                    start.linkTo(spacer.end)
+                    start.linkTo(spacer1.end)
+                    end.linkTo(spacer2.start)
+                }
+            )
+            Spacer(
+                modifier = Modifier
+                    .width(20.dp)
+                    .height(20.dp)
+                    .constrainAs(spacer2) {
+                        top.linkTo(parent.top)
+                        bottom.linkTo(parent.bottom)
+                        start.linkTo(playButton.end)
+                        end.linkTo(nextButton.start)
+                    }
+            )
+            NextButton(
+                nextButton = timerActions.next,
+                onClick = onNextButtonClick,
+                modifier = Modifier.constrainAs(nextButton) {
+                    top.linkTo(parent.top)
+                    bottom.linkTo(parent.bottom)
+                    start.linkTo(spacer2.end)
                     end.linkTo(parent.end)
                 }
             )
@@ -110,8 +138,9 @@ private fun ActionsBarPortrait(
 @Composable
 private fun ActionsBarLandscape(
     timerActions: Actions,
-    onStartStopButtonClick: () -> Unit,
-    onRestartSegmentButtonClick: () -> Unit,
+    onPlayButtonClick: () -> Unit,
+    onBackButtonClick: () -> Unit,
+    onNextButtonClick: () -> Unit,
     modifier: Modifier = Modifier
 ) {
     Container(
@@ -120,20 +149,22 @@ private fun ActionsBarLandscape(
             .fillMaxHeight()
     ) {
         ConstraintLayout(modifier = Modifier.fillMaxSize()) {
-            val (restartButton, spacer, toggleStartButton) = createRefs()
+            val (backButton, spacer1, spacer2, playButton, nextButton) = createRefs()
             createVerticalChain(
-                restartButton,
-                spacer,
-                toggleStartButton,
+                backButton,
+                spacer1,
+                playButton,
+                spacer2,
+                nextButton,
                 chainStyle = ChainStyle.Packed
             )
 
-            RestartButton(
-                restartButton = timerActions.restart,
-                onClick = onRestartSegmentButtonClick,
-                modifier = Modifier.constrainAs(restartButton) {
+            BackButton(
+                backButton = timerActions.back,
+                onClick = onBackButtonClick,
+                modifier = Modifier.constrainAs(backButton) {
                     top.linkTo(parent.top)
-                    bottom.linkTo(spacer.top)
+                    bottom.linkTo(spacer1.top)
                     start.linkTo(parent.start)
                     end.linkTo(parent.end)
                 }
@@ -142,18 +173,39 @@ private fun ActionsBarLandscape(
                 modifier = Modifier
                     .width(20.dp)
                     .height(20.dp)
-                    .constrainAs(spacer) {
-                        top.linkTo(restartButton.bottom)
-                        bottom.linkTo(toggleStartButton.top)
+                    .constrainAs(spacer1) {
+                        top.linkTo(backButton.bottom)
+                        bottom.linkTo(playButton.top)
                         start.linkTo(parent.start)
                         end.linkTo(parent.end)
                     }
             )
-            ToggleStartButton(
-                toggleStartButton = timerActions.toggleStart,
-                onClick = onStartStopButtonClick,
-                modifier = Modifier.constrainAs(toggleStartButton) {
-                    top.linkTo(spacer.bottom)
+            PlayButton(
+                playButton = timerActions.play,
+                onClick = onPlayButtonClick,
+                modifier = Modifier.constrainAs(playButton) {
+                    top.linkTo(spacer1.bottom)
+                    bottom.linkTo(spacer2.top)
+                    start.linkTo(parent.start)
+                    end.linkTo(parent.end)
+                }
+            )
+            Spacer(
+                modifier = Modifier
+                    .width(20.dp)
+                    .height(20.dp)
+                    .constrainAs(spacer2) {
+                        top.linkTo(playButton.bottom)
+                        bottom.linkTo(nextButton.top)
+                        start.linkTo(parent.start)
+                        end.linkTo(parent.end)
+                    }
+            )
+            NextButton(
+                nextButton = timerActions.next,
+                onClick = onNextButtonClick,
+                modifier = Modifier.constrainAs(nextButton) {
+                    top.linkTo(spacer2.bottom)
                     bottom.linkTo(parent.bottom)
                     start.linkTo(parent.start)
                     end.linkTo(parent.end)
@@ -174,31 +226,46 @@ private fun Container(modifier: Modifier = Modifier, content: @Composable BoxSco
 }
 
 @Composable
-private fun RestartButton(
-    restartButton: Actions.Button,
+private fun BackButton(
+    backButton: Actions.Button,
     onClick: () -> Unit,
     modifier: Modifier = Modifier
 ) {
     TempoIconButton(
         onClick = onClick,
-        iconResId = restartButton.iconResId,
-        modifier = modifier.testTag(ButtonRestartTestTag),
-        contentDescription = stringResource(restartButton.contentDescriptionResId),
-        size = restartButton.size
+        iconResId = backButton.iconResId,
+        modifier = modifier.testTag(ButtonBackTestTag),
+        contentDescription = stringResource(backButton.contentDescriptionResId),
+        size = backButton.size
     )
 }
 
 @Composable
-private fun ToggleStartButton(
-    toggleStartButton: Actions.Button,
+private fun NextButton(
+    nextButton: Actions.Button,
     onClick: () -> Unit,
     modifier: Modifier = Modifier
 ) {
     TempoIconButton(
         onClick = onClick,
-        iconResId = toggleStartButton.iconResId,
+        iconResId = nextButton.iconResId,
+        modifier = modifier.testTag(ButtonNextTestTag),
+        contentDescription = stringResource(nextButton.contentDescriptionResId),
+        size = nextButton.size
+    )
+}
+
+@Composable
+private fun PlayButton(
+    playButton: Actions.Button,
+    onClick: () -> Unit,
+    modifier: Modifier = Modifier
+) {
+    TempoIconButton(
+        onClick = onClick,
+        iconResId = playButton.iconResId,
         modifier = modifier.testTag(ButtonToggleStartTestTag),
-        contentDescription = stringResource(toggleStartButton.contentDescriptionResId),
-        size = toggleStartButton.size
+        contentDescription = stringResource(playButton.contentDescriptionResId),
+        size = playButton.size
     )
 }

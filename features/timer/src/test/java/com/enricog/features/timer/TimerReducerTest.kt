@@ -417,7 +417,7 @@ class TimerReducerTest {
             isSoundEnabled = true
         )
 
-        val actual = sut.restartTime(state)
+        val actual = sut.timeBack(state)
 
         assertEquals(expected, actual)
     }
@@ -443,7 +443,7 @@ class TimerReducerTest {
             isSoundEnabled = true
         )
 
-        val actual = sut.restartTime(state)
+        val actual = sut.timeBack(state)
 
         assertEquals(expected, actual)
     }

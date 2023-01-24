@@ -70,12 +70,12 @@ class TimerStateConverterTest {
             ),
             isSoundEnabled = true,
             timerActions = TimerViewState.Counting.Actions(
-                restart = TimerViewState.Counting.Actions.Button(
+                next = TimerViewState.Counting.Actions.Button(
                     iconResId = R.drawable.ic_timer_back,
-                    contentDescriptionResId = R.string.content_description_button_restart_routine_segment,
+                    contentDescriptionResId = R.string.content_description_button_back_routine_segment,
                     size = TempoIconButtonSize.Normal
                 ),
-                toggleStart = TimerViewState.Counting.Actions.Button(
+                play = TimerViewState.Counting.Actions.Button(
                     iconResId =  R.drawable.ic_timer_stop,
                     contentDescriptionResId =  R.string.content_description_button_stop_routine_segment,
                     size = TempoIconButtonSize.Normal
@@ -111,12 +111,12 @@ class TimerStateConverterTest {
             ),
             isSoundEnabled = true,
             timerActions = TimerViewState.Counting.Actions(
-                restart = TimerViewState.Counting.Actions.Button(
+                next = TimerViewState.Counting.Actions.Button(
                     iconResId = R.drawable.ic_timer_back,
-                    contentDescriptionResId = R.string.content_description_button_restart_routine_segment,
+                    contentDescriptionResId = R.string.content_description_button_back_routine_segment,
                     size = TempoIconButtonSize.Normal
                 ),
-                toggleStart = TimerViewState.Counting.Actions.Button(
+                play = TimerViewState.Counting.Actions.Button(
                     iconResId =  R.drawable.ic_timer_play,
                     contentDescriptionResId =  R.string.content_description_button_start_routine_segment,
                     size = TempoIconButtonSize.Normal
@@ -153,12 +153,12 @@ class TimerStateConverterTest {
                 ),
                 isSoundEnabled = true,
                 timerActions = TimerViewState.Counting.Actions(
-                    restart = TimerViewState.Counting.Actions.Button(
+                    next = TimerViewState.Counting.Actions.Button(
                         iconResId = R.drawable.ic_timer_back,
-                        contentDescriptionResId = R.string.content_description_button_restart_routine_segment,
+                        contentDescriptionResId = R.string.content_description_button_back_routine_segment,
                         size = TempoIconButtonSize.Normal
                     ),
-                    toggleStart = TimerViewState.Counting.Actions.Button(
+                    play = TimerViewState.Counting.Actions.Button(
                         iconResId =  R.drawable.ic_timer_stop,
                         contentDescriptionResId =  R.string.content_description_button_stop_routine_segment,
                         size = TempoIconButtonSize.Normal
@@ -195,12 +195,12 @@ class TimerStateConverterTest {
                 ),
                 isSoundEnabled = true,
                 timerActions = TimerViewState.Counting.Actions(
-                    restart = TimerViewState.Counting.Actions.Button(
+                    next = TimerViewState.Counting.Actions.Button(
                         iconResId = R.drawable.ic_timer_back,
-                        contentDescriptionResId = R.string.content_description_button_restart_routine_segment,
+                        contentDescriptionResId = R.string.content_description_button_back_routine_segment,
                         size = TempoIconButtonSize.Normal
                     ),
-                    toggleStart = TimerViewState.Counting.Actions.Button(
+                    play = TimerViewState.Counting.Actions.Button(
                         iconResId =  R.drawable.ic_timer_stop,
                         contentDescriptionResId =  R.string.content_description_button_stop_routine_segment,
                         size = TempoIconButtonSize.Normal
@@ -237,12 +237,12 @@ class TimerStateConverterTest {
                 ),
                 isSoundEnabled = true,
                 timerActions = TimerViewState.Counting.Actions(
-                    restart = TimerViewState.Counting.Actions.Button(
+                    next = TimerViewState.Counting.Actions.Button(
                         iconResId = R.drawable.ic_timer_back,
-                        contentDescriptionResId = R.string.content_description_button_restart_routine_segment,
+                        contentDescriptionResId = R.string.content_description_button_back_routine_segment,
                         size = TempoIconButtonSize.Normal
                     ),
-                    toggleStart = TimerViewState.Counting.Actions.Button(
+                    play = TimerViewState.Counting.Actions.Button(
                         iconResId =  R.drawable.ic_timer_stop,
                         contentDescriptionResId =  R.string.content_description_button_stop_routine_segment,
                         size = TempoIconButtonSize.Large
@@ -282,12 +282,12 @@ class TimerStateConverterTest {
                 ),
                 isSoundEnabled = true,
                 timerActions = TimerViewState.Counting.Actions(
-                    restart = TimerViewState.Counting.Actions.Button(
+                    next = TimerViewState.Counting.Actions.Button(
                         iconResId = R.drawable.ic_timer_back,
-                        contentDescriptionResId = R.string.content_description_button_restart_routine_segment,
+                        contentDescriptionResId = R.string.content_description_button_back_routine_segment,
                         size = TempoIconButtonSize.Normal
                     ),
-                    toggleStart = TimerViewState.Counting.Actions.Button(
+                    play = TimerViewState.Counting.Actions.Button(
                         iconResId =  R.drawable.ic_timer_stop,
                         contentDescriptionResId =  R.string.content_description_button_stop_routine_segment,
                         size = TempoIconButtonSize.Large
@@ -328,12 +328,12 @@ class TimerStateConverterTest {
                 ),
                 isSoundEnabled = true,
                 timerActions = TimerViewState.Counting.Actions(
-                    restart = TimerViewState.Counting.Actions.Button(
+                    next = TimerViewState.Counting.Actions.Button(
                         iconResId = R.drawable.ic_timer_back,
-                        contentDescriptionResId = R.string.content_description_button_restart_routine_segment,
+                        contentDescriptionResId = R.string.content_description_button_back_routine_segment,
                         size = TempoIconButtonSize.Normal
                     ),
-                    toggleStart = TimerViewState.Counting.Actions.Button(
+                    play = TimerViewState.Counting.Actions.Button(
                         iconResId =  R.drawable.ic_timer_stop,
                         contentDescriptionResId =  R.string.content_description_button_stop_routine_segment,
                         size = TempoIconButtonSize.Large

@@ -45,6 +45,15 @@ internal sealed class TimerState {
         val nextSegmentStep: SegmentStep?
             get() = nextSegment?.let { SegmentStep.from(routine = routine, segment = it) }
 
+        val previousSegment: Segment?
+            get() {
+                val indexRunningSegment = routine.segments.indexOf(runningSegment)
+                return routine.segments.getOrNull(indexRunningSegment - 1)
+            }
+
+        val previousSegmentStep: SegmentStep?
+            get() = previousSegment?.let { SegmentStep.from(routine = routine, segment = it) }
+
         private companion object {
             val STEP_COMPLETING_THRESHOLD = 5.seconds
         }

@@ -86,15 +86,20 @@ internal class TimerStateConverter @Inject constructor() :
 
     private fun TimerState.Counting.getActions(): TimerViewState.Counting.Actions {
         return TimerViewState.Counting.Actions(
-            restart = TimerViewState.Counting.Actions.Button(
+            back = TimerViewState.Counting.Actions.Button(
                 iconResId = R.drawable.ic_timer_back,
-                contentDescriptionResId = R.string.content_description_button_restart_routine_segment,
+                contentDescriptionResId = R.string.content_description_button_back_routine_segment,
                 size = TempoIconButtonSize.Normal
             ),
-            toggleStart = TimerViewState.Counting.Actions.Button(
+            play = TimerViewState.Counting.Actions.Button(
                 iconResId = if (step.count.isRunning) R.drawable.ic_timer_stop else R.drawable.ic_timer_play,
                 contentDescriptionResId = if (step.count.isRunning) R.string.content_description_button_stop_routine_segment else R.string.content_description_button_start_routine_segment,
                 size = if (runningSegment.type == TimeType.STOPWATCH) TempoIconButtonSize.Large else TempoIconButtonSize.Normal
+            ),
+            next = TimerViewState.Counting.Actions.Button(
+                iconResId = R.drawable.ic_timer_next,
+                contentDescriptionResId = R.string.content_description_button_next_routine_segment,
+                size = TempoIconButtonSize.Normal
             )
         )
     }

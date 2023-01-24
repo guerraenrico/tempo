@@ -42,7 +42,7 @@ internal fun TimerScreen(viewModel: TimerViewModel) {
                 .zIndex(1f),
             state = viewState,
             onCloseClick = { showCloseDialog = true },
-            onSoundClick = viewModel::toggleSound
+            onSoundClick = viewModel::onToggleSound
         )
 
         AnimatedContent(
@@ -61,8 +61,9 @@ internal fun TimerScreen(viewModel: TimerViewModel) {
             }
         ) { targetViewState ->
             targetViewState.Compose(
-                onToggleTimer = viewModel::onToggleTimer,
-                onRestartSegment = viewModel::onRestartSegment,
+                onPlay = viewModel::onPlay,
+                onBack = viewModel::onBack,
+                onNext = viewModel::onNext,
                 onReset = viewModel::onReset,
                 onDone = viewModel::onDone,
                 onRetryLoad = viewModel::onRetryLoad
@@ -80,8 +81,9 @@ internal fun TimerScreen(viewModel: TimerViewModel) {
 
 @Composable
 internal fun TimerViewState.Compose(
-    onToggleTimer: () -> Unit,
-    onRestartSegment: () -> Unit,
+    onPlay: () -> Unit,
+    onBack: () -> Unit,
+    onNext: () -> Unit,
     onReset: () -> Unit,
     onDone: () -> Unit,
     onRetryLoad: () -> Unit
@@ -90,8 +92,9 @@ internal fun TimerViewState.Compose(
         TimerViewState.Idle -> Unit
         is TimerViewState.Counting -> TimerCountingScene(
             state = this,
-            onToggleTimer = onToggleTimer,
-            onRestartSegment = onRestartSegment
+            onPlay = onPlay,
+            onBack = onBack,
+            onNext = onNext
         )
         TimerViewState.Completed -> TimerCompletedScene(
             onReset = onReset,

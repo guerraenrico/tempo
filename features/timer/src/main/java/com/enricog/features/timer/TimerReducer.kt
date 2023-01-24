@@ -72,17 +72,55 @@ internal class TimerReducer @Inject constructor() {
         return state.copy(isSoundEnabled = !state.isSoundEnabled)
     }
 
-    fun restartTime(state: TimerState): TimerState {
+    fun timeBack(state: TimerState): TimerState {
         if (state !is TimerState.Counting) return state
 
-        val step = state.step
-        val routine = state.routine
-        val runningSegment = state.runningSegment
-        val time = when (step.type) {
-            SegmentStepType.STARTING -> routine.startTimeOffset
-            SegmentStepType.IN_PROGRESS -> runningSegment.time
+        val currentResetTime = when (state.step.type) {
+            SegmentStepType.STARTING -> state.routine.startTimeOffset
+            SegmentStepType.IN_PROGRESS -> state.runningSegment.time
         }
-        return state.copy(step = step.copy(count = Count.idle(seconds = time)))
+
+        val previousSegment = state.previousSegment
+        val previousSegmentStep = state.previousSegmentStep
+        return if (
+            previousSegment != null &&
+            previousSegmentStep != null &&
+            state.step.count.seconds == currentResetTime
+        ) {
+            state.copy(
+                runningSegment = previousSegment,
+                step = previousSegmentStep
+            )
+        } else {
+            state.copy(step = state.step.copy(count = Count.idle(seconds = currentResetTime)))
+        }
+    }
+
+    fun timeNext(state: TimerState): TimerState {
+        if (state !is TimerState.Counting) return state
+
+        return when (state.step.type) {
+            SegmentStepType.STARTING -> {
+                state.copy(
+                    step = SegmentStep(
+                        count = Count.idle(seconds = state.runningSegment.time),
+                        type = SegmentStepType.IN_PROGRESS
+                    )
+                )
+            }
+            SegmentStepType.IN_PROGRESS -> {
+                val nextSegment = state.nextSegment
+                val nextSegmentStep = state.nextSegmentStep
+                if (nextSegment == null || nextSegmentStep == null) {
+                    state.copy(step = state.step.copy(count = state.step.count.copy(isCompleted = true)))
+                } else {
+                    state.copy(
+                        runningSegment = nextSegment,
+                        step = nextSegmentStep
+                    )
+                }
+            }
+        }
     }
 
     fun nextStep(state: TimerState): TimerState {
