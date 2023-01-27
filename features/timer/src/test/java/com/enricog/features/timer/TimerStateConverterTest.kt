@@ -23,14 +23,14 @@ class TimerStateConverterTest {
     @get:Rule
     val coroutineRule = CoroutineRule()
 
-    private val sut = TimerStateConverter()
+    private val stateConverter = TimerStateConverter()
 
     @Test
     fun `test map idle state`() = coroutineRule {
         val state = TimerState.Idle
         val expected = TimerViewState.Idle
 
-        val actual = sut.convert(state)
+        val actual = stateConverter.convert(state)
 
         assertEquals(expected, actual)
     }
@@ -41,7 +41,7 @@ class TimerStateConverterTest {
         val state = TimerState.Error(throwable = exception)
         val expected = TimerViewState.Error(throwable = exception)
 
-        val actual = sut.convert(state)
+        val actual = stateConverter.convert(state)
 
         assertEquals(expected, actual)
     }
@@ -53,10 +53,19 @@ class TimerStateConverterTest {
             routine =  Routine.EMPTY.copy(
                 segments = listOf(Segment.EMPTY.copy(name = "segment name", type = TimeType.REST))
             ),
-            runningSegment = Segment.EMPTY.copy(name = "segment name", type = TimeType.REST),
-            step = SegmentStep(
+            runningStep = SegmentStep(
+                id = 0,
                 count = Count(seconds = 5.seconds, isRunning = true, isCompleted = false),
-                type = SegmentStepType.IN_PROGRESS
+                type = SegmentStepType.IN_PROGRESS,
+                segment = Segment.EMPTY.copy(name = "segment name", type = TimeType.REST)
+            ),
+            steps = listOf(
+                SegmentStep(
+                    id = 0,
+                    count = Count(seconds = 5.seconds, isRunning = true, isCompleted = false),
+                    type = SegmentStepType.IN_PROGRESS,
+                    segment = Segment.EMPTY.copy(name = "segment name", type = TimeType.REST)
+                )
             ),
             isSoundEnabled = true
         )
@@ -70,7 +79,7 @@ class TimerStateConverterTest {
             ),
             isSoundEnabled = true,
             timerActions = TimerViewState.Counting.Actions(
-                next = TimerViewState.Counting.Actions.Button(
+                back = TimerViewState.Counting.Actions.Button(
                     iconResId = R.drawable.ic_timer_back,
                     contentDescriptionResId = R.string.content_description_button_back_routine_segment,
                     size = TempoIconButtonSize.Normal
@@ -79,11 +88,16 @@ class TimerStateConverterTest {
                     iconResId =  R.drawable.ic_timer_stop,
                     contentDescriptionResId =  R.string.content_description_button_stop_routine_segment,
                     size = TempoIconButtonSize.Normal
+                ),
+                next = TimerViewState.Counting.Actions.Button(
+                    iconResId = R.drawable.ic_timer_next,
+                    contentDescriptionResId = R.string.content_description_button_next_routine_segment,
+                    size = TempoIconButtonSize.Normal
                 )
             )
         )
 
-        val actual = sut.convert(state)
+        val actual = stateConverter.convert(state)
 
         assertEquals(expected, actual)
     }
@@ -94,10 +108,19 @@ class TimerStateConverterTest {
             routine =  Routine.EMPTY.copy(
                 segments = listOf(Segment.EMPTY.copy(name = "segment name", type = TimeType.REST))
             ),
-            runningSegment = Segment.EMPTY.copy(name = "segment name", type = TimeType.REST),
-            step = SegmentStep(
+            runningStep = SegmentStep(
+                id = 0,
                 count = Count(seconds = 5.seconds, isRunning = false, isCompleted = false),
-                type = SegmentStepType.IN_PROGRESS
+                type = SegmentStepType.IN_PROGRESS,
+                segment = Segment.EMPTY.copy(name = "segment name", type = TimeType.REST)
+            ),
+            steps = listOf(
+                SegmentStep(
+                    id = 0,
+                    count = Count(seconds = 5.seconds, isRunning = false, isCompleted = false),
+                    type = SegmentStepType.IN_PROGRESS,
+                    segment = Segment.EMPTY.copy(name = "segment name", type = TimeType.REST)
+                )
             ),
             isSoundEnabled = true
         )
@@ -111,7 +134,7 @@ class TimerStateConverterTest {
             ),
             isSoundEnabled = true,
             timerActions = TimerViewState.Counting.Actions(
-                next = TimerViewState.Counting.Actions.Button(
+                back = TimerViewState.Counting.Actions.Button(
                     iconResId = R.drawable.ic_timer_back,
                     contentDescriptionResId = R.string.content_description_button_back_routine_segment,
                     size = TempoIconButtonSize.Normal
@@ -120,11 +143,16 @@ class TimerStateConverterTest {
                     iconResId =  R.drawable.ic_timer_play,
                     contentDescriptionResId =  R.string.content_description_button_start_routine_segment,
                     size = TempoIconButtonSize.Normal
+                ),
+                next = TimerViewState.Counting.Actions.Button(
+                    iconResId = R.drawable.ic_timer_next,
+                    contentDescriptionResId = R.string.content_description_button_next_routine_segment,
+                    size = TempoIconButtonSize.Normal
                 )
             )
         )
 
-        val actual = sut.convert(state)
+        val actual = stateConverter.convert(state)
 
         assertEquals(expected, actual)
     }
@@ -136,10 +164,19 @@ class TimerStateConverterTest {
                 routine =  Routine.EMPTY.copy(
                     segments = listOf(Segment.EMPTY.copy(name = "segment name", type = TimeType.REST))
                 ),
-                runningSegment = Segment.EMPTY.copy(name = "segment name", type = TimeType.REST),
-                step = SegmentStep(
+                runningStep = SegmentStep(
+                    id = 0,
                     count = Count(seconds = 5.seconds, isRunning = true, isCompleted = false),
-                    type = SegmentStepType.IN_PROGRESS
+                    type = SegmentStepType.IN_PROGRESS,
+                    segment = Segment.EMPTY.copy(name = "segment name", type = TimeType.REST)
+                ),
+                steps = listOf(
+                    SegmentStep(
+                        id = 0,
+                        count = Count(seconds = 5.seconds, isRunning = true, isCompleted = false),
+                        type = SegmentStepType.IN_PROGRESS,
+                        segment = Segment.EMPTY.copy(name = "segment name", type = TimeType.REST)
+                    )
                 ),
                 isSoundEnabled = true
             )
@@ -153,7 +190,7 @@ class TimerStateConverterTest {
                 ),
                 isSoundEnabled = true,
                 timerActions = TimerViewState.Counting.Actions(
-                    next = TimerViewState.Counting.Actions.Button(
+                    back = TimerViewState.Counting.Actions.Button(
                         iconResId = R.drawable.ic_timer_back,
                         contentDescriptionResId = R.string.content_description_button_back_routine_segment,
                         size = TempoIconButtonSize.Normal
@@ -162,11 +199,16 @@ class TimerStateConverterTest {
                         iconResId =  R.drawable.ic_timer_stop,
                         contentDescriptionResId =  R.string.content_description_button_stop_routine_segment,
                         size = TempoIconButtonSize.Normal
+                    ),
+                    next = TimerViewState.Counting.Actions.Button(
+                        iconResId = R.drawable.ic_timer_next,
+                        contentDescriptionResId = R.string.content_description_button_next_routine_segment,
+                        size = TempoIconButtonSize.Normal
                     )
                 )
             )
 
-            val actual = sut.convert(state)
+            val actual = stateConverter.convert(state)
 
             assertEquals(expected, actual)
         }
@@ -178,10 +220,19 @@ class TimerStateConverterTest {
                 routine = Routine.EMPTY.copy(
                     segments = listOf(Segment.EMPTY.copy(name = "segment name", type = TimeType.TIMER))
                 ),
-                runningSegment = Segment.EMPTY.copy(name = "segment name", type = TimeType.TIMER),
-                step = SegmentStep(
+                runningStep = SegmentStep(
+                    id = 0,
                     count = Count(seconds = 5.seconds, isRunning = true, isCompleted = false),
-                    type = SegmentStepType.IN_PROGRESS
+                    type = SegmentStepType.IN_PROGRESS,
+                    segment =Segment.EMPTY.copy(name = "segment name", type = TimeType.TIMER),
+                ),
+                steps = listOf(
+                    SegmentStep(
+                        id = 0,
+                        count = Count(seconds = 5.seconds, isRunning = true, isCompleted = false),
+                        type = SegmentStepType.IN_PROGRESS,
+                        segment =Segment.EMPTY.copy(name = "segment name", type = TimeType.TIMER),
+                    )
                 ),
                 isSoundEnabled = true
             )
@@ -195,7 +246,7 @@ class TimerStateConverterTest {
                 ),
                 isSoundEnabled = true,
                 timerActions = TimerViewState.Counting.Actions(
-                    next = TimerViewState.Counting.Actions.Button(
+                    back = TimerViewState.Counting.Actions.Button(
                         iconResId = R.drawable.ic_timer_back,
                         contentDescriptionResId = R.string.content_description_button_back_routine_segment,
                         size = TempoIconButtonSize.Normal
@@ -204,11 +255,16 @@ class TimerStateConverterTest {
                         iconResId =  R.drawable.ic_timer_stop,
                         contentDescriptionResId =  R.string.content_description_button_stop_routine_segment,
                         size = TempoIconButtonSize.Normal
+                    ),
+                    next = TimerViewState.Counting.Actions.Button(
+                        iconResId = R.drawable.ic_timer_next,
+                        contentDescriptionResId = R.string.content_description_button_next_routine_segment,
+                        size = TempoIconButtonSize.Normal
                     )
                 )
             )
 
-            val actual = sut.convert(state)
+            val actual = stateConverter.convert(state)
 
             assertEquals(expected, actual)
         }
@@ -220,10 +276,19 @@ class TimerStateConverterTest {
                 routine =  Routine.EMPTY.copy(
                     segments = listOf(Segment.EMPTY.copy(name = "segment name", type = TimeType.STOPWATCH))
                 ),
-                runningSegment = Segment.EMPTY.copy(name = "segment name", type = TimeType.STOPWATCH),
-                step = SegmentStep(
+                runningStep = SegmentStep(
+                    id = 0,
                     count = Count(seconds = 5.seconds, isRunning = true, isCompleted = false),
-                    type = SegmentStepType.IN_PROGRESS
+                    type = SegmentStepType.IN_PROGRESS,
+                    segment = Segment.EMPTY.copy(name = "segment name", type = TimeType.STOPWATCH),
+                ),
+                steps = listOf(
+                    SegmentStep(
+                        id = 0,
+                        count = Count(seconds = 0.seconds, isRunning = true, isCompleted = false),
+                        type = SegmentStepType.IN_PROGRESS,
+                        segment = Segment.EMPTY.copy(name = "segment name", type = TimeType.STOPWATCH),
+                    )
                 ),
                 isSoundEnabled = true
             )
@@ -237,7 +302,7 @@ class TimerStateConverterTest {
                 ),
                 isSoundEnabled = true,
                 timerActions = TimerViewState.Counting.Actions(
-                    next = TimerViewState.Counting.Actions.Button(
+                    back = TimerViewState.Counting.Actions.Button(
                         iconResId = R.drawable.ic_timer_back,
                         contentDescriptionResId = R.string.content_description_button_back_routine_segment,
                         size = TempoIconButtonSize.Normal
@@ -246,11 +311,16 @@ class TimerStateConverterTest {
                         iconResId =  R.drawable.ic_timer_stop,
                         contentDescriptionResId =  R.string.content_description_button_stop_routine_segment,
                         size = TempoIconButtonSize.Large
+                    ),
+                    next = TimerViewState.Counting.Actions.Button(
+                        iconResId = R.drawable.ic_timer_next,
+                        contentDescriptionResId = R.string.content_description_button_next_routine_segment,
+                        size = TempoIconButtonSize.Normal
                     )
                 )
             )
 
-            val actual = sut.convert(state)
+            val actual = stateConverter.convert(state)
 
             assertEquals(expected, actual)
         }
@@ -265,10 +335,25 @@ class TimerStateConverterTest {
                         Segment.EMPTY.copy(name = "segment name", type = TimeType.STOPWATCH)
                     )
                 ),
-                runningSegment = Segment.EMPTY.copy(name = "segment name", type = TimeType.STOPWATCH),
-                step = SegmentStep(
+                runningStep = SegmentStep(
+                    id = 0,
                     count = Count(seconds = 5.seconds, isRunning = true, isCompleted = true),
-                    type = SegmentStepType.STARTING
+                    type = SegmentStepType.STARTING,
+                    segment = Segment.EMPTY.copy(name = "segment name", type = TimeType.STOPWATCH)
+                ),
+                steps = listOf(
+                    SegmentStep(
+                        id = 0,
+                        count = Count(seconds = 0.seconds, isRunning = true, isCompleted = true),
+                        type = SegmentStepType.STARTING,
+                        segment = Segment.EMPTY.copy(name = "segment name", type = TimeType.STOPWATCH)
+                    ),
+                    SegmentStep(
+                        id = 1,
+                        count = Count(seconds = 5.seconds, isRunning = false, isCompleted = false),
+                        type = SegmentStepType.IN_PROGRESS,
+                        segment = Segment.EMPTY.copy(name = "segment name", type = TimeType.STOPWATCH)
+                    )
                 ),
                 isSoundEnabled = true
             )
@@ -282,7 +367,7 @@ class TimerStateConverterTest {
                 ),
                 isSoundEnabled = true,
                 timerActions = TimerViewState.Counting.Actions(
-                    next = TimerViewState.Counting.Actions.Button(
+                    back = TimerViewState.Counting.Actions.Button(
                         iconResId = R.drawable.ic_timer_back,
                         contentDescriptionResId = R.string.content_description_button_back_routine_segment,
                         size = TempoIconButtonSize.Normal
@@ -291,11 +376,16 @@ class TimerStateConverterTest {
                         iconResId =  R.drawable.ic_timer_stop,
                         contentDescriptionResId =  R.string.content_description_button_stop_routine_segment,
                         size = TempoIconButtonSize.Large
+                    ),
+                    next = TimerViewState.Counting.Actions.Button(
+                        iconResId = R.drawable.ic_timer_next,
+                        contentDescriptionResId = R.string.content_description_button_next_routine_segment,
+                        size = TempoIconButtonSize.Normal
                     )
                 )
             )
 
-            val actual = sut.convert(state)
+            val actual = stateConverter.convert(state)
 
             assertEquals(expected, actual)
         }
@@ -311,10 +401,37 @@ class TimerStateConverterTest {
                         Segment.EMPTY.copy(name = "segment name timer", type = TimeType.TIMER)
                     )
                 ),
-                runningSegment = Segment.EMPTY.copy(name = "segment name stopwatch", type = TimeType.STOPWATCH),
-                step = SegmentStep(
+                runningStep = SegmentStep(
+                    id = 1,
                     count = Count(seconds = 5.seconds, isRunning = true, isCompleted = true),
-                    type = SegmentStepType.IN_PROGRESS
+                    type = SegmentStepType.IN_PROGRESS,
+                    segment = Segment.EMPTY.copy(name = "segment name stopwatch", type = TimeType.STOPWATCH)
+                ),
+                steps = listOf(
+                    SegmentStep(
+                        id = 0,
+                        count = Count(seconds = 5.seconds, isRunning = false, isCompleted = false),
+                        type = SegmentStepType.STARTING,
+                        segment = Segment.EMPTY.copy(name = "segment name stopwatch", type = TimeType.STOPWATCH)
+                    ),
+                    SegmentStep(
+                        id = 1,
+                        count = Count(seconds = 0.seconds, isRunning = false, isCompleted = false),
+                        type = SegmentStepType.IN_PROGRESS,
+                        segment = Segment.EMPTY.copy(name = "segment name stopwatch", type = TimeType.STOPWATCH)
+                    ),
+                    SegmentStep(
+                        id = 2,
+                        count = Count(seconds = 5.seconds, isRunning = false, isCompleted = false),
+                        type = SegmentStepType.STARTING,
+                        segment = Segment.EMPTY.copy(name = "segment name timer", type = TimeType.TIMER)
+                    ),
+                    SegmentStep(
+                        id = 3,
+                        count = Count(seconds = 0.seconds, isRunning = false, isCompleted = false),
+                        type = SegmentStepType.IN_PROGRESS,
+                        segment = Segment.EMPTY.copy(name = "segment name timer", type = TimeType.TIMER)
+                    )
                 ),
                 isSoundEnabled = true
             )
@@ -328,7 +445,7 @@ class TimerStateConverterTest {
                 ),
                 isSoundEnabled = true,
                 timerActions = TimerViewState.Counting.Actions(
-                    next = TimerViewState.Counting.Actions.Button(
+                    back = TimerViewState.Counting.Actions.Button(
                         iconResId = R.drawable.ic_timer_back,
                         contentDescriptionResId = R.string.content_description_button_back_routine_segment,
                         size = TempoIconButtonSize.Normal
@@ -337,11 +454,16 @@ class TimerStateConverterTest {
                         iconResId =  R.drawable.ic_timer_stop,
                         contentDescriptionResId =  R.string.content_description_button_stop_routine_segment,
                         size = TempoIconButtonSize.Large
+                    ),
+                    next = TimerViewState.Counting.Actions.Button(
+                        iconResId = R.drawable.ic_timer_next,
+                        contentDescriptionResId = R.string.content_description_button_next_routine_segment,
+                        size = TempoIconButtonSize.Normal
                     )
                 )
             )
 
-            val actual = sut.convert(state)
+            val actual = stateConverter.convert(state)
 
             assertEquals(expected, actual)
         }

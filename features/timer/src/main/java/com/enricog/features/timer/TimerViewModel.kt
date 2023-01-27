@@ -75,11 +75,11 @@ internal class TimerViewModel @Inject constructor(
     }
 
     fun onBack() {
-        updateState { reducer.timeBack(it) }
+        updateState { reducer.jumpStepBack(it) }
     }
 
     fun onNext() {
-        updateState {  reducer.timeNext(it) }
+        updateState {  reducer.jumpStepNext(it) }
     }
 
     fun onReset() {

@@ -14,14 +14,43 @@ internal class TimerStateTest {
     private val count = Count(seconds = 10.seconds, isRunning = true, isCompleted = false)
     private val state = TimerState.Counting(
         routine = Routine.EMPTY.copy(
+            startTimeOffset = 10.seconds,
             segments = listOf(
-                Segment.EMPTY.copy(id = 1.asID), Segment.EMPTY.copy(id = 2.asID)
+                Segment.EMPTY.copy(id = 1.asID, type = TimeType.TIMER),
+                Segment.EMPTY.copy(id = 2.asID, type = TimeType.STOPWATCH)
             )
         ),
-        runningSegment = Segment.EMPTY.copy(id = 2.asID),
-        step = SegmentStep(
+        runningStep = SegmentStep(
+            id = 0,
             count = count,
-            type = SegmentStepType.STARTING
+            type = SegmentStepType.STARTING,
+            segment = Segment.EMPTY.copy(id = 1.asID)
+        ),
+        steps = listOf(
+            SegmentStep(
+                id = 0,
+                count = count,
+                type = SegmentStepType.STARTING,
+                segment = Segment.EMPTY.copy(id = 1.asID)
+            ),
+            SegmentStep(
+                id = 1,
+                count = count,
+                type = SegmentStepType.IN_PROGRESS,
+                segment = Segment.EMPTY.copy(id = 1.asID)
+            ),
+            SegmentStep(
+                id = 2,
+                count = count,
+                type = SegmentStepType.STARTING,
+                segment = Segment.EMPTY.copy(id = 2.asID)
+            ),
+            SegmentStep(
+                id = 3,
+                count = count,
+                type = SegmentStepType.IN_PROGRESS,
+                segment = Segment.EMPTY.copy(id = 2.asID)
+            )
         ),
         isSoundEnabled = true
     )
@@ -35,7 +64,7 @@ internal class TimerStateTest {
             count.copy(isRunning = false, isCompleted = false) to false
         )
         val inputs = arguments.map { (count, expected) ->
-            state.copy(step = state.step.copy(count = count)) to expected
+            state.copy(runningStep = state.runningStep.copy(count = count)) to expected
         }
 
         inputs.forEach { (state, expected) ->
@@ -51,7 +80,7 @@ internal class TimerStateTest {
             count.copy(isRunning = true, isCompleted = true) to true
         )
         val inputs = arguments.map { (count, expected) ->
-            state.copy(step = state.step.copy(count = count)) to expected
+            state.copy(runningStep = state.runningStep.copy(count = count)) to expected
         }
 
         inputs.forEach { (state, expected) ->
@@ -64,38 +93,43 @@ internal class TimerStateTest {
     fun `test when step count is completing`() {
         val inputs = listOf(
             state.copy(
-                runningSegment = Segment.EMPTY.copy(id = 2.asID, type = TimeType.TIMER),
-                step = SegmentStep(
+                runningStep = SegmentStep(
+                    id = 1,
                     count = count.copy(seconds = 10.seconds, isRunning = true, isCompleted = false),
-                    type = SegmentStepType.IN_PROGRESS
+                    type = SegmentStepType.IN_PROGRESS,
+                    segment = Segment.EMPTY.copy(id = 2.asID, type = TimeType.TIMER)
                 )
             ) to false,
             state.copy(
-                runningSegment = Segment.EMPTY.copy(id = 2.asID, type = TimeType.TIMER),
-                step = SegmentStep(
+                runningStep = SegmentStep(
+                    id = 1,
                     count = count.copy(seconds = 5.seconds, isRunning = true, isCompleted = false),
-                    type = SegmentStepType.IN_PROGRESS
+                    type = SegmentStepType.IN_PROGRESS,
+                    segment = Segment.EMPTY.copy(id = 2.asID, type = TimeType.TIMER)
                 )
             ) to true,
             state.copy(
-                runningSegment = Segment.EMPTY.copy(id = 2.asID, type = TimeType.STOPWATCH),
-                step = SegmentStep(
+                runningStep = SegmentStep(
+                    id = 1,
                     count = count.copy(seconds = 5.seconds, isRunning = true, isCompleted = false),
-                    type = SegmentStepType.IN_PROGRESS
+                    type = SegmentStepType.IN_PROGRESS,
+                    segment = Segment.EMPTY.copy(id = 2.asID, type = TimeType.STOPWATCH)
                 )
             ) to false,
             state.copy(
-                runningSegment = Segment.EMPTY.copy(id = 2.asID, type = TimeType.TIMER),
-                step = SegmentStep(
+                runningStep = SegmentStep(
+                    id = 1,
                     count = count.copy(seconds = 5.seconds, isRunning = false, isCompleted = false),
-                    type = SegmentStepType.IN_PROGRESS
+                    type = SegmentStepType.IN_PROGRESS,
+                    segment = Segment.EMPTY.copy(id = 2.asID, type = TimeType.TIMER)
                 )
             ) to false,
             state.copy(
-                runningSegment = Segment.EMPTY.copy(id = 2.asID, type = TimeType.TIMER),
-                step = SegmentStep(
+                runningStep = SegmentStep(
+                    id = 1,
                     count = count.copy(seconds = 0.seconds, isRunning = true, isCompleted = true),
-                    type = SegmentStepType.IN_PROGRESS
+                    type = SegmentStepType.IN_PROGRESS,
+                    segment = Segment.EMPTY.copy(id = 2.asID, type = TimeType.TIMER)
                 )
             ) to false,
         )
@@ -110,31 +144,35 @@ internal class TimerStateTest {
     fun `test when routine is completed`() {
         val inputs = listOf(
             state.copy(
-                runningSegment = Segment.EMPTY.copy(id = 2.asID),
-                step = SegmentStep(
+                runningStep = SegmentStep(
+                    id = 3,
                     count = count.copy(isRunning = true, isCompleted = true),
-                    type = SegmentStepType.IN_PROGRESS
+                    type = SegmentStepType.IN_PROGRESS,
+                    segment = Segment.EMPTY.copy(id = 2.asID)
                 )
             ) to true,
             state.copy(
-                runningSegment = Segment.EMPTY.copy(id = 1.asID),
-                step = SegmentStep(
+                runningStep = SegmentStep(
+                    id = 2,
                     count = count.copy(isRunning = true, isCompleted = true),
-                    type = SegmentStepType.IN_PROGRESS
+                    type = SegmentStepType.STARTING,
+                    segment = Segment.EMPTY.copy(id = 2.asID)
                 )
             ) to false,
             state.copy(
-                runningSegment = Segment.EMPTY.copy(id = 2.asID),
-                step = SegmentStep(
-                    count = count.copy(isRunning = true, isCompleted = true),
-                    type = SegmentStepType.STARTING
-                )
-            ) to false,
-            state.copy(
-                runningSegment = Segment.EMPTY.copy(id = 2.asID),
-                step = SegmentStep(
+                runningStep = SegmentStep(
+                    id = 3,
                     count = count.copy(isRunning = true, isCompleted = false),
-                    type = SegmentStepType.IN_PROGRESS
+                    type = SegmentStepType.IN_PROGRESS,
+                    segment = Segment.EMPTY.copy(id = 2.asID)
+                )
+            ) to false,
+            state.copy(
+                runningStep = SegmentStep(
+                    id = 2,
+                    count = count.copy(isRunning = true, isCompleted = false),
+                    type = SegmentStepType.STARTING,
+                    segment = Segment.EMPTY.copy(id = 2.asID)
                 )
             ) to false
         )
@@ -149,38 +187,43 @@ internal class TimerStateTest {
     fun `test when stopwatch is running`() {
         val inputs = listOf(
             state.copy(
-                runningSegment = Segment.EMPTY.copy(id = 1.asID, type = TimeType.STOPWATCH),
-                step = SegmentStep(
+                runningStep = SegmentStep(
+                    id = 3,
                     count = count.copy(isRunning = true, isCompleted = false),
-                    type = SegmentStepType.IN_PROGRESS
+                    type = SegmentStepType.IN_PROGRESS,
+                    segment = Segment.EMPTY.copy(id = 2.asID, type = TimeType.STOPWATCH)
                 )
             ) to true,
             state.copy(
-                runningSegment = Segment.EMPTY.copy(id = 1.asID, type = TimeType.TIMER),
-                step = SegmentStep(
+                runningStep = SegmentStep(
+                    id = 1,
                     count = count.copy(isRunning = true, isCompleted = false),
-                    type = SegmentStepType.IN_PROGRESS
+                    type = SegmentStepType.IN_PROGRESS,
+                    segment = Segment.EMPTY.copy(id = 1.asID, type = TimeType.TIMER)
                 )
             ) to false,
             state.copy(
-                runningSegment = Segment.EMPTY.copy(id = 1.asID, type = TimeType.STOPWATCH),
-                step = SegmentStep(
+                runningStep = SegmentStep(
+                    id = 3,
                     count = count.copy(isRunning = false, isCompleted = false),
-                    type = SegmentStepType.IN_PROGRESS
+                    type = SegmentStepType.IN_PROGRESS,
+                    segment = Segment.EMPTY.copy(id = 2.asID, type = TimeType.STOPWATCH)
                 )
             ) to false,
             state.copy(
-                runningSegment = Segment.EMPTY.copy(id = 1.asID, type = TimeType.STOPWATCH),
-                step = SegmentStep(
+                runningStep = SegmentStep(
+                    id = 3,
                     count = count.copy(isRunning = true, isCompleted = true),
-                    type = SegmentStepType.IN_PROGRESS
+                    type = SegmentStepType.IN_PROGRESS,
+                    segment = Segment.EMPTY.copy(id = 2.asID, type = TimeType.STOPWATCH)
                 )
             ) to false,
             state.copy(
-                runningSegment = Segment.EMPTY.copy(id = 2.asID, type = TimeType.STOPWATCH),
-                step = SegmentStep(
-                    count = count.copy(seconds = 0.seconds, isRunning = true, isCompleted = false),
-                    type = SegmentStepType.STARTING
+                runningStep = SegmentStep(
+                    id = 3,
+                    count = count.copy(isRunning = true, isCompleted = false),
+                    type = SegmentStepType.STARTING,
+                    segment = Segment.EMPTY.copy(id = 2.asID, type = TimeType.STOPWATCH)
                 )
             ) to false,
         )

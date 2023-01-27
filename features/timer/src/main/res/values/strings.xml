@@ -15,8 +15,8 @@
 
     <string name="content_description_button_reset_routine">Restart routine</string>
     <string name="content_description_button_done_routine">Routine completed, exit</string>
-    <string name="content_description_button_back_routine_segment">Previous segment</string>
-    <string name="content_description_button_next_routine_segment">Next segment</string>
+    <string name="content_description_button_back_routine_segment">Previous step</string>
+    <string name="content_description_button_next_routine_segment">Next step</string>
     <string name="content_description_button_stop_routine_segment">Stop counting</string>
     <string name="content_description_button_start_routine_segment">Start counting</string>
     <string name="content_description_dialog_quite_routine_button_positive">Yes, quit routine</string>
