@@ -31,7 +31,7 @@ class TimerCountingSceneKtTest {
             ),
             isSoundEnabled = true,
             timerActions = TimerViewState.Counting.Actions(
-                next = TimerViewState.Counting.Actions.Button(
+                back = TimerViewState.Counting.Actions.Button(
                     iconResId = R.drawable.ic_timer_back,
                     contentDescriptionResId = R.string.content_description_button_back_routine_segment,
                     size = TempoIconButtonSize.Normal
@@ -39,6 +39,11 @@ class TimerCountingSceneKtTest {
                 play = TimerViewState.Counting.Actions.Button(
                     iconResId =  R.drawable.ic_timer_stop,
                     contentDescriptionResId =  R.string.content_description_button_stop_routine_segment,
+                    size = TempoIconButtonSize.Normal
+                ),
+                next = TimerViewState.Counting.Actions.Button(
+                    iconResId = R.drawable.ic_timer_next,
+                    contentDescriptionResId = R.string.content_description_button_next_routine_segment,
                     size = TempoIconButtonSize.Normal
                 )
             )
@@ -49,7 +54,8 @@ class TimerCountingSceneKtTest {
                 TimerCountingScene(
                     state = viewState,
                     onPlay = {},
-                    onBack = {}
+                    onBack = {},
+                    onNext = {}
                 )
             }
         }
@@ -72,7 +78,7 @@ class TimerCountingSceneKtTest {
             ),
             isSoundEnabled = true,
             timerActions = TimerViewState.Counting.Actions(
-                next = TimerViewState.Counting.Actions.Button(
+                back = TimerViewState.Counting.Actions.Button(
                     iconResId = R.drawable.ic_timer_back,
                     contentDescriptionResId = R.string.content_description_button_back_routine_segment,
                     size = TempoIconButtonSize.Normal
@@ -80,6 +86,11 @@ class TimerCountingSceneKtTest {
                 play = TimerViewState.Counting.Actions.Button(
                     iconResId =  R.drawable.ic_timer_stop,
                     contentDescriptionResId =  R.string.content_description_button_stop_routine_segment,
+                    size = TempoIconButtonSize.Normal
+                ),
+                next = TimerViewState.Counting.Actions.Button(
+                    iconResId = R.drawable.ic_timer_next,
+                    contentDescriptionResId = R.string.content_description_button_next_routine_segment,
                     size = TempoIconButtonSize.Normal
                 )
             )
@@ -90,7 +101,8 @@ class TimerCountingSceneKtTest {
                 TimerCountingScene(
                     state = viewState,
                     onPlay = {},
-                    onBack = {}
+                    onBack = {},
+                    onNext = {}
                 )
             }
         }
