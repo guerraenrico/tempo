@@ -48,8 +48,8 @@ object Libs {
         }
 
         object Compose {
-            const val compilerVersion = "1.3.2"
-            private const val version = "2022.12.00"
+            const val compilerVersion = "1.4.0"
+            private const val version = "2023.01.00"
 
             const val bom = "androidx.compose:compose-bom:$version"
 
@@ -90,7 +90,7 @@ object Libs {
     }
 
     object Hilt {
-        const val androidVersion = "2.44"
+        const val androidVersion = "2.44.2"
         private const val version = "1.0.0"
 
         const val android = "com.google.dagger:hilt-android:$androidVersion"
