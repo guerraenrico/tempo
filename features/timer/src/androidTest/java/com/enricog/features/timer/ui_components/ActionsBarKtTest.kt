@@ -23,19 +23,25 @@ class ActionsBarKtTest {
             TempoTheme {
                 ActionsBar(
                     timerActions = TimerViewState.Counting.Actions(
-                        restart = TimerViewState.Counting.Actions.Button(
+                        back = TimerViewState.Counting.Actions.Button(
                             iconResId = R.drawable.ic_timer_back,
-                            contentDescriptionResId = R.string.content_description_button_restart_routine_segment,
+                            contentDescriptionResId = R.string.content_description_button_back_routine_segment,
                             size = TempoIconButtonSize.Normal
                         ),
-                        toggleStart = TimerViewState.Counting.Actions.Button(
+                        play = TimerViewState.Counting.Actions.Button(
                             iconResId = R.drawable.ic_timer_stop,
                             contentDescriptionResId = R.string.content_description_button_stop_routine_segment,
                             size = TempoIconButtonSize.Normal
-                        )
+                        ),
+                        next = TimerViewState.Counting.Actions.Button(
+                            iconResId = R.drawable.ic_timer_next,
+                            contentDescriptionResId = R.string.content_description_button_next_routine_segment,
+                            size = TempoIconButtonSize.Normal
+                        ),
                     ),
-                    onStartStopButtonClick = {},
-                    onRestartSegmentButtonClick = {}
+                    onPlayButtonClick = {},
+                    onBackButtonClick = {},
+                    onNextButtonClick = {}
                 )
             }
         }
@@ -44,9 +50,13 @@ class ActionsBarKtTest {
             assertIsDisplayed()
             assertDrawable(R.drawable.ic_timer_stop)
         }
-        onNodeWithTag(ButtonRestartTestTag).run {
+        onNodeWithTag(ButtonBackTestTag).run {
             assertIsDisplayed()
             assertDrawable(R.drawable.ic_timer_back)
+        }
+        onNodeWithTag(ButtonNextTestTag).run {
+            assertIsDisplayed()
+            assertDrawable(R.drawable.ic_timer_next)
         }
     }
 }

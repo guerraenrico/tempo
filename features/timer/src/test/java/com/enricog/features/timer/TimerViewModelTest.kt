@@ -77,14 +77,19 @@ class TimerViewModelTest {
             ),
             isSoundEnabled = true,
             timerActions = TimerViewState.Counting.Actions(
-                restart = TimerViewState.Counting.Actions.Button(
+                back = TimerViewState.Counting.Actions.Button(
                     iconResId = R.drawable.ic_timer_back,
-                    contentDescriptionResId = R.string.content_description_button_restart_routine_segment,
+                    contentDescriptionResId = R.string.content_description_button_back_routine_segment,
                     size = TempoIconButtonSize.Normal
                 ),
-                toggleStart = TimerViewState.Counting.Actions.Button(
+                play = TimerViewState.Counting.Actions.Button(
                     iconResId = R.drawable.ic_timer_play,
                     contentDescriptionResId = R.string.content_description_button_start_routine_segment,
+                    size = TempoIconButtonSize.Normal
+                ),
+                next = TimerViewState.Counting.Actions.Button(
+                    iconResId = R.drawable.ic_timer_next,
+                    contentDescriptionResId = R.string.content_description_button_next_routine_segment,
                     size = TempoIconButtonSize.Normal
                 )
             )
@@ -99,21 +104,26 @@ class TimerViewModelTest {
             ),
             isSoundEnabled = true,
             timerActions = TimerViewState.Counting.Actions(
-                restart = TimerViewState.Counting.Actions.Button(
+                back = TimerViewState.Counting.Actions.Button(
                     iconResId = R.drawable.ic_timer_back,
-                    contentDescriptionResId = R.string.content_description_button_restart_routine_segment,
+                    contentDescriptionResId = R.string.content_description_button_back_routine_segment,
                     size = TempoIconButtonSize.Normal
                 ),
-                toggleStart = TimerViewState.Counting.Actions.Button(
+                play = TimerViewState.Counting.Actions.Button(
                     iconResId =  R.drawable.ic_timer_stop,
                     contentDescriptionResId =  R.string.content_description_button_stop_routine_segment,
+                    size = TempoIconButtonSize.Normal
+                ),
+                next = TimerViewState.Counting.Actions.Button(
+                    iconResId = R.drawable.ic_timer_next,
+                    contentDescriptionResId = R.string.content_description_button_next_routine_segment,
                     size = TempoIconButtonSize.Normal
                 )
             )
         )
-        val sut = buildSut()
+        val viewModel = buildViewModel()
 
-        sut.viewState.test {
+        viewModel.viewState.test {
             advanceTimeBy(50)
             assertEquals(expectedOnSetup, awaitItem())
             advanceTimeBy(1000)
@@ -134,9 +144,9 @@ class TimerViewModelTest {
 
     @Test
     fun `should play sounds when segment count is completing and sound is enabled`() = coroutineRule {
-        val sut = buildSut()
+        val viewModel = buildViewModel()
 
-        sut.viewState.test {
+        viewModel.viewState.test {
             advanceTimeBy(1000)
 
             advanceTimeBy(3000)
@@ -162,12 +172,12 @@ class TimerViewModelTest {
 
     @Test
     fun `should not play sounds when segment count is completing and sound is disabled`() = coroutineRule {
-        val sut = buildSut()
+        val viewModel = buildViewModel()
 
-        sut.viewState.test {
+        viewModel.viewState.test {
             advanceTimeBy(1000)
 
-            sut.onToggleTimer()
+            viewModel.onPlay()
 
             advanceTimeBy(3000)
             // When segment starting is completing should not play sounds
@@ -202,24 +212,29 @@ class TimerViewModelTest {
             ),
             isSoundEnabled = true,
             timerActions = TimerViewState.Counting.Actions(
-                restart = TimerViewState.Counting.Actions.Button(
+                back = TimerViewState.Counting.Actions.Button(
                     iconResId = R.drawable.ic_timer_back,
-                    contentDescriptionResId = R.string.content_description_button_restart_routine_segment,
+                    contentDescriptionResId = R.string.content_description_button_back_routine_segment,
                     size = TempoIconButtonSize.Normal
                 ),
-                toggleStart = TimerViewState.Counting.Actions.Button(
+                play = TimerViewState.Counting.Actions.Button(
                     iconResId = R.drawable.ic_timer_play,
                     contentDescriptionResId = R.string.content_description_button_start_routine_segment,
+                    size = TempoIconButtonSize.Normal
+                ),
+                next = TimerViewState.Counting.Actions.Button(
+                    iconResId = R.drawable.ic_timer_next,
+                    contentDescriptionResId = R.string.content_description_button_next_routine_segment,
                     size = TempoIconButtonSize.Normal
                 )
             )
         )
-        val sut = buildSut()
+        val viewModel = buildViewModel()
 
-        sut.viewState.test {
+        viewModel.viewState.test {
             advanceTimeBy(3000)
 
-            sut.onToggleTimer()
+            viewModel.onPlay()
 
             advanceTimeBy(100)
             assertEquals(expected, expectMostRecentItem())
@@ -231,7 +246,7 @@ class TimerViewModelTest {
     }
 
     @Test
-    fun `should restart timer when restart`() = coroutineRule {
+    fun `should reset step count on back`() = coroutineRule {
         val expected = TimerViewState.Counting(
             timeInSeconds = 3,
             stepTitleId = R.string.title_segment_step_type_starting,
@@ -242,24 +257,72 @@ class TimerViewModelTest {
             ),
             isSoundEnabled = true,
             timerActions = TimerViewState.Counting.Actions(
-                restart = TimerViewState.Counting.Actions.Button(
+                back = TimerViewState.Counting.Actions.Button(
                     iconResId = R.drawable.ic_timer_back,
-                    contentDescriptionResId = R.string.content_description_button_restart_routine_segment,
+                    contentDescriptionResId = R.string.content_description_button_back_routine_segment,
                     size = TempoIconButtonSize.Normal
                 ),
-                toggleStart = TimerViewState.Counting.Actions.Button(
+                play = TimerViewState.Counting.Actions.Button(
                     iconResId = R.drawable.ic_timer_play,
                     contentDescriptionResId = R.string.content_description_button_start_routine_segment,
+                    size = TempoIconButtonSize.Normal
+                ),
+                next = TimerViewState.Counting.Actions.Button(
+                    iconResId = R.drawable.ic_timer_next,
+                    contentDescriptionResId = R.string.content_description_button_next_routine_segment,
                     size = TempoIconButtonSize.Normal
                 )
             )
         )
-        val sut = buildSut()
+        val viewModel = buildViewModel()
 
-        sut.viewState.test {
+        viewModel.viewState.test {
             advanceTimeBy(3000)
 
-            sut.onReset()
+            viewModel.onBack()
+
+            advanceTimeBy(100)
+            assertEquals(expected, expectMostRecentItem())
+
+            cancelAndIgnoreRemainingEvents()
+        }
+    }
+
+    @Test
+    fun `should run next step on next`() = coroutineRule {
+        val expected = TimerViewState.Counting(
+            timeInSeconds = 10,
+            stepTitleId = R.string.title_segment_step_type_in_progress,
+            segmentName = "First Segment",
+            clockBackgroundColor = BackgroundColor(
+                background = TimeTypeColors.TIMER,
+                ripple = null
+            ),
+            isSoundEnabled = true,
+            timerActions = TimerViewState.Counting.Actions(
+                back = TimerViewState.Counting.Actions.Button(
+                    iconResId = R.drawable.ic_timer_back,
+                    contentDescriptionResId = R.string.content_description_button_back_routine_segment,
+                    size = TempoIconButtonSize.Normal
+                ),
+                play = TimerViewState.Counting.Actions.Button(
+                    iconResId = R.drawable.ic_timer_play,
+                    contentDescriptionResId = R.string.content_description_button_start_routine_segment,
+                    size = TempoIconButtonSize.Normal
+                ),
+                next = TimerViewState.Counting.Actions.Button(
+                    iconResId = R.drawable.ic_timer_next,
+                    contentDescriptionResId = R.string.content_description_button_next_routine_segment,
+                    size = TempoIconButtonSize.Normal
+                )
+            )
+        )
+        val viewModel = buildViewModel()
+
+        viewModel.viewState.test {
+            advanceTimeBy(3000)
+
+            viewModel.onNext()
 
             advanceTimeBy(100)
             assertEquals(expected, expectMostRecentItem())
@@ -280,14 +343,19 @@ class TimerViewModelTest {
             ),
             isSoundEnabled = true,
             timerActions = TimerViewState.Counting.Actions(
-                restart = TimerViewState.Counting.Actions.Button(
+                back = TimerViewState.Counting.Actions.Button(
                     iconResId = R.drawable.ic_timer_back,
-                    contentDescriptionResId = R.string.content_description_button_restart_routine_segment,
+                    contentDescriptionResId = R.string.content_description_button_back_routine_segment,
                     size = TempoIconButtonSize.Normal
                 ),
-                toggleStart = TimerViewState.Counting.Actions.Button(
+                play = TimerViewState.Counting.Actions.Button(
                     iconResId = R.drawable.ic_timer_play,
                     contentDescriptionResId = R.string.content_description_button_start_routine_segment,
+                    size = TempoIconButtonSize.Normal
+                ),
+                next = TimerViewState.Counting.Actions.Button(
+                    iconResId = R.drawable.ic_timer_next,
+                    contentDescriptionResId = R.string.content_description_button_next_routine_segment,
                     size = TempoIconButtonSize.Normal
                 )
             )
@@ -302,27 +370,32 @@ class TimerViewModelTest {
             ),
             isSoundEnabled = true,
             timerActions = TimerViewState.Counting.Actions(
-                restart = TimerViewState.Counting.Actions.Button(
+                back = TimerViewState.Counting.Actions.Button(
                     iconResId = R.drawable.ic_timer_back,
-                    contentDescriptionResId = R.string.content_description_button_restart_routine_segment,
+                    contentDescriptionResId = R.string.content_description_button_back_routine_segment,
                     size = TempoIconButtonSize.Normal
                 ),
-                toggleStart = TimerViewState.Counting.Actions.Button(
+                play = TimerViewState.Counting.Actions.Button(
                     iconResId =  R.drawable.ic_timer_stop,
                     contentDescriptionResId =  R.string.content_description_button_stop_routine_segment,
+                    size = TempoIconButtonSize.Normal
+                ),
+                next = TimerViewState.Counting.Actions.Button(
+                    iconResId = R.drawable.ic_timer_next,
+                    contentDescriptionResId = R.string.content_description_button_next_routine_segment,
                     size = TempoIconButtonSize.Normal
                 )
             )
         )
-        val sut = buildSut()
+        val viewModel = buildViewModel()
 
-        sut.viewState.test {
+        viewModel.viewState.test {
             advanceTimeBy(5000)
 
             advanceTimeBy(1000)
             assertEquals(expectedStartFirstSegment, expectMostRecentItem())
 
-            sut.onReset()
+            viewModel.onReset()
 
             advanceTimeBy(100)
             assertEquals(expectedStart, awaitItem())
@@ -333,23 +406,23 @@ class TimerViewModelTest {
 
     @Test
     fun `should go to routines on done`() = coroutineRule {
-        val sut = buildSut()
+        val viewModel = buildViewModel()
 
-        sut.onDone()
+        viewModel.onDone()
 
         navigator.assertGoTo(route = RoutinesRoute, input = RoutinesRouteInput)
     }
 
     @Test
     fun `should go to routines on close`() = coroutineRule {
-        val sut = buildSut()
+        val viewModel = buildViewModel()
 
-        sut.onClose()
+        viewModel.onClose()
 
         navigator.assertGoTo(route = RoutinesRoute, input = RoutinesRouteInput)
     }
 
-    private fun buildSut(): TimerViewModel {
+    private fun buildViewModel(): TimerViewModel {
         return TimerViewModel(
             savedStateHandle = savedStateHandle,
             dispatchers = coroutineRule.getDispatchers(),

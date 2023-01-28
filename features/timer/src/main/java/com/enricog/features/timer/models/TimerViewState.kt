@@ -24,8 +24,9 @@ internal sealed class TimerViewState {
         )
 
         data class Actions(
-            val restart: Button,
-            val toggleStart: Button
+            val next: Button,
+            val back: Button,
+            val play: Button
         ) {
             data class Button(
                 @DrawableRes val iconResId: Int,

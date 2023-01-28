@@ -28,7 +28,7 @@ internal class TimerStateConverter @Inject constructor() :
             TimerViewState.Completed
         } else {
             TimerViewState.Counting(
-                timeInSeconds = state.step.count.seconds.value,
+                timeInSeconds = state.runningStep.count.seconds.value,
                 stepTitleId = state.getStepTitleId(),
                 segmentName = state.runningSegment.name,
                 clockBackgroundColor = state.getClockBackgroundColor(),
@@ -40,9 +40,9 @@ internal class TimerStateConverter @Inject constructor() :
 
     private fun TimerState.Counting.getClockBackgroundColor(): BackgroundColor {
         val nextSegmentStep = nextSegmentStep
-        return when (step.type) {
+        return when (runningStep.type) {
             SegmentStepType.STARTING -> BackgroundColor(
-                background = step.type.getColor(),
+                background = runningStep.type.getColor(),
                 ripple = when {
                     isStepCountCompleted -> runningSegment.type.getColor()
                     else -> null
@@ -78,23 +78,28 @@ internal class TimerStateConverter @Inject constructor() :
     private fun TimerState.Counting.getStepTitleId(): Int {
         return when {
             runningSegment.type == TimeType.REST -> R.string.title_segment_time_type_rest
-            step.type == SegmentStepType.STARTING -> R.string.title_segment_step_type_starting
-            step.type == SegmentStepType.IN_PROGRESS -> R.string.title_segment_step_type_in_progress
+            runningStep.type == SegmentStepType.STARTING -> R.string.title_segment_step_type_starting
+            runningStep.type == SegmentStepType.IN_PROGRESS -> R.string.title_segment_step_type_in_progress
             else -> throw IllegalArgumentException("unhandled case")
         }
     }
 
     private fun TimerState.Counting.getActions(): TimerViewState.Counting.Actions {
         return TimerViewState.Counting.Actions(
-            restart = TimerViewState.Counting.Actions.Button(
+            back = TimerViewState.Counting.Actions.Button(
                 iconResId = R.drawable.ic_timer_back,
-                contentDescriptionResId = R.string.content_description_button_restart_routine_segment,
+                contentDescriptionResId = R.string.content_description_button_back_routine_segment,
                 size = TempoIconButtonSize.Normal
             ),
-            toggleStart = TimerViewState.Counting.Actions.Button(
-                iconResId = if (step.count.isRunning) R.drawable.ic_timer_stop else R.drawable.ic_timer_play,
-                contentDescriptionResId = if (step.count.isRunning) R.string.content_description_button_stop_routine_segment else R.string.content_description_button_start_routine_segment,
+            play = TimerViewState.Counting.Actions.Button(
+                iconResId = if (runningStep.count.isRunning) R.drawable.ic_timer_stop else R.drawable.ic_timer_play,
+                contentDescriptionResId = if (runningStep.count.isRunning) R.string.content_description_button_stop_routine_segment else R.string.content_description_button_start_routine_segment,
                 size = if (runningSegment.type == TimeType.STOPWATCH) TempoIconButtonSize.Large else TempoIconButtonSize.Normal
+            ),
+            next = TimerViewState.Counting.Actions.Button(
+                iconResId = R.drawable.ic_timer_next,
+                contentDescriptionResId = R.string.content_description_button_next_routine_segment,
+                size = TempoIconButtonSize.Normal
             )
         )
     }

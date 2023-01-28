@@ -66,16 +66,20 @@ internal class TimerViewModel @Inject constructor(
         }
     }
 
-    fun onToggleTimer() {
+    fun onPlay() {
         updateState { reducer.toggleTimeRunning(it) }
     }
 
-    fun toggleSound() {
+    fun onToggleSound() {
         updateState { reducer.toggleSound(it) }
     }
 
-    fun onRestartSegment() {
-        updateState { reducer.restartTime(it) }
+    fun onBack() {
+        updateState { reducer.jumpStepBack(it) }
+    }
+
+    fun onNext() {
+        updateState {  reducer.jumpStepNext(it) }
     }
 
     fun onReset() {

@@ -31,14 +31,19 @@ class TimerCountingSceneKtTest {
             ),
             isSoundEnabled = true,
             timerActions = TimerViewState.Counting.Actions(
-                restart = TimerViewState.Counting.Actions.Button(
+                back = TimerViewState.Counting.Actions.Button(
                     iconResId = R.drawable.ic_timer_back,
-                    contentDescriptionResId = R.string.content_description_button_restart_routine_segment,
+                    contentDescriptionResId = R.string.content_description_button_back_routine_segment,
                     size = TempoIconButtonSize.Normal
                 ),
-                toggleStart = TimerViewState.Counting.Actions.Button(
+                play = TimerViewState.Counting.Actions.Button(
                     iconResId =  R.drawable.ic_timer_stop,
                     contentDescriptionResId =  R.string.content_description_button_stop_routine_segment,
+                    size = TempoIconButtonSize.Normal
+                ),
+                next = TimerViewState.Counting.Actions.Button(
+                    iconResId = R.drawable.ic_timer_next,
+                    contentDescriptionResId = R.string.content_description_button_next_routine_segment,
                     size = TempoIconButtonSize.Normal
                 )
             )
@@ -48,8 +53,9 @@ class TimerCountingSceneKtTest {
             TempoTheme {
                 TimerCountingScene(
                     state = viewState,
-                    onToggleTimer = {},
-                    onRestartSegment = {}
+                    onPlay = {},
+                    onBack = {},
+                    onNext = {}
                 )
             }
         }
@@ -72,14 +78,19 @@ class TimerCountingSceneKtTest {
             ),
             isSoundEnabled = true,
             timerActions = TimerViewState.Counting.Actions(
-                restart = TimerViewState.Counting.Actions.Button(
+                back = TimerViewState.Counting.Actions.Button(
                     iconResId = R.drawable.ic_timer_back,
-                    contentDescriptionResId = R.string.content_description_button_restart_routine_segment,
+                    contentDescriptionResId = R.string.content_description_button_back_routine_segment,
                     size = TempoIconButtonSize.Normal
                 ),
-                toggleStart = TimerViewState.Counting.Actions.Button(
+                play = TimerViewState.Counting.Actions.Button(
                     iconResId =  R.drawable.ic_timer_stop,
                     contentDescriptionResId =  R.string.content_description_button_stop_routine_segment,
+                    size = TempoIconButtonSize.Normal
+                ),
+                next = TimerViewState.Counting.Actions.Button(
+                    iconResId = R.drawable.ic_timer_next,
+                    contentDescriptionResId = R.string.content_description_button_next_routine_segment,
                     size = TempoIconButtonSize.Normal
                 )
             )
@@ -89,8 +100,9 @@ class TimerCountingSceneKtTest {
             TempoTheme {
                 TimerCountingScene(
                     state = viewState,
-                    onToggleTimer = {},
-                    onRestartSegment = {}
+                    onPlay = {},
+                    onBack = {},
+                    onNext = {}
                 )
             }
         }

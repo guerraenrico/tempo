@@ -11,39 +11,43 @@ internal sealed class TimerState {
 
     data class Counting(
         val routine: Routine,
-        val runningSegment: Segment,
-        val step: SegmentStep,
+        val runningStep: SegmentStep,
+        val steps: List<SegmentStep>,
         val isSoundEnabled: Boolean
     ) : TimerState() {
 
+        private val runningStepIndex: Int
+            get() = steps.indexOfFirst { it.id == runningStep.id }
+
+        val runningSegment: Segment
+            get() = runningStep.segment
+
+        val nextSegment: Segment?
+            get() = nextSegmentStep?.segment
+
+        val nextSegmentStep: SegmentStep?
+            get() = steps.getOrNull(index = runningStepIndex + 1)
+
+        val previousSegmentStep: SegmentStep?
+            get() = steps.getOrNull(index = runningStepIndex - 1)
+
         val isStepCountRunning: Boolean
-            get() = step.count.isRunning && !step.count.isCompleted
+            get() = runningStep.count.isRunning && !runningStep.count.isCompleted
 
         val isStepCountCompleted: Boolean
-            get() = step.count.isCompleted
+            get() = runningStep.count.isCompleted
 
         val isStepCountCompleting: Boolean
             get() = isStepCountRunning && !isStopwatchRunning &&
-                    step.count.seconds <= STEP_COMPLETING_THRESHOLD
+                runningStep.count.seconds <= STEP_COMPLETING_THRESHOLD
 
         val isRoutineCompleted: Boolean
-            get() = routine.segments.indexOf(runningSegment) == routine.segments.size - 1 &&
-                    step.type == SegmentStepType.IN_PROGRESS &&
-                    step.count.isCompleted
+            get() = nextSegment == null && runningStep.count.isCompleted
 
         val isStopwatchRunning: Boolean
             get() = runningSegment.type == TimeType.STOPWATCH &&
-                    step.type == SegmentStepType.IN_PROGRESS &&
-                    isStepCountRunning
-
-        val nextSegment: Segment?
-            get() {
-                val indexRunningSegment = routine.segments.indexOf(runningSegment)
-                return routine.segments.getOrNull(indexRunningSegment + 1)
-            }
-
-        val nextSegmentStep: SegmentStep?
-            get() = nextSegment?.let { SegmentStep.from(routine = routine, segment = it) }
+                runningStep.type == SegmentStepType.IN_PROGRESS &&
+                isStepCountRunning
 
         private companion object {
             val STEP_COMPLETING_THRESHOLD = 5.seconds
