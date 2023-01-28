@@ -14,7 +14,11 @@
 
 ### Screenshot
 
-<img width="250" src="https://github.com/guerraenrico/tempo/blob/master/art/1.png?raw=true" alt="Routine List" />
-<img width="250" src="https://github.com/guerraenrico/tempo/blob/master/art/2.jpg?raw=true" alt="Routine Summary" />
-<img width="250" src="https://github.com/guerraenrico/tempo/blob/master/art/3.png?raw=true" alt="Segment Detail" />
-<img width="250" src="https://github.com/guerraenrico/tempo/blob/master/art/4.jpg?raw=true" alt="Timer" />
+<p float="left">
+    <img width="250" src="https://github.com/guerraenrico/tempo/blob/master/art/1.png?raw=true" alt="Routine List" />
+    <img width="250" src="https://github.com/guerraenrico/tempo/blob/master/art/2.png?raw=true" alt="Routine Summary" />
+</p>
+<p float="left">
+    <img width="250" src="https://github.com/guerraenrico/tempo/blob/master/art/3.png?raw=true" alt="Segment Detail" />
+    <img width="250" src="https://github.com/guerraenrico/tempo/blob/master/art/4.png?raw=true" alt="Timer" />
+</p>
