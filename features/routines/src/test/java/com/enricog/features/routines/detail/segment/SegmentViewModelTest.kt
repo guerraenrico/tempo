@@ -24,12 +24,11 @@ import com.enricog.features.routines.navigation.RoutinesNavigationActions
 import com.enricog.navigation.testing.FakeNavigator
 import com.enricog.ui.components.extensions.toTextFieldValue
 import com.enricog.ui.components.textField.timeText
+import com.google.common.truth.Truth.assertThat
 import kotlinx.coroutines.test.StandardTestDispatcher
 import kotlinx.coroutines.test.advanceUntilIdle
 import org.junit.Rule
 import org.junit.Test
-import kotlin.test.assertEquals
-import kotlin.test.assertIs
 import com.enricog.data.routines.api.entities.TimeType as TimeTypeEntity
 
 class SegmentViewModelTest {
@@ -73,7 +72,9 @@ class SegmentViewModelTest {
         val sut = buildSut()
         advanceUntilIdle()
 
-        sut.viewState.test { assertEquals(expected, awaitItem()) }
+        sut.viewState.test {
+            assertThat(awaitItem()).isEqualTo(expected)
+        }
     }
 
     @Test
@@ -84,7 +85,9 @@ class SegmentViewModelTest {
         val sut = buildSut(store = store)
         advanceUntilIdle()
 
-        sut.viewState.test { assertIs<SegmentViewState.Error>(awaitItem()) }
+        sut.viewState.test {
+            assertThat(awaitItem()).isInstanceOf(SegmentViewState.Error::class.java)
+        }
     }
 
     @Test
@@ -111,7 +114,7 @@ class SegmentViewModelTest {
         sut.onRetryLoad()
         advanceUntilIdle()
 
-        sut.viewState.test { assertEquals(expected, awaitItem()) }
+        sut.viewState.test { assertThat(awaitItem()).isEqualTo(expected) }
     }
 
     @Test
@@ -136,7 +139,7 @@ class SegmentViewModelTest {
         sut.onSegmentNameTextChange(textFieldValue = "Segment Name Modified".toTextFieldValue())
         advanceUntilIdle()
 
-        sut.viewState.test { assertEquals(expected, awaitItem()) }
+        sut.viewState.test { assertThat(awaitItem()).isEqualTo(expected) }
     }
 
     @Test
@@ -161,7 +164,7 @@ class SegmentViewModelTest {
         sut.onSegmentTimeChange(text = "10".timeText)
         advanceUntilIdle()
 
-        sut.viewState.test { assertEquals(expected, awaitItem()) }
+        sut.viewState.test { assertThat(awaitItem()).isEqualTo(expected) }
     }
 
     @Test
@@ -186,7 +189,7 @@ class SegmentViewModelTest {
         sut.onSegmentTypeChange(timeType = TimeType.from(TimeTypeEntity.STOPWATCH))
         advanceUntilIdle()
 
-        sut.viewState.test { assertEquals(expected, awaitItem()) }
+        sut.viewState.test { assertThat(awaitItem()).isEqualTo(expected) }
     }
 
     @Test
@@ -214,7 +217,7 @@ class SegmentViewModelTest {
         advanceUntilIdle()
 
         navigator.assertNoActions()
-        sut.viewState.test { assertEquals(expected, awaitItem()) }
+        sut.viewState.test { assertThat(awaitItem()).isEqualTo(expected) }
     }
 
     @Test
@@ -232,7 +235,7 @@ class SegmentViewModelTest {
         advanceUntilIdle()
 
         navigator.assertGoBack()
-        assertEquals(expected, store.get().first())
+        assertThat(store.get().first()).isEqualTo(expected)
     }
 
     @Test
@@ -262,7 +265,7 @@ class SegmentViewModelTest {
         sut.onSegmentSave()
         advanceUntilIdle()
 
-        sut.viewState.test { assertEquals(expected, awaitItem()) }
+        sut.viewState.test { assertThat(awaitItem()).isEqualTo(expected) }
     }
 
     private fun buildSut(store: FakeStore<List<Routine>> = FakeStore(listOf(routine))): SegmentViewModel {

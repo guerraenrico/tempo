@@ -22,14 +22,13 @@ import com.enricog.navigation.api.routes.RoutinesRouteInput
 import com.enricog.navigation.testing.FakeNavigator
 import com.enricog.ui.components.button.icon.TempoIconButtonSize
 import com.enricog.ui.theme.TimeTypeColors
+import com.google.common.truth.Truth.assertThat
 import kotlinx.coroutines.test.StandardTestDispatcher
 import kotlinx.coroutines.test.advanceTimeBy
 import kotlinx.coroutines.test.runCurrent
 import org.junit.After
 import org.junit.Rule
 import org.junit.Test
-import kotlin.test.assertEquals
-import kotlin.test.assertFalse
 
 class TimerViewModelTest {
 
@@ -110,8 +109,8 @@ class TimerViewModelTest {
                     size = TempoIconButtonSize.Normal
                 ),
                 play = TimerViewState.Counting.Actions.Button(
-                    iconResId =  R.drawable.ic_timer_stop,
-                    contentDescriptionResId =  R.string.content_description_button_stop_routine_segment,
+                    iconResId = R.drawable.ic_timer_stop,
+                    contentDescriptionResId = R.string.content_description_button_stop_routine_segment,
                     size = TempoIconButtonSize.Normal
                 ),
                 next = TimerViewState.Counting.Actions.Button(
@@ -125,16 +124,16 @@ class TimerViewModelTest {
 
         viewModel.viewState.test {
             advanceTimeBy(50)
-            assertEquals(expectedOnSetup, awaitItem())
+            assertThat(awaitItem()).isEqualTo(expectedOnSetup)
             advanceTimeBy(1000)
-            assertEquals(expectedOnStart, awaitItem())
+            assertThat(awaitItem()).isEqualTo(expectedOnStart)
 
             windowScreenManager.keepScreenOn.test {
                 runCurrent()
                 advanceTimeBy(50)
                 runCurrent()
 
-                assertEquals(true, awaitItem())
+                assertThat(awaitItem()).isTrue()
                 cancelAndIgnoreRemainingEvents()
             }
 
@@ -143,62 +142,64 @@ class TimerViewModelTest {
     }
 
     @Test
-    fun `should play sounds when segment count is completing and sound is enabled`() = coroutineRule {
-        val viewModel = buildViewModel()
+    fun `should play sounds when segment count is completing and sound is enabled`() =
+        coroutineRule {
+            val viewModel = buildViewModel()
 
-        viewModel.viewState.test {
-            advanceTimeBy(1000)
+            viewModel.viewState.test {
+                advanceTimeBy(1000)
 
-            advanceTimeBy(3000)
-            // When segment starting is completing should play sounds
-            soundPlayer.assertSoundPlayed(soundResId = R.raw.sound_count_down, times = 2)
-            advanceTimeBy(1000)
-            soundPlayer.assertSoundPlayed(soundResId = R.raw.sound_count_down_end, times = 1)
+                advanceTimeBy(3000)
+                // When segment starting is completing should play sounds
+                soundPlayer.assertSoundPlayed(soundResId = R.raw.sound_count_down, times = 2)
+                advanceTimeBy(1000)
+                soundPlayer.assertSoundPlayed(soundResId = R.raw.sound_count_down_end, times = 1)
 
-            advanceTimeBy(5000)
-            // When segment count is not completing should not play sounds
-            soundPlayer.assertSoundPlayed(soundResId = R.raw.sound_count_down, times = 2)
-            soundPlayer.assertSoundPlayed(soundResId = R.raw.sound_count_down_end, times = 1)
+                advanceTimeBy(5000)
+                // When segment count is not completing should not play sounds
+                soundPlayer.assertSoundPlayed(soundResId = R.raw.sound_count_down, times = 2)
+                soundPlayer.assertSoundPlayed(soundResId = R.raw.sound_count_down_end, times = 1)
 
-            advanceTimeBy(5000)
-            // When segment count is completing should play sounds
-            soundPlayer.assertSoundPlayed(soundResId = R.raw.sound_count_down, times = 7)
-            advanceTimeBy(1000)
-            soundPlayer.assertSoundPlayed(soundResId = R.raw.sound_count_down_end, times = 2)
+                advanceTimeBy(5000)
+                // When segment count is completing should play sounds
+                soundPlayer.assertSoundPlayed(soundResId = R.raw.sound_count_down, times = 7)
+                advanceTimeBy(1000)
+                soundPlayer.assertSoundPlayed(soundResId = R.raw.sound_count_down_end, times = 2)
 
-            cancelAndIgnoreRemainingEvents()
+                cancelAndIgnoreRemainingEvents()
+            }
         }
-    }
 
     @Test
-    fun `should not play sounds when segment count is completing and sound is disabled`() = coroutineRule {
-        val viewModel = buildViewModel()
+    fun `should not play sounds when segment count is completing and sound is disabled`() =
+        coroutineRule {
+            val viewModel = buildViewModel()
 
-        viewModel.viewState.test {
-            advanceTimeBy(1000)
+            viewModel.viewState.test {
+                advanceTimeBy(1000)
 
-            viewModel.onPlay()
+                viewModel.onPlay()
 
-            advanceTimeBy(3000)
-            // When segment starting is completing should not play sounds
-            soundPlayer.assertSoundNotPlayed(soundResId = R.raw.sound_count_down)
-            advanceTimeBy(1000)
-            soundPlayer.assertSoundNotPlayed(soundResId = R.raw.sound_count_down_end)
+                advanceTimeBy(3000)
+                // When segment starting is completing should not play sounds
+                soundPlayer.assertSoundNotPlayed(soundResId = R.raw.sound_count_down)
+                advanceTimeBy(1000)
+                soundPlayer.assertSoundNotPlayed(soundResId = R.raw.sound_count_down_end)
 
-            advanceTimeBy(5000)
-            // When segment count is not completing should not play sounds
-            soundPlayer.assertSoundNotPlayed(soundResId = R.raw.sound_count_down)
-            soundPlayer.assertSoundNotPlayed(soundResId = R.raw.sound_count_down_end)
+                advanceTimeBy(5000)
+                // When segment count is not completing should not play sounds
+                soundPlayer.assertSoundNotPlayed(soundResId = R.raw.sound_count_down)
+                soundPlayer.assertSoundNotPlayed(soundResId = R.raw.sound_count_down_end)
 
-            advanceTimeBy(5000)
-            // When segment count is completing should not play sounds
-            soundPlayer.assertSoundNotPlayed(soundResId = R.raw.sound_count_down)
-            advanceTimeBy(1000)
-            soundPlayer.assertSoundNotPlayed(soundResId = R.raw.sound_count_down_end)
+                advanceTimeBy(5000)
+                // When segment count is completing should not play sounds
+                soundPlayer.assertSoundNotPlayed(soundResId = R.raw.sound_count_down)
+                advanceTimeBy(1000)
+                soundPlayer.assertSoundNotPlayed(soundResId = R.raw.sound_count_down_end)
 
-            cancelAndIgnoreRemainingEvents()
+                cancelAndIgnoreRemainingEvents()
+            }
         }
-    }
 
     @Test
     fun `should stop routine on toggle when timer is running`() = coroutineRule {
@@ -237,9 +238,11 @@ class TimerViewModelTest {
             viewModel.onPlay()
 
             advanceTimeBy(100)
-            assertEquals(expected, expectMostRecentItem())
+            assertThat(expectMostRecentItem()).isEqualTo(expected)
             advanceTimeBy(100)
-            windowScreenManager.keepScreenOn.test { assertFalse(awaitItem()) }
+            windowScreenManager.keepScreenOn.test {
+                assertThat(awaitItem()).isFalse()
+            }
 
             cancelAndIgnoreRemainingEvents()
         }
@@ -282,7 +285,7 @@ class TimerViewModelTest {
             viewModel.onBack()
 
             advanceTimeBy(100)
-            assertEquals(expected, expectMostRecentItem())
+            assertThat(expectMostRecentItem()).isEqualTo(expected)
 
             cancelAndIgnoreRemainingEvents()
         }
@@ -325,7 +328,7 @@ class TimerViewModelTest {
             viewModel.onNext()
 
             advanceTimeBy(100)
-            assertEquals(expected, expectMostRecentItem())
+            assertThat(expectMostRecentItem()).isEqualTo(expected)
 
             cancelAndIgnoreRemainingEvents()
         }
@@ -376,8 +379,8 @@ class TimerViewModelTest {
                     size = TempoIconButtonSize.Normal
                 ),
                 play = TimerViewState.Counting.Actions.Button(
-                    iconResId =  R.drawable.ic_timer_stop,
-                    contentDescriptionResId =  R.string.content_description_button_stop_routine_segment,
+                    iconResId = R.drawable.ic_timer_stop,
+                    contentDescriptionResId = R.string.content_description_button_stop_routine_segment,
                     size = TempoIconButtonSize.Normal
                 ),
                 next = TimerViewState.Counting.Actions.Button(
@@ -393,12 +396,12 @@ class TimerViewModelTest {
             advanceTimeBy(5000)
 
             advanceTimeBy(1000)
-            assertEquals(expectedStartFirstSegment, expectMostRecentItem())
+            assertThat(expectMostRecentItem()).isEqualTo(expectedStartFirstSegment)
 
             viewModel.onReset()
 
             advanceTimeBy(100)
-            assertEquals(expectedStart, awaitItem())
+            assertThat(awaitItem()).isEqualTo(expectedStart)
 
             cancelAndIgnoreRemainingEvents()
         }

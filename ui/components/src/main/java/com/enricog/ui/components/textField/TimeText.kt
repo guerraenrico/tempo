@@ -85,6 +85,7 @@ value class TimeText private constructor(private val value: String) : Comparable
                 .replace(oldValue = TIME_SEPARATOR, newValue = "")
                 .replace(oldValue = "\n", newValue = "")
                 .replace(oldValue = "\r", newValue = "")
+                .replace(oldValue = " ", newValue = "")
                 .trimStart('0')
             return TimeText(sanitizedValue)
         }

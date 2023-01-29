@@ -22,11 +22,11 @@ object Versions {
 object Libs {
 
     object Kotlin {
-        const val version = "1.7.20"
+        const val version = "1.8.0"
         private const val coroutineVersion = "1.6.4"
 
         const val coroutines = "org.jetbrains.kotlinx:kotlinx-coroutines-android:$coroutineVersion"
-        const val stdlib = "org.jetbrains.kotlin:kotlin-stdlib-jdk8:$version"
+        const val stdlib = "org.jetbrains.kotlin:kotlin-stdlib:$version"
 
         object Test {
             const val coroutines = "org.jetbrains.kotlinx:kotlinx-coroutines-test:$coroutineVersion"
@@ -135,14 +135,10 @@ object Libs {
     // Test
 
     object Test {
-        private const val junit5 = "1.8.2.0"
-        private const val junitJupiter = "5.8.2"
-
-        const val junitGradlePlugin = "de.mannodermaus.gradle.plugins:android-junit5:$junit5"
-        const val junitJupiterApi = "org.junit.jupiter:junit-jupiter-api:$junitJupiter"
-        const val junitJupiterEngine = "org.junit.jupiter:junit-jupiter-engine:$junitJupiter"
-        const val junitJupiterParams = "org.junit.jupiter:junit-jupiter-params:$junitJupiter"
         const val junit = "junit:junit:4.12"
+        const val parameterInjector = "com.google.testparameterinjector:test-parameter-injector:1.10"
+        const val truth = "com.google.truth:truth:1.1.3"
+
         const val flow = "app.cash.turbine:turbine:0.12.0"
     }
 }

@@ -8,9 +8,9 @@ import com.enricog.data.routines.api.entities.Segment
 import com.enricog.data.routines.testing.FakeRoutineDataSource
 import com.enricog.data.routines.testing.entities.EMPTY
 import com.enricog.entities.asID
+import com.google.common.truth.Truth.assertThat
 import org.junit.Rule
 import org.junit.Test
-import kotlin.test.assertEquals
 
 internal class GetRoutineUseCaseTest {
 
@@ -38,9 +38,9 @@ internal class GetRoutineUseCaseTest {
         )
 
         getRoutineUseCase(1.asID).test {
-            assertEquals(routine, awaitItem())
+            assertThat(awaitItem()).isEqualTo(routine)
             store.update { listOf(expected) }
-            assertEquals(expected, awaitItem())
+            assertThat(awaitItem()).isEqualTo(expected)
         }
     }
 }

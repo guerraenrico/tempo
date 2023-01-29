@@ -10,9 +10,9 @@ import com.enricog.data.routines.testing.entities.EMPTY
 import com.enricog.entities.ID
 import com.enricog.entities.asID
 import com.enricog.entities.seconds
+import com.google.common.truth.Truth.assertThat
 import org.junit.Rule
 import org.junit.Test
-import kotlin.test.assertEquals
 
 class SegmentUseCaseTest {
 
@@ -37,7 +37,7 @@ class SegmentUseCaseTest {
     fun `should get routine`() = coroutineRule {
         val actual = sut.get(1.asID)
 
-        assertEquals(routine, actual)
+        assertThat(actual).isEqualTo(routine)
     }
 
     @Test
@@ -52,7 +52,7 @@ class SegmentUseCaseTest {
 
         sut.save(routine = routine, segment = newSegment)
 
-        assertEquals(expected, store.get().first())
+        assertThat(store.get().first()).isEqualTo(expected)
     }
 
     @Test
@@ -62,6 +62,6 @@ class SegmentUseCaseTest {
 
         sut.save(routine = routine, segment = updatedSegment)
 
-        assertEquals(expected, store.get().first())
+        assertThat(store.get().first()).isEqualTo(expected)
     }
 }

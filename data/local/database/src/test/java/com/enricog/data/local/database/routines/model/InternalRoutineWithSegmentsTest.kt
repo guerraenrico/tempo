@@ -6,7 +6,7 @@ import com.enricog.data.routines.api.entities.TimeType
 import com.enricog.entities.Rank
 import com.enricog.entities.asID
 import com.enricog.entities.seconds
-import org.junit.Assert.assertEquals
+import com.google.common.truth.Truth.assertThat
 import org.junit.Test
 import java.time.OffsetDateTime
 
@@ -55,8 +55,8 @@ class InternalRoutineWithSegmentsTest {
             segments = internalSegments
         )
 
-        val result = internalRoutineWithSegments.toEntity()
+        val actual = internalRoutineWithSegments.toEntity()
 
-        assertEquals(expected, result)
+        assertThat(actual).isEqualTo(expected)
     }
 }

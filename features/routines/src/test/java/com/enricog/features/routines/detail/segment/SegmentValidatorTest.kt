@@ -6,8 +6,8 @@ import com.enricog.features.routines.detail.segment.models.SegmentFieldError
 import com.enricog.features.routines.detail.segment.models.SegmentInputs
 import com.enricog.ui.components.extensions.toTextFieldValue
 import com.enricog.ui.components.textField.timeText
+import com.google.common.truth.Truth.assertThat
 import org.junit.Test
-import kotlin.test.assertEquals
 
 class SegmentValidatorTest {
 
@@ -24,7 +24,7 @@ class SegmentValidatorTest {
 
         val actual = sut.validate(inputs = inputs)
 
-        assertEquals(expected, actual)
+        assertThat(actual).isEqualTo(expected)
     }
 
     @Test
@@ -38,7 +38,7 @@ class SegmentValidatorTest {
 
         val actual = sut.validate(inputs = inputs)
 
-        assertEquals(expected, actual)
+        assertThat(actual).isEqualTo(expected)
     }
 
     @Test
@@ -52,6 +52,6 @@ class SegmentValidatorTest {
 
         val actual = sut.validate(inputs = inputs)
 
-        assertEquals(expected, actual)
+        assertThat(actual).isEqualTo(expected)
     }
 }

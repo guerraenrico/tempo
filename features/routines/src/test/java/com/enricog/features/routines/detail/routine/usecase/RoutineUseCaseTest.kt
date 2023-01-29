@@ -8,9 +8,9 @@ import com.enricog.data.routines.testing.entities.EMPTY
 import com.enricog.entities.ID
 import com.enricog.entities.Rank
 import com.enricog.entities.asID
+import com.google.common.truth.Truth.assertThat
 import org.junit.Rule
 import org.junit.Test
-import kotlin.test.assertEquals
 
 class RoutineUseCaseTest {
 
@@ -30,11 +30,11 @@ class RoutineUseCaseTest {
 
             val actual = sut.get(routineId)
 
-            assertEquals(expected.id, actual.id)
-            assertEquals(expected.name, actual.name)
-            assertEquals(expected.startTimeOffset, actual.startTimeOffset)
-            assertEquals(expected.segments, actual.segments)
-            assertEquals(expected.rank, actual.rank)
+            assertThat(actual.id).isEqualTo(expected.id)
+            assertThat(actual.name).isEqualTo(expected.name)
+            assertThat(actual.startTimeOffset).isEqualTo(expected.startTimeOffset)
+            assertThat(actual.segments).isEqualTo(expected.segments)
+            assertThat(actual.rank).isEqualTo(expected.rank)
         }
 
     @Test
@@ -58,11 +58,11 @@ class RoutineUseCaseTest {
 
             val actual = sut.get(routineId)
 
-            assertEquals(expected.id, actual.id)
-            assertEquals(expected.name, actual.name)
-            assertEquals(expected.startTimeOffset, actual.startTimeOffset)
-            assertEquals(expected.segments, actual.segments)
-            assertEquals(expected.rank, actual.rank)
+            assertThat(actual.id).isEqualTo(expected.id)
+            assertThat(actual.name).isEqualTo(expected.name)
+            assertThat(actual.startTimeOffset).isEqualTo(expected.startTimeOffset)
+            assertThat(actual.segments).isEqualTo(expected.segments)
+            assertThat(actual.rank).isEqualTo(expected.rank)
         }
 
     @Test
@@ -73,7 +73,7 @@ class RoutineUseCaseTest {
 
         val actual = sut.get(1.asID)
 
-        assertEquals(expected, actual)
+        assertThat(actual).isEqualTo(expected)
     }
 
     @Test
@@ -85,10 +85,11 @@ class RoutineUseCaseTest {
         val actual = sut.save(routine)
 
         store.get().first().let { createdRoutine ->
-            assertEquals(createdRoutine.id, actual)
-            assertEquals(routine.name, createdRoutine.name)
-            assertEquals(routine.startTimeOffset, createdRoutine.startTimeOffset)
-            assertEquals(routine.segments, createdRoutine.segments)
+            assertThat(actual).isEqualTo(createdRoutine.id)
+            assertThat(createdRoutine.name).isEqualTo(routine.name)
+            assertThat(createdRoutine.startTimeOffset).isEqualTo(routine.startTimeOffset)
+            assertThat(createdRoutine.segments).isEqualTo(routine.segments)
+            assertThat(createdRoutine.rank).isEqualTo(routine.rank)
         }
     }
 
@@ -101,9 +102,9 @@ class RoutineUseCaseTest {
 
         val actual = sut.save(expectedRoutine)
 
-        assertEquals(expectedRoutine.id, actual)
+        assertThat(actual).isEqualTo(expectedRoutine.id)
         store.get().first().let { updatedRoutine ->
-            assertEquals(expectedRoutine, updatedRoutine)
+            assertThat(updatedRoutine).isEqualTo(expectedRoutine)
         }
     }
 

@@ -20,9 +20,9 @@ import com.enricog.features.routines.detail.segment.models.SegmentViewState.Data
 import com.enricog.features.routines.detail.ui.time_type.TimeType
 import com.enricog.ui.components.extensions.toTextFieldValue
 import com.enricog.ui.components.textField.timeText
+import com.google.common.truth.Truth.assertThat
 import org.junit.Rule
 import org.junit.Test
-import kotlin.test.assertEquals
 import com.enricog.data.routines.api.entities.TimeType as TimeTypeEntity
 
 class SegmentStateConverterTest {
@@ -39,7 +39,7 @@ class SegmentStateConverterTest {
 
         val actual = sut.convert(state)
 
-        assertEquals(expected, actual)
+        assertThat(actual).isEqualTo(expected)
     }
 
     @Test
@@ -48,9 +48,9 @@ class SegmentStateConverterTest {
         val state = SegmentState.Error(exception)
         val expected = SegmentViewState.Error(exception)
 
-        val result = sut.convert(state = state)
+        val actual = sut.convert(state = state)
 
-        assertEquals(expected, result)
+        assertThat(actual).isEqualTo(expected)
     }
 
     @Test
@@ -86,7 +86,7 @@ class SegmentStateConverterTest {
 
         val actual = sut.convert(state)
 
-        assertEquals(expected, actual)
+        assertThat(actual).isEqualTo(expected)
     }
 
     @Test
@@ -125,7 +125,7 @@ class SegmentStateConverterTest {
 
         val actual = sut.convert(state)
 
-        assertEquals(expected, actual)
+        assertThat(actual).isEqualTo(expected)
     }
 
     @Test
@@ -163,6 +163,6 @@ class SegmentStateConverterTest {
 
         val actual = sut.convert(state)
 
-        assertEquals(expected, actual)
+        assertThat(actual).isEqualTo(expected)
     }
 }

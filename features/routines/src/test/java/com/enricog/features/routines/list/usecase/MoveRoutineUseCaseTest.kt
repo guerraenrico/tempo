@@ -8,9 +8,9 @@ import com.enricog.data.routines.testing.entities.EMPTY
 import com.enricog.entities.ID
 import com.enricog.entities.Rank
 import com.enricog.entities.asID
+import com.google.common.truth.Truth.assertThat
 import org.junit.Rule
 import org.junit.Test
-import kotlin.test.assertEquals
 
 internal class MoveRoutineUseCaseTest {
 
@@ -27,38 +27,38 @@ internal class MoveRoutineUseCaseTest {
 
     private val store = FakeStore(routines)
     private val routineDataSource = FakeRoutineDataSource(store)
-    private val sut = MoveRoutineUseCase(routineDataSource = routineDataSource)
+    private val moveRoutineUseCase = MoveRoutineUseCase(routineDataSource = routineDataSource)
 
     @Test
     fun `should do nothing when routine has not been moved`() = coroutineRule {
-        sut(routines = routines, draggedRoutineId = routine1.id, hoveredRoutineId = routine1.id)
+        moveRoutineUseCase(routines = routines, draggedRoutineId = routine1.id, hoveredRoutineId = routine1.id)
 
-        assertEquals(routines, getActual())
+        assertThat(getActual()).isEqualTo(routines)
     }
 
     @Test
     fun `should do nothing when dragged routine is not found`() = coroutineRule {
         val routineIdUnknown = 4.asID
 
-        sut(
+        moveRoutineUseCase(
             routines = routines,
             draggedRoutineId = routineIdUnknown,
             hoveredRoutineId = routine1.id
         )
 
-        assertEquals(routines, getActual())
+        assertThat(getActual()).isEqualTo(routines)
     }
 
     @Test
     fun `should do nothing when hovered routine is not found`() = coroutineRule {
         val routineIdUnknown = 4.asID
-        sut(
+        moveRoutineUseCase(
             routines = routines,
             draggedRoutineId = routine1.id,
             hoveredRoutineId = routineIdUnknown
         )
 
-        assertEquals(routines, getActual())
+        assertThat(getActual()).isEqualTo(routines)
     }
 
     @Test
@@ -69,9 +69,9 @@ internal class MoveRoutineUseCaseTest {
             routine2
         )
 
-        sut(routines = routines, draggedRoutineId = routine3.id, hoveredRoutineId = routine2.id)
+        moveRoutineUseCase(routines = routines, draggedRoutineId = routine3.id, hoveredRoutineId = routine2.id)
 
-        assertEquals(expected, getActual())
+        assertThat(getActual()).isEqualTo(expected)
     }
 
     @Test
@@ -82,9 +82,9 @@ internal class MoveRoutineUseCaseTest {
             routine3
         )
 
-        sut(routines = routines, draggedRoutineId = routine1.id, hoveredRoutineId = routine2.id)
+        moveRoutineUseCase(routines = routines, draggedRoutineId = routine1.id, hoveredRoutineId = routine2.id)
 
-        assertEquals(expected, getActual())
+        assertThat(getActual()).isEqualTo(expected)
     }
 
     @Test
@@ -95,9 +95,9 @@ internal class MoveRoutineUseCaseTest {
             routine2
         )
 
-        sut(routines = routines, draggedRoutineId = routine3.id, hoveredRoutineId = routine1.id)
+        moveRoutineUseCase(routines = routines, draggedRoutineId = routine3.id, hoveredRoutineId = routine1.id)
 
-        assertEquals(expected, getActual())
+        assertThat(getActual()).isEqualTo(expected)
     }
 
     @Test
@@ -108,9 +108,9 @@ internal class MoveRoutineUseCaseTest {
             routine1.copy(rank = Rank.from(value = "oooooo"))
         )
 
-        sut(routines = routines, draggedRoutineId = routine1.id, hoveredRoutineId = routine3.id)
+        moveRoutineUseCase(routines = routines, draggedRoutineId = routine1.id, hoveredRoutineId = routine3.id)
 
-        assertEquals(expected, getActual())
+        assertThat(getActual()).isEqualTo(expected)
     }
 
     private suspend fun getActual(): List<Routine> = routineDataSource.getAll()

@@ -1,6 +1,7 @@
 package com.enricog.core.coroutines.extensions
 
 import app.cash.turbine.test
+import com.google.common.truth.Truth.assertThat
 import kotlinx.coroutines.ExperimentalCoroutinesApi
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.flow.asFlow
@@ -11,8 +12,6 @@ import kotlinx.coroutines.flow.onEach
 import kotlinx.coroutines.test.UnconfinedTestDispatcher
 import kotlinx.coroutines.test.runTest
 import org.junit.Test
-import kotlin.test.assertEquals
-import kotlin.time.ExperimentalTime
 
 @OptIn(ExperimentalCoroutinesApi::class)
 class FlowExtensionsKtTest {
@@ -57,7 +56,7 @@ class FlowExtensionsKtTest {
         flow.chunked(maxSize = 10, timeMillis = 100)
             .flowOn(UnconfinedTestDispatcher(testScheduler))
             .test {
-                assertEquals(expected = listOf(1, 2, 3, 4), actual = awaitItem())
+                assertThat(awaitItem()).isEqualTo(listOf(1, 2, 3, 4))
                 awaitComplete()
             }
     }
@@ -75,8 +74,8 @@ class FlowExtensionsKtTest {
         flow.chunked(maxSize = 10, timeMillis = 100)
             .flowOn(UnconfinedTestDispatcher(testScheduler))
             .test {
-                assertEquals(expected = listOf(1, 2), actual = awaitItem())
-                assertEquals(expected = listOf(3, 4), actual = awaitItem())
+                assertThat(awaitItem()).isEqualTo(listOf(1, 2))
+                assertThat(awaitItem()).isEqualTo(listOf(3, 4))
                 awaitComplete()
             }
     }
@@ -99,9 +98,9 @@ class FlowExtensionsKtTest {
         flow.chunked(maxSize = 4, timeMillis = 100)
             .flowOn(UnconfinedTestDispatcher(testScheduler))
             .test {
-                assertEquals(expected = listOf(1, 2, 3, 4), actual = awaitItem())
-                assertEquals(expected = listOf(5), actual = awaitItem())
-                assertEquals(expected = listOf(6, 7, 8), actual = awaitItem())
+                assertThat(awaitItem()).isEqualTo(listOf(1, 2, 3, 4))
+                assertThat(awaitItem()).isEqualTo(listOf(5))
+                assertThat(awaitItem()).isEqualTo(listOf(6, 7, 8))
                 awaitComplete()
             }
     }
@@ -114,11 +113,11 @@ class FlowExtensionsKtTest {
             .throttleFirst(timeMillis = 500)
             .flowOn(UnconfinedTestDispatcher(testScheduler))
             .test {
-                assertEquals(expected = 1, actual = awaitItem())
-                assertEquals(expected = 3, actual = awaitItem())
-                assertEquals(expected = 5, actual = awaitItem())
-                assertEquals(expected = 8, actual = awaitItem())
-                assertEquals(expected = 10, actual = awaitItem())
+                assertThat(awaitItem()).isEqualTo(1)
+                assertThat(awaitItem()).isEqualTo(3)
+                assertThat(awaitItem()).isEqualTo(5)
+                assertThat(awaitItem()).isEqualTo(8)
+                assertThat(awaitItem()).isEqualTo(10)
                 awaitComplete()
             }
     }

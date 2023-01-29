@@ -10,8 +10,8 @@ import com.enricog.features.routines.detail.routine.models.RoutineState
 import com.enricog.features.routines.detail.routine.models.RoutineState.Data.Action.SaveRoutineError
 import com.enricog.ui.components.extensions.toTextFieldValue
 import com.enricog.ui.components.textField.timeText
+import com.google.common.truth.Truth.assertThat
 import org.junit.Test
-import kotlin.test.assertEquals
 
 class RoutineReducerTest {
 
@@ -35,7 +35,7 @@ class RoutineReducerTest {
 
         val actual = sut.setup(routine = routine)
 
-        assertEquals(expected, actual)
+        assertThat(actual).isEqualTo(expected)
     }
 
     @Test
@@ -45,7 +45,7 @@ class RoutineReducerTest {
 
         val actual = sut.error(throwable = exception)
 
-        assertEquals(expected, actual)
+        assertThat(actual).isEqualTo(expected)
     }
 
     @Test
@@ -71,7 +71,7 @@ class RoutineReducerTest {
 
         val actual = sut.updateRoutineName(state = state, textFieldValue = "name".toTextFieldValue())
 
-        assertEquals(expected, actual)
+        assertThat(actual).isEqualTo(expected)
     }
 
     @Test
@@ -97,7 +97,7 @@ class RoutineReducerTest {
 
         val actual = sut.updateRoutineStartTimeOffset(state = state, text = "51".timeText)
 
-        assertEquals(expected, actual)
+        assertThat(actual).isEqualTo(expected)
     }
 
     @Test
@@ -119,7 +119,7 @@ class RoutineReducerTest {
             text = "61".timeText
         )
 
-        assertEquals(expected, actual)
+        assertThat(actual).isEqualTo(expected)
     }
 
     @Test
@@ -148,7 +148,7 @@ class RoutineReducerTest {
 
         val actual = sut.applyRoutineErrors(state = state, errors = errors)
 
-        assertEquals(expected, actual)
+        assertThat(actual).isEqualTo(expected)
     }
 
     @Test
@@ -174,7 +174,7 @@ class RoutineReducerTest {
 
         val actual = sut.saveRoutineError(state = state)
 
-        assertEquals(expected, actual)
+        assertThat(actual).isEqualTo(expected)
     }
 
     @Test
@@ -200,6 +200,6 @@ class RoutineReducerTest {
 
         val actual = sut.actionHandled(state = state)
 
-        assertEquals(expected, actual)
+        assertThat(actual).isEqualTo(expected)
     }
 }

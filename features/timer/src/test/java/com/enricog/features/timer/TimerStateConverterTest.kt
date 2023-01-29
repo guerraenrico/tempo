@@ -14,9 +14,9 @@ import com.enricog.features.timer.models.TimerViewState
 import com.enricog.features.timer.models.TimerViewState.Counting.BackgroundColor
 import com.enricog.ui.components.button.icon.TempoIconButtonSize
 import com.enricog.ui.theme.TimeTypeColors
+import com.google.common.truth.Truth.assertThat
 import org.junit.Rule
 import org.junit.Test
-import kotlin.test.assertEquals
 
 class TimerStateConverterTest {
 
@@ -32,7 +32,7 @@ class TimerStateConverterTest {
 
         val actual = stateConverter.convert(state)
 
-        assertEquals(expected, actual)
+        assertThat(actual).isEqualTo(expected)
     }
 
     @Test
@@ -43,7 +43,7 @@ class TimerStateConverterTest {
 
         val actual = stateConverter.convert(state)
 
-        assertEquals(expected, actual)
+        assertThat(actual).isEqualTo(expected)
     }
 
 
@@ -99,7 +99,7 @@ class TimerStateConverterTest {
 
         val actual = stateConverter.convert(state)
 
-        assertEquals(expected, actual)
+        assertThat(actual).isEqualTo(expected)
     }
 
     @Test
@@ -154,7 +154,7 @@ class TimerStateConverterTest {
 
         val actual = stateConverter.convert(state)
 
-        assertEquals(expected, actual)
+        assertThat(actual).isEqualTo(expected)
     }
 
     @Test
@@ -210,7 +210,7 @@ class TimerStateConverterTest {
 
             val actual = stateConverter.convert(state)
 
-            assertEquals(expected, actual)
+            assertThat(actual).isEqualTo(expected)
         }
 
     @Test
@@ -266,7 +266,7 @@ class TimerStateConverterTest {
 
             val actual = stateConverter.convert(state)
 
-            assertEquals(expected, actual)
+            assertThat(actual).isEqualTo(expected)
         }
 
     @Test
@@ -322,7 +322,7 @@ class TimerStateConverterTest {
 
             val actual = stateConverter.convert(state)
 
-            assertEquals(expected, actual)
+            assertThat(actual).isEqualTo(expected)
         }
 
     @Test
@@ -387,7 +387,7 @@ class TimerStateConverterTest {
 
             val actual = stateConverter.convert(state)
 
-            assertEquals(expected, actual)
+            assertThat(actual).isEqualTo(expected)
         }
 
     @Test
@@ -465,6 +465,6 @@ class TimerStateConverterTest {
 
             val actual = stateConverter.convert(state)
 
-            assertEquals(expected, actual)
+            assertThat(actual).isEqualTo(expected)
         }
 }

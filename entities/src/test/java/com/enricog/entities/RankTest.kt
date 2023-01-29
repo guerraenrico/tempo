@@ -1,7 +1,6 @@
 package com.enricog.entities
 
-import java.lang.IllegalArgumentException
-import org.junit.Assert.assertEquals
+import com.google.common.truth.Truth.assertThat
 import org.junit.Assert.assertTrue
 import org.junit.Test
 
@@ -13,7 +12,7 @@ class RankTest {
 
         val actual = Rank.calculateFirst()
 
-        assertEquals(expected, actual)
+        assertThat(actual).isEqualTo(expected)
     }
 
     @Test
@@ -23,7 +22,7 @@ class RankTest {
 
         val actual = Rank.calculateTop(rank = rank)
 
-        assertEquals(expected, actual)
+        assertThat(actual).isEqualTo(expected)
     }
 
     @Test
@@ -33,7 +32,7 @@ class RankTest {
 
         val actual = Rank.calculateBottom(rank = rank)
 
-        assertEquals(expected, actual)
+        assertThat(actual).isEqualTo(expected)
     }
 
     @Test
@@ -44,7 +43,7 @@ class RankTest {
 
         val actual = Rank.calculate(rankTop = rank1, rankBottom = rank2)
 
-        assertEquals(expected, actual)
+        assertThat(actual).isEqualTo(expected)
     }
 
     @Test
@@ -55,7 +54,7 @@ class RankTest {
 
         val actual = Rank.calculate(rank1, rank2)
 
-        assertEquals(expected, actual)
+        assertThat(actual).isEqualTo(expected)
         assertTrue(rank1 < actual)
         assertTrue(rank2 > actual)
     }

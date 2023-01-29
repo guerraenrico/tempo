@@ -3,7 +3,7 @@ package com.enricog.navigation.api.routes
 import androidx.lifecycle.SavedStateHandle
 import androidx.navigation.navOptions
 import com.enricog.entities.asID
-import kotlin.test.assertEquals
+import com.google.common.truth.Truth.assertThat
 import org.junit.Test
 
 class SegmentRouteTest {
@@ -13,7 +13,7 @@ class SegmentRouteTest {
         val expected = "routine/{routineId}/segment/edit?segmentId={segmentId}"
         val actual = SegmentRoute.name
 
-        assertEquals(expected, actual)
+        assertThat(actual).isEqualTo(expected)
     }
 
     @Test
@@ -30,7 +30,7 @@ class SegmentRouteTest {
 
         val actual = SegmentRoute.navigate(input = input, optionsBuilder = {})
 
-        assertEquals(expected, actual)
+        assertThat(actual).isEqualTo(expected)
     }
 
     @Test
@@ -43,6 +43,6 @@ class SegmentRouteTest {
 
         val actual = SegmentRoute.extractInput(savedStateHandle = savedStateHandle)
 
-        assertEquals(expected, actual)
+        assertThat(actual).isEqualTo(expected)
     }
 }

@@ -6,8 +6,8 @@ import com.enricog.data.routines.api.entities.TimeType
 import com.enricog.data.routines.testing.entities.EMPTY
 import com.enricog.entities.asID
 import com.enricog.entities.seconds
+import com.google.common.truth.Truth.assertThat
 import org.junit.Test
-import kotlin.test.assertEquals
 
 internal class TimerStateTest {
 
@@ -69,7 +69,7 @@ internal class TimerStateTest {
 
         inputs.forEach { (state, expected) ->
             val actual = state.isStepCountRunning
-            assertEquals(expected, actual)
+            assertThat(actual).isEqualTo(expected)
         }
     }
 
@@ -85,7 +85,7 @@ internal class TimerStateTest {
 
         inputs.forEach { (state, expected) ->
             val actual = state.isStepCountCompleted
-            assertEquals(expected, actual)
+            assertThat(actual).isEqualTo(expected)
         }
     }
 
@@ -136,7 +136,7 @@ internal class TimerStateTest {
 
         inputs.forEach { (state, expected) ->
             val actual = state.isStepCountCompleting
-            assertEquals(expected, actual)
+            assertThat(actual).isEqualTo(expected)
         }
     }
 
@@ -179,7 +179,7 @@ internal class TimerStateTest {
 
         inputs.forEach { (state, expected) ->
             val actual = state.isRoutineCompleted
-            assertEquals(expected, actual)
+            assertThat(actual).isEqualTo(expected)
         }
     }
 
@@ -230,7 +230,7 @@ internal class TimerStateTest {
 
         inputs.forEach { (state, expected) ->
             val actual = state.isStopwatchRunning
-            assertEquals(expected, actual)
+            assertThat(actual).isEqualTo(expected)
         }
     }
 }

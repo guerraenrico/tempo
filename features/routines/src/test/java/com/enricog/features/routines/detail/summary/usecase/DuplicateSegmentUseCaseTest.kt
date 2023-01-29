@@ -8,7 +8,7 @@ import com.enricog.data.routines.testing.FakeRoutineDataSource
 import com.enricog.data.routines.testing.entities.EMPTY
 import com.enricog.entities.ID
 import com.enricog.entities.Rank
-import junit.framework.TestCase.assertEquals
+import com.google.common.truth.Truth.assertThat
 import org.junit.Rule
 import org.junit.Test
 
@@ -40,7 +40,7 @@ internal class DuplicateSegmentUseCaseTest {
 
         useCase(routine = routine, segmentId = segmentIdUnknown)
 
-        assertEquals(routine, getActual())
+        assertThat(getActual()).isEqualTo(routine)
     }
 
     @Test
@@ -57,7 +57,7 @@ internal class DuplicateSegmentUseCaseTest {
 
             useCase(routine = routine, segmentId = segment1.id)
 
-            assertEquals(expected, getActual())
+            assertThat(getActual()).isEqualTo(expected)
         }
 
     @Test
@@ -74,7 +74,7 @@ internal class DuplicateSegmentUseCaseTest {
 
             useCase(routine = routine, segmentId = segment3.id)
 
-            assertEquals(expected, getActual())
+            assertThat(getActual()).isEqualTo(expected)
         }
 
     private suspend fun getActual(): Routine = routineDataSource.get(routine.id)

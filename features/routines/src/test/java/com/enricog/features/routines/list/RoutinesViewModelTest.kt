@@ -25,13 +25,12 @@ import com.enricog.navigation.api.routes.RoutineSummaryRoute
 import com.enricog.navigation.api.routes.RoutineSummaryRouteInput
 import com.enricog.navigation.testing.FakeNavigator
 import com.enricog.ui.components.snackbar.TempoSnackbarEvent
+import com.google.common.truth.Truth.assertThat
 import kotlinx.coroutines.test.StandardTestDispatcher
 import kotlinx.coroutines.test.advanceUntilIdle
 import kotlinx.coroutines.test.runCurrent
 import org.junit.Rule
 import org.junit.Test
-import kotlin.test.assertEquals
-import kotlin.test.assertIs
 import com.enricog.data.routines.api.entities.Routine as RoutineEntity
 
 class RoutinesViewModelTest {
@@ -92,7 +91,9 @@ class RoutinesViewModelTest {
         val viewModel = buildViewModel()
         advanceUntilIdle()
 
-        viewModel.viewState.test { assertEquals(expected, awaitItem()) }
+        viewModel.viewState.test {
+            assertThat(awaitItem()).isEqualTo(expected)
+        }
     }
 
     @Test
@@ -102,7 +103,9 @@ class RoutinesViewModelTest {
         val viewModel = buildViewModel()
         advanceUntilIdle()
 
-        viewModel.viewState.test { assertIs<RoutinesViewState.Error>(awaitItem()) }
+        viewModel.viewState.test {
+            assertThat(awaitItem()).isInstanceOf(RoutinesViewState.Error::class.java)
+        }
     }
 
     @Test
@@ -148,8 +151,10 @@ class RoutinesViewModelTest {
             viewModel.onRoutineDelete(routineId = firstRoutine.id)
             advanceUntilIdle()
 
-            viewModel.viewState.test { assertEquals(expected, awaitItem()) }
-            assertEquals(expectedDatabaseRoutines, store.get())
+            viewModel.viewState.test {
+                assertThat(awaitItem()).isEqualTo(expected)
+            }
+            assertThat(store.get()).isEqualTo(expectedDatabaseRoutines)
         }
 
     @Test
@@ -174,8 +179,10 @@ class RoutinesViewModelTest {
         viewModel.onSnackbarEvent(TempoSnackbarEvent.ActionPerformed)
         advanceUntilIdle()
 
-        viewModel.viewState.test { assertEquals(expected, awaitItem()) }
-        assertEquals(expectedDatabaseRoutines, store.get())
+        viewModel.viewState.test {
+            assertThat(awaitItem()).isEqualTo(expected)
+        }
+        assertThat(store.get()).isEqualTo(expectedDatabaseRoutines)
     }
 
     @Test
@@ -194,8 +201,10 @@ class RoutinesViewModelTest {
         viewModel.onSnackbarEvent(TempoSnackbarEvent.Dismissed)
         advanceUntilIdle()
 
-        viewModel.viewState.test { assertEquals(expected, awaitItem()) }
-        assertEquals(expectedDatabaseRoutines, store.get())
+        viewModel.viewState.test {
+            assertThat(awaitItem()).isEqualTo(expected)
+        }
+        assertThat(store.get()).isEqualTo(expectedDatabaseRoutines)
     }
 
     @Test
@@ -214,8 +223,10 @@ class RoutinesViewModelTest {
         viewModel.onStop()
         advanceUntilIdle()
 
-        viewModel.viewState.test { assertEquals(expected, awaitItem()) }
-        assertEquals(expectedDatabaseRoutines, store.get())
+        viewModel.viewState.test {
+            assertThat(awaitItem()).isEqualTo(expected)
+        }
+        assertThat(store.get()).isEqualTo(expectedDatabaseRoutines)
     }
 
     @Test
@@ -241,7 +252,9 @@ class RoutinesViewModelTest {
         viewModel.onSnackbarEvent(TempoSnackbarEvent.Dismissed)
         advanceUntilIdle()
 
-        viewModel.viewState.test { assertEquals(expected, awaitItem()) }
+        viewModel.viewState.test {
+            assertThat(awaitItem()).isEqualTo(expected)
+        }
     }
 
     @Test
@@ -263,7 +276,9 @@ class RoutinesViewModelTest {
         viewModel.onSnackbarEvent(TempoSnackbarEvent.Dismissed)
         advanceUntilIdle()
 
-        viewModel.viewState.test { assertEquals(expected, awaitItem()) }
+        viewModel.viewState.test {
+            assertThat(awaitItem()).isEqualTo(expected)
+        }
     }
 
     @Test
@@ -287,7 +302,9 @@ class RoutinesViewModelTest {
         viewModel.onRoutineDuplicate(routineId = firstRoutine.id)
         advanceUntilIdle()
 
-        viewModel.viewState.test { assertEquals(expected, awaitItem()) }
+        viewModel.viewState.test {
+            assertThat(awaitItem()).isEqualTo(expected)
+        }
     }
 
     @Test
@@ -317,8 +334,10 @@ class RoutinesViewModelTest {
         viewModel.onRoutineDuplicate(routineId = firstRoutine.id)
         advanceUntilIdle()
 
-        viewModel.viewState.test { assertEquals(expected, awaitItem()) }
-        assertEquals(expectedDatabaseRoutines, store.get().sortedByRank())
+        viewModel.viewState.test {
+            assertThat(awaitItem()).isEqualTo(expected)
+        }
+        assertThat(store.get().sortedByRank()).isEqualTo(expectedDatabaseRoutines)
     }
 
     @Test
@@ -343,7 +362,9 @@ class RoutinesViewModelTest {
             viewModel.onRoutineDuplicate(routineId = firstRoutine.id)
             advanceUntilIdle()
 
-            viewModel.viewState.test { assertEquals(expected, awaitItem()) }
+            viewModel.viewState.test {
+                assertThat(awaitItem()).isEqualTo(expected)
+            }
         }
 
     @Test
@@ -369,7 +390,9 @@ class RoutinesViewModelTest {
         viewModel.onSnackbarEvent(TempoSnackbarEvent.Dismissed)
         advanceUntilIdle()
 
-        viewModel.viewState.test { assertEquals(expected, awaitItem()) }
+        viewModel.viewState.test {
+            assertThat(awaitItem()).isEqualTo(expected)
+        }
     }
 
     @Test
@@ -383,7 +406,9 @@ class RoutinesViewModelTest {
 
         viewModel.onRetryLoad()
 
-        viewModel.viewState.test { assertEquals(expected, awaitItem()) }
+        viewModel.viewState.test {
+            assertThat(awaitItem()).isEqualTo(expected)
+        }
     }
 
     @Test
@@ -406,7 +431,9 @@ class RoutinesViewModelTest {
         )
         advanceUntilIdle()
 
-        viewModel.viewState.test { assertEquals(expected, awaitItem()) }
+        viewModel.viewState.test {
+            assertThat(awaitItem()).isEqualTo(expected)
+        }
     }
 
     @Test
@@ -435,8 +462,10 @@ class RoutinesViewModelTest {
         advanceUntilIdle()
         runCurrent()
 
-        viewModel.viewState.test { assertEquals(expected, awaitItem()) }
-        assertEquals(expectedDatabaseRoutines, store.get().sortedByRank())
+        viewModel.viewState.test {
+            assertThat(awaitItem()).isEqualTo(expected)
+        }
+        assertThat(store.get().sortedByRank()).isEqualTo(expectedDatabaseRoutines)
     }
 
     private fun buildViewModel(): RoutinesViewModel {

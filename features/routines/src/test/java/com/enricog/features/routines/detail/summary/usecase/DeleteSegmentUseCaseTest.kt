@@ -7,9 +7,9 @@ import com.enricog.data.routines.api.entities.Segment
 import com.enricog.data.routines.testing.FakeRoutineDataSource
 import com.enricog.data.routines.testing.entities.EMPTY
 import com.enricog.entities.asID
+import com.google.common.truth.Truth.assertThat
 import org.junit.Rule
 import org.junit.Test
-import kotlin.test.assertEquals
 
 internal class DeleteSegmentUseCaseTest {
 
@@ -42,6 +42,6 @@ internal class DeleteSegmentUseCaseTest {
 
         deleteSegmentUseCase(routine = routine, segmentId = segmentId)
 
-        assertEquals(expected, store.get().first())
+        assertThat(store.get().first()).isEqualTo(expected)
     }
 }

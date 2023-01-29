@@ -3,9 +3,9 @@ package com.enricog.base.viewmodel
 import app.cash.turbine.test
 import com.enricog.core.coroutines.dispatchers.CoroutineDispatchers
 import com.enricog.core.coroutines.testing.CoroutineRule
+import com.google.common.truth.Truth.assertThat
 import org.junit.Rule
 import org.junit.Test
-import kotlin.test.assertEquals
 
 class BaseViewModelTest {
 
@@ -60,7 +60,7 @@ class BaseViewModelTest {
     @Test
     fun `should set initial state on init`() = coroutineRule {
         buildViewModel(initialValue = TestState.Idle).viewState.test {
-            assertEquals(expected = TestViewState.Idle, actual = awaitItem())
+            assertThat(awaitItem()).isEqualTo(TestViewState.Idle)
         }
     }
 
@@ -68,11 +68,11 @@ class BaseViewModelTest {
     fun `should change state`() = coroutineRule {
         val sut = buildViewModel(initialValue = TestState.Idle)
         sut.viewState.test {
-            assertEquals(expected = TestViewState.Idle, actual = awaitItem())
+            assertThat(awaitItem()).isEqualTo(TestViewState.Idle)
 
             sut.setState(value = TestState.Data(value = 1))
 
-            assertEquals(expected = TestViewState.Data(value = "1"), actual = awaitItem())
+            assertThat(awaitItem()).isEqualTo(TestViewState.Data(value = "1"))
         }
     }
 
@@ -80,11 +80,11 @@ class BaseViewModelTest {
     fun `should change state when current state type matches`() = coroutineRule {
         val sut = buildViewModel(initialValue = TestState.Data(value = 1))
         sut.viewState.test {
-            assertEquals(expected = TestViewState.Data(value = "1"), actual = awaitItem())
+            assertThat(awaitItem()).isEqualTo(TestViewState.Data(value = "1"))
 
             sut.setStateWhen(value = TestState.Data(value = 2))
 
-            assertEquals(expected = TestViewState.Data(value = "2"), actual = awaitItem())
+            assertThat(awaitItem()).isEqualTo(TestViewState.Data(value = "2"))
         }
     }
 
@@ -92,7 +92,7 @@ class BaseViewModelTest {
     fun `should not emit state when setting the same state value`() = coroutineRule {
         val sut = buildViewModel(initialValue = TestState.Idle)
         sut.viewState.test {
-            assertEquals(expected = TestViewState.Idle, actual = awaitItem())
+            assertThat(awaitItem()).isEqualTo(TestViewState.Idle)
 
             sut.setState(value = TestState.Idle)
 
@@ -104,11 +104,11 @@ class BaseViewModelTest {
     fun `should execute runWhen block when current state is the one expected`() = coroutineRule {
         val sut = buildViewModel(initialValue = TestState.Data(value = 1))
         sut.viewState.test {
-            assertEquals(expected = TestViewState.Data(value = "1"), actual = awaitItem())
+            assertThat(awaitItem()).isEqualTo(TestViewState.Data(value = "1"))
 
             sut.runSetState(value = TestState.Data(value = 2))
 
-            assertEquals(expected = TestViewState.Data(value = "2"), actual = awaitItem())
+            assertThat(awaitItem()).isEqualTo(TestViewState.Data(value = "2"))
         }
     }
 
@@ -117,7 +117,7 @@ class BaseViewModelTest {
         coroutineRule {
             val sut = buildViewModel(initialValue = TestState.Idle)
             sut.viewState.test {
-                assertEquals(expected = TestViewState.Idle, actual = awaitItem())
+                assertThat(awaitItem()).isEqualTo(TestViewState.Idle)
 
                 sut.runSetState(value = TestState.Data(value = 1))
 
@@ -129,11 +129,11 @@ class BaseViewModelTest {
     fun `should execute launchWhen block when current state is the one expected`() = coroutineRule {
         val sut = buildViewModel(initialValue = TestState.Data(value = 1))
         sut.viewState.test {
-            assertEquals(expected = TestViewState.Data(value = "1"), actual = awaitItem())
+            assertThat(awaitItem()).isEqualTo(TestViewState.Data(value = "1"))
 
             sut.launchSetState(value = TestState.Data(value = 2))
 
-            assertEquals(expected = TestViewState.Data(value = "2"), actual = awaitItem())
+            assertThat(awaitItem()).isEqualTo(TestViewState.Data(value = "2"))
         }
     }
 
@@ -142,7 +142,7 @@ class BaseViewModelTest {
         coroutineRule {
             val sut = buildViewModel(initialValue = TestState.Idle)
             sut.viewState.test {
-                assertEquals(expected = TestViewState.Idle, actual = awaitItem())
+                assertThat(awaitItem()).isEqualTo(TestViewState.Idle)
 
                 sut.launchSetState(value = TestState.Data(value = 1))
 

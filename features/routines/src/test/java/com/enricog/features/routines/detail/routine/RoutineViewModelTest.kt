@@ -24,12 +24,11 @@ import com.enricog.navigation.api.routes.RoutineSummaryRouteInput
 import com.enricog.navigation.testing.FakeNavigator
 import com.enricog.ui.components.extensions.toTextFieldValue
 import com.enricog.ui.components.textField.timeText
+import com.google.common.truth.Truth.assertThat
 import kotlinx.coroutines.test.StandardTestDispatcher
 import kotlinx.coroutines.test.advanceUntilIdle
 import org.junit.Rule
 import org.junit.Test
-import kotlin.test.assertEquals
-import kotlin.test.assertIs
 
 class RoutineViewModelTest {
 
@@ -60,7 +59,9 @@ class RoutineViewModelTest {
         val sut = buildSut()
         advanceUntilIdle()
 
-        sut.viewState.test { assertEquals(expected, awaitItem()) }
+        sut.viewState.test {
+            assertThat(awaitItem()).isEqualTo(expected)
+        }
     }
 
     @Test
@@ -71,11 +72,13 @@ class RoutineViewModelTest {
         val sut = buildSut(store = store)
         advanceUntilIdle()
 
-        sut.viewState.test { assertIs<RoutineViewState.Error>(awaitItem()) }
+        sut.viewState.test {
+            assertThat(awaitItem()).isInstanceOf(RoutineViewState.Error::class.java)
+        }
     }
 
     @Test
-    fun `should reload when retry`()  = coroutineRule {
+    fun `should reload when retry`() = coroutineRule {
         val store = FakeStore(listOf(routine))
         val expected = RoutineViewState.Data(
             routine = routineFields,
@@ -89,7 +92,9 @@ class RoutineViewModelTest {
         sut.onRetryLoad()
         advanceUntilIdle()
 
-        sut.viewState.test { assertEquals(expected, awaitItem()) }
+        sut.viewState.test {
+            assertThat(awaitItem()).isEqualTo(expected)
+        }
     }
 
     @Test
@@ -105,7 +110,9 @@ class RoutineViewModelTest {
         sut.onRoutineNameTextChange(textFieldValue = "Routine Name Modified".toTextFieldValue())
         advanceUntilIdle()
 
-        sut.viewState.test { assertEquals(expected, awaitItem()) }
+        sut.viewState.test {
+            assertThat(awaitItem()).isEqualTo(expected)
+        }
     }
 
     @Test
@@ -121,7 +128,9 @@ class RoutineViewModelTest {
         sut.onRoutineStartTimeOffsetChange(text = "10".timeText)
         advanceUntilIdle()
 
-        sut.viewState.test { assertEquals(expected, awaitItem()) }
+        sut.viewState.test {
+            assertThat(awaitItem()).isEqualTo(expected)
+        }
     }
 
     @Test
@@ -148,7 +157,9 @@ class RoutineViewModelTest {
         sut.onRoutineSave()
         advanceUntilIdle()
 
-        sut.viewState.test { assertEquals(expected, awaitItem()) }
+        sut.viewState.test {
+            assertThat(awaitItem()).isEqualTo(expected)
+        }
         navigator.assertNoActions()
     }
 
@@ -166,9 +177,9 @@ class RoutineViewModelTest {
         advanceUntilIdle()
 
         store.get().first().let { actual ->
-            assertEquals(expected.name, actual.name)
-            assertEquals(expected.segments, actual.segments)
-            assertEquals(expected.startTimeOffset, actual.startTimeOffset)
+            assertThat(actual.name).isEqualTo(expected.name)
+            assertThat(actual.segments).isEqualTo(expected.segments)
+            assertThat(actual.startTimeOffset).isEqualTo(expected.startTimeOffset)
 
             navigator.assertGoTo(
                 route = RoutineSummaryRoute,
@@ -189,13 +200,13 @@ class RoutineViewModelTest {
         sut.onRoutineSave()
         advanceUntilIdle()
 
-        assertEquals(expected, store.get().first())
+        assertThat(store.get().first()).isEqualTo(expected)
         navigator.assertGoBack()
     }
 
     @Test
     fun `should show message when save fails`() = coroutineRule {
-        val store =  FakeStore(listOf(routine))
+        val store = FakeStore(listOf(routine))
         val expected = RoutineViewState.Data(
             routine = routineFields,
             errors = emptyImmutableMap(),
@@ -211,7 +222,9 @@ class RoutineViewModelTest {
         sut.onRoutineSave()
         advanceUntilIdle()
 
-        sut.viewState.test { assertEquals(expected, awaitItem()) }
+        sut.viewState.test {
+            assertThat(awaitItem()).isEqualTo(expected)
+        }
         navigator.assertNoActions()
     }
 

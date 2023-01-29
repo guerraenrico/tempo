@@ -13,6 +13,6 @@ java {
 dependencies {
     implementation Libs.Kotlin.stdlib
 
-    testImplementation Libs.Kotlin.Test.kotlin
+    testImplementation Libs.Test.truth
     testImplementation Libs.Test.junit
 }

@@ -4,7 +4,7 @@ import androidx.room.testing.MigrationTestHelper
 import androidx.test.ext.junit.runners.AndroidJUnit4
 import androidx.test.platform.app.InstrumentationRegistry
 import com.enricog.data.local.database.TempoDatabase
-import junit.framework.TestCase.assertEquals
+import com.google.common.truth.Truth.assertThat
 import org.junit.Rule
 import org.junit.Test
 import org.junit.runner.RunWith
@@ -55,20 +55,20 @@ class MigrationFrom1To2Test {
 
         with(cursor) {
             moveToNext()
-            assertEquals("Routine 4", getString(getColumnIndex("name")))
-            assertEquals("mzzzzz", getString(getColumnIndex("rank")))
+            assertThat(getString(getColumnIndex("name"))).isEqualTo("Routine 4")
+            assertThat(getString(getColumnIndex("rank"))).isEqualTo("mzzzzz")
 
             moveToNext()
-            assertEquals("Routine 3", getString(getColumnIndex("name")))
-            assertEquals("tmzzzz", getString(getColumnIndex("rank")))
+            assertThat(getString(getColumnIndex("name"))).isEqualTo("Routine 3")
+            assertThat(getString(getColumnIndex("rank"))).isEqualTo("tmzzzz")
 
             moveToNext()
-            assertEquals("Routine 2", getString(getColumnIndex("name")))
-            assertEquals("wtmzzz", getString(getColumnIndex("rank")))
+            assertThat(getString(getColumnIndex("name"))).isEqualTo("Routine 2")
+            assertThat(getString(getColumnIndex("rank"))).isEqualTo("wtmzzz")
 
             moveToNext()
-            assertEquals("Routine 1", getString(getColumnIndex("name")))
-            assertEquals("yjtmzz", getString(getColumnIndex("rank")))
+            assertThat(getString(getColumnIndex("name"))).isEqualTo("Routine 1")
+            assertThat(getString(getColumnIndex("rank"))).isEqualTo("yjtmzz")
         }
     }
 

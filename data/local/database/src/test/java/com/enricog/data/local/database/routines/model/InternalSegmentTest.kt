@@ -1,11 +1,11 @@
 package com.enricog.data.local.database.routines.model
 
-import com.enricog.entities.Rank
-import com.enricog.entities.asID
 import com.enricog.data.routines.api.entities.Segment
 import com.enricog.data.routines.api.entities.TimeType
+import com.enricog.entities.Rank
+import com.enricog.entities.asID
 import com.enricog.entities.seconds
-import org.junit.Assert.assertEquals
+import com.google.common.truth.Truth.assertThat
 import org.junit.Test
 
 class InternalSegmentTest {
@@ -29,9 +29,9 @@ class InternalSegmentTest {
             rank = "aaaaaa"
         )
 
-        val result = segment.toInternal(routineId)
+        val actual = segment.toInternal(routineId)
 
-        assertEquals(expected, result)
+        assertThat(actual).isEqualTo(expected)
     }
 
     @Test
@@ -52,8 +52,8 @@ class InternalSegmentTest {
             rank = Rank.from(value = "aaaaaa")
         )
 
-        val result = internalSegment.toEntity()
+        val actual = internalSegment.toEntity()
 
-        assertEquals(expected, result)
+        assertThat(actual).isEqualTo(expected)
     }
 }

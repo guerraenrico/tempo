@@ -4,7 +4,7 @@ import androidx.lifecycle.SavedStateHandle
 import androidx.navigation.navOptions
 import com.enricog.entities.asID
 import com.enricog.navigation.api.NavigationAction
-import kotlin.test.assertEquals
+import com.google.common.truth.Truth.assertThat
 import org.junit.Test
 
 class RoutineSummaryRouteTest {
@@ -14,7 +14,7 @@ class RoutineSummaryRouteTest {
         val expected = "routine/{routineId}/summary"
         val actual = RoutineSummaryRoute.name
 
-        assertEquals(expected, actual)
+        assertThat(actual).isEqualTo(expected)
     }
 
     @Test
@@ -25,7 +25,7 @@ class RoutineSummaryRouteTest {
 
         val actual = RoutineSummaryRoute.navigate(input = input, optionsBuilder = {})
 
-        assertEquals(expected, actual)
+        assertThat(actual).isEqualTo(expected)
     }
 
     @Test
@@ -35,6 +35,6 @@ class RoutineSummaryRouteTest {
 
         val actual = RoutineSummaryRoute.extractInput(savedStateHandle = savedStateHandle)
 
-        assertEquals(expected, actual)
+        assertThat(actual).isEqualTo(expected)
     }
 }

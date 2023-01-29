@@ -41,4 +41,5 @@ dependencies {
     implementation Libs.Lifecycle.commonJava8
 
     testImplementation Libs.Test.junit
+    testImplementation Libs.Test.truth
 }
