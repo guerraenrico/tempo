@@ -21,18 +21,18 @@ class RoutinesNavigationActionsTest {
 
     private val navigator = FakeNavigator()
 
-    private val sut = RoutinesNavigationActions(navigator)
+    private val navigationActions = RoutinesNavigationActions(navigator)
 
     @Test
     fun `test routinesBack`() = coroutineRule {
-        sut.goBack()
+        navigationActions.goBack()
 
         navigator.assertGoBack()
     }
 
     @Test
     fun `test goToRoutineSummary`() = coroutineRule {
-        sut.goToRoutineSummary(routineId = 1.asID)
+        navigationActions.goToRoutineSummary(routineId = 1.asID)
 
         navigator.assertGoTo(
             route = RoutineSummaryRoute,
@@ -42,14 +42,14 @@ class RoutinesNavigationActionsTest {
 
     @Test
     fun `test goToRoutine`() = coroutineRule {
-        sut.goToRoutine(routineId = 1.asID)
+        navigationActions.goToRoutine(routineId = 1.asID)
 
         navigator.assertGoTo(route = RoutineRoute, input = RoutineRouteInput(routineId = 1.asID))
     }
 
     @Test
     fun `test goToSegment`() = coroutineRule {
-        sut.goToSegment(routineId = 1.asID, segmentId = 2.asID)
+        navigationActions.goToSegment(routineId = 1.asID, segmentId = 2.asID)
 
         navigator.assertGoTo(
             route = SegmentRoute,
@@ -62,7 +62,7 @@ class RoutinesNavigationActionsTest {
 
     @Test
     fun `test goToTimer`() = coroutineRule {
-        sut.goToTimer(routineId = 1.asID)
+        navigationActions.goToTimer(routineId = 1.asID)
 
         navigator.assertGoTo(route = TimerRoute, input = TimerRouteInput(routineId = 1.asID))
     }
