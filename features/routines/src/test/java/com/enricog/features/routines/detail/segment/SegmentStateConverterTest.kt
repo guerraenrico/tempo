@@ -30,14 +30,14 @@ class SegmentStateConverterTest {
     @get:Rule
     val coroutineRule = CoroutineRule()
 
-    private val sut = SegmentStateConverter()
+    private val stateConverter = SegmentStateConverter()
 
     @Test
     fun `should map idle state`() = coroutineRule {
         val state = SegmentState.Idle
         val expected = SegmentViewState.Idle
 
-        val actual = sut.convert(state)
+        val actual = stateConverter.convert(state)
 
         assertThat(actual).isEqualTo(expected)
     }
@@ -48,7 +48,7 @@ class SegmentStateConverterTest {
         val state = SegmentState.Error(exception)
         val expected = SegmentViewState.Error(exception)
 
-        val actual = sut.convert(state = state)
+        val actual = stateConverter.convert(state = state)
 
         assertThat(actual).isEqualTo(expected)
     }
@@ -84,7 +84,7 @@ class SegmentStateConverterTest {
             message = null
         )
 
-        val actual = sut.convert(state)
+        val actual = stateConverter.convert(state)
 
         assertThat(actual).isEqualTo(expected)
     }
@@ -123,7 +123,7 @@ class SegmentStateConverterTest {
             )
         )
 
-        val actual = sut.convert(state)
+        val actual = stateConverter.convert(state)
 
         assertThat(actual).isEqualTo(expected)
     }
@@ -161,7 +161,7 @@ class SegmentStateConverterTest {
             message = null
         )
 
-        val actual = sut.convert(state)
+        val actual = stateConverter.convert(state)
 
         assertThat(actual).isEqualTo(expected)
     }

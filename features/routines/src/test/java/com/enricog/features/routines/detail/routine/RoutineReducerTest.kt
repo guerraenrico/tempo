@@ -15,7 +15,7 @@ import org.junit.Test
 
 class RoutineReducerTest {
 
-    private val sut = RoutineReducer()
+    private val reducer = RoutineReducer()
 
     @Test
     fun `should setup state with routine`() {
@@ -33,7 +33,7 @@ class RoutineReducerTest {
             action = null
         )
 
-        val actual = sut.setup(routine = routine)
+        val actual = reducer.setup(routine = routine)
 
         assertThat(actual).isEqualTo(expected)
     }
@@ -43,7 +43,7 @@ class RoutineReducerTest {
         val exception = Exception()
         val expected = RoutineState.Error(throwable = exception)
 
-        val actual = sut.error(throwable = exception)
+        val actual = reducer.error(throwable = exception)
 
         assertThat(actual).isEqualTo(expected)
     }
@@ -69,7 +69,7 @@ class RoutineReducerTest {
             action = null
         )
 
-        val actual = sut.updateRoutineName(state = state, textFieldValue = "name".toTextFieldValue())
+        val actual = reducer.updateRoutineName(state = state, textFieldValue = "name".toTextFieldValue())
 
         assertThat(actual).isEqualTo(expected)
     }
@@ -95,7 +95,7 @@ class RoutineReducerTest {
             action = null
         )
 
-        val actual = sut.updateRoutineStartTimeOffset(state = state, text = "51".timeText)
+        val actual = reducer.updateRoutineStartTimeOffset(state = state, text = "51".timeText)
 
         assertThat(actual).isEqualTo(expected)
     }
@@ -114,7 +114,7 @@ class RoutineReducerTest {
             action = null
         )
 
-        val actual = sut.updateRoutineStartTimeOffset(
+        val actual = reducer.updateRoutineStartTimeOffset(
             state = expected,
             text = "61".timeText
         )
@@ -146,7 +146,7 @@ class RoutineReducerTest {
             action = null
         )
 
-        val actual = sut.applyRoutineErrors(state = state, errors = errors)
+        val actual = reducer.applyRoutineErrors(state = state, errors = errors)
 
         assertThat(actual).isEqualTo(expected)
     }
@@ -172,7 +172,7 @@ class RoutineReducerTest {
             action = SaveRoutineError
         )
 
-        val actual = sut.saveRoutineError(state = state)
+        val actual = reducer.saveRoutineError(state = state)
 
         assertThat(actual).isEqualTo(expected)
     }
@@ -198,7 +198,7 @@ class RoutineReducerTest {
             action = null
         )
 
-        val actual = sut.actionHandled(state = state)
+        val actual = reducer.actionHandled(state = state)
 
         assertThat(actual).isEqualTo(expected)
     }

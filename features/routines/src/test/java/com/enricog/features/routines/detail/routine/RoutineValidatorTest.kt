@@ -10,7 +10,7 @@ import org.junit.Test
 
 class RoutineValidatorTest {
 
-    private val sut = RoutineValidator()
+    private val validator = RoutineValidator()
 
     @Test
     fun `should return error when routine name is blank`() {
@@ -22,7 +22,7 @@ class RoutineValidatorTest {
             RoutineField.Name to RoutineFieldError.BlankRoutineName,
         )
 
-        val actual = sut.validate(inputs = inputs)
+        val actual = validator.validate(inputs = inputs)
 
         assertThat(actual).isEqualTo(expected)
     }

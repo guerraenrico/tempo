@@ -23,14 +23,14 @@ class RoutineStateConverterTest {
     @get:Rule
     val coroutineRule = CoroutineRule()
 
-    private val sut = RoutineStateConverter()
+    private val stateConverter = RoutineStateConverter()
 
     @Test
     fun `test map idle state`() = coroutineRule {
         val state = RoutineState.Idle
         val expected = RoutineViewState.Idle
 
-        val actual = sut.convert(state = state)
+        val actual = stateConverter.convert(state = state)
 
         assertThat(actual).isEqualTo(expected)
     }
@@ -41,7 +41,7 @@ class RoutineStateConverterTest {
         val state = RoutineState.Error(exception)
         val expected = RoutineViewState.Error(exception)
 
-        val actual = sut.convert(state = state)
+        val actual = stateConverter.convert(state = state)
 
         assertThat(actual).isEqualTo(expected)
     }
@@ -70,7 +70,7 @@ class RoutineStateConverterTest {
             message = null
         )
 
-        val actual = sut.convert(state = state)
+        val actual = stateConverter.convert(state = state)
 
         assertThat(actual).isEqualTo(expected)
     }
@@ -102,7 +102,7 @@ class RoutineStateConverterTest {
             )
         )
 
-        val actual = sut.convert(state = state)
+        val actual = stateConverter.convert(state = state)
 
         assertThat(actual).isEqualTo(expected)
     }

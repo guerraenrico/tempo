@@ -31,11 +31,11 @@ class SegmentUseCaseTest {
     )
     private val store = FakeStore(listOf(routine))
 
-    private val sut = SegmentUseCase(routineDataSource = FakeRoutineDataSource(store))
+    private val useCase = SegmentUseCase(routineDataSource = FakeRoutineDataSource(store))
 
     @Test
     fun `should get routine`() = coroutineRule {
-        val actual = sut.get(1.asID)
+        val actual = useCase.get(1.asID)
 
         assertThat(actual).isEqualTo(routine)
     }
@@ -50,7 +50,7 @@ class SegmentUseCaseTest {
         )
         val expected = routine.copy(segments = listOf(segment, newSegment.copy(ID.from(value = 2))))
 
-        sut.save(routine = routine, segment = newSegment)
+        useCase.save(routine = routine, segment = newSegment)
 
         assertThat(store.get().first()).isEqualTo(expected)
     }
@@ -60,7 +60,7 @@ class SegmentUseCaseTest {
         val updatedSegment = segment.copy(name = "Updated Segment Name",)
         val expected = routine.copy(segments = listOf(updatedSegment))
 
-        sut.save(routine = routine, segment = updatedSegment)
+        useCase.save(routine = routine, segment = updatedSegment)
 
         assertThat(store.get().first()).isEqualTo(expected)
     }

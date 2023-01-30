@@ -11,7 +11,7 @@ import org.junit.Test
 
 class SegmentValidatorTest {
 
-    private val sut = SegmentValidator()
+    private val validator = SegmentValidator()
 
     @Test
     fun `should return error when segment name is blank`() {
@@ -22,7 +22,7 @@ class SegmentValidatorTest {
         )
         val expected = mapOf(SegmentField.Name to SegmentFieldError.BlankSegmentName)
 
-        val actual = sut.validate(inputs = inputs)
+        val actual = validator.validate(inputs = inputs)
 
         assertThat(actual).isEqualTo(expected)
     }
@@ -36,7 +36,7 @@ class SegmentValidatorTest {
         )
         val expected = mapOf(SegmentField.Time to SegmentFieldError.InvalidSegmentTime)
 
-        val actual = sut.validate(inputs = inputs)
+        val actual = validator.validate(inputs = inputs)
 
         assertThat(actual).isEqualTo(expected)
     }
@@ -50,7 +50,7 @@ class SegmentValidatorTest {
         )
         val expected = emptyMap<SegmentField, SegmentFieldError>()
 
-        val actual = sut.validate(inputs = inputs)
+        val actual = validator.validate(inputs = inputs)
 
         assertThat(actual).isEqualTo(expected)
     }

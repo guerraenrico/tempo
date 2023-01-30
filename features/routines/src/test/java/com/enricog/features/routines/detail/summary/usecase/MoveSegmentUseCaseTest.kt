@@ -31,11 +31,11 @@ class MoveSegmentUseCaseTest {
 
     private val store = FakeStore(listOf(routine))
     private val routineDataSource = FakeRoutineDataSource(store)
-    private val sut = MoveSegmentUseCase(routineDataSource = routineDataSource)
+    private val useCase = MoveSegmentUseCase(routineDataSource = routineDataSource)
 
     @Test
     fun `should do nothing when segment has not been moved`() = coroutineRule {
-        sut(routine = routine, draggedSegmentId = segment1.id, hoveredSegmentId = segment1.id)
+        useCase(routine = routine, draggedSegmentId = segment1.id, hoveredSegmentId = segment1.id)
 
         assertThat(getActual()).isEqualTo(routine)
     }
@@ -43,7 +43,7 @@ class MoveSegmentUseCaseTest {
     @Test
     fun `should do nothing when dragged segment is not found`() = coroutineRule {
         val segmentIdUnknown = 4.asID
-        sut(routine = routine, draggedSegmentId = segmentIdUnknown, hoveredSegmentId = segment1.id)
+        useCase(routine = routine, draggedSegmentId = segmentIdUnknown, hoveredSegmentId = segment1.id)
 
         assertThat(getActual()).isEqualTo(routine)
     }
@@ -51,7 +51,7 @@ class MoveSegmentUseCaseTest {
     @Test
     fun `should do nothing when hovered segment is not found`() = coroutineRule {
         val segmentIdUnknown = 4.asID
-        sut(routine = routine, draggedSegmentId = segment1.id, hoveredSegmentId = segmentIdUnknown)
+        useCase(routine = routine, draggedSegmentId = segment1.id, hoveredSegmentId = segmentIdUnknown)
 
         assertThat(getActual()).isEqualTo(routine)
     }
@@ -66,7 +66,7 @@ class MoveSegmentUseCaseTest {
             )
         )
 
-        sut(routine = routine, draggedSegmentId = segment3.id, hoveredSegmentId = segment2.id)
+        useCase(routine = routine, draggedSegmentId = segment3.id, hoveredSegmentId = segment2.id)
 
         assertThat(getActual()).isEqualTo(expected)
     }
@@ -81,7 +81,7 @@ class MoveSegmentUseCaseTest {
             )
         )
 
-        sut(routine = routine, draggedSegmentId = segment1.id, hoveredSegmentId = segment2.id)
+        useCase(routine = routine, draggedSegmentId = segment1.id, hoveredSegmentId = segment2.id)
 
         assertThat(getActual()).isEqualTo(expected)
     }
@@ -96,7 +96,7 @@ class MoveSegmentUseCaseTest {
             )
         )
 
-        sut(routine = routine, draggedSegmentId = segment3.id, hoveredSegmentId = segment1.id)
+        useCase(routine = routine, draggedSegmentId = segment3.id, hoveredSegmentId = segment1.id)
 
         assertThat(getActual()).isEqualTo(expected)
     }
@@ -111,7 +111,7 @@ class MoveSegmentUseCaseTest {
             )
         )
 
-        sut(routine = routine, draggedSegmentId = segment1.id, hoveredSegmentId = segment3.id)
+        useCase(routine = routine, draggedSegmentId = segment1.id, hoveredSegmentId = segment3.id)
 
         assertThat(getActual()).isEqualTo(expected)
     }

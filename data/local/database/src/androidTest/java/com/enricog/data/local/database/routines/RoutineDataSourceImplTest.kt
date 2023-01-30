@@ -32,7 +32,7 @@ class RoutineDataSourceImplTest {
     val coroutineRule = CoroutineRule()
 
     private lateinit var database: TempoDatabase
-    private lateinit var sut: RoutineDataSourceImpl
+    private lateinit var dataSource: RoutineDataSourceImpl
 
     @Before
     fun setup() {
@@ -40,7 +40,7 @@ class RoutineDataSourceImplTest {
         database = Room.inMemoryDatabaseBuilder(context, TempoDatabase::class.java)
             .allowMainThreadQueries()
             .build()
-        sut = RoutineDataSourceImpl(database)
+        dataSource = RoutineDataSourceImpl(database)
     }
 
     @After
@@ -90,7 +90,7 @@ class RoutineDataSourceImplTest {
         database.routineDao().insert(internalRoutine)
         database.segmentDao().insert(internalSegment)
 
-        val actual = sut.observeAll().first()
+        val actual = dataSource.observeAll().first()
 
         assertThat(actual).isEqualTo(expected)
     }
@@ -135,7 +135,7 @@ class RoutineDataSourceImplTest {
         database.routineDao().insert(internalRoutine)
         database.segmentDao().insert(internalSegment)
 
-        val actual = sut.observe(1.asID).first()
+        val actual = dataSource.observe(1.asID).first()
 
         assertThat(actual).isEqualTo(expected)
     }
@@ -181,7 +181,7 @@ class RoutineDataSourceImplTest {
         database.routineDao().insert(internalRoutine)
         database.segmentDao().insert(internalSegment)
 
-        val actual = sut.getAll()
+        val actual = dataSource.getAll()
 
         assertThat(actual).isEqualTo(expected)
     }
@@ -226,7 +226,7 @@ class RoutineDataSourceImplTest {
         database.routineDao().insert(internalRoutine)
         database.segmentDao().insert(internalSegment)
 
-        val actual = sut.get(1.asID)
+        val actual = dataSource.get(1.asID)
 
         assertThat(actual).isEqualTo(expected)
     }
@@ -270,11 +270,11 @@ class RoutineDataSourceImplTest {
             rank = Rank.from(value = "abcdef")
         )
 
-        val routineId = sut.create(routine)
+        val routineId = dataSource.create(routine)
 
         assertThat(routineId).isEqualTo(1.asID)
         // Assert that has been saved correctly
-        val result = sut.get(1.asID)
+        val result = dataSource.get(1.asID)
         assertRoutineEquals(expected, result)
     }
 
@@ -319,11 +319,11 @@ class RoutineDataSourceImplTest {
         database.routineDao().insert(internalRoutine)
         database.segmentDao().insert(internalSegment)
 
-        val routineId = sut.update(routine)
+        val routineId = dataSource.update(routine)
 
         assertThat(routineId).isEqualTo(1.asID)
         // Assert that has been saved correctly
-        val result = sut.get(1.asID)
+        val result = dataSource.get(1.asID)
         assertRoutineEquals(routine, result)
     }
 
@@ -368,11 +368,11 @@ class RoutineDataSourceImplTest {
         database.routineDao().insert(internalRoutine)
         database.segmentDao().insert(internalSegment)
 
-        val routineId = sut.update(routine)
+        val routineId = dataSource.update(routine)
 
         assertThat(routineId).isEqualTo(1.asID)
         // Assert that has been saved correctly
-        val result = sut.get(1.asID)
+        val result = dataSource.get(1.asID)
         assertRoutineEquals(routine, result)
     }
 
@@ -409,11 +409,11 @@ class RoutineDataSourceImplTest {
         database.routineDao().insert(internalRoutine)
         database.segmentDao().insert(internalSegment)
 
-        val routineId = sut.update(routine)
+        val routineId = dataSource.update(routine)
 
         assertThat(routineId).isEqualTo(1.asID)
         // Assert that has been saved correctly
-        val result = sut.get(1.asID)
+        val result = dataSource.get(1.asID)
         assertRoutineEquals(routine, result)
     }
 
@@ -466,11 +466,11 @@ class RoutineDataSourceImplTest {
 
         database.routineDao().insert(internalRoutine)
 
-        val routineId = sut.update(routine)
+        val routineId = dataSource.update(routine)
 
         assertThat(routineId).isEqualTo(1.asID)
         // Assert that has been saved correctly
-        val result = sut.get(1.asID)
+        val result = dataSource.get(1.asID)
         assertRoutineEquals(expected, result)
     }
 
@@ -532,11 +532,11 @@ class RoutineDataSourceImplTest {
         database.routineDao().insert(internalRoutine)
         database.segmentDao().insert(internalSegment)
 
-        val routineId = sut.update(routine)
+        val routineId = dataSource.update(routine)
 
         assertThat(routineId).isEqualTo(1.asID)
         // Assert that has been saved correctly
-        val result = sut.get(1.asID)
+        val result = dataSource.get(1.asID)
         assertRoutineEquals(expected, result)
     }
 
@@ -620,11 +620,11 @@ class RoutineDataSourceImplTest {
         database.routineDao().insert(internalRoutine)
         database.segmentDao().insert(internalSegment1, internalSegment2)
 
-        val routineId = sut.update(routine)
+        val routineId = dataSource.update(routine)
 
         assertThat(routineId).isEqualTo(1.asID)
         // Assert that has been saved correctly
-        val result = sut.get(1.asID)
+        val result = dataSource.get(1.asID)
         assertRoutineEquals(expected, result)
     }
 
@@ -668,7 +668,7 @@ class RoutineDataSourceImplTest {
         database.routineDao().insert(internalRoutine)
         database.segmentDao().insert(internalSegment)
 
-        sut.delete(routine)
+        dataSource.delete(routine)
 
         val segments = database.segmentDao().getAll()
         val routines = database.routineDao().getAll()
