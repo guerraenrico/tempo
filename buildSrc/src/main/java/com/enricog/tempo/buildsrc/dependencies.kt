@@ -30,7 +30,6 @@ object Libs {
 
         object Test {
             const val coroutines = "org.jetbrains.kotlinx:kotlinx-coroutines-test:$coroutineVersion"
-            const val kotlin = "org.jetbrains.kotlin:kotlin-test:$version"
         }
     }
 
