@@ -7,8 +7,8 @@ import com.enricog.features.routines.list.models.RoutinesState
 import com.enricog.features.routines.list.models.RoutinesState.Data.Action.DeleteRoutineError
 import com.enricog.features.routines.list.models.RoutinesState.Data.Action.DuplicateRoutineError
 import com.enricog.features.routines.list.models.RoutinesState.Data.Action.MoveRoutineError
+import com.google.common.truth.Truth.assertThat
 import org.junit.Test
-import kotlin.test.assertEquals
 
 class RoutinesReducerTest {
 
@@ -20,9 +20,9 @@ class RoutinesReducerTest {
         val state = RoutinesState.Data(routines = listOf(Routine.EMPTY), action = null)
         val expected = RoutinesState.Empty
 
-        val result = routinesReducer.setup(state = state, routines = routines)
+        val actual = routinesReducer.setup(state = state, routines = routines)
 
-        assertEquals(expected, result)
+        assertThat(actual).isEqualTo(expected)
     }
 
     @Test
@@ -31,9 +31,9 @@ class RoutinesReducerTest {
         val state = RoutinesState.Empty
         val expected = RoutinesState.Data(routines = routines, action = null)
 
-        val result = routinesReducer.setup(state = state, routines = routines)
+        val actual = routinesReducer.setup(state = state, routines = routines)
 
-        assertEquals(expected, result)
+        assertThat(actual).isEqualTo(expected)
     }
 
     @Test
@@ -45,9 +45,9 @@ class RoutinesReducerTest {
         )
         val expected = RoutinesState.Data(routines = routines, action = DuplicateRoutineError)
 
-        val result = routinesReducer.setup(state = state, routines = routines)
+        val actual = routinesReducer.setup(state = state, routines = routines)
 
-        assertEquals(expected, result)
+        assertThat(actual).isEqualTo(expected)
     }
 
     @Test
@@ -55,9 +55,9 @@ class RoutinesReducerTest {
         val exception = Exception("something went wrong")
         val expected = RoutinesState.Error(throwable = exception)
 
-        val result = routinesReducer.error(throwable = exception)
+        val actual = routinesReducer.error(throwable = exception)
 
-        assertEquals(expected, result)
+        assertThat(actual).isEqualTo(expected)
     }
 
     @Test
@@ -71,9 +71,9 @@ class RoutinesReducerTest {
             action = DeleteRoutineError(routineId = routineId)
         )
 
-        val result = routinesReducer.deleteRoutineError(state = state, routineId = routineId)
+        val actual = routinesReducer.deleteRoutineError(state = state, routineId = routineId)
 
-        assertEquals(expected, result)
+        assertThat(actual).isEqualTo(expected)
     }
 
     @Test
@@ -87,9 +87,9 @@ class RoutinesReducerTest {
             action = MoveRoutineError
         )
 
-        val result = routinesReducer.moveRoutineError(state = state)
+        val actual = routinesReducer.moveRoutineError(state = state)
 
-        assertEquals(expected, result)
+        assertThat(actual).isEqualTo(expected)
     }
 
     @Test
@@ -103,9 +103,9 @@ class RoutinesReducerTest {
             action = DuplicateRoutineError
         )
 
-        val result = routinesReducer.duplicateRoutineError(state = state)
+        val actual = routinesReducer.duplicateRoutineError(state = state)
 
-        assertEquals(expected, result)
+        assertThat(actual).isEqualTo(expected)
     }
 
     @Test
@@ -119,8 +119,8 @@ class RoutinesReducerTest {
         )
         val expected = RoutinesState.Data(routines = routines, action = null)
 
-        val result = routinesReducer.actionHandled(state = state)
+        val actual = routinesReducer.actionHandled(state = state)
 
-        assertEquals(expected, result)
+        assertThat(actual).isEqualTo(expected)
     }
 }

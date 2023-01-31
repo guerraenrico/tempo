@@ -33,7 +33,7 @@ dependencies {
     implementation(Libs.Lifecycle.viewModelKtx) { because("Duplicated class error") }
 
     testImplementation Libs.Kotlin.Test.coroutines
-    testImplementation Libs.Kotlin.Test.kotlin
+    testImplementation Libs.Test.truth
     testImplementation Libs.Test.junit
     testImplementation Libs.Test.flow
 }

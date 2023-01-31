@@ -9,8 +9,6 @@ decrypt() {
 
 if [ ! -z "$ENCRYPT_KEY" ]
 then
-  decrypt ${ENCRYPT_KEY} release/keystore.gpg release/keystore.jks
-  decrypt ${ENCRYPT_KEY} release/service_account.gpg release/service_account.json
   decrypt ${ENCRYPT_KEY} app/google-services.gpg app/google-services.json
 else
   echo "ENCRYPT_KEY is empty"

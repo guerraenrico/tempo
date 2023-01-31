@@ -6,10 +6,10 @@ import com.enricog.data.routines.api.entities.Routine
 import com.enricog.data.routines.testing.FakeRoutineDataSource
 import com.enricog.data.routines.testing.entities.EMPTY
 import com.enricog.entities.asID
+import com.google.common.truth.Truth.assertThat
 import kotlinx.coroutines.flow.first
 import org.junit.Rule
 import org.junit.Test
-import kotlin.test.assertEquals
 
 internal class GetRoutinesUseCaseTest {
 
@@ -36,6 +36,6 @@ internal class GetRoutinesUseCaseTest {
 
         val actual = getRoutinesUseCase().first()
 
-        assertEquals(expected, actual)
+        assertThat(actual).isEqualTo(expected)
     }
 }

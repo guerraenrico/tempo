@@ -1,16 +1,16 @@
 package com.enricog.features.routines.detail.summary
 
-import com.enricog.data.routines.testing.entities.EMPTY
 import com.enricog.data.routines.api.entities.Routine
 import com.enricog.data.routines.api.entities.Segment
+import com.enricog.data.routines.testing.entities.EMPTY
 import com.enricog.features.routines.detail.summary.models.RoutineSummaryField
 import com.enricog.features.routines.detail.summary.models.RoutineSummaryFieldError
-import kotlin.test.assertEquals
+import com.google.common.truth.Truth
 import org.junit.Test
 
 class RoutineSummaryValidatorTest {
 
-    private val sut = RoutineSummaryValidator()
+    private val validator = RoutineSummaryValidator()
 
     @Test
     fun `should return error no segments when there are no segments in routine`() {
@@ -19,9 +19,9 @@ class RoutineSummaryValidatorTest {
             RoutineSummaryField.Segments to RoutineSummaryFieldError.NoSegments
         )
 
-        val result = sut.validate(routine)
+        val actual = validator.validate(routine)
 
-        assertEquals(expected, result)
+        Truth.assertThat(actual).isEqualTo(expected)
     }
 
     @Test
@@ -29,8 +29,8 @@ class RoutineSummaryValidatorTest {
         val routine = Routine.EMPTY.copy(segments = listOf(Segment.EMPTY))
         val expected = emptyMap<RoutineSummaryField, RoutineSummaryFieldError>()
 
-        val result = sut.validate(routine)
+        val actual = validator.validate(routine)
 
-        assertEquals(expected, result)
+        Truth.assertThat(actual).isEqualTo(expected)
     }
 }

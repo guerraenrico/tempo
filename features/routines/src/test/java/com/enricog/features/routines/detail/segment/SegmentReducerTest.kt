@@ -14,12 +14,12 @@ import com.enricog.features.routines.detail.segment.models.SegmentState
 import com.enricog.features.routines.detail.segment.models.SegmentState.Data.Action.SaveSegmentError
 import com.enricog.ui.components.extensions.toTextFieldValue
 import com.enricog.ui.components.textField.timeText
+import com.google.common.truth.Truth.assertThat
 import org.junit.Test
-import kotlin.test.assertEquals
 
 class SegmentReducerTest {
 
-    private val sut = SegmentReducer()
+    private val reducer = SegmentReducer()
 
     @Test
     fun `should setup state with existing segment`() {
@@ -45,9 +45,9 @@ class SegmentReducerTest {
             action = null
         )
 
-        val actual = sut.setup(routine = routine, segmentId = 1.asID)
+        val actual = reducer.setup(routine = routine, segmentId = 1.asID)
 
-        assertEquals(expected, actual)
+        assertThat(actual).isEqualTo(expected)
     }
 
     @Test
@@ -69,9 +69,9 @@ class SegmentReducerTest {
             action = null
         )
 
-        val actual = sut.setup(routine = routine, segmentId = 0.asID)
+        val actual = reducer.setup(routine = routine, segmentId = 0.asID)
 
-        assertEquals(expected, actual)
+        assertThat(actual).isEqualTo(expected)
     }
 
     @Test
@@ -79,9 +79,9 @@ class SegmentReducerTest {
         val exception = Exception()
         val expected = SegmentState.Error(throwable = exception)
 
-        val actual = sut.error(throwable = exception)
+        val actual = reducer.error(throwable = exception)
 
-        assertEquals(expected, actual)
+        assertThat(actual).isEqualTo(expected)
     }
 
     @Test
@@ -120,12 +120,12 @@ class SegmentReducerTest {
             action = null
         )
 
-        val actual = sut.updateSegmentName(
+        val actual = reducer.updateSegmentName(
             state = state,
             textFieldValue = "Segment Name Modified".toTextFieldValue()
         )
 
-        assertEquals(expected, actual)
+        assertThat(actual).isEqualTo(expected)
     }
 
     @Test
@@ -170,9 +170,9 @@ class SegmentReducerTest {
             action = null
         )
 
-        val actual = sut.updateSegmentTime(state = state, text = "10".timeText)
+        val actual = reducer.updateSegmentTime(state = state, text = "10".timeText)
 
-        assertEquals(expected, actual)
+        assertThat(actual).isEqualTo(expected)
     }
 
     @Test
@@ -217,9 +217,9 @@ class SegmentReducerTest {
             action = null
         )
 
-        val actual = sut.updateSegmentTime(state = state, text = "10".timeText)
+        val actual = reducer.updateSegmentTime(state = state, text = "10".timeText)
 
-        assertEquals(expected, actual)
+        assertThat(actual).isEqualTo(expected)
     }
 
     @Test
@@ -242,9 +242,9 @@ class SegmentReducerTest {
             action = null
         )
 
-        val actual = sut.updateSegmentTimeType(state = expected, timeType = TimeType.TIMER)
+        val actual = reducer.updateSegmentTimeType(state = expected, timeType = TimeType.TIMER)
 
-        assertEquals(expected, actual)
+        assertThat(actual).isEqualTo(expected)
     }
 
     @Test
@@ -284,9 +284,9 @@ class SegmentReducerTest {
             action = null
         )
 
-        val actual = sut.updateSegmentTimeType(state = state, timeType = TimeType.REST)
+        val actual = reducer.updateSegmentTimeType(state = state, timeType = TimeType.REST)
 
-        assertEquals(expected, actual)
+        assertThat(actual).isEqualTo(expected)
     }
 
     @Test
@@ -331,9 +331,9 @@ class SegmentReducerTest {
             action = null
         )
 
-        val actual = sut.updateSegmentTimeType(state = state, timeType = TimeType.REST)
+        val actual = reducer.updateSegmentTimeType(state = state, timeType = TimeType.REST)
 
-        assertEquals(expected, actual)
+        assertThat(actual).isEqualTo(expected)
     }
 
     @Test
@@ -373,9 +373,9 @@ class SegmentReducerTest {
             action = null
         )
 
-        val actual = sut.updateSegmentTimeType(state = state, timeType = TimeType.STOPWATCH)
+        val actual = reducer.updateSegmentTimeType(state = state, timeType = TimeType.STOPWATCH)
 
-        assertEquals(expected, actual)
+        assertThat(actual).isEqualTo(expected)
     }
 
     @Test
@@ -409,9 +409,9 @@ class SegmentReducerTest {
             action = null
         )
 
-        val actual = sut.applySegmentErrors(state = state, errors = errors)
+        val actual = reducer.applySegmentErrors(state = state, errors = errors)
 
-        assertEquals(expected, actual)
+        assertThat(actual).isEqualTo(expected)
     }
 
     @Test
@@ -441,9 +441,9 @@ class SegmentReducerTest {
             action = SaveSegmentError
         )
 
-        val actual = sut.saveSegmentError(state = state)
+        val actual = reducer.saveSegmentError(state = state)
 
-        assertEquals(expected, actual)
+        assertThat(actual).isEqualTo(expected)
     }
 
     @Test
@@ -473,8 +473,8 @@ class SegmentReducerTest {
             action = null
         )
 
-        val actual = sut.actionHandled(state = state)
+        val actual = reducer.actionHandled(state = state)
 
-        assertEquals(expected, actual)
+        assertThat(actual).isEqualTo(expected)
     }
 }

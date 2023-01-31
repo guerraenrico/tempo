@@ -10,9 +10,9 @@ import com.enricog.data.routines.testing.entities.EMPTY
 import com.enricog.entities.ID
 import com.enricog.entities.asID
 import com.enricog.entities.seconds
+import com.google.common.truth.Truth.assertThat
 import org.junit.Rule
 import org.junit.Test
-import kotlin.test.assertEquals
 
 class SegmentUseCaseTest {
 
@@ -31,13 +31,13 @@ class SegmentUseCaseTest {
     )
     private val store = FakeStore(listOf(routine))
 
-    private val sut = SegmentUseCase(routineDataSource = FakeRoutineDataSource(store))
+    private val useCase = SegmentUseCase(routineDataSource = FakeRoutineDataSource(store))
 
     @Test
     fun `should get routine`() = coroutineRule {
-        val actual = sut.get(1.asID)
+        val actual = useCase.get(1.asID)
 
-        assertEquals(routine, actual)
+        assertThat(actual).isEqualTo(routine)
     }
 
     @Test
@@ -50,9 +50,9 @@ class SegmentUseCaseTest {
         )
         val expected = routine.copy(segments = listOf(segment, newSegment.copy(ID.from(value = 2))))
 
-        sut.save(routine = routine, segment = newSegment)
+        useCase.save(routine = routine, segment = newSegment)
 
-        assertEquals(expected, store.get().first())
+        assertThat(store.get().first()).isEqualTo(expected)
     }
 
     @Test
@@ -60,8 +60,8 @@ class SegmentUseCaseTest {
         val updatedSegment = segment.copy(name = "Updated Segment Name",)
         val expected = routine.copy(segments = listOf(updatedSegment))
 
-        sut.save(routine = routine, segment = updatedSegment)
+        useCase.save(routine = routine, segment = updatedSegment)
 
-        assertEquals(expected, store.get().first())
+        assertThat(store.get().first()).isEqualTo(expected)
     }
 }

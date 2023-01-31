@@ -1,6 +1,6 @@
 package com.enricog.entities
 
-import org.junit.Assert.assertEquals
+import com.google.common.truth.Truth.assertThat
 import org.junit.Test
 
 class SecondsTest {
@@ -12,16 +12,17 @@ class SecondsTest {
 
         val actual = value.seconds
 
-        assertEquals(expected, actual.value)
+        assertThat(actual.value).isEqualTo(expected)
     }
 
     @Test
     fun `test Long to seconds`() {
         val value = 120L
+        val expected = 120L
 
         val actual = value.seconds
 
-        assertEquals(value, actual.value)
+        assertThat(actual.value).isEqualTo(expected)
     }
 
     @Test
@@ -31,7 +32,7 @@ class SecondsTest {
 
         val actual = value.seconds
 
-        assertEquals(expected, actual.value)
+        assertThat(actual.value).isEqualTo(expected)
     }
 
     @Test
@@ -41,7 +42,7 @@ class SecondsTest {
 
         val actual = value.seconds
 
-        assertEquals(expected, actual.value)
+        assertThat(actual.value).isEqualTo(expected)
     }
 
     @Test
@@ -51,7 +52,7 @@ class SecondsTest {
 
         val actual = value.seconds
 
-        assertEquals(expected, actual.value)
+        assertThat(actual.value).isEqualTo(expected)
     }
 
     @Test
@@ -61,7 +62,7 @@ class SecondsTest {
 
         val actual = value.seconds
 
-        assertEquals(expected, actual.value)
+        assertThat(actual.value).isEqualTo(expected)
     }
 
     @Test
@@ -71,7 +72,7 @@ class SecondsTest {
 
         val actual = value.seconds
 
-        assertEquals(expected, actual.value)
+        assertThat(actual.value).isEqualTo(expected)
     }
 
     @Test
@@ -81,7 +82,7 @@ class SecondsTest {
 
         val actual = value.seconds
 
-        assertEquals(expected, actual.value)
+        assertThat(actual.value).isEqualTo(expected)
     }
 
     @Test
@@ -91,7 +92,7 @@ class SecondsTest {
 
         val actual = value.seconds
 
-        assertEquals(expected, actual.value)
+        assertThat(actual.value).isEqualTo(expected)
     }
 
     @Test
@@ -101,7 +102,7 @@ class SecondsTest {
 
         val actual = value.toString()
 
-        assertEquals(expected, actual)
+        assertThat(actual).isEqualTo(expected)
     }
 
     @Test
@@ -111,7 +112,7 @@ class SecondsTest {
 
         val actual = value.toString()
 
-        assertEquals(expected, actual)
+        assertThat(actual).isEqualTo(expected)
     }
 
     @Test
@@ -121,7 +122,7 @@ class SecondsTest {
 
         val actual = value.toString()
 
-        assertEquals(expected, actual)
+        assertThat(actual).isEqualTo(expected)
     }
 
     @Test
@@ -132,7 +133,7 @@ class SecondsTest {
 
         val actual = value1 + value2
 
-        assertEquals(expected, actual)
+        assertThat(actual).isEqualTo(expected)
     }
 
     @Test
@@ -143,7 +144,7 @@ class SecondsTest {
 
         val actual = value1 - value2
 
-        assertEquals(expected, actual)
+        assertThat(actual).isEqualTo(expected)
     }
 
     @Test
@@ -152,6 +153,7 @@ class SecondsTest {
         val expected = 8L to 20L
 
         val actual = value.inMinutes
-        assertEquals(expected, actual)
+
+        assertThat(actual).isEqualTo(expected)
     }
 }

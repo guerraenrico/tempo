@@ -9,12 +9,12 @@ import com.enricog.features.routines.detail.summary.models.RoutineSummaryField
 import com.enricog.features.routines.detail.summary.models.RoutineSummaryFieldError
 import com.enricog.features.routines.detail.summary.models.RoutineSummaryState
 import com.enricog.features.routines.detail.summary.models.RoutineSummaryState.Data.Action
+import com.google.common.truth.Truth.assertThat
 import org.junit.Test
-import kotlin.test.assertEquals
 
 class RoutineSummaryReducerTest {
 
-    private val sut = RoutineSummaryReducer()
+    private val reducer = RoutineSummaryReducer()
 
     @Test
     fun `should setup data state`() {
@@ -26,9 +26,9 @@ class RoutineSummaryReducerTest {
             action = null
         )
 
-        val result = sut.setup(state = state, routine = routine)
+        val actual = reducer.setup(state = state, routine = routine)
 
-        assertEquals(expected, result)
+        assertThat(actual).isEqualTo(expected)
     }
 
     @Test
@@ -45,9 +45,9 @@ class RoutineSummaryReducerTest {
             action = Action.DeleteSegmentSuccess
         )
 
-        val result = sut.setup(state = state, routine = routine)
+        val actual = reducer.setup(state = state, routine = routine)
 
-        assertEquals(expected, result)
+        assertThat(actual).isEqualTo(expected)
     }
 
     @Test
@@ -55,9 +55,9 @@ class RoutineSummaryReducerTest {
         val exception = Exception("Something went wrong")
         val expected = RoutineSummaryState.Error(exception)
 
-        val result = sut.error(throwable = exception)
+        val actual = reducer.error(throwable = exception)
 
-        assertEquals(expected, result)
+        assertThat(actual).isEqualTo(expected)
     }
 
     @Test
@@ -80,9 +80,9 @@ class RoutineSummaryReducerTest {
             action = null
         )
 
-        val result = sut.applyRoutineErrors(state = state, errors = errors)
+        val actual = reducer.applyRoutineErrors(state = state, errors = errors)
 
-        assertEquals(expected, result)
+        assertThat(actual).isEqualTo(expected)
     }
 
     @Test
@@ -104,9 +104,9 @@ class RoutineSummaryReducerTest {
             action = Action.DeleteSegmentError(segmentId = segmentId)
         )
 
-        val result = sut.deleteSegmentError(state = state, segmentId = segmentId)
+        val actual = reducer.deleteSegmentError(state = state, segmentId = segmentId)
 
-        assertEquals(expected, result)
+        assertThat(actual).isEqualTo(expected)
     }
 
     @Test
@@ -127,9 +127,9 @@ class RoutineSummaryReducerTest {
             action = Action.DeleteSegmentSuccess
         )
 
-        val result = sut.deleteSegmentSuccess(state = state)
+        val actual = reducer.deleteSegmentSuccess(state = state)
 
-        assertEquals(expected, result)
+        assertThat(actual).isEqualTo(expected)
     }
 
     @Test
@@ -150,9 +150,9 @@ class RoutineSummaryReducerTest {
             action = Action.MoveSegmentError
         )
 
-        val result = sut.moveSegmentError(state = state)
+        val actual = reducer.moveSegmentError(state = state)
 
-        assertEquals(expected, result)
+        assertThat(actual).isEqualTo(expected)
     }
 
     @Test
@@ -173,9 +173,9 @@ class RoutineSummaryReducerTest {
             action = Action.DuplicateSegmentError
         )
 
-        val result = sut.duplicateSegmentError(state = state)
+        val actual = reducer.duplicateSegmentError(state = state)
 
-        assertEquals(expected, result)
+        assertThat(actual).isEqualTo(expected)
     }
 
     @Test
@@ -196,8 +196,8 @@ class RoutineSummaryReducerTest {
             action = null
         )
 
-        val result = sut.actionHandled(state = state)
+        val actual = reducer.actionHandled(state = state)
 
-        assertEquals(expected, result)
+        assertThat(actual).isEqualTo(expected)
     }
 }

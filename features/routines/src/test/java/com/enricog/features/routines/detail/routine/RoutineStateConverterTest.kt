@@ -14,25 +14,25 @@ import com.enricog.features.routines.detail.routine.models.RoutineState.Data.Act
 import com.enricog.features.routines.detail.routine.models.RoutineViewState
 import com.enricog.ui.components.extensions.toTextFieldValue
 import com.enricog.ui.components.textField.timeText
+import com.google.common.truth.Truth.assertThat
 import org.junit.Rule
 import org.junit.Test
-import kotlin.test.assertEquals
 
 class RoutineStateConverterTest {
 
     @get:Rule
     val coroutineRule = CoroutineRule()
 
-    private val sut = RoutineStateConverter()
+    private val stateConverter = RoutineStateConverter()
 
     @Test
     fun `test map idle state`() = coroutineRule {
         val state = RoutineState.Idle
         val expected = RoutineViewState.Idle
 
-        val result = sut.convert(state = state)
+        val actual = stateConverter.convert(state = state)
 
-        assertEquals(expected, result)
+        assertThat(actual).isEqualTo(expected)
     }
 
     @Test
@@ -41,9 +41,9 @@ class RoutineStateConverterTest {
         val state = RoutineState.Error(exception)
         val expected = RoutineViewState.Error(exception)
 
-        val result = sut.convert(state = state)
+        val actual = stateConverter.convert(state = state)
 
-        assertEquals(expected, result)
+        assertThat(actual).isEqualTo(expected)
     }
 
     @Test
@@ -70,9 +70,9 @@ class RoutineStateConverterTest {
             message = null
         )
 
-        val result = sut.convert(state = state)
+        val actual = stateConverter.convert(state = state)
 
-        assertEquals(expected, result)
+        assertThat(actual).isEqualTo(expected)
     }
 
     @Test
@@ -102,8 +102,8 @@ class RoutineStateConverterTest {
             )
         )
 
-        val result = sut.convert(state = state)
+        val actual = stateConverter.convert(state = state)
 
-        assertEquals(expected, result)
+        assertThat(actual).isEqualTo(expected)
     }
 }

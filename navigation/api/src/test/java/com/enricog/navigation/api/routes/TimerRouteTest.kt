@@ -4,7 +4,7 @@ import androidx.lifecycle.SavedStateHandle
 import androidx.navigation.navOptions
 import com.enricog.entities.asID
 import com.enricog.navigation.api.NavigationAction
-import kotlin.test.assertEquals
+import com.google.common.truth.Truth.assertThat
 import org.junit.Test
 
 class TimerRouteTest {
@@ -14,7 +14,7 @@ class TimerRouteTest {
         val expected = "timer/{routineId}"
         val actual = TimerRoute.name
 
-        assertEquals(expected, actual)
+        assertThat(actual).isEqualTo(expected)
     }
 
     @Test
@@ -25,7 +25,7 @@ class TimerRouteTest {
 
         val actual = TimerRoute.navigate(input = input, optionsBuilder = {})
 
-        assertEquals(expected, actual)
+        assertThat(actual).isEqualTo(expected)
     }
 
     @Test
@@ -35,6 +35,6 @@ class TimerRouteTest {
 
         val actual = TimerRoute.extractInput(savedStateHandle = savedStateHandle)
 
-        assertEquals(expected, actual)
+        assertThat(actual).isEqualTo(expected)
     }
 }

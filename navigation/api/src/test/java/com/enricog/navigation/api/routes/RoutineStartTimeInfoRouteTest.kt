@@ -3,8 +3,8 @@ package com.enricog.navigation.api.routes
 import androidx.lifecycle.SavedStateHandle
 import androidx.navigation.navOptions
 import com.enricog.navigation.api.NavigationAction
+import com.google.common.truth.Truth.assertThat
 import org.junit.Test
-import kotlin.test.assertEquals
 
 class RoutineStartTimeInfoRouteTest {
 
@@ -14,7 +14,7 @@ class RoutineStartTimeInfoRouteTest {
 
         val actual = RoutineStartTimeInfoRoute.name
 
-        assertEquals(expected, actual)
+        assertThat(actual).isEqualTo(expected)
     }
 
     @Test
@@ -28,7 +28,7 @@ class RoutineStartTimeInfoRouteTest {
 
         val actual = RoutineStartTimeInfoRoute.navigate(input = input, optionsBuilder = {})
 
-        assertEquals(expected, actual)
+        assertThat(actual).isEqualTo(expected)
     }
 
     @Test
@@ -38,8 +38,6 @@ class RoutineStartTimeInfoRouteTest {
 
         val actual = RoutineStartTimeInfoRoute.extractInput(savedStateHandle = savedStateHandle)
 
-        assertEquals(expected, actual)
+        assertThat(actual).isEqualTo(expected)
     }
-
-
 }

@@ -1,7 +1,6 @@
 package com.enricog.core.compose.api.classes
 
-import org.junit.Assert.assertFalse
-import org.junit.Assert.assertTrue
+import com.google.common.truth.Truth.assertThat
 import org.junit.Test
 
 class ImmutableListTest {
@@ -11,7 +10,7 @@ class ImmutableListTest {
         val list1 = immutableListOf(1, 2)
         val list2 = immutableListOf(1, 2)
 
-        assertTrue(list1 == list2)
+        assertThat(list1).isEqualTo(list2)
     }
 
     @Test
@@ -19,6 +18,6 @@ class ImmutableListTest {
         val list1 = immutableListOf(1, 2)
         val list2 = immutableListOf(1, 3)
 
-        assertFalse(list1 == list2)
+        assertThat(list1).isNotEqualTo(list2)
     }
 }

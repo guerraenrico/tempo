@@ -9,9 +9,9 @@ import com.enricog.data.routines.testing.entities.EMPTY
 import com.enricog.entities.ID
 import com.enricog.entities.Rank
 import com.enricog.entities.asID
+import com.google.common.truth.Truth.assertThat
 import org.junit.Rule
 import org.junit.Test
-import kotlin.test.assertEquals
 
 class MoveSegmentUseCaseTest {
 
@@ -31,29 +31,29 @@ class MoveSegmentUseCaseTest {
 
     private val store = FakeStore(listOf(routine))
     private val routineDataSource = FakeRoutineDataSource(store)
-    private val sut = MoveSegmentUseCase(routineDataSource = routineDataSource)
+    private val useCase = MoveSegmentUseCase(routineDataSource = routineDataSource)
 
     @Test
     fun `should do nothing when segment has not been moved`() = coroutineRule {
-        sut(routine = routine, draggedSegmentId = segment1.id, hoveredSegmentId = segment1.id)
+        useCase(routine = routine, draggedSegmentId = segment1.id, hoveredSegmentId = segment1.id)
 
-        assertEquals(routine, getActual())
+        assertThat(getActual()).isEqualTo(routine)
     }
 
     @Test
     fun `should do nothing when dragged segment is not found`() = coroutineRule {
         val segmentIdUnknown = 4.asID
-        sut(routine = routine, draggedSegmentId = segmentIdUnknown, hoveredSegmentId = segment1.id)
+        useCase(routine = routine, draggedSegmentId = segmentIdUnknown, hoveredSegmentId = segment1.id)
 
-        assertEquals(routine, getActual())
+        assertThat(getActual()).isEqualTo(routine)
     }
 
     @Test
     fun `should do nothing when hovered segment is not found`() = coroutineRule {
         val segmentIdUnknown = 4.asID
-        sut(routine = routine, draggedSegmentId = segment1.id, hoveredSegmentId = segmentIdUnknown)
+        useCase(routine = routine, draggedSegmentId = segment1.id, hoveredSegmentId = segmentIdUnknown)
 
-        assertEquals(routine, getActual())
+        assertThat(getActual()).isEqualTo(routine)
     }
 
     @Test
@@ -66,9 +66,9 @@ class MoveSegmentUseCaseTest {
             )
         )
 
-        sut(routine = routine, draggedSegmentId = segment3.id, hoveredSegmentId = segment2.id)
+        useCase(routine = routine, draggedSegmentId = segment3.id, hoveredSegmentId = segment2.id)
 
-        assertEquals(expected, getActual())
+        assertThat(getActual()).isEqualTo(expected)
     }
 
     @Test
@@ -81,9 +81,9 @@ class MoveSegmentUseCaseTest {
             )
         )
 
-        sut(routine = routine, draggedSegmentId = segment1.id, hoveredSegmentId = segment2.id)
+        useCase(routine = routine, draggedSegmentId = segment1.id, hoveredSegmentId = segment2.id)
 
-        assertEquals(expected, getActual())
+        assertThat(getActual()).isEqualTo(expected)
     }
 
     @Test
@@ -96,9 +96,9 @@ class MoveSegmentUseCaseTest {
             )
         )
 
-        sut(routine = routine, draggedSegmentId = segment3.id, hoveredSegmentId = segment1.id)
+        useCase(routine = routine, draggedSegmentId = segment3.id, hoveredSegmentId = segment1.id)
 
-        assertEquals(expected, getActual())
+        assertThat(getActual()).isEqualTo(expected)
     }
 
     @Test
@@ -111,9 +111,9 @@ class MoveSegmentUseCaseTest {
             )
         )
 
-        sut(routine = routine, draggedSegmentId = segment1.id, hoveredSegmentId = segment3.id)
+        useCase(routine = routine, draggedSegmentId = segment1.id, hoveredSegmentId = segment3.id)
 
-        assertEquals(expected, getActual())
+        assertThat(getActual()).isEqualTo(expected)
     }
 
     private suspend fun getActual(): Routine = routineDataSource.get(routine.id)

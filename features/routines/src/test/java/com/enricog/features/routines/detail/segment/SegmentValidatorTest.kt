@@ -6,12 +6,12 @@ import com.enricog.features.routines.detail.segment.models.SegmentFieldError
 import com.enricog.features.routines.detail.segment.models.SegmentInputs
 import com.enricog.ui.components.extensions.toTextFieldValue
 import com.enricog.ui.components.textField.timeText
+import com.google.common.truth.Truth.assertThat
 import org.junit.Test
-import kotlin.test.assertEquals
 
 class SegmentValidatorTest {
 
-    private val sut = SegmentValidator()
+    private val validator = SegmentValidator()
 
     @Test
     fun `should return error when segment name is blank`() {
@@ -22,9 +22,9 @@ class SegmentValidatorTest {
         )
         val expected = mapOf(SegmentField.Name to SegmentFieldError.BlankSegmentName)
 
-        val actual = sut.validate(inputs = inputs)
+        val actual = validator.validate(inputs = inputs)
 
-        assertEquals(expected, actual)
+        assertThat(actual).isEqualTo(expected)
     }
 
     @Test
@@ -36,9 +36,9 @@ class SegmentValidatorTest {
         )
         val expected = mapOf(SegmentField.Time to SegmentFieldError.InvalidSegmentTime)
 
-        val actual = sut.validate(inputs = inputs)
+        val actual = validator.validate(inputs = inputs)
 
-        assertEquals(expected, actual)
+        assertThat(actual).isEqualTo(expected)
     }
 
     @Test
@@ -50,8 +50,8 @@ class SegmentValidatorTest {
         )
         val expected = emptyMap<SegmentField, SegmentFieldError>()
 
-        val actual = sut.validate(inputs = inputs)
+        val actual = validator.validate(inputs = inputs)
 
-        assertEquals(expected, actual)
+        assertThat(actual).isEqualTo(expected)
     }
 }

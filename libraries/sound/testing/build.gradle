@@ -25,6 +25,6 @@ android {
 dependencies {
     implementation project(":libraries:sound:api")
 
-    implementation Libs.Kotlin.Test.kotlin
     implementation Libs.Test.junit
+    implementation Libs.Test.truth
 }

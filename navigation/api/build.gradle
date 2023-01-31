@@ -48,6 +48,6 @@ dependencies {
     implementation Libs.Google.Accompanist.navigation
 
     testImplementation Libs.Kotlin.Test.coroutines
-    testImplementation Libs.Kotlin.Test.kotlin
+    testImplementation Libs.Test.truth
     testImplementation Libs.Test.junit
 }

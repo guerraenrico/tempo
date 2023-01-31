@@ -8,9 +8,9 @@ import com.enricog.data.routines.testing.entities.EMPTY
 import com.enricog.entities.ID
 import com.enricog.entities.Rank
 import com.enricog.entities.asID
+import com.google.common.truth.Truth.assertThat
 import org.junit.Rule
 import org.junit.Test
-import kotlin.test.assertEquals
 
 class RoutineUseCaseTest {
 
@@ -26,15 +26,15 @@ class RoutineUseCaseTest {
                 rank = Rank.from(value = "mzzzzz")
             )
             val routineId = ID.new()
-            val sut = buildSut(store = store)
+            val useCase = buildUseCase(store = store)
 
-            val actual = sut.get(routineId)
+            val actual = useCase.get(routineId)
 
-            assertEquals(expected.id, actual.id)
-            assertEquals(expected.name, actual.name)
-            assertEquals(expected.startTimeOffset, actual.startTimeOffset)
-            assertEquals(expected.segments, actual.segments)
-            assertEquals(expected.rank, actual.rank)
+            assertThat(actual.id).isEqualTo(expected.id)
+            assertThat(actual.name).isEqualTo(expected.name)
+            assertThat(actual.startTimeOffset).isEqualTo(expected.startTimeOffset)
+            assertThat(actual.segments).isEqualTo(expected.segments)
+            assertThat(actual.rank).isEqualTo(expected.rank)
         }
 
     @Test
@@ -54,41 +54,42 @@ class RoutineUseCaseTest {
                 rank = Rank.from(value = "gmzzzz")
             )
             val routineId = ID.new()
-            val sut = buildSut(store = store)
+            val useCase = buildUseCase(store = store)
 
-            val actual = sut.get(routineId)
+            val actual = useCase.get(routineId)
 
-            assertEquals(expected.id, actual.id)
-            assertEquals(expected.name, actual.name)
-            assertEquals(expected.startTimeOffset, actual.startTimeOffset)
-            assertEquals(expected.segments, actual.segments)
-            assertEquals(expected.rank, actual.rank)
+            assertThat(actual.id).isEqualTo(expected.id)
+            assertThat(actual.name).isEqualTo(expected.name)
+            assertThat(actual.startTimeOffset).isEqualTo(expected.startTimeOffset)
+            assertThat(actual.segments).isEqualTo(expected.segments)
+            assertThat(actual.rank).isEqualTo(expected.rank)
         }
 
     @Test
     fun `test get should return a routine when routine id is not new`() = coroutineRule {
         val expected = Routine.EMPTY.copy(id = 1.asID)
         val store = FakeStore(listOf(expected))
-        val sut = buildSut(store)
+        val useCase = buildUseCase(store)
 
-        val actual = sut.get(1.asID)
+        val actual = useCase.get(1.asID)
 
-        assertEquals(expected, actual)
+        assertThat(actual).isEqualTo(expected)
     }
 
     @Test
     fun `test save should create a routine if routine id is new`() = coroutineRule {
         val routine = Routine.EMPTY.copy(id = ID.new())
         val store = FakeStore(emptyList<Routine>())
-        val sut = buildSut(store)
+        val useCase = buildUseCase(store)
 
-        val actual = sut.save(routine)
+        val actual = useCase.save(routine)
 
         store.get().first().let { createdRoutine ->
-            assertEquals(createdRoutine.id, actual)
-            assertEquals(routine.name, createdRoutine.name)
-            assertEquals(routine.startTimeOffset, createdRoutine.startTimeOffset)
-            assertEquals(routine.segments, createdRoutine.segments)
+            assertThat(actual).isEqualTo(createdRoutine.id)
+            assertThat(createdRoutine.name).isEqualTo(routine.name)
+            assertThat(createdRoutine.startTimeOffset).isEqualTo(routine.startTimeOffset)
+            assertThat(createdRoutine.segments).isEqualTo(routine.segments)
+            assertThat(createdRoutine.rank).isEqualTo(routine.rank)
         }
     }
 
@@ -97,17 +98,17 @@ class RoutineUseCaseTest {
         val expectedRoutine = Routine.EMPTY.copy(id = 1.asID, name = "Routine Name Modified")
         val existingRoutine = Routine.EMPTY.copy(id = 1.asID, name = "Routine Name")
         val store = FakeStore(listOf(existingRoutine))
-        val sut = buildSut(store)
+        val useCase = buildUseCase(store)
 
-        val actual = sut.save(expectedRoutine)
+        val actual = useCase.save(expectedRoutine)
 
-        assertEquals(expectedRoutine.id, actual)
+        assertThat(actual).isEqualTo(expectedRoutine.id)
         store.get().first().let { updatedRoutine ->
-            assertEquals(expectedRoutine, updatedRoutine)
+            assertThat(updatedRoutine).isEqualTo(expectedRoutine)
         }
     }
 
-    private fun buildSut(store: FakeStore<List<Routine>> = FakeStore(emptyList())): RoutineUseCase {
+    private fun buildUseCase(store: FakeStore<List<Routine>> = FakeStore(emptyList())): RoutineUseCase {
         return RoutineUseCase(routineDataSource = FakeRoutineDataSource(store))
     }
 }

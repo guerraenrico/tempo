@@ -17,25 +17,25 @@ import com.enricog.features.routines.detail.summary.models.RoutineSummaryViewSta
 import com.enricog.features.routines.detail.summary.models.RoutineSummaryViewState.Data.Message
 import com.enricog.features.routines.detail.ui.time_type.TimeType
 import com.enricog.ui.theme.TimeTypeColors
+import com.google.common.truth.Truth.assertThat
 import org.junit.Rule
 import org.junit.Test
-import kotlin.test.assertEquals
 
 class RoutineSummaryStateConverterTest {
 
     @get:Rule
     val coroutineRule = CoroutineRule()
 
-    private val sut = RoutineSummaryStateConverter()
+    private val stateConverter = RoutineSummaryStateConverter()
 
     @Test
     fun `test map idle state`() = coroutineRule {
         val state = RoutineSummaryState.Idle
         val expected = RoutineSummaryViewState.Idle
 
-        val result = sut.convert(state)
+        val actual = stateConverter.convert(state)
 
-        assertEquals(expected, result)
+        assertThat(actual).isEqualTo(expected)
     }
 
     @Test
@@ -84,9 +84,9 @@ class RoutineSummaryStateConverterTest {
             message = null
         )
 
-        val result = sut.convert(state)
+        val actual = stateConverter.convert(state)
 
-        assertEquals(expected, result)
+        assertThat(actual).isEqualTo(expected)
     }
 
     @Test
@@ -138,9 +138,9 @@ class RoutineSummaryStateConverterTest {
             )
         )
 
-        val result = sut.convert(state)
+        val actual = stateConverter.convert(state)
 
-        assertEquals(expected, result)
+        assertThat(actual).isEqualTo(expected)
     }
 
     @Test
@@ -192,9 +192,9 @@ class RoutineSummaryStateConverterTest {
             )
         )
 
-        val result = sut.convert(state)
+        val actual = stateConverter.convert(state)
 
-        assertEquals(expected, result)
+        assertThat(actual).isEqualTo(expected)
     }
 
     @Test
@@ -246,9 +246,9 @@ class RoutineSummaryStateConverterTest {
             )
         )
 
-        val result = sut.convert(state)
+        val actual = stateConverter.convert(state)
 
-        assertEquals(expected, result)
+        assertThat(actual).isEqualTo(expected)
     }
 
     @Test
@@ -300,8 +300,8 @@ class RoutineSummaryStateConverterTest {
             )
         )
 
-        val result = sut.convert(state)
+        val actual = stateConverter.convert(state)
 
-        assertEquals(expected, result)
+        assertThat(actual).isEqualTo(expected)
     }
 }

@@ -9,8 +9,8 @@ import com.enricog.features.timer.models.Count
 import com.enricog.features.timer.models.SegmentStep
 import com.enricog.features.timer.models.SegmentStepType
 import com.enricog.features.timer.models.TimerState
+import com.google.common.truth.Truth.assertThat
 import org.junit.Test
-import kotlin.test.assertEquals
 
 class TimerReducerTest {
 
@@ -101,7 +101,7 @@ class TimerReducerTest {
 
         val actual = timerReducer.setup(state = state, routine = routine)
 
-        assertEquals(expected, actual)
+        assertThat(actual).isEqualTo(expected)
     }
 
     @Test
@@ -170,7 +170,7 @@ class TimerReducerTest {
 
         val actual = timerReducer.setup(state = state, routine = routine)
 
-        assertEquals(expected, actual)
+        assertThat(actual).isEqualTo(expected)
     }
 
     @Test
@@ -219,7 +219,7 @@ class TimerReducerTest {
 
         val actual = timerReducer.setup(state = state, routine = routine)
 
-        assertEquals(expected, actual)
+        assertThat(actual).isEqualTo(expected)
     }
 
     @Test
@@ -229,7 +229,7 @@ class TimerReducerTest {
 
         val actual = timerReducer.error(throwable = exception)
 
-        assertEquals(expected, actual)
+        assertThat(actual).isEqualTo(expected)
     }
 
     @Test
@@ -257,7 +257,7 @@ class TimerReducerTest {
 
         val actual = timerReducer.progressTime(state)
 
-        assertEquals(state, actual)
+        assertThat(actual).isEqualTo(state)
     }
 
     @Test
@@ -303,7 +303,7 @@ class TimerReducerTest {
 
         val actual = timerReducer.progressTime(state)
 
-        assertEquals(expected, actual)
+        assertThat(actual).isEqualTo(expected)
     }
 
     @Test
@@ -349,7 +349,7 @@ class TimerReducerTest {
 
         val actual = timerReducer.progressTime(state)
 
-        assertEquals(expected, actual)
+        assertThat(actual).isEqualTo(expected)
     }
 
     @Test
@@ -407,7 +407,7 @@ class TimerReducerTest {
 
         val actual = timerReducer.progressTime(state)
 
-        assertEquals(expected, actual)
+        assertThat(actual).isEqualTo(expected)
     }
 
     @Test
@@ -453,7 +453,7 @@ class TimerReducerTest {
 
         val actual = timerReducer.progressTime(state)
 
-        assertEquals(expected, actual)
+        assertThat(actual).isEqualTo(expected)
     }
 
     @Test
@@ -499,7 +499,7 @@ class TimerReducerTest {
 
         val actual = timerReducer.progressTime(state)
 
-        assertEquals(expected, actual)
+        assertThat(actual).isEqualTo(expected)
     }
 
     @Test
@@ -545,7 +545,7 @@ class TimerReducerTest {
 
         val actual = timerReducer.progressTime(state)
 
-        assertEquals(expected, actual)
+        assertThat(actual).isEqualTo(expected)
     }
 
     @Test
@@ -573,7 +573,7 @@ class TimerReducerTest {
 
         val actual = timerReducer.toggleTimeRunning(state)
 
-        assertEquals(state, actual)
+        assertThat(actual).isEqualTo(state)
     }
 
     @Test
@@ -619,7 +619,7 @@ class TimerReducerTest {
 
         val actual = timerReducer.toggleTimeRunning(state)
 
-        assertEquals(expected, actual)
+        assertThat(actual).isEqualTo(expected)
     }
 
     @Test
@@ -665,7 +665,7 @@ class TimerReducerTest {
 
         val actual = timerReducer.toggleTimeRunning(state)
 
-        assertEquals(expected, actual)
+        assertThat(actual).isEqualTo(expected)
     }
 
     @Test
@@ -711,7 +711,7 @@ class TimerReducerTest {
 
         val actual = timerReducer.jumpStepBack(state)
 
-        assertEquals(expected, actual)
+        assertThat(actual).isEqualTo(expected)
     }
 
     @Test
@@ -769,7 +769,7 @@ class TimerReducerTest {
 
         val actual = timerReducer.jumpStepBack(state)
 
-        assertEquals(expected, actual)
+        assertThat(actual).isEqualTo(expected)
     }
 
     @Test
@@ -827,7 +827,7 @@ class TimerReducerTest {
 
         val actual = timerReducer.jumpStepNext(state)
 
-        assertEquals(expected, actual)
+        assertThat(actual).isEqualTo(expected)
     }
 
     @Test
@@ -885,7 +885,7 @@ class TimerReducerTest {
 
         val actual = timerReducer.jumpStepNext(state)
 
-        assertEquals(expected, actual)
+        assertThat(actual).isEqualTo(expected)
     }
 
     @Test
@@ -913,7 +913,7 @@ class TimerReducerTest {
 
         val actual = timerReducer.nextStep(state)
 
-        assertEquals(state, actual)
+        assertThat(actual).isEqualTo(state)
     }
 
     @Test
@@ -971,7 +971,7 @@ class TimerReducerTest {
 
         val actual = timerReducer.nextStep(state)
 
-        assertEquals(expected, actual)
+        assertThat(actual).isEqualTo(expected)
     }
 
     @Test
@@ -999,7 +999,7 @@ class TimerReducerTest {
 
         val actual = timerReducer.nextStep(state)
 
-        assertEquals(state, actual)
+        assertThat(actual).isEqualTo(state)
     }
 
     @Test
@@ -1045,6 +1045,6 @@ class TimerReducerTest {
 
         val actual = timerReducer.toggleSound(state)
 
-        assertEquals(expected, actual)
+        assertThat(actual).isEqualTo(expected)
     }
 }

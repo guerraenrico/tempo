@@ -28,7 +28,7 @@ dependencies {
     implementation Libs.Kotlin.coroutines
 
     implementation Libs.Kotlin.Test.coroutines
-    implementation Libs.Kotlin.Test.kotlin
     implementation Libs.Test.junit
+    implementation Libs.Test.truth
     implementation Libs.Test.flow
 }

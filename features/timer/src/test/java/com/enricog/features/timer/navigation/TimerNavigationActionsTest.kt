@@ -14,11 +14,11 @@ class TimerNavigationActionsTest {
 
     private val navigator = FakeNavigator()
 
-    private val sut = TimerNavigationActions(navigator)
+    private val navigationActions = TimerNavigationActions(navigator)
 
     @Test
     fun `test backToRoutines`() = coroutineRule {
-        sut.backToRoutines()
+        navigationActions.backToRoutines()
 
         navigator.assertGoTo(RoutinesRoute, RoutinesRouteInput)
     }

@@ -24,12 +24,11 @@ import com.enricog.navigation.api.routes.RoutineSummaryRouteInput
 import com.enricog.navigation.testing.FakeNavigator
 import com.enricog.ui.components.extensions.toTextFieldValue
 import com.enricog.ui.components.textField.timeText
+import com.google.common.truth.Truth.assertThat
 import kotlinx.coroutines.test.StandardTestDispatcher
 import kotlinx.coroutines.test.advanceUntilIdle
 import org.junit.Rule
 import org.junit.Test
-import kotlin.test.assertEquals
-import kotlin.test.assertIs
 
 class RoutineViewModelTest {
 
@@ -57,10 +56,12 @@ class RoutineViewModelTest {
             message = null
         )
 
-        val sut = buildSut()
+        val viewModel = buildViewModel()
         advanceUntilIdle()
 
-        sut.viewState.test { assertEquals(expected, awaitItem()) }
+        viewModel.viewState.test {
+            assertThat(awaitItem()).isEqualTo(expected)
+        }
     }
 
     @Test
@@ -68,14 +69,16 @@ class RoutineViewModelTest {
         val store = FakeStore(listOf(routine))
         store.enableErrorOnNextAccess()
 
-        val sut = buildSut(store = store)
+        val viewModel = buildViewModel(store = store)
         advanceUntilIdle()
 
-        sut.viewState.test { assertIs<RoutineViewState.Error>(awaitItem()) }
+        viewModel.viewState.test {
+            assertThat(awaitItem()).isInstanceOf(RoutineViewState.Error::class.java)
+        }
     }
 
     @Test
-    fun `should reload when retry`()  = coroutineRule {
+    fun `should reload when retry`() = coroutineRule {
         val store = FakeStore(listOf(routine))
         val expected = RoutineViewState.Data(
             routine = routineFields,
@@ -83,13 +86,15 @@ class RoutineViewModelTest {
             message = null
         )
         store.enableErrorOnNextAccess()
-        val sut = buildSut(store = store)
+        val viewModel = buildViewModel(store = store)
         advanceUntilIdle()
 
-        sut.onRetryLoad()
+        viewModel.onRetryLoad()
         advanceUntilIdle()
 
-        sut.viewState.test { assertEquals(expected, awaitItem()) }
+        viewModel.viewState.test {
+            assertThat(awaitItem()).isEqualTo(expected)
+        }
     }
 
     @Test
@@ -99,13 +104,15 @@ class RoutineViewModelTest {
             errors = emptyImmutableMap(),
             message = null
         )
-        val sut = buildSut()
+        val viewModel = buildViewModel()
         advanceUntilIdle()
 
-        sut.onRoutineNameTextChange(textFieldValue = "Routine Name Modified".toTextFieldValue())
+        viewModel.onRoutineNameTextChange(textFieldValue = "Routine Name Modified".toTextFieldValue())
         advanceUntilIdle()
 
-        sut.viewState.test { assertEquals(expected, awaitItem()) }
+        viewModel.viewState.test {
+            assertThat(awaitItem()).isEqualTo(expected)
+        }
     }
 
     @Test
@@ -115,20 +122,22 @@ class RoutineViewModelTest {
             errors = emptyImmutableMap(),
             message = null
         )
-        val sut = buildSut()
+        val viewModel = buildViewModel()
         advanceUntilIdle()
 
-        sut.onRoutineStartTimeOffsetChange(text = "10".timeText)
+        viewModel.onRoutineStartTimeOffsetChange(text = "10".timeText)
         advanceUntilIdle()
 
-        sut.viewState.test { assertEquals(expected, awaitItem()) }
+        viewModel.viewState.test {
+            assertThat(awaitItem()).isEqualTo(expected)
+        }
     }
 
     @Test
     fun `should navigate back when back`() = coroutineRule {
-        val sut = buildSut()
+        val viewModel = buildViewModel()
 
-        sut.onRoutineBack()
+        viewModel.onRoutineBack()
 
         navigator.assertGoBack()
     }
@@ -140,15 +149,17 @@ class RoutineViewModelTest {
             errors = immutableMapOf(RoutineField.Name to RoutineFieldError.BlankRoutineName),
             message = null
         )
-        val sut = buildSut()
+        val viewModel = buildViewModel()
         advanceUntilIdle()
-        sut.onRoutineNameTextChange(textFieldValue = "".toTextFieldValue())
-        advanceUntilIdle()
-
-        sut.onRoutineSave()
+        viewModel.onRoutineNameTextChange(textFieldValue = "".toTextFieldValue())
         advanceUntilIdle()
 
-        sut.viewState.test { assertEquals(expected, awaitItem()) }
+        viewModel.onRoutineSave()
+        advanceUntilIdle()
+
+        viewModel.viewState.test {
+            assertThat(awaitItem()).isEqualTo(expected)
+        }
         navigator.assertNoActions()
     }
 
@@ -157,18 +168,18 @@ class RoutineViewModelTest {
         val expected = Routine.EMPTY.copy(name = "New Routine Name")
         val store = FakeStore(emptyList<Routine>())
         val savedStateHandle = SavedStateHandle(mapOf("routineId" to 0L))
-        val sut = buildSut(store = store, savedStateHandle = savedStateHandle)
+        val viewModel = buildViewModel(store = store, savedStateHandle = savedStateHandle)
         advanceUntilIdle()
-        sut.onRoutineNameTextChange(textFieldValue = "New Routine Name".toTextFieldValue())
+        viewModel.onRoutineNameTextChange(textFieldValue = "New Routine Name".toTextFieldValue())
         advanceUntilIdle()
 
-        sut.onRoutineSave()
+        viewModel.onRoutineSave()
         advanceUntilIdle()
 
         store.get().first().let { actual ->
-            assertEquals(expected.name, actual.name)
-            assertEquals(expected.segments, actual.segments)
-            assertEquals(expected.startTimeOffset, actual.startTimeOffset)
+            assertThat(actual.name).isEqualTo(expected.name)
+            assertThat(actual.segments).isEqualTo(expected.segments)
+            assertThat(actual.startTimeOffset).isEqualTo(expected.startTimeOffset)
 
             navigator.assertGoTo(
                 route = RoutineSummaryRoute,
@@ -181,21 +192,21 @@ class RoutineViewModelTest {
     fun `should save and navigate back when saving a existing routine`() = coroutineRule {
         val expected = routine.copy(name = "Routine Name Modified")
         val store = FakeStore(listOf(routine))
-        val sut = buildSut(store)
+        val viewModel = buildViewModel(store)
         advanceUntilIdle()
-        sut.onRoutineNameTextChange(textFieldValue = "Routine Name Modified".toTextFieldValue())
-        advanceUntilIdle()
-
-        sut.onRoutineSave()
+        viewModel.onRoutineNameTextChange(textFieldValue = "Routine Name Modified".toTextFieldValue())
         advanceUntilIdle()
 
-        assertEquals(expected, store.get().first())
+        viewModel.onRoutineSave()
+        advanceUntilIdle()
+
+        assertThat(store.get().first()).isEqualTo(expected)
         navigator.assertGoBack()
     }
 
     @Test
     fun `should show message when save fails`() = coroutineRule {
-        val store =  FakeStore(listOf(routine))
+        val store = FakeStore(listOf(routine))
         val expected = RoutineViewState.Data(
             routine = routineFields,
             errors = emptyImmutableMap(),
@@ -204,18 +215,20 @@ class RoutineViewModelTest {
                 actionTextResId = R.string.action_text_segment_save_error
             )
         )
-        val sut = buildSut(store = store)
+        val viewModel = buildViewModel(store = store)
         advanceUntilIdle()
 
         store.enableErrorOnNextAccess()
-        sut.onRoutineSave()
+        viewModel.onRoutineSave()
         advanceUntilIdle()
 
-        sut.viewState.test { assertEquals(expected, awaitItem()) }
+        viewModel.viewState.test {
+            assertThat(awaitItem()).isEqualTo(expected)
+        }
         navigator.assertNoActions()
     }
 
-    private fun buildSut(
+    private fun buildViewModel(
         store: FakeStore<List<Routine>> = FakeStore(listOf(routine)),
         savedStateHandle: SavedStateHandle = SavedStateHandle(mapOf("routineId" to 1L))
     ): RoutineViewModel {

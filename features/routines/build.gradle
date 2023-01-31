@@ -74,7 +74,7 @@ dependencies {
     testImplementation project(':data:routines:testing')
     testImplementation project(":core:coroutines:testing")
     testImplementation project(":navigation:testing")
-    testImplementation Libs.Kotlin.Test.kotlin
+    testImplementation Libs.Test.truth
     testImplementation Libs.Test.junit
 
     androidTestImplementation platform(Libs.AndroidX.Compose.bom)

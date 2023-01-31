@@ -1,7 +1,6 @@
 package com.enricog.entities
 
-import org.junit.Assert.assertEquals
-import org.junit.Assert.assertFalse
+import com.google.common.truth.Truth.assertThat
 import org.junit.Assert.assertTrue
 import org.junit.Test
 
@@ -13,7 +12,7 @@ class IDTest {
 
         val actual = 1L.asID
 
-        assertEquals(expected, actual)
+        assertThat(actual).isEqualTo(expected)
     }
 
     @Test
@@ -22,7 +21,7 @@ class IDTest {
 
         val actual = 1.asID
 
-        assertEquals(expected, actual)
+        assertThat(actual).isEqualTo(expected)
     }
 
     @Test
@@ -36,14 +35,14 @@ class IDTest {
     fun `test isNew is false when value higher than zero`() {
         val id = 1.asID
 
-        assertFalse(id.isNew)
+        assertThat(id.isNew).isFalse()
     }
 
     @Test
     fun `test new should return a new value`() {
         val id = ID.new()
 
-        assertTrue(id.isNew)
+        assertThat(id.isNew).isTrue()
     }
 
     @Test
@@ -53,7 +52,7 @@ class IDTest {
 
         val actual = id.toLong()
 
-        assertEquals(expected, actual)
+        assertThat(actual).isEqualTo(expected)
     }
 
     @Test(expected = IllegalArgumentException::class)

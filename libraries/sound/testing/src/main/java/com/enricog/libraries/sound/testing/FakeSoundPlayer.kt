@@ -1,9 +1,7 @@
 package com.enricog.libraries.sound.testing
 
 import com.enricog.libraries.sound.api.SoundPlayer
-import kotlin.test.assertContains
-import kotlin.test.assertEquals
-import kotlin.test.assertFalse
+import com.google.common.truth.Truth.assertThat
 
 class FakeSoundPlayer : SoundPlayer {
 
@@ -23,13 +21,10 @@ class FakeSoundPlayer : SoundPlayer {
     }
 
     fun assertSoundPlayed(soundResId: Int, times: Int) {
-        assertContains(playedSounds, soundResId)
-        assertEquals(times, playedSounds[soundResId])
+        assertThat(playedSounds).containsEntry(soundResId, times)
     }
 
     fun assertSoundNotPlayed(soundResId: Int) {
-        assertFalse("Expected the collection to contain the element.\nCollection <$playedSounds>, element <$soundResId>.") {
-            playedSounds.contains(soundResId)
-        }
+        assertThat(playedSounds).doesNotContainKey(soundResId)
     }
 }

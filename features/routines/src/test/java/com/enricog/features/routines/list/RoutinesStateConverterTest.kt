@@ -15,9 +15,9 @@ import com.enricog.features.routines.list.models.RoutinesState
 import com.enricog.features.routines.list.models.RoutinesState.Data.Action
 import com.enricog.features.routines.list.models.RoutinesViewState
 import com.enricog.features.routines.list.models.RoutinesViewState.Data.Message
+import com.google.common.truth.Truth.assertThat
 import org.junit.Rule
 import org.junit.Test
-import kotlin.test.assertEquals
 import com.enricog.data.routines.api.entities.Routine.Companion as RoutineEntity
 import com.enricog.data.routines.api.entities.TimeType as TimeTypeEntity
 
@@ -26,26 +26,26 @@ class RoutinesStateConverterTest {
     @get:Rule
     val coroutineRule = CoroutineRule()
 
-    private val sut = RoutinesStateConverter()
+    private val stateConverter = RoutinesStateConverter()
 
     @Test
     fun `should map idle state`() = coroutineRule {
         val state = RoutinesState.Idle
-        val viewState = RoutinesViewState.Idle
+        val expected = RoutinesViewState.Idle
 
-        val result = sut.convert(state)
-
-        assertEquals(viewState, result)
+        val actual = stateConverter.convert(state)
+        
+        assertThat(actual).isEqualTo(expected)
     }
 
     @Test
     fun `should map empty state`() = coroutineRule {
         val state = RoutinesState.Empty
-        val viewState = RoutinesViewState.Empty
+        val expected = RoutinesViewState.Empty
 
-        val result = sut.convert(state)
+        val actual = stateConverter.convert(state)
 
-        assertEquals(viewState, result)
+        assertThat(actual).isEqualTo(expected)
     }
 
     @Test
@@ -62,14 +62,14 @@ class RoutinesStateConverterTest {
                 segmentsSummary = null
             )
             val state = RoutinesState.Data(routines = listOf(routineEntity), action = null)
-            val viewState = RoutinesViewState.Data(
+            val expected = RoutinesViewState.Data(
                 routinesItems = immutableListOf(routineItem, RoutinesItem.Space),
                 message = null
             )
 
-            val result = sut.convert(state)
+            val actual = stateConverter.convert(state)
 
-            assertEquals(viewState, result)
+            assertThat(actual).isEqualTo(expected)
         }
 
     @Test
@@ -114,14 +114,14 @@ class RoutinesStateConverterTest {
                 )
             )
             val state = RoutinesState.Data(routines = listOf(routineEntity), action = null)
-            val viewState = RoutinesViewState.Data(
+            val expected = RoutinesViewState.Data(
                 routinesItems = immutableListOf(routineItem, RoutinesItem.Space),
                 message = null
             )
 
-            val result = sut.convert(state)
+            val actual = stateConverter.convert(state)
 
-            assertEquals(viewState, result)
+            assertThat(actual).isEqualTo(expected)
         }
 
     @Test
@@ -149,14 +149,14 @@ class RoutinesStateConverterTest {
                 )
             )
             val state = RoutinesState.Data(routines = listOf(routineEntity), action = null)
-            val viewState = RoutinesViewState.Data(
+            val expected = RoutinesViewState.Data(
                 routinesItems = immutableListOf(routineItem, RoutinesItem.Space),
                 message = null
             )
 
-            val result = sut.convert(state)
+            val actual = stateConverter.convert(state)
 
-            assertEquals(viewState, result)
+            assertThat(actual).isEqualTo(expected)
         }
 
     @Test
@@ -175,7 +175,7 @@ class RoutinesStateConverterTest {
             routines = listOf(routineEntity),
             action = Action.DeleteRoutineError(routineEntity.id)
         )
-        val viewState = RoutinesViewState.Data(
+        val expected = RoutinesViewState.Data(
             routinesItems = immutableListOf(routineItem, RoutinesItem.Space),
             message = Message(
                 textResId = R.string.label_routines_delete_error,
@@ -183,9 +183,9 @@ class RoutinesStateConverterTest {
             )
         )
 
-        val result = sut.convert(state)
+        val actual = stateConverter.convert(state)
 
-        assertEquals(viewState, result)
+        assertThat(actual).isEqualTo(expected)
     }
 
     @Test
@@ -204,7 +204,7 @@ class RoutinesStateConverterTest {
             routines = listOf(routineEntity),
             action = Action.DeleteRoutineSuccess
         )
-        val viewState = RoutinesViewState.Data(
+        val expected = RoutinesViewState.Data(
             routinesItems = immutableListOf(routineItem, RoutinesItem.Space),
             message = Message(
                 textResId = R.string.label_routines_delete_confirm,
@@ -212,9 +212,9 @@ class RoutinesStateConverterTest {
             )
         )
 
-        val result = sut.convert(state)
+        val actual = stateConverter.convert(state)
 
-        assertEquals(viewState, result)
+        assertThat(actual).isEqualTo(expected)
     }
 
     @Test
@@ -233,7 +233,7 @@ class RoutinesStateConverterTest {
             routines = listOf(routineEntity),
             action = Action.MoveRoutineError
         )
-        val viewState = RoutinesViewState.Data(
+        val expected = RoutinesViewState.Data(
             routinesItems = immutableListOf(routineItem, RoutinesItem.Space),
             message = Message(
                 textResId = R.string.label_routines_move_error,
@@ -241,9 +241,9 @@ class RoutinesStateConverterTest {
             )
         )
 
-        val result = sut.convert(state)
+        val actual = stateConverter.convert(state)
 
-        assertEquals(viewState, result)
+        assertThat(actual).isEqualTo(expected)
     }
 
     @Test
@@ -262,7 +262,7 @@ class RoutinesStateConverterTest {
             routines = listOf(routineEntity),
             action = Action.DuplicateRoutineError
         )
-        val viewState = RoutinesViewState.Data(
+        val expected = RoutinesViewState.Data(
             routinesItems = immutableListOf(routineItem, RoutinesItem.Space),
             message = Message(
                 textResId = R.string.label_routines_duplicate_error,
@@ -270,19 +270,19 @@ class RoutinesStateConverterTest {
             )
         )
 
-        val result = sut.convert(state)
+        val actual = stateConverter.convert(state)
 
-        assertEquals(viewState, result)
+        assertThat(actual).isEqualTo(expected)
     }
 
     @Test
     fun `should map error`() = coroutineRule {
         val exception = Exception("something went wrong")
         val state = RoutinesState.Error(throwable = exception)
-        val viewState = RoutinesViewState.Error(throwable = exception)
+        val expected = RoutinesViewState.Error(throwable = exception)
 
-        val result = sut.convert(state)
+        val actual = stateConverter.convert(state)
 
-        assertEquals(viewState, result)
+        assertThat(actual).isEqualTo(expected)
     }
 }

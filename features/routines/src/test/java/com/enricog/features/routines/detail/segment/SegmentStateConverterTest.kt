@@ -20,9 +20,9 @@ import com.enricog.features.routines.detail.segment.models.SegmentViewState.Data
 import com.enricog.features.routines.detail.ui.time_type.TimeType
 import com.enricog.ui.components.extensions.toTextFieldValue
 import com.enricog.ui.components.textField.timeText
+import com.google.common.truth.Truth.assertThat
 import org.junit.Rule
 import org.junit.Test
-import kotlin.test.assertEquals
 import com.enricog.data.routines.api.entities.TimeType as TimeTypeEntity
 
 class SegmentStateConverterTest {
@@ -30,16 +30,16 @@ class SegmentStateConverterTest {
     @get:Rule
     val coroutineRule = CoroutineRule()
 
-    private val sut = SegmentStateConverter()
+    private val stateConverter = SegmentStateConverter()
 
     @Test
     fun `should map idle state`() = coroutineRule {
         val state = SegmentState.Idle
         val expected = SegmentViewState.Idle
 
-        val actual = sut.convert(state)
+        val actual = stateConverter.convert(state)
 
-        assertEquals(expected, actual)
+        assertThat(actual).isEqualTo(expected)
     }
 
     @Test
@@ -48,9 +48,9 @@ class SegmentStateConverterTest {
         val state = SegmentState.Error(exception)
         val expected = SegmentViewState.Error(exception)
 
-        val result = sut.convert(state = state)
+        val actual = stateConverter.convert(state = state)
 
-        assertEquals(expected, result)
+        assertThat(actual).isEqualTo(expected)
     }
 
     @Test
@@ -84,9 +84,9 @@ class SegmentStateConverterTest {
             message = null
         )
 
-        val actual = sut.convert(state)
+        val actual = stateConverter.convert(state)
 
-        assertEquals(expected, actual)
+        assertThat(actual).isEqualTo(expected)
     }
 
     @Test
@@ -123,9 +123,9 @@ class SegmentStateConverterTest {
             )
         )
 
-        val actual = sut.convert(state)
+        val actual = stateConverter.convert(state)
 
-        assertEquals(expected, actual)
+        assertThat(actual).isEqualTo(expected)
     }
 
     @Test
@@ -161,8 +161,8 @@ class SegmentStateConverterTest {
             message = null
         )
 
-        val actual = sut.convert(state)
+        val actual = stateConverter.convert(state)
 
-        assertEquals(expected, actual)
+        assertThat(actual).isEqualTo(expected)
     }
 }

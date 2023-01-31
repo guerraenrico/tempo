@@ -5,12 +5,12 @@ import com.enricog.features.routines.detail.routine.models.RoutineFieldError
 import com.enricog.features.routines.detail.routine.models.RoutineInputs
 import com.enricog.ui.components.extensions.toTextFieldValue
 import com.enricog.ui.components.textField.timeText
+import com.google.common.truth.Truth.assertThat
 import org.junit.Test
-import kotlin.test.assertEquals
 
 class RoutineValidatorTest {
 
-    private val sut = RoutineValidator()
+    private val validator = RoutineValidator()
 
     @Test
     fun `should return error when routine name is blank`() {
@@ -22,8 +22,8 @@ class RoutineValidatorTest {
             RoutineField.Name to RoutineFieldError.BlankRoutineName,
         )
 
-        val result = sut.validate(inputs = inputs)
+        val actual = validator.validate(inputs = inputs)
 
-        assertEquals(expected, result)
+        assertThat(actual).isEqualTo(expected)
     }
 }

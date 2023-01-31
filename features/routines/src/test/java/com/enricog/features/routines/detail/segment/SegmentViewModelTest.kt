@@ -24,12 +24,11 @@ import com.enricog.features.routines.navigation.RoutinesNavigationActions
 import com.enricog.navigation.testing.FakeNavigator
 import com.enricog.ui.components.extensions.toTextFieldValue
 import com.enricog.ui.components.textField.timeText
+import com.google.common.truth.Truth.assertThat
 import kotlinx.coroutines.test.StandardTestDispatcher
 import kotlinx.coroutines.test.advanceUntilIdle
 import org.junit.Rule
 import org.junit.Test
-import kotlin.test.assertEquals
-import kotlin.test.assertIs
 import com.enricog.data.routines.api.entities.TimeType as TimeTypeEntity
 
 class SegmentViewModelTest {
@@ -70,10 +69,12 @@ class SegmentViewModelTest {
             message = null
         )
 
-        val sut = buildSut()
+        val viewModel = buildViewModel()
         advanceUntilIdle()
 
-        sut.viewState.test { assertEquals(expected, awaitItem()) }
+        viewModel.viewState.test {
+            assertThat(awaitItem()).isEqualTo(expected)
+        }
     }
 
     @Test
@@ -81,10 +82,12 @@ class SegmentViewModelTest {
         val store = FakeStore(listOf(routine))
         store.enableErrorOnNextAccess()
 
-        val sut = buildSut(store = store)
+        val viewModel = buildViewModel(store = store)
         advanceUntilIdle()
 
-        sut.viewState.test { assertIs<SegmentViewState.Error>(awaitItem()) }
+        viewModel.viewState.test {
+            assertThat(awaitItem()).isInstanceOf(SegmentViewState.Error::class.java)
+        }
     }
 
     @Test
@@ -105,13 +108,13 @@ class SegmentViewModelTest {
             message = null
         )
         store.enableErrorOnNextAccess()
-        val sut = buildSut(store = store)
+        val viewModel = buildViewModel(store = store)
         advanceUntilIdle()
 
-        sut.onRetryLoad()
+        viewModel.onRetryLoad()
         advanceUntilIdle()
 
-        sut.viewState.test { assertEquals(expected, awaitItem()) }
+        viewModel.viewState.test { assertThat(awaitItem()).isEqualTo(expected) }
     }
 
     @Test
@@ -130,13 +133,13 @@ class SegmentViewModelTest {
             ),
             message = null
         )
-        val sut = buildSut()
+        val viewModel = buildViewModel()
         advanceUntilIdle()
 
-        sut.onSegmentNameTextChange(textFieldValue = "Segment Name Modified".toTextFieldValue())
+        viewModel.onSegmentNameTextChange(textFieldValue = "Segment Name Modified".toTextFieldValue())
         advanceUntilIdle()
 
-        sut.viewState.test { assertEquals(expected, awaitItem()) }
+        viewModel.viewState.test { assertThat(awaitItem()).isEqualTo(expected) }
     }
 
     @Test
@@ -155,13 +158,13 @@ class SegmentViewModelTest {
             ),
             message = null
         )
-        val sut = buildSut()
+        val viewModel = buildViewModel()
         advanceUntilIdle()
 
-        sut.onSegmentTimeChange(text = "10".timeText)
+        viewModel.onSegmentTimeChange(text = "10".timeText)
         advanceUntilIdle()
 
-        sut.viewState.test { assertEquals(expected, awaitItem()) }
+        viewModel.viewState.test { assertThat(awaitItem()).isEqualTo(expected) }
     }
 
     @Test
@@ -180,13 +183,13 @@ class SegmentViewModelTest {
             ),
             message = null
         )
-        val sut = buildSut()
+        val viewModel = buildViewModel()
         advanceUntilIdle()
 
-        sut.onSegmentTypeChange(timeType = TimeType.from(TimeTypeEntity.STOPWATCH))
+        viewModel.onSegmentTypeChange(timeType = TimeType.from(TimeTypeEntity.STOPWATCH))
         advanceUntilIdle()
 
-        sut.viewState.test { assertEquals(expected, awaitItem()) }
+        viewModel.viewState.test { assertThat(awaitItem()).isEqualTo(expected) }
     }
 
     @Test
@@ -205,16 +208,16 @@ class SegmentViewModelTest {
             ),
             message = null
         )
-        val sut = buildSut()
+        val viewModel = buildViewModel()
         advanceUntilIdle()
-        sut.onSegmentNameTextChange(textFieldValue = "".toTextFieldValue())
+        viewModel.onSegmentNameTextChange(textFieldValue = "".toTextFieldValue())
         advanceUntilIdle()
 
-        sut.onSegmentSave()
+        viewModel.onSegmentSave()
         advanceUntilIdle()
 
         navigator.assertNoActions()
-        sut.viewState.test { assertEquals(expected, awaitItem()) }
+        viewModel.viewState.test { assertThat(awaitItem()).isEqualTo(expected) }
     }
 
     @Test
@@ -223,16 +226,16 @@ class SegmentViewModelTest {
         val expected = routine.copy(
             segments = listOf(segment.copy(name = "Segment Name Modified"))
         )
-        val sut = buildSut(store = store)
+        val viewModel = buildViewModel(store = store)
         advanceUntilIdle()
-        sut.onSegmentNameTextChange(textFieldValue = "Segment Name Modified".toTextFieldValue())
+        viewModel.onSegmentNameTextChange(textFieldValue = "Segment Name Modified".toTextFieldValue())
         advanceUntilIdle()
 
-        sut.onSegmentSave()
+        viewModel.onSegmentSave()
         advanceUntilIdle()
 
         navigator.assertGoBack()
-        assertEquals(expected, store.get().first())
+        assertThat(store.get().first()).isEqualTo(expected)
     }
 
     @Test
@@ -255,17 +258,17 @@ class SegmentViewModelTest {
                 actionTextResId = R.string.action_text_segment_save_error
             )
         )
-        val sut = buildSut(store = store)
+        val viewModel = buildViewModel(store = store)
         advanceUntilIdle()
 
         store.enableErrorOnNextAccess()
-        sut.onSegmentSave()
+        viewModel.onSegmentSave()
         advanceUntilIdle()
 
-        sut.viewState.test { assertEquals(expected, awaitItem()) }
+        viewModel.viewState.test { assertThat(awaitItem()).isEqualTo(expected) }
     }
 
-    private fun buildSut(store: FakeStore<List<Routine>> = FakeStore(listOf(routine))): SegmentViewModel {
+    private fun buildViewModel(store: FakeStore<List<Routine>> = FakeStore(listOf(routine))): SegmentViewModel {
         return SegmentViewModel(
             savedStateHandle = savedStateHandle,
             dispatchers = coroutineRule.getDispatchers(),

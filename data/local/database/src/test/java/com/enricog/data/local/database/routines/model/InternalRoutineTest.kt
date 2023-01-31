@@ -1,15 +1,15 @@
 package com.enricog.data.local.database.routines.model
 
-import com.enricog.entities.Rank
-import com.enricog.entities.asID
 import com.enricog.data.routines.api.entities.Routine
 import com.enricog.data.routines.api.entities.Segment
 import com.enricog.data.routines.api.entities.TimeType
 import com.enricog.data.routines.testing.entities.RANDOM
+import com.enricog.entities.Rank
+import com.enricog.entities.asID
 import com.enricog.entities.seconds
-import java.time.OffsetDateTime
-import org.junit.Assert.assertEquals
+import com.google.common.truth.Truth.assertThat
 import org.junit.Test
+import java.time.OffsetDateTime
 
 class InternalRoutineTest {
 
@@ -44,7 +44,7 @@ class InternalRoutineTest {
 
         val actual = routine.toInternal()
 
-        assertEquals(expected, actual)
+        assertThat(actual).isEqualTo(expected)
     }
 
     @Test
@@ -88,6 +88,6 @@ class InternalRoutineTest {
 
         val actual = internalRoutine.toEntity(internalSegments)
 
-        assertEquals(expected, actual)
+        assertThat(actual).isEqualTo(expected)
     }
 }
