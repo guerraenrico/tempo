@@ -5,8 +5,8 @@ package com.enricog.tempo.buildsrc
 object Versions {
     private const val versionMajor = 1
     private const val versionMinor = 0
-    private const val versionPatch = 0
-    private const val versionBuild = 5
+    private const val versionPatch = 1
+    private const val versionBuild = 0
 
     const val appVersionCode: Int =
         versionMajor * 1000000 + versionMinor * 10000 + versionPatch * 100 + versionBuild
@@ -120,7 +120,7 @@ object Libs {
     }
 
     object Tools {
-        const val desugar = "com.android.tools:desugar_jdk_libs:1.2.2"
+        const val desugar = "com.android.tools:desugar_jdk_libs:1.1.8"
     }
 
     object Firebase {
