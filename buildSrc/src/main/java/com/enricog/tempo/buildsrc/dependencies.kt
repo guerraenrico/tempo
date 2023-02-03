@@ -131,8 +131,6 @@ object Libs {
         const val analytics = "com.google.firebase:firebase-analytics-ktx"
     }
 
-    // Test
-
     object Test {
         const val junit = "junit:junit:4.12"
         const val parameterInjector = "com.google.testparameterinjector:test-parameter-injector:1.10"
