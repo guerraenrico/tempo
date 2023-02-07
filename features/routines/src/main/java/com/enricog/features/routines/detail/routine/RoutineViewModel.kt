@@ -1,6 +1,10 @@
 package com.enricog.features.routines.detail.routine
 
 import androidx.compose.runtime.Immutable
+import androidx.compose.runtime.getValue
+import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.setValue
+import androidx.compose.runtime.snapshotFlow
 import androidx.compose.ui.text.input.TextFieldValue
 import androidx.lifecycle.SavedStateHandle
 import com.enricog.base.viewmodel.BaseViewModel
@@ -9,6 +13,7 @@ import com.enricog.core.coroutines.dispatchers.CoroutineDispatchers
 import com.enricog.core.coroutines.job.autoCancelableJob
 import com.enricog.core.logger.api.TempoLogger
 import com.enricog.data.routines.api.entities.Routine
+import com.enricog.features.routines.detail.routine.models.RoutineInputs
 import com.enricog.features.routines.detail.routine.models.RoutineState
 import com.enricog.features.routines.detail.routine.models.RoutineState.Data.Action.SaveRoutineError
 import com.enricog.features.routines.detail.routine.models.RoutineViewState
@@ -16,9 +21,11 @@ import com.enricog.features.routines.detail.routine.usecase.RoutineUseCase
 import com.enricog.features.routines.navigation.RoutinesNavigationActions
 import com.enricog.navigation.api.routes.RoutineRoute
 import com.enricog.navigation.api.routes.RoutineRouteInput
+import com.enricog.ui.components.extensions.toTextFieldValue
 import com.enricog.ui.components.snackbar.TempoSnackbarEvent
 import com.enricog.ui.components.snackbar.TempoSnackbarEvent.ActionPerformed
 import com.enricog.ui.components.textField.TimeText
+import com.enricog.ui.components.textField.timeText
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.CoroutineExceptionHandler
 import kotlinx.coroutines.delay
@@ -44,6 +51,10 @@ internal class RoutineViewModel @Inject constructor(
     private val input = RoutineRoute.extractInput(savedStateHandle)
     private var saveRoutineJob by autoCancelableJob()
 
+    var fieldInputs by mutableStateOf(RoutineInputs.empty)
+
+        private set
+
     init {
         load(input = input)
     }
@@ -56,19 +67,24 @@ internal class RoutineViewModel @Inject constructor(
 
         launch(exceptionHandler = exceptionHandler) {
             val routine = routineUseCase.get(routineId = input.routineId)
+            fieldInputs = RoutineInputs(
+                name = routine.name.toTextFieldValue(),
+                startTimeOffset = routine.startTimeOffset.timeText
+            )
             updateState { reducer.setup(routine = routine) }
         }
     }
 
     fun onRoutineNameTextChange(textFieldValue: TextFieldValue) {
         updateStateWhen<RoutineState.Data> {
-            reducer.updateRoutineName(state = it, textFieldValue = textFieldValue)
+            fieldInputs = fieldInputs.copy(name = textFieldValue)
+            reducer.updateRoutineName(state = it)
         }
     }
 
     fun onRoutineStartTimeOffsetChange(text: TimeText) {
-        updateStateWhen<RoutineState.Data> {
-            reducer.updateRoutineStartTimeOffset(state = it, text = text)
+        if (text.toSeconds() <= Routine.MAX_START_TIME_OFFSET) {
+            fieldInputs = fieldInputs.copy(startTimeOffset = text)
         }
     }
 
@@ -86,9 +102,9 @@ internal class RoutineViewModel @Inject constructor(
 
     fun onRoutineSave() {
         runWhen<RoutineState.Data> { stateData ->
-            val errors = validator.validate(inputs = stateData.inputs)
+            val errors = validator.validate(inputs = fieldInputs)
             if (errors.isEmpty()) {
-                save(routine = stateData.inputs.mergeToRoutine(routine = stateData.routine))
+                save(routine = fieldInputs.mergeToRoutine(routine = stateData.routine))
             } else {
                 updateStateWhen<RoutineState.Data> {
                     reducer.applyRoutineErrors(state = it, errors = errors)

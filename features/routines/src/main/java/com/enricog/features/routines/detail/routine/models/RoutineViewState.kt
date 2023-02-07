@@ -8,7 +8,6 @@ internal sealed class RoutineViewState {
     object Idle : RoutineViewState()
 
     data class Data(
-        val routine: RoutineFields,
         val errors: ImmutableMap<RoutineField, RoutineFieldError>,
         val message: Message?
     ) : RoutineViewState() {

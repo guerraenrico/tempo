@@ -14,7 +14,6 @@ import com.enricog.entities.seconds
 import com.enricog.features.routines.R
 import com.enricog.features.routines.detail.routine.models.RoutineField
 import com.enricog.features.routines.detail.routine.models.RoutineFieldError
-import com.enricog.features.routines.detail.routine.models.RoutineFields
 import com.enricog.features.routines.detail.routine.models.RoutineViewState
 import com.enricog.features.routines.detail.routine.models.RoutineViewState.Data.Message
 import com.enricog.features.routines.detail.routine.usecase.RoutineUseCase

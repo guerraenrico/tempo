@@ -9,7 +9,6 @@ internal sealed class RoutineState {
     data class Data(
         val routine: Routine,
         val errors: Map<RoutineField, RoutineFieldError>,
-        val inputs: RoutineInputs,
         val action: Action?
     ) : RoutineState() {
         sealed class Action {
