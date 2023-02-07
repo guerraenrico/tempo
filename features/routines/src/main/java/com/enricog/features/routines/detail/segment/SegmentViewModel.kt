@@ -1,6 +1,9 @@
 package com.enricog.features.routines.detail.segment
 
 import androidx.compose.runtime.Immutable
+import androidx.compose.runtime.getValue
+import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.setValue
 import androidx.compose.ui.text.input.TextFieldValue
 import androidx.lifecycle.SavedStateHandle
 import com.enricog.base.viewmodel.BaseViewModel
@@ -10,6 +13,9 @@ import com.enricog.core.coroutines.job.autoCancelableJob
 import com.enricog.core.logger.api.TempoLogger
 import com.enricog.data.routines.api.entities.Routine
 import com.enricog.data.routines.api.entities.Segment
+import com.enricog.data.routines.api.entities.TimeType.STOPWATCH
+import com.enricog.entities.seconds
+import com.enricog.features.routines.detail.segment.models.SegmentInputs
 import com.enricog.features.routines.detail.segment.models.SegmentState
 import com.enricog.features.routines.detail.segment.models.SegmentState.Data.Action.SaveSegmentError
 import com.enricog.features.routines.detail.segment.models.SegmentViewState
@@ -18,9 +24,11 @@ import com.enricog.features.routines.detail.ui.time_type.TimeType
 import com.enricog.features.routines.navigation.RoutinesNavigationActions
 import com.enricog.navigation.api.routes.SegmentRoute
 import com.enricog.navigation.api.routes.SegmentRouteInput
+import com.enricog.ui.components.extensions.toTextFieldValue
 import com.enricog.ui.components.snackbar.TempoSnackbarEvent
 import com.enricog.ui.components.snackbar.TempoSnackbarEvent.ActionPerformed
 import com.enricog.ui.components.textField.TimeText
+import com.enricog.ui.components.textField.timeText
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.CoroutineExceptionHandler
 import kotlinx.coroutines.delay
@@ -47,6 +55,9 @@ internal class SegmentViewModel @Inject constructor(
     private var saveJob by autoCancelableJob()
     private var loadJob by autoCancelableJob()
 
+    var fieldInputs by mutableStateOf(SegmentInputs.empty)
+        private set
+
     init {
         load(input = input)
     }
@@ -56,21 +67,40 @@ internal class SegmentViewModel @Inject constructor(
             TempoLogger.e(throwable = throwable, message = "Error loading segment")
             updateState { reducer.error(throwable = throwable) }
         }
+
         loadJob = launch(exceptionHandler = exceptionHandler) {
             val routine = segmentUseCase.get(routineId = input.routineId)
             updateState { reducer.setup(routine = routine, segmentId = input.segmentId) }
+
+            runWhen<SegmentState.Data> { stateData ->
+                val segment = stateData.segment
+                fieldInputs = SegmentInputs(
+                    name = segment.name.toTextFieldValue(),
+                    time = segment.time.timeText
+                )
+            }
         }
     }
 
     fun onSegmentNameTextChange(textFieldValue: TextFieldValue) {
         updateStateWhen<SegmentState.Data> { stateData ->
-            reducer.updateSegmentName(state = stateData, textFieldValue = textFieldValue)
+            fieldInputs = fieldInputs.copy(name = textFieldValue)
+            reducer.updateSegmentName(state = stateData)
         }
     }
 
     fun onSegmentTimeChange(text: TimeText) {
         updateStateWhen<SegmentState.Data> { stateData ->
-            reducer.updateSegmentTime(state = stateData, text = text)
+            reducer.updateSegmentTime(state = stateData)
+        }
+
+        runWhen<SegmentState.Data> { stateData ->
+            val time = when {
+                stateData.selectedTimeType == STOPWATCH -> "".timeText
+                text.toSeconds() > 3600.seconds -> fieldInputs.time
+                else -> text
+            }
+            fieldInputs = fieldInputs.copy(time = time)
         }
     }
 
@@ -78,15 +108,27 @@ internal class SegmentViewModel @Inject constructor(
         updateStateWhen<SegmentState.Data> { stateData ->
             reducer.updateSegmentTimeType(state = stateData, timeType = timeType.toEntity())
         }
+
+        runWhen<SegmentState.Data> { stateData ->
+            if (stateData.selectedTimeType == STOPWATCH) {
+                fieldInputs = fieldInputs.copy(time = "".timeText)
+            }
+        }
     }
 
     fun onSegmentSave() {
         runWhen<SegmentState.Data> { stateData ->
-            val errors = validator.validate(inputs = stateData.inputs)
+            val errors = validator.validate(
+                inputs = fieldInputs,
+                selectedTimeType = stateData.selectedTimeType
+            )
             if (errors.isEmpty()) {
                 save(
                     routine = stateData.routine,
-                    segment = stateData.inputs.mergeToSegment(stateData.segment)
+                    segment = fieldInputs.mergeToSegment(
+                        segment = stateData.segment,
+                        type = stateData.selectedTimeType
+                    )
                 )
             } else {
                 updateStateWhen<SegmentState.Data> {

@@ -52,7 +52,6 @@ internal class RoutineViewModel @Inject constructor(
     private var saveRoutineJob by autoCancelableJob()
 
     var fieldInputs by mutableStateOf(RoutineInputs.empty)
-
         private set
 
     init {
@@ -67,11 +66,12 @@ internal class RoutineViewModel @Inject constructor(
 
         launch(exceptionHandler = exceptionHandler) {
             val routine = routineUseCase.get(routineId = input.routineId)
+            updateState { reducer.setup(routine = routine) }
+
             fieldInputs = RoutineInputs(
                 name = routine.name.toTextFieldValue(),
                 startTimeOffset = routine.startTimeOffset.timeText
             )
-            updateState { reducer.setup(routine = routine) }
         }
     }
 

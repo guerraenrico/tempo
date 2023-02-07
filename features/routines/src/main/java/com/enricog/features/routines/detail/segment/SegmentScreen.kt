@@ -4,6 +4,7 @@ import androidx.compose.runtime.Composable
 import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
 import androidx.compose.ui.text.input.TextFieldValue
+import com.enricog.features.routines.detail.segment.models.SegmentInputs
 import com.enricog.features.routines.detail.segment.models.SegmentViewState
 import com.enricog.features.routines.detail.segment.ui_components.SegmentErrorScene
 import com.enricog.features.routines.detail.segment.ui_components.SegmentFormScene
@@ -16,10 +17,12 @@ import com.enricog.ui.components.toolbar.TempoToolbar
 @Composable
 internal fun SegmentScreen(viewModel: SegmentViewModel) {
     val viewState by viewModel.viewState.collectAsState(SegmentViewState.Idle)
+    val fieldInputs = viewModel.fieldInputs
     TempoScreenScaffold {
         TempoToolbar(onBack = viewModel::onSegmentBack)
 
         viewState.Compose(
+            inputs = fieldInputs,
             onSegmentNameChange = viewModel::onSegmentNameTextChange,
             onSegmentTimeChange = viewModel::onSegmentTimeChange,
             onSegmentTimeTypeChange = viewModel::onSegmentTypeChange,
@@ -32,6 +35,7 @@ internal fun SegmentScreen(viewModel: SegmentViewModel) {
 
 @Composable
 internal fun SegmentViewState.Compose(
+    inputs: SegmentInputs,
     onSegmentNameChange: (TextFieldValue) -> Unit,
     onSegmentTimeChange: (TimeText) -> Unit,
     onSegmentTimeTypeChange: (TimeType) -> Unit,
@@ -43,6 +47,7 @@ internal fun SegmentViewState.Compose(
         SegmentViewState.Idle -> Unit
         is SegmentViewState.Data -> SegmentFormScene(
             state = this,
+            inputs = inputs,
             onSegmentNameChange = onSegmentNameChange,
             onSegmentTimeChange = onSegmentTimeChange,
             onSegmentTimeTypeChange = onSegmentTimeTypeChange,

@@ -6,7 +6,6 @@ import androidx.compose.ui.test.onNodeWithTag
 import com.enricog.core.compose.api.classes.emptyImmutableMap
 import com.enricog.core.compose.api.classes.immutableListOf
 import com.enricog.core.compose.testing.invoke
-import com.enricog.features.routines.detail.segment.models.SegmentFields
 import com.enricog.features.routines.detail.segment.models.SegmentViewState
 import com.enricog.features.routines.detail.segment.ui_components.SegmentErrorSceneTestTag
 import com.enricog.features.routines.detail.segment.ui_components.SegmentFormSceneTestTag

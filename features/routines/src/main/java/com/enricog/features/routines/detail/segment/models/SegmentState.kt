@@ -12,8 +12,8 @@ internal sealed class SegmentState {
         val routine: Routine,
         val segment: Segment,
         val errors: Map<SegmentField, SegmentFieldError>,
+        val selectedTimeType: TimeType,
         val timeTypes: List<TimeType>,
-        val inputs: SegmentInputs,
         val action: Action?
     ) : SegmentState() {
         sealed class Action {

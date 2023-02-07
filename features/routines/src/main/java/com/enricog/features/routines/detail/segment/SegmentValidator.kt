@@ -9,13 +9,13 @@ import javax.inject.Inject
 
 internal class SegmentValidator @Inject constructor() {
 
-    fun validate(inputs: SegmentInputs): Map<SegmentField, SegmentFieldError> {
+    fun validate(inputs: SegmentInputs, selectedTimeType: TimeType): Map<SegmentField, SegmentFieldError> {
         return buildMap {
             if (inputs.name.text.isBlank()) {
                 put(SegmentField.Name, SegmentFieldError.BlankSegmentName)
             }
             val seconds = inputs.time.toSeconds()
-            if (seconds <= 0.seconds && inputs.type != TimeType.STOPWATCH) {
+            if (seconds <= 0.seconds && selectedTimeType != TimeType.STOPWATCH) {
                 put(SegmentField.Time, SegmentFieldError.InvalidSegmentTime)
             }
         }

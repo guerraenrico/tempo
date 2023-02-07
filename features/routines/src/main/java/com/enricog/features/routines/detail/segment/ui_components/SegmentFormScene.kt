@@ -26,9 +26,9 @@ import androidx.compose.ui.text.input.TextFieldValue
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import com.enricog.core.compose.api.extensions.stringResourceOrNull
-import com.enricog.entities.seconds
 import com.enricog.features.routines.R
 import com.enricog.features.routines.detail.segment.models.SegmentField
+import com.enricog.features.routines.detail.segment.models.SegmentInputs
 import com.enricog.features.routines.detail.segment.models.SegmentViewState
 import com.enricog.features.routines.detail.ui.time_type.TimeType
 import com.enricog.ui.components.button.TempoButton
@@ -46,6 +46,7 @@ internal const val SegmentFormSceneTestTag = "SegmentFormSceneTestTag"
 @Composable
 internal fun SegmentFormScene(
     state: SegmentViewState.Data,
+    inputs: SegmentInputs,
     onSegmentNameChange: (TextFieldValue) -> Unit,
     onSegmentTimeChange: (TimeText) -> Unit,
     onSegmentTimeTypeChange: (TimeType) -> Unit,
@@ -80,11 +81,11 @@ internal fun SegmentFormScene(
                         bottom = 85.dp
                     ),
                 timeTypes = state.timeTypes,
-                selectedType = state.segment.type,
+                selectedType = state.selectedTimeType,
                 onSelectTimeTypeChange = onSegmentTimeTypeChange
             ) {
                 TempoTextField(
-                    value = state.segment.name,
+                    value = inputs.name,
                     onValueChange = onSegmentNameChange,
                     modifier = Modifier
                         .fillMaxWidth()
@@ -94,11 +95,11 @@ internal fun SegmentFormScene(
                     errorText = stringResourceOrNull(id = state.errors[SegmentField.Name]?.stringResId),
                     singleLine = true,
                     keyboardOptions = KeyboardOptions(
-                        imeAction = if (state.segment.time != null) ImeAction.Next else ImeAction.Done
+                        imeAction = if (state.isTimeFieldVisible) ImeAction.Next else ImeAction.Done
                     ),
                     keyboardActions = KeyboardActions(
                         onNext = {
-                            if (state.segment.time != null) {
+                            if (state.isTimeFieldVisible) {
                                 segmentTimeRef.requestFocus()
                             } else {
                                 keyboardController?.hide()
@@ -108,12 +109,12 @@ internal fun SegmentFormScene(
                 )
 
                 AnimatedVisibility(
-                    visible = state.segment.time != null,
+                    visible = state.isTimeFieldVisible,
                     enter = fadeIn() + slideInHorizontally(),
                     exit = fadeOut() + slideOutHorizontally(),
                 ) {
                     TempoTimeField(
-                        value = state.segment.time ?: TimeText.from(0.seconds),
+                        value = inputs.time,
                         onValueChange = onSegmentTimeChange,
                         modifier = Modifier
                             .focusRequester(segmentTimeRef),
