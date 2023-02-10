@@ -42,8 +42,8 @@ class SegmentValidatorTest {
     }
 
     @Test
-    fun `should not return error when segment time is less or equal to zero and type is TimeType#STOPWATCH`() {
-        val selectedTimeType = TimeType.TIMER
+    fun `should not return error when segment time is less or equal to zero and segment type stopwatch`() {
+        val selectedTimeType = TimeType.STOPWATCH
         val inputs = SegmentInputs(
             name = "name".toTextFieldValue(),
             time = "".timeText
