@@ -182,7 +182,7 @@ class SegmentViewModelTest {
     }
 
     @Test
-    fun `should not update segment time when time changes with value more than limit`() =
+    fun `should not update segment time when time exceeds limit`() =
         coroutineRule {
             val expectedViewState = SegmentViewState.Data(
                 isTimeFieldVisible = true,
