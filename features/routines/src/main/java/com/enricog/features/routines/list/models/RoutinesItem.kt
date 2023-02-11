@@ -31,9 +31,7 @@ internal sealed class RoutinesItem {
             fun from(routine: Routine): RoutineItem {
                 val segmentsSummary = if (routine.segments.isNotEmpty()) {
                     SegmentsSummary(
-                        totalTime = routine.segments.map { it.time }
-                            .reduce { acc, time -> acc + time }
-                            .takeIf { it > 0.seconds },
+                        totalTime = routine.totalTime.takeIf { it > 0.seconds },
                         segmentTypesCount = routine.segments.groupBy { it.type }
                             .map { (type, segments) -> TimeType.from(type) to segments.size }
                             .toMap()

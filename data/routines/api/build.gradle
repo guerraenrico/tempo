@@ -17,4 +17,5 @@ dependencies {
     api project(":entities")
 
     testImplementation Libs.Test.junit
+    testImplementation Libs.Test.truth
 }
