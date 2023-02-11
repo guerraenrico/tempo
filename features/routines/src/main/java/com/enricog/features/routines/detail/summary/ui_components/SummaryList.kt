@@ -56,10 +56,7 @@ internal fun SummaryList(
         ) { index, item ->
             when (item) {
                 is RoutineSummaryItem.RoutineInfo ->
-                    RoutineSection(
-                        routineName = item.routineName,
-                        onEditRoutine = onRoutineEdit
-                    )
+                    RoutineSection(routineInfo = item, onEditRoutine = onRoutineEdit)
                 is RoutineSummaryItem.SegmentSectionTitle ->
                     SegmentSectionTitle(item = item, onAddSegmentClick = onSegmentAdd)
                 is RoutineSummaryItem.SegmentItem -> {
@@ -86,7 +83,8 @@ internal fun SummaryList(
                             modifier = Modifier
                                 .fillMaxWidth()
                                 .graphicsLayer {
-                                    translationY = if (dragState.isDragging) animate.value else offsetY
+                                    translationY =
+                                        if (dragState.isDragging) animate.value else offsetY
                                 }
                         )
                     } else {
