@@ -6,7 +6,7 @@ import androidx.compose.ui.test.onNodeWithTag
 import com.enricog.core.compose.api.classes.emptyImmutableMap
 import com.enricog.core.compose.api.classes.immutableListOf
 import com.enricog.core.compose.testing.invoke
-import com.enricog.features.routines.detail.segment.models.SegmentFields
+import com.enricog.features.routines.detail.segment.models.SegmentInputs
 import com.enricog.features.routines.detail.segment.models.SegmentViewState
 import com.enricog.features.routines.detail.segment.ui_components.SegmentErrorSceneTestTag
 import com.enricog.features.routines.detail.segment.ui_components.SegmentFormSceneTestTag
@@ -26,10 +26,15 @@ class SegmentScreenKtTest {
     @Test
     fun shouldNotRenderAnySceneWhenStateIsIdle() = composeRule {
         val viewState = SegmentViewState.Idle
+        val inputs = SegmentInputs(
+            name = "".toTextFieldValue(),
+            time = "".timeText,
+        )
 
         setContent {
             TempoTheme {
                 viewState.Compose(
+                    inputs = inputs,
                     onSegmentNameChange = {},
                     onSegmentTimeChange = {},
                     onSegmentTimeTypeChange = {},
@@ -47,11 +52,8 @@ class SegmentScreenKtTest {
     @Test
     fun shouldRenderSegmentFormSceneWhenStateIsData() = composeRule {
         val viewState = SegmentViewState.Data(
-            segment = SegmentFields(
-                name = "".toTextFieldValue(),
-                time = "".timeText,
-                type = TimeType.from(TimeTypeEntity.TIMER)
-            ),
+            isTimeFieldVisible = true,
+            selectedTimeType = TimeType.from(TimeTypeEntity.TIMER),
             errors = emptyImmutableMap(),
             timeTypes = immutableListOf(
                 TimeType.from(TimeTypeEntity.TIMER),
@@ -60,10 +62,15 @@ class SegmentScreenKtTest {
             ),
             message = null
         )
+        val inputs = SegmentInputs(
+            name = "".toTextFieldValue(),
+            time = "".timeText,
+        )
 
         setContent {
             TempoTheme {
                 viewState.Compose(
+                    inputs = inputs,
                     onSegmentNameChange = {},
                     onSegmentTimeChange = {},
                     onSegmentTimeTypeChange = {},
@@ -81,9 +88,14 @@ class SegmentScreenKtTest {
     @Test
     fun shouldRenderSegmentErrorSceneWhenStateIsError() = composeRule {
         val viewState = SegmentViewState.Error(throwable = Exception())
+        val inputs = SegmentInputs(
+            name = "".toTextFieldValue(),
+            time = "".timeText,
+        )
 
         setContent {
             viewState.Compose(
+                inputs = inputs,
                 onSegmentNameChange = {},
                 onSegmentTimeChange = {},
                 onSegmentTimeTypeChange = {},

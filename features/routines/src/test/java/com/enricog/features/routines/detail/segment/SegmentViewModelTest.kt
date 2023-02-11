@@ -16,7 +16,7 @@ import com.enricog.entities.seconds
 import com.enricog.features.routines.R
 import com.enricog.features.routines.detail.segment.models.SegmentField
 import com.enricog.features.routines.detail.segment.models.SegmentFieldError
-import com.enricog.features.routines.detail.segment.models.SegmentFields
+import com.enricog.features.routines.detail.segment.models.SegmentInputs
 import com.enricog.features.routines.detail.segment.models.SegmentViewState
 import com.enricog.features.routines.detail.segment.usecase.SegmentUseCase
 import com.enricog.features.routines.detail.ui.time_type.TimeType
@@ -54,12 +54,9 @@ class SegmentViewModelTest {
 
     @Test
     fun `should show data when load succeeds`() = coroutineRule {
-        val expected = SegmentViewState.Data(
-            segment = SegmentFields(
-                name = "Segment Name".toTextFieldValue(),
-                time = "30".timeText,
-                type = TimeType.from(TimeTypeEntity.TIMER)
-            ),
+        val expectedViewState = SegmentViewState.Data(
+            isTimeFieldVisible = true,
+            selectedTimeType = TimeType.from(TimeTypeEntity.TIMER),
             errors = emptyImmutableMap(),
             timeTypes = immutableListOf(
                 TimeType.from(TimeTypeEntity.TIMER),
@@ -68,13 +65,18 @@ class SegmentViewModelTest {
             ),
             message = null
         )
+        val expectedFieldInputs = SegmentInputs(
+            name = "Segment Name".toTextFieldValue(),
+            time = "30".timeText,
+        )
 
         val viewModel = buildViewModel()
         advanceUntilIdle()
 
         viewModel.viewState.test {
-            assertThat(awaitItem()).isEqualTo(expected)
+            assertThat(awaitItem()).isEqualTo(expectedViewState)
         }
+        assertThat(viewModel.fieldInputs).isEqualTo(expectedFieldInputs)
     }
 
     @Test
@@ -93,12 +95,9 @@ class SegmentViewModelTest {
     @Test
     fun `should reload when retry`() = coroutineRule {
         val store = FakeStore(listOf(routine))
-        val expected = SegmentViewState.Data(
-            segment = SegmentFields(
-                name = "Segment Name".toTextFieldValue(),
-                time = "30".timeText,
-                type = TimeType.from(TimeTypeEntity.TIMER)
-            ),
+        val expectedViewState = SegmentViewState.Data(
+            isTimeFieldVisible = true,
+            selectedTimeType = TimeType.from(TimeTypeEntity.TIMER),
             errors = immutableMapOf(),
             timeTypes = immutableListOf(
                 TimeType.from(TimeTypeEntity.TIMER),
@@ -107,6 +106,10 @@ class SegmentViewModelTest {
             ),
             message = null
         )
+        val expectedFieldInputs = SegmentInputs(
+            name = "Segment Name".toTextFieldValue(),
+            time = "30".timeText,
+        )
         store.enableErrorOnNextAccess()
         val viewModel = buildViewModel(store = store)
         advanceUntilIdle()
@@ -114,17 +117,17 @@ class SegmentViewModelTest {
         viewModel.onRetryLoad()
         advanceUntilIdle()
 
-        viewModel.viewState.test { assertThat(awaitItem()).isEqualTo(expected) }
+        viewModel.viewState.test {
+            assertThat(awaitItem()).isEqualTo(expectedViewState)
+        }
+        assertThat(viewModel.fieldInputs).isEqualTo(expectedFieldInputs)
     }
 
     @Test
     fun `should update segment name when name changes`() = coroutineRule {
-        val expected = SegmentViewState.Data(
-            segment = SegmentFields(
-                name = "Segment Name Modified".toTextFieldValue(),
-                time = "30".timeText,
-                type = TimeType.from(TimeTypeEntity.TIMER)
-            ),
+        val expectedViewState = SegmentViewState.Data(
+            isTimeFieldVisible = true,
+            selectedTimeType = TimeType.from(TimeTypeEntity.TIMER),
             errors = emptyImmutableMap(),
             timeTypes = immutableListOf(
                 TimeType.from(TimeTypeEntity.TIMER),
@@ -132,6 +135,10 @@ class SegmentViewModelTest {
                 TimeType.from(TimeTypeEntity.STOPWATCH)
             ),
             message = null
+        )
+        val expectedFieldInputs = SegmentInputs(
+            name = "Segment Name Modified".toTextFieldValue(),
+            time = "30".timeText,
         )
         val viewModel = buildViewModel()
         advanceUntilIdle()
@@ -139,17 +146,17 @@ class SegmentViewModelTest {
         viewModel.onSegmentNameTextChange(textFieldValue = "Segment Name Modified".toTextFieldValue())
         advanceUntilIdle()
 
-        viewModel.viewState.test { assertThat(awaitItem()).isEqualTo(expected) }
+        viewModel.viewState.test {
+            assertThat(awaitItem()).isEqualTo(expectedViewState)
+        }
+        assertThat(viewModel.fieldInputs).isEqualTo(expectedFieldInputs)
     }
 
     @Test
     fun `should update segment time when time changes`() = coroutineRule {
-        val expected = SegmentViewState.Data(
-            segment = SegmentFields(
-                name = "Segment Name".toTextFieldValue(),
-                time = "10".timeText,
-                type = TimeType.from(TimeTypeEntity.TIMER)
-            ),
+        val expectedViewState = SegmentViewState.Data(
+            isTimeFieldVisible = true,
+            selectedTimeType = TimeType.from(TimeTypeEntity.TIMER),
             errors = emptyImmutableMap(),
             timeTypes = immutableListOf(
                 TimeType.from(TimeTypeEntity.TIMER),
@@ -157,6 +164,10 @@ class SegmentViewModelTest {
                 TimeType.from(TimeTypeEntity.STOPWATCH)
             ),
             message = null
+        )
+        val expectedFieldInputs = SegmentInputs(
+            name = "Segment Name".toTextFieldValue(),
+            time = "10".timeText,
         )
         val viewModel = buildViewModel()
         advanceUntilIdle()
@@ -164,17 +175,47 @@ class SegmentViewModelTest {
         viewModel.onSegmentTimeChange(text = "10".timeText)
         advanceUntilIdle()
 
-        viewModel.viewState.test { assertThat(awaitItem()).isEqualTo(expected) }
+        viewModel.viewState.test {
+            assertThat(awaitItem()).isEqualTo(expectedViewState)
+        }
+        assertThat(viewModel.fieldInputs).isEqualTo(expectedFieldInputs)
     }
 
     @Test
-    fun `should update segment type when type changes`() = coroutineRule {
-        val expected = SegmentViewState.Data(
-            segment = SegmentFields(
+    fun `should not update segment time when time exceeds limit`() =
+        coroutineRule {
+            val expectedViewState = SegmentViewState.Data(
+                isTimeFieldVisible = true,
+                selectedTimeType = TimeType.from(TimeTypeEntity.TIMER),
+                errors = emptyImmutableMap(),
+                timeTypes = immutableListOf(
+                    TimeType.from(TimeTypeEntity.TIMER),
+                    TimeType.from(TimeTypeEntity.REST),
+                    TimeType.from(TimeTypeEntity.STOPWATCH)
+                ),
+                message = null
+            )
+            val expectedFieldInputs = SegmentInputs(
                 name = "Segment Name".toTextFieldValue(),
-                time = null,
-                type = TimeType.from(TimeTypeEntity.STOPWATCH)
-            ),
+                time = "30".timeText,
+            )
+            val viewModel = buildViewModel()
+            advanceUntilIdle()
+
+            viewModel.onSegmentTimeChange(text = "50000".timeText)
+            advanceUntilIdle()
+
+            viewModel.viewState.test {
+                assertThat(awaitItem()).isEqualTo(expectedViewState)
+            }
+            assertThat(viewModel.fieldInputs).isEqualTo(expectedFieldInputs)
+        }
+
+    @Test
+    fun `should update segment type when type changes`() = coroutineRule {
+        val expectedViewState = SegmentViewState.Data(
+            isTimeFieldVisible = true,
+            selectedTimeType = TimeType.from(TimeTypeEntity.REST),
             errors = emptyImmutableMap(),
             timeTypes = immutableListOf(
                 TimeType.from(TimeTypeEntity.TIMER),
@@ -183,23 +224,56 @@ class SegmentViewModelTest {
             ),
             message = null
         )
+        val expectedFieldInputs = SegmentInputs(
+            name = "Segment Name".toTextFieldValue(),
+            time = "30".timeText,
+        )
+        val viewModel = buildViewModel()
+        advanceUntilIdle()
+
+        viewModel.onSegmentTypeChange(timeType = TimeType.from(TimeTypeEntity.REST))
+        advanceUntilIdle()
+
+        viewModel.viewState.test {
+            assertThat(awaitItem()).isEqualTo(expectedViewState)
+        }
+        assertThat(viewModel.fieldInputs).isEqualTo(expectedFieldInputs)
+    }
+
+    @Test
+    fun `should update segment type and reset time when type changes to stopwatch`() = coroutineRule {
+        val expectedViewState = SegmentViewState.Data(
+            isTimeFieldVisible = false,
+            selectedTimeType = TimeType.from(TimeTypeEntity.STOPWATCH),
+            errors = emptyImmutableMap(),
+            timeTypes = immutableListOf(
+                TimeType.from(TimeTypeEntity.TIMER),
+                TimeType.from(TimeTypeEntity.REST),
+                TimeType.from(TimeTypeEntity.STOPWATCH)
+            ),
+            message = null
+        )
+        val expectedFieldInputs = SegmentInputs(
+            name = "Segment Name".toTextFieldValue(),
+            time = "".timeText,
+        )
         val viewModel = buildViewModel()
         advanceUntilIdle()
 
         viewModel.onSegmentTypeChange(timeType = TimeType.from(TimeTypeEntity.STOPWATCH))
         advanceUntilIdle()
 
-        viewModel.viewState.test { assertThat(awaitItem()).isEqualTo(expected) }
+        viewModel.viewState.test {
+            assertThat(awaitItem()).isEqualTo(expectedViewState)
+        }
+        assertThat(viewModel.fieldInputs).isEqualTo(expectedFieldInputs)
     }
 
     @Test
     fun `should show errors when on save the segments has errors`() = coroutineRule {
         val expected = SegmentViewState.Data(
-            segment = SegmentFields(
-                name = "".toTextFieldValue(),
-                time = "30".timeText,
-                type = TimeType.from(TimeTypeEntity.TIMER),
-            ),
+            isTimeFieldVisible = true,
+            selectedTimeType = TimeType.from(TimeTypeEntity.TIMER),
             errors = immutableMapOf(SegmentField.Name to SegmentFieldError.BlankSegmentName),
             timeTypes = immutableListOf(
                 TimeType.from(TimeTypeEntity.TIMER),
@@ -242,11 +316,8 @@ class SegmentViewModelTest {
     fun `should show message when save fails`() = coroutineRule {
         val store = FakeStore(listOf(routine))
         val expected = SegmentViewState.Data(
-            segment = SegmentFields(
-                name = "Segment Name".toTextFieldValue(),
-                time = "30".timeText,
-                type = TimeType.from(TimeTypeEntity.TIMER)
-            ),
+            isTimeFieldVisible = true,
+            selectedTimeType = TimeType.from(TimeTypeEntity.TIMER),
             errors = emptyImmutableMap(),
             timeTypes = immutableListOf(
                 TimeType.from(TimeTypeEntity.TIMER),

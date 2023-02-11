@@ -9,11 +9,8 @@ import com.enricog.entities.asID
 import com.enricog.entities.seconds
 import com.enricog.features.routines.detail.segment.models.SegmentField
 import com.enricog.features.routines.detail.segment.models.SegmentFieldError
-import com.enricog.features.routines.detail.segment.models.SegmentInputs
 import com.enricog.features.routines.detail.segment.models.SegmentState
 import com.enricog.features.routines.detail.segment.models.SegmentState.Data.Action.SaveSegmentError
-import com.enricog.ui.components.extensions.toTextFieldValue
-import com.enricog.ui.components.textField.timeText
 import com.google.common.truth.Truth.assertThat
 import org.junit.Test
 
@@ -37,11 +34,7 @@ class SegmentReducerTest {
             segment = segment,
             errors = emptyMap(),
             timeTypes = listOf(TimeType.TIMER, TimeType.REST, TimeType.STOPWATCH),
-            inputs = SegmentInputs(
-                name = "Segment Name".toTextFieldValue(),
-                time = "50".timeText,
-                type = TimeType.TIMER
-            ),
+            selectedTimeType = TimeType.TIMER,
             action = null
         )
 
@@ -61,11 +54,7 @@ class SegmentReducerTest {
             segment = segment,
             errors = emptyMap(),
             timeTypes = listOf(TimeType.TIMER, TimeType.REST, TimeType.STOPWATCH),
-            inputs = SegmentInputs(
-                name = "".toTextFieldValue(),
-                time = "".timeText,
-                type = TimeType.TIMER
-            ),
+            selectedTimeType = TimeType.TIMER,
             action = null
         )
 
@@ -85,7 +74,7 @@ class SegmentReducerTest {
     }
 
     @Test
-    fun `should update segment name and remove field name error`() {
+    fun `should remove field name error when segment name is updated`() {
         val state = SegmentState.Data(
             routine = Routine.EMPTY.copy(
                 segments = emptyList()
@@ -96,11 +85,7 @@ class SegmentReducerTest {
                 SegmentField.Time to SegmentFieldError.InvalidSegmentTime
             ),
             timeTypes = listOf(TimeType.TIMER, TimeType.REST, TimeType.STOPWATCH),
-            inputs = SegmentInputs(
-                name = "Segment Name".toTextFieldValue(),
-                time = "50".timeText,
-                type = TimeType.TIMER
-            ),
+            selectedTimeType = TimeType.TIMER,
             action = null
         )
         val expected = SegmentState.Data(
@@ -112,24 +97,17 @@ class SegmentReducerTest {
                 SegmentField.Time to SegmentFieldError.InvalidSegmentTime
             ),
             timeTypes = listOf(TimeType.TIMER, TimeType.REST, TimeType.STOPWATCH),
-            inputs = SegmentInputs(
-                name = "Segment Name Modified".toTextFieldValue(),
-                time = "50".timeText,
-                type = TimeType.TIMER
-            ),
+            selectedTimeType = TimeType.TIMER,
             action = null
         )
 
-        val actual = reducer.updateSegmentName(
-            state = state,
-            textFieldValue = "Segment Name Modified".toTextFieldValue()
-        )
+        val actual = reducer.updateSegmentName(state = state)
 
         assertThat(actual).isEqualTo(expected)
     }
 
     @Test
-    fun `should update segment time and remove field time error`() {
+    fun `should remove field time error when segment time is updated`() {
         val state = SegmentState.Data(
             routine = Routine.EMPTY.copy(
                 segments = emptyList()
@@ -143,11 +121,7 @@ class SegmentReducerTest {
                 SegmentField.Time to SegmentFieldError.InvalidSegmentTime
             ),
             timeTypes = listOf(TimeType.TIMER, TimeType.REST, TimeType.STOPWATCH),
-            inputs = SegmentInputs(
-                name = "Segment Name".toTextFieldValue(),
-                time = "".timeText,
-                type = TimeType.TIMER
-            ),
+            selectedTimeType = TimeType.TIMER,
             action = null
         )
         val expected = SegmentState.Data(
@@ -162,62 +136,11 @@ class SegmentReducerTest {
                 SegmentField.Name to SegmentFieldError.BlankSegmentName
             ),
             timeTypes = listOf(TimeType.TIMER, TimeType.REST, TimeType.STOPWATCH),
-            inputs = SegmentInputs(
-                name = "Segment Name".toTextFieldValue(),
-                time = "10".timeText,
-                type = TimeType.TIMER
-            ),
+            selectedTimeType = TimeType.TIMER,
             action = null
         )
 
-        val actual = reducer.updateSegmentTime(state = state, text = "10".timeText)
-
-        assertThat(actual).isEqualTo(expected)
-    }
-
-    @Test
-    fun `should set segment time to zero when segment#type is TimeType#STOPWATCH`() {
-        val state = SegmentState.Data(
-            routine = Routine.EMPTY.copy(
-                segments = emptyList()
-            ),
-            segment = Segment.EMPTY.copy(
-                time = 10.seconds,
-                type = TimeType.STOPWATCH
-            ),
-            errors = mapOf(
-                SegmentField.Name to SegmentFieldError.BlankSegmentName,
-                SegmentField.Time to SegmentFieldError.InvalidSegmentTime
-            ),
-            timeTypes = listOf(TimeType.TIMER, TimeType.REST, TimeType.STOPWATCH),
-            inputs = SegmentInputs(
-                name = "Segment Name".toTextFieldValue(),
-                time = "10".timeText,
-                type = TimeType.STOPWATCH
-            ),
-            action = null
-        )
-        val expected = SegmentState.Data(
-            routine = Routine.EMPTY.copy(
-                segments = emptyList()
-            ),
-            segment = Segment.EMPTY.copy(
-                time = 10.seconds,
-                type = TimeType.STOPWATCH
-            ),
-            errors = mapOf(
-                SegmentField.Name to SegmentFieldError.BlankSegmentName
-            ),
-            timeTypes = listOf(TimeType.TIMER, TimeType.REST, TimeType.STOPWATCH),
-            inputs = SegmentInputs(
-                name = "Segment Name".toTextFieldValue(),
-                time = "".timeText,
-                type = TimeType.STOPWATCH
-            ),
-            action = null
-        )
-
-        val actual = reducer.updateSegmentTime(state = state, text = "10".timeText)
+        val actual = reducer.updateSegmentTime(state = state)
 
         assertThat(actual).isEqualTo(expected)
     }
@@ -234,11 +157,7 @@ class SegmentReducerTest {
             ),
             errors = emptyMap(),
             timeTypes = listOf(TimeType.TIMER, TimeType.REST, TimeType.STOPWATCH),
-            inputs = SegmentInputs(
-                name = "Segment Name".toTextFieldValue(),
-                time = "10".timeText,
-                type = TimeType.TIMER
-            ),
+            selectedTimeType = TimeType.TIMER,
             action = null
         )
 
@@ -248,49 +167,7 @@ class SegmentReducerTest {
     }
 
     @Test
-    fun `should update segment type and keep segment time when selected type is not TimeType#STOPWATCH`() {
-        val state = SegmentState.Data(
-            routine = Routine.EMPTY.copy(
-                segments = emptyList()
-            ),
-            segment = Segment.EMPTY.copy(
-                type = TimeType.TIMER,
-                time = 10.seconds
-            ),
-            errors = emptyMap(),
-            timeTypes = listOf(TimeType.TIMER, TimeType.REST, TimeType.STOPWATCH),
-            inputs = SegmentInputs(
-                name = "Segment Name".toTextFieldValue(),
-                time = "10".timeText,
-                type = TimeType.TIMER
-            ),
-            action = null
-        )
-        val expected = SegmentState.Data(
-            routine = Routine.EMPTY.copy(
-                segments = emptyList()
-            ),
-            segment = Segment.EMPTY.copy(
-                time = 10.seconds,
-                type = TimeType.TIMER
-            ),
-            errors = emptyMap(),
-            timeTypes = listOf(TimeType.TIMER, TimeType.REST, TimeType.STOPWATCH),
-            inputs = SegmentInputs(
-                name = "Segment Name".toTextFieldValue(),
-                time = "10".timeText,
-                type = TimeType.REST
-            ),
-            action = null
-        )
-
-        val actual = reducer.updateSegmentTimeType(state = state, timeType = TimeType.REST)
-
-        assertThat(actual).isEqualTo(expected)
-    }
-
-    @Test
-    fun `should clear time error when selected type is selected`() {
+    fun `should clear time error when segment type is selected`() {
         val state = SegmentState.Data(
             routine = Routine.EMPTY.copy(
                 segments = emptyList()
@@ -304,11 +181,7 @@ class SegmentReducerTest {
                 SegmentField.Time to SegmentFieldError.InvalidSegmentTime,
             ),
             timeTypes = listOf(TimeType.TIMER, TimeType.REST, TimeType.STOPWATCH),
-            inputs = SegmentInputs(
-                name = "".toTextFieldValue(),
-                time = "10".timeText,
-                type = TimeType.TIMER
-            ),
+            selectedTimeType = TimeType.TIMER,
             action = null
         )
         val expected = SegmentState.Data(
@@ -323,57 +196,11 @@ class SegmentReducerTest {
                 SegmentField.Name to SegmentFieldError.BlankSegmentName,
             ),
             timeTypes = listOf(TimeType.TIMER, TimeType.REST, TimeType.STOPWATCH),
-            inputs = SegmentInputs(
-                name = "".toTextFieldValue(),
-                time = "10".timeText,
-                type = TimeType.REST
-            ),
+            selectedTimeType = TimeType.REST,
             action = null
         )
 
         val actual = reducer.updateSegmentTimeType(state = state, timeType = TimeType.REST)
-
-        assertThat(actual).isEqualTo(expected)
-    }
-
-    @Test
-    fun `should update segment type and set segment time to zero when selected type not TimeType#STOPWATCH`() {
-        val state = SegmentState.Data(
-            routine = Routine.EMPTY.copy(
-                segments = emptyList()
-            ),
-            segment = Segment.EMPTY.copy(
-                time = 10.seconds,
-                type = TimeType.TIMER
-            ),
-            errors = emptyMap(),
-            timeTypes = listOf(TimeType.TIMER, TimeType.REST, TimeType.STOPWATCH),
-            inputs = SegmentInputs(
-                name = "Segment Name".toTextFieldValue(),
-                time = "10".timeText,
-                type = TimeType.TIMER
-            ),
-            action = null
-        )
-        val expected = SegmentState.Data(
-            routine = Routine.EMPTY.copy(
-                segments = emptyList()
-            ),
-            segment = Segment.EMPTY.copy(
-                time = 10.seconds,
-                type = TimeType.TIMER
-            ),
-            errors = emptyMap(),
-            timeTypes = listOf(TimeType.TIMER, TimeType.REST, TimeType.STOPWATCH),
-            inputs = SegmentInputs(
-                name = "Segment Name".toTextFieldValue(),
-                time = "".timeText,
-                type = TimeType.STOPWATCH
-            ),
-            action = null
-        )
-
-        val actual = reducer.updateSegmentTimeType(state = state, timeType = TimeType.STOPWATCH)
 
         assertThat(actual).isEqualTo(expected)
     }
@@ -389,11 +216,7 @@ class SegmentReducerTest {
             segment = Segment.EMPTY,
             errors = emptyMap(),
             timeTypes = listOf(TimeType.TIMER, TimeType.REST, TimeType.STOPWATCH),
-            inputs = SegmentInputs(
-                name = "".toTextFieldValue(),
-                time = "".timeText,
-                type = TimeType.TIMER
-            ),
+            selectedTimeType = TimeType.TIMER,
             action = null
         )
         val expected = SegmentState.Data(
@@ -401,11 +224,7 @@ class SegmentReducerTest {
             segment = Segment.EMPTY,
             errors = errors,
             timeTypes = listOf(TimeType.TIMER, TimeType.REST, TimeType.STOPWATCH),
-            inputs = SegmentInputs(
-                name = "".toTextFieldValue(),
-                time = "".timeText,
-                type = TimeType.TIMER
-            ),
+            selectedTimeType = TimeType.TIMER,
             action = null
         )
 
@@ -421,11 +240,7 @@ class SegmentReducerTest {
             segment = Segment.EMPTY,
             errors = emptyMap(),
             timeTypes = listOf(TimeType.TIMER, TimeType.REST, TimeType.STOPWATCH),
-            inputs = SegmentInputs(
-                name = "".toTextFieldValue(),
-                time = "".timeText,
-                type = TimeType.TIMER
-            ),
+            selectedTimeType = TimeType.TIMER,
             action = null
         )
         val expected = SegmentState.Data(
@@ -433,11 +248,7 @@ class SegmentReducerTest {
             segment = Segment.EMPTY,
             errors = emptyMap(),
             timeTypes = listOf(TimeType.TIMER, TimeType.REST, TimeType.STOPWATCH),
-            inputs = SegmentInputs(
-                name = "".toTextFieldValue(),
-                time = "".timeText,
-                type = TimeType.TIMER
-            ),
+            selectedTimeType = TimeType.TIMER,
             action = SaveSegmentError
         )
 
@@ -453,11 +264,7 @@ class SegmentReducerTest {
             segment = Segment.EMPTY,
             errors = emptyMap(),
             timeTypes = listOf(TimeType.TIMER, TimeType.REST, TimeType.STOPWATCH),
-            inputs = SegmentInputs(
-                name = "".toTextFieldValue(),
-                time = "".timeText,
-                type = TimeType.TIMER
-            ),
+            selectedTimeType = TimeType.TIMER,
             action = SaveSegmentError
         )
         val expected = SegmentState.Data(
@@ -465,11 +272,7 @@ class SegmentReducerTest {
             segment = Segment.EMPTY,
             errors = emptyMap(),
             timeTypes = listOf(TimeType.TIMER, TimeType.REST, TimeType.STOPWATCH),
-            inputs = SegmentInputs(
-                name = "".toTextFieldValue(),
-                time = "".timeText,
-                type = TimeType.TIMER
-            ),
+            selectedTimeType = TimeType.TIMER,
             action = null
         )
 

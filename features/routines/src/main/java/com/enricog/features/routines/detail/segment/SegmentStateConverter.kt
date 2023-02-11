@@ -4,7 +4,6 @@ import com.enricog.base.viewmodel.StateConverter
 import com.enricog.core.compose.api.classes.asImmutableList
 import com.enricog.core.compose.api.classes.asImmutableMap
 import com.enricog.features.routines.R
-import com.enricog.features.routines.detail.segment.models.SegmentFields
 import com.enricog.features.routines.detail.segment.models.SegmentState
 import com.enricog.features.routines.detail.segment.models.SegmentState.Data.Action
 import com.enricog.features.routines.detail.segment.models.SegmentViewState
@@ -26,12 +25,9 @@ internal class SegmentStateConverter @Inject constructor() :
 
     private fun SegmentState.Data.toViewState(): SegmentViewState {
         return SegmentViewState.Data(
-            segment = SegmentFields(
-                name = inputs.name,
-                time = if (inputs.type != TimeTypeEntity.STOPWATCH) inputs.time else null,
-                type = TimeType.from(timeType = inputs.type),
-            ),
+            isTimeFieldVisible = selectedTimeType != TimeTypeEntity.STOPWATCH,
             errors = errors.asImmutableMap(),
+            selectedTimeType = TimeType.from(timeType = selectedTimeType),
             timeTypes = timeTypes.map { TimeType.from(timeType = it) }.asImmutableList(),
             message = action?.toMessage()
         )

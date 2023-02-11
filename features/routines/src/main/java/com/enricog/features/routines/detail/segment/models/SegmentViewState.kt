@@ -10,8 +10,9 @@ internal sealed class SegmentViewState {
     object Idle : SegmentViewState()
 
     data class Data(
-        val segment: SegmentFields,
+        val isTimeFieldVisible: Boolean,
         val errors: ImmutableMap<SegmentField, SegmentFieldError>,
+        val selectedTimeType: TimeType,
         val timeTypes: ImmutableList<TimeType>,
         val message: Message?
     ) : SegmentViewState() {

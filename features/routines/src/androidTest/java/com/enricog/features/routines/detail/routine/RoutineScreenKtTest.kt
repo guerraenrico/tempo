@@ -5,7 +5,7 @@ import androidx.compose.ui.test.junit4.createComposeRule
 import androidx.compose.ui.test.onNodeWithTag
 import com.enricog.core.compose.api.classes.emptyImmutableMap
 import com.enricog.core.compose.testing.invoke
-import com.enricog.features.routines.detail.routine.models.RoutineFields
+import com.enricog.features.routines.detail.routine.models.RoutineInputs
 import com.enricog.features.routines.detail.routine.models.RoutineViewState
 import com.enricog.features.routines.detail.routine.ui_components.RoutineErrorSceneTestTag
 import com.enricog.features.routines.detail.routine.ui_components.RoutineFormSceneTestTag
@@ -23,10 +23,15 @@ class RoutineScreenKtTest {
     @Test
     fun shouldNotRenderAnySceneWhenStateIsIdle() = composeRule {
         val viewState = RoutineViewState.Idle
+        val inputs = RoutineInputs(
+            name = "".toTextFieldValue(),
+            startTimeOffset = "".timeText
+        )
 
         setContent {
             TempoTheme {
                 viewState.Compose(
+                    inputs = inputs,
                     onRoutineNameChange = {},
                     onStartTimeOffsetChange = {},
                     onRoutineSave = {},
@@ -44,17 +49,18 @@ class RoutineScreenKtTest {
     @Test
     fun shouldRenderSceneWhenStateIsData() = composeRule {
         val viewState = RoutineViewState.Data(
-            routine = RoutineFields(
-                name = "".toTextFieldValue(),
-                startTimeOffset = "".timeText
-            ),
             errors = emptyImmutableMap(),
             message = null
+        )
+        val inputs = RoutineInputs(
+            name = "".toTextFieldValue(),
+            startTimeOffset = "".timeText
         )
 
         setContent {
             TempoTheme {
                 viewState.Compose(
+                    inputs = inputs,
                     onRoutineNameChange = {},
                     onStartTimeOffsetChange = {},
                     onRoutineSave = {},
@@ -72,9 +78,14 @@ class RoutineScreenKtTest {
     @Test
     fun shouldRenderRoutineErrorSceneWhenStateIsError() = composeRule {
         val viewState = RoutineViewState.Error(throwable = Exception())
+        val inputs = RoutineInputs(
+            name = "".toTextFieldValue(),
+            startTimeOffset = "".timeText
+        )
 
         setContent {
             viewState.Compose(
+                inputs = inputs,
                 onRoutineNameChange = {},
                 onStartTimeOffsetChange = {},
                 onRoutineSave = {},

@@ -11,15 +11,11 @@ import com.enricog.data.routines.testing.entities.EMPTY
 import com.enricog.features.routines.R
 import com.enricog.features.routines.detail.segment.models.SegmentField
 import com.enricog.features.routines.detail.segment.models.SegmentFieldError
-import com.enricog.features.routines.detail.segment.models.SegmentFields
-import com.enricog.features.routines.detail.segment.models.SegmentInputs
 import com.enricog.features.routines.detail.segment.models.SegmentState
 import com.enricog.features.routines.detail.segment.models.SegmentState.Data.Action.SaveSegmentError
 import com.enricog.features.routines.detail.segment.models.SegmentViewState
 import com.enricog.features.routines.detail.segment.models.SegmentViewState.Data.Message
 import com.enricog.features.routines.detail.ui.time_type.TimeType
-import com.enricog.ui.components.extensions.toTextFieldValue
-import com.enricog.ui.components.textField.timeText
 import com.google.common.truth.Truth.assertThat
 import org.junit.Rule
 import org.junit.Test
@@ -63,19 +59,12 @@ class SegmentStateConverterTest {
                 SegmentField.Time to SegmentFieldError.InvalidSegmentTime
             ),
             timeTypes = emptyList(),
-            inputs = SegmentInputs(
-                name = "name".toTextFieldValue(),
-                time = "10".timeText,
-                type = TimeTypeEntity.REST
-            ),
+            selectedTimeType = TimeTypeEntity.REST,
             action = null
         )
         val expected = SegmentViewState.Data(
-            segment = SegmentFields(
-                name = "name".toTextFieldValue(),
-                time = "10".timeText,
-                type = TimeType.from(TimeTypeEntity.REST)
-            ),
+            selectedTimeType = TimeType.from(TimeTypeEntity.REST),
+            isTimeFieldVisible = true,
             errors = immutableMapOf(
                 SegmentField.Name to SegmentFieldError.BlankSegmentName,
                 SegmentField.Time to SegmentFieldError.InvalidSegmentTime
@@ -99,19 +88,12 @@ class SegmentStateConverterTest {
                 SegmentField.Time to SegmentFieldError.InvalidSegmentTime
             ),
             timeTypes = emptyList(),
-            inputs = SegmentInputs(
-                name = "name".toTextFieldValue(),
-                time = "10".timeText,
-                type = TimeTypeEntity.REST
-            ),
+            selectedTimeType = TimeTypeEntity.REST,
             action = SaveSegmentError
         )
         val expected = SegmentViewState.Data(
-            segment = SegmentFields(
-                name = "name".toTextFieldValue(),
-                time = "10".timeText,
-                type = TimeType.from(TimeTypeEntity.REST)
-            ),
+            selectedTimeType = TimeType.from(TimeTypeEntity.REST),
+            isTimeFieldVisible = true,
             errors = immutableMapOf(
                 SegmentField.Name to SegmentFieldError.BlankSegmentName,
                 SegmentField.Time to SegmentFieldError.InvalidSegmentTime
@@ -139,19 +121,12 @@ class SegmentStateConverterTest {
                 TimeTypeEntity.REST,
                 TimeTypeEntity.STOPWATCH
             ),
-            inputs = SegmentInputs(
-                name = "name".toTextFieldValue(),
-                time = "0".timeText,
-                type = TimeTypeEntity.STOPWATCH
-            ),
+            selectedTimeType = TimeTypeEntity.STOPWATCH,
             action = null
         )
         val expected = SegmentViewState.Data(
-            segment = SegmentFields(
-                name = "name".toTextFieldValue(),
-                time = null,
-                type = TimeType.from(TimeTypeEntity.STOPWATCH)
-            ),
+            selectedTimeType = TimeType.from(TimeTypeEntity.STOPWATCH),
+            isTimeFieldVisible = false,
             errors = emptyImmutableMap(),
             timeTypes = immutableListOf(
                 TimeType.from(TimeTypeEntity.TIMER),

@@ -7,13 +7,9 @@ import com.enricog.data.routines.testing.entities.EMPTY
 import com.enricog.features.routines.R
 import com.enricog.features.routines.detail.routine.models.RoutineField
 import com.enricog.features.routines.detail.routine.models.RoutineFieldError
-import com.enricog.features.routines.detail.routine.models.RoutineFields
-import com.enricog.features.routines.detail.routine.models.RoutineInputs
 import com.enricog.features.routines.detail.routine.models.RoutineState
 import com.enricog.features.routines.detail.routine.models.RoutineState.Data.Action.SaveRoutineError
 import com.enricog.features.routines.detail.routine.models.RoutineViewState
-import com.enricog.ui.components.extensions.toTextFieldValue
-import com.enricog.ui.components.textField.timeText
 import com.google.common.truth.Truth.assertThat
 import org.junit.Rule
 import org.junit.Test
@@ -53,17 +49,9 @@ class RoutineStateConverterTest {
             errors = mapOf(
                 RoutineField.Name to RoutineFieldError.BlankRoutineName,
             ),
-            inputs = RoutineInputs(
-                name = "name".toTextFieldValue(),
-                startTimeOffset = "50".timeText
-            ),
             action = null
         )
         val expected = RoutineViewState.Data(
-            routine = RoutineFields(
-                name = "name".toTextFieldValue(),
-                startTimeOffset = "50".timeText
-            ),
             errors = immutableMapOf(
                 RoutineField.Name to RoutineFieldError.BlankRoutineName
             ),
@@ -82,17 +70,9 @@ class RoutineStateConverterTest {
             errors = mapOf(
                 RoutineField.Name to RoutineFieldError.BlankRoutineName,
             ),
-            inputs = RoutineInputs(
-                name = "name".toTextFieldValue(),
-                startTimeOffset = "50".timeText
-            ),
             action = SaveRoutineError
         )
         val expected = RoutineViewState.Data(
-            routine = RoutineFields(
-                name = "name".toTextFieldValue(),
-                startTimeOffset = "50".timeText
-            ),
             errors = immutableMapOf(
                 RoutineField.Name to RoutineFieldError.BlankRoutineName
             ),

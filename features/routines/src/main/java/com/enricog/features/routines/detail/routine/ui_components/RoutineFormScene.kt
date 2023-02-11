@@ -26,7 +26,7 @@ import com.enricog.core.compose.api.extensions.stringResourceOrNull
 import com.enricog.features.routines.R
 import com.enricog.features.routines.detail.routine.models.RoutineField
 import com.enricog.features.routines.detail.routine.models.RoutineFieldError
-import com.enricog.features.routines.detail.routine.models.RoutineFields
+import com.enricog.features.routines.detail.routine.models.RoutineInputs
 import com.enricog.features.routines.detail.routine.models.RoutineViewState.Data.Message
 import com.enricog.ui.components.button.TempoButton
 import com.enricog.ui.components.button.TempoButtonColor
@@ -44,7 +44,7 @@ internal const val RoutineFormSceneTestTag = "RoutineFormSceneTestTag"
 
 @Composable
 internal fun RoutineFormScene(
-    routine: RoutineFields,
+    inputs: RoutineInputs,
     errors: ImmutableMap<RoutineField, RoutineFieldError>,
     message: Message?,
     onRoutineNameChange: (TextFieldValue) -> Unit,
@@ -82,7 +82,7 @@ internal fun RoutineFormScene(
                         .verticalScroll(state = scrollState)
                 ) {
                     TempoTextField(
-                        value = routine.name,
+                        value = inputs.name,
                         onValueChange = onRoutineNameChange,
                         modifier = Modifier
                             .fillMaxWidth()
@@ -97,7 +97,7 @@ internal fun RoutineFormScene(
                     )
 
                     TempoTimeField(
-                        value = routine.startTimeOffset,
+                        value = inputs.startTimeOffset,
                         onValueChange = onStartTimeOffsetChange,
                         modifier = Modifier
                             .fillMaxWidth()

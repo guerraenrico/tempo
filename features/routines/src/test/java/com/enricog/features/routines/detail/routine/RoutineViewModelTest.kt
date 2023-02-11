@@ -14,7 +14,7 @@ import com.enricog.entities.seconds
 import com.enricog.features.routines.R
 import com.enricog.features.routines.detail.routine.models.RoutineField
 import com.enricog.features.routines.detail.routine.models.RoutineFieldError
-import com.enricog.features.routines.detail.routine.models.RoutineFields
+import com.enricog.features.routines.detail.routine.models.RoutineInputs
 import com.enricog.features.routines.detail.routine.models.RoutineViewState
 import com.enricog.features.routines.detail.routine.models.RoutineViewState.Data.Message
 import com.enricog.features.routines.detail.routine.usecase.RoutineUseCase
@@ -41,27 +41,27 @@ class RoutineViewModelTest {
         startTimeOffset = 30.seconds,
         segments = emptyList()
     )
-    private val routineFields = RoutineFields(
-        name = "Routine Name".toTextFieldValue(),
-        startTimeOffset = "30".timeText
-    )
 
     private val navigator = FakeNavigator()
 
     @Test
     fun `should show data when load succeeds`() = coroutineRule {
-        val expected = RoutineViewState.Data(
-            routine = routineFields,
+        val expectedViewState = RoutineViewState.Data(
             errors = emptyImmutableMap(),
             message = null
+        )
+        val expectedFieldInputs = RoutineInputs(
+            name = "Routine Name".toTextFieldValue(),
+            startTimeOffset = "30".timeText
         )
 
         val viewModel = buildViewModel()
         advanceUntilIdle()
 
         viewModel.viewState.test {
-            assertThat(awaitItem()).isEqualTo(expected)
+            assertThat(awaitItem()).isEqualTo(expectedViewState)
         }
+        assertThat(viewModel.fieldInputs).isEqualTo(expectedFieldInputs)
     }
 
     @Test
@@ -80,10 +80,13 @@ class RoutineViewModelTest {
     @Test
     fun `should reload when retry`() = coroutineRule {
         val store = FakeStore(listOf(routine))
-        val expected = RoutineViewState.Data(
-            routine = routineFields,
+        val expectedViewState = RoutineViewState.Data(
             errors = emptyImmutableMap(),
             message = null
+        )
+        val expectedFieldInputs = RoutineInputs(
+            name = "Routine Name".toTextFieldValue(),
+            startTimeOffset = "30".timeText
         )
         store.enableErrorOnNextAccess()
         val viewModel = buildViewModel(store = store)
@@ -93,16 +96,20 @@ class RoutineViewModelTest {
         advanceUntilIdle()
 
         viewModel.viewState.test {
-            assertThat(awaitItem()).isEqualTo(expected)
+            assertThat(awaitItem()).isEqualTo(expectedViewState)
         }
+        assertThat(viewModel.fieldInputs).isEqualTo(expectedFieldInputs)
     }
 
     @Test
     fun `should update routine when name changes`() = coroutineRule {
-        val expected = RoutineViewState.Data(
-            routine = routineFields.copy(name = "Routine Name Modified".toTextFieldValue()),
+        val expectedViewState = RoutineViewState.Data(
             errors = emptyImmutableMap(),
             message = null
+        )
+        val expectedFieldInputs = RoutineInputs(
+            name = "Routine Name Modified".toTextFieldValue(),
+            startTimeOffset = "30".timeText
         )
         val viewModel = buildViewModel()
         advanceUntilIdle()
@@ -111,16 +118,20 @@ class RoutineViewModelTest {
         advanceUntilIdle()
 
         viewModel.viewState.test {
-            assertThat(awaitItem()).isEqualTo(expected)
+            assertThat(awaitItem()).isEqualTo(expectedViewState)
         }
+        assertThat(viewModel.fieldInputs).isEqualTo(expectedFieldInputs)
     }
 
     @Test
     fun `should update routine when start offset time changes`() = coroutineRule {
-        val expected = RoutineViewState.Data(
-            routine = routineFields.copy(startTimeOffset = "10".timeText),
+        val expectedViewState = RoutineViewState.Data(
             errors = emptyImmutableMap(),
             message = null
+        )
+        val expectedFieldInputs = RoutineInputs(
+            name = "Routine Name".toTextFieldValue(),
+            startTimeOffset = "10".timeText
         )
         val viewModel = buildViewModel()
         advanceUntilIdle()
@@ -129,8 +140,31 @@ class RoutineViewModelTest {
         advanceUntilIdle()
 
         viewModel.viewState.test {
-            assertThat(awaitItem()).isEqualTo(expected)
+            assertThat(awaitItem()).isEqualTo(expectedViewState)
         }
+        assertThat(viewModel.fieldInputs).isEqualTo(expectedFieldInputs)
+    }
+
+    @Test
+    fun `should not update routine when start offset time exceeds limit`() = coroutineRule {
+        val expectedViewState = RoutineViewState.Data(
+            errors = emptyImmutableMap(),
+            message = null
+        )
+        val expectedFieldInputs = RoutineInputs(
+            name = "Routine Name".toTextFieldValue(),
+            startTimeOffset = "30".timeText
+        )
+        val viewModel = buildViewModel()
+        advanceUntilIdle()
+
+        viewModel.onRoutineStartTimeOffsetChange(text = "3000".timeText)
+        advanceUntilIdle()
+
+        viewModel.viewState.test {
+            assertThat(awaitItem()).isEqualTo(expectedViewState)
+        }
+        assertThat(viewModel.fieldInputs).isEqualTo(expectedFieldInputs)
     }
 
     @Test
@@ -144,8 +178,7 @@ class RoutineViewModelTest {
 
     @Test
     fun `should show errors when saving a routine with errors`() = coroutineRule {
-        val expected = RoutineViewState.Data(
-            routine = routineFields.copy(name = "".toTextFieldValue()),
+        val expectedViewState = RoutineViewState.Data(
             errors = immutableMapOf(RoutineField.Name to RoutineFieldError.BlankRoutineName),
             message = null
         )
@@ -158,14 +191,14 @@ class RoutineViewModelTest {
         advanceUntilIdle()
 
         viewModel.viewState.test {
-            assertThat(awaitItem()).isEqualTo(expected)
+            assertThat(awaitItem()).isEqualTo(expectedViewState)
         }
         navigator.assertNoActions()
     }
 
     @Test
     fun `should save and navigate to routineSummary when saving a new routine`() = coroutineRule {
-        val expected = Routine.EMPTY.copy(name = "New Routine Name")
+        val expectedViewState = Routine.EMPTY.copy(name = "New Routine Name")
         val store = FakeStore(emptyList<Routine>())
         val savedStateHandle = SavedStateHandle(mapOf("routineId" to 0L))
         val viewModel = buildViewModel(store = store, savedStateHandle = savedStateHandle)
@@ -177,9 +210,9 @@ class RoutineViewModelTest {
         advanceUntilIdle()
 
         store.get().first().let { actual ->
-            assertThat(actual.name).isEqualTo(expected.name)
-            assertThat(actual.segments).isEqualTo(expected.segments)
-            assertThat(actual.startTimeOffset).isEqualTo(expected.startTimeOffset)
+            assertThat(actual.name).isEqualTo(expectedViewState.name)
+            assertThat(actual.segments).isEqualTo(expectedViewState.segments)
+            assertThat(actual.startTimeOffset).isEqualTo(expectedViewState.startTimeOffset)
 
             navigator.assertGoTo(
                 route = RoutineSummaryRoute,
@@ -190,7 +223,7 @@ class RoutineViewModelTest {
 
     @Test
     fun `should save and navigate back when saving a existing routine`() = coroutineRule {
-        val expected = routine.copy(name = "Routine Name Modified")
+        val expectedViewState = routine.copy(name = "Routine Name Modified")
         val store = FakeStore(listOf(routine))
         val viewModel = buildViewModel(store)
         advanceUntilIdle()
@@ -200,15 +233,14 @@ class RoutineViewModelTest {
         viewModel.onRoutineSave()
         advanceUntilIdle()
 
-        assertThat(store.get().first()).isEqualTo(expected)
+        assertThat(store.get().first()).isEqualTo(expectedViewState)
         navigator.assertGoBack()
     }
 
     @Test
     fun `should show message when save fails`() = coroutineRule {
         val store = FakeStore(listOf(routine))
-        val expected = RoutineViewState.Data(
-            routine = routineFields,
+        val expectedViewState = RoutineViewState.Data(
             errors = emptyImmutableMap(),
             message = Message(
                 textResId = R.string.label_segment_save_error,
@@ -223,7 +255,7 @@ class RoutineViewModelTest {
         advanceUntilIdle()
 
         viewModel.viewState.test {
-            assertThat(awaitItem()).isEqualTo(expected)
+            assertThat(awaitItem()).isEqualTo(expectedViewState)
         }
         navigator.assertNoActions()
     }

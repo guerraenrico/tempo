@@ -15,42 +15,42 @@ class SegmentValidatorTest {
 
     @Test
     fun `should return error when segment name is blank`() {
+        val selectedTimeType = TimeType.TIMER
         val inputs = SegmentInputs(
             name = "".toTextFieldValue(),
-            time = "10".timeText,
-            type = TimeType.TIMER
+            time = "10".timeText
         )
         val expected = mapOf(SegmentField.Name to SegmentFieldError.BlankSegmentName)
 
-        val actual = validator.validate(inputs = inputs)
+        val actual = validator.validate(inputs = inputs, selectedTimeType = selectedTimeType)
 
         assertThat(actual).isEqualTo(expected)
     }
 
     @Test
     fun `should return error when segment time is less or equal to zero and type is not TimeType#STOPWATCH`() {
+        val selectedTimeType = TimeType.TIMER
         val inputs = SegmentInputs(
             name = "name".toTextFieldValue(),
-            time = "".timeText,
-            type = TimeType.TIMER
+            time = "".timeText
         )
         val expected = mapOf(SegmentField.Time to SegmentFieldError.InvalidSegmentTime)
 
-        val actual = validator.validate(inputs = inputs)
+        val actual = validator.validate(inputs = inputs, selectedTimeType = selectedTimeType)
 
         assertThat(actual).isEqualTo(expected)
     }
 
     @Test
-    fun `should not return error when segment time is less or equal to zero and type is TimeType#STOPWATCH`() {
+    fun `should not return error when segment time is less or equal to zero and segment type stopwatch`() {
+        val selectedTimeType = TimeType.STOPWATCH
         val inputs = SegmentInputs(
             name = "name".toTextFieldValue(),
-            time = "".timeText,
-            type = TimeType.STOPWATCH
+            time = "".timeText
         )
         val expected = emptyMap<SegmentField, SegmentFieldError>()
 
-        val actual = validator.validate(inputs = inputs)
+        val actual = validator.validate(inputs = inputs, selectedTimeType = selectedTimeType)
 
         assertThat(actual).isEqualTo(expected)
     }
