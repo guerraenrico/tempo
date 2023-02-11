@@ -22,6 +22,7 @@ import com.enricog.core.compose.api.modifiers.spacing.horizontalListItemSpacing
 import com.enricog.features.routines.R
 import com.enricog.features.routines.detail.summary.models.RoutineSummaryItem.RoutineInfo
 import com.enricog.features.routines.detail.summary.models.RoutineSummaryItem.RoutineInfo.SegmentsSummary
+import com.enricog.ui.components.button.TempoButton
 import com.enricog.ui.components.button.TempoButtonColor
 import com.enricog.ui.components.button.icon.TempoIconButton
 import com.enricog.ui.components.button.icon.TempoIconButtonSize
@@ -59,28 +60,29 @@ internal fun RoutineSection(
             style = TempoTheme.typography.h1
         )
 
-        TempoIconButton(
+        TempoButton(
             modifier = Modifier.constrainAs(buttonEdit) {
                 top.linkTo(name.bottom)
                 start.linkTo(parent.start)
                 bottom.linkTo(parent.bottom)
             },
             onClick = onEditRoutine,
-            size = TempoIconButtonSize.Small,
             iconResId = R.drawable.ic_routine_edit,
+            text = stringResource(R.string.button_routine_summary_edit_routine),
             color = TempoButtonColor.TransparentSecondary,
-            drawShadow = false,
             contentDescription = stringResource(R.string.content_description_button_edit_routine)
         )
         if (routineInfo.segmentsSummary != null) {
             Counts(
-                modifier = Modifier.constrainAs(count) {
-                    top.linkTo(parent.top)
-                    start.linkTo(name.end)
-                    bottom.linkTo(parent.bottom)
-                    end.linkTo(parent.end)
-                    baseline.linkTo(name.baseline)
-                },
+                modifier = Modifier
+                    .padding(start = TempoTheme.dimensions.spaceM)
+                    .constrainAs(count) {
+                        top.linkTo(parent.top)
+                        start.linkTo(name.end)
+                        bottom.linkTo(parent.bottom)
+                        end.linkTo(parent.end)
+                        baseline.linkTo(name.baseline)
+                    },
                 segmentsSummary = routineInfo.segmentsSummary
             )
         }
@@ -102,7 +104,7 @@ private fun Counts(
                     .testTag(RoutineSectionTotalTimeTestTag)
                     .padding(bottom = TempoTheme.dimensions.spaceXS),
                 text = segmentsSummary.totalTime.format(),
-                style = TempoTheme.typography.h2,
+                style = TempoTheme.typography.h3,
                 textAlign = TextAlign.End
             )
         }
