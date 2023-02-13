@@ -105,7 +105,7 @@ class RoutinesStateConverterTest {
                 name = "Routine",
                 rank = "aaaaaa",
                 segmentsSummary = SegmentsSummary(
-                    totalTime = 12.seconds,
+                    estimatedTotalTime = 12.seconds,
                     segmentTypesCount = immutableMapOf(
                         TimeType.from(TimeTypeEntity.TIMER) to 2,
                         TimeType.from(TimeTypeEntity.REST) to 1,
@@ -125,7 +125,7 @@ class RoutinesStateConverterTest {
         }
 
     @Test
-    fun `should map data state with segments summary with no total time when routine has only stopwatch segment`() =
+    fun `should map data state with segments summary with no expected total time when routine has only stopwatch segment`() =
         coroutineRule {
             val routineEntity = RoutineEntity.EMPTY.copy(
                 name = "Routine",
@@ -142,7 +142,7 @@ class RoutinesStateConverterTest {
                 name = "Routine",
                 rank = "aaaaaa",
                 segmentsSummary = SegmentsSummary(
-                    totalTime = null,
+                    estimatedTotalTime = null,
                     segmentTypesCount = immutableMapOf(
                         TimeType.from(TimeTypeEntity.STOPWATCH) to 1
                     )

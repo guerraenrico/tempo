@@ -94,12 +94,12 @@ private fun Counts(
         modifier = modifier.testTag(RoutineItemCountTestTag),
         horizontalAlignment = Alignment.End
     ) {
-        if (segmentsSummary.totalTime != null) {
+        if (segmentsSummary.estimatedTotalTime != null) {
             TempoText(
                 modifier = Modifier
                     .testTag(RoutineItemTotalTimeTestTag)
                     .padding(bottom = TempoTheme.dimensions.spaceXS),
-                text = segmentsSummary.totalTime.format(),
+                text = segmentsSummary.estimatedTotalTime.format(),
                 style = TempoTheme.typography.h3,
                 textAlign = TextAlign.End
             )

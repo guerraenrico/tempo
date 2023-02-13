@@ -35,7 +35,7 @@ internal class RoutineSummaryStateConverter @Inject constructor() :
         val items: List<RoutineSummaryItem> = buildList {
             val segmentsSummary = if (routine.segments.isNotEmpty()) {
                 SegmentsSummary(
-                    totalTime = routine.totalTime.takeIf { it > 0.seconds },
+                    estimatedTotalTime = routine.expectedTotalTime.takeIf { it > 0.seconds },
                     segmentTypesCount = routine.segments.groupBy { it.type }
                         .map { (type, segments) -> TimeType.from(type) to segments.size }
                         .toMap()

@@ -28,7 +28,7 @@ data class Routine(
     val isNew: Boolean
         get() = id.isNew
 
-    val totalTime: Seconds
+    val expectedTotalTime: Seconds
         get() {
             val segmentsTotalTime = segments.map { it.time }
                 .reduce { acc, time -> acc + time }

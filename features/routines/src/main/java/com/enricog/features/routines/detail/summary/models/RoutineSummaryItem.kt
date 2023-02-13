@@ -18,7 +18,7 @@ internal sealed class RoutineSummaryItem {
         override val isDraggable: Boolean = false
 
         data class SegmentsSummary(
-            @Stable val totalTime: Seconds?,
+            @Stable val estimatedTotalTime: Seconds?,
             val segmentTypesCount: ImmutableMap<TimeType, Int>
         )
     }

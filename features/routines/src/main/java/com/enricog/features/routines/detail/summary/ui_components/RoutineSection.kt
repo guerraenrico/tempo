@@ -24,8 +24,6 @@ import com.enricog.features.routines.detail.summary.models.RoutineSummaryItem.Ro
 import com.enricog.features.routines.detail.summary.models.RoutineSummaryItem.RoutineInfo.SegmentsSummary
 import com.enricog.ui.components.button.TempoButton
 import com.enricog.ui.components.button.TempoButtonColor
-import com.enricog.ui.components.button.icon.TempoIconButton
-import com.enricog.ui.components.button.icon.TempoIconButtonSize
 import com.enricog.ui.components.extensions.format
 import com.enricog.ui.components.text.TempoText
 import com.enricog.ui.theme.TempoTheme
@@ -98,12 +96,12 @@ private fun Counts(
         modifier = modifier.testTag(RoutineSectionCountTestTag),
         horizontalAlignment = Alignment.End
     ) {
-        if (segmentsSummary.totalTime != null) {
+        if (segmentsSummary.estimatedTotalTime != null) {
             TempoText(
                 modifier = Modifier
                     .testTag(RoutineSectionTotalTimeTestTag)
                     .padding(bottom = TempoTheme.dimensions.spaceXS),
-                text = segmentsSummary.totalTime.format(),
+                text = segmentsSummary.estimatedTotalTime.format(),
                 style = TempoTheme.typography.h3,
                 textAlign = TextAlign.End
             )

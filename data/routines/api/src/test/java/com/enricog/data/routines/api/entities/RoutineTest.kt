@@ -114,7 +114,7 @@ class RoutineTest {
     }
 
     @Test
-    fun `total time should be zero when routine has only stopwatch segment`() {
+    fun `expected total time should be zero when routine has only stopwatch segment`() {
         val routine = Routine(
             id = 0.asID,
             name = "",
@@ -134,13 +134,13 @@ class RoutineTest {
         )
         val expected = 0.seconds
 
-        val actual = routine.totalTime
+        val actual = routine.expectedTotalTime
 
         assertThat(actual).isEqualTo(expected)
     }
 
     @Test
-    fun `total time should include preparation time`() {
+    fun `expected total time should include preparation time`() {
         val routine = Routine(
             id = 0.asID,
             name = "",
@@ -181,7 +181,7 @@ class RoutineTest {
         )
         val expected = 180.seconds
 
-        val actual = routine.totalTime
+        val actual = routine.expectedTotalTime
 
         assertThat(actual).isEqualTo(expected)
     }

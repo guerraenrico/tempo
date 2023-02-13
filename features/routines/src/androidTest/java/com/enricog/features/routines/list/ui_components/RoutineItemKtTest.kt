@@ -28,7 +28,7 @@ class RoutineItemKtTest {
             name = "Routine",
             rank = "aaaaaa",
             segmentsSummary = RoutinesItem.RoutineItem.SegmentsSummary(
-                totalTime = 12.seconds,
+                estimatedTotalTime = 12.seconds,
                 segmentTypesCount = immutableMapOf(
                     TimeType.from(TimeTypeEntity.TIMER) to 2,
                     TimeType.from(TimeTypeEntity.REST) to 1,
@@ -120,7 +120,7 @@ class RoutineItemKtTest {
             name = "Routine",
             rank = "aaaaaa",
             segmentsSummary = RoutinesItem.RoutineItem.SegmentsSummary(
-                totalTime = null,
+                estimatedTotalTime = null,
                 segmentTypesCount = immutableMapOf(
                     TimeType.from(TimeTypeEntity.STOPWATCH) to 1
                 )
