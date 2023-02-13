@@ -28,7 +28,7 @@ import com.enricog.ui.theme.contentColorFor
 
 internal const val RoutineItemTestTag = "RoutineItemTestTag"
 internal const val RoutineItemCountTestTag = "RoutineItemCountTestTag"
-internal const val RoutineItemTotalTimeTestTag = "RoutineItemTotalTimeTestTag"
+internal const val RoutineItemEstimatedTotalTimeTestTag = "RoutineItemEstimatedTotalTimeTestTag"
 internal const val RoutineItemSegmentTypeCountTestTag =
     "RoutineItemSegmentTypeCount_{{TYPE}}_TestTag"
 
@@ -97,7 +97,7 @@ private fun Counts(
         if (segmentsSummary.estimatedTotalTime != null) {
             TempoText(
                 modifier = Modifier
-                    .testTag(RoutineItemTotalTimeTestTag)
+                    .testTag(RoutineItemEstimatedTotalTimeTestTag)
                     .padding(bottom = TempoTheme.dimensions.spaceXS),
                 text = segmentsSummary.estimatedTotalTime.format(),
                 style = TempoTheme.typography.h3,

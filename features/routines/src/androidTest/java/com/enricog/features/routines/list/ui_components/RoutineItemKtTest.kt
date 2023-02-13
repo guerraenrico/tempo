@@ -55,16 +55,13 @@ class RoutineItemKtTest {
         onNodeWithText(text = routineItem.name).assertIsDisplayed()
 
         onNodeWithTag(testTag = RoutineItemCountTestTag, useUnmergedTree = true).assertIsDisplayed()
-        onNodeWithTag(testTag = RoutineItemTotalTimeTestTag, useUnmergedTree = true)
+        onNodeWithTag(testTag = RoutineItemEstimatedTotalTimeTestTag, useUnmergedTree = true)
             .assertTextEquals("12s")
         onNodeWithTag(testTag = "RoutineItemSegmentTypeCount_TIMER_TestTag", useUnmergedTree = true)
             .assertTextEquals("2")
         onNodeWithTag(testTag = "RoutineItemSegmentTypeCount_REST_TestTag", useUnmergedTree = true)
             .assertTextEquals("1")
-        onNodeWithTag(
-            testTag = "RoutineItemSegmentTypeCount_STOPWATCH_TestTag",
-            useUnmergedTree = true
-        )
+        onNodeWithTag(testTag = "RoutineItemSegmentTypeCount_STOPWATCH_TestTag", useUnmergedTree = true)
             .assertTextEquals("1")
     }
 
@@ -91,25 +88,20 @@ class RoutineItemKtTest {
 
         waitForIdle()
 
-        onNodeWithTag(testTag = RoutineItemTestTag).assertIsDisplayed()
-        onNodeWithText(text = routineItem.name).assertIsDisplayed()
+        onNodeWithTag(testTag = RoutineItemTestTag)
+            .assertIsDisplayed()
+        onNodeWithText(text = "Routine")
+            .assertIsDisplayed()
 
-        onNodeWithTag(
-            testTag = RoutineItemTotalTimeTestTag,
-            useUnmergedTree = true
-        ).assertDoesNotExist()
-        onNodeWithTag(
-            testTag = RoutineItemCountTestTag,
-            useUnmergedTree = true
-        ).assertDoesNotExist()
+        onNodeWithTag(testTag = RoutineItemEstimatedTotalTimeTestTag, useUnmergedTree = true)
+            .assertDoesNotExist()
+        onNodeWithTag(testTag = RoutineItemCountTestTag, useUnmergedTree = true)
+            .assertDoesNotExist()
         onNodeWithTag(testTag = "RoutineItemSegmentTypeCount_TIMER_TestTag", useUnmergedTree = true)
             .assertDoesNotExist()
         onNodeWithTag(testTag = "RoutineItemSegmentTypeCount_REST_TestTag", useUnmergedTree = true)
             .assertDoesNotExist()
-        onNodeWithTag(
-            testTag = "RoutineItemSegmentTypeCount_STOPWATCH_TestTag",
-            useUnmergedTree = true
-        )
+        onNodeWithTag(testTag = "RoutineItemSegmentTypeCount_STOPWATCH_TestTag", useUnmergedTree = true)
             .assertDoesNotExist()
     }
 
@@ -141,22 +133,20 @@ class RoutineItemKtTest {
 
         waitForIdle()
 
-        onNodeWithTag(testTag = RoutineItemTestTag).assertIsDisplayed()
-        onNodeWithText(text = routineItem.name).assertIsDisplayed()
+        onNodeWithTag(testTag = RoutineItemTestTag)
+            .assertIsDisplayed()
+        onNodeWithText(text = "Routine")
+            .assertIsDisplayed()
 
-        onNodeWithTag(testTag = RoutineItemCountTestTag, useUnmergedTree = true).assertIsDisplayed()
-        onNodeWithTag(
-            testTag = RoutineItemTotalTimeTestTag,
-            useUnmergedTree = true
-        ).assertDoesNotExist()
+        onNodeWithTag(testTag = RoutineItemCountTestTag, useUnmergedTree = true)
+            .assertIsDisplayed()
+        onNodeWithTag(testTag = RoutineItemEstimatedTotalTimeTestTag, useUnmergedTree = true)
+            .assertDoesNotExist()
         onNodeWithTag(testTag = "RoutineItemSegmentTypeCount_TIMER_TestTag", useUnmergedTree = true)
             .assertDoesNotExist()
         onNodeWithTag(testTag = "RoutineItemSegmentTypeCount_REST_TestTag", useUnmergedTree = true)
             .assertDoesNotExist()
-        onNodeWithTag(
-            testTag = "RoutineItemSegmentTypeCount_STOPWATCH_TestTag",
-            useUnmergedTree = true
-        )
+        onNodeWithTag(testTag = "RoutineItemSegmentTypeCount_STOPWATCH_TestTag", useUnmergedTree = true)
             .assertTextEquals("1")
     }
 }

@@ -30,8 +30,8 @@ import com.enricog.ui.theme.TempoTheme
 import com.enricog.ui.theme.contentColorFor
 
 internal const val RoutineSectionTestTag = "RoutineSectionTestTag"
-internal const val RoutineSectionCountTestTag = "RoutineSectionCountTestTag"
-internal const val RoutineSectionTotalTimeTestTag = "RoutineSectionTotalTimeTestTag"
+internal const val RoutineSectionSummaryInfoTestTag = "RoutineSectionSummaryInfoTestTag"
+internal const val RoutineSectionEstimatedTotalTimeTestTag = "RoutineSectionEstimatedTotalTimeTestTag"
 internal const val RoutineSectionSegmentTypeCountTestTag =
     "RoutineSectionSegmentTypeCount_{{TYPE}}_TestTag"
 
@@ -71,7 +71,7 @@ internal fun RoutineSection(
             contentDescription = stringResource(R.string.content_description_button_edit_routine)
         )
         if (routineInfo.segmentsSummary != null) {
-            Counts(
+            SegmentSummary(
                 modifier = Modifier
                     .padding(start = TempoTheme.dimensions.spaceM)
                     .constrainAs(count) {
@@ -88,18 +88,18 @@ internal fun RoutineSection(
 }
 
 @Composable
-private fun Counts(
+private fun SegmentSummary(
     segmentsSummary: SegmentsSummary,
     modifier: Modifier = Modifier,
 ) {
     Column(
-        modifier = modifier.testTag(RoutineSectionCountTestTag),
+        modifier = modifier.testTag(RoutineSectionSummaryInfoTestTag),
         horizontalAlignment = Alignment.End
     ) {
         if (segmentsSummary.estimatedTotalTime != null) {
             TempoText(
                 modifier = Modifier
-                    .testTag(RoutineSectionTotalTimeTestTag)
+                    .testTag(RoutineSectionEstimatedTotalTimeTestTag)
                     .padding(bottom = TempoTheme.dimensions.spaceXS),
                 text = segmentsSummary.estimatedTotalTime.format(),
                 style = TempoTheme.typography.h3,
