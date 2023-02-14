@@ -6,27 +6,27 @@ import com.enricog.navigation.api.NavigationAction
 import com.google.common.truth.Truth.assertThat
 import org.junit.Test
 
-class RoutineStartTimeInfoRouteTest {
+class RoutinePreparationTimeInfoRouteTest {
 
     @Test
     fun `test name`() {
-        val expected = "routine/start-time-info"
+        val expected = "routine/preparation-time-info"
 
-        val actual = RoutineStartTimeInfoRoute.name
+        val actual = RoutinePreparationTimeInfoRoute.name
 
         assertThat(actual).isEqualTo(expected)
     }
 
     @Test
     fun `test navigate`() {
-        val input = RoutineStartTimeInfoRouteInput
+        val input = RoutinePreparationTimeInfoRouteInput
         val navOptions = navOptions {}
         val expected = NavigationAction.GoTo(
-            route = "routine/start-time-info",
+            route = "routine/preparation-time-info",
             navOptions = navOptions
         )
 
-        val actual = RoutineStartTimeInfoRoute.navigate(input = input, optionsBuilder = {})
+        val actual = RoutinePreparationTimeInfoRoute.navigate(input = input, optionsBuilder = {})
 
         assertThat(actual).isEqualTo(expected)
     }
@@ -34,9 +34,9 @@ class RoutineStartTimeInfoRouteTest {
     @Test
     fun `test extractInput`() {
         val savedStateHandle = SavedStateHandle(emptyMap())
-        val expected = RoutineStartTimeInfoRouteInput
+        val expected = RoutinePreparationTimeInfoRouteInput
 
-        val actual = RoutineStartTimeInfoRoute.extractInput(savedStateHandle = savedStateHandle)
+        val actual = RoutinePreparationTimeInfoRoute.extractInput(savedStateHandle = savedStateHandle)
 
         assertThat(actual).isEqualTo(expected)
     }

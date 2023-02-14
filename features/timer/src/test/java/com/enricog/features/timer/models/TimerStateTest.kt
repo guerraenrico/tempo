@@ -14,7 +14,7 @@ internal class TimerStateTest {
     private val count = Count(seconds = 10.seconds, isRunning = true, isCompleted = false)
     private val state = TimerState.Counting(
         routine = Routine.EMPTY.copy(
-            startTimeOffset = 10.seconds,
+            preparationTime = 10.seconds,
             segments = listOf(
                 Segment.EMPTY.copy(id = 1.asID, type = TimeType.TIMER),
                 Segment.EMPTY.copy(id = 2.asID, type = TimeType.STOPWATCH)

@@ -69,7 +69,7 @@ internal class RoutineViewModel @Inject constructor(
 
             fieldInputs = RoutineInputs(
                 name = routine.name.toTextFieldValue(),
-                startTimeOffset = routine.startTimeOffset.timeText
+                preparationTime = routine.preparationTime.timeText
             )
         }
     }
@@ -81,15 +81,15 @@ internal class RoutineViewModel @Inject constructor(
         }
     }
 
-    fun onRoutineStartTimeOffsetChange(text: TimeText) {
-        if (text.toSeconds() <= Routine.MAX_START_TIME_OFFSET) {
-            fieldInputs = fieldInputs.copy(startTimeOffset = text)
+    fun onRoutinePreparationTimeChange(text: TimeText) {
+        if (text.toSeconds() <= Routine.MAX_PREPARATION_TIME) {
+            fieldInputs = fieldInputs.copy(preparationTime = text)
         }
     }
 
-    fun onRoutineStartTimeInfo() {
+    fun onRoutinePreparationTimeInfo() {
         launch {
-            navigationActions.openRoutineStartTimeInfo()
+            navigationActions.openRoutinePreparationTimeInfo()
         }
     }
 

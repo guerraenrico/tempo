@@ -18,7 +18,7 @@ class RoutineReducerTest {
     fun `should setup state with routine`() {
         val routine = Routine.EMPTY.copy(
             name = "routine name",
-            startTimeOffset = 50.seconds
+            preparationTime = 50.seconds
         )
         val expected = RoutineState.Data(
             routine = routine,

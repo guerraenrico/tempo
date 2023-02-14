@@ -1,4 +1,4 @@
-package com.enricog.features.routines.detail.start_time
+package com.enricog.features.routines.detail.preparation_time
 
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.WindowInsets
@@ -16,13 +16,13 @@ import com.enricog.features.routines.R
 import com.enricog.ui.components.text.TempoText
 import com.enricog.ui.theme.TempoTheme
 
-internal const val StartTimeInfoSceneTestTag = "StartTimeInfoSceneTestTag"
+internal const val PreparationTimeInfoSceneTestTag = "PreparationTimeInfoSceneTestTag"
 
-internal const val StartTimeInfoTitleTestTag = "StartTimeInfoTitleTestTag"
-internal const val StartTimeInfoDescriptionTestTag = "StartTimeInfoDescriptionTestTag"
+internal const val PreparationTimeInfoTitleTestTag = "PreparationTimeInfoTitleTestTag"
+internal const val PreparationTimeInfoDescriptionTestTag = "PreparationTimeInfoDescriptionTestTag"
 
 @Composable
-internal fun StartTimeInfoScene() {
+internal fun PreparationTimeInfoScene() {
     val scrollState = rememberScrollState()
 
     Column(
@@ -31,16 +31,16 @@ internal fun StartTimeInfoScene() {
             .windowInsetsPadding(WindowInsets.navigationBars)
             .windowInsetsPadding(WindowInsets.statusBars)
             .padding(TempoTheme.dimensions.spaceM)
-            .testTag(StartTimeInfoSceneTestTag)
+            .testTag(PreparationTimeInfoSceneTestTag)
     ) {
         TempoText(
-            modifier = Modifier.testTag(StartTimeInfoTitleTestTag),
-            text = stringResource(id = R.string.label_routine_start_time_info_title),
+            modifier = Modifier.testTag(PreparationTimeInfoTitleTestTag),
+            text = stringResource(id = R.string.label_routine_preparation_time_info_title),
             style = TempoTheme.typography.h1
         )
         TempoText(
-            modifier = Modifier.testTag(StartTimeInfoDescriptionTestTag),
-            text = stringResource(id = R.string.label_routine_start_time_info_description),
+            modifier = Modifier.testTag(PreparationTimeInfoDescriptionTestTag),
+            text = stringResource(id = R.string.label_routine_preparation_time_info_description),
             style = TempoTheme.typography.body1
         )
     }

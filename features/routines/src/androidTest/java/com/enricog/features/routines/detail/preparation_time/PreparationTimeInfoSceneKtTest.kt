@@ -1,4 +1,4 @@
-package com.enricog.features.routines.detail.start_time
+package com.enricog.features.routines.detail.preparation_time
 
 import androidx.compose.ui.test.assertIsDisplayed
 import androidx.compose.ui.test.junit4.createComposeRule
@@ -8,7 +8,7 @@ import com.enricog.ui.theme.TempoTheme
 import org.junit.Rule
 import org.junit.Test
 
-class StartTimeInfoSceneKtTest {
+class PreparationTimeInfoSceneKtTest {
 
     @get:Rule
     val composeRule = createComposeRule()
@@ -17,11 +17,11 @@ class StartTimeInfoSceneKtTest {
     fun validateElements() = composeRule {
         setContent {
             TempoTheme {
-                StartTimeInfoScene()
+                PreparationTimeInfoScene()
             }
         }
 
-        onNodeWithTag(StartTimeInfoTitleTestTag).assertIsDisplayed()
-        onNodeWithTag(StartTimeInfoDescriptionTestTag).assertIsDisplayed()
+        onNodeWithTag(PreparationTimeInfoTitleTestTag).assertIsDisplayed()
+        onNodeWithTag(PreparationTimeInfoDescriptionTestTag).assertIsDisplayed()
     }
 }

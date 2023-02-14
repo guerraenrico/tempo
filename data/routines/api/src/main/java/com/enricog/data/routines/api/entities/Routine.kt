@@ -9,7 +9,7 @@ import java.time.OffsetDateTime
 data class Routine(
     val id: ID,
     val name: String,
-    val startTimeOffset: Seconds,
+    val preparationTime: Seconds,
     val createdAt: OffsetDateTime,
     val updatedAt: OffsetDateTime,
     val segments: List<Segment>,
@@ -17,11 +17,11 @@ data class Routine(
 ) {
 
     init {
-        require(value = startTimeOffset <= MAX_START_TIME_OFFSET) {
-            "startTimeOffset value exceed the maximum value"
+        require(value = preparationTime <= MAX_PREPARATION_TIME) {
+            "preparationTime value exceed the maximum value"
         }
-        require(value = startTimeOffset >= 0.seconds) {
-            "startTimeOffset must be positive"
+        require(value = preparationTime >= 0.seconds) {
+            "preparationTime must be positive"
         }
     }
 
@@ -32,7 +32,7 @@ data class Routine(
         get() {
             val segmentsTotalTime = segments.map { it.time }
                 .reduce { acc, time -> acc + time }
-            val preparationTotalTime = startTimeOffset * segments.count {
+            val preparationTotalTime = preparationTime * segments.count {
                 it.type.requirePreparationTime
             }
             if (segmentsTotalTime == 0.seconds)
@@ -53,7 +53,7 @@ data class Routine(
             return Routine(
                 id = ID.new(),
                 name = "",
-                startTimeOffset = 0.seconds,
+                preparationTime = 0.seconds,
                 createdAt = now,
                 updatedAt = now,
                 segments = emptyList(),
@@ -61,7 +61,7 @@ data class Routine(
             )
         }
 
-        val MAX_START_TIME_OFFSET = 60.seconds
+        val MAX_PREPARATION_TIME = 60.seconds
     }
 }
 

@@ -1,6 +1,6 @@
 package com.enricog.data.routines.api.entities
 
-import com.enricog.data.routines.api.entities.Routine.Companion.MAX_START_TIME_OFFSET
+import com.enricog.data.routines.api.entities.Routine.Companion.MAX_PREPARATION_TIME
 import com.enricog.entities.ID
 import com.enricog.entities.Rank
 import com.enricog.entities.asID
@@ -13,14 +13,14 @@ import java.time.OffsetDateTime
 class RoutineTest {
 
     @Test
-    fun `on instantiation should throw exception when start offset time is more than max`() {
-        val startTimeOffset = MAX_START_TIME_OFFSET + 1.seconds
+    fun `on instantiation should throw exception when preparation time is more than max`() {
+        val preparationTime = MAX_PREPARATION_TIME + 1.seconds
 
         assertThrows(IllegalArgumentException::class.java) {
             Routine(
                 id = 0.asID,
                 name = "",
-                startTimeOffset = startTimeOffset,
+                preparationTime = preparationTime,
                 createdAt = OffsetDateTime.MAX,
                 updatedAt = OffsetDateTime.MAX,
                 segments = emptyList(),
@@ -30,14 +30,14 @@ class RoutineTest {
     }
 
     @Test
-    fun `on init should throw exception when start offset time is less than zero`() {
-        val startTimeOffset = (-1).seconds
+    fun `on init should throw exception when preparation time is less than zero`() {
+        val preparationTime = (-1).seconds
 
         assertThrows(IllegalArgumentException::class.java) {
             Routine(
                 id = 0.asID,
                 name = "",
-                startTimeOffset = startTimeOffset,
+                preparationTime = preparationTime,
                 createdAt = OffsetDateTime.MAX,
                 updatedAt = OffsetDateTime.MAX,
                 segments = emptyList(),
@@ -48,13 +48,13 @@ class RoutineTest {
 
     @Test
     @Suppress("UnusedDataClassCopyResult")
-    fun `on copy should throw exception when start offset time is more than max`() {
-        val startTimeOffset = MAX_START_TIME_OFFSET + 1.seconds
+    fun `on copy should throw exception when preparation time is more than max`() {
+        val preparationTime = MAX_PREPARATION_TIME + 1.seconds
 
         val routine = Routine(
             id = 0.asID,
             name = "",
-            startTimeOffset = 50.seconds,
+            preparationTime = 50.seconds,
             createdAt = OffsetDateTime.MAX,
             updatedAt = OffsetDateTime.MAX,
             segments = emptyList(),
@@ -62,26 +62,26 @@ class RoutineTest {
         )
 
         assertThrows(IllegalArgumentException::class.java) {
-            routine.copy(startTimeOffset = startTimeOffset)
+            routine.copy(preparationTime = preparationTime)
         }
     }
 
     @Test
     @Suppress("UnusedDataClassCopyResult")
-    fun `on copy should throw exception when start offset time is less that zero`() {
-        val startTimeOffset = (-1).seconds
+    fun `on copy should throw exception when preparation time is less that zero`() {
+        val preparationTime = (-1).seconds
 
         val routine = Routine(
             id = 0.asID,
             name = "",
-            startTimeOffset = 50.seconds,
+            preparationTime = 50.seconds,
             createdAt = OffsetDateTime.MAX,
             updatedAt = OffsetDateTime.MAX,
             segments = emptyList(),
             rank = Rank.from("aaaaaa")
         )
         assertThrows(IllegalArgumentException::class.java) {
-            routine.copy(startTimeOffset = startTimeOffset)
+            routine.copy(preparationTime = preparationTime)
         }
     }
 
@@ -90,7 +90,7 @@ class RoutineTest {
         Routine(
             id = 0.asID,
             name = "",
-            startTimeOffset = MAX_START_TIME_OFFSET,
+            preparationTime = MAX_PREPARATION_TIME,
             createdAt = OffsetDateTime.MAX,
             updatedAt = OffsetDateTime.MAX,
             segments = emptyList(),
@@ -104,13 +104,13 @@ class RoutineTest {
         val routine = Routine(
             id = 0.asID,
             name = "",
-            startTimeOffset = 50.seconds,
+            preparationTime = 50.seconds,
             createdAt = OffsetDateTime.MAX,
             updatedAt = OffsetDateTime.MAX,
             segments = emptyList(),
             rank = Rank.from("aaaaaa")
         )
-        routine.copy(startTimeOffset = MAX_START_TIME_OFFSET)
+        routine.copy(preparationTime = MAX_PREPARATION_TIME)
     }
 
     @Test
@@ -118,7 +118,7 @@ class RoutineTest {
         val routine = Routine(
             id = 0.asID,
             name = "",
-            startTimeOffset = 30.seconds,
+            preparationTime = 30.seconds,
             createdAt = OffsetDateTime.MAX,
             updatedAt = OffsetDateTime.MAX,
             segments = listOf(
@@ -144,7 +144,7 @@ class RoutineTest {
         val routine = Routine(
             id = 0.asID,
             name = "",
-            startTimeOffset = 30.seconds,
+            preparationTime = 30.seconds,
             createdAt = OffsetDateTime.MAX,
             updatedAt = OffsetDateTime.MAX,
             segments = listOf(

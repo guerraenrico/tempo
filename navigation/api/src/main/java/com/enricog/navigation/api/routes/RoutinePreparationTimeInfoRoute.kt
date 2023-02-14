@@ -9,9 +9,9 @@ import androidx.navigation.navOptions
 import com.enricog.navigation.api.NavigationAction
 import com.enricog.navigation.api.extensions.bottomSheet
 
-object RoutineStartTimeInfoRoute : Route<RoutineStartTimeInfoRouteInput> {
+object RoutinePreparationTimeInfoRoute : Route<RoutinePreparationTimeInfoRouteInput> {
 
-    override val name: String = "routine/start-time-info"
+    override val name: String = "routine/preparation-time-info"
 
     override fun NavGraphBuilder.compose(content: @Composable (NavBackStackEntry) -> Unit) {
         bottomSheet(
@@ -21,16 +21,16 @@ object RoutineStartTimeInfoRoute : Route<RoutineStartTimeInfoRouteInput> {
     }
 
     override fun navigate(
-        input: RoutineStartTimeInfoRouteInput,
+        input: RoutinePreparationTimeInfoRouteInput,
         optionsBuilder: (NavOptionsBuilder.() -> Unit)?
     ): NavigationAction {
         val options = optionsBuilder?.let { navOptions(it) }
         return NavigationAction.GoTo(route = name, navOptions = options)
     }
 
-    override fun extractInput(savedStateHandle: SavedStateHandle): RoutineStartTimeInfoRouteInput {
-        return RoutineStartTimeInfoRouteInput
+    override fun extractInput(savedStateHandle: SavedStateHandle): RoutinePreparationTimeInfoRouteInput {
+        return RoutinePreparationTimeInfoRouteInput
     }
 }
 
-object RoutineStartTimeInfoRouteInput : RouteInput
+object RoutinePreparationTimeInfoRouteInput : RouteInput

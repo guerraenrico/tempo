@@ -20,11 +20,11 @@ internal class TimerReducer @Inject constructor() {
             val getNextId = generateId()
 
             for (segment in routine.segments) {
-                if (segment.type.requirePreparationTime && routine.startTimeOffset > 0.seconds) {
+                if (segment.type.requirePreparationTime && routine.preparationTime > 0.seconds) {
                     add(
                         SegmentStep(
                             id = getNextId(),
-                            count = Count.idle(seconds = routine.startTimeOffset),
+                            count = Count.idle(seconds = routine.preparationTime),
                             type = SegmentStepType.STARTING,
                             segment = segment
                         )
@@ -99,7 +99,7 @@ internal class TimerReducer @Inject constructor() {
         if (state !is TimerState.Counting) return state
 
         val currentResetTime = when (state.runningStep.type) {
-            SegmentStepType.STARTING -> state.routine.startTimeOffset
+            SegmentStepType.STARTING -> state.routine.preparationTime
             SegmentStepType.IN_PROGRESS -> state.runningSegment.time
         }
 

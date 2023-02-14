@@ -22,8 +22,8 @@ internal fun RoutineScreen(viewModel: RoutineViewModel) {
         viewState.Compose(
             inputs = fieldInputs,
             onRoutineNameChange = viewModel::onRoutineNameTextChange,
-            onStartTimeOffsetChange = viewModel::onRoutineStartTimeOffsetChange,
-            onStartTimeInfo = viewModel::onRoutineStartTimeInfo,
+            onPreparationTimeChange = viewModel::onRoutinePreparationTimeChange,
+            onPreparationTimeInfo = viewModel::onRoutinePreparationTimeInfo,
             onRoutineSave = viewModel::onRoutineSave,
             onRetryLoad = viewModel::onRetryLoad,
             onSnackbarEvent = viewModel::onSnackbarEvent
@@ -35,8 +35,8 @@ internal fun RoutineScreen(viewModel: RoutineViewModel) {
 internal fun RoutineViewState.Compose(
     inputs: RoutineInputs,
     onRoutineNameChange: (TextFieldValue) -> Unit,
-    onStartTimeOffsetChange: (TimeText) -> Unit,
-    onStartTimeInfo: () -> Unit,
+    onPreparationTimeChange: (TimeText) -> Unit,
+    onPreparationTimeInfo: () -> Unit,
     onRoutineSave: () -> Unit,
     onRetryLoad: () -> Unit,
     onSnackbarEvent: (TempoSnackbarEvent) -> Unit
@@ -48,8 +48,8 @@ internal fun RoutineViewState.Compose(
             errors = errors,
             message = message,
             onRoutineNameChange = onRoutineNameChange,
-            onStartTimeOffsetChange = onStartTimeOffsetChange,
-            onStartTimeInfo = onStartTimeInfo,
+            onPreparationTimeChange = onPreparationTimeChange,
+            onPreparationTimeInfo = onPreparationTimeInfo,
             onRoutineSave = onRoutineSave,
             onSnackbarEvent = onSnackbarEvent
         )

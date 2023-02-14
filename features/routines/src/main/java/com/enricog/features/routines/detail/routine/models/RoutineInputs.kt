@@ -8,20 +8,20 @@ import com.enricog.ui.components.textField.TimeText
 
 internal data class RoutineInputs(
     val name: TextFieldValue,
-    val startTimeOffset: TimeText
+    val preparationTime: TimeText
 ) {
 
     fun mergeToRoutine(routine: Routine): Routine {
         return routine.copy(
             name = name.text,
-            startTimeOffset = startTimeOffset.toSeconds()
+            preparationTime = preparationTime.toSeconds()
         )
     }
 
     companion object {
         val empty = RoutineInputs(
             name = "".toTextFieldValue(),
-            startTimeOffset = TimeText.from(0.seconds)
+            preparationTime = TimeText.from(0.seconds)
         )
     }
 }

@@ -32,7 +32,7 @@ class RoutineUseCaseTest {
 
             assertThat(actual.id).isEqualTo(expected.id)
             assertThat(actual.name).isEqualTo(expected.name)
-            assertThat(actual.startTimeOffset).isEqualTo(expected.startTimeOffset)
+            assertThat(actual.preparationTime).isEqualTo(expected.preparationTime)
             assertThat(actual.segments).isEqualTo(expected.segments)
             assertThat(actual.rank).isEqualTo(expected.rank)
         }
@@ -60,7 +60,7 @@ class RoutineUseCaseTest {
 
             assertThat(actual.id).isEqualTo(expected.id)
             assertThat(actual.name).isEqualTo(expected.name)
-            assertThat(actual.startTimeOffset).isEqualTo(expected.startTimeOffset)
+            assertThat(actual.preparationTime).isEqualTo(expected.preparationTime)
             assertThat(actual.segments).isEqualTo(expected.segments)
             assertThat(actual.rank).isEqualTo(expected.rank)
         }
@@ -87,7 +87,7 @@ class RoutineUseCaseTest {
         store.get().first().let { createdRoutine ->
             assertThat(actual).isEqualTo(createdRoutine.id)
             assertThat(createdRoutine.name).isEqualTo(routine.name)
-            assertThat(createdRoutine.startTimeOffset).isEqualTo(routine.startTimeOffset)
+            assertThat(createdRoutine.preparationTime).isEqualTo(routine.preparationTime)
             assertThat(createdRoutine.segments).isEqualTo(routine.segments)
             assertThat(createdRoutine.rank).isEqualTo(routine.rank)
         }
