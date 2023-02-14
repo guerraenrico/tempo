@@ -4,6 +4,7 @@ import androidx.compose.ui.test.assertIsDisplayed
 import androidx.compose.ui.test.assertTextEquals
 import androidx.compose.ui.test.junit4.createComposeRule
 import androidx.compose.ui.test.onNodeWithTag
+import androidx.compose.ui.test.onNodeWithText
 import com.enricog.core.compose.api.classes.immutableMapOf
 import com.enricog.core.compose.testing.invoke
 import com.enricog.entities.seconds
@@ -56,20 +57,21 @@ internal class RoutineSectionKtTest {
 
         onNodeWithTag(testTag = RoutineSectionTestTag)
             .assertIsDisplayed()
-            .assertTextEquals("Routine Name")
+        onNodeWithText(text = "Routine Name")
+            .assertIsDisplayed()
 
-        onNodeWithTag(testTag = RoutineSectionSummaryInfoTestTag)
+        onNodeWithTag(testTag = RoutineSectionSummaryInfoTestTag, useUnmergedTree = true)
             .assertIsDisplayed()
         onNodeWithTag(testTag = RoutineSectionEstimatedTotalTimeTestTag, useUnmergedTree = true)
             .assertIsDisplayed()
             .assertTextEquals("10s")
-        onNodeWithTag(testTag = "RoutineItemSegmentTypeCount_TIMER_TestTag", useUnmergedTree = true)
+        onNodeWithTag(testTag = "RoutineSectionSegmentTypeCount_TIMER_TestTag", useUnmergedTree = true)
             .assertIsDisplayed()
             .assertTextEquals("3")
-        onNodeWithTag(testTag = "RoutineItemSegmentTypeCount_REST_TestTag", useUnmergedTree = true)
+        onNodeWithTag(testTag = "RoutineSectionSegmentTypeCount_REST_TestTag", useUnmergedTree = true)
             .assertIsDisplayed()
             .assertTextEquals("2")
-        onNodeWithTag(testTag = "RoutineItemSegmentTypeCount_STOPWATCH_TestTag", useUnmergedTree = true)
+        onNodeWithTag(testTag = "RoutineSectionSegmentTypeCount_STOPWATCH_TestTag", useUnmergedTree = true)
             .assertIsDisplayed()
             .assertTextEquals("1")
     }
@@ -91,7 +93,8 @@ internal class RoutineSectionKtTest {
 
         onNodeWithTag(testTag = RoutineSectionTestTag)
             .assertIsDisplayed()
-            .assertTextEquals("Routine Name")
+        onNodeWithText(text = "Routine Name")
+            .assertIsDisplayed()
 
         onNodeWithTag(testTag = RoutineSectionSummaryInfoTestTag)
             .assertDoesNotExist()
@@ -123,13 +126,14 @@ internal class RoutineSectionKtTest {
 
         onNodeWithTag(testTag = RoutineSectionTestTag)
             .assertIsDisplayed()
-            .assertTextEquals("Routine Name")
+        onNodeWithText(text = "Routine Name")
+            .assertIsDisplayed()
 
         onNodeWithTag(testTag = RoutineSectionSummaryInfoTestTag)
             .assertIsDisplayed()
         onNodeWithTag(testTag = RoutineSectionEstimatedTotalTimeTestTag, useUnmergedTree = true)
             .assertDoesNotExist()
-        onNodeWithTag(testTag = "RoutineItemSegmentTypeCount_STOPWATCH_TestTag", useUnmergedTree = true)
+        onNodeWithTag(testTag = "RoutineSectionSegmentTypeCount_STOPWATCH_TestTag", useUnmergedTree = true)
             .assertIsDisplayed()
             .assertTextEquals("1")
     }

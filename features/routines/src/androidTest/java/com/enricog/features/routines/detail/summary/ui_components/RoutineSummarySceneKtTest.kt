@@ -5,6 +5,7 @@ import androidx.compose.ui.test.assertIsDisplayed
 import androidx.compose.ui.test.assertTextEquals
 import androidx.compose.ui.test.junit4.createComposeRule
 import androidx.compose.ui.test.onNodeWithTag
+import androidx.compose.ui.test.onNodeWithText
 import androidx.compose.ui.test.performTouchInput
 import androidx.compose.ui.test.swipe
 import com.enricog.core.compose.api.classes.immutableListOf
@@ -69,14 +70,15 @@ class RoutineSummarySceneKtTest {
 
         onNodeWithTag(testTag = RoutineSectionTestTag)
             .assertIsDisplayed()
-            .assertTextEquals("Routine Name")
+        onNodeWithText(text = "Routine Name")
+            .assertIsDisplayed()
 
         onNodeWithTag(testTag = RoutineSectionSummaryInfoTestTag)
             .assertIsDisplayed()
         onNodeWithTag(testTag = RoutineSectionEstimatedTotalTimeTestTag, useUnmergedTree = true)
             .assertIsDisplayed()
             .assertTextEquals("10s")
-        onNodeWithTag(testTag = "RoutineItemSegmentTypeCount_TIMER_TestTag", useUnmergedTree = true)
+        onNodeWithTag(testTag = "RoutineSectionSegmentTypeCount_TIMER_TestTag", useUnmergedTree = true)
             .assertIsDisplayed()
             .assertTextEquals("1")
 
