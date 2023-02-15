@@ -28,6 +28,18 @@ data class Routine(
     val isNew: Boolean
         get() = id.isNew
 
+    val expectedTotalTime: Seconds
+        get() {
+            val segmentsTotalTime = segments.map { it.time }
+                .reduce { acc, time -> acc + time }
+            val preparationTotalTime = startTimeOffset * segments.count {
+                it.type.requirePreparationTime
+            }
+            if (segmentsTotalTime == 0.seconds)
+                return 0.seconds
+            return segmentsTotalTime + preparationTotalTime
+        }
+
     fun getNewSegmentRank(): Rank {
         return when {
             segments.isEmpty() -> Rank.calculateFirst()

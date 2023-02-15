@@ -2,18 +2,22 @@ package com.enricog.features.routines.detail.summary
 
 import com.enricog.base.viewmodel.StateConverter
 import com.enricog.core.compose.api.classes.asImmutableList
+import com.enricog.core.compose.api.classes.asImmutableMap
+import com.enricog.entities.seconds
 import com.enricog.features.routines.R
 import com.enricog.features.routines.detail.summary.models.RoutineSummaryField
 import com.enricog.features.routines.detail.summary.models.RoutineSummaryFieldError
 import com.enricog.features.routines.detail.summary.models.RoutineSummaryItem
+import com.enricog.features.routines.detail.summary.models.RoutineSummaryItem.RoutineInfo.SegmentsSummary
 import com.enricog.features.routines.detail.summary.models.RoutineSummaryState
 import com.enricog.features.routines.detail.summary.models.RoutineSummaryState.Data.Action
 import com.enricog.features.routines.detail.summary.models.RoutineSummaryState.Data.Action.DeleteSegmentError
 import com.enricog.features.routines.detail.summary.models.RoutineSummaryState.Data.Action.DeleteSegmentSuccess
-import com.enricog.features.routines.detail.summary.models.RoutineSummaryState.Data.Action.MoveSegmentError
 import com.enricog.features.routines.detail.summary.models.RoutineSummaryState.Data.Action.DuplicateSegmentError
+import com.enricog.features.routines.detail.summary.models.RoutineSummaryState.Data.Action.MoveSegmentError
 import com.enricog.features.routines.detail.summary.models.RoutineSummaryViewState
 import com.enricog.features.routines.detail.summary.models.RoutineSummaryViewState.Data.Message
+import com.enricog.features.routines.detail.ui.time_type.TimeType
 import javax.inject.Inject
 
 internal class RoutineSummaryStateConverter @Inject constructor() :
@@ -29,7 +33,21 @@ internal class RoutineSummaryStateConverter @Inject constructor() :
 
     private fun RoutineSummaryState.Data.toViewState(): RoutineSummaryViewState.Data {
         val items: List<RoutineSummaryItem> = buildList {
-            add(RoutineSummaryItem.RoutineInfo(routineName = routine.name))
+            val segmentsSummary = if (routine.segments.isNotEmpty()) {
+                SegmentsSummary(
+                    estimatedTotalTime = routine.expectedTotalTime.takeIf { it > 0.seconds },
+                    segmentTypesCount = routine.segments.groupBy { it.type }
+                        .map { (type, segments) -> TimeType.from(type) to segments.size }
+                        .toMap()
+                        .asImmutableMap()
+                )
+            } else null
+            add(
+                RoutineSummaryItem.RoutineInfo(
+                    routineName = routine.name,
+                    segmentsSummary = segmentsSummary
+                )
+            )
 
             val mappedErrors = errors.mapValues { it.value.stringResourceId }
             add(

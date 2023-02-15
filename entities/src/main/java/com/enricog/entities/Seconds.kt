@@ -21,6 +21,10 @@ value class Seconds private constructor(private val duration: Duration) : Compar
         return Seconds(duration - other.duration)
     }
 
+    operator fun times(scale: Int): Seconds {
+        return Seconds(duration * scale)
+    }
+
     override operator fun compareTo(other: Seconds): Int {
         return duration.compareTo(other.duration)
     }

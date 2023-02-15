@@ -20,7 +20,7 @@ internal class TimerReducer @Inject constructor() {
             val getNextId = generateId()
 
             for (segment in routine.segments) {
-                if (segment.type != TimeType.REST && routine.startTimeOffset > 0.seconds) {
+                if (segment.type.requirePreparationTime && routine.startTimeOffset > 0.seconds) {
                     add(
                         SegmentStep(
                             id = getNextId(),

@@ -1,6 +1,7 @@
 package com.enricog.features.routines.detail.summary.models
 
 import androidx.compose.runtime.Stable
+import com.enricog.core.compose.api.classes.ImmutableMap
 import com.enricog.data.routines.api.entities.Segment
 import com.enricog.entities.ID
 import com.enricog.entities.Seconds
@@ -11,9 +12,15 @@ internal sealed class RoutineSummaryItem {
     abstract val isDraggable: Boolean
 
     data class RoutineInfo(
-        val routineName: String
+        val routineName: String,
+        val segmentsSummary: SegmentsSummary?
     ) : RoutineSummaryItem() {
         override val isDraggable: Boolean = false
+
+        data class SegmentsSummary(
+            @Stable val estimatedTotalTime: Seconds?,
+            val segmentTypesCount: ImmutableMap<TimeType, Int>
+        )
     }
 
     data class SegmentSectionTitle(
