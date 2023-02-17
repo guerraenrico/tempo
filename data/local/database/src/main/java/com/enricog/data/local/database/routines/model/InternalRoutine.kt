@@ -14,7 +14,7 @@ import java.time.OffsetDateTime
 internal data class InternalRoutine(
     @PrimaryKey(autoGenerate = true) @ColumnInfo(name = "routineId") val id: Long,
     @ColumnInfo(name = "name") val name: String,
-    @ColumnInfo(name = "startTimeOffsetInSeconds") val startTimeOffsetInSeconds: Long,
+    @ColumnInfo(name = "preparationTimeInSeconds") val preparationTime: Long,
     @ColumnInfo(name = "createdAt") val createdAt: OffsetDateTime,
     @ColumnInfo(name = "updatedAt") val updatedAt: OffsetDateTime,
     @ColumnInfo(name = "rank") val rank: String
@@ -23,7 +23,7 @@ internal data class InternalRoutine(
         return Routine(
             id = ID.from(id),
             name = name,
-            startTimeOffset = startTimeOffsetInSeconds.seconds,
+            preparationTime = preparationTime.seconds,
             createdAt = createdAt,
             updatedAt = updatedAt,
             segments = segments
@@ -38,7 +38,7 @@ internal fun Routine.toInternal(): InternalRoutine {
     return InternalRoutine(
         id = id.toLong(),
         name = name,
-        startTimeOffsetInSeconds = startTimeOffset.value,
+        preparationTime = preparationTime.value,
         createdAt = createdAt,
         updatedAt = updatedAt,
         rank = rank.toString()

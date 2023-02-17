@@ -48,13 +48,13 @@ internal fun RoutineFormScene(
     errors: ImmutableMap<RoutineField, RoutineFieldError>,
     message: Message?,
     onRoutineNameChange: (TextFieldValue) -> Unit,
-    onStartTimeOffsetChange: (TimeText) -> Unit,
-    onStartTimeInfo: () -> Unit,
+    onPreparationTimeChange: (TimeText) -> Unit,
+    onPreparationTimeInfo: () -> Unit,
     onRoutineSave: () -> Unit,
     onSnackbarEvent: (TempoSnackbarEvent) -> Unit
 ) {
     val keyboardController = LocalSoftwareKeyboardController.current
-    val (routineNameRef, routineStartTimeRef) = remember { FocusRequester.createRefs() }
+    val (routineNameRef, routinePreparationTimeRef) = remember { FocusRequester.createRefs() }
     val scrollState = rememberScrollState(initial = 0)
     val snackbarHostState = rememberSnackbarHostState()
 
@@ -92,24 +92,24 @@ internal fun RoutineFormScene(
                         singleLine = true,
                         keyboardOptions = KeyboardOptions(imeAction = ImeAction.Next),
                         keyboardActions = KeyboardActions(
-                            onNext = { routineStartTimeRef.requestFocus() }
+                            onNext = { routinePreparationTimeRef.requestFocus() }
                         )
                     )
 
                     TempoTimeField(
-                        value = inputs.startTimeOffset,
-                        onValueChange = onStartTimeOffsetChange,
+                        value = inputs.preparationTime,
+                        onValueChange = onPreparationTimeChange,
                         modifier = Modifier
                             .fillMaxWidth()
-                            .focusRequester(routineStartTimeRef),
-                        labelText = stringResource(R.string.field_label_routine_start_time_offset),
-                        supportingText = stringResource(R.string.field_support_text_routine_start_time_offset),
+                            .focusRequester(routinePreparationTimeRef),
+                        labelText = stringResource(R.string.field_label_routine_preparation_time),
+                        supportingText = stringResource(R.string.field_support_text_routine_preparation_time),
                         imeAction = ImeAction.Done,
                         keyboardActions = KeyboardActions(
                             onDone = { keyboardController?.hide() }
                         ),
                         trailingIcon = {
-                            StartTimeInfoIcon(onStartTimeInfo)
+                            PreparationTimeInfoIcon(onPreparationTimeInfo)
                         }
                     )
                 }
@@ -130,10 +130,10 @@ internal fun RoutineFormScene(
 }
 
 @Composable
-private fun StartTimeInfoIcon(onClick: () -> Unit) {
+private fun PreparationTimeInfoIcon(onClick: () -> Unit) {
     TempoIcon(
         iconResId = R.drawable.ic_routine_help,
-        contentDescription = stringResource(R.string.content_description_button_help_routine_start_time),
+        contentDescription = stringResource(R.string.content_description_button_help_routine_preparation_time),
         size = TempoIconSize.Original,
         color = TempoTheme.colors.onSurfaceSecondary,
         modifier = Modifier.clickable(

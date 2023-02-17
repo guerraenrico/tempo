@@ -330,7 +330,7 @@ class TimerStateConverterTest {
         coroutineRule {
             val state = TimerState.Counting(
                 routine =  Routine.EMPTY.copy(
-                    startTimeOffset = 5.seconds,
+                    preparationTime = 5.seconds,
                     segments = listOf(
                         Segment.EMPTY.copy(name = "segment name", type = TimeType.STOPWATCH)
                     )
@@ -395,7 +395,7 @@ class TimerStateConverterTest {
         coroutineRule {
             val state = TimerState.Counting(
                 routine =  Routine.EMPTY.copy(
-                    startTimeOffset = 5.seconds,
+                    preparationTime = 5.seconds,
                     segments = listOf(
                         Segment.EMPTY.copy(name = "segment name stopwatch", type = TimeType.STOPWATCH),
                         Segment.EMPTY.copy(name = "segment name timer", type = TimeType.TIMER)

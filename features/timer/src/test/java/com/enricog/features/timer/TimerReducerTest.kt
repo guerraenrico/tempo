@@ -17,9 +17,9 @@ class TimerReducerTest {
     private val timerReducer = TimerReducer()
 
     @Test
-    fun `should setup state with starting segment when start timer offset is more than 0`() {
+    fun `should setup state with starting segment when preparation is more than 0`() {
         val routine = Routine.EMPTY.copy(
-            startTimeOffset = 5.seconds,
+            preparationTime = 5.seconds,
             segments = listOf(
                 Segment.EMPTY.copy(name = "segment name stopwatch", type = TimeType.STOPWATCH),
                 Segment.EMPTY.copy(
@@ -105,9 +105,9 @@ class TimerReducerTest {
     }
 
     @Test
-    fun `should setup state with segment in progress when start timer offset is 0`() {
+    fun `should setup state with segment in progress when preparation time is 0`() {
         val routine = Routine.EMPTY.copy(
-            startTimeOffset = 0.seconds,
+            preparationTime = 0.seconds,
             segments = listOf(
                 Segment.EMPTY.copy(name = "segment name stopwatch", type = TimeType.STOPWATCH),
                 Segment.EMPTY.copy(
@@ -177,7 +177,7 @@ class TimerReducerTest {
     fun `should setup state with same sound enable status when current state is counting`() {
         val segment = Segment.EMPTY.copy(time = 5.seconds)
         val routine = Routine.EMPTY.copy(
-            startTimeOffset = 0.seconds,
+            preparationTime = 0.seconds,
             segments = listOf(segment)
         )
         val state = TimerState.Counting(
@@ -355,7 +355,7 @@ class TimerReducerTest {
     @Test
     fun `should update state by completing the step on progressing time when a starting segment is running and count reach zero`() {
         val segment = Segment.EMPTY.copy(type = TimeType.TIMER, time = 10.seconds)
-        val routine = Routine.EMPTY.copy(segments = listOf(segment), startTimeOffset = 5.seconds)
+        val routine = Routine.EMPTY.copy(segments = listOf(segment), preparationTime = 5.seconds)
         val state = TimerState.Counting(
             routine = routine,
             runningStep = SegmentStep(
@@ -717,7 +717,7 @@ class TimerReducerTest {
     @Test
     fun `should update state by running the previous step on jump step back when segment count is in the initial value`() {
         val segment = Segment.EMPTY.copy(time = 10.seconds, type = TimeType.TIMER)
-        val routine = Routine.EMPTY.copy(segments = listOf(segment), startTimeOffset = 5.seconds)
+        val routine = Routine.EMPTY.copy(segments = listOf(segment), preparationTime = 5.seconds)
         val state = TimerState.Counting(
             routine = routine,
             runningStep = SegmentStep(
@@ -775,7 +775,7 @@ class TimerReducerTest {
     @Test
     fun `should update state by running the next step on jump step next when there is a next step`() {
         val segment = Segment.EMPTY.copy(time = 10.seconds, type = TimeType.TIMER)
-        val routine = Routine.EMPTY.copy(segments = listOf(segment), startTimeOffset = 5.seconds)
+        val routine = Routine.EMPTY.copy(segments = listOf(segment), preparationTime = 5.seconds)
         val state = TimerState.Counting(
             routine = routine,
             runningStep = SegmentStep(
@@ -833,7 +833,7 @@ class TimerReducerTest {
     @Test
     fun `should update state by setting running step as completed on jump step next when there is not a next step`() {
         val segment = Segment.EMPTY.copy(time = 10.seconds, type = TimeType.TIMER)
-        val routine = Routine.EMPTY.copy(segments = listOf(segment), startTimeOffset = 5.seconds)
+        val routine = Routine.EMPTY.copy(segments = listOf(segment), preparationTime = 5.seconds)
         val state = TimerState.Counting(
             routine = routine,
             runningStep = SegmentStep(
@@ -919,7 +919,7 @@ class TimerReducerTest {
     @Test
     fun `should update state with new segment on next step`() {
         val segment = Segment.EMPTY.copy(time = 10.seconds, type = TimeType.TIMER)
-        val routine = Routine.EMPTY.copy(segments = listOf(segment), startTimeOffset = 5.seconds)
+        val routine = Routine.EMPTY.copy(segments = listOf(segment), preparationTime = 5.seconds)
         val state = TimerState.Counting(
             routine = routine,
             runningStep = SegmentStep(

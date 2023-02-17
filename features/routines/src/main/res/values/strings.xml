@@ -16,17 +16,17 @@
 
     <!-- Routine -->
     <string name="field_label_routine_name">Routine name</string>
-    <string name="field_label_routine_start_time_offset">Delay between each segment</string>
-    <string name="field_support_text_routine_start_time_offset">Max 1 minute</string>
+    <string name="field_label_routine_preparation_time">Preparation time</string>
+    <string name="field_support_text_routine_preparation_time">Max 1 minute</string>
     <string name="field_error_message_routine_name_blank">Routine name must not be blank</string>
     <string name="content_description_button_save_routine">Save routine</string>
-    <string name="content_description_button_help_routine_start_time">Info about start time</string>
+    <string name="content_description_button_help_routine_preparation_time">Info about preparation time</string>
     <string name="label_routine_save_error">An error happen</string>
     <string name="action_text_routine_save_error">Retry</string>
 
-    <!-- Start time -->
-    <string name="label_routine_start_time_info_title">What is this delay?</string>
-    <string name="label_routine_start_time_info_description">This is the amount of time between segments. This delay can be maximum 1 minutes. It can be used as a little timeout between segments.
+    <!-- Preparation time -->
+    <string name="label_routine_preparation_time_info_title">What is this delay?</string>
+    <string name="label_routine_preparation_time_info_description">This is the amount of time between segments. This delay can be maximum 1 minutes. It can be used a little preparation before starting a new segment.
         For example, if you setup a routine for your workout can be seen as the time you have to setup to start the next exercise.\nIf you need more you can create your own segment for that.\nYou can change this value whenever you want.
     </string>
 

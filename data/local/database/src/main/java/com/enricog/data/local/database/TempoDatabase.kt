@@ -8,6 +8,7 @@ import androidx.room.TypeConverters
 import com.enricog.data.local.database.converter.OffsetDateTimeConverter
 import com.enricog.data.local.database.converter.TimeTypeConverter
 import com.enricog.data.local.database.migrations.MigrationFrom1To2
+import com.enricog.data.local.database.migrations.MigrationFrom2To3
 import com.enricog.data.local.database.routines.dao.RoutineDao
 import com.enricog.data.local.database.routines.dao.SegmentDao
 import com.enricog.data.local.database.routines.model.InternalRoutine
@@ -18,7 +19,7 @@ import com.enricog.data.local.database.routines.model.InternalSegment
         InternalRoutine::class,
         InternalSegment::class,
     ],
-    version = 2
+    version = 3
 )
 @TypeConverters(
     TimeTypeConverter::class,
@@ -43,6 +44,7 @@ internal abstract class TempoDatabase : RoomDatabase() {
             return Room
                 .databaseBuilder(context.applicationContext, TempoDatabase::class.java, "Tempo.db")
                 .addMigrations(MigrationFrom1To2)
+                .addMigrations(MigrationFrom2To3)
                 .build()
         }
     }

@@ -38,7 +38,7 @@ class RoutineViewModelTest {
     private val routine = Routine.EMPTY.copy(
         id = 1.asID,
         name = "Routine Name",
-        startTimeOffset = 30.seconds,
+        preparationTime = 30.seconds,
         segments = emptyList()
     )
 
@@ -52,7 +52,7 @@ class RoutineViewModelTest {
         )
         val expectedFieldInputs = RoutineInputs(
             name = "Routine Name".toTextFieldValue(),
-            startTimeOffset = "30".timeText
+            preparationTime = "30".timeText
         )
 
         val viewModel = buildViewModel()
@@ -86,7 +86,7 @@ class RoutineViewModelTest {
         )
         val expectedFieldInputs = RoutineInputs(
             name = "Routine Name".toTextFieldValue(),
-            startTimeOffset = "30".timeText
+            preparationTime = "30".timeText
         )
         store.enableErrorOnNextAccess()
         val viewModel = buildViewModel(store = store)
@@ -109,7 +109,7 @@ class RoutineViewModelTest {
         )
         val expectedFieldInputs = RoutineInputs(
             name = "Routine Name Modified".toTextFieldValue(),
-            startTimeOffset = "30".timeText
+            preparationTime = "30".timeText
         )
         val viewModel = buildViewModel()
         advanceUntilIdle()
@@ -131,12 +131,12 @@ class RoutineViewModelTest {
         )
         val expectedFieldInputs = RoutineInputs(
             name = "Routine Name".toTextFieldValue(),
-            startTimeOffset = "10".timeText
+            preparationTime = "10".timeText
         )
         val viewModel = buildViewModel()
         advanceUntilIdle()
 
-        viewModel.onRoutineStartTimeOffsetChange(text = "10".timeText)
+        viewModel.onRoutinePreparationTimeChange(text = "10".timeText)
         advanceUntilIdle()
 
         viewModel.viewState.test {
@@ -153,12 +153,12 @@ class RoutineViewModelTest {
         )
         val expectedFieldInputs = RoutineInputs(
             name = "Routine Name".toTextFieldValue(),
-            startTimeOffset = "30".timeText
+            preparationTime = "30".timeText
         )
         val viewModel = buildViewModel()
         advanceUntilIdle()
 
-        viewModel.onRoutineStartTimeOffsetChange(text = "3000".timeText)
+        viewModel.onRoutinePreparationTimeChange(text = "3000".timeText)
         advanceUntilIdle()
 
         viewModel.viewState.test {
@@ -212,7 +212,7 @@ class RoutineViewModelTest {
         store.get().first().let { actual ->
             assertThat(actual.name).isEqualTo(expectedViewState.name)
             assertThat(actual.segments).isEqualTo(expectedViewState.segments)
-            assertThat(actual.startTimeOffset).isEqualTo(expectedViewState.startTimeOffset)
+            assertThat(actual.preparationTime).isEqualTo(expectedViewState.preparationTime)
 
             navigator.assertGoTo(
                 route = RoutineSummaryRoute,

@@ -16,7 +16,7 @@ class RoutineValidatorTest {
     fun `should return error when routine name is blank`() {
         val inputs = RoutineInputs(
             name = "".toTextFieldValue(),
-            startTimeOffset = "".timeText
+            preparationTime = "".timeText
         )
         val expected: Map<RoutineField, RoutineFieldError> = mapOf(
             RoutineField.Name to RoutineFieldError.BlankRoutineName,

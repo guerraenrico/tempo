@@ -25,7 +25,7 @@ class RoutineScreenKtTest {
         val viewState = RoutineViewState.Idle
         val inputs = RoutineInputs(
             name = "".toTextFieldValue(),
-            startTimeOffset = "".timeText
+            preparationTime = "".timeText
         )
 
         setContent {
@@ -33,9 +33,9 @@ class RoutineScreenKtTest {
                 viewState.Compose(
                     inputs = inputs,
                     onRoutineNameChange = {},
-                    onStartTimeOffsetChange = {},
+                    onPreparationTimeChange = {},
                     onRoutineSave = {},
-                    onStartTimeInfo = {},
+                    onPreparationTimeInfo = {},
                     onRetryLoad = {},
                     onSnackbarEvent = {}
                 )
@@ -54,7 +54,7 @@ class RoutineScreenKtTest {
         )
         val inputs = RoutineInputs(
             name = "".toTextFieldValue(),
-            startTimeOffset = "".timeText
+            preparationTime = "".timeText
         )
 
         setContent {
@@ -62,9 +62,9 @@ class RoutineScreenKtTest {
                 viewState.Compose(
                     inputs = inputs,
                     onRoutineNameChange = {},
-                    onStartTimeOffsetChange = {},
+                    onPreparationTimeChange = {},
                     onRoutineSave = {},
-                    onStartTimeInfo = {},
+                    onPreparationTimeInfo = {},
                     onRetryLoad = {},
                     onSnackbarEvent = {}
                 )
@@ -80,16 +80,16 @@ class RoutineScreenKtTest {
         val viewState = RoutineViewState.Error(throwable = Exception())
         val inputs = RoutineInputs(
             name = "".toTextFieldValue(),
-            startTimeOffset = "".timeText
+            preparationTime = "".timeText
         )
 
         setContent {
             viewState.Compose(
                 inputs = inputs,
                 onRoutineNameChange = {},
-                onStartTimeOffsetChange = {},
+                onPreparationTimeChange = {},
                 onRoutineSave = {},
-                onStartTimeInfo = {},
+                onPreparationTimeInfo = {},
                 onRetryLoad = {},
                 onSnackbarEvent = {}
             )

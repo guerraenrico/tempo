@@ -28,7 +28,7 @@ class InternalRoutineWithSegmentsTest {
         val internalRoutine = InternalRoutine(
             id = 1,
             name = "name",
-            startTimeOffsetInSeconds = 2,
+            preparationTime = 2,
             createdAt = now,
             updatedAt = now,
             rank = "abcdef"
@@ -36,7 +36,7 @@ class InternalRoutineWithSegmentsTest {
         val expected = Routine(
             id = 1.asID,
             name = "name",
-            startTimeOffset = 2.seconds,
+            preparationTime = 2.seconds,
             createdAt = now,
             updatedAt = now,
             segments = listOf(

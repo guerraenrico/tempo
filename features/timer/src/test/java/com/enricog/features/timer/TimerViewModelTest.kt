@@ -50,7 +50,7 @@ class TimerViewModelTest {
     private val routine = Routine.EMPTY.copy(
         id = 1.asID,
         segments = listOf(firstSegment, secondSegment),
-        startTimeOffset = 3.seconds
+        preparationTime = 3.seconds
     )
 
     private val navigator = FakeNavigator()
