@@ -33,7 +33,7 @@ internal fun TimerToolbar(
 
     val buttonColor = when (state) {
         is TimerViewState.Error,
-        TimerViewState.Completed,
+        is TimerViewState.Completed,
         TimerViewState.Idle -> TempoButtonColor.TransparentPrimary
         is TimerViewState.Counting -> TempoButtonColor.Adaptive(
             enabledBackgroundColor = Color.Transparent,

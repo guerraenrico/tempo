@@ -1,5 +1,6 @@
 package com.enricog.features.timer
 
+import android.annotation.SuppressLint
 import com.enricog.data.routines.api.entities.Routine
 import com.enricog.data.routines.api.entities.TimeType
 import com.enricog.entities.seconds
@@ -7,16 +8,21 @@ import com.enricog.features.timer.models.Count
 import com.enricog.features.timer.models.SegmentStep
 import com.enricog.features.timer.models.SegmentStepType
 import com.enricog.features.timer.models.TimerState
+import java.time.Clock
+import java.time.OffsetDateTime
 import javax.inject.Inject
+import kotlin.math.max
 
-internal class TimerReducer @Inject constructor() {
+internal class TimerReducer @Inject constructor(private val clock: Clock) {
 
+    @SuppressLint("NewApi")
     fun setup(state: TimerState, routine: Routine): TimerState {
         val steps = buildList {
-            fun generateId() : () -> Int {
+            fun generateId(): () -> Int {
                 var id = 0
                 return { id.also { id++ } }
             }
+
             val getNextId = generateId()
 
             for (segment in routine.segments) {
@@ -44,7 +50,9 @@ internal class TimerReducer @Inject constructor() {
             routine = routine,
             runningStep = steps.first(),
             steps = steps,
-            isSoundEnabled = if (state is TimerState.Counting) state.isSoundEnabled else true
+            isSoundEnabled = if (state is TimerState.Counting) state.isSoundEnabled else true,
+            startedAt = OffsetDateTime.now(clock),
+            skipCount = 0
         )
     }
 
@@ -102,10 +110,10 @@ internal class TimerReducer @Inject constructor() {
             SegmentStepType.STARTING -> state.routine.preparationTime
             SegmentStepType.IN_PROGRESS -> state.runningSegment.time
         }
-
         val previousStep = state.previousSegmentStep
         return if (previousStep != null && state.runningStep.count.seconds == currentResetTime) {
-            state.copy(runningStep = previousStep)
+            val skipCount = max(0, state.skipCount - 1)
+            state.copy(runningStep = previousStep, skipCount = skipCount)
         } else {
             state.copy(runningStep = state.runningStep.copy(count = Count.idle(seconds = currentResetTime)))
         }
@@ -114,14 +122,16 @@ internal class TimerReducer @Inject constructor() {
     fun jumpStepNext(state: TimerState): TimerState {
         if (state !is TimerState.Counting) return state
 
+        val skipCount = state.skipCount + 1
         val nextStep = state.nextSegmentStep
         return if (nextStep != null) {
-            state.copy(runningStep = nextStep)
+            state.copy(runningStep = nextStep, skipCount = skipCount)
         } else {
             state.copy(
                 runningStep = state.runningStep.copy(
                     count = state.runningStep.count.copy(isCompleted = true)
-                )
+                ),
+                skipCount = skipCount
             )
         }
     }

@@ -1,0 +1,37 @@
+import com.enricog.tempo.buildsrc.Libs
+import com.enricog.tempo.buildsrc.Versions
+
+plugins {
+    id 'com.android.library'
+    id 'kotlin-android'
+    id 'kotlin-kapt'
+    id 'dagger.hilt.android.plugin'
+}
+
+android {
+    namespace 'com.enricog.core.date.api'
+
+    compileSdkVersion Versions.compileSdk
+
+    defaultConfig {
+        minSdkVersion Versions.minSdk
+    }
+
+    compileOptions {
+        sourceCompatibility JavaVersion.VERSION_1_8
+        targetCompatibility JavaVersion.VERSION_1_8
+    }
+}
+
+
+dependencies {
+    implementation Libs.AndroidX.appCompat
+
+    // Hilt
+    implementation Libs.Hilt.android
+    kapt Libs.Hilt.androidCompiler
+
+    // Test
+    testImplementation Libs.Test.truth
+    testImplementation Libs.Test.junit
+}

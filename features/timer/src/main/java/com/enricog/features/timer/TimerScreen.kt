@@ -96,7 +96,8 @@ internal fun TimerViewState.Compose(
             onBack = onBack,
             onNext = onNext
         )
-        TimerViewState.Completed -> TimerCompletedScene(
+        is TimerViewState.Completed -> TimerCompletedScene(
+            state = this,
             onReset = onReset,
             onDone = onDone
         )

@@ -8,6 +8,9 @@
     <string name="title_segment_time_type_rest">REST</string>
     <string name="title_routine_completed">Completed</string>
 
+    <string name="label_routine_total_time">Total time</string>
+    <string name="label_routine_skip_count">N° skips</string>
+
     <string name="dialog_exit_time_title">Quit</string>
     <string name="dialog_exit_time_description">Do you want to exit?</string>
     <string name="dialog_exit_time_action_positive">Yes</string>
