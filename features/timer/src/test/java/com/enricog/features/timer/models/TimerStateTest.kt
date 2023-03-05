@@ -8,8 +8,14 @@ import com.enricog.entities.asID
 import com.enricog.entities.seconds
 import com.google.common.truth.Truth.assertThat
 import org.junit.Test
+import java.time.Clock
+import java.time.Instant
+import java.time.OffsetDateTime
+import java.time.ZoneId
 
 internal class TimerStateTest {
+
+    private val clock = Clock.fixed(Instant.parse("2023-04-03T10:15:30.00Z"), ZoneId.of("UTC"))
 
     private val count = Count(seconds = 10.seconds, isRunning = true, isCompleted = false)
     private val state = TimerState.Counting(
@@ -52,7 +58,9 @@ internal class TimerStateTest {
                 segment = Segment.EMPTY.copy(id = 2.asID)
             )
         ),
-        isSoundEnabled = true
+        isSoundEnabled = true,
+        startedAt = OffsetDateTime.now(clock),
+        skipCount = 1
     )
 
     @Test
@@ -232,5 +240,15 @@ internal class TimerStateTest {
             val actual = state.isStopwatchRunning
             assertThat(actual).isEqualTo(expected)
         }
+    }
+
+    @Test
+    fun `test effective total time seconds`() {
+        val clock = Clock.fixed(Instant.parse("2023-04-03T10:16:30.00Z"), ZoneId.of("UTC"))
+        val expected = 60.seconds
+
+        val actual = state.effectiveTotalSeconds(clock)
+
+        assertThat(actual).isEqualTo(expected)
     }
 }
