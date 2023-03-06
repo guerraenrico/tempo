@@ -11,6 +11,7 @@ import com.enricog.features.timer.ui_components.TimerCompletedSceneTestTag
 import com.enricog.features.timer.ui_components.TimerCountingSceneTestTag
 import com.enricog.features.timer.ui_components.TimerErrorSceneTestTag
 import com.enricog.ui.components.button.icon.TempoIconButtonSize
+import com.enricog.ui.components.textField.timeText
 import com.enricog.ui.theme.TempoTheme
 import org.junit.Rule
 import org.junit.Test
@@ -114,7 +115,10 @@ class TimerScreenKtTest {
 
     @Test
     fun shouldShowCompleteSceneWhenRoutineIsComplete() = composeRule {
-        val viewState = TimerViewState.Completed
+        val viewState = TimerViewState.Completed(
+            effectiveTotalTime = "00:00".timeText,
+            skipCount = 0
+        )
 
         setContent {
             TempoTheme {

@@ -148,6 +148,7 @@ internal class TimerViewModel @Inject constructor(
         if (state !is TimerState.Counting || !state.isSoundEnabled) return
 
         when {
+            state.isRoutineCompleted -> soundPlayer.play(ROUTINE_COMPLETE_SOUND)
             state.isStepCountCompleting -> soundPlayer.play(COUNT_DOWN_SOUND)
             state.isStepCountCompleted -> soundPlayer.play(COUNT_DOWN_COMPLETED_SOUND)
         }
@@ -167,5 +168,6 @@ internal class TimerViewModel @Inject constructor(
         const val ONE_SECOND = 1000L
         val COUNT_DOWN_SOUND = R.raw.sound_count_down
         val COUNT_DOWN_COMPLETED_SOUND = R.raw.sound_count_down_end
+        val ROUTINE_COMPLETE_SOUND = R.raw.sound_routine_complete
     }
 }

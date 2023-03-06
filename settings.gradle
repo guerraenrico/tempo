@@ -8,6 +8,7 @@ include ':core:compose:testing'
 include ':core:compose:api'
 include ':core:coroutines:api'
 include ':core:coroutines:testing'
+include ':core:date:api'
 include ':core:logger:api'
 
 include ':entities'

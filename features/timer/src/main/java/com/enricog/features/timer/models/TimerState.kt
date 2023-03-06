@@ -1,9 +1,14 @@
 package com.enricog.features.timer.models
 
+import android.annotation.SuppressLint
 import com.enricog.data.routines.api.entities.Routine
 import com.enricog.data.routines.api.entities.Segment
 import com.enricog.data.routines.api.entities.TimeType
+import com.enricog.entities.Seconds
 import com.enricog.entities.seconds
+import java.time.Clock
+import java.time.Duration
+import java.time.OffsetDateTime
 
 internal sealed class TimerState {
 
@@ -13,7 +18,9 @@ internal sealed class TimerState {
         val routine: Routine,
         val runningStep: SegmentStep,
         val steps: List<SegmentStep>,
-        val isSoundEnabled: Boolean
+        val isSoundEnabled: Boolean,
+        val startedAt: OffsetDateTime,
+        val skipCount: Int
     ) : TimerState() {
 
         private val runningStepIndex: Int
@@ -48,6 +55,12 @@ internal sealed class TimerState {
             get() = runningSegment.type == TimeType.STOPWATCH &&
                 runningStep.type == SegmentStepType.IN_PROGRESS &&
                 isStepCountRunning
+
+        @SuppressLint("NewApi")
+        fun effectiveTotalSeconds(clock: Clock): Seconds {
+            val difference = Duration.between(startedAt, OffsetDateTime.now(clock))
+            return Seconds.from(difference.seconds)
+        }
 
         private companion object {
             val STEP_COMPLETING_THRESHOLD = 5.seconds

@@ -4,6 +4,7 @@ import androidx.annotation.DrawableRes
 import androidx.annotation.StringRes
 import androidx.compose.ui.graphics.Color
 import com.enricog.ui.components.button.icon.TempoIconButtonSize
+import com.enricog.ui.components.textField.TimeText
 
 internal sealed class TimerViewState {
 
@@ -36,7 +37,10 @@ internal sealed class TimerViewState {
         }
     }
 
-    object Completed : TimerViewState()
+    data class Completed(
+        val effectiveTotalTime: TimeText,
+        val skipCount: Int
+    ) : TimerViewState()
 
     data class Error(val throwable: Throwable) : TimerViewState()
 }

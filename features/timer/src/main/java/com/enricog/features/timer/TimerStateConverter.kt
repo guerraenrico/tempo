@@ -9,11 +9,14 @@ import com.enricog.features.timer.models.TimerState
 import com.enricog.features.timer.models.TimerViewState
 import com.enricog.features.timer.models.TimerViewState.Counting.BackgroundColor
 import com.enricog.ui.components.button.icon.TempoIconButtonSize
+import com.enricog.ui.components.textField.timeText
 import com.enricog.ui.theme.TimeTypeColors
+import java.time.Clock
 import javax.inject.Inject
 
-internal class TimerStateConverter @Inject constructor() :
-    StateConverter<TimerState, TimerViewState> {
+internal class TimerStateConverter @Inject constructor(
+    private val clock: Clock
+) : StateConverter<TimerState, TimerViewState> {
 
     override suspend fun convert(state: TimerState): TimerViewState {
         return when (state) {
@@ -25,7 +28,10 @@ internal class TimerStateConverter @Inject constructor() :
 
     private fun mapCounting(state: TimerState.Counting): TimerViewState {
         return if (state.isRoutineCompleted) {
-            TimerViewState.Completed
+            TimerViewState.Completed(
+                effectiveTotalTime = state.effectiveTotalSeconds(clock).timeText,
+                skipCount = state.skipCount
+            )
         } else {
             TimerViewState.Counting(
                 timeInSeconds = state.runningStep.count.seconds.value,

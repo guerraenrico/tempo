@@ -29,11 +29,16 @@ import kotlinx.coroutines.test.runCurrent
 import org.junit.After
 import org.junit.Rule
 import org.junit.Test
+import java.time.Clock
+import java.time.Instant
+import java.time.ZoneId
 
 class TimerViewModelTest {
 
     @get:Rule
     val coroutineRule = CoroutineRule(StandardTestDispatcher())
+
+    private val clock = Clock.fixed(Instant.parse("2023-04-03T10:15:30.00Z"), ZoneId.of("UTC"))
 
     private val firstSegment = Segment.EMPTY.copy(
         id = 1.asID,
@@ -429,8 +434,8 @@ class TimerViewModelTest {
         return TimerViewModel(
             savedStateHandle = savedStateHandle,
             dispatchers = coroutineRule.getDispatchers(),
-            converter = TimerStateConverter(),
-            reducer = TimerReducer(),
+            converter = TimerStateConverter(clock = clock),
+            reducer = TimerReducer(clock = clock),
             timerUseCase = TimerUseCase(routineDataSource = FakeRoutineDataSource(store = store)),
             navigationActions = TimerNavigationActions(navigator),
             windowScreenManager = windowScreenManager,

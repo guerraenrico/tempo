@@ -49,12 +49,27 @@ value class TimeText private constructor(private val value: String) : Comparable
         }.seconds
     }
 
-    override fun compareTo(other: TimeText): Int {
-        return value.compareTo(other.value)
+    fun toPrettyString(): String {
+        return buildString {
+            val (m, s) = this@TimeText.toSeconds().inMinutes
+            if (m > 0) {
+                append("$m")
+            }
+            if (s > 0) {
+                if (m > 0) {
+                    append(":")
+                }
+                append("$s")
+            }
+        }
     }
 
     override fun toString(): String {
         return value
+    }
+
+    override fun compareTo(other: TimeText): Int {
+        return value.compareTo(other.value)
     }
 
     companion object {
