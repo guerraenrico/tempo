@@ -181,7 +181,7 @@ private fun TotalTimeContainer(
             modifier = Modifier
                 .testTag(RoutineEffectiveTimeTestTag)
                 .padding(all = TempoTheme.dimensions.spaceS),
-            text = effectiveTotalTime.toPrettyString(),
+            text = effectiveTotalTime.toStringFormatted(),
             style = TempoTheme.typography.h1,
             textAlign = TextAlign.Center
         )

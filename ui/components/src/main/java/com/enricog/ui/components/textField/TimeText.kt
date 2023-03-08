@@ -49,19 +49,14 @@ value class TimeText private constructor(private val value: String) : Comparable
         }.seconds
     }
 
-    fun toPrettyString(): String {
-        return buildString {
-            val (m, s) = this@TimeText.toSeconds().inMinutes
-            if (m > 0) {
-                append("$m")
-            }
-            if (s > 0) {
-                if (m > 0) {
-                    append(":")
-                }
-                append("$s")
-            }
-        }
+    fun toStringFormatted(template: String = DEFAULT_STRING_TEMPLATE): String {
+        val (m, s) = toSeconds().inMinutes
+
+        fun Long.toStringPadded(): String = toString().padStart(length = 2, padChar = '0')
+
+        return template
+            .replace(oldValue = "{m}", newValue = m.toStringPadded())
+            .replace(oldValue = "{s}", newValue = s.toStringPadded())
     }
 
     override fun toString(): String {
@@ -75,6 +70,7 @@ value class TimeText private constructor(private val value: String) : Comparable
     companion object {
         private const val TIME_SEPARATOR = ":"
         private const val DEFAULT_TIME_VALUE = "0"
+        private const val DEFAULT_STRING_TEMPLATE = "{m}:{s}"
 
         private const val MAX_STRING_LENGTH = 6
         private val MAX_VALUE_SECONDS = 86400.seconds // 1h
