@@ -21,7 +21,6 @@ import com.enricog.core.compose.api.modifiers.spacing.horizontalListItemSpacing
 import com.enricog.entities.ID
 import com.enricog.features.routines.list.models.RoutinesItem.RoutineItem
 import com.enricog.features.routines.ui_components.SwipeableListItem
-import com.enricog.ui.components.extensions.format
 import com.enricog.ui.components.text.TempoText
 import com.enricog.ui.theme.TempoTheme
 import com.enricog.ui.theme.contentColorFor
@@ -99,7 +98,7 @@ private fun Counts(
                 modifier = Modifier
                     .testTag(RoutineItemEstimatedTotalTimeTestTag)
                     .padding(bottom = TempoTheme.dimensions.spaceXS),
-                text = segmentsSummary.estimatedTotalTime.format(),
+                text = segmentsSummary.estimatedTotalTime.toStringFormatted(),
                 style = TempoTheme.typography.h3,
                 textAlign = TextAlign.End
             )

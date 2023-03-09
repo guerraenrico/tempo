@@ -7,10 +7,10 @@ import androidx.compose.ui.test.onNodeWithTag
 import androidx.compose.ui.test.onNodeWithText
 import com.enricog.core.compose.api.classes.immutableMapOf
 import com.enricog.core.compose.testing.invoke
-import com.enricog.entities.seconds
 import com.enricog.features.routines.R
 import com.enricog.features.routines.detail.summary.models.RoutineSummaryItem.RoutineInfo
 import com.enricog.features.routines.detail.ui.time_type.TimeType
+import com.enricog.ui.components.textField.timeText
 import com.enricog.ui.theme.TempoTheme
 import com.enricog.ui.theme.TimeTypeColors
 import org.junit.Rule
@@ -26,7 +26,7 @@ internal class RoutineSectionKtTest {
         val routineInfo = RoutineInfo(
             routineName = "Routine Name",
             segmentsSummary = RoutineInfo.SegmentsSummary(
-                estimatedTotalTime = 10.seconds,
+                estimatedTotalTime = "10".timeText,
                 segmentTypesCount = immutableMapOf(
                     TimeType(
                         nameStringResId = R.string.chip_time_type_timer_name,
@@ -64,7 +64,7 @@ internal class RoutineSectionKtTest {
             .assertIsDisplayed()
         onNodeWithTag(testTag = RoutineSectionEstimatedTotalTimeTestTag, useUnmergedTree = true)
             .assertIsDisplayed()
-            .assertTextEquals("10s")
+            .assertTextEquals("00:10")
         onNodeWithTag(testTag = "RoutineSectionSegmentTypeCount_TIMER_TestTag", useUnmergedTree = true)
             .assertIsDisplayed()
             .assertTextEquals("3")

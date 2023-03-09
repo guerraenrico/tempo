@@ -18,6 +18,7 @@ import com.enricog.features.routines.detail.summary.models.RoutineSummaryState.D
 import com.enricog.features.routines.detail.summary.models.RoutineSummaryViewState
 import com.enricog.features.routines.detail.summary.models.RoutineSummaryViewState.Data.Message
 import com.enricog.features.routines.detail.ui.time_type.TimeType
+import com.enricog.ui.components.textField.timeText
 import com.enricog.ui.theme.TimeTypeColors
 import com.google.common.truth.Truth.assertThat
 import org.junit.Rule
@@ -59,7 +60,7 @@ class RoutineSummaryStateConverterTest {
                 RoutineSummaryItem.RoutineInfo(
                     routineName = "routineName",
                     segmentsSummary = SegmentsSummary(
-                        estimatedTotalTime = 20.seconds,
+                        estimatedTotalTime = "20".timeText,
                         segmentTypesCount = immutableMapOf(
                             TimeType(
                                 nameStringResId = R.string.chip_time_type_timer_name,
@@ -75,7 +76,7 @@ class RoutineSummaryStateConverterTest {
                 RoutineSummaryItem.SegmentItem(
                     id = 1.asID,
                     name = "Segment 1",
-                    time = 10.seconds,
+                    time = "10".timeText,
                     type = TimeType(
                         nameStringResId = R.string.chip_time_type_timer_name,
                         color = TimeTypeColors.TIMER,
@@ -86,7 +87,7 @@ class RoutineSummaryStateConverterTest {
                 RoutineSummaryItem.SegmentItem(
                     id = 2.asID,
                     name = "Segment 2",
-                    time = 10.seconds,
+                    time = "10".timeText,
                     type = TimeType(
                         nameStringResId = R.string.chip_time_type_timer_name,
                         color = TimeTypeColors.TIMER,
@@ -122,7 +123,7 @@ class RoutineSummaryStateConverterTest {
                 RoutineSummaryItem.RoutineInfo(
                     routineName = "routineName",
                     segmentsSummary = SegmentsSummary(
-                        estimatedTotalTime = 20.seconds,
+                        estimatedTotalTime = "20".timeText,
                         segmentTypesCount = immutableMapOf(
                             TimeType(
                                 nameStringResId = R.string.chip_time_type_timer_name,
@@ -138,7 +139,7 @@ class RoutineSummaryStateConverterTest {
                 RoutineSummaryItem.SegmentItem(
                     id = 1.asID,
                     name = "Segment 1",
-                    time = 10.seconds,
+                    time = "10".timeText,
                     type = TimeType(
                         nameStringResId = R.string.chip_time_type_timer_name,
                         color = TimeTypeColors.TIMER,
@@ -149,7 +150,7 @@ class RoutineSummaryStateConverterTest {
                 RoutineSummaryItem.SegmentItem(
                     id = 2.asID,
                     name = "Segment 2",
-                    time = 10.seconds,
+                    time = "10".timeText,
                     type = TimeType(
                         nameStringResId = R.string.chip_time_type_timer_name,
                         color = TimeTypeColors.TIMER,
@@ -188,7 +189,7 @@ class RoutineSummaryStateConverterTest {
                 RoutineSummaryItem.RoutineInfo(
                     routineName = "routineName",
                     segmentsSummary = SegmentsSummary(
-                        estimatedTotalTime = 20.seconds,
+                        estimatedTotalTime = "20".timeText,
                         segmentTypesCount = immutableMapOf(
                             TimeType(
                                 nameStringResId = R.string.chip_time_type_timer_name,
@@ -204,7 +205,7 @@ class RoutineSummaryStateConverterTest {
                 RoutineSummaryItem.SegmentItem(
                     id = 1.asID,
                     name = "Segment 1",
-                    time = 10.seconds,
+                    time = "10".timeText,
                     type = TimeType(
                         nameStringResId = R.string.chip_time_type_timer_name,
                         color = TimeTypeColors.TIMER,
@@ -215,7 +216,7 @@ class RoutineSummaryStateConverterTest {
                 RoutineSummaryItem.SegmentItem(
                     id = 2.asID,
                     name = "Segment 2",
-                    time = 10.seconds,
+                    time = "10".timeText,
                     type = TimeType(
                         nameStringResId = R.string.chip_time_type_timer_name,
                         color = TimeTypeColors.TIMER,
@@ -254,7 +255,7 @@ class RoutineSummaryStateConverterTest {
                 RoutineSummaryItem.RoutineInfo(
                     routineName = "routineName",
                     segmentsSummary = SegmentsSummary(
-                        estimatedTotalTime = 20.seconds,
+                        estimatedTotalTime = "20".timeText,
                         segmentTypesCount = immutableMapOf(
                             TimeType(
                                 nameStringResId = R.string.chip_time_type_timer_name,
@@ -270,7 +271,7 @@ class RoutineSummaryStateConverterTest {
                 RoutineSummaryItem.SegmentItem(
                     id = 1.asID,
                     name = "Segment 1",
-                    time = 10.seconds,
+                    time = "10".timeText,
                     type = TimeType(
                         nameStringResId = R.string.chip_time_type_timer_name,
                         color = TimeTypeColors.TIMER,
@@ -281,7 +282,7 @@ class RoutineSummaryStateConverterTest {
                 RoutineSummaryItem.SegmentItem(
                     id = 2.asID,
                     name = "Segment 2",
-                    time = 10.seconds,
+                    time = "10".timeText,
                     type = TimeType(
                         nameStringResId = R.string.chip_time_type_timer_name,
                         color = TimeTypeColors.TIMER,
@@ -320,7 +321,7 @@ class RoutineSummaryStateConverterTest {
                 RoutineSummaryItem.RoutineInfo(
                     routineName = "routineName",
                     segmentsSummary = SegmentsSummary(
-                        estimatedTotalTime = 20.seconds,
+                        estimatedTotalTime = "20".timeText,
                         segmentTypesCount = immutableMapOf(
                             TimeType(
                                 nameStringResId = R.string.chip_time_type_timer_name,
@@ -336,7 +337,7 @@ class RoutineSummaryStateConverterTest {
                 RoutineSummaryItem.SegmentItem(
                     id = 1.asID,
                     name = "Segment 1",
-                    time = 10.seconds,
+                    time = "10".timeText,
                     type = TimeType(
                         nameStringResId = R.string.chip_time_type_timer_name,
                         color = TimeTypeColors.TIMER,
@@ -347,7 +348,7 @@ class RoutineSummaryStateConverterTest {
                 RoutineSummaryItem.SegmentItem(
                     id = 2.asID,
                     name = "Segment 2",
-                    time = 10.seconds,
+                    time = "10".timeText,
                     type = TimeType(
                         nameStringResId = R.string.chip_time_type_timer_name,
                         color = TimeTypeColors.TIMER,
@@ -426,7 +427,7 @@ class RoutineSummaryStateConverterTest {
                 RoutineSummaryItem.SegmentItem(
                     id = 1.asID,
                     name = "Segment 1",
-                    time = 0.seconds,
+                    time = "0".timeText,
                     type = TimeType(
                         nameStringResId = R.string.chip_time_type_stopwatch_name,
                         color = TimeTypeColors.STOPWATCH,

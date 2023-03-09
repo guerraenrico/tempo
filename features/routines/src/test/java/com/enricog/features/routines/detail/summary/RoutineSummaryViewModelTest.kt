@@ -34,6 +34,7 @@ import com.enricog.navigation.api.routes.TimerRoute
 import com.enricog.navigation.api.routes.TimerRouteInput
 import com.enricog.navigation.testing.FakeNavigator
 import com.enricog.ui.components.snackbar.TempoSnackbarEvent
+import com.enricog.ui.components.textField.timeText
 import com.enricog.ui.theme.TimeTypeColors
 import com.google.common.truth.Truth.assertThat
 import kotlinx.coroutines.test.StandardTestDispatcher
@@ -50,7 +51,7 @@ class RoutineSummaryViewModelTest {
     private val firstSegmentItem = RoutineSummaryItem.SegmentItem(
         id = 1.asID,
         name = "First Segment",
-        time = 10.seconds,
+        time = "10".timeText,
         type = TimeType(
             nameStringResId = R.string.chip_time_type_timer_name,
             color = TimeTypeColors.TIMER,
@@ -61,7 +62,7 @@ class RoutineSummaryViewModelTest {
     private val secondSegmentItem = RoutineSummaryItem.SegmentItem(
         id = 2.asID,
         name = "Second Segment",
-        time = 10.seconds,
+        time = "10".timeText,
         type = TimeType(
             nameStringResId = R.string.chip_time_type_timer_name,
             color = TimeTypeColors.TIMER,
@@ -72,7 +73,7 @@ class RoutineSummaryViewModelTest {
     private val thirdSegmentItem = RoutineSummaryItem.SegmentItem(
         id = 3.asID,
         name = "Third Segment",
-        time = 10.seconds,
+        time = "10".timeText,
         type = TimeType(
             nameStringResId = R.string.chip_time_type_timer_name,
             color = TimeTypeColors.TIMER,
@@ -116,7 +117,7 @@ class RoutineSummaryViewModelTest {
                 RoutineSummaryItem.RoutineInfo(
                     routineName = "Routine Name",
                     segmentsSummary = SegmentsSummary(
-                        estimatedTotalTime = 30.seconds,
+                        estimatedTotalTime = "30".timeText,
                         segmentTypesCount = immutableMapOf(
                             TimeType(
                                 nameStringResId = R.string.chip_time_type_timer_name,
@@ -162,7 +163,7 @@ class RoutineSummaryViewModelTest {
                 RoutineSummaryItem.RoutineInfo(
                     routineName = "Routine Name",
                     segmentsSummary = SegmentsSummary(
-                        estimatedTotalTime = 30.seconds,
+                        estimatedTotalTime = "30".timeText,
                         segmentTypesCount = immutableMapOf(
                             TimeType(
                                 nameStringResId = R.string.chip_time_type_timer_name,
@@ -227,7 +228,7 @@ class RoutineSummaryViewModelTest {
                 RoutineSummaryItem.RoutineInfo(
                     routineName = "Routine Name",
                     segmentsSummary = SegmentsSummary(
-                        estimatedTotalTime = 20.seconds,
+                        estimatedTotalTime = "20".timeText,
                         segmentTypesCount = immutableMapOf(
                             TimeType(
                                 nameStringResId = R.string.chip_time_type_timer_name,
@@ -265,7 +266,7 @@ class RoutineSummaryViewModelTest {
                 RoutineSummaryItem.RoutineInfo(
                     routineName = "Routine Name",
                     segmentsSummary = SegmentsSummary(
-                        estimatedTotalTime = 30.seconds,
+                        estimatedTotalTime = "30".timeText,
                         segmentTypesCount = immutableMapOf(
                             TimeType(
                                 nameStringResId = R.string.chip_time_type_timer_name,
@@ -305,7 +306,7 @@ class RoutineSummaryViewModelTest {
                 RoutineSummaryItem.RoutineInfo(
                     routineName = "Routine Name",
                     segmentsSummary = SegmentsSummary(
-                        estimatedTotalTime = 20.seconds,
+                        estimatedTotalTime = "20".timeText,
                         segmentTypesCount = immutableMapOf(
                             TimeType(
                                 nameStringResId = R.string.chip_time_type_timer_name,
@@ -346,7 +347,7 @@ class RoutineSummaryViewModelTest {
                 RoutineSummaryItem.RoutineInfo(
                     routineName = "Routine Name",
                     segmentsSummary = SegmentsSummary(
-                        estimatedTotalTime = 30.seconds,
+                        estimatedTotalTime = "30".timeText,
                         segmentTypesCount = immutableMapOf(
                             TimeType(
                                 nameStringResId = R.string.chip_time_type_timer_name,
@@ -388,7 +389,7 @@ class RoutineSummaryViewModelTest {
                 RoutineSummaryItem.RoutineInfo(
                     routineName = "Routine Name",
                     segmentsSummary = SegmentsSummary(
-                        estimatedTotalTime = 20.seconds,
+                        estimatedTotalTime = "20".timeText,
                         segmentTypesCount = immutableMapOf(
                             TimeType(
                                 nameStringResId = R.string.chip_time_type_timer_name,
@@ -429,7 +430,7 @@ class RoutineSummaryViewModelTest {
                 RoutineSummaryItem.RoutineInfo(
                     routineName = "Routine Name",
                     segmentsSummary = SegmentsSummary(
-                        estimatedTotalTime = 20.seconds,
+                        estimatedTotalTime = "20".timeText,
                         segmentTypesCount = immutableMapOf(
                             TimeType(
                                 nameStringResId = R.string.chip_time_type_timer_name,
@@ -471,7 +472,7 @@ class RoutineSummaryViewModelTest {
                 RoutineSummaryItem.RoutineInfo(
                     routineName = "Routine Name",
                     segmentsSummary = SegmentsSummary(
-                        estimatedTotalTime = 40.seconds,
+                        estimatedTotalTime = "40".timeText,
                         segmentTypesCount = immutableMapOf(
                             TimeType(
                                 nameStringResId = R.string.chip_time_type_timer_name,
@@ -511,7 +512,7 @@ class RoutineSummaryViewModelTest {
                 RoutineSummaryItem.RoutineInfo(
                     routineName = "Routine Name",
                     segmentsSummary = SegmentsSummary(
-                        estimatedTotalTime = 30.seconds,
+                        estimatedTotalTime = "30".timeText,
                         segmentTypesCount = immutableMapOf(
                             TimeType(
                                 nameStringResId = R.string.chip_time_type_timer_name,
@@ -551,7 +552,7 @@ class RoutineSummaryViewModelTest {
                 RoutineSummaryItem.RoutineInfo(
                     routineName = "Routine Name",
                     segmentsSummary = SegmentsSummary(
-                        estimatedTotalTime = 30.seconds,
+                        estimatedTotalTime = "30".timeText,
                         segmentTypesCount = immutableMapOf(
                             TimeType(
                                 nameStringResId = R.string.chip_time_type_timer_name,
@@ -600,7 +601,7 @@ class RoutineSummaryViewModelTest {
                 RoutineSummaryItem.RoutineInfo(
                     routineName = "Routine Name",
                     segmentsSummary = SegmentsSummary(
-                        estimatedTotalTime = 30.seconds,
+                        estimatedTotalTime = "30".timeText,
                         segmentTypesCount = immutableMapOf(
                             TimeType(
                                 nameStringResId = R.string.chip_time_type_timer_name,
@@ -636,7 +637,7 @@ class RoutineSummaryViewModelTest {
                 RoutineSummaryItem.RoutineInfo(
                     routineName = "Routine Name",
                     segmentsSummary = SegmentsSummary(
-                        estimatedTotalTime = 30.seconds,
+                        estimatedTotalTime = "30".timeText,
                         segmentTypesCount = immutableMapOf(
                             TimeType(
                                 nameStringResId = R.string.chip_time_type_timer_name,
@@ -679,7 +680,7 @@ class RoutineSummaryViewModelTest {
                 RoutineSummaryItem.RoutineInfo(
                     routineName = "Routine Name",
                     segmentsSummary = SegmentsSummary(
-                        estimatedTotalTime = 30.seconds,
+                        estimatedTotalTime = "30".timeText,
                         segmentTypesCount = immutableMapOf(
                             TimeType(
                                 nameStringResId = R.string.chip_time_type_timer_name,
@@ -721,7 +722,7 @@ class RoutineSummaryViewModelTest {
                 RoutineSummaryItem.RoutineInfo(
                     routineName = "Routine Name",
                     segmentsSummary = SegmentsSummary(
-                        estimatedTotalTime = 20.seconds,
+                        estimatedTotalTime = "20".timeText,
                         segmentTypesCount = immutableMapOf(
                             TimeType(
                                 nameStringResId = R.string.chip_time_type_timer_name,
