@@ -3,6 +3,7 @@ package com.enricog.features.timer
 import androidx.compose.runtime.Immutable
 import androidx.lifecycle.SavedStateHandle
 import com.enricog.base.viewmodel.BaseViewModel
+import com.enricog.base.viewmodel.ViewModelConfiguration
 import com.enricog.core.coroutines.dispatchers.CoroutineDispatchers
 import com.enricog.core.coroutines.job.autoCancelableJob
 import com.enricog.core.logger.api.TempoLogger
@@ -33,7 +34,8 @@ internal class TimerViewModel @Inject constructor(
 ) : BaseViewModel<TimerState, TimerViewState>(
     initialState = TimerState.Idle,
     converter = converter,
-    dispatchers = dispatchers
+    dispatchers = dispatchers,
+    configuration = ViewModelConfiguration(debounce = 0L)
 ) {
 
     private val input = TimerRoute.extractInput(savedStateHandle)
@@ -79,7 +81,7 @@ internal class TimerViewModel @Inject constructor(
     }
 
     fun onNext() {
-        updateState {  reducer.jumpStepNext(it) }
+        updateState { reducer.jumpStepNext(it) }
     }
 
     fun onReset() {
@@ -107,21 +109,24 @@ internal class TimerViewModel @Inject constructor(
 
     override fun onStateUpdated(currentState: TimerState) {
         toggleKeepScreenOn(currentState)
-        if (currentState is TimerState.Counting) {
-            if (currentState.isStepCountRunning) {
+
+        if (currentState !is TimerState.Counting) {
+            stopCounting()
+            return
+        }
+
+        when {
+            currentState.isStepCountRunning -> {
                 startCounting()
-                return
             }
-            if (currentState.isStepCountCompleted) {
+            currentState.isStepCountCompleted -> {
                 stopCounting()
-                onCountCompleted()
-                return
+                onStepCountCompleted()
             }
         }
-        stopCounting()
     }
 
-    private fun onCountCompleted() {
+    private fun onStepCountCompleted() {
         launch {
             delay(ONE_SECOND)
             updateState { reducer.nextStep(it) }
