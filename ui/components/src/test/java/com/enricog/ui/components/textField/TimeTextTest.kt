@@ -34,7 +34,20 @@ class TimeTextTest {
     @TestParameters("{input: \"52000000\", expectedSeconds: 86400}")
     fun testToSeconds(input: String, expectedSeconds: Int) {
         val expected = expectedSeconds.seconds
+
         val actual = input.timeText.toSeconds()
+
+        assertThat(actual).isEqualTo(expected)
+    }
+
+    @Test
+    @TestParameters("{input: \"9\", expected: \"00:09\"}")
+    @TestParameters("{input: \"50\", expected: \"00:50\"}")
+    @TestParameters("{input: \"610\", expected: \"06:10\"}")
+    @TestParameters("{input: \"5001\", expected: \"50:01\"}")
+    fun toStringFormatted(input: String, expected: String) {
+        val actual = input.timeText.toStringFormatted()
+
         assertThat(actual).isEqualTo(expected)
     }
 }

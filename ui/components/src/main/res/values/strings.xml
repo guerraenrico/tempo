@@ -11,8 +11,4 @@
 
     <string name="content_description_button_retry">Try the operation again</string>
     <string name="button_retry">Try again</string>
-
-    <!-- Common -->
-    <string name="label_minutes_acronym">m</string>
-    <string name="label_seconds_acronym">s</string>
 </resources>

@@ -11,13 +11,12 @@ import androidx.constraintlayout.compose.ConstraintLayout
 import androidx.constraintlayout.compose.Dimension
 import com.enricog.entities.ID
 import com.enricog.entities.asID
-import com.enricog.entities.seconds
 import com.enricog.features.routines.detail.summary.models.RoutineSummaryItem.SegmentItem
 import com.enricog.features.routines.detail.ui.time_type.TimeType
 import com.enricog.features.routines.detail.ui.time_type.TimeTypeChip
 import com.enricog.features.routines.ui_components.SwipeableListItem
-import com.enricog.ui.components.extensions.format
 import com.enricog.ui.components.text.TempoText
+import com.enricog.ui.components.textField.timeText
 import com.enricog.ui.theme.TempoTheme
 import com.enricog.data.routines.api.entities.TimeType as TimeTypeEntity
 
@@ -78,7 +77,7 @@ internal fun SegmentItem(
                         end.linkTo(parent.end)
                         bottom.linkTo(parent.bottom)
                     },
-                text = segment.time.format(),
+                text = segment.time.toStringFormatted(),
                 style = TempoTheme.typography.h3
             )
         }
@@ -93,7 +92,7 @@ private fun SegmentItemPreview() {
         segment = SegmentItem(
             id = 0.asID,
             name = "Segment name",
-            time = 100.seconds,
+            time = "100".timeText,
             type = TimeType.from(TimeTypeEntity.TIMER),
             rank = ""
         ),

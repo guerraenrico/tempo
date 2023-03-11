@@ -15,6 +15,7 @@ import com.enricog.features.routines.list.models.RoutinesState
 import com.enricog.features.routines.list.models.RoutinesState.Data.Action
 import com.enricog.features.routines.list.models.RoutinesViewState
 import com.enricog.features.routines.list.models.RoutinesViewState.Data.Message
+import com.enricog.ui.components.textField.timeText
 import com.google.common.truth.Truth.assertThat
 import org.junit.Rule
 import org.junit.Test
@@ -105,7 +106,7 @@ class RoutinesStateConverterTest {
                 name = "Routine",
                 rank = "aaaaaa",
                 segmentsSummary = SegmentsSummary(
-                    estimatedTotalTime = 12.seconds,
+                    estimatedTotalTime = "12".timeText,
                     segmentTypesCount = immutableMapOf(
                         TimeType.from(TimeTypeEntity.TIMER) to 2,
                         TimeType.from(TimeTypeEntity.REST) to 1,

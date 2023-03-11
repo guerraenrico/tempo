@@ -4,8 +4,9 @@ import androidx.compose.runtime.Stable
 import com.enricog.core.compose.api.classes.ImmutableMap
 import com.enricog.data.routines.api.entities.Segment
 import com.enricog.entities.ID
-import com.enricog.entities.Seconds
 import com.enricog.features.routines.detail.ui.time_type.TimeType
+import com.enricog.ui.components.textField.TimeText
+import com.enricog.ui.components.textField.timeText
 
 internal sealed class RoutineSummaryItem {
 
@@ -18,7 +19,7 @@ internal sealed class RoutineSummaryItem {
         override val isDraggable: Boolean = false
 
         data class SegmentsSummary(
-            @Stable val estimatedTotalTime: Seconds?,
+            val estimatedTotalTime: TimeText?,
             val segmentTypesCount: ImmutableMap<TimeType, Int>
         )
     }
@@ -32,7 +33,7 @@ internal sealed class RoutineSummaryItem {
     data class SegmentItem(
         @Stable val id: ID,
         val name: String,
-        @Stable val time: Seconds,
+        val time: TimeText,
         val type: TimeType,
         val rank: String
     ) : RoutineSummaryItem() {
@@ -42,7 +43,7 @@ internal sealed class RoutineSummaryItem {
             fun from(segment: Segment) = SegmentItem(
                 id = segment.id,
                 name = segment.name,
-                time = segment.time,
+                time = segment.time.timeText,
                 type = TimeType.from(segment.type),
                 rank = segment.rank.toString()
             )

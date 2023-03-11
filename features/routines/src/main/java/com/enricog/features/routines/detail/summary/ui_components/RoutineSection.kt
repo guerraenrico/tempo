@@ -24,7 +24,6 @@ import com.enricog.features.routines.detail.summary.models.RoutineSummaryItem.Ro
 import com.enricog.features.routines.detail.summary.models.RoutineSummaryItem.RoutineInfo.SegmentsSummary
 import com.enricog.ui.components.button.TempoButton
 import com.enricog.ui.components.button.TempoButtonColor
-import com.enricog.ui.components.extensions.format
 import com.enricog.ui.components.text.TempoText
 import com.enricog.ui.theme.TempoTheme
 import com.enricog.ui.theme.contentColorFor
@@ -101,7 +100,7 @@ private fun SegmentSummary(
                 modifier = Modifier
                     .testTag(RoutineSectionEstimatedTotalTimeTestTag)
                     .padding(bottom = TempoTheme.dimensions.spaceXS),
-                text = segmentsSummary.estimatedTotalTime.format(),
+                text = segmentsSummary.estimatedTotalTime.toStringFormatted(),
                 style = TempoTheme.typography.h3,
                 textAlign = TextAlign.End
             )

@@ -18,6 +18,7 @@ import com.enricog.features.routines.detail.summary.models.RoutineSummaryState.D
 import com.enricog.features.routines.detail.summary.models.RoutineSummaryViewState
 import com.enricog.features.routines.detail.summary.models.RoutineSummaryViewState.Data.Message
 import com.enricog.features.routines.detail.ui.time_type.TimeType
+import com.enricog.ui.components.textField.timeText
 import javax.inject.Inject
 
 internal class RoutineSummaryStateConverter @Inject constructor() :
@@ -35,7 +36,7 @@ internal class RoutineSummaryStateConverter @Inject constructor() :
         val items: List<RoutineSummaryItem> = buildList {
             val segmentsSummary = if (routine.segments.isNotEmpty()) {
                 SegmentsSummary(
-                    estimatedTotalTime = routine.expectedTotalTime.takeIf { it > 0.seconds },
+                    estimatedTotalTime = routine.expectedTotalTime.takeIf { it > 0.seconds }?.timeText,
                     segmentTypesCount = routine.segments.groupBy { it.type }
                         .map { (type, segments) -> TimeType.from(type) to segments.size }
                         .toMap()
