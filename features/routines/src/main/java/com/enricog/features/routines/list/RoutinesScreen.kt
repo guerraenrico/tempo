@@ -4,6 +4,7 @@ import androidx.compose.runtime.Composable
 import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
 import androidx.compose.ui.res.stringResource
+import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import com.enricog.core.compose.api.effects.LifecycleObserver
 import com.enricog.entities.ID
 import com.enricog.features.routines.R
@@ -17,7 +18,7 @@ import com.enricog.ui.components.toolbar.TempoToolbar
 
 @Composable
 internal fun RoutinesScreen(viewModel: RoutinesViewModel) {
-    val viewState by viewModel.viewState.collectAsState(RoutinesViewState.Idle)
+    val viewState by viewModel.viewState.collectAsStateWithLifecycle(RoutinesViewState.Idle)
 
     LifecycleObserver(onStop = viewModel::onStop)
 

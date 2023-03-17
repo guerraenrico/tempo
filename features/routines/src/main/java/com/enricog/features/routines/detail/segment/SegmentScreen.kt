@@ -4,6 +4,7 @@ import androidx.compose.runtime.Composable
 import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
 import androidx.compose.ui.text.input.TextFieldValue
+import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import com.enricog.features.routines.detail.segment.models.SegmentInputs
 import com.enricog.features.routines.detail.segment.models.SegmentViewState
 import com.enricog.features.routines.detail.segment.ui_components.SegmentErrorScene
@@ -16,7 +17,7 @@ import com.enricog.ui.components.toolbar.TempoToolbar
 
 @Composable
 internal fun SegmentScreen(viewModel: SegmentViewModel) {
-    val viewState by viewModel.viewState.collectAsState(SegmentViewState.Idle)
+    val viewState by viewModel.viewState.collectAsStateWithLifecycle(SegmentViewState.Idle)
     val fieldInputs = viewModel.fieldInputs
     TempoScreenScaffold {
         TempoToolbar(onBack = viewModel::onSegmentBack)

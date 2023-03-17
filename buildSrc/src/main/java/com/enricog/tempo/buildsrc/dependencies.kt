@@ -86,6 +86,7 @@ object Libs {
 
         const val viewModelKtx = "androidx.lifecycle:lifecycle-viewmodel-ktx:$version"
         const val commonJava8 = "androidx.lifecycle:lifecycle-common-java8:$version"
+        const val compose = "androidx.lifecycle:lifecycle-runtime-compose:$version"
     }
 
     object Hilt {
