@@ -1,6 +1,5 @@
 package com.enricog.features.routines.list
 
-import androidx.compose.runtime.Immutable
 import androidx.lifecycle.viewModelScope
 import com.enricog.base.viewmodel.BaseViewModel
 import com.enricog.core.coroutines.dispatchers.CoroutineDispatchers
@@ -31,7 +30,6 @@ import kotlinx.coroutines.flow.launchIn
 import kotlinx.coroutines.flow.onEach
 import javax.inject.Inject
 
-@Immutable
 @HiltViewModel
 internal class RoutinesViewModel @Inject constructor(
     dispatchers: CoroutineDispatchers,
