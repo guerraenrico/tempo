@@ -48,13 +48,13 @@ jobs:
 #        run: ./gradlew assembleDebug --stacktrace
 
       - name: Run unit-tests
-        run: ./gradlew test testDebugUnitTest
+        run: ./gradlew testDebug
 
       - name: Run instrument-tests
         uses: reactivecircus/android-emulator-runner@v2.27.0
         with:
           api-level: 29
-          script: ./gradlew connectedAndroidTest
+          script: ./gradlew connectedDebugAndroidTest
 
       - name: Clean secrets
         if: always()

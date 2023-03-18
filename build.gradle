@@ -38,6 +38,18 @@ allprojects {
 }
 
 subprojects {
+
+    tasks.withType(Test) {
+        testLogging {
+            exceptionFormat "full"
+            events "started", "skipped", "passed", "failed"
+            showStandardStreams true
+        }
+        test {
+            failFast = true
+        }
+    }
+
     tasks.withType(org.jetbrains.kotlin.gradle.tasks.KotlinCompile).configureEach {
         kotlinOptions {
             // Enable experimental coroutines APIs, including Flow

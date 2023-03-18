@@ -121,6 +121,9 @@ internal class TimerViewModel @Inject constructor(
                 stopCounting()
                 onStepCountCompleted()
             }
+            else -> {
+                stopCounting()
+            }
         }
     }
 
