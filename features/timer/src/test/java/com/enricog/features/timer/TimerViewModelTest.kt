@@ -137,6 +137,7 @@ class TimerViewModelTest {
             assertThat(awaitItem()).isEqualTo(expectedOnStart)
 
             windowScreenManager.keepScreenOn.test {
+                runCurrent()
                 advanceTimeBy(50)
                 runCurrent()
 
