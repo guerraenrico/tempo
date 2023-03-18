@@ -143,9 +143,6 @@ class TimerViewModelTest {
 
                 assertThat(awaitItem()).isTrue()
                 cancelAndIgnoreRemainingEvents()
-
-                assertThat(awaitItem()).isTrue()
-                cancelAndIgnoreRemainingEvents()
             }
 
             cancelAndIgnoreRemainingEvents()
