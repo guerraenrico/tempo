@@ -7,6 +7,7 @@ jobs:
 
   tests:
     runs-on: macOS-latest
+    timeout-minutes: 40
     env:
       ORG_GRADLE_PROJECT_SERVICE_ACCOUNT_FILE_PATH: ${{ secrets.TEMPO_SERVICE_ACCOUNT_FILE_PATH }}
       ORG_GRADLE_PROJECT_KEY_STORE_FILE_PATH: ${{ secrets.TEMPO_KEY_STORE_FILE_PATH }}
