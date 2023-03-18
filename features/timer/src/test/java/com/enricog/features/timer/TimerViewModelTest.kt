@@ -14,6 +14,7 @@ import com.enricog.entities.seconds
 import com.enricog.features.timer.fakes.FakeWindowScreenManager
 import com.enricog.features.timer.models.TimerViewState
 import com.enricog.features.timer.models.TimerViewState.Counting.BackgroundColor
+import com.enricog.features.timer.models.TimerViewState.Idle
 import com.enricog.features.timer.navigation.TimerNavigationActions
 import com.enricog.features.timer.usecase.TimerUseCase
 import com.enricog.libraries.sound.testing.FakeSoundPlayer
@@ -128,9 +129,11 @@ class TimerViewModelTest {
         val viewModel = buildViewModel()
 
         viewModel.viewState.test {
-            advanceTimeBy(50)
+            runCurrent()
+            assertThat(awaitItem()).isEqualTo(Idle)
             assertThat(awaitItem()).isEqualTo(expectedOnSetup)
             advanceTimeBy(1000)
+            runCurrent()
             assertThat(awaitItem()).isEqualTo(expectedOnStart)
 
             windowScreenManager.keepScreenOn.test {
@@ -152,6 +155,7 @@ class TimerViewModelTest {
             val viewModel = buildViewModel()
 
             viewModel.viewState.test {
+                runCurrent()
                 advanceTimeBy(1000)
 
                 advanceTimeBy(3000)
@@ -181,6 +185,7 @@ class TimerViewModelTest {
             val viewModel = buildViewModel()
 
             viewModel.viewState.test {
+                runCurrent()
                 advanceTimeBy(1000)
 
                 viewModel.onPlay()
@@ -242,9 +247,8 @@ class TimerViewModelTest {
 
             viewModel.onPlay()
 
-            advanceTimeBy(100)
+            runCurrent()
             assertThat(expectMostRecentItem()).isEqualTo(expected)
-            advanceTimeBy(100)
             windowScreenManager.keepScreenOn.test {
                 assertThat(awaitItem()).isFalse()
             }
@@ -285,11 +289,12 @@ class TimerViewModelTest {
         val viewModel = buildViewModel()
 
         viewModel.viewState.test {
+            runCurrent()
             advanceTimeBy(3000)
 
             viewModel.onBack()
 
-            advanceTimeBy(100)
+            runCurrent()
             assertThat(expectMostRecentItem()).isEqualTo(expected)
 
             cancelAndIgnoreRemainingEvents()
@@ -328,11 +333,12 @@ class TimerViewModelTest {
         val viewModel = buildViewModel()
 
         viewModel.viewState.test {
+            runCurrent()
             advanceTimeBy(3000)
 
             viewModel.onNext()
 
-            advanceTimeBy(100)
+            runCurrent()
             assertThat(expectMostRecentItem()).isEqualTo(expected)
 
             cancelAndIgnoreRemainingEvents()
@@ -398,6 +404,7 @@ class TimerViewModelTest {
         val viewModel = buildViewModel()
 
         viewModel.viewState.test {
+            runCurrent()
             advanceTimeBy(5000)
 
             advanceTimeBy(1000)
@@ -405,7 +412,7 @@ class TimerViewModelTest {
 
             viewModel.onReset()
 
-            advanceTimeBy(100)
+            runCurrent()
             assertThat(awaitItem()).isEqualTo(expectedStart)
 
             cancelAndIgnoreRemainingEvents()

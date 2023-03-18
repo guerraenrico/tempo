@@ -22,7 +22,7 @@ object Versions {
 object Libs {
 
     object Kotlin {
-        const val version = "1.8.0"
+        const val version = "1.8.10"
         private const val coroutineVersion = "1.6.4"
 
         const val coroutines = "org.jetbrains.kotlinx:kotlinx-coroutines-android:$coroutineVersion"
@@ -47,7 +47,7 @@ object Libs {
         }
 
         object Compose {
-            const val compilerVersion = "1.4.0"
+            const val compilerVersion = "1.4.2"
             private const val version = "2023.01.00"
 
             const val bom = "androidx.compose:compose-bom:$version"
@@ -82,14 +82,15 @@ object Libs {
     }
 
     object Lifecycle {
-        private const val version = "2.5.1"
+        private const val version = "2.6.0"
 
         const val viewModelKtx = "androidx.lifecycle:lifecycle-viewmodel-ktx:$version"
         const val commonJava8 = "androidx.lifecycle:lifecycle-common-java8:$version"
+        const val compose = "androidx.lifecycle:lifecycle-runtime-compose:$version"
     }
 
     object Hilt {
-        const val androidVersion = "2.44.2"
+        const val androidVersion = "2.45"
         private const val version = "1.0.0"
 
         const val android = "com.google.dagger:hilt-android:$androidVersion"
@@ -102,7 +103,7 @@ object Libs {
     }
 
     object Room {
-        private const val version = "2.4.3"
+        private const val version = "2.5.0"
 
         const val runtime = "androidx.room:room-runtime:$version"
         const val compiler = "androidx.room:room-compiler:$version"
@@ -124,7 +125,7 @@ object Libs {
     }
 
     object Firebase {
-        private const val version = "31.1.1"
+        private const val version = "31.2.3"
 
         const val bom = "com.google.firebase:firebase-bom:$version"
         const val crashlytics = "com.google.firebase:firebase-crashlytics-ktx"

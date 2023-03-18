@@ -14,7 +14,6 @@ import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.statusBars
 import androidx.compose.foundation.layout.windowInsetsPadding
 import androidx.compose.runtime.Composable
-import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
@@ -22,6 +21,7 @@ import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.zIndex
+import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import com.enricog.features.timer.models.TimerViewState
 import com.enricog.features.timer.ui_components.TimerCloseDialog
 import com.enricog.features.timer.ui_components.TimerCompletedScene
@@ -31,7 +31,7 @@ import com.enricog.features.timer.ui_components.TimerToolbar
 
 @Composable
 internal fun TimerScreen(viewModel: TimerViewModel) {
-    val viewState by viewModel.viewState.collectAsState(TimerViewState.Idle)
+    val viewState by viewModel.viewState.collectAsStateWithLifecycle(TimerViewState.Idle)
     var showCloseDialog by remember { mutableStateOf(false) }
 
     Box(modifier = Modifier.fillMaxSize()) {
