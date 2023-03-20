@@ -1,6 +1,6 @@
 package com.enricog.features.timer.models
 
 enum class SegmentStepType {
-    STARTING,
+    PREPARATION,
     IN_PROGRESS
 }

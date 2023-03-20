@@ -355,14 +355,14 @@ class TimerStateConverterTest {
                 runningStep = SegmentStep(
                     id = 0,
                     count = Count(seconds = 5.seconds, isRunning = true, isCompleted = true),
-                    type = SegmentStepType.STARTING,
+                    type = SegmentStepType.PREPARATION,
                     segment = Segment.EMPTY.copy(name = "segment name", type = TimeType.STOPWATCH)
                 ),
                 steps = listOf(
                     SegmentStep(
                         id = 0,
                         count = Count(seconds = 0.seconds, isRunning = true, isCompleted = true),
-                        type = SegmentStepType.STARTING,
+                        type = SegmentStepType.PREPARATION,
                         segment = Segment.EMPTY.copy(name = "segment name", type = TimeType.STOPWATCH)
                     ),
                     SegmentStep(
@@ -430,7 +430,7 @@ class TimerStateConverterTest {
                     SegmentStep(
                         id = 0,
                         count = Count(seconds = 5.seconds, isRunning = false, isCompleted = false),
-                        type = SegmentStepType.STARTING,
+                        type = SegmentStepType.PREPARATION,
                         segment = Segment.EMPTY.copy(name = "segment name stopwatch", type = TimeType.STOPWATCH)
                     ),
                     SegmentStep(
@@ -442,7 +442,7 @@ class TimerStateConverterTest {
                     SegmentStep(
                         id = 2,
                         count = Count(seconds = 5.seconds, isRunning = false, isCompleted = false),
-                        type = SegmentStepType.STARTING,
+                        type = SegmentStepType.PREPARATION,
                         segment = Segment.EMPTY.copy(name = "segment name timer", type = TimeType.TIMER)
                     ),
                     SegmentStep(
@@ -508,7 +508,7 @@ class TimerStateConverterTest {
                 SegmentStep(
                     id = 1,
                     count = Count(seconds = 5.seconds, isRunning = false, isCompleted = false),
-                    type = SegmentStepType.STARTING,
+                    type = SegmentStepType.PREPARATION,
                     segment = Segment.EMPTY.copy(name = "segment name timer", type = TimeType.TIMER)
                 ),
                 SegmentStep(

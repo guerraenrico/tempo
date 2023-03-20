@@ -47,7 +47,7 @@ internal class TimerStateConverter @Inject constructor(
     private fun TimerState.Counting.getClockBackgroundColor(): BackgroundColor {
         val nextSegmentStep = nextSegmentStep
         return when (runningStep.type) {
-            SegmentStepType.STARTING -> BackgroundColor(
+            SegmentStepType.PREPARATION -> BackgroundColor(
                 background = runningStep.type.getColor(),
                 ripple = when {
                     isStepCountCompleted -> runningSegment.type.getColor()
@@ -58,7 +58,7 @@ internal class TimerStateConverter @Inject constructor(
                 background = runningSegment.type.getColor(),
                 ripple = when {
                     isStepCountCompleted -> when {
-                        nextSegmentStep?.type == SegmentStepType.STARTING ->
+                        nextSegmentStep?.type == SegmentStepType.PREPARATION ->
                             nextSegmentStep.type.getColor()
                         runningSegment.type == nextSegment?.type ->
                             Color(red = 255, green = 255, blue = 255, alpha = 30)
@@ -73,7 +73,7 @@ internal class TimerStateConverter @Inject constructor(
 
     private fun SegmentStepType.getColor(): Color {
         return when (this) {
-            SegmentStepType.STARTING -> TimeTypeColors.STARTING
+            SegmentStepType.PREPARATION -> TimeTypeColors.STARTING
             else -> throw IllegalArgumentException("unhandled case")
         }
     }
@@ -90,7 +90,7 @@ internal class TimerStateConverter @Inject constructor(
     private fun TimerState.Counting.getStepTitleId(): Int {
         return when {
             runningSegment.type == TimeType.REST -> R.string.title_segment_time_type_rest
-            runningStep.type == SegmentStepType.STARTING -> R.string.title_segment_step_type_starting
+            runningStep.type == SegmentStepType.PREPARATION -> R.string.title_segment_step_type_starting
             runningStep.type == SegmentStepType.IN_PROGRESS -> R.string.title_segment_step_type_in_progress
             else -> throw IllegalArgumentException("unhandled case")
         }

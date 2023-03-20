@@ -20,11 +20,16 @@ class FakeSoundPlayer : SoundPlayer {
         playedSounds.clear()
     }
 
-    fun assertSoundPlayed(soundResId: Int, times: Int) {
+    fun assertSoundPlayed(soundResId: Int, times: Int = 1) {
+        require(times >= 1)
         assertThat(playedSounds).containsEntry(soundResId, times)
     }
 
     fun assertSoundNotPlayed(soundResId: Int) {
         assertThat(playedSounds).doesNotContainKey(soundResId)
+    }
+
+    fun assertNoSoundHasPlayed() {
+        assertThat(playedSounds).isEmpty()
     }
 }

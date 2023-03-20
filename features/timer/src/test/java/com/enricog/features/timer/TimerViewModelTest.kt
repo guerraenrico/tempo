@@ -50,7 +50,7 @@ class TimerViewModelTest {
     private val secondSegment = Segment.EMPTY.copy(
         id = 2.asID,
         name = "Second Segment",
-        time = 4.seconds,
+        time = 8.seconds,
         type = TimeType.TIMER
     )
     private val routine = Routine.EMPTY.copy(
@@ -136,80 +136,84 @@ class TimerViewModelTest {
             runCurrent()
             assertThat(awaitItem()).isEqualTo(expectedOnStart)
 
-            windowScreenManager.keepScreenOn.test {
-                runCurrent()
-                advanceTimeBy(50)
-                runCurrent()
+            cancelAndIgnoreRemainingEvents()
+        }
+    }
 
-                assertThat(awaitItem()).isTrue()
-                cancelAndIgnoreRemainingEvents()
-            }
+    @Test
+    fun `should play sounds when segment count is completing and sound is enabled`() = coroutineRule {
+        val viewModel = buildViewModel()
+
+        viewModel.viewState.test {
+            runCurrent()
+            advanceTimeBy(1000)
+            runCurrent()
+
+            // Preparation time
+            soundPlayer.assertSoundPlayed(soundResId = R.raw.speech_prepare, times = 1)
+            advanceTimeBy(3000)
+            // When segment starting is completing should play sounds
+            soundPlayer.assertSoundPlayed(soundResId = R.raw.sound_count_down, times = 2)
+            advanceTimeBy(1000)
+            soundPlayer.assertSoundPlayed(soundResId = R.raw.sound_count_down_end, times = 1)
+            advanceTimeBy(1000)
+            soundPlayer.assertSoundPlayed(soundResId = R.raw.speech_go, times = 1)
+            soundPlayer.close()
+
+            // Start first segment
+            advanceTimeBy(4000)
+            // When segment count is not completing should not play sounds
+            soundPlayer.assertNoSoundHasPlayed()
+            soundPlayer.close()
+
+            // Complete first segment
+            advanceTimeBy(5000)
+            // When segment count is completing should play sounds
+            soundPlayer.assertSoundPlayed(soundResId = R.raw.sound_count_down, times = 5)
+            advanceTimeBy(1000)
+            soundPlayer.assertSoundPlayed(soundResId = R.raw.sound_count_down_end, times = 1)
+            advanceTimeBy(1000)
+            soundPlayer.assertSoundPlayed(soundResId = R.raw.speech_prepare, times = 1)
 
             cancelAndIgnoreRemainingEvents()
         }
     }
 
     @Test
-    fun `should play sounds when segment count is completing and sound is enabled`() =
-        coroutineRule {
-            val viewModel = buildViewModel()
+    fun `should not play sounds when segment count is completing and sound is disabled`() = coroutineRule {
+        val viewModel = buildViewModel()
 
-            viewModel.viewState.test {
-                runCurrent()
-                advanceTimeBy(1000)
+        viewModel.viewState.test {
+            runCurrent()
+            advanceTimeBy(1000)
 
-                advanceTimeBy(3000)
-                // When segment starting is completing should play sounds
-                soundPlayer.assertSoundPlayed(soundResId = R.raw.sound_count_down, times = 2)
-                advanceTimeBy(1000)
-                soundPlayer.assertSoundPlayed(soundResId = R.raw.sound_count_down_end, times = 1)
+            viewModel.onPlay()
+            runCurrent()
 
-                advanceTimeBy(5000)
-                // When segment count is not completing should not play sounds
-                soundPlayer.assertSoundPlayed(soundResId = R.raw.sound_count_down, times = 2)
-                soundPlayer.assertSoundPlayed(soundResId = R.raw.sound_count_down_end, times = 1)
+            // Preparation time
+            soundPlayer.assertNoSoundHasPlayed()
+            advanceTimeBy(3000)
+            soundPlayer.assertNoSoundHasPlayed()
+            advanceTimeBy(1000)
+            soundPlayer.assertNoSoundHasPlayed()
+            advanceTimeBy(1000)
+            soundPlayer.assertNoSoundHasPlayed()
 
-                advanceTimeBy(5000)
-                // When segment count is completing should play sounds
-                soundPlayer.assertSoundPlayed(soundResId = R.raw.sound_count_down, times = 7)
-                advanceTimeBy(1000)
-                soundPlayer.assertSoundPlayed(soundResId = R.raw.sound_count_down_end, times = 2)
+            // Start first segment
+            advanceTimeBy(4000)
+            soundPlayer.assertNoSoundHasPlayed()
 
-                cancelAndIgnoreRemainingEvents()
-            }
+            // Complete first segment
+            advanceTimeBy(5000)
+            soundPlayer.assertNoSoundHasPlayed()
+            advanceTimeBy(1000)
+            soundPlayer.assertNoSoundHasPlayed()
+            advanceTimeBy(1000)
+            soundPlayer.assertNoSoundHasPlayed()
+
+            cancelAndIgnoreRemainingEvents()
         }
-
-    @Test
-    fun `should not play sounds when segment count is completing and sound is disabled`() =
-        coroutineRule {
-            val viewModel = buildViewModel()
-
-            viewModel.viewState.test {
-                runCurrent()
-                advanceTimeBy(1000)
-
-                viewModel.onPlay()
-
-                advanceTimeBy(3000)
-                // When segment starting is completing should not play sounds
-                soundPlayer.assertSoundNotPlayed(soundResId = R.raw.sound_count_down)
-                advanceTimeBy(1000)
-                soundPlayer.assertSoundNotPlayed(soundResId = R.raw.sound_count_down_end)
-
-                advanceTimeBy(5000)
-                // When segment count is not completing should not play sounds
-                soundPlayer.assertSoundNotPlayed(soundResId = R.raw.sound_count_down)
-                soundPlayer.assertSoundNotPlayed(soundResId = R.raw.sound_count_down_end)
-
-                advanceTimeBy(5000)
-                // When segment count is completing should not play sounds
-                soundPlayer.assertSoundNotPlayed(soundResId = R.raw.sound_count_down)
-                advanceTimeBy(1000)
-                soundPlayer.assertSoundNotPlayed(soundResId = R.raw.sound_count_down_end)
-
-                cancelAndIgnoreRemainingEvents()
-            }
-        }
+    }
 
     @Test
     fun `should stop routine on toggle when timer is running`() = coroutineRule {
@@ -444,9 +448,9 @@ class TimerViewModelTest {
             converter = TimerStateConverter(clock = clock),
             reducer = TimerReducer(clock = clock),
             timerUseCase = TimerUseCase(routineDataSource = FakeRoutineDataSource(store = store)),
-            navigationActions = TimerNavigationActions(navigator),
+            navigationActions = TimerNavigationActions(navigator = navigator),
             windowScreenManager = windowScreenManager,
-            soundPlayer = soundPlayer
+            soundPlayer = TimerSoundPlayer(soundPlayer = soundPlayer)
         )
     }
 }
