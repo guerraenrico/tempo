@@ -1,6 +1,5 @@
 package com.enricog.core.date.api
 
-import android.annotation.SuppressLint
 import dagger.Module
 import dagger.Provides
 import dagger.hilt.InstallIn
@@ -11,7 +10,6 @@ import java.time.Clock
 @InstallIn(SingletonComponent::class)
 class DateApiModule {
 
-    @SuppressLint("NewApi")
     @Provides
     fun provideClock(): Clock = Clock.systemDefaultZone()
 }

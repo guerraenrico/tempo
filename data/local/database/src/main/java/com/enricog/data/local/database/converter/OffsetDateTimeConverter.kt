@@ -1,6 +1,5 @@
 package com.enricog.data.local.database.converter
 
-import android.annotation.SuppressLint
 import androidx.room.TypeConverter
 import java.time.OffsetDateTime
 
@@ -11,7 +10,6 @@ internal object OffsetDateTimeConverter {
         return offsetDateTime.toString()
     }
 
-    @SuppressLint("NewApi")
     @TypeConverter
     @JvmStatic
     fun toDateTime(offsetDateTime: String): OffsetDateTime {

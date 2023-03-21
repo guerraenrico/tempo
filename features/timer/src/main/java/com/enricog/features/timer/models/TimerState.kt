@@ -1,6 +1,5 @@
 package com.enricog.features.timer.models
 
-import android.annotation.SuppressLint
 import com.enricog.data.routines.api.entities.Routine
 import com.enricog.data.routines.api.entities.Segment
 import com.enricog.data.routines.api.entities.TimeType
@@ -51,7 +50,6 @@ internal sealed class TimerState {
                 runningStep.type == SegmentStepType.IN_PROGRESS &&
                 isStepCountRunning
 
-        @SuppressLint("NewApi")
         fun effectiveTotalSeconds(clock: Clock): Seconds {
             val difference = Duration.between(startedAt, OffsetDateTime.now(clock))
             return Seconds.from(difference.seconds)

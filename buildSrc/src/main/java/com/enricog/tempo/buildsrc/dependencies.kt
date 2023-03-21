@@ -120,10 +120,6 @@ object Libs {
         const val checks = "com.android.tools.lint:lint-checks:$version"
     }
 
-    object Tools {
-        const val desugar = "com.android.tools:desugar_jdk_libs:1.1.8"
-    }
-
     object Firebase {
         private const val version = "31.2.3"
 
