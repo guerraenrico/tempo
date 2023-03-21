@@ -378,7 +378,7 @@ class TimerStateConverterTest {
             )
             val expected = TimerViewState.Counting(
                 timeInSeconds = 5,
-                stepTitleId = R.string.title_segment_step_type_starting,
+                stepTitleId = R.string.title_segment_step_type_preparation,
                 segmentName = "segment name",
                 clockBackgroundColor = BackgroundColor(
                     background = TimeTypeColors.STARTING,

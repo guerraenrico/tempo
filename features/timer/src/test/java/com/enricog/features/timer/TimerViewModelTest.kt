@@ -74,7 +74,7 @@ class TimerViewModelTest {
     fun `on init should setup routine and start count down`() = coroutineRule {
         val expectedOnSetup = TimerViewState.Counting(
             timeInSeconds = 3,
-            stepTitleId = R.string.title_segment_step_type_starting,
+            stepTitleId = R.string.title_segment_step_type_preparation,
             segmentName = "First Segment",
             clockBackgroundColor = BackgroundColor(
                 background = TimeTypeColors.STARTING,
@@ -101,7 +101,7 @@ class TimerViewModelTest {
         )
         val expectedOnStart = TimerViewState.Counting(
             timeInSeconds = 3,
-            stepTitleId = R.string.title_segment_step_type_starting,
+            stepTitleId = R.string.title_segment_step_type_preparation,
             segmentName = "First Segment",
             clockBackgroundColor = BackgroundColor(
                 background = TimeTypeColors.STARTING,
@@ -219,7 +219,7 @@ class TimerViewModelTest {
     fun `should stop routine on toggle when timer is running`() = coroutineRule {
         val expected = TimerViewState.Counting(
             timeInSeconds = 2,
-            stepTitleId = R.string.title_segment_step_type_starting,
+            stepTitleId = R.string.title_segment_step_type_preparation,
             segmentName = "First Segment",
             clockBackgroundColor = BackgroundColor(
                 background = TimeTypeColors.STARTING,
@@ -265,7 +265,7 @@ class TimerViewModelTest {
     fun `should reset step count on back`() = coroutineRule {
         val expected = TimerViewState.Counting(
             timeInSeconds = 3,
-            stepTitleId = R.string.title_segment_step_type_starting,
+            stepTitleId = R.string.title_segment_step_type_preparation,
             segmentName = "First Segment",
             clockBackgroundColor = BackgroundColor(
                 background = TimeTypeColors.STARTING,
@@ -353,7 +353,7 @@ class TimerViewModelTest {
     fun `should restart routine on reset`() = coroutineRule {
         val expectedStart = TimerViewState.Counting(
             timeInSeconds = 3,
-            stepTitleId = R.string.title_segment_step_type_starting,
+            stepTitleId = R.string.title_segment_step_type_preparation,
             segmentName = "First Segment",
             clockBackgroundColor = BackgroundColor(
                 background = TimeTypeColors.STARTING,

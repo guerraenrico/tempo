@@ -3,7 +3,7 @@
     <string name="button_done">DONE</string>
     <string name="button_reset">RESET</string>
 
-    <string name="title_segment_step_type_starting">STARTING</string>
+    <string name="title_segment_step_type_preparation">PREPARE</string>
     <string name="title_segment_step_type_in_progress">GO</string>
     <string name="title_segment_time_type_rest">REST</string>
     <string name="title_routine_completed">Completed</string>

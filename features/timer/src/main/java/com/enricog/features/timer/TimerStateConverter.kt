@@ -90,7 +90,7 @@ internal class TimerStateConverter @Inject constructor(
     private fun TimerState.Counting.getStepTitleId(): Int {
         return when {
             runningSegment.type == TimeType.REST -> R.string.title_segment_time_type_rest
-            runningStep.type == SegmentStepType.PREPARATION -> R.string.title_segment_step_type_starting
+            runningStep.type == SegmentStepType.PREPARATION -> R.string.title_segment_step_type_preparation
             runningStep.type == SegmentStepType.IN_PROGRESS -> R.string.title_segment_step_type_in_progress
             else -> throw IllegalArgumentException("unhandled case")
         }
