@@ -13,7 +13,7 @@ object Versions {
     const val appVersionName: String = "$versionMajor.$versionMinor.$versionPatch"
 
     const val compileSdk = 33
-    const val minSdk = 24
+    const val minSdk = 28
     const val targetSdk = 33
 
     const val jvmTarget = "1.8"
