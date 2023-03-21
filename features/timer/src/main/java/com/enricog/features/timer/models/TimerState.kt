@@ -5,7 +5,6 @@ import com.enricog.data.routines.api.entities.Routine
 import com.enricog.data.routines.api.entities.Segment
 import com.enricog.data.routines.api.entities.TimeType
 import com.enricog.entities.Seconds
-import com.enricog.entities.seconds
 import java.time.Clock
 import java.time.Duration
 import java.time.OffsetDateTime
@@ -44,10 +43,6 @@ internal sealed class TimerState {
         val isStepCountCompleted: Boolean
             get() = runningStep.count.isCompleted
 
-        val isStepCountCompleting: Boolean
-            get() = isStepCountRunning && !isStopwatchRunning &&
-                runningStep.count.seconds <= STEP_COMPLETING_THRESHOLD
-
         val isRoutineCompleted: Boolean
             get() = nextSegment == null && runningStep.count.isCompleted
 
@@ -60,10 +55,6 @@ internal sealed class TimerState {
         fun effectiveTotalSeconds(clock: Clock): Seconds {
             val difference = Duration.between(startedAt, OffsetDateTime.now(clock))
             return Seconds.from(difference.seconds)
-        }
-
-        private companion object {
-            val STEP_COMPLETING_THRESHOLD = 5.seconds
         }
     }
 
