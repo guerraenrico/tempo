@@ -1,6 +1,5 @@
 package com.enricog.data.local.database.routines
 
-import android.annotation.SuppressLint
 import com.enricog.data.local.database.TempoDatabase
 import com.enricog.data.local.database.routines.model.InternalRoutineWithSegments
 import com.enricog.data.local.database.routines.model.toInternal
@@ -16,7 +15,6 @@ import kotlinx.coroutines.yield
 import java.time.OffsetDateTime
 import javax.inject.Inject
 
-@SuppressLint("NewApi")
 internal class RoutineDataSourceImpl @Inject constructor(
     private val database: TempoDatabase
 ) : RoutineDataSource {

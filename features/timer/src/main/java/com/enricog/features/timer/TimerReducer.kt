@@ -1,6 +1,5 @@
 package com.enricog.features.timer
 
-import android.annotation.SuppressLint
 import com.enricog.data.routines.api.entities.Routine
 import com.enricog.data.routines.api.entities.TimeType
 import com.enricog.entities.seconds
@@ -15,7 +14,6 @@ import kotlin.math.max
 
 internal class TimerReducer @Inject constructor(private val clock: Clock) {
 
-    @SuppressLint("NewApi")
     fun setup(state: TimerState, routine: Routine): TimerState {
         val steps = buildList {
             fun generateId(): () -> Int {

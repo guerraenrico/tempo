@@ -13,7 +13,7 @@ object Versions {
     const val appVersionName: String = "$versionMajor.$versionMinor.$versionPatch"
 
     const val compileSdk = 33
-    const val minSdk = 24
+    const val minSdk = 28
     const val targetSdk = 33
 
     const val jvmTarget = "1.8"
@@ -118,10 +118,6 @@ object Libs {
 
         const val api = "com.android.tools.lint:lint-api:$version"
         const val checks = "com.android.tools.lint:lint-checks:$version"
-    }
-
-    object Tools {
-        const val desugar = "com.android.tools:desugar_jdk_libs:1.1.8"
     }
 
     object Firebase {
