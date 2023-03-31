@@ -1,7 +1,6 @@
 *.iml
 .gradle
 /captures
-app/google-services.json
 buildSrc/build
 build
 
