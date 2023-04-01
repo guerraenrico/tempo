@@ -13,11 +13,14 @@ import com.enricog.data.local.database.routines.dao.RoutineDao
 import com.enricog.data.local.database.routines.dao.SegmentDao
 import com.enricog.data.local.database.routines.model.InternalRoutine
 import com.enricog.data.local.database.routines.model.InternalSegment
+import com.enricog.data.local.database.timer.theme.dao.TimerThemeDao
+import com.enricog.data.local.database.timer.theme.model.InternalTimerTheme
 
 @Database(
     entities = [
         InternalRoutine::class,
         InternalSegment::class,
+        InternalTimerTheme::class
     ],
     version = 3
 )
@@ -30,6 +33,8 @@ internal abstract class TempoDatabase : RoomDatabase() {
     abstract fun routineDao(): RoutineDao
 
     abstract fun segmentDao(): SegmentDao
+
+    abstract fun timerThemeDao(): TimerThemeDao
 
     companion object {
         private var INSTANCE: TempoDatabase? = null
