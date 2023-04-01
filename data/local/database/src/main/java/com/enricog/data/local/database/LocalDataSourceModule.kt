@@ -10,6 +10,7 @@ import dagger.Provides
 import dagger.hilt.InstallIn
 import dagger.hilt.android.qualifiers.ApplicationContext
 import dagger.hilt.components.SingletonComponent
+import kotlinx.serialization.json.Json
 import javax.inject.Singleton
 
 @InstallIn(SingletonComponent::class)
@@ -19,7 +20,7 @@ object LocalDataSourceModule {
     @Provides
     @Singleton
     internal fun provideDatabase(@ApplicationContext context: Context): TempoDatabase {
-        return TempoDatabase.getInstance(context)
+        return TempoDatabase.getInstance(context = context, json = Json)
     }
 
     @Provides

@@ -5,6 +5,8 @@ import androidx.room.Entity
 import androidx.room.PrimaryKey
 import com.enricog.core.entities.ID
 import com.enricog.data.timer.api.theme.entities.TimerTheme
+import kotlinx.serialization.SerialName
+import kotlinx.serialization.Serializable
 import java.time.OffsetDateTime
 
 @Entity(tableName = "TimerThemes")
@@ -32,6 +34,7 @@ internal data class InternalTimerTheme(
         )
     }
 
+    @Serializable
     data class InternalResource(
         val background: InternalAsset,
         val onBackground: InternalAsset.Color
@@ -45,7 +48,11 @@ internal data class InternalTimerTheme(
         }
     }
 
+    @Serializable
     sealed class InternalAsset {
+
+        @Serializable
+        @SerialName("color")
         data class Color(val argb: Long) : InternalAsset()
 
         fun toEntity(): TimerTheme.Asset {

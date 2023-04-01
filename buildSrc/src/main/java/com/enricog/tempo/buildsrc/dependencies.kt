@@ -24,9 +24,11 @@ object Libs {
     object Kotlin {
         const val version = "1.8.10"
         private const val coroutineVersion = "1.6.4"
+        private const val serializationVersion = "1.5.0"
 
         const val coroutines = "org.jetbrains.kotlinx:kotlinx-coroutines-android:$coroutineVersion"
         const val stdlib = "org.jetbrains.kotlin:kotlin-stdlib:$version"
+        const val serialization = "org.jetbrains.kotlinx:kotlinx-serialization-json:$serializationVersion"
 
         object Test {
             const val coroutines = "org.jetbrains.kotlinx:kotlinx-coroutines-test:$coroutineVersion"
