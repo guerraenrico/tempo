@@ -8,9 +8,9 @@ import androidx.room.Index
 import androidx.room.PrimaryKey
 import com.enricog.data.routines.api.entities.Segment
 import com.enricog.data.routines.api.entities.TimeType
-import com.enricog.entities.ID
-import com.enricog.entities.Rank
-import com.enricog.entities.seconds
+import com.enricog.core.entities.ID
+import com.enricog.core.entities.Rank
+import com.enricog.core.entities.seconds
 
 @Entity(
     tableName = "Segments",

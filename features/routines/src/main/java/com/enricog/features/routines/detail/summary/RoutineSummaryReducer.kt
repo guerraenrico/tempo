@@ -1,7 +1,7 @@
 package com.enricog.features.routines.detail.summary
 
 import com.enricog.data.routines.api.entities.Routine
-import com.enricog.entities.ID
+import com.enricog.core.entities.ID
 import com.enricog.features.routines.detail.summary.models.RoutineSummaryField
 import com.enricog.features.routines.detail.summary.models.RoutineSummaryFieldError
 import com.enricog.features.routines.detail.summary.models.RoutineSummaryState

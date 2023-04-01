@@ -5,9 +5,9 @@ import com.enricog.data.local.testing.FakeStore
 import com.enricog.data.routines.api.entities.Routine
 import com.enricog.data.routines.testing.FakeRoutineDataSource
 import com.enricog.data.routines.testing.entities.EMPTY
-import com.enricog.entities.ID
-import com.enricog.entities.Rank
-import com.enricog.entities.asID
+import com.enricog.core.entities.ID
+import com.enricog.core.entities.Rank
+import com.enricog.core.entities.asID
 import com.google.common.truth.Truth.assertThat
 import org.junit.Rule
 import org.junit.Test

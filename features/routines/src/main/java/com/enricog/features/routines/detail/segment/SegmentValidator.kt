@@ -1,7 +1,7 @@
 package com.enricog.features.routines.detail.segment
 
 import com.enricog.data.routines.api.entities.TimeType
-import com.enricog.entities.seconds
+import com.enricog.core.entities.seconds
 import com.enricog.features.routines.detail.segment.models.SegmentField
 import com.enricog.features.routines.detail.segment.models.SegmentFieldError
 import com.enricog.features.routines.detail.segment.models.SegmentInputs

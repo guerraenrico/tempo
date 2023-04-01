@@ -1,7 +1,7 @@
 package com.enricog.features.routines.list.models
 
 import com.enricog.data.routines.api.entities.Routine
-import com.enricog.entities.ID
+import com.enricog.core.entities.ID
 
 internal sealed class RoutinesState {
 

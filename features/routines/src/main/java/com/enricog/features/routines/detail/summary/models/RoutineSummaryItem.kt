@@ -3,7 +3,7 @@ package com.enricog.features.routines.detail.summary.models
 import androidx.compose.runtime.Stable
 import com.enricog.core.compose.api.classes.ImmutableMap
 import com.enricog.data.routines.api.entities.Segment
-import com.enricog.entities.ID
+import com.enricog.core.entities.ID
 import com.enricog.features.routines.detail.ui.time_type.TimeType
 import com.enricog.ui.components.textField.TimeText
 import com.enricog.ui.components.textField.timeText

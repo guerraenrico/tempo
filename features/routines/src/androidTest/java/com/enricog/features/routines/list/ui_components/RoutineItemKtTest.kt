@@ -7,7 +7,7 @@ import androidx.compose.ui.test.onNodeWithTag
 import androidx.compose.ui.test.onNodeWithText
 import com.enricog.core.compose.api.classes.immutableMapOf
 import com.enricog.core.compose.testing.invoke
-import com.enricog.entities.asID
+import com.enricog.core.entities.asID
 import com.enricog.features.routines.detail.ui.time_type.TimeType
 import com.enricog.features.routines.list.models.RoutinesItem
 import com.enricog.ui.components.textField.timeText

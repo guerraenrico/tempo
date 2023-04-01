@@ -2,9 +2,9 @@ package com.enricog.data.local.database.routines.model
 
 import com.enricog.data.routines.api.entities.Segment
 import com.enricog.data.routines.api.entities.TimeType
-import com.enricog.entities.Rank
-import com.enricog.entities.asID
-import com.enricog.entities.seconds
+import com.enricog.core.entities.Rank
+import com.enricog.core.entities.asID
+import com.enricog.core.entities.seconds
 import com.google.common.truth.Truth.assertThat
 import org.junit.Test
 

@@ -2,7 +2,7 @@ package com.enricog.navigation.api.routes
 
 import androidx.lifecycle.SavedStateHandle
 import androidx.navigation.navOptions
-import com.enricog.entities.asID
+import com.enricog.core.entities.asID
 import com.google.common.truth.Truth.assertThat
 import org.junit.Test
 

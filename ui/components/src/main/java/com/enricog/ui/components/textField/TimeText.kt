@@ -1,8 +1,8 @@
 package com.enricog.ui.components.textField
 
 import androidx.compose.runtime.Immutable
-import com.enricog.entities.Seconds
-import com.enricog.entities.seconds
+import com.enricog.core.entities.Seconds
+import com.enricog.core.entities.seconds
 import kotlin.math.pow
 
 /**

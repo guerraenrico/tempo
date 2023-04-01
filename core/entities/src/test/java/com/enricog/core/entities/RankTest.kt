@@ -1,5 +1,6 @@
-package com.enricog.entities
+package com.enricog.core.entities
 
+import com.enricog.core.entities.Rank
 import com.google.common.truth.Truth.assertThat
 import org.junit.Assert.assertTrue
 import org.junit.Test

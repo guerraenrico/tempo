@@ -1,9 +1,9 @@
 package com.enricog.data.routines.api.entities
 
-import com.enricog.entities.ID
-import com.enricog.entities.Rank
-import com.enricog.entities.Seconds
-import com.enricog.entities.seconds
+import com.enricog.core.entities.ID
+import com.enricog.core.entities.Rank
+import com.enricog.core.entities.Seconds
+import com.enricog.core.entities.seconds
 import java.time.OffsetDateTime
 
 data class Routine(

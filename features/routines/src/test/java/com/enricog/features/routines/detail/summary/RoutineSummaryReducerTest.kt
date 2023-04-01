@@ -3,8 +3,8 @@ package com.enricog.features.routines.detail.summary
 import com.enricog.data.routines.api.entities.Routine
 import com.enricog.data.routines.api.entities.Segment
 import com.enricog.data.routines.testing.entities.EMPTY
-import com.enricog.entities.ID
-import com.enricog.entities.asID
+import com.enricog.core.entities.ID
+import com.enricog.core.entities.asID
 import com.enricog.features.routines.detail.summary.models.RoutineSummaryField
 import com.enricog.features.routines.detail.summary.models.RoutineSummaryFieldError
 import com.enricog.features.routines.detail.summary.models.RoutineSummaryState

@@ -1,6 +1,6 @@
 package com.enricog.features.timer.models
 
-import com.enricog.entities.Seconds
+import com.enricog.core.entities.Seconds
 
 internal data class Count(
     val seconds: Seconds,

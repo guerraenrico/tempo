@@ -28,7 +28,7 @@ import com.enricog.core.compose.api.extensions.stringResourceOrNull
 import com.enricog.core.compose.api.extensions.toPx
 import com.enricog.core.compose.api.modifiers.draggable.listDraggable
 import com.enricog.core.compose.api.modifiers.draggable.rememberListDraggableState
-import com.enricog.entities.ID
+import com.enricog.core.entities.ID
 import com.enricog.features.routines.R
 import com.enricog.features.routines.list.models.RoutinesItem
 import com.enricog.features.routines.list.models.RoutinesViewState.Data.Message

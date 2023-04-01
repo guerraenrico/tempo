@@ -9,7 +9,7 @@ import androidx.navigation.NavType
 import androidx.navigation.compose.composable
 import androidx.navigation.navArgument
 import androidx.navigation.navOptions
-import com.enricog.entities.ID
+import com.enricog.core.entities.ID
 import com.enricog.navigation.api.NavigationAction
 import com.enricog.navigation.api.routes.SegmentRoute.Params.routineId
 import com.enricog.navigation.api.routes.SegmentRoute.Params.segmentId

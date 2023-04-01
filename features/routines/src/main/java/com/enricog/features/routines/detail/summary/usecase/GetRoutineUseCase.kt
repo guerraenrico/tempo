@@ -2,7 +2,7 @@ package com.enricog.features.routines.detail.summary.usecase
 
 import com.enricog.data.routines.api.RoutineDataSource
 import com.enricog.data.routines.api.entities.Routine
-import com.enricog.entities.ID
+import com.enricog.core.entities.ID
 import kotlinx.coroutines.flow.Flow
 import javax.inject.Inject
 

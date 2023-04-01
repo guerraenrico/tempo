@@ -1,7 +1,7 @@
 package com.enricog.features.routines.list
 
 import com.enricog.data.routines.api.entities.Routine
-import com.enricog.entities.ID
+import com.enricog.core.entities.ID
 import com.enricog.features.routines.list.models.RoutinesState
 import com.enricog.features.routines.list.models.RoutinesState.Data.Action.DeleteRoutineError
 import com.enricog.features.routines.list.models.RoutinesState.Data.Action.DeleteRoutineSuccess

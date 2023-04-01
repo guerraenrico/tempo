@@ -5,8 +5,8 @@ import com.enricog.core.compose.api.classes.immutableMapOf
 import com.enricog.core.coroutines.testing.CoroutineRule
 import com.enricog.data.routines.api.entities.Segment
 import com.enricog.data.routines.testing.entities.EMPTY
-import com.enricog.entities.asID
-import com.enricog.entities.seconds
+import com.enricog.core.entities.asID
+import com.enricog.core.entities.seconds
 import com.enricog.features.routines.R
 import com.enricog.features.routines.detail.ui.time_type.TimeType
 import com.enricog.features.routines.list.models.RoutinesItem

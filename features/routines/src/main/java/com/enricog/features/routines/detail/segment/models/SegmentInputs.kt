@@ -3,7 +3,7 @@ package com.enricog.features.routines.detail.segment.models
 import androidx.compose.ui.text.input.TextFieldValue
 import com.enricog.data.routines.api.entities.Segment
 import com.enricog.data.routines.api.entities.TimeType
-import com.enricog.entities.seconds
+import com.enricog.core.entities.seconds
 import com.enricog.ui.components.extensions.toTextFieldValue
 import com.enricog.ui.components.textField.TimeText
 

@@ -4,7 +4,7 @@ import com.enricog.data.routines.api.entities.Routine
 import com.enricog.data.routines.api.entities.Segment
 import com.enricog.data.routines.api.entities.TimeType
 import com.enricog.data.routines.testing.entities.EMPTY
-import com.enricog.entities.seconds
+import com.enricog.core.entities.seconds
 import com.enricog.features.timer.models.Count
 import com.enricog.features.timer.models.SegmentStep
 import com.enricog.features.timer.models.SegmentStepType

@@ -11,9 +11,9 @@ import com.enricog.data.local.database.routines.model.InternalSegment
 import com.enricog.data.routines.api.entities.Routine
 import com.enricog.data.routines.api.entities.Segment
 import com.enricog.data.routines.api.entities.TimeType
-import com.enricog.entities.Rank
-import com.enricog.entities.asID
-import com.enricog.entities.seconds
+import com.enricog.core.entities.Rank
+import com.enricog.core.entities.asID
+import com.enricog.core.entities.seconds
 import com.google.common.truth.Truth.assertThat
 import kotlinx.coroutines.flow.first
 import org.junit.After

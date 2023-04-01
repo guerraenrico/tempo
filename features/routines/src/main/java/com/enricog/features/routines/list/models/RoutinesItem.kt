@@ -4,8 +4,8 @@ import androidx.compose.runtime.Stable
 import com.enricog.core.compose.api.classes.ImmutableMap
 import com.enricog.core.compose.api.classes.asImmutableMap
 import com.enricog.data.routines.api.entities.Routine
-import com.enricog.entities.ID
-import com.enricog.entities.seconds
+import com.enricog.core.entities.ID
+import com.enricog.core.entities.seconds
 import com.enricog.features.routines.detail.ui.time_type.TimeType
 import com.enricog.ui.components.textField.TimeText
 import com.enricog.ui.components.textField.timeText

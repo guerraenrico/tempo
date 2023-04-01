@@ -1,4 +1,4 @@
-package com.enricog.entities
+package com.enricog.core.entities
 
 import kotlin.math.pow
 

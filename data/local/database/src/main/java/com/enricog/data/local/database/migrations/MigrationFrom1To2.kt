@@ -2,7 +2,7 @@ package com.enricog.data.local.database.migrations
 
 import androidx.room.migration.Migration
 import androidx.sqlite.db.SupportSQLiteDatabase
-import com.enricog.entities.Rank
+import com.enricog.core.entities.Rank
 
 internal object MigrationFrom1To2 : Migration(1, 2) {
 

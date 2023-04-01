@@ -9,8 +9,8 @@ import com.enricog.data.routines.api.entities.Segment
 import com.enricog.data.routines.api.entities.TimeType
 import com.enricog.data.routines.testing.FakeRoutineDataSource
 import com.enricog.data.routines.testing.entities.EMPTY
-import com.enricog.entities.asID
-import com.enricog.entities.seconds
+import com.enricog.core.entities.asID
+import com.enricog.core.entities.seconds
 import com.enricog.features.timer.fakes.FakeWindowScreenManager
 import com.enricog.features.timer.models.TimerViewState
 import com.enricog.features.timer.models.TimerViewState.Counting.BackgroundColor
