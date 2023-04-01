@@ -47,6 +47,7 @@ android {
 
 dependencies {
     implementation project(':data:routines:api')
+    implementation project(':data:timer:api')
 
     implementation Libs.Kotlin.coroutines
 
@@ -60,6 +61,7 @@ dependencies {
     kapt Libs.Hilt.androidCompiler
 
     testImplementation project(':data:routines:testing')
+    testImplementation project(':data:timer:testing')
     testImplementation project(":core:coroutines:testing")
     testImplementation Libs.AndroidX.Test.core
     testImplementation Libs.AndroidX.Test.rules
@@ -68,6 +70,7 @@ dependencies {
     testImplementation Libs.Test.truth
 
     androidTestImplementation project(':data:routines:testing')
+    androidTestImplementation project(':data:timer:testing')
     androidTestImplementation project(":core:coroutines:testing")
     androidTestImplementation Libs.Room.testing
     androidTestImplementation Libs.AndroidX.Test.junitKtx
