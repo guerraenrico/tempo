@@ -13,7 +13,7 @@ import com.enricog.core.logger.api.TempoLogger
 import com.enricog.data.routines.api.entities.Routine
 import com.enricog.data.routines.api.entities.Segment
 import com.enricog.data.routines.api.entities.TimeType.STOPWATCH
-import com.enricog.entities.seconds
+import com.enricog.core.entities.seconds
 import com.enricog.features.routines.detail.segment.models.SegmentInputs
 import com.enricog.features.routines.detail.segment.models.SegmentState
 import com.enricog.features.routines.detail.segment.models.SegmentState.Data.Action.SaveSegmentError

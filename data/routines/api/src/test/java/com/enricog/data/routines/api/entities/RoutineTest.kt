@@ -1,10 +1,10 @@
 package com.enricog.data.routines.api.entities
 
 import com.enricog.data.routines.api.entities.Routine.Companion.MAX_PREPARATION_TIME
-import com.enricog.entities.ID
-import com.enricog.entities.Rank
-import com.enricog.entities.asID
-import com.enricog.entities.seconds
+import com.enricog.core.entities.ID
+import com.enricog.core.entities.Rank
+import com.enricog.core.entities.asID
+import com.enricog.core.entities.seconds
 import com.google.common.truth.Truth.assertThat
 import org.junit.Assert.assertThrows
 import org.junit.Test

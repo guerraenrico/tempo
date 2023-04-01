@@ -1,6 +1,6 @@
 package com.enricog.ui.components.textField
 
-import com.enricog.entities.seconds
+import com.enricog.core.entities.seconds
 import com.google.common.truth.Truth.assertThat
 import com.google.testing.junit.testparameterinjector.TestParameterInjector
 import com.google.testing.junit.testparameterinjector.TestParameters

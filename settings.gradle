@@ -9,9 +9,8 @@ include ':core:compose:api'
 include ':core:coroutines:api'
 include ':core:coroutines:testing'
 include ':core:date:api'
+include ':core:entities'
 include ':core:logger:api'
-
-include ':entities'
 
 include ':data:local:testing'
 include ':data:local:database'

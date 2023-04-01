@@ -3,7 +3,7 @@ package com.enricog.features.timer.models
 import com.enricog.data.routines.api.entities.Routine
 import com.enricog.data.routines.api.entities.Segment
 import com.enricog.data.routines.api.entities.TimeType
-import com.enricog.entities.Seconds
+import com.enricog.core.entities.Seconds
 import java.time.Clock
 import java.time.Duration
 import java.time.OffsetDateTime

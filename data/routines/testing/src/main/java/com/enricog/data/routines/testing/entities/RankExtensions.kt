@@ -1,6 +1,6 @@
 package com.enricog.data.routines.testing.entities
 
-import com.enricog.entities.Rank
+import com.enricog.core.entities.Rank
 
 val Rank.Companion.RANDOM: Rank
     get() = from("abcdef")

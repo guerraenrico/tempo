@@ -3,7 +3,7 @@ package com.enricog.features.routines.detail.segment
 import com.enricog.data.routines.api.entities.Routine
 import com.enricog.data.routines.api.entities.Segment
 import com.enricog.data.routines.api.entities.TimeType
-import com.enricog.entities.ID
+import com.enricog.core.entities.ID
 import com.enricog.features.routines.detail.segment.models.SegmentField
 import com.enricog.features.routines.detail.segment.models.SegmentFieldError
 import com.enricog.features.routines.detail.segment.models.SegmentState

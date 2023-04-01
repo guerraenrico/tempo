@@ -1,8 +1,8 @@
 package com.enricog.data.routines.api.entities
 
-import com.enricog.entities.Rank
-import com.enricog.entities.asID
-import com.enricog.entities.seconds
+import com.enricog.core.entities.Rank
+import com.enricog.core.entities.asID
+import com.enricog.core.entities.seconds
 import org.junit.Assert.assertThrows
 import org.junit.Test
 

@@ -1,4 +1,4 @@
-package com.enricog.entities
+package com.enricog.core.entities
 
 @JvmInline
 value class ID private constructor(private val id: Long) : Comparable<ID> {

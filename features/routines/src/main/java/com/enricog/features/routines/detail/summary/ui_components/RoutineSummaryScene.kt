@@ -22,7 +22,7 @@ import com.enricog.core.compose.api.classes.ImmutableList
 import com.enricog.core.compose.api.extensions.stringResourceOrNull
 import com.enricog.core.compose.api.modifiers.draggable.listDraggable
 import com.enricog.core.compose.api.modifiers.draggable.rememberListDraggableState
-import com.enricog.entities.ID
+import com.enricog.core.entities.ID
 import com.enricog.features.routines.detail.summary.models.RoutineSummaryItem
 import com.enricog.features.routines.detail.summary.models.RoutineSummaryItem.SegmentItem
 import com.enricog.features.routines.detail.summary.models.RoutineSummaryItem.SegmentSectionTitle

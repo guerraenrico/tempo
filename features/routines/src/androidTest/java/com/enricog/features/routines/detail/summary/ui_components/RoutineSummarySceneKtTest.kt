@@ -11,7 +11,7 @@ import androidx.compose.ui.test.swipe
 import com.enricog.core.compose.api.classes.immutableListOf
 import com.enricog.core.compose.api.classes.immutableMapOf
 import com.enricog.core.compose.testing.invoke
-import com.enricog.entities.asID
+import com.enricog.core.entities.asID
 import com.enricog.features.routines.R
 import com.enricog.features.routines.detail.summary.models.RoutineSummaryItem.RoutineInfo
 import com.enricog.features.routines.detail.summary.models.RoutineSummaryItem.SegmentItem

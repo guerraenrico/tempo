@@ -1,7 +1,7 @@
 package com.enricog.data.routines.api
 
 import com.enricog.data.routines.api.entities.Routine
-import com.enricog.entities.ID
+import com.enricog.core.entities.ID
 import kotlinx.coroutines.flow.Flow
 
 interface RoutineDataSource {

@@ -2,8 +2,8 @@ package com.enricog.features.routines.list.usecase
 
 import com.enricog.data.routines.api.RoutineDataSource
 import com.enricog.data.routines.api.entities.Routine
-import com.enricog.entities.ID
-import com.enricog.entities.Rank
+import com.enricog.core.entities.ID
+import com.enricog.core.entities.Rank
 import javax.inject.Inject
 
 internal class MoveRoutineUseCase @Inject constructor(

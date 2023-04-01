@@ -18,7 +18,7 @@ import androidx.compose.ui.unit.dp
 import androidx.constraintlayout.compose.ConstraintLayout
 import androidx.constraintlayout.compose.Dimension
 import com.enricog.core.compose.api.modifiers.spacing.horizontalListItemSpacing
-import com.enricog.entities.ID
+import com.enricog.core.entities.ID
 import com.enricog.features.routines.list.models.RoutinesItem.RoutineItem
 import com.enricog.features.routines.ui_components.SwipeableListItem
 import com.enricog.ui.components.text.TempoText

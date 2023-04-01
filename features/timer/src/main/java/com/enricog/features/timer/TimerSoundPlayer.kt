@@ -1,8 +1,8 @@
 package com.enricog.features.timer
 
 import com.enricog.data.routines.api.entities.TimeType
-import com.enricog.entities.Seconds
-import com.enricog.entities.seconds
+import com.enricog.core.entities.Seconds
+import com.enricog.core.entities.seconds
 import com.enricog.features.timer.models.SegmentStepType
 import com.enricog.features.timer.models.TimerState
 import com.enricog.libraries.sound.api.SoundPlayer

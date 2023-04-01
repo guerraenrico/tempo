@@ -1,6 +1,6 @@
 package com.enricog.features.routines.navigation
 
-import com.enricog.entities.ID
+import com.enricog.core.entities.ID
 import com.enricog.navigation.api.NavigationAction.GoBack
 import com.enricog.navigation.api.Navigator
 import com.enricog.navigation.api.routes.RoutineRoute

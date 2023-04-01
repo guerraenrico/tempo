@@ -1,7 +1,7 @@
 package com.enricog.features.routines.navigation
 
 import com.enricog.core.coroutines.testing.CoroutineRule
-import com.enricog.entities.asID
+import com.enricog.core.entities.asID
 import com.enricog.navigation.api.routes.RoutineRoute
 import com.enricog.navigation.api.routes.RoutineRouteInput
 import com.enricog.navigation.api.routes.RoutineSummaryRoute

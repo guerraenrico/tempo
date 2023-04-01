@@ -9,8 +9,8 @@ import androidx.compose.ui.platform.testTag
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.constraintlayout.compose.ConstraintLayout
 import androidx.constraintlayout.compose.Dimension
-import com.enricog.entities.ID
-import com.enricog.entities.asID
+import com.enricog.core.entities.ID
+import com.enricog.core.entities.asID
 import com.enricog.features.routines.detail.summary.models.RoutineSummaryItem.SegmentItem
 import com.enricog.features.routines.detail.ui.time_type.TimeType
 import com.enricog.features.routines.detail.ui.time_type.TimeTypeChip

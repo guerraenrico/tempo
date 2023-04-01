@@ -3,7 +3,7 @@ package com.enricog.features.routines.detail.summary
 import com.enricog.base.viewmodel.StateConverter
 import com.enricog.core.compose.api.classes.asImmutableList
 import com.enricog.core.compose.api.classes.asImmutableMap
-import com.enricog.entities.seconds
+import com.enricog.core.entities.seconds
 import com.enricog.features.routines.R
 import com.enricog.features.routines.detail.summary.models.RoutineSummaryField
 import com.enricog.features.routines.detail.summary.models.RoutineSummaryFieldError

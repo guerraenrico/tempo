@@ -2,7 +2,7 @@ package com.enricog.features.routines.detail.segment.usecase
 
 import com.enricog.base.extensions.replace
 import com.enricog.data.routines.api.RoutineDataSource
-import com.enricog.entities.ID
+import com.enricog.core.entities.ID
 import com.enricog.data.routines.api.entities.Routine
 import com.enricog.data.routines.api.entities.Segment
 import javax.inject.Inject

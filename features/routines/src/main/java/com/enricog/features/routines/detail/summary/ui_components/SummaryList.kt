@@ -18,7 +18,7 @@ import androidx.compose.ui.unit.dp
 import com.enricog.core.compose.api.classes.ImmutableList
 import com.enricog.core.compose.api.extensions.toPx
 import com.enricog.core.compose.api.modifiers.draggable.ListDraggableState
-import com.enricog.entities.ID
+import com.enricog.core.entities.ID
 import com.enricog.features.routines.detail.summary.models.RoutineSummaryItem
 import com.enricog.ui.theme.TempoTheme
 
