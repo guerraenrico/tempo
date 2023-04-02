@@ -9,7 +9,8 @@ data class TimerTheme(
     val preparationTimeResource: Resource,
     val stopwatchResource: Resource,
     val timerResource: Resource,
-    val restResource: Resource
+    val restResource: Resource,
+    val isLocked: Boolean
 ) {
 
     data class Resource(

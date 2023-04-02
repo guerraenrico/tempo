@@ -12,4 +12,7 @@ internal interface TimerThemeDao {
     @Transaction
     @Query("SELECT * FROM TimerThemes ORDER BY createdAt DESC")
     fun observeAll(): Flow<List<InternalTimerTheme>>
+
+    @Query("SELECT * FROM TimerThemes WHERE isDefault=1 LIMIT 1")
+    suspend fun getDefault(): InternalTimerTheme
 }

@@ -18,6 +18,8 @@ internal data class InternalTimerTheme(
     @ColumnInfo(name = "stopwatchResource") val stopwatchResource: InternalResource,
     @ColumnInfo(name = "timerResource") val timerResource: InternalResource,
     @ColumnInfo(name = "restResource") val restResource: InternalResource,
+    @ColumnInfo(name = "isLocked") val isLocked: Boolean,
+    @ColumnInfo(name = "isDefault") val isDefault: Boolean,
     @ColumnInfo(name = "createdAt") val createdAt: OffsetDateTime,
     @ColumnInfo(name = "updatedAt") val updatedAt: OffsetDateTime
 ) {
@@ -30,7 +32,8 @@ internal data class InternalTimerTheme(
             preparationTimeResource = preparationTimeResource.toEntity(),
             stopwatchResource = stopwatchResource.toEntity(),
             timerResource = timerResource.toEntity(),
-            restResource = restResource.toEntity()
+            restResource = restResource.toEntity(),
+            isLocked = isLocked
         )
     }
 
