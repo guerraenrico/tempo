@@ -5,11 +5,11 @@ import com.enricog.data.routines.api.entities.Routine
 import com.enricog.core.entities.ID
 import javax.inject.Inject
 
-internal class TimerUseCase @Inject constructor(
+internal class GetRoutineUseCase @Inject constructor(
     private val routineDataSource: RoutineDataSource
 ) {
 
-    suspend fun get(routineId: ID): Routine {
+    suspend operator fun invoke(routineId: ID): Routine {
         return routineDataSource.get(routineId)
     }
 }

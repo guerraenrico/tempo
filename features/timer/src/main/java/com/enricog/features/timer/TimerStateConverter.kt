@@ -4,13 +4,13 @@ import androidx.annotation.StringRes
 import androidx.compose.ui.graphics.Color
 import com.enricog.base.viewmodel.StateConverter
 import com.enricog.data.routines.api.entities.TimeType
+import com.enricog.data.timer.api.theme.entities.TimerTheme
 import com.enricog.features.timer.models.SegmentStepType
 import com.enricog.features.timer.models.TimerState
 import com.enricog.features.timer.models.TimerViewState
-import com.enricog.features.timer.models.TimerViewState.Counting.BackgroundColor
+import com.enricog.features.timer.models.TimerViewState.Counting.Background
 import com.enricog.ui.components.button.icon.TempoIconButtonSize
 import com.enricog.ui.components.textField.timeText
-import com.enricog.ui.theme.TimeTypeColors
 import java.time.Clock
 import javax.inject.Inject
 
@@ -27,43 +27,49 @@ internal class TimerStateConverter @Inject constructor(
     }
 
     private fun mapCounting(state: TimerState.Counting): TimerViewState {
-        return if (state.isRoutineCompleted) {
-            TimerViewState.Completed(
+        if (state.isRoutineCompleted) {
+            return TimerViewState.Completed(
                 effectiveTotalTime = state.effectiveTotalSeconds(clock).timeText,
                 skipCount = state.skipCount
             )
-        } else {
-            TimerViewState.Counting(
-                timeInSeconds = state.runningStep.count.seconds.value,
-                stepTitleId = state.getStepTitleId(),
-                segmentName = state.runningSegment.name,
-                clockBackgroundColor = state.getClockBackgroundColor(),
-                isSoundEnabled = state.isSoundEnabled,
-                timerActions = state.getActions()
-            )
         }
+
+        val clockBackgroundResource = state.getBackgroundResource()
+
+        return TimerViewState.Counting(
+            timeInSeconds = state.runningStep.count.seconds.value,
+            stepTitleId = state.getStepTitleId(),
+            segmentName = state.runningSegment.name,
+            clockBackground = clockBackgroundResource.toViewBackground(),
+            clockOnBackgroundColor = clockBackgroundResource.onBackgroundColor(),
+            isSoundEnabled = state.isSoundEnabled,
+            timerActions = state.getActions()
+        )
     }
 
-    private fun TimerState.Counting.getClockBackgroundColor(): BackgroundColor {
+    private fun TimerState.Counting.getBackgroundResource(): ClockBackgroundResource {
         val nextSegmentStep = nextSegmentStep
         return when (runningStep.type) {
-            SegmentStepType.PREPARATION -> BackgroundColor(
-                background = runningStep.type.getColor(),
-                ripple = when {
-                    isStepCountCompleted -> runningSegment.type.getColor()
+            SegmentStepType.PREPARATION -> ClockBackgroundResource(
+                backgroundResource = timerTheme.preparationTimeResource,
+                rippleResource = when {
+                    isStepCountCompleted -> runningSegment.type.getResource(timerTheme = timerTheme)
                     else -> null
                 }
             )
-            else -> BackgroundColor(
-                background = runningSegment.type.getColor(),
-                ripple = when {
+            else -> ClockBackgroundResource(
+                backgroundResource = runningSegment.type.getResource(timerTheme = timerTheme),
+                rippleResource = when {
                     isStepCountCompleted -> when {
                         nextSegmentStep?.type == SegmentStepType.PREPARATION ->
-                            nextSegmentStep.type.getColor()
+                            timerTheme.preparationTimeResource
                         runningSegment.type == nextSegment?.type ->
-                            Color(red = 255, green = 255, blue = 255, alpha = 30)
+                            TimerTheme.Resource(
+                                background = TimerTheme.Asset.Color(argb = 2233785410880798720.toULong()),
+                                onBackground = TimerTheme.Asset.Color(argb = 2233785410880798720.toULong())
+                            )
                         else ->
-                            nextSegment?.type?.getColor()
+                            nextSegment?.type?.getResource(timerTheme = timerTheme)
                     }
                     else -> null
                 }
@@ -71,18 +77,11 @@ internal class TimerStateConverter @Inject constructor(
         }
     }
 
-    private fun SegmentStepType.getColor(): Color {
+    private fun TimeType.getResource(timerTheme: TimerTheme): TimerTheme.Resource {
         return when (this) {
-            SegmentStepType.PREPARATION -> TimeTypeColors.STARTING
-            else -> throw IllegalArgumentException("unhandled case")
-        }
-    }
-
-    private fun TimeType.getColor(): Color {
-        return when (this) {
-            TimeType.REST -> TimeTypeColors.REST
-            TimeType.TIMER -> TimeTypeColors.TIMER
-            TimeType.STOPWATCH -> TimeTypeColors.STOPWATCH
+            TimeType.REST -> timerTheme.restResource
+            TimeType.TIMER -> timerTheme.timerResource
+            TimeType.STOPWATCH -> timerTheme.stopwatchResource
         }
     }
 
@@ -114,5 +113,28 @@ internal class TimerStateConverter @Inject constructor(
                 size = TempoIconButtonSize.Normal
             )
         )
+    }
+
+    private data class ClockBackgroundResource(
+        val backgroundResource: TimerTheme.Resource,
+        val rippleResource: TimerTheme.Resource?
+    ) {
+
+        fun toViewBackground(): Background {
+            return Background(
+                background = backgroundResource.background.toComposeColor(),
+                ripple = rippleResource?.background?.toComposeColor()
+            )
+        }
+
+        fun onBackgroundColor(): Color {
+            return backgroundResource.onBackground.toComposeColor()
+        }
+
+        private fun TimerTheme.Asset.toComposeColor(): Color {
+            return when (this) {
+                is TimerTheme.Asset.Color -> Color(argb)
+            }
+        }
     }
 }

@@ -3,18 +3,22 @@ package com.enricog.features.timer
 import androidx.lifecycle.SavedStateHandle
 import com.enricog.base.viewmodel.BaseViewModel
 import com.enricog.base.viewmodel.ViewModelConfiguration
+import com.enricog.core.coroutines.async.awaitAll
 import com.enricog.core.coroutines.dispatchers.CoroutineDispatchers
 import com.enricog.core.coroutines.job.autoCancelableJob
 import com.enricog.core.logger.api.TempoLogger
 import com.enricog.data.routines.api.entities.Routine
+import com.enricog.data.timer.api.theme.entities.TimerTheme
 import com.enricog.features.timer.models.TimerState
 import com.enricog.features.timer.models.TimerViewState
 import com.enricog.features.timer.navigation.TimerNavigationActions
-import com.enricog.features.timer.usecase.TimerUseCase
+import com.enricog.features.timer.usecase.GetRoutineUseCase
+import com.enricog.features.timer.usecase.GetTimerThemeUseCase
 import com.enricog.navigation.api.routes.TimerRoute
 import com.enricog.navigation.api.routes.TimerRouteInput
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.CoroutineExceptionHandler
+import kotlinx.coroutines.async
 import kotlinx.coroutines.delay
 import javax.inject.Inject
 
@@ -25,7 +29,8 @@ internal class TimerViewModel @Inject constructor(
     converter: TimerStateConverter,
     private val navigationActions: TimerNavigationActions,
     private val reducer: TimerReducer,
-    private val timerUseCase: TimerUseCase,
+    private val getRoutineUseCase: GetRoutineUseCase,
+    private val getTimerThemeUseCase: GetTimerThemeUseCase,
     private val windowScreenManager: WindowScreenManager,
     private val soundPlayer: TimerSoundPlayer
 ) : BaseViewModel<TimerState, TimerViewState>(
@@ -50,14 +55,17 @@ internal class TimerViewModel @Inject constructor(
             updateState { reducer.error(throwable = throwable) }
         }
         loadJob = launch(exceptionHandler = exceptionHandler) {
-            val routine = timerUseCase.get(input.routineId)
-            start(routine)
+            val (timerTheme, routine) = awaitAll(
+                async { getTimerThemeUseCase() },
+                async { getRoutineUseCase(routineId = input.routineId) }
+            )
+            start(routine = routine, timerTheme = timerTheme)
         }
     }
 
-    private fun start(routine: Routine) {
+    private fun start(routine: Routine, timerTheme: TimerTheme) {
         startJob = launch {
-            updateState { reducer.setup(it, routine) }
+            updateState { reducer.setup(state = it, routine = routine, timerTheme = timerTheme) }
 
             delay(ONE_SECOND)
 
@@ -84,7 +92,7 @@ internal class TimerViewModel @Inject constructor(
 
     fun onReset() {
         runWhen<TimerState.Counting> { state ->
-            start(state.routine)
+            start(routine = state.routine, timerTheme = state.timerTheme)
         }
     }
 
@@ -153,7 +161,7 @@ internal class TimerViewModel @Inject constructor(
 
     private fun toggleKeepScreenOn(currentState: TimerState) {
         val enableKeepScreenOn = currentState is TimerState.Counting &&
-                currentState.isStepCountRunning && !currentState.isRoutineCompleted
+            currentState.isStepCountRunning && !currentState.isRoutineCompleted
         windowScreenManager.toggleKeepScreenOnFlag(enableKeepScreenOn)
     }
 

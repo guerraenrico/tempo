@@ -11,7 +11,7 @@ import com.enricog.features.timer.models.SegmentStep
 import com.enricog.features.timer.models.SegmentStepType
 import com.enricog.features.timer.models.TimerState
 import com.enricog.features.timer.models.TimerViewState
-import com.enricog.features.timer.models.TimerViewState.Counting.BackgroundColor
+import com.enricog.features.timer.models.TimerViewState.Counting.Background
 import com.enricog.ui.components.button.icon.TempoIconButtonSize
 import com.enricog.ui.components.textField.timeText
 import com.enricog.ui.theme.TimeTypeColors
@@ -82,7 +82,7 @@ class TimerStateConverterTest {
             timeInSeconds = 5,
             stepTitleId = R.string.title_segment_time_type_rest,
             segmentName = "segment name",
-            clockBackgroundColor = BackgroundColor(
+            clockBackground = Background(
                 background = TimeTypeColors.REST,
                 ripple = null
             ),
@@ -139,7 +139,7 @@ class TimerStateConverterTest {
             timeInSeconds = 5,
             stepTitleId = R.string.title_segment_time_type_rest,
             segmentName = "segment name",
-            clockBackgroundColor = BackgroundColor(
+            clockBackground = Background(
                 background = TimeTypeColors.REST,
                 ripple = null
             ),
@@ -197,7 +197,7 @@ class TimerStateConverterTest {
                 timeInSeconds = 5,
                 stepTitleId = R.string.title_segment_time_type_rest,
                 segmentName = "segment name",
-                clockBackgroundColor = BackgroundColor(
+                clockBackground = Background(
                     background = TimeTypeColors.REST,
                     ripple = null
                 ),
@@ -255,7 +255,7 @@ class TimerStateConverterTest {
                 timeInSeconds = 5,
                 stepTitleId = R.string.title_segment_step_type_in_progress,
                 segmentName = "segment name",
-                clockBackgroundColor = BackgroundColor(
+                clockBackground = Background(
                     background = TimeTypeColors.TIMER,
                     ripple = null
                 ),
@@ -313,7 +313,7 @@ class TimerStateConverterTest {
                 timeInSeconds = 5,
                 stepTitleId = R.string.title_segment_step_type_in_progress,
                 segmentName = "segment name",
-                clockBackgroundColor = BackgroundColor(
+                clockBackground = Background(
                     background = TimeTypeColors.STOPWATCH,
                     ripple = null
                 ),
@@ -380,7 +380,7 @@ class TimerStateConverterTest {
                 timeInSeconds = 5,
                 stepTitleId = R.string.title_segment_step_type_preparation,
                 segmentName = "segment name",
-                clockBackgroundColor = BackgroundColor(
+                clockBackground = Background(
                     background = TimeTypeColors.STARTING,
                     ripple = TimeTypeColors.STOPWATCH
                 ),
@@ -460,7 +460,7 @@ class TimerStateConverterTest {
                 timeInSeconds = 5,
                 stepTitleId = R.string.title_segment_step_type_in_progress,
                 segmentName = "segment name stopwatch",
-                clockBackgroundColor = BackgroundColor(
+                clockBackground = Background(
                     background = TimeTypeColors.STOPWATCH,
                     ripple = TimeTypeColors.STARTING
                 ),

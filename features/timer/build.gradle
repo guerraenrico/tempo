@@ -50,6 +50,7 @@ dependencies {
     implementation project(':ui:components')
     implementation project(":ui:theme")
     implementation project(':data:routines:api')
+    implementation project(':data:timer:api')
     implementation project(":navigation:api")
     implementation project(":libraries:sound:api")
 

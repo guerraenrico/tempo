@@ -40,7 +40,7 @@ internal data class InternalTimerTheme(
     @Serializable
     data class InternalResource(
         val background: InternalAsset,
-        val onBackground: InternalAsset.Color
+        val onBackground: InternalAsset
     ) {
 
         fun toEntity(): TimerTheme.Resource {
@@ -56,7 +56,7 @@ internal data class InternalTimerTheme(
 
         @Serializable
         @SerialName("color")
-        data class Color(val argb: Long) : InternalAsset()
+        data class Color(val argb: ULong) : InternalAsset()
 
         fun toEntity(): TimerTheme.Asset {
             return when (this) {

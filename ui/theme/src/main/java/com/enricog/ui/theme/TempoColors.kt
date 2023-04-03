@@ -129,6 +129,7 @@ internal fun TempoColors.toMaterialColors(): Colors {
     )
 }
 
+// TODO remove
 object TimeTypeColors {
     val STARTING = Color(0xff_A0A6FF)
     val STOPWATCH = Color(0xff_BC92FF)

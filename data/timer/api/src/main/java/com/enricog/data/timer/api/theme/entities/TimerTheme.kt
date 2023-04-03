@@ -19,6 +19,6 @@ data class TimerTheme(
     )
 
     sealed class Asset {
-        data class Color(val argb: Long) : Asset()
+        data class Color(val argb: ULong) : Asset()
     }
 }

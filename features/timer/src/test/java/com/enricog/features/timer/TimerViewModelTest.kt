@@ -13,10 +13,10 @@ import com.enricog.core.entities.asID
 import com.enricog.core.entities.seconds
 import com.enricog.features.timer.fakes.FakeWindowScreenManager
 import com.enricog.features.timer.models.TimerViewState
-import com.enricog.features.timer.models.TimerViewState.Counting.BackgroundColor
+import com.enricog.features.timer.models.TimerViewState.Counting.Background
 import com.enricog.features.timer.models.TimerViewState.Idle
 import com.enricog.features.timer.navigation.TimerNavigationActions
-import com.enricog.features.timer.usecase.TimerUseCase
+import com.enricog.features.timer.usecase.GetRoutineUseCase
 import com.enricog.libraries.sound.testing.FakeSoundPlayer
 import com.enricog.navigation.api.routes.RoutinesRoute
 import com.enricog.navigation.api.routes.RoutinesRouteInput
@@ -76,7 +76,7 @@ class TimerViewModelTest {
             timeInSeconds = 3,
             stepTitleId = R.string.title_segment_step_type_preparation,
             segmentName = "First Segment",
-            clockBackgroundColor = BackgroundColor(
+            clockBackground = Background(
                 background = TimeTypeColors.STARTING,
                 ripple = null
             ),
@@ -103,7 +103,7 @@ class TimerViewModelTest {
             timeInSeconds = 3,
             stepTitleId = R.string.title_segment_step_type_preparation,
             segmentName = "First Segment",
-            clockBackgroundColor = BackgroundColor(
+            clockBackground = Background(
                 background = TimeTypeColors.STARTING,
                 ripple = null
             ),
@@ -221,7 +221,7 @@ class TimerViewModelTest {
             timeInSeconds = 2,
             stepTitleId = R.string.title_segment_step_type_preparation,
             segmentName = "First Segment",
-            clockBackgroundColor = BackgroundColor(
+            clockBackground = Background(
                 background = TimeTypeColors.STARTING,
                 ripple = null
             ),
@@ -267,7 +267,7 @@ class TimerViewModelTest {
             timeInSeconds = 3,
             stepTitleId = R.string.title_segment_step_type_preparation,
             segmentName = "First Segment",
-            clockBackgroundColor = BackgroundColor(
+            clockBackground = Background(
                 background = TimeTypeColors.STARTING,
                 ripple = null
             ),
@@ -311,7 +311,7 @@ class TimerViewModelTest {
             timeInSeconds = 10,
             stepTitleId = R.string.title_segment_step_type_in_progress,
             segmentName = "First Segment",
-            clockBackgroundColor = BackgroundColor(
+            clockBackground = Background(
                 background = TimeTypeColors.TIMER,
                 ripple = null
             ),
@@ -355,7 +355,7 @@ class TimerViewModelTest {
             timeInSeconds = 3,
             stepTitleId = R.string.title_segment_step_type_preparation,
             segmentName = "First Segment",
-            clockBackgroundColor = BackgroundColor(
+            clockBackground = Background(
                 background = TimeTypeColors.STARTING,
                 ripple = null
             ),
@@ -382,7 +382,7 @@ class TimerViewModelTest {
             timeInSeconds = 10,
             stepTitleId = R.string.title_segment_step_type_in_progress,
             segmentName = "First Segment",
-            clockBackgroundColor = BackgroundColor(
+            clockBackground = Background(
                 background = TimeTypeColors.TIMER,
                 ripple = null
             ),
@@ -447,7 +447,7 @@ class TimerViewModelTest {
             dispatchers = coroutineRule.getDispatchers(),
             converter = TimerStateConverter(clock = clock),
             reducer = TimerReducer(clock = clock),
-            timerUseCase = TimerUseCase(routineDataSource = FakeRoutineDataSource(store = store)),
+            getRoutineUseCase = GetRoutineUseCase(routineDataSource = FakeRoutineDataSource(store = store)),
             navigationActions = TimerNavigationActions(navigator = navigator),
             windowScreenManager = windowScreenManager,
             soundPlayer = TimerSoundPlayer(soundPlayer = soundPlayer)
