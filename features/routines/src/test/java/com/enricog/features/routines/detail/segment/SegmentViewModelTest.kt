@@ -19,7 +19,7 @@ import com.enricog.features.routines.detail.segment.models.SegmentFieldError
 import com.enricog.features.routines.detail.segment.models.SegmentInputs
 import com.enricog.features.routines.detail.segment.models.SegmentViewState
 import com.enricog.features.routines.detail.segment.usecase.SegmentUseCase
-import com.enricog.features.routines.detail.ui.time_type.TimeType
+import com.enricog.features.routines.detail.ui.time_type.TimeTypeStyle
 import com.enricog.features.routines.navigation.RoutinesNavigationActions
 import com.enricog.navigation.testing.FakeNavigator
 import com.enricog.ui.components.extensions.toTextFieldValue
@@ -56,12 +56,12 @@ class SegmentViewModelTest {
     fun `should show data when load succeeds`() = coroutineRule {
         val expectedViewState = SegmentViewState.Data(
             isTimeFieldVisible = true,
-            selectedTimeType = TimeType.from(TimeTypeEntity.TIMER),
+            selectedTimeTypeStyle = TimeTypeStyle.from(TimeTypeEntity.TIMER),
             errors = emptyImmutableMap(),
-            timeTypes = immutableListOf(
-                TimeType.from(TimeTypeEntity.TIMER),
-                TimeType.from(TimeTypeEntity.REST),
-                TimeType.from(TimeTypeEntity.STOPWATCH)
+            timeTypeStyles = immutableListOf(
+                TimeTypeStyle.from(TimeTypeEntity.TIMER),
+                TimeTypeStyle.from(TimeTypeEntity.REST),
+                TimeTypeStyle.from(TimeTypeEntity.STOPWATCH)
             ),
             message = null
         )
@@ -97,12 +97,12 @@ class SegmentViewModelTest {
         val store = FakeStore(listOf(routine))
         val expectedViewState = SegmentViewState.Data(
             isTimeFieldVisible = true,
-            selectedTimeType = TimeType.from(TimeTypeEntity.TIMER),
+            selectedTimeTypeStyle = TimeTypeStyle.from(TimeTypeEntity.TIMER),
             errors = immutableMapOf(),
-            timeTypes = immutableListOf(
-                TimeType.from(TimeTypeEntity.TIMER),
-                TimeType.from(TimeTypeEntity.REST),
-                TimeType.from(TimeTypeEntity.STOPWATCH)
+            timeTypeStyles = immutableListOf(
+                TimeTypeStyle.from(TimeTypeEntity.TIMER),
+                TimeTypeStyle.from(TimeTypeEntity.REST),
+                TimeTypeStyle.from(TimeTypeEntity.STOPWATCH)
             ),
             message = null
         )
@@ -127,12 +127,12 @@ class SegmentViewModelTest {
     fun `should update segment name when name changes`() = coroutineRule {
         val expectedViewState = SegmentViewState.Data(
             isTimeFieldVisible = true,
-            selectedTimeType = TimeType.from(TimeTypeEntity.TIMER),
+            selectedTimeTypeStyle = TimeTypeStyle.from(TimeTypeEntity.TIMER),
             errors = emptyImmutableMap(),
-            timeTypes = immutableListOf(
-                TimeType.from(TimeTypeEntity.TIMER),
-                TimeType.from(TimeTypeEntity.REST),
-                TimeType.from(TimeTypeEntity.STOPWATCH)
+            timeTypeStyles = immutableListOf(
+                TimeTypeStyle.from(TimeTypeEntity.TIMER),
+                TimeTypeStyle.from(TimeTypeEntity.REST),
+                TimeTypeStyle.from(TimeTypeEntity.STOPWATCH)
             ),
             message = null
         )
@@ -156,12 +156,12 @@ class SegmentViewModelTest {
     fun `should update segment time when time changes`() = coroutineRule {
         val expectedViewState = SegmentViewState.Data(
             isTimeFieldVisible = true,
-            selectedTimeType = TimeType.from(TimeTypeEntity.TIMER),
+            selectedTimeTypeStyle = TimeTypeStyle.from(TimeTypeEntity.TIMER),
             errors = emptyImmutableMap(),
-            timeTypes = immutableListOf(
-                TimeType.from(TimeTypeEntity.TIMER),
-                TimeType.from(TimeTypeEntity.REST),
-                TimeType.from(TimeTypeEntity.STOPWATCH)
+            timeTypeStyles = immutableListOf(
+                TimeTypeStyle.from(TimeTypeEntity.TIMER),
+                TimeTypeStyle.from(TimeTypeEntity.REST),
+                TimeTypeStyle.from(TimeTypeEntity.STOPWATCH)
             ),
             message = null
         )
@@ -186,12 +186,12 @@ class SegmentViewModelTest {
         coroutineRule {
             val expectedViewState = SegmentViewState.Data(
                 isTimeFieldVisible = true,
-                selectedTimeType = TimeType.from(TimeTypeEntity.TIMER),
+                selectedTimeTypeStyle = TimeTypeStyle.from(TimeTypeEntity.TIMER),
                 errors = emptyImmutableMap(),
-                timeTypes = immutableListOf(
-                    TimeType.from(TimeTypeEntity.TIMER),
-                    TimeType.from(TimeTypeEntity.REST),
-                    TimeType.from(TimeTypeEntity.STOPWATCH)
+                timeTypeStyles = immutableListOf(
+                    TimeTypeStyle.from(TimeTypeEntity.TIMER),
+                    TimeTypeStyle.from(TimeTypeEntity.REST),
+                    TimeTypeStyle.from(TimeTypeEntity.STOPWATCH)
                 ),
                 message = null
             )
@@ -215,12 +215,12 @@ class SegmentViewModelTest {
     fun `should update segment type when type changes`() = coroutineRule {
         val expectedViewState = SegmentViewState.Data(
             isTimeFieldVisible = true,
-            selectedTimeType = TimeType.from(TimeTypeEntity.REST),
+            selectedTimeTypeStyle = TimeTypeStyle.from(TimeTypeEntity.REST),
             errors = emptyImmutableMap(),
-            timeTypes = immutableListOf(
-                TimeType.from(TimeTypeEntity.TIMER),
-                TimeType.from(TimeTypeEntity.REST),
-                TimeType.from(TimeTypeEntity.STOPWATCH)
+            timeTypeStyles = immutableListOf(
+                TimeTypeStyle.from(TimeTypeEntity.TIMER),
+                TimeTypeStyle.from(TimeTypeEntity.REST),
+                TimeTypeStyle.from(TimeTypeEntity.STOPWATCH)
             ),
             message = null
         )
@@ -231,7 +231,7 @@ class SegmentViewModelTest {
         val viewModel = buildViewModel()
         advanceUntilIdle()
 
-        viewModel.onSegmentTypeChange(timeType = TimeType.from(TimeTypeEntity.REST))
+        viewModel.onSegmentTypeChange(timeTypeStyle = TimeTypeStyle.from(TimeTypeEntity.REST))
         advanceUntilIdle()
 
         viewModel.viewState.test {
@@ -244,12 +244,12 @@ class SegmentViewModelTest {
     fun `should update segment type and reset time when type changes to stopwatch`() = coroutineRule {
         val expectedViewState = SegmentViewState.Data(
             isTimeFieldVisible = false,
-            selectedTimeType = TimeType.from(TimeTypeEntity.STOPWATCH),
+            selectedTimeTypeStyle = TimeTypeStyle.from(TimeTypeEntity.STOPWATCH),
             errors = emptyImmutableMap(),
-            timeTypes = immutableListOf(
-                TimeType.from(TimeTypeEntity.TIMER),
-                TimeType.from(TimeTypeEntity.REST),
-                TimeType.from(TimeTypeEntity.STOPWATCH)
+            timeTypeStyles = immutableListOf(
+                TimeTypeStyle.from(TimeTypeEntity.TIMER),
+                TimeTypeStyle.from(TimeTypeEntity.REST),
+                TimeTypeStyle.from(TimeTypeEntity.STOPWATCH)
             ),
             message = null
         )
@@ -260,7 +260,7 @@ class SegmentViewModelTest {
         val viewModel = buildViewModel()
         advanceUntilIdle()
 
-        viewModel.onSegmentTypeChange(timeType = TimeType.from(TimeTypeEntity.STOPWATCH))
+        viewModel.onSegmentTypeChange(timeTypeStyle = TimeTypeStyle.from(TimeTypeEntity.STOPWATCH))
         advanceUntilIdle()
 
         viewModel.viewState.test {
@@ -273,12 +273,12 @@ class SegmentViewModelTest {
     fun `should show errors when on save the segments has errors`() = coroutineRule {
         val expected = SegmentViewState.Data(
             isTimeFieldVisible = true,
-            selectedTimeType = TimeType.from(TimeTypeEntity.TIMER),
+            selectedTimeTypeStyle = TimeTypeStyle.from(TimeTypeEntity.TIMER),
             errors = immutableMapOf(SegmentField.Name to SegmentFieldError.BlankSegmentName),
-            timeTypes = immutableListOf(
-                TimeType.from(TimeTypeEntity.TIMER),
-                TimeType.from(TimeTypeEntity.REST),
-                TimeType.from(TimeTypeEntity.STOPWATCH)
+            timeTypeStyles = immutableListOf(
+                TimeTypeStyle.from(TimeTypeEntity.TIMER),
+                TimeTypeStyle.from(TimeTypeEntity.REST),
+                TimeTypeStyle.from(TimeTypeEntity.STOPWATCH)
             ),
             message = null
         )
@@ -317,12 +317,12 @@ class SegmentViewModelTest {
         val store = FakeStore(listOf(routine))
         val expected = SegmentViewState.Data(
             isTimeFieldVisible = true,
-            selectedTimeType = TimeType.from(TimeTypeEntity.TIMER),
+            selectedTimeTypeStyle = TimeTypeStyle.from(TimeTypeEntity.TIMER),
             errors = emptyImmutableMap(),
-            timeTypes = immutableListOf(
-                TimeType.from(TimeTypeEntity.TIMER),
-                TimeType.from(TimeTypeEntity.REST),
-                TimeType.from(TimeTypeEntity.STOPWATCH)
+            timeTypeStyles = immutableListOf(
+                TimeTypeStyle.from(TimeTypeEntity.TIMER),
+                TimeTypeStyle.from(TimeTypeEntity.REST),
+                TimeTypeStyle.from(TimeTypeEntity.STOPWATCH)
             ),
             message = SegmentViewState.Data.Message(
                 textResId = R.string.label_segment_save_error,

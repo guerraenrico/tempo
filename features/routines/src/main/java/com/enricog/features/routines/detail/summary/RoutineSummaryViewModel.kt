@@ -5,9 +5,9 @@ import androidx.lifecycle.viewModelScope
 import com.enricog.base.viewmodel.BaseViewModel
 import com.enricog.core.coroutines.dispatchers.CoroutineDispatchers
 import com.enricog.core.coroutines.job.autoCancelableJob
+import com.enricog.core.entities.ID
 import com.enricog.core.logger.api.TempoLogger
 import com.enricog.data.routines.api.entities.Segment
-import com.enricog.core.entities.ID
 import com.enricog.features.routines.detail.summary.models.RoutineSummaryState
 import com.enricog.features.routines.detail.summary.models.RoutineSummaryState.Data.Action.DeleteSegmentError
 import com.enricog.features.routines.detail.summary.models.RoutineSummaryState.Data.Action.DeleteSegmentSuccess
@@ -17,6 +17,7 @@ import com.enricog.features.routines.detail.summary.models.RoutineSummaryViewSta
 import com.enricog.features.routines.detail.summary.usecase.DeleteSegmentUseCase
 import com.enricog.features.routines.detail.summary.usecase.DuplicateSegmentUseCase
 import com.enricog.features.routines.detail.summary.usecase.GetRoutineUseCase
+import com.enricog.features.routines.detail.summary.usecase.GetTimerThemeUserCase
 import com.enricog.features.routines.detail.summary.usecase.MoveSegmentUseCase
 import com.enricog.features.routines.navigation.RoutinesNavigationActions
 import com.enricog.navigation.api.routes.RoutineSummaryRoute
@@ -40,6 +41,7 @@ internal class RoutineSummaryViewModel @Inject constructor(
     converter: RoutineSummaryStateConverter,
     private val navigationActions: RoutinesNavigationActions,
     private val reducer: RoutineSummaryReducer,
+    private val getTimerThemeUserCase: GetTimerThemeUserCase,
     private val getRoutineUseCase: GetRoutineUseCase,
     private val deleteSegmentUseCase: DeleteSegmentUseCase,
     private val moveSegmentUseCase: MoveSegmentUseCase,
@@ -62,9 +64,16 @@ internal class RoutineSummaryViewModel @Inject constructor(
     }
 
     private fun load(input: RoutineSummaryRouteInput) {
-        loadJob = getRoutineUseCase(input.routineId)
+        val timerThemeFlow = getTimerThemeUserCase()
+        val routineFlow = getRoutineUseCase(input.routineId)
             .combine(queueSegmentToDelete) { routine, segmentToDelete -> routine.copy(segments = routine.segments.filter { it != segmentToDelete }) }
-            .onEach { routine -> updateState { reducer.setup(state = it, routine = routine) } }
+
+        loadJob = combine(routineFlow, timerThemeFlow) { routine, timerTheme -> routine to timerTheme }
+            .onEach { (routine, timerTheme) ->
+                updateState {
+                    reducer.setup(state = it, routine = routine, timerTheme = timerTheme)
+                }
+            }
             .catch { throwable ->
                 TempoLogger.e(throwable = throwable, message = "Error loading routine summary")
                 updateState { reducer.error(throwable = throwable) }

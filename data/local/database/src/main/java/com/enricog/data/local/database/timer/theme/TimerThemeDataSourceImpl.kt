@@ -17,7 +17,12 @@ internal class TimerThemeDataSourceImpl @Inject constructor(
             .map { list -> list.map(InternalTimerTheme::toEntity) }
     }
 
-    override suspend fun getDefault(): TimerTheme {
+    override fun observeSelected(): Flow<TimerTheme> {
+        return database.timerThemeDao().observeDefault()
+            .map(InternalTimerTheme::toEntity)
+    }
+
+    override suspend fun getSelected(): TimerTheme {
         return database.timerThemeDao().getDefault().toEntity()
     }
 }

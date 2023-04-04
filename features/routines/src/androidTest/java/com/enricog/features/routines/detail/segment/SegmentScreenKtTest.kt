@@ -10,7 +10,7 @@ import com.enricog.features.routines.detail.segment.models.SegmentInputs
 import com.enricog.features.routines.detail.segment.models.SegmentViewState
 import com.enricog.features.routines.detail.segment.ui_components.SegmentErrorSceneTestTag
 import com.enricog.features.routines.detail.segment.ui_components.SegmentFormSceneTestTag
-import com.enricog.features.routines.detail.ui.time_type.TimeType
+import com.enricog.features.routines.detail.ui.time_type.TimeTypeStyle
 import com.enricog.ui.components.extensions.toTextFieldValue
 import com.enricog.ui.components.textField.timeText
 import com.enricog.ui.theme.TempoTheme
@@ -53,12 +53,12 @@ class SegmentScreenKtTest {
     fun shouldRenderSegmentFormSceneWhenStateIsData() = composeRule {
         val viewState = SegmentViewState.Data(
             isTimeFieldVisible = true,
-            selectedTimeType = TimeType.from(TimeTypeEntity.TIMER),
+            selectedTimeTypeStyle = TimeTypeStyle.from(TimeTypeEntity.TIMER),
             errors = emptyImmutableMap(),
-            timeTypes = immutableListOf(
-                TimeType.from(TimeTypeEntity.TIMER),
-                TimeType.from(TimeTypeEntity.REST),
-                TimeType.from(TimeTypeEntity.STOPWATCH)
+            timeTypeStyles = immutableListOf(
+                TimeTypeStyle.from(TimeTypeEntity.TIMER),
+                TimeTypeStyle.from(TimeTypeEntity.REST),
+                TimeTypeStyle.from(TimeTypeEntity.STOPWATCH)
             ),
             message = null
         )

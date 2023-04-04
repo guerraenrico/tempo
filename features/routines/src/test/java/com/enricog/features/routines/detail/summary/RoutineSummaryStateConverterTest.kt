@@ -17,7 +17,7 @@ import com.enricog.features.routines.detail.summary.models.RoutineSummaryState
 import com.enricog.features.routines.detail.summary.models.RoutineSummaryState.Data.Action
 import com.enricog.features.routines.detail.summary.models.RoutineSummaryViewState
 import com.enricog.features.routines.detail.summary.models.RoutineSummaryViewState.Data.Message
-import com.enricog.features.routines.detail.ui.time_type.TimeType
+import com.enricog.features.routines.detail.ui.time_type.TimeTypeStyle
 import com.enricog.ui.components.textField.timeText
 import com.enricog.ui.theme.TimeTypeColors
 import com.google.common.truth.Truth.assertThat
@@ -62,7 +62,7 @@ class RoutineSummaryStateConverterTest {
                     segmentsSummary = SegmentsSummary(
                         estimatedTotalTime = "20".timeText,
                         segmentTypesCount = immutableMapOf(
-                            TimeType(
+                            TimeTypeStyle(
                                 nameStringResId = R.string.chip_time_type_timer_name,
                                 color = TimeTypeColors.TIMER,
                                 id = "TIMER"
@@ -77,7 +77,7 @@ class RoutineSummaryStateConverterTest {
                     id = 1.asID,
                     name = "Segment 1",
                     time = "10".timeText,
-                    type = TimeType(
+                    type = TimeTypeStyle(
                         nameStringResId = R.string.chip_time_type_timer_name,
                         color = TimeTypeColors.TIMER,
                         id = "TIMER"
@@ -88,7 +88,7 @@ class RoutineSummaryStateConverterTest {
                     id = 2.asID,
                     name = "Segment 2",
                     time = "10".timeText,
-                    type = TimeType(
+                    type = TimeTypeStyle(
                         nameStringResId = R.string.chip_time_type_timer_name,
                         color = TimeTypeColors.TIMER,
                         id = "TIMER"
@@ -125,7 +125,7 @@ class RoutineSummaryStateConverterTest {
                     segmentsSummary = SegmentsSummary(
                         estimatedTotalTime = "20".timeText,
                         segmentTypesCount = immutableMapOf(
-                            TimeType(
+                            TimeTypeStyle(
                                 nameStringResId = R.string.chip_time_type_timer_name,
                                 color = TimeTypeColors.TIMER,
                                 id = "TIMER"
@@ -140,7 +140,7 @@ class RoutineSummaryStateConverterTest {
                     id = 1.asID,
                     name = "Segment 1",
                     time = "10".timeText,
-                    type = TimeType(
+                    type = TimeTypeStyle(
                         nameStringResId = R.string.chip_time_type_timer_name,
                         color = TimeTypeColors.TIMER,
                         id = "TIMER"
@@ -151,7 +151,7 @@ class RoutineSummaryStateConverterTest {
                     id = 2.asID,
                     name = "Segment 2",
                     time = "10".timeText,
-                    type = TimeType(
+                    type = TimeTypeStyle(
                         nameStringResId = R.string.chip_time_type_timer_name,
                         color = TimeTypeColors.TIMER,
                         id = "TIMER"
@@ -191,7 +191,7 @@ class RoutineSummaryStateConverterTest {
                     segmentsSummary = SegmentsSummary(
                         estimatedTotalTime = "20".timeText,
                         segmentTypesCount = immutableMapOf(
-                            TimeType(
+                            TimeTypeStyle(
                                 nameStringResId = R.string.chip_time_type_timer_name,
                                 color = TimeTypeColors.TIMER,
                                 id = "TIMER"
@@ -206,7 +206,7 @@ class RoutineSummaryStateConverterTest {
                     id = 1.asID,
                     name = "Segment 1",
                     time = "10".timeText,
-                    type = TimeType(
+                    type = TimeTypeStyle(
                         nameStringResId = R.string.chip_time_type_timer_name,
                         color = TimeTypeColors.TIMER,
                         id = "TIMER"
@@ -217,7 +217,7 @@ class RoutineSummaryStateConverterTest {
                     id = 2.asID,
                     name = "Segment 2",
                     time = "10".timeText,
-                    type = TimeType(
+                    type = TimeTypeStyle(
                         nameStringResId = R.string.chip_time_type_timer_name,
                         color = TimeTypeColors.TIMER,
                         id = "TIMER"
@@ -257,7 +257,7 @@ class RoutineSummaryStateConverterTest {
                     segmentsSummary = SegmentsSummary(
                         estimatedTotalTime = "20".timeText,
                         segmentTypesCount = immutableMapOf(
-                            TimeType(
+                            TimeTypeStyle(
                                 nameStringResId = R.string.chip_time_type_timer_name,
                                 color = TimeTypeColors.TIMER,
                                 id = "TIMER"
@@ -272,7 +272,7 @@ class RoutineSummaryStateConverterTest {
                     id = 1.asID,
                     name = "Segment 1",
                     time = "10".timeText,
-                    type = TimeType(
+                    type = TimeTypeStyle(
                         nameStringResId = R.string.chip_time_type_timer_name,
                         color = TimeTypeColors.TIMER,
                         id = "TIMER"
@@ -283,7 +283,7 @@ class RoutineSummaryStateConverterTest {
                     id = 2.asID,
                     name = "Segment 2",
                     time = "10".timeText,
-                    type = TimeType(
+                    type = TimeTypeStyle(
                         nameStringResId = R.string.chip_time_type_timer_name,
                         color = TimeTypeColors.TIMER,
                         id = "TIMER"
@@ -323,7 +323,7 @@ class RoutineSummaryStateConverterTest {
                     segmentsSummary = SegmentsSummary(
                         estimatedTotalTime = "20".timeText,
                         segmentTypesCount = immutableMapOf(
-                            TimeType(
+                            TimeTypeStyle(
                                 nameStringResId = R.string.chip_time_type_timer_name,
                                 color = TimeTypeColors.TIMER,
                                 id = "TIMER"
@@ -338,7 +338,7 @@ class RoutineSummaryStateConverterTest {
                     id = 1.asID,
                     name = "Segment 1",
                     time = "10".timeText,
-                    type = TimeType(
+                    type = TimeTypeStyle(
                         nameStringResId = R.string.chip_time_type_timer_name,
                         color = TimeTypeColors.TIMER,
                         id = "TIMER"
@@ -349,7 +349,7 @@ class RoutineSummaryStateConverterTest {
                     id = 2.asID,
                     name = "Segment 2",
                     time = "10".timeText,
-                    type = TimeType(
+                    type = TimeTypeStyle(
                         nameStringResId = R.string.chip_time_type_timer_name,
                         color = TimeTypeColors.TIMER,
                         id = "TIMER"
@@ -415,7 +415,7 @@ class RoutineSummaryStateConverterTest {
                     segmentsSummary = SegmentsSummary(
                         estimatedTotalTime = null,
                         segmentTypesCount = immutableMapOf(
-                            TimeType(
+                            TimeTypeStyle(
                                 nameStringResId = R.string.chip_time_type_stopwatch_name,
                                 color = TimeTypeColors.STOPWATCH,
                                 id = "STOPWATCH"
@@ -428,7 +428,7 @@ class RoutineSummaryStateConverterTest {
                     id = 1.asID,
                     name = "Segment 1",
                     time = "0".timeText,
-                    type = TimeType(
+                    type = TimeTypeStyle(
                         nameStringResId = R.string.chip_time_type_stopwatch_name,
                         color = TimeTypeColors.STOPWATCH,
                         id = "STOPWATCH"

@@ -22,7 +22,7 @@ import com.enricog.core.compose.api.modifiers.spacing.horizontalListItemSpacing
 import com.enricog.core.compose.api.modifiers.swipeable.FractionalThreshold
 import com.enricog.core.compose.api.modifiers.swipeable.SwipeableState
 import com.enricog.core.compose.api.modifiers.swipeable.swipeable
-import com.enricog.features.routines.detail.ui.time_type.TimeType
+import com.enricog.features.routines.detail.ui.time_type.TimeTypeStyle
 import kotlinx.coroutines.launch
 import java.lang.Float.min
 import kotlin.math.abs
@@ -31,11 +31,11 @@ import kotlin.math.abs
 internal fun SegmentTypeTabs(
     tabSpace: Dp,
     tabWidth: Dp,
-    tabAnchors: ImmutableMap<Float, TimeType>,
-    swipeState: SwipeableState<TimeType>,
-    timeTypes: ImmutableList<TimeType>,
-    selectedTimeType: TimeType,
-    onSelectTimeTypeChange: (TimeType) -> Unit,
+    tabAnchors: ImmutableMap<Float, TimeTypeStyle>,
+    swipeState: SwipeableState<TimeTypeStyle>,
+    timeTypeStyles: ImmutableList<TimeTypeStyle>,
+    selectedTimeTypeStyle: TimeTypeStyle,
+    onSelectTimeTypeChange: (TimeTypeStyle) -> Unit,
     modifier: Modifier = Modifier
 ) {
     val coroutineScope = rememberCoroutineScope()
@@ -45,7 +45,7 @@ internal fun SegmentTypeTabs(
             .fillMaxWidth()
             .drawBehind {
                 drawRoundRect(
-                    color = selectedTimeType.color,
+                    color = selectedTimeTypeStyle.backgroundColor,
                     cornerRadius = CornerRadius(x = 50f, y = 50f),
                     topLeft = Offset(x = swipeState.offset.value, y = tabSpace.toPx()),
                     size = Size(width = tabWidth.toPx(), height = 31.dp.toPx())
@@ -67,14 +67,14 @@ internal fun SegmentTypeTabs(
         ) {
             val anchors = tabAnchors.map { it.value to it.key }.toMap()
             val offset by swipeState.offset
-            val offsetRange = anchors[timeTypes[1]] ?: 1f
+            val offsetRange = anchors[timeTypeStyles[1]] ?: 1f
 
-            timeTypes.forEachIndexed { index, timeType ->
+            timeTypeStyles.forEachIndexed { index, timeType ->
                 val anchor = anchors[timeType] ?: 1f
 
                 SegmentTypeTab(
                     progress = min(1f, abs(anchor - offset) / offsetRange),
-                    timeType = timeType,
+                    timeTypeStyle = timeType,
                     onClick = {
                         coroutineScope.launch {
                             onSelectTimeTypeChange(it)

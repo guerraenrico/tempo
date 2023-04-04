@@ -9,8 +9,8 @@ import com.enricog.features.routines.list.models.RoutinesState
 import com.enricog.features.routines.list.models.RoutinesState.Data.Action
 import com.enricog.features.routines.list.models.RoutinesState.Data.Action.DeleteRoutineError
 import com.enricog.features.routines.list.models.RoutinesState.Data.Action.DeleteRoutineSuccess
-import com.enricog.features.routines.list.models.RoutinesState.Data.Action.MoveRoutineError
 import com.enricog.features.routines.list.models.RoutinesState.Data.Action.DuplicateRoutineError
+import com.enricog.features.routines.list.models.RoutinesState.Data.Action.MoveRoutineError
 import com.enricog.features.routines.list.models.RoutinesViewState
 import com.enricog.features.routines.list.models.RoutinesViewState.Data
 import com.enricog.features.routines.list.models.RoutinesViewState.Data.Message
@@ -25,7 +25,7 @@ internal class RoutinesStateConverter @Inject constructor() :
             RoutinesState.Empty -> RoutinesViewState.Empty
             is RoutinesState.Data -> Data(
                 routinesItems = buildList {
-                    addAll(state.routines.map { RoutineItem.from(routine = it) })
+                    addAll(state.routines.map { RoutineItem.from(routine = it, timerTheme = state.timerTheme) })
                     add(Space)
                 }.asImmutableList(),
                 message = state.action?.toMessage()

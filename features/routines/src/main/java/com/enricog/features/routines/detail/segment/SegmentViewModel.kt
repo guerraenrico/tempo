@@ -7,19 +7,21 @@ import androidx.compose.ui.text.input.TextFieldValue
 import androidx.lifecycle.SavedStateHandle
 import com.enricog.base.viewmodel.BaseViewModel
 import com.enricog.base.viewmodel.ViewModelConfiguration
+import com.enricog.core.coroutines.async.awaitAll
 import com.enricog.core.coroutines.dispatchers.CoroutineDispatchers
 import com.enricog.core.coroutines.job.autoCancelableJob
+import com.enricog.core.entities.seconds
 import com.enricog.core.logger.api.TempoLogger
 import com.enricog.data.routines.api.entities.Routine
 import com.enricog.data.routines.api.entities.Segment
 import com.enricog.data.routines.api.entities.TimeType.STOPWATCH
-import com.enricog.core.entities.seconds
 import com.enricog.features.routines.detail.segment.models.SegmentInputs
 import com.enricog.features.routines.detail.segment.models.SegmentState
 import com.enricog.features.routines.detail.segment.models.SegmentState.Data.Action.SaveSegmentError
 import com.enricog.features.routines.detail.segment.models.SegmentViewState
+import com.enricog.features.routines.detail.segment.usecase.GetTimerThemeUserCase
 import com.enricog.features.routines.detail.segment.usecase.SegmentUseCase
-import com.enricog.features.routines.detail.ui.time_type.TimeType
+import com.enricog.features.routines.detail.ui.time_type.TimeTypeStyle
 import com.enricog.features.routines.navigation.RoutinesNavigationActions
 import com.enricog.navigation.api.routes.SegmentRoute
 import com.enricog.navigation.api.routes.SegmentRouteInput
@@ -30,6 +32,7 @@ import com.enricog.ui.components.textField.TimeText
 import com.enricog.ui.components.textField.timeText
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.CoroutineExceptionHandler
+import kotlinx.coroutines.async
 import kotlinx.coroutines.delay
 import javax.inject.Inject
 
@@ -39,6 +42,7 @@ internal class SegmentViewModel @Inject constructor(
     dispatchers: CoroutineDispatchers,
     converter: SegmentStateConverter,
     private val reducer: SegmentReducer,
+    private val getTimerThemeUserCase: GetTimerThemeUserCase,
     private val segmentUseCase: SegmentUseCase,
     private val validator: SegmentValidator,
     private val navigationActions: RoutinesNavigationActions
@@ -67,8 +71,11 @@ internal class SegmentViewModel @Inject constructor(
         }
 
         loadJob = launch(exceptionHandler = exceptionHandler) {
-            val routine = segmentUseCase.get(routineId = input.routineId)
-            updateState { reducer.setup(routine = routine, segmentId = input.segmentId) }
+            val (timerTheme, routine) = awaitAll(
+                async { getTimerThemeUserCase() },
+                async { segmentUseCase.get(routineId = input.routineId) }
+            )
+            updateState { reducer.setup(routine = routine, timerTheme = timerTheme, segmentId = input.segmentId) }
 
             runWhen<SegmentState.Data> { stateData ->
                 val segment = stateData.segment
@@ -102,9 +109,9 @@ internal class SegmentViewModel @Inject constructor(
         }
     }
 
-    fun onSegmentTypeChange(timeType: TimeType) {
+    fun onSegmentTypeChange(timeTypeStyle: TimeTypeStyle) {
         updateStateWhen<SegmentState.Data> { stateData ->
-            reducer.updateSegmentTimeType(state = stateData, timeType = timeType.toEntity())
+            reducer.updateSegmentTimeType(state = stateData, timeType = timeTypeStyle.toEntity())
         }
 
         runWhen<SegmentState.Data> { stateData ->

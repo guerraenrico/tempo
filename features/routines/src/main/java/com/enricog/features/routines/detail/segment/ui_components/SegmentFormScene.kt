@@ -30,7 +30,7 @@ import com.enricog.features.routines.R
 import com.enricog.features.routines.detail.segment.models.SegmentField
 import com.enricog.features.routines.detail.segment.models.SegmentInputs
 import com.enricog.features.routines.detail.segment.models.SegmentViewState
-import com.enricog.features.routines.detail.ui.time_type.TimeType
+import com.enricog.features.routines.detail.ui.time_type.TimeTypeStyle
 import com.enricog.ui.components.button.TempoButton
 import com.enricog.ui.components.button.TempoButtonColor
 import com.enricog.ui.components.snackbar.TempoSnackbarEvent
@@ -49,7 +49,7 @@ internal fun SegmentFormScene(
     inputs: SegmentInputs,
     onSegmentNameChange: (TextFieldValue) -> Unit,
     onSegmentTimeChange: (TimeText) -> Unit,
-    onSegmentTimeTypeChange: (TimeType) -> Unit,
+    onSegmentTimeTypeChange: (TimeTypeStyle) -> Unit,
     onSegmentConfirmed: () -> Unit,
     onSnackbarEvent: (TempoSnackbarEvent) -> Unit
 ) {
@@ -80,8 +80,8 @@ internal fun SegmentFormScene(
                         end = TempoTheme.dimensions.spaceM,
                         bottom = 85.dp
                     ),
-                timeTypes = state.timeTypes,
-                selectedType = state.selectedTimeType,
+                timeTypeStyles = state.timeTypeStyles,
+                selectedType = state.selectedTimeTypeStyle,
                 onSelectTimeTypeChange = onSegmentTimeTypeChange
             ) {
                 TempoTextField(

@@ -15,7 +15,7 @@ import com.enricog.features.routines.detail.segment.models.SegmentState
 import com.enricog.features.routines.detail.segment.models.SegmentState.Data.Action.SaveSegmentError
 import com.enricog.features.routines.detail.segment.models.SegmentViewState
 import com.enricog.features.routines.detail.segment.models.SegmentViewState.Data.Message
-import com.enricog.features.routines.detail.ui.time_type.TimeType
+import com.enricog.features.routines.detail.ui.time_type.TimeTypeStyle
 import com.google.common.truth.Truth.assertThat
 import org.junit.Rule
 import org.junit.Test
@@ -63,13 +63,13 @@ class SegmentStateConverterTest {
             action = null
         )
         val expected = SegmentViewState.Data(
-            selectedTimeType = TimeType.from(TimeTypeEntity.REST),
+            selectedTimeTypeStyle = TimeTypeStyle.from(TimeTypeEntity.REST),
             isTimeFieldVisible = true,
             errors = immutableMapOf(
                 SegmentField.Name to SegmentFieldError.BlankSegmentName,
                 SegmentField.Time to SegmentFieldError.InvalidSegmentTime
             ),
-            timeTypes = emptyImmutableList(),
+            timeTypeStyles = emptyImmutableList(),
             message = null
         )
 
@@ -92,13 +92,13 @@ class SegmentStateConverterTest {
             action = SaveSegmentError
         )
         val expected = SegmentViewState.Data(
-            selectedTimeType = TimeType.from(TimeTypeEntity.REST),
+            selectedTimeTypeStyle = TimeTypeStyle.from(TimeTypeEntity.REST),
             isTimeFieldVisible = true,
             errors = immutableMapOf(
                 SegmentField.Name to SegmentFieldError.BlankSegmentName,
                 SegmentField.Time to SegmentFieldError.InvalidSegmentTime
             ),
-            timeTypes = immutableListOf(),
+            timeTypeStyles = immutableListOf(),
             message = Message(
                 textResId = R.string.label_segment_save_error,
                 actionTextResId = R.string.action_text_segment_save_error
@@ -125,13 +125,13 @@ class SegmentStateConverterTest {
             action = null
         )
         val expected = SegmentViewState.Data(
-            selectedTimeType = TimeType.from(TimeTypeEntity.STOPWATCH),
+            selectedTimeTypeStyle = TimeTypeStyle.from(TimeTypeEntity.STOPWATCH),
             isTimeFieldVisible = false,
             errors = emptyImmutableMap(),
-            timeTypes = immutableListOf(
-                TimeType.from(TimeTypeEntity.TIMER),
-                TimeType.from(TimeTypeEntity.REST),
-                TimeType.from(TimeTypeEntity.STOPWATCH)
+            timeTypeStyles = immutableListOf(
+                TimeTypeStyle.from(TimeTypeEntity.TIMER),
+                TimeTypeStyle.from(TimeTypeEntity.REST),
+                TimeTypeStyle.from(TimeTypeEntity.STOPWATCH)
             ),
             message = null
         )

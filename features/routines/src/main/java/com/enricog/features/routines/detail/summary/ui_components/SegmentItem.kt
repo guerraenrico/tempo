@@ -5,20 +5,21 @@ import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.platform.testTag
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.constraintlayout.compose.ConstraintLayout
 import androidx.constraintlayout.compose.Dimension
 import com.enricog.core.entities.ID
 import com.enricog.core.entities.asID
+import com.enricog.features.routines.R
 import com.enricog.features.routines.detail.summary.models.RoutineSummaryItem.SegmentItem
-import com.enricog.features.routines.detail.ui.time_type.TimeType
 import com.enricog.features.routines.detail.ui.time_type.TimeTypeChip
+import com.enricog.features.routines.detail.ui.time_type.TimeTypeStyle
 import com.enricog.features.routines.ui_components.SwipeableListItem
 import com.enricog.ui.components.text.TempoText
 import com.enricog.ui.components.textField.timeText
 import com.enricog.ui.theme.TempoTheme
-import com.enricog.data.routines.api.entities.TimeType as TimeTypeEntity
 
 internal const val SegmentItemTestTag = "SegmentItemTestTag"
 
@@ -66,7 +67,7 @@ internal fun SegmentItem(
                         bottom.linkTo(parent.bottom)
                     }
                     .padding(top = TempoTheme.dimensions.spaceM),
-                value = segment.type
+                style = segment.type
             )
 
             TempoText(
@@ -93,7 +94,12 @@ private fun SegmentItemPreview() {
             id = 0.asID,
             name = "Segment name",
             time = "100".timeText,
-            type = TimeType.from(TimeTypeEntity.TIMER),
+            type = TimeTypeStyle(
+                id = "TIMER",
+                backgroundColor = Color.Blue,
+                onBackgroundColor = Color.White,
+                nameStringResId = R.string.chip_time_type_timer_name
+            ),
             rank = ""
         ),
         onClick = {},

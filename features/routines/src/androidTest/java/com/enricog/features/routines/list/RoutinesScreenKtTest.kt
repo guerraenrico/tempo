@@ -7,7 +7,7 @@ import com.enricog.core.compose.api.classes.immutableListOf
 import com.enricog.core.compose.api.classes.immutableMapOf
 import com.enricog.core.compose.testing.invoke
 import com.enricog.core.entities.asID
-import com.enricog.features.routines.detail.ui.time_type.TimeType
+import com.enricog.features.routines.detail.ui.time_type.TimeTypeStyle
 import com.enricog.features.routines.list.models.RoutinesItem
 import com.enricog.features.routines.list.models.RoutinesViewState
 import com.enricog.features.routines.list.ui_components.RoutinesEmptySceneTestTag
@@ -85,9 +85,9 @@ class RoutinesScreenKtTest {
                     segmentsSummary = RoutinesItem.RoutineItem.SegmentsSummary(
                         estimatedTotalTime = "12".timeText,
                         segmentTypesCount = immutableMapOf(
-                            TimeType.from(TimeTypeEntity.TIMER) to 2,
-                            TimeType.from(TimeTypeEntity.REST) to 1,
-                            TimeType.from(TimeTypeEntity.STOPWATCH) to 1
+                            TimeTypeStyle.from(TimeTypeEntity.TIMER) to 2,
+                            TimeTypeStyle.from(TimeTypeEntity.REST) to 1,
+                            TimeTypeStyle.from(TimeTypeEntity.STOPWATCH) to 1
                         )
                     )
                 ),

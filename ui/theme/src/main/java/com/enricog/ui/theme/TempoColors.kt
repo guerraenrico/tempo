@@ -101,10 +101,6 @@ fun TempoColors.contentColorFor(backgroundColor: Color): Color {
         background -> onBackground
         surface -> onSurface
         error -> onError
-        TimeTypeColors.STARTING -> darkBlue500
-        TimeTypeColors.STOPWATCH -> darkBlue500
-        TimeTypeColors.TIMER -> darkBlue500
-        TimeTypeColors.REST -> darkBlue500
         else -> Color.Unspecified
     }
 }

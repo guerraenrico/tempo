@@ -4,9 +4,9 @@ import androidx.lifecycle.viewModelScope
 import com.enricog.base.viewmodel.BaseViewModel
 import com.enricog.core.coroutines.dispatchers.CoroutineDispatchers
 import com.enricog.core.coroutines.job.autoCancelableJob
+import com.enricog.core.entities.ID
 import com.enricog.core.logger.api.TempoLogger
 import com.enricog.data.routines.api.entities.Routine
-import com.enricog.core.entities.ID
 import com.enricog.features.routines.list.models.RoutinesState
 import com.enricog.features.routines.list.models.RoutinesState.Data.Action.DeleteRoutineError
 import com.enricog.features.routines.list.models.RoutinesState.Data.Action.DeleteRoutineSuccess
@@ -16,6 +16,7 @@ import com.enricog.features.routines.list.models.RoutinesViewState
 import com.enricog.features.routines.list.usecase.DeleteRoutineUseCase
 import com.enricog.features.routines.list.usecase.DuplicateRoutineUseCase
 import com.enricog.features.routines.list.usecase.GetRoutinesUseCase
+import com.enricog.features.routines.list.usecase.GetTimerThemeUserCase
 import com.enricog.features.routines.list.usecase.MoveRoutineUseCase
 import com.enricog.features.routines.navigation.RoutinesNavigationActions
 import com.enricog.ui.components.snackbar.TempoSnackbarEvent
@@ -36,6 +37,7 @@ internal class RoutinesViewModel @Inject constructor(
     converter: RoutinesStateConverter,
     private val navigationActions: RoutinesNavigationActions,
     private val reducer: RoutinesReducer,
+    private val getTimerThemeUserCase: GetTimerThemeUserCase,
     private val getRoutinesUseCase: GetRoutinesUseCase,
     private val deleteRoutineUseCase: DeleteRoutineUseCase,
     private val moveRoutineUseCase: MoveRoutineUseCase,
@@ -57,9 +59,17 @@ internal class RoutinesViewModel @Inject constructor(
     }
 
     private fun load() {
-        loadJob = getRoutinesUseCase()
-            .combine(queueRoutineToDelete) { routines, routineToDelete -> routines.filter { it != routineToDelete } }
-            .onEach { routines -> updateState { reducer.setup(state = it, routines = routines) } }
+        val timerThemeFlow = getTimerThemeUserCase()
+        val routinesFlow = getRoutinesUseCase().combine(queueRoutineToDelete) { routines, routineToDelete ->
+            routines.filter { it != routineToDelete }
+        }
+
+        loadJob = combine(routinesFlow, timerThemeFlow) { routines, timerTheme -> routines to timerTheme }
+            .onEach { (routines, timerTheme) ->
+                updateState {
+                    reducer.setup(state = it, routines = routines, timerTheme = timerTheme)
+                }
+            }
             .catch { throwable ->
                 TempoLogger.e(throwable = throwable, message = "Error loading routines")
                 updateState { reducer.error(throwable = throwable) }

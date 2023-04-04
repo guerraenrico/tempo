@@ -24,7 +24,7 @@ import com.enricog.features.routines.detail.summary.usecase.DeleteSegmentUseCase
 import com.enricog.features.routines.detail.summary.usecase.DuplicateSegmentUseCase
 import com.enricog.features.routines.detail.summary.usecase.GetRoutineUseCase
 import com.enricog.features.routines.detail.summary.usecase.MoveSegmentUseCase
-import com.enricog.features.routines.detail.ui.time_type.TimeType
+import com.enricog.features.routines.detail.ui.time_type.TimeTypeStyle
 import com.enricog.features.routines.navigation.RoutinesNavigationActions
 import com.enricog.navigation.api.routes.RoutineRoute
 import com.enricog.navigation.api.routes.RoutineRouteInput
@@ -52,7 +52,7 @@ class RoutineSummaryViewModelTest {
         id = 1.asID,
         name = "First Segment",
         time = "10".timeText,
-        type = TimeType(
+        type = TimeTypeStyle(
             nameStringResId = R.string.chip_time_type_timer_name,
             color = TimeTypeColors.TIMER,
             id = "TIMER"
@@ -63,7 +63,7 @@ class RoutineSummaryViewModelTest {
         id = 2.asID,
         name = "Second Segment",
         time = "10".timeText,
-        type = TimeType(
+        type = TimeTypeStyle(
             nameStringResId = R.string.chip_time_type_timer_name,
             color = TimeTypeColors.TIMER,
             id = "TIMER"
@@ -74,7 +74,7 @@ class RoutineSummaryViewModelTest {
         id = 3.asID,
         name = "Third Segment",
         time = "10".timeText,
-        type = TimeType(
+        type = TimeTypeStyle(
             nameStringResId = R.string.chip_time_type_timer_name,
             color = TimeTypeColors.TIMER,
             id = "TIMER"
@@ -119,7 +119,7 @@ class RoutineSummaryViewModelTest {
                     segmentsSummary = SegmentsSummary(
                         estimatedTotalTime = "30".timeText,
                         segmentTypesCount = immutableMapOf(
-                            TimeType(
+                            TimeTypeStyle(
                                 nameStringResId = R.string.chip_time_type_timer_name,
                                 color = TimeTypeColors.TIMER,
                                 id = "TIMER"
@@ -165,7 +165,7 @@ class RoutineSummaryViewModelTest {
                     segmentsSummary = SegmentsSummary(
                         estimatedTotalTime = "30".timeText,
                         segmentTypesCount = immutableMapOf(
-                            TimeType(
+                            TimeTypeStyle(
                                 nameStringResId = R.string.chip_time_type_timer_name,
                                 color = TimeTypeColors.TIMER,
                                 id = "TIMER"
@@ -230,7 +230,7 @@ class RoutineSummaryViewModelTest {
                     segmentsSummary = SegmentsSummary(
                         estimatedTotalTime = "20".timeText,
                         segmentTypesCount = immutableMapOf(
-                            TimeType(
+                            TimeTypeStyle(
                                 nameStringResId = R.string.chip_time_type_timer_name,
                                 color = TimeTypeColors.TIMER,
                                 id = "TIMER"
@@ -268,7 +268,7 @@ class RoutineSummaryViewModelTest {
                     segmentsSummary = SegmentsSummary(
                         estimatedTotalTime = "30".timeText,
                         segmentTypesCount = immutableMapOf(
-                            TimeType(
+                            TimeTypeStyle(
                                 nameStringResId = R.string.chip_time_type_timer_name,
                                 color = TimeTypeColors.TIMER,
                                 id = "TIMER"
@@ -308,7 +308,7 @@ class RoutineSummaryViewModelTest {
                     segmentsSummary = SegmentsSummary(
                         estimatedTotalTime = "20".timeText,
                         segmentTypesCount = immutableMapOf(
-                            TimeType(
+                            TimeTypeStyle(
                                 nameStringResId = R.string.chip_time_type_timer_name,
                                 color = TimeTypeColors.TIMER,
                                 id = "TIMER"
@@ -349,7 +349,7 @@ class RoutineSummaryViewModelTest {
                     segmentsSummary = SegmentsSummary(
                         estimatedTotalTime = "30".timeText,
                         segmentTypesCount = immutableMapOf(
-                            TimeType(
+                            TimeTypeStyle(
                                 nameStringResId = R.string.chip_time_type_timer_name,
                                 color = TimeTypeColors.TIMER,
                                 id = "TIMER"
@@ -391,7 +391,7 @@ class RoutineSummaryViewModelTest {
                     segmentsSummary = SegmentsSummary(
                         estimatedTotalTime = "20".timeText,
                         segmentTypesCount = immutableMapOf(
-                            TimeType(
+                            TimeTypeStyle(
                                 nameStringResId = R.string.chip_time_type_timer_name,
                                 color = TimeTypeColors.TIMER,
                                 id = "TIMER"
@@ -432,7 +432,7 @@ class RoutineSummaryViewModelTest {
                     segmentsSummary = SegmentsSummary(
                         estimatedTotalTime = "20".timeText,
                         segmentTypesCount = immutableMapOf(
-                            TimeType(
+                            TimeTypeStyle(
                                 nameStringResId = R.string.chip_time_type_timer_name,
                                 color = TimeTypeColors.TIMER,
                                 id = "TIMER"
@@ -474,7 +474,7 @@ class RoutineSummaryViewModelTest {
                     segmentsSummary = SegmentsSummary(
                         estimatedTotalTime = "40".timeText,
                         segmentTypesCount = immutableMapOf(
-                            TimeType(
+                            TimeTypeStyle(
                                 nameStringResId = R.string.chip_time_type_timer_name,
                                 color = TimeTypeColors.TIMER,
                                 id = "TIMER"
@@ -514,7 +514,7 @@ class RoutineSummaryViewModelTest {
                     segmentsSummary = SegmentsSummary(
                         estimatedTotalTime = "30".timeText,
                         segmentTypesCount = immutableMapOf(
-                            TimeType(
+                            TimeTypeStyle(
                                 nameStringResId = R.string.chip_time_type_timer_name,
                                 color = TimeTypeColors.TIMER,
                                 id = "TIMER"
@@ -554,7 +554,7 @@ class RoutineSummaryViewModelTest {
                     segmentsSummary = SegmentsSummary(
                         estimatedTotalTime = "30".timeText,
                         segmentTypesCount = immutableMapOf(
-                            TimeType(
+                            TimeTypeStyle(
                                 nameStringResId = R.string.chip_time_type_timer_name,
                                 color = TimeTypeColors.TIMER,
                                 id = "TIMER"
@@ -603,7 +603,7 @@ class RoutineSummaryViewModelTest {
                     segmentsSummary = SegmentsSummary(
                         estimatedTotalTime = "30".timeText,
                         segmentTypesCount = immutableMapOf(
-                            TimeType(
+                            TimeTypeStyle(
                                 nameStringResId = R.string.chip_time_type_timer_name,
                                 color = TimeTypeColors.TIMER,
                                 id = "TIMER"
@@ -639,7 +639,7 @@ class RoutineSummaryViewModelTest {
                     segmentsSummary = SegmentsSummary(
                         estimatedTotalTime = "30".timeText,
                         segmentTypesCount = immutableMapOf(
-                            TimeType(
+                            TimeTypeStyle(
                                 nameStringResId = R.string.chip_time_type_timer_name,
                                 color = TimeTypeColors.TIMER,
                                 id = "TIMER"
@@ -682,7 +682,7 @@ class RoutineSummaryViewModelTest {
                     segmentsSummary = SegmentsSummary(
                         estimatedTotalTime = "30".timeText,
                         segmentTypesCount = immutableMapOf(
-                            TimeType(
+                            TimeTypeStyle(
                                 nameStringResId = R.string.chip_time_type_timer_name,
                                 color = TimeTypeColors.TIMER,
                                 id = "TIMER"
@@ -724,7 +724,7 @@ class RoutineSummaryViewModelTest {
                     segmentsSummary = SegmentsSummary(
                         estimatedTotalTime = "20".timeText,
                         segmentTypesCount = immutableMapOf(
-                            TimeType(
+                            TimeTypeStyle(
                                 nameStringResId = R.string.chip_time_type_timer_name,
                                 color = TimeTypeColors.TIMER,
                                 id = "TIMER"

@@ -5,5 +5,6 @@ import kotlinx.coroutines.flow.Flow
 
 interface TimerThemeDataSource {
     fun observeAll(): Flow<List<TimerTheme>>
-    suspend fun getDefault(): TimerTheme
+    fun observeSelected(): Flow<TimerTheme>
+    suspend fun getSelected(): TimerTheme
 }

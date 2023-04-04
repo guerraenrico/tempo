@@ -9,7 +9,7 @@ import com.enricog.core.compose.api.classes.immutableMapOf
 import com.enricog.core.compose.testing.invoke
 import com.enricog.features.routines.R
 import com.enricog.features.routines.detail.summary.models.RoutineSummaryItem.RoutineInfo
-import com.enricog.features.routines.detail.ui.time_type.TimeType
+import com.enricog.features.routines.detail.ui.time_type.TimeTypeStyle
 import com.enricog.ui.components.textField.timeText
 import com.enricog.ui.theme.TempoTheme
 import com.enricog.ui.theme.TimeTypeColors
@@ -28,17 +28,17 @@ internal class RoutineSectionKtTest {
             segmentsSummary = RoutineInfo.SegmentsSummary(
                 estimatedTotalTime = "10".timeText,
                 segmentTypesCount = immutableMapOf(
-                    TimeType(
+                    TimeTypeStyle(
                         nameStringResId = R.string.chip_time_type_timer_name,
                         color = TimeTypeColors.TIMER,
                         id = "TIMER"
                     ) to 3,
-                    TimeType(
+                    TimeTypeStyle(
                         nameStringResId = R.string.chip_time_type_rest_name,
                         color = TimeTypeColors.REST,
                         id = "REST"
                     ) to 2,
-                    TimeType(
+                    TimeTypeStyle(
                         nameStringResId = R.string.chip_time_type_stopwatch_name,
                         color = TimeTypeColors.STOPWATCH,
                         id = "STOPWATCH"
@@ -107,7 +107,7 @@ internal class RoutineSectionKtTest {
             segmentsSummary = RoutineInfo.SegmentsSummary(
                 estimatedTotalTime = null,
                 segmentTypesCount = immutableMapOf(
-                    TimeType(
+                    TimeTypeStyle(
                         nameStringResId = R.string.chip_time_type_stopwatch_name,
                         color = TimeTypeColors.STOPWATCH,
                         id = "STOPWATCH"

@@ -26,7 +26,6 @@ import com.enricog.ui.components.button.TempoButton
 import com.enricog.ui.components.button.TempoButtonColor
 import com.enricog.ui.components.text.TempoText
 import com.enricog.ui.theme.TempoTheme
-import com.enricog.ui.theme.contentColorFor
 
 internal const val RoutineSectionTestTag = "RoutineSectionTestTag"
 internal const val RoutineSectionSummaryInfoTestTag = "RoutineSectionSummaryInfoTestTag"
@@ -106,7 +105,7 @@ private fun SegmentSummary(
             )
         }
         Row {
-            segmentsSummary.segmentTypesCount.onEachIndexed { index, (timeType, count) ->
+            segmentsSummary.segmentTypesCount.onEachIndexed { index, (timeTypeStyle, count) ->
                 Box(
                     modifier = Modifier
                         .horizontalListItemSpacing(
@@ -117,21 +116,19 @@ private fun SegmentSummary(
                         )
                         .size(21.dp)
                         .clip(CircleShape)
-                        .background(color = timeType.color, shape = CircleShape),
+                        .background(color = timeTypeStyle.backgroundColor, shape = CircleShape),
                     contentAlignment = Alignment.Center
                 ) {
                     TempoText(
                         modifier = Modifier.testTag(
                             RoutineSectionSegmentTypeCountTestTag.replace(
                                 oldValue = "{{TYPE}}",
-                                newValue = timeType.id
+                                newValue = timeTypeStyle.id
                             )
                         ),
                         text = count.toString(),
                         style = TempoTheme.typography.h6.copy(
-                            color = TempoTheme.colors.contentColorFor(
-                                backgroundColor = timeType.color
-                            )
+                            color = timeTypeStyle.onBackgroundColor
                         )
                     )
                 }
