@@ -19,7 +19,7 @@ import com.enricog.features.routines.detail.segment.models.SegmentInputs
 import com.enricog.features.routines.detail.segment.models.SegmentState
 import com.enricog.features.routines.detail.segment.models.SegmentState.Data.Action.SaveSegmentError
 import com.enricog.features.routines.detail.segment.models.SegmentViewState
-import com.enricog.features.routines.detail.segment.usecase.GetTimerThemeUserCase
+import com.enricog.features.routines.detail.segment.usecase.GetTimerThemeUseCase
 import com.enricog.features.routines.detail.segment.usecase.SegmentUseCase
 import com.enricog.features.routines.detail.ui.time_type.TimeTypeStyle
 import com.enricog.features.routines.navigation.RoutinesNavigationActions
@@ -42,7 +42,7 @@ internal class SegmentViewModel @Inject constructor(
     dispatchers: CoroutineDispatchers,
     converter: SegmentStateConverter,
     private val reducer: SegmentReducer,
-    private val getTimerThemeUserCase: GetTimerThemeUserCase,
+    private val getTimerThemeUseCase: GetTimerThemeUseCase,
     private val segmentUseCase: SegmentUseCase,
     private val validator: SegmentValidator,
     private val navigationActions: RoutinesNavigationActions
@@ -72,7 +72,7 @@ internal class SegmentViewModel @Inject constructor(
 
         loadJob = launch(exceptionHandler = exceptionHandler) {
             val (timerTheme, routine) = awaitAll(
-                async { getTimerThemeUserCase() },
+                async { getTimerThemeUseCase() },
                 async { segmentUseCase.get(routineId = input.routineId) }
             )
             updateState { reducer.setup(routine = routine, timerTheme = timerTheme, segmentId = input.segmentId) }

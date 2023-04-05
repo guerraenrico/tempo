@@ -1,5 +1,6 @@
 package com.enricog.features.routines.detail.summary.ui_components
 
+import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.test.assertIsDisplayed
 import androidx.compose.ui.test.assertTextEquals
 import androidx.compose.ui.test.junit4.createComposeRule
@@ -12,7 +13,6 @@ import com.enricog.features.routines.detail.summary.models.RoutineSummaryItem.Ro
 import com.enricog.features.routines.detail.ui.time_type.TimeTypeStyle
 import com.enricog.ui.components.textField.timeText
 import com.enricog.ui.theme.TempoTheme
-import com.enricog.ui.theme.TimeTypeColors
 import org.junit.Rule
 import org.junit.Test
 
@@ -30,17 +30,20 @@ internal class RoutineSectionKtTest {
                 segmentTypesCount = immutableMapOf(
                     TimeTypeStyle(
                         nameStringResId = R.string.chip_time_type_timer_name,
-                        color = TimeTypeColors.TIMER,
+                        backgroundColor = Color.Blue,
+                        onBackgroundColor = Color.White,
                         id = "TIMER"
                     ) to 3,
                     TimeTypeStyle(
                         nameStringResId = R.string.chip_time_type_rest_name,
-                        color = TimeTypeColors.REST,
+                        backgroundColor = Color.Red,
+                        onBackgroundColor = Color.White,
                         id = "REST"
                     ) to 2,
                     TimeTypeStyle(
                         nameStringResId = R.string.chip_time_type_stopwatch_name,
-                        color = TimeTypeColors.STOPWATCH,
+                        backgroundColor = Color.DarkGray,
+                        onBackgroundColor = Color.White,
                         id = "STOPWATCH"
                     ) to 1
                 )
@@ -109,7 +112,8 @@ internal class RoutineSectionKtTest {
                 segmentTypesCount = immutableMapOf(
                     TimeTypeStyle(
                         nameStringResId = R.string.chip_time_type_stopwatch_name,
-                        color = TimeTypeColors.STOPWATCH,
+                        backgroundColor = Color.Blue,
+                        onBackgroundColor = Color.White,
                         id = "STOPWATCH"
                     ) to 1
                 )

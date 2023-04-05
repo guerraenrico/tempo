@@ -3,10 +3,12 @@ package com.enricog.features.routines.list
 import com.enricog.core.compose.api.classes.immutableListOf
 import com.enricog.core.compose.api.classes.immutableMapOf
 import com.enricog.core.coroutines.testing.CoroutineRule
-import com.enricog.data.routines.api.entities.Segment
-import com.enricog.data.routines.testing.entities.EMPTY
 import com.enricog.core.entities.asID
 import com.enricog.core.entities.seconds
+import com.enricog.data.routines.api.entities.Segment
+import com.enricog.data.routines.testing.entities.EMPTY
+import com.enricog.data.timer.api.theme.entities.TimerTheme
+import com.enricog.data.timer.testing.entities.DEFAULT
 import com.enricog.features.routines.R
 import com.enricog.features.routines.detail.ui.time_type.TimeTypeStyle
 import com.enricog.features.routines.list.models.RoutinesItem
@@ -35,7 +37,7 @@ class RoutinesStateConverterTest {
         val expected = RoutinesViewState.Idle
 
         val actual = stateConverter.convert(state)
-        
+
         assertThat(actual).isEqualTo(expected)
     }
 
@@ -62,7 +64,11 @@ class RoutinesStateConverterTest {
                 rank = "aaaaaa",
                 segmentsSummary = null
             )
-            val state = RoutinesState.Data(routines = listOf(routineEntity), action = null)
+            val state = RoutinesState.Data(
+                routines = listOf(routineEntity),
+                action = null,
+                timerTheme = TimerTheme.DEFAULT
+            )
             val expected = RoutinesViewState.Data(
                 routinesItems = immutableListOf(routineItem, RoutinesItem.Space),
                 message = null
@@ -101,6 +107,7 @@ class RoutinesStateConverterTest {
                     ),
                 )
             )
+            val timerTheme = TimerTheme.DEFAULT
             val routineItem = RoutinesItem.RoutineItem(
                 id = 0.asID,
                 name = "Routine",
@@ -108,13 +115,14 @@ class RoutinesStateConverterTest {
                 segmentsSummary = SegmentsSummary(
                     estimatedTotalTime = "12".timeText,
                     segmentTypesCount = immutableMapOf(
-                        TimeTypeStyle.from(TimeTypeEntity.TIMER) to 2,
-                        TimeTypeStyle.from(TimeTypeEntity.REST) to 1,
-                        TimeTypeStyle.from(TimeTypeEntity.STOPWATCH) to 1
+                        TimeTypeStyle.from(timeType = TimeTypeEntity.TIMER, timerTheme = timerTheme) to 2,
+                        TimeTypeStyle.from(timeType = TimeTypeEntity.REST, timerTheme = timerTheme) to 1,
+                        TimeTypeStyle.from(timeType = TimeTypeEntity.STOPWATCH, timerTheme = timerTheme) to 1
                     )
                 )
             )
-            val state = RoutinesState.Data(routines = listOf(routineEntity), action = null)
+            val state =
+                RoutinesState.Data(routines = listOf(routineEntity), action = null, timerTheme = timerTheme)
             val expected = RoutinesViewState.Data(
                 routinesItems = immutableListOf(routineItem, RoutinesItem.Space),
                 message = null
@@ -138,6 +146,7 @@ class RoutinesStateConverterTest {
                     ),
                 )
             )
+            val timerTheme = TimerTheme.DEFAULT
             val routineItem = RoutinesItem.RoutineItem(
                 id = 0.asID,
                 name = "Routine",
@@ -145,11 +154,11 @@ class RoutinesStateConverterTest {
                 segmentsSummary = SegmentsSummary(
                     estimatedTotalTime = null,
                     segmentTypesCount = immutableMapOf(
-                        TimeTypeStyle.from(TimeTypeEntity.STOPWATCH) to 1
+                        TimeTypeStyle.from(timeType = TimeTypeEntity.STOPWATCH, timerTheme = timerTheme) to 1
                     )
                 )
             )
-            val state = RoutinesState.Data(routines = listOf(routineEntity), action = null)
+            val state = RoutinesState.Data(routines = listOf(routineEntity), action = null, timerTheme = timerTheme)
             val expected = RoutinesViewState.Data(
                 routinesItems = immutableListOf(routineItem, RoutinesItem.Space),
                 message = null
@@ -174,7 +183,8 @@ class RoutinesStateConverterTest {
         )
         val state = RoutinesState.Data(
             routines = listOf(routineEntity),
-            action = Action.DeleteRoutineError(routineEntity.id)
+            action = Action.DeleteRoutineError(routineEntity.id),
+            timerTheme = TimerTheme.DEFAULT
         )
         val expected = RoutinesViewState.Data(
             routinesItems = immutableListOf(routineItem, RoutinesItem.Space),
@@ -203,7 +213,8 @@ class RoutinesStateConverterTest {
         )
         val state = RoutinesState.Data(
             routines = listOf(routineEntity),
-            action = Action.DeleteRoutineSuccess
+            action = Action.DeleteRoutineSuccess,
+            timerTheme = TimerTheme.DEFAULT
         )
         val expected = RoutinesViewState.Data(
             routinesItems = immutableListOf(routineItem, RoutinesItem.Space),
@@ -232,7 +243,8 @@ class RoutinesStateConverterTest {
         )
         val state = RoutinesState.Data(
             routines = listOf(routineEntity),
-            action = Action.MoveRoutineError
+            action = Action.MoveRoutineError,
+            timerTheme = TimerTheme.DEFAULT
         )
         val expected = RoutinesViewState.Data(
             routinesItems = immutableListOf(routineItem, RoutinesItem.Space),
@@ -261,7 +273,8 @@ class RoutinesStateConverterTest {
         )
         val state = RoutinesState.Data(
             routines = listOf(routineEntity),
-            action = Action.DuplicateRoutineError
+            action = Action.DuplicateRoutineError,
+            timerTheme = TimerTheme.DEFAULT
         )
         val expected = RoutinesViewState.Data(
             routinesItems = immutableListOf(routineItem, RoutinesItem.Space),

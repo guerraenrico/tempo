@@ -17,7 +17,7 @@ import com.enricog.features.routines.detail.summary.models.RoutineSummaryViewSta
 import com.enricog.features.routines.detail.summary.usecase.DeleteSegmentUseCase
 import com.enricog.features.routines.detail.summary.usecase.DuplicateSegmentUseCase
 import com.enricog.features.routines.detail.summary.usecase.GetRoutineUseCase
-import com.enricog.features.routines.detail.summary.usecase.GetTimerThemeUserCase
+import com.enricog.features.routines.detail.summary.usecase.GetTimerThemeUseCase
 import com.enricog.features.routines.detail.summary.usecase.MoveSegmentUseCase
 import com.enricog.features.routines.navigation.RoutinesNavigationActions
 import com.enricog.navigation.api.routes.RoutineSummaryRoute
@@ -41,7 +41,7 @@ internal class RoutineSummaryViewModel @Inject constructor(
     converter: RoutineSummaryStateConverter,
     private val navigationActions: RoutinesNavigationActions,
     private val reducer: RoutineSummaryReducer,
-    private val getTimerThemeUserCase: GetTimerThemeUserCase,
+    private val getTimerThemeUseCase: GetTimerThemeUseCase,
     private val getRoutineUseCase: GetRoutineUseCase,
     private val deleteSegmentUseCase: DeleteSegmentUseCase,
     private val moveSegmentUseCase: MoveSegmentUseCase,
@@ -64,7 +64,7 @@ internal class RoutineSummaryViewModel @Inject constructor(
     }
 
     private fun load(input: RoutineSummaryRouteInput) {
-        val timerThemeFlow = getTimerThemeUserCase()
+        val timerThemeFlow = getTimerThemeUseCase()
         val routineFlow = getRoutineUseCase(input.routineId)
             .combine(queueSegmentToDelete) { routine, segmentToDelete -> routine.copy(segments = routine.segments.filter { it != segmentToDelete }) }
 

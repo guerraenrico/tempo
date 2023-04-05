@@ -3,13 +3,16 @@ package com.enricog.features.routines.list
 import app.cash.turbine.test
 import com.enricog.core.compose.api.classes.immutableListOf
 import com.enricog.core.coroutines.testing.CoroutineRule
+import com.enricog.core.entities.ID
+import com.enricog.core.entities.Rank
+import com.enricog.core.entities.asID
 import com.enricog.data.local.testing.FakeStore
 import com.enricog.data.routines.api.entities.sortedByRank
 import com.enricog.data.routines.testing.FakeRoutineDataSource
 import com.enricog.data.routines.testing.entities.EMPTY
-import com.enricog.core.entities.ID
-import com.enricog.core.entities.Rank
-import com.enricog.core.entities.asID
+import com.enricog.data.timer.api.theme.entities.TimerTheme
+import com.enricog.data.timer.testing.FakeTimerThemeDataSource
+import com.enricog.data.timer.testing.entities.DEFAULT
 import com.enricog.features.routines.R
 import com.enricog.features.routines.list.models.RoutinesItem
 import com.enricog.features.routines.list.models.RoutinesViewState
@@ -17,6 +20,7 @@ import com.enricog.features.routines.list.models.RoutinesViewState.Data.Message
 import com.enricog.features.routines.list.usecase.DeleteRoutineUseCase
 import com.enricog.features.routines.list.usecase.DuplicateRoutineUseCase
 import com.enricog.features.routines.list.usecase.GetRoutinesUseCase
+import com.enricog.features.routines.list.usecase.GetTimerThemeUseCase
 import com.enricog.features.routines.list.usecase.MoveRoutineUseCase
 import com.enricog.features.routines.navigation.RoutinesNavigationActions
 import com.enricog.navigation.api.routes.RoutineRoute
@@ -38,6 +42,7 @@ class RoutinesViewModelTest {
     @get:Rule
     val coroutineRule = CoroutineRule(StandardTestDispatcher())
 
+    private val timerTheme = TimerTheme.DEFAULT
     private val firstRoutineEntity = RoutineEntity.EMPTY.copy(
         id = 1.asID,
         name = "First Routine",
@@ -72,10 +77,10 @@ class RoutinesViewModelTest {
         segmentsSummary = null
     )
     private val navigator = FakeNavigator()
-    private val store = FakeStore(
+    private val routinesStore = FakeStore(
         initialValue = listOf(firstRoutineEntity, secondRoutineEntity, thirdRoutineEntity)
     )
-    private val routineDataSource = FakeRoutineDataSource(store = store)
+    private val routineDataSource = FakeRoutineDataSource(store = routinesStore)
 
     @Test
     fun `should should show data when load succeeds`() = coroutineRule {
@@ -98,7 +103,7 @@ class RoutinesViewModelTest {
 
     @Test
     fun `should show error when load fails`() = coroutineRule {
-        store.enableErrorOnNextAccess()
+        routinesStore.enableErrorOnNextAccess()
 
         val viewModel = buildViewModel()
         advanceUntilIdle()
@@ -154,7 +159,7 @@ class RoutinesViewModelTest {
             viewModel.viewState.test {
                 assertThat(awaitItem()).isEqualTo(expected)
             }
-            assertThat(store.get()).isEqualTo(expectedDatabaseRoutines)
+            assertThat(routinesStore.get()).isEqualTo(expectedDatabaseRoutines)
         }
 
     @Test
@@ -182,7 +187,7 @@ class RoutinesViewModelTest {
         viewModel.viewState.test {
             assertThat(awaitItem()).isEqualTo(expected)
         }
-        assertThat(store.get()).isEqualTo(expectedDatabaseRoutines)
+        assertThat(routinesStore.get()).isEqualTo(expectedDatabaseRoutines)
     }
 
     @Test
@@ -204,7 +209,7 @@ class RoutinesViewModelTest {
         viewModel.viewState.test {
             assertThat(awaitItem()).isEqualTo(expected)
         }
-        assertThat(store.get()).isEqualTo(expectedDatabaseRoutines)
+        assertThat(routinesStore.get()).isEqualTo(expectedDatabaseRoutines)
     }
 
     @Test
@@ -226,7 +231,7 @@ class RoutinesViewModelTest {
         viewModel.viewState.test {
             assertThat(awaitItem()).isEqualTo(expected)
         }
-        assertThat(store.get()).isEqualTo(expectedDatabaseRoutines)
+        assertThat(routinesStore.get()).isEqualTo(expectedDatabaseRoutines)
     }
 
     @Test
@@ -245,7 +250,7 @@ class RoutinesViewModelTest {
         )
         val viewModel = buildViewModel()
         advanceUntilIdle()
-        store.enableErrorOnNextAccess()
+        routinesStore.enableErrorOnNextAccess()
 
         viewModel.onRoutineDelete(routineId = firstRoutine.id)
         advanceUntilIdle()
@@ -265,7 +270,7 @@ class RoutinesViewModelTest {
         )
         val viewModel = buildViewModel()
         advanceUntilIdle()
-        store.enableErrorOnNextAccess()
+        routinesStore.enableErrorOnNextAccess()
         viewModel.onRoutineDelete(routineId = firstRoutine.id)
         advanceUntilIdle()
         viewModel.onSnackbarEvent(TempoSnackbarEvent.Dismissed)
@@ -337,7 +342,7 @@ class RoutinesViewModelTest {
         viewModel.viewState.test {
             assertThat(awaitItem()).isEqualTo(expected)
         }
-        assertThat(store.get().sortedByRank()).isEqualTo(expectedDatabaseRoutines)
+        assertThat(routinesStore.get().sortedByRank()).isEqualTo(expectedDatabaseRoutines)
     }
 
     @Test
@@ -357,7 +362,7 @@ class RoutinesViewModelTest {
             )
             val viewModel = buildViewModel()
             advanceUntilIdle()
-            store.enableErrorOnNextAccess()
+            routinesStore.enableErrorOnNextAccess()
 
             viewModel.onRoutineDuplicate(routineId = firstRoutine.id)
             advanceUntilIdle()
@@ -380,7 +385,7 @@ class RoutinesViewModelTest {
         )
         val viewModel = buildViewModel()
         advanceUntilIdle()
-        store.enableErrorOnNextAccess()
+        routinesStore.enableErrorOnNextAccess()
         viewModel.onRoutineMoved(
             draggedRoutineId = thirdRoutine.id,
             hoveredRoutineId = secondRoutine.id
@@ -402,7 +407,7 @@ class RoutinesViewModelTest {
             message = null
         )
         val viewModel = buildViewModel()
-        store.update { routines -> routines.filter { it.id == secondRoutine.id } }
+        routinesStore.update { routines -> routines.filter { it.id == secondRoutine.id } }
 
         viewModel.onRetryLoad()
 
@@ -465,7 +470,7 @@ class RoutinesViewModelTest {
         viewModel.viewState.test {
             assertThat(awaitItem()).isEqualTo(expected)
         }
-        assertThat(store.get().sortedByRank()).isEqualTo(expectedDatabaseRoutines)
+        assertThat(routinesStore.get().sortedByRank()).isEqualTo(expectedDatabaseRoutines)
     }
 
     private fun buildViewModel(): RoutinesViewModel {
@@ -474,6 +479,11 @@ class RoutinesViewModelTest {
             converter = RoutinesStateConverter(),
             navigationActions = RoutinesNavigationActions(navigator),
             reducer = RoutinesReducer(),
+            getTimerThemeUseCase = GetTimerThemeUseCase(
+                timerThemeDataSource = FakeTimerThemeDataSource(
+                    FakeStore(initialValue = listOf(timerTheme))
+                )
+            ),
             getRoutinesUseCase = GetRoutinesUseCase(
                 routineDataSource = routineDataSource
             ),

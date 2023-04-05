@@ -5,7 +5,7 @@ import com.enricog.data.timer.api.theme.entities.TimerTheme
 import kotlinx.coroutines.flow.Flow
 import javax.inject.Inject
 
-internal class GetTimerThemeUserCase @Inject constructor(
+internal class GetTimerThemeUseCase @Inject constructor(
     private val timerThemeDataSource: TimerThemeDataSource
 ){
 

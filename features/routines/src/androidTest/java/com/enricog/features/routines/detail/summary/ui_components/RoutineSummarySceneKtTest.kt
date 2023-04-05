@@ -1,6 +1,7 @@
 package com.enricog.features.routines.detail.summary.ui_components
 
 import androidx.compose.ui.geometry.Offset
+import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.test.assertIsDisplayed
 import androidx.compose.ui.test.assertTextEquals
 import androidx.compose.ui.test.junit4.createComposeRule
@@ -19,7 +20,6 @@ import com.enricog.features.routines.detail.summary.models.RoutineSummaryItem.Se
 import com.enricog.features.routines.detail.ui.time_type.TimeTypeStyle
 import com.enricog.ui.components.textField.timeText
 import com.enricog.ui.theme.TempoTheme
-import com.enricog.ui.theme.TimeTypeColors
 import org.junit.Rule
 import org.junit.Test
 import kotlin.math.roundToInt
@@ -39,7 +39,8 @@ class RoutineSummarySceneKtTest {
                     segmentTypesCount = immutableMapOf(
                         TimeTypeStyle(
                             nameStringResId = R.string.chip_time_type_timer_name,
-                            color = TimeTypeColors.TIMER,
+                            backgroundColor = Color.Blue,
+                            onBackgroundColor = Color.White,
                             id = "TIMER"
                         ) to 1
                     )
@@ -100,7 +101,8 @@ class RoutineSummarySceneKtTest {
                     segmentTypesCount = immutableMapOf(
                         TimeTypeStyle(
                             nameStringResId = R.string.chip_time_type_timer_name,
-                            color = TimeTypeColors.TIMER,
+                            backgroundColor = Color.Blue,
+                            onBackgroundColor = Color.White,
                             id = "TIMER"
                         ) to 11
                     )
@@ -164,7 +166,8 @@ class RoutineSummarySceneKtTest {
         time = "10".timeText,
         type = TimeTypeStyle(
             nameStringResId = R.string.chip_time_type_timer_name,
-            color = TimeTypeColors.TIMER,
+            backgroundColor = Color.Blue,
+            onBackgroundColor = Color.White,
             id = "TIMER"
         ),
         rank = "aaaaaa"

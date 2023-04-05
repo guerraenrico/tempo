@@ -8,6 +8,8 @@ import com.enricog.core.coroutines.testing.CoroutineRule
 import com.enricog.data.routines.api.entities.Routine
 import com.enricog.data.routines.api.entities.Segment
 import com.enricog.data.routines.testing.entities.EMPTY
+import com.enricog.data.timer.api.theme.entities.TimerTheme
+import com.enricog.data.timer.testing.entities.DEFAULT
 import com.enricog.features.routines.R
 import com.enricog.features.routines.detail.segment.models.SegmentField
 import com.enricog.features.routines.detail.segment.models.SegmentFieldError
@@ -51,6 +53,7 @@ class SegmentStateConverterTest {
 
     @Test
     fun `should map data state without action`() = coroutineRule {
+        val timerTheme = TimerTheme.DEFAULT
         val state = SegmentState.Data(
             routine = Routine.EMPTY,
             segment = Segment.EMPTY,
@@ -60,10 +63,11 @@ class SegmentStateConverterTest {
             ),
             timeTypes = emptyList(),
             selectedTimeType = TimeTypeEntity.REST,
-            action = null
+            action = null,
+            timerTheme = timerTheme
         )
         val expected = SegmentViewState.Data(
-            selectedTimeTypeStyle = TimeTypeStyle.from(TimeTypeEntity.REST),
+            selectedTimeTypeStyle = TimeTypeStyle.from(timeType = TimeTypeEntity.REST, timerTheme = timerTheme),
             isTimeFieldVisible = true,
             errors = immutableMapOf(
                 SegmentField.Name to SegmentFieldError.BlankSegmentName,
@@ -80,6 +84,7 @@ class SegmentStateConverterTest {
 
     @Test
     fun `should map data state with action`() = coroutineRule {
+        val timerTheme = TimerTheme.DEFAULT
         val state = SegmentState.Data(
             routine = Routine.EMPTY,
             segment = Segment.EMPTY,
@@ -89,10 +94,11 @@ class SegmentStateConverterTest {
             ),
             timeTypes = emptyList(),
             selectedTimeType = TimeTypeEntity.REST,
-            action = SaveSegmentError
+            action = SaveSegmentError,
+            timerTheme = timerTheme
         )
         val expected = SegmentViewState.Data(
-            selectedTimeTypeStyle = TimeTypeStyle.from(TimeTypeEntity.REST),
+            selectedTimeTypeStyle = TimeTypeStyle.from(timeType = TimeTypeEntity.REST, timerTheme = timerTheme),
             isTimeFieldVisible = true,
             errors = immutableMapOf(
                 SegmentField.Name to SegmentFieldError.BlankSegmentName,
@@ -112,6 +118,7 @@ class SegmentStateConverterTest {
 
     @Test
     fun `should map data state without time when selected stopwatch time type`() = coroutineRule {
+        val timerTheme = TimerTheme.DEFAULT
         val state = SegmentState.Data(
             routine = Routine.EMPTY,
             segment = Segment.EMPTY,
@@ -122,16 +129,17 @@ class SegmentStateConverterTest {
                 TimeTypeEntity.STOPWATCH
             ),
             selectedTimeType = TimeTypeEntity.STOPWATCH,
-            action = null
+            action = null,
+            timerTheme = timerTheme
         )
         val expected = SegmentViewState.Data(
-            selectedTimeTypeStyle = TimeTypeStyle.from(TimeTypeEntity.STOPWATCH),
+            selectedTimeTypeStyle = TimeTypeStyle.from(timeType = TimeTypeEntity.STOPWATCH, timerTheme = timerTheme),
             isTimeFieldVisible = false,
             errors = emptyImmutableMap(),
             timeTypeStyles = immutableListOf(
-                TimeTypeStyle.from(TimeTypeEntity.TIMER),
-                TimeTypeStyle.from(TimeTypeEntity.REST),
-                TimeTypeStyle.from(TimeTypeEntity.STOPWATCH)
+                TimeTypeStyle.from(timeType = TimeTypeEntity.TIMER, timerTheme = timerTheme),
+                TimeTypeStyle.from(timeType = TimeTypeEntity.REST, timerTheme = timerTheme),
+                TimeTypeStyle.from(timeType = TimeTypeEntity.STOPWATCH, timerTheme = timerTheme)
             ),
             message = null
         )

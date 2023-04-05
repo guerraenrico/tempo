@@ -16,7 +16,7 @@ import com.enricog.features.routines.list.models.RoutinesViewState
 import com.enricog.features.routines.list.usecase.DeleteRoutineUseCase
 import com.enricog.features.routines.list.usecase.DuplicateRoutineUseCase
 import com.enricog.features.routines.list.usecase.GetRoutinesUseCase
-import com.enricog.features.routines.list.usecase.GetTimerThemeUserCase
+import com.enricog.features.routines.list.usecase.GetTimerThemeUseCase
 import com.enricog.features.routines.list.usecase.MoveRoutineUseCase
 import com.enricog.features.routines.navigation.RoutinesNavigationActions
 import com.enricog.ui.components.snackbar.TempoSnackbarEvent
@@ -37,7 +37,7 @@ internal class RoutinesViewModel @Inject constructor(
     converter: RoutinesStateConverter,
     private val navigationActions: RoutinesNavigationActions,
     private val reducer: RoutinesReducer,
-    private val getTimerThemeUserCase: GetTimerThemeUserCase,
+    private val getTimerThemeUseCase: GetTimerThemeUseCase,
     private val getRoutinesUseCase: GetRoutinesUseCase,
     private val deleteRoutineUseCase: DeleteRoutineUseCase,
     private val moveRoutineUseCase: MoveRoutineUseCase,
@@ -59,7 +59,7 @@ internal class RoutinesViewModel @Inject constructor(
     }
 
     private fun load() {
-        val timerThemeFlow = getTimerThemeUserCase()
+        val timerThemeFlow = getTimerThemeUseCase()
         val routinesFlow = getRoutinesUseCase().combine(queueRoutineToDelete) { routines, routineToDelete ->
             routines.filter { it != routineToDelete }
         }

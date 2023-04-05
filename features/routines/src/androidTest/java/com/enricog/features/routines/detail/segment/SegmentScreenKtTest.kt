@@ -6,6 +6,8 @@ import androidx.compose.ui.test.onNodeWithTag
 import com.enricog.core.compose.api.classes.emptyImmutableMap
 import com.enricog.core.compose.api.classes.immutableListOf
 import com.enricog.core.compose.testing.invoke
+import com.enricog.data.timer.api.theme.entities.TimerTheme
+import com.enricog.data.timer.testing.entities.DEFAULT
 import com.enricog.features.routines.detail.segment.models.SegmentInputs
 import com.enricog.features.routines.detail.segment.models.SegmentViewState
 import com.enricog.features.routines.detail.segment.ui_components.SegmentErrorSceneTestTag
@@ -51,14 +53,18 @@ class SegmentScreenKtTest {
 
     @Test
     fun shouldRenderSegmentFormSceneWhenStateIsData() = composeRule {
+        val timerTheme = TimerTheme.DEFAULT
         val viewState = SegmentViewState.Data(
             isTimeFieldVisible = true,
-            selectedTimeTypeStyle = TimeTypeStyle.from(TimeTypeEntity.TIMER),
+            selectedTimeTypeStyle = TimeTypeStyle.from(
+                timeType = TimeTypeEntity.TIMER,
+                timerTheme = timerTheme
+            ),
             errors = emptyImmutableMap(),
             timeTypeStyles = immutableListOf(
-                TimeTypeStyle.from(TimeTypeEntity.TIMER),
-                TimeTypeStyle.from(TimeTypeEntity.REST),
-                TimeTypeStyle.from(TimeTypeEntity.STOPWATCH)
+                TimeTypeStyle.from(timeType = TimeTypeEntity.TIMER, timerTheme = timerTheme),
+                TimeTypeStyle.from(timeType = TimeTypeEntity.REST, timerTheme = timerTheme),
+                TimeTypeStyle.from(timeType = TimeTypeEntity.STOPWATCH, timerTheme = timerTheme)
             ),
             message = null
         )

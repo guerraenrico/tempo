@@ -75,6 +75,7 @@ dependencies {
 
     // Test
     testImplementation project(':data:routines:testing')
+    testImplementation project(':data:timer:testing')
     testImplementation project(":core:coroutines:testing")
     testImplementation project(":navigation:testing")
     testImplementation project(":libraries:sound:testing")

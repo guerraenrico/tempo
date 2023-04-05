@@ -1,28 +1,32 @@
 package com.enricog.features.timer
 
+import androidx.compose.ui.graphics.Color
 import androidx.lifecycle.SavedStateHandle
 import app.cash.turbine.test
 import com.enricog.core.coroutines.testing.CoroutineRule
+import com.enricog.core.entities.asID
+import com.enricog.core.entities.seconds
 import com.enricog.data.local.testing.FakeStore
 import com.enricog.data.routines.api.entities.Routine
 import com.enricog.data.routines.api.entities.Segment
 import com.enricog.data.routines.api.entities.TimeType
 import com.enricog.data.routines.testing.FakeRoutineDataSource
 import com.enricog.data.routines.testing.entities.EMPTY
-import com.enricog.core.entities.asID
-import com.enricog.core.entities.seconds
+import com.enricog.data.timer.api.theme.entities.TimerTheme
+import com.enricog.data.timer.testing.FakeTimerThemeDataSource
+import com.enricog.data.timer.testing.entities.DEFAULT
 import com.enricog.features.timer.fakes.FakeWindowScreenManager
 import com.enricog.features.timer.models.TimerViewState
 import com.enricog.features.timer.models.TimerViewState.Counting.Background
 import com.enricog.features.timer.models.TimerViewState.Idle
 import com.enricog.features.timer.navigation.TimerNavigationActions
 import com.enricog.features.timer.usecase.GetRoutineUseCase
+import com.enricog.features.timer.usecase.GetTimerThemeUseCase
 import com.enricog.libraries.sound.testing.FakeSoundPlayer
 import com.enricog.navigation.api.routes.RoutinesRoute
 import com.enricog.navigation.api.routes.RoutinesRouteInput
 import com.enricog.navigation.testing.FakeNavigator
 import com.enricog.ui.components.button.icon.TempoIconButtonSize
-import com.enricog.ui.theme.TimeTypeColors
 import com.google.common.truth.Truth.assertThat
 import kotlinx.coroutines.test.StandardTestDispatcher
 import kotlinx.coroutines.test.advanceTimeBy
@@ -41,6 +45,7 @@ class TimerViewModelTest {
 
     private val clock = Clock.fixed(Instant.parse("2023-04-03T10:15:30.00Z"), ZoneId.of("UTC"))
 
+    private val timerTheme = TimerTheme.DEFAULT
     private val firstSegment = Segment.EMPTY.copy(
         id = 1.asID,
         name = "First Segment",
@@ -60,7 +65,7 @@ class TimerViewModelTest {
     )
 
     private val navigator = FakeNavigator()
-    private val store = FakeStore(listOf(routine))
+    private val routinesStore = FakeStore(listOf(routine))
     private val windowScreenManager = FakeWindowScreenManager()
     private val soundPlayer = FakeSoundPlayer()
     private val savedStateHandle = SavedStateHandle(mapOf("routineId" to 1L))
@@ -77,9 +82,10 @@ class TimerViewModelTest {
             stepTitleId = R.string.title_segment_step_type_preparation,
             segmentName = "First Segment",
             clockBackground = Background(
-                background = TimeTypeColors.STARTING,
+                background = Color.Blue,
                 ripple = null
             ),
+            clockOnBackgroundColor = Color.White,
             isSoundEnabled = true,
             timerActions = TimerViewState.Counting.Actions(
                 back = TimerViewState.Counting.Actions.Button(
@@ -97,16 +103,17 @@ class TimerViewModelTest {
                     contentDescriptionResId = R.string.content_description_button_next_routine_segment,
                     size = TempoIconButtonSize.Normal
                 )
-            )
+            ),
         )
         val expectedOnStart = TimerViewState.Counting(
             timeInSeconds = 3,
             stepTitleId = R.string.title_segment_step_type_preparation,
             segmentName = "First Segment",
             clockBackground = Background(
-                background = TimeTypeColors.STARTING,
+                background = Color.Blue,
                 ripple = null
             ),
+            clockOnBackgroundColor = Color.White,
             isSoundEnabled = true,
             timerActions = TimerViewState.Counting.Actions(
                 back = TimerViewState.Counting.Actions.Button(
@@ -222,9 +229,10 @@ class TimerViewModelTest {
             stepTitleId = R.string.title_segment_step_type_preparation,
             segmentName = "First Segment",
             clockBackground = Background(
-                background = TimeTypeColors.STARTING,
+                background = Color.Blue,
                 ripple = null
             ),
+            clockOnBackgroundColor = Color.White,
             isSoundEnabled = true,
             timerActions = TimerViewState.Counting.Actions(
                 back = TimerViewState.Counting.Actions.Button(
@@ -268,9 +276,10 @@ class TimerViewModelTest {
             stepTitleId = R.string.title_segment_step_type_preparation,
             segmentName = "First Segment",
             clockBackground = Background(
-                background = TimeTypeColors.STARTING,
+                background = Color.Blue,
                 ripple = null
             ),
+            clockOnBackgroundColor = Color.White,
             isSoundEnabled = true,
             timerActions = TimerViewState.Counting.Actions(
                 back = TimerViewState.Counting.Actions.Button(
@@ -312,9 +321,10 @@ class TimerViewModelTest {
             stepTitleId = R.string.title_segment_step_type_in_progress,
             segmentName = "First Segment",
             clockBackground = Background(
-                background = TimeTypeColors.TIMER,
+                background = Color.Red,
                 ripple = null
             ),
+            clockOnBackgroundColor = Color.White,
             isSoundEnabled = true,
             timerActions = TimerViewState.Counting.Actions(
                 back = TimerViewState.Counting.Actions.Button(
@@ -356,9 +366,10 @@ class TimerViewModelTest {
             stepTitleId = R.string.title_segment_step_type_preparation,
             segmentName = "First Segment",
             clockBackground = Background(
-                background = TimeTypeColors.STARTING,
+                background = Color.Blue,
                 ripple = null
             ),
+            clockOnBackgroundColor = Color.White,
             isSoundEnabled = true,
             timerActions = TimerViewState.Counting.Actions(
                 back = TimerViewState.Counting.Actions.Button(
@@ -383,9 +394,10 @@ class TimerViewModelTest {
             stepTitleId = R.string.title_segment_step_type_in_progress,
             segmentName = "First Segment",
             clockBackground = Background(
-                background = TimeTypeColors.TIMER,
+                background = Color.Red,
                 ripple = null
             ),
+            clockOnBackgroundColor = Color.White,
             isSoundEnabled = true,
             timerActions = TimerViewState.Counting.Actions(
                 back = TimerViewState.Counting.Actions.Button(
@@ -447,7 +459,14 @@ class TimerViewModelTest {
             dispatchers = coroutineRule.getDispatchers(),
             converter = TimerStateConverter(clock = clock),
             reducer = TimerReducer(clock = clock),
-            getRoutineUseCase = GetRoutineUseCase(routineDataSource = FakeRoutineDataSource(store = store)),
+            getTimerThemeUseCase = GetTimerThemeUseCase(
+                timerThemeDataSource = FakeTimerThemeDataSource(
+                    store = FakeStore(listOf(timerTheme))
+                )
+            ),
+            getRoutineUseCase = GetRoutineUseCase(
+                routineDataSource = FakeRoutineDataSource(store = routinesStore)
+            ),
             navigationActions = TimerNavigationActions(navigator = navigator),
             windowScreenManager = windowScreenManager,
             soundPlayer = TimerSoundPlayer(soundPlayer = soundPlayer)

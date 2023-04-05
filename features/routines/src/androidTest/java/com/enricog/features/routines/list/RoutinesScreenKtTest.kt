@@ -7,6 +7,8 @@ import com.enricog.core.compose.api.classes.immutableListOf
 import com.enricog.core.compose.api.classes.immutableMapOf
 import com.enricog.core.compose.testing.invoke
 import com.enricog.core.entities.asID
+import com.enricog.data.timer.api.theme.entities.TimerTheme
+import com.enricog.data.timer.testing.entities.DEFAULT
 import com.enricog.features.routines.detail.ui.time_type.TimeTypeStyle
 import com.enricog.features.routines.list.models.RoutinesItem
 import com.enricog.features.routines.list.models.RoutinesViewState
@@ -76,6 +78,7 @@ class RoutinesScreenKtTest {
 
     @Test
     fun shouldRenderRoutinesSceneWhenStateIsData() = composeRule {
+        val timerTheme = TimerTheme.DEFAULT
         val viewState = RoutinesViewState.Data(
             routinesItems = immutableListOf(
                 RoutinesItem.RoutineItem(
@@ -85,9 +88,9 @@ class RoutinesScreenKtTest {
                     segmentsSummary = RoutinesItem.RoutineItem.SegmentsSummary(
                         estimatedTotalTime = "12".timeText,
                         segmentTypesCount = immutableMapOf(
-                            TimeTypeStyle.from(TimeTypeEntity.TIMER) to 2,
-                            TimeTypeStyle.from(TimeTypeEntity.REST) to 1,
-                            TimeTypeStyle.from(TimeTypeEntity.STOPWATCH) to 1
+                            TimeTypeStyle.from(timeType = TimeTypeEntity.TIMER, timerTheme = timerTheme) to 2,
+                            TimeTypeStyle.from(timeType = TimeTypeEntity.REST, timerTheme = timerTheme) to 1,
+                            TimeTypeStyle.from(timeType = TimeTypeEntity.STOPWATCH, timerTheme = timerTheme) to 1
                         )
                     )
                 ),

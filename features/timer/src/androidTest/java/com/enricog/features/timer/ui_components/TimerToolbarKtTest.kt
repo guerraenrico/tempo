@@ -31,6 +31,7 @@ class TimerToolbarKtTest {
                             background = Color.Blue,
                             ripple = null
                         ),
+                        clockOnBackgroundColor = Color.White,
                         isSoundEnabled = true,
                         timerActions = TimerViewState.Counting.Actions(
                             back = TimerViewState.Counting.Actions.Button(
@@ -75,6 +76,7 @@ class TimerToolbarKtTest {
                             background = Color.Blue,
                             ripple = null
                         ),
+                        clockOnBackgroundColor = Color.White,
                         isSoundEnabled = false,
                         timerActions = TimerViewState.Counting.Actions(
                             back = TimerViewState.Counting.Actions.Button(
