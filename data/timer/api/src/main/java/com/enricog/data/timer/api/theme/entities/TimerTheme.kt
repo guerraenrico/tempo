@@ -1,6 +1,7 @@
 package com.enricog.data.timer.api.theme.entities
 
 import com.enricog.core.entities.ID
+import java.time.OffsetDateTime
 
 data class TimerTheme(
     val id: ID,
@@ -10,7 +11,10 @@ data class TimerTheme(
     val stopwatchResource: Resource,
     val timerResource: Resource,
     val restResource: Resource,
-    val isLocked: Boolean
+    val isLocked: Boolean,
+    val isDefault: Boolean,
+    val createdAt: OffsetDateTime,
+    val updatedAt: OffsetDateTime
 ) {
 
     data class Resource(

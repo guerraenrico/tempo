@@ -4,6 +4,7 @@ import com.enricog.core.entities.asID
 import com.enricog.data.timer.api.theme.entities.TimerTheme
 import com.enricog.data.timer.api.theme.entities.TimerTheme.Asset.Color
 import com.enricog.data.timer.api.theme.entities.TimerTheme.Resource
+import java.time.OffsetDateTime
 
 val TimerTheme.Companion.DEFAULT: TimerTheme
     get() = TimerTheme(
@@ -34,5 +35,8 @@ val TimerTheme.Companion.DEFAULT: TimerTheme
             // Color.White
             onBackground = Color(argb = "18446744069414584320".toULong())
         ),
-        isLocked = false
+        isLocked = false,
+        isDefault = true,
+        createdAt = OffsetDateTime.MIN,
+        updatedAt = OffsetDateTime.MIN
     )

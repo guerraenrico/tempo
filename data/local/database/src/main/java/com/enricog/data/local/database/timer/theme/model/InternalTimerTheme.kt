@@ -33,7 +33,10 @@ internal data class InternalTimerTheme(
             stopwatchResource = stopwatchResource.toEntity(),
             timerResource = timerResource.toEntity(),
             restResource = restResource.toEntity(),
-            isLocked = isLocked
+            isLocked = isLocked,
+            isDefault = isDefault,
+            createdAt = createdAt,
+            updatedAt = updatedAt
         )
     }
 
@@ -63,5 +66,35 @@ internal data class InternalTimerTheme(
                 is Color -> TimerTheme.Asset.Color(argb = argb)
             }
         }
+    }
+}
+
+internal fun TimerTheme.toInternal(): InternalTimerTheme {
+    return InternalTimerTheme(
+        id = id.toLong(),
+        name = name,
+        description = description,
+        preparationTimeResource = preparationTimeResource.toInternal(),
+        timerResource = timerResource.toInternal(),
+        stopwatchResource = stopwatchResource.toInternal(),
+        restResource = restResource.toInternal(),
+        isLocked = isLocked,
+        isDefault = isDefault,
+        createdAt = createdAt,
+        updatedAt = updatedAt
+    )
+}
+
+private fun TimerTheme.Resource.toInternal(): InternalTimerTheme.InternalResource {
+    return InternalTimerTheme.InternalResource(
+        background = background.toInternal(),
+        onBackground = onBackground.toInternal()
+    )
+}
+
+
+private fun TimerTheme.Asset.toInternal(): InternalTimerTheme.InternalAsset {
+    return when (this) {
+        is TimerTheme.Asset.Color -> InternalTimerTheme.InternalAsset.Color(argb = argb)
     }
 }

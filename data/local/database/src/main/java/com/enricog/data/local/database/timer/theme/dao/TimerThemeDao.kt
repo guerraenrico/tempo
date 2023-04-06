@@ -1,6 +1,7 @@
 package com.enricog.data.local.database.timer.theme.dao
 
 import androidx.room.Dao
+import androidx.room.Insert
 import androidx.room.Query
 import androidx.room.Transaction
 import com.enricog.data.local.database.timer.theme.model.InternalTimerTheme
@@ -19,4 +20,7 @@ internal interface TimerThemeDao {
 
     @Query("SELECT * FROM TimerThemes WHERE isDefault=1 LIMIT 1")
     suspend fun getDefault(): InternalTimerTheme
+
+    @Insert
+    suspend fun insert(vararg timerTheme: InternalTimerTheme): List<Long>
 }

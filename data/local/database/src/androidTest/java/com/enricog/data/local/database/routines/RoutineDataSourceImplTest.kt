@@ -1,19 +1,19 @@
 package com.enricog.data.local.database.routines
 
 import android.content.Context
-import androidx.room.Room
 import androidx.test.core.app.ApplicationProvider
 import androidx.test.ext.junit.runners.AndroidJUnit4
 import com.enricog.core.coroutines.testing.CoroutineRule
+import com.enricog.core.entities.Rank
+import com.enricog.core.entities.asID
+import com.enricog.core.entities.seconds
 import com.enricog.data.local.database.TempoDatabase
+import com.enricog.data.local.database.TestTempoDatabaseFactory
 import com.enricog.data.local.database.routines.model.InternalRoutine
 import com.enricog.data.local.database.routines.model.InternalSegment
 import com.enricog.data.routines.api.entities.Routine
 import com.enricog.data.routines.api.entities.Segment
 import com.enricog.data.routines.api.entities.TimeType
-import com.enricog.core.entities.Rank
-import com.enricog.core.entities.asID
-import com.enricog.core.entities.seconds
 import com.google.common.truth.Truth.assertThat
 import kotlinx.coroutines.flow.first
 import org.junit.After
@@ -36,11 +36,8 @@ class RoutineDataSourceImplTest {
 
     @Before
     fun setup() {
-        val context: Context = ApplicationProvider.getApplicationContext()
-        database = Room.inMemoryDatabaseBuilder(context, TempoDatabase::class.java)
-            .allowMainThreadQueries()
-            .build()
-        dataSource = RoutineDataSourceImpl(database)
+        database = TestTempoDatabaseFactory.create()
+        dataSource = RoutineDataSourceImpl(database = database)
     }
 
     @After
