@@ -355,7 +355,7 @@ class TimerStateConverterTest {
         }
 
     @Test
-    fun `should map state with -starting- background and -stopwatch- ripple color when stopwatch segment in starting step is completed`() =
+    fun `should map state with -preparation- background and -stopwatch- ripple color when stopwatch segment in preparation step is completed`() =
         coroutineRule {
             val state = TimerState.Counting(
                 routine = Routine.EMPTY.copy(
@@ -424,7 +424,7 @@ class TimerStateConverterTest {
         }
 
     @Test
-    fun `should map state with -stopwatch- background and -starting- ripple color when stopwatch segment is completed and next step is starting`() =
+    fun `should map state with -stopwatch- background and -preparation- ripple color when stopwatch segment is completed and next step is preparation`() =
         coroutineRule {
             val state = TimerState.Counting(
                 routine = Routine.EMPTY.copy(
@@ -477,7 +477,7 @@ class TimerStateConverterTest {
                 segmentName = "segment name stopwatch",
                 clockBackground = Background(
                     background = Color.Black,
-                    ripple = Color.Red
+                    ripple = Color.Blue
                 ),
                 clockOnBackgroundColor = Color.White,
                 isSoundEnabled = true,
