@@ -14,12 +14,13 @@ internal sealed class TimerViewState {
         val timeInSeconds: Long,
         @StringRes val stepTitleId: Int,
         val segmentName: String,
-        val clockBackgroundColor: BackgroundColor,
+        val clockBackground: Background,
+        val clockOnBackgroundColor: Color,
         val isSoundEnabled: Boolean,
         val timerActions: Actions
     ) : TimerViewState() {
 
-        data class BackgroundColor(
+        data class Background(
             val background: Color,
             val ripple: Color?
         )

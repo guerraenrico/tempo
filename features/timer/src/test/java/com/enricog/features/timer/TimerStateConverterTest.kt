@@ -1,20 +1,22 @@
 package com.enricog.features.timer
 
+import androidx.compose.ui.graphics.Color
 import com.enricog.core.coroutines.testing.CoroutineRule
+import com.enricog.core.entities.seconds
 import com.enricog.data.routines.api.entities.Routine
 import com.enricog.data.routines.api.entities.Segment
 import com.enricog.data.routines.api.entities.TimeType
 import com.enricog.data.routines.testing.entities.EMPTY
-import com.enricog.core.entities.seconds
+import com.enricog.data.timer.api.theme.entities.TimerTheme
+import com.enricog.data.timer.testing.entities.DEFAULT
 import com.enricog.features.timer.models.Count
 import com.enricog.features.timer.models.SegmentStep
 import com.enricog.features.timer.models.SegmentStepType
 import com.enricog.features.timer.models.TimerState
 import com.enricog.features.timer.models.TimerViewState
-import com.enricog.features.timer.models.TimerViewState.Counting.BackgroundColor
+import com.enricog.features.timer.models.TimerViewState.Counting.Background
 import com.enricog.ui.components.button.icon.TempoIconButtonSize
 import com.enricog.ui.components.textField.timeText
-import com.enricog.ui.theme.TimeTypeColors
 import com.google.common.truth.Truth.assertThat
 import org.junit.Rule
 import org.junit.Test
@@ -76,16 +78,18 @@ class TimerStateConverterTest {
             ),
             isSoundEnabled = true,
             startedAt = OffsetDateTime.now(clock),
-            skipCount = 0
+            skipCount = 0,
+            timerTheme = TimerTheme.DEFAULT
         )
         val expected = TimerViewState.Counting(
             timeInSeconds = 5,
             stepTitleId = R.string.title_segment_time_type_rest,
             segmentName = "segment name",
-            clockBackgroundColor = BackgroundColor(
-                background = TimeTypeColors.REST,
+            clockBackground = Background(
+                background = Color.Green,
                 ripple = null
             ),
+            clockOnBackgroundColor = Color.White,
             isSoundEnabled = true,
             timerActions = TimerViewState.Counting.Actions(
                 back = TimerViewState.Counting.Actions.Button(
@@ -133,16 +137,18 @@ class TimerStateConverterTest {
             ),
             isSoundEnabled = true,
             startedAt = OffsetDateTime.now(clock),
-            skipCount = 0
+            skipCount = 0,
+            timerTheme = TimerTheme.DEFAULT
         )
         val expected = TimerViewState.Counting(
             timeInSeconds = 5,
             stepTitleId = R.string.title_segment_time_type_rest,
             segmentName = "segment name",
-            clockBackgroundColor = BackgroundColor(
-                background = TimeTypeColors.REST,
+            clockBackground = Background(
+                background = Color.Green,
                 ripple = null
             ),
+            clockOnBackgroundColor = Color.White,
             isSoundEnabled = true,
             timerActions = TimerViewState.Counting.Actions(
                 back = TimerViewState.Counting.Actions.Button(
@@ -191,16 +197,18 @@ class TimerStateConverterTest {
                 ),
                 isSoundEnabled = true,
                 startedAt = OffsetDateTime.now(clock),
-                skipCount = 0
+                skipCount = 0,
+                timerTheme = TimerTheme.DEFAULT
             )
             val expected = TimerViewState.Counting(
                 timeInSeconds = 5,
                 stepTitleId = R.string.title_segment_time_type_rest,
                 segmentName = "segment name",
-                clockBackgroundColor = BackgroundColor(
-                    background = TimeTypeColors.REST,
+                clockBackground = Background(
+                    background = Color.Green,
                     ripple = null
                 ),
+                clockOnBackgroundColor = Color.White,
                 isSoundEnabled = true,
                 timerActions = TimerViewState.Counting.Actions(
                     back = TimerViewState.Counting.Actions.Button(
@@ -249,16 +257,18 @@ class TimerStateConverterTest {
                 ),
                 isSoundEnabled = true,
                 startedAt = OffsetDateTime.now(clock),
-                skipCount = 0
+                skipCount = 0,
+                timerTheme = TimerTheme.DEFAULT
             )
             val expected = TimerViewState.Counting(
                 timeInSeconds = 5,
                 stepTitleId = R.string.title_segment_step_type_in_progress,
                 segmentName = "segment name",
-                clockBackgroundColor = BackgroundColor(
-                    background = TimeTypeColors.TIMER,
+                clockBackground = Background(
+                    background = Color.Red,
                     ripple = null
                 ),
+                clockOnBackgroundColor = Color.White,
                 isSoundEnabled = true,
                 timerActions = TimerViewState.Counting.Actions(
                     back = TimerViewState.Counting.Actions.Button(
@@ -307,16 +317,18 @@ class TimerStateConverterTest {
                 ),
                 isSoundEnabled = true,
                 startedAt = OffsetDateTime.now(clock),
-                skipCount = 0
+                skipCount = 0,
+                timerTheme = TimerTheme.DEFAULT
             )
             val expected = TimerViewState.Counting(
                 timeInSeconds = 5,
                 stepTitleId = R.string.title_segment_step_type_in_progress,
                 segmentName = "segment name",
-                clockBackgroundColor = BackgroundColor(
-                    background = TimeTypeColors.STOPWATCH,
+                clockBackground = Background(
+                    background = Color.Black,
                     ripple = null
                 ),
+                clockOnBackgroundColor = Color.White,
                 isSoundEnabled = true,
                 timerActions = TimerViewState.Counting.Actions(
                     back = TimerViewState.Counting.Actions.Button(
@@ -343,7 +355,7 @@ class TimerStateConverterTest {
         }
 
     @Test
-    fun `should map state with -starting- background and -stopwatch- ripple color when stopwatch segment in starting step is completed`() =
+    fun `should map state with -preparation- background and -stopwatch- ripple color when stopwatch segment in preparation step is completed`() =
         coroutineRule {
             val state = TimerState.Counting(
                 routine = Routine.EMPTY.copy(
@@ -374,16 +386,18 @@ class TimerStateConverterTest {
                 ),
                 isSoundEnabled = true,
                 startedAt = OffsetDateTime.now(clock),
-                skipCount = 0
+                skipCount = 0,
+                timerTheme = TimerTheme.DEFAULT
             )
             val expected = TimerViewState.Counting(
                 timeInSeconds = 5,
                 stepTitleId = R.string.title_segment_step_type_preparation,
                 segmentName = "segment name",
-                clockBackgroundColor = BackgroundColor(
-                    background = TimeTypeColors.STARTING,
-                    ripple = TimeTypeColors.STOPWATCH
+                clockBackground = Background(
+                    background = Color.Blue,
+                    ripple = Color.Black
                 ),
+                clockOnBackgroundColor = Color.White,
                 isSoundEnabled = true,
                 timerActions = TimerViewState.Counting.Actions(
                     back = TimerViewState.Counting.Actions.Button(
@@ -410,7 +424,7 @@ class TimerStateConverterTest {
         }
 
     @Test
-    fun `should map state with -stopwatch- background and -starting- ripple color when stopwatch segment is completed and next step is starting`() =
+    fun `should map state with -stopwatch- background and -preparation- ripple color when stopwatch segment is completed and next step is preparation`() =
         coroutineRule {
             val state = TimerState.Counting(
                 routine = Routine.EMPTY.copy(
@@ -454,16 +468,18 @@ class TimerStateConverterTest {
                 ),
                 isSoundEnabled = true,
                 startedAt = OffsetDateTime.now(clock),
-                skipCount = 0
+                skipCount = 0,
+                timerTheme = TimerTheme.DEFAULT
             )
             val expected = TimerViewState.Counting(
                 timeInSeconds = 5,
                 stepTitleId = R.string.title_segment_step_type_in_progress,
                 segmentName = "segment name stopwatch",
-                clockBackgroundColor = BackgroundColor(
-                    background = TimeTypeColors.STOPWATCH,
-                    ripple = TimeTypeColors.STARTING
+                clockBackground = Background(
+                    background = Color.Black,
+                    ripple = Color.Blue
                 ),
+                clockOnBackgroundColor = Color.White,
                 isSoundEnabled = true,
                 timerActions = TimerViewState.Counting.Actions(
                     back = TimerViewState.Counting.Actions.Button(
@@ -520,7 +536,8 @@ class TimerStateConverterTest {
             ),
             isSoundEnabled = true,
             startedAt = OffsetDateTime.now(clock),
-            skipCount = 1
+            skipCount = 1,
+            timerTheme = TimerTheme.DEFAULT
         )
         val expected = TimerViewState.Completed(
             effectiveTotalTime = "0".timeText,

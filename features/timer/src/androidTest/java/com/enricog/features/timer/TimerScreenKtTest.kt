@@ -6,7 +6,7 @@ import androidx.compose.ui.test.junit4.createComposeRule
 import androidx.compose.ui.test.onNodeWithTag
 import com.enricog.core.compose.testing.invoke
 import com.enricog.features.timer.models.TimerViewState
-import com.enricog.features.timer.models.TimerViewState.Counting.BackgroundColor
+import com.enricog.features.timer.models.TimerViewState.Counting.Background
 import com.enricog.features.timer.ui_components.TimerCompletedSceneTestTag
 import com.enricog.features.timer.ui_components.TimerCountingSceneTestTag
 import com.enricog.features.timer.ui_components.TimerErrorSceneTestTag
@@ -49,10 +49,11 @@ class TimerScreenKtTest {
             stepTitleId = R.string.title_segment_step_type_in_progress,
             segmentName = "segment name",
             timeInSeconds = 1,
-            clockBackgroundColor = BackgroundColor(
+            clockBackground = Background(
                 background = Color.Blue,
                 ripple = null
             ),
+            clockOnBackgroundColor = Color.White,
             isSoundEnabled = true,
             timerActions = TimerViewState.Counting.Actions(
                 back = TimerViewState.Counting.Actions.Button(

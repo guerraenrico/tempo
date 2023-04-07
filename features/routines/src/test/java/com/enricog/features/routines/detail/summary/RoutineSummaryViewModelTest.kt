@@ -1,19 +1,23 @@
 package com.enricog.features.routines.detail.summary
 
+import androidx.compose.ui.graphics.Color
 import androidx.lifecycle.SavedStateHandle
 import app.cash.turbine.test
 import com.enricog.core.compose.api.classes.immutableListOf
 import com.enricog.core.compose.api.classes.immutableMapOf
 import com.enricog.core.coroutines.testing.CoroutineRule
+import com.enricog.core.entities.ID
+import com.enricog.core.entities.Rank
+import com.enricog.core.entities.asID
+import com.enricog.core.entities.seconds
 import com.enricog.data.local.testing.FakeStore
 import com.enricog.data.routines.api.entities.Routine
 import com.enricog.data.routines.api.entities.Segment
 import com.enricog.data.routines.testing.FakeRoutineDataSource
 import com.enricog.data.routines.testing.entities.EMPTY
-import com.enricog.core.entities.ID
-import com.enricog.core.entities.Rank
-import com.enricog.core.entities.asID
-import com.enricog.core.entities.seconds
+import com.enricog.data.timer.api.theme.entities.TimerTheme
+import com.enricog.data.timer.testing.FakeTimerThemeDataSource
+import com.enricog.data.timer.testing.entities.DEFAULT
 import com.enricog.features.routines.R
 import com.enricog.features.routines.detail.summary.models.RoutineSummaryField.Segments
 import com.enricog.features.routines.detail.summary.models.RoutineSummaryItem
@@ -23,8 +27,9 @@ import com.enricog.features.routines.detail.summary.models.RoutineSummaryViewSta
 import com.enricog.features.routines.detail.summary.usecase.DeleteSegmentUseCase
 import com.enricog.features.routines.detail.summary.usecase.DuplicateSegmentUseCase
 import com.enricog.features.routines.detail.summary.usecase.GetRoutineUseCase
+import com.enricog.features.routines.detail.summary.usecase.GetTimerThemeUseCase
 import com.enricog.features.routines.detail.summary.usecase.MoveSegmentUseCase
-import com.enricog.features.routines.detail.ui.time_type.TimeType
+import com.enricog.features.routines.detail.ui.time_type.TimeTypeStyle
 import com.enricog.features.routines.navigation.RoutinesNavigationActions
 import com.enricog.navigation.api.routes.RoutineRoute
 import com.enricog.navigation.api.routes.RoutineRouteInput
@@ -35,7 +40,6 @@ import com.enricog.navigation.api.routes.TimerRouteInput
 import com.enricog.navigation.testing.FakeNavigator
 import com.enricog.ui.components.snackbar.TempoSnackbarEvent
 import com.enricog.ui.components.textField.timeText
-import com.enricog.ui.theme.TimeTypeColors
 import com.google.common.truth.Truth.assertThat
 import kotlinx.coroutines.test.StandardTestDispatcher
 import kotlinx.coroutines.test.advanceUntilIdle
@@ -48,13 +52,15 @@ class RoutineSummaryViewModelTest {
     @get:Rule
     val coroutineRule = CoroutineRule(StandardTestDispatcher())
 
+    private val timerTheme = TimerTheme.DEFAULT
     private val firstSegmentItem = RoutineSummaryItem.SegmentItem(
         id = 1.asID,
         name = "First Segment",
         time = "10".timeText,
-        type = TimeType(
+        type = TimeTypeStyle(
             nameStringResId = R.string.chip_time_type_timer_name,
-            color = TimeTypeColors.TIMER,
+            backgroundColor = Color.Red,
+            onBackgroundColor = Color.White,
             id = "TIMER"
         ),
         rank = "bbbbbb"
@@ -63,9 +69,10 @@ class RoutineSummaryViewModelTest {
         id = 2.asID,
         name = "Second Segment",
         time = "10".timeText,
-        type = TimeType(
+        type = TimeTypeStyle(
             nameStringResId = R.string.chip_time_type_timer_name,
-            color = TimeTypeColors.TIMER,
+            backgroundColor = Color.Red,
+            onBackgroundColor = Color.White,
             id = "TIMER"
         ),
         rank = "cccccc"
@@ -74,9 +81,10 @@ class RoutineSummaryViewModelTest {
         id = 3.asID,
         name = "Third Segment",
         time = "10".timeText,
-        type = TimeType(
+        type = TimeTypeStyle(
             nameStringResId = R.string.chip_time_type_timer_name,
-            color = TimeTypeColors.TIMER,
+            backgroundColor = Color.Red,
+            onBackgroundColor = Color.White,
             id = "TIMER"
         ),
         rank = "dddddd"
@@ -105,8 +113,9 @@ class RoutineSummaryViewModelTest {
         segments = listOf(firstSegment, secondSegment, thirdSegment)
     )
 
-    private val store = FakeStore(initialValue = listOf(routine))
-    private val routineDataSource = FakeRoutineDataSource(store = store)
+    private val routinesStore = FakeStore(initialValue = listOf(routine))
+    private val routineDataSource = FakeRoutineDataSource(store = routinesStore)
+    private val timerThemeDataSource = FakeTimerThemeDataSource(store = FakeStore(listOf(timerTheme)))
     private val navigator = FakeNavigator()
     private val savedStateHandle = SavedStateHandle(mapOf("routineId" to 1L))
 
@@ -119,9 +128,10 @@ class RoutineSummaryViewModelTest {
                     segmentsSummary = SegmentsSummary(
                         estimatedTotalTime = "30".timeText,
                         segmentTypesCount = immutableMapOf(
-                            TimeType(
+                            TimeTypeStyle(
                                 nameStringResId = R.string.chip_time_type_timer_name,
-                                color = TimeTypeColors.TIMER,
+                                backgroundColor = Color.Red,
+                                onBackgroundColor = Color.White,
                                 id = "TIMER"
                             ) to 3
                         )
@@ -146,7 +156,7 @@ class RoutineSummaryViewModelTest {
 
     @Test
     fun `should show error when load fails`() = coroutineRule {
-        store.enableErrorOnNextAccess()
+        routinesStore.enableErrorOnNextAccess()
 
         val viewModel = buildViewModel()
         advanceUntilIdle()
@@ -165,9 +175,10 @@ class RoutineSummaryViewModelTest {
                     segmentsSummary = SegmentsSummary(
                         estimatedTotalTime = "30".timeText,
                         segmentTypesCount = immutableMapOf(
-                            TimeType(
+                            TimeTypeStyle(
                                 nameStringResId = R.string.chip_time_type_timer_name,
-                                color = TimeTypeColors.TIMER,
+                                backgroundColor = Color.Red,
+                                onBackgroundColor = Color.White,
                                 id = "TIMER"
                             ) to 3
                         )
@@ -181,7 +192,7 @@ class RoutineSummaryViewModelTest {
             ),
             message = null
         )
-        store.enableErrorOnNextAccess()
+        routinesStore.enableErrorOnNextAccess()
         val viewModel = buildViewModel()
         advanceUntilIdle()
 
@@ -230,9 +241,10 @@ class RoutineSummaryViewModelTest {
                     segmentsSummary = SegmentsSummary(
                         estimatedTotalTime = "20".timeText,
                         segmentTypesCount = immutableMapOf(
-                            TimeType(
+                            TimeTypeStyle(
                                 nameStringResId = R.string.chip_time_type_timer_name,
-                                color = TimeTypeColors.TIMER,
+                                backgroundColor = Color.Red,
+                                onBackgroundColor = Color.White,
                                 id = "TIMER"
                             ) to 2
                         )
@@ -268,9 +280,10 @@ class RoutineSummaryViewModelTest {
                     segmentsSummary = SegmentsSummary(
                         estimatedTotalTime = "30".timeText,
                         segmentTypesCount = immutableMapOf(
-                            TimeType(
+                            TimeTypeStyle(
                                 nameStringResId = R.string.chip_time_type_timer_name,
-                                color = TimeTypeColors.TIMER,
+                                backgroundColor = Color.Red,
+                                onBackgroundColor = Color.White,
                                 id = "TIMER"
                             ) to 3
                         )
@@ -296,7 +309,7 @@ class RoutineSummaryViewModelTest {
         viewModel.viewState.test {
             assertThat(awaitItem()).isEqualTo(expected)
         }
-        assertThat(store.get().first()).isEqualTo(expectedDatabaseRoutine)
+        assertThat(routinesStore.get().first()).isEqualTo(expectedDatabaseRoutine)
     }
 
     @Test
@@ -308,9 +321,10 @@ class RoutineSummaryViewModelTest {
                     segmentsSummary = SegmentsSummary(
                         estimatedTotalTime = "20".timeText,
                         segmentTypesCount = immutableMapOf(
-                            TimeType(
+                            TimeTypeStyle(
                                 nameStringResId = R.string.chip_time_type_timer_name,
-                                color = TimeTypeColors.TIMER,
+                                backgroundColor = Color.Red,
+                                onBackgroundColor = Color.White,
                                 id = "TIMER"
                             ) to 2
                         )
@@ -337,7 +351,7 @@ class RoutineSummaryViewModelTest {
         viewModel.viewState.test {
             assertThat(awaitItem()).isEqualTo(expected)
         }
-        assertThat(store.get().first()).isEqualTo(expectedDatabaseRoutine)
+        assertThat(routinesStore.get().first()).isEqualTo(expectedDatabaseRoutine)
     }
 
     @Test
@@ -349,9 +363,10 @@ class RoutineSummaryViewModelTest {
                     segmentsSummary = SegmentsSummary(
                         estimatedTotalTime = "30".timeText,
                         segmentTypesCount = immutableMapOf(
-                            TimeType(
+                            TimeTypeStyle(
                                 nameStringResId = R.string.chip_time_type_timer_name,
-                                color = TimeTypeColors.TIMER,
+                                backgroundColor = Color.Red,
+                                onBackgroundColor = Color.White,
                                 id = "TIMER"
                             ) to 3
                         )
@@ -370,7 +385,7 @@ class RoutineSummaryViewModelTest {
         )
         val viewModel = buildViewModel()
         advanceUntilIdle()
-        store.enableErrorOnNextAccess()
+        routinesStore.enableErrorOnNextAccess()
         viewModel.onSegmentDelete(segmentId = secondSegmentItem.id)
         advanceUntilIdle()
 
@@ -391,9 +406,10 @@ class RoutineSummaryViewModelTest {
                     segmentsSummary = SegmentsSummary(
                         estimatedTotalTime = "20".timeText,
                         segmentTypesCount = immutableMapOf(
-                            TimeType(
+                            TimeTypeStyle(
                                 nameStringResId = R.string.chip_time_type_timer_name,
-                                color = TimeTypeColors.TIMER,
+                                backgroundColor = Color.Red,
+                                onBackgroundColor = Color.White,
                                 id = "TIMER"
                             ) to 2
                         )
@@ -420,7 +436,7 @@ class RoutineSummaryViewModelTest {
         viewModel.viewState.test {
             assertThat(awaitItem()).isEqualTo(expected)
         }
-        assertThat(store.get().first()).isEqualTo(expectedDatabaseRoutine)
+        assertThat(routinesStore.get().first()).isEqualTo(expectedDatabaseRoutine)
     }
 
     @Test
@@ -432,9 +448,10 @@ class RoutineSummaryViewModelTest {
                     segmentsSummary = SegmentsSummary(
                         estimatedTotalTime = "20".timeText,
                         segmentTypesCount = immutableMapOf(
-                            TimeType(
+                            TimeTypeStyle(
                                 nameStringResId = R.string.chip_time_type_timer_name,
-                                color = TimeTypeColors.TIMER,
+                                backgroundColor = Color.Red,
+                                onBackgroundColor = Color.White,
                                 id = "TIMER"
                             ) to 2
                         )
@@ -449,7 +466,7 @@ class RoutineSummaryViewModelTest {
         )
         val viewModel = buildViewModel()
         advanceUntilIdle()
-        store.enableErrorOnNextAccess()
+        routinesStore.enableErrorOnNextAccess()
         viewModel.onSegmentDelete(segmentId = secondSegmentItem.id)
         advanceUntilIdle()
         viewModel.onSnackbarEvent(snackbarEvent = TempoSnackbarEvent.Dismissed)
@@ -474,9 +491,10 @@ class RoutineSummaryViewModelTest {
                     segmentsSummary = SegmentsSummary(
                         estimatedTotalTime = "40".timeText,
                         segmentTypesCount = immutableMapOf(
-                            TimeType(
+                            TimeTypeStyle(
                                 nameStringResId = R.string.chip_time_type_timer_name,
-                                color = TimeTypeColors.TIMER,
+                                backgroundColor = Color.Red,
+                                onBackgroundColor = Color.White,
                                 id = "TIMER"
                             ) to 4
                         )
@@ -514,9 +532,10 @@ class RoutineSummaryViewModelTest {
                     segmentsSummary = SegmentsSummary(
                         estimatedTotalTime = "30".timeText,
                         segmentTypesCount = immutableMapOf(
-                            TimeType(
+                            TimeTypeStyle(
                                 nameStringResId = R.string.chip_time_type_timer_name,
-                                color = TimeTypeColors.TIMER,
+                                backgroundColor = Color.Red,
+                                onBackgroundColor = Color.White,
                                 id = "TIMER"
                             ) to 3
                         )
@@ -536,7 +555,7 @@ class RoutineSummaryViewModelTest {
         val viewModel = buildViewModel()
         advanceUntilIdle()
 
-        store.enableErrorOnNextAccess()
+        routinesStore.enableErrorOnNextAccess()
         viewModel.onSegmentDuplicate(segmentId = firstSegmentItem.id)
         advanceUntilIdle()
 
@@ -554,9 +573,10 @@ class RoutineSummaryViewModelTest {
                     segmentsSummary = SegmentsSummary(
                         estimatedTotalTime = "30".timeText,
                         segmentTypesCount = immutableMapOf(
-                            TimeType(
+                            TimeTypeStyle(
                                 nameStringResId = R.string.chip_time_type_timer_name,
-                                color = TimeTypeColors.TIMER,
+                                backgroundColor = Color.Red,
+                                onBackgroundColor = Color.White,
                                 id = "TIMER"
                             ) to 3
                         )
@@ -591,7 +611,7 @@ class RoutineSummaryViewModelTest {
         viewModel.viewState.test {
             assertThat(awaitItem()).isEqualTo(expected)
         }
-        assertThat(store.get().first()).isEqualTo(expectedDatabaseRoutine)
+        assertThat(routinesStore.get().first()).isEqualTo(expectedDatabaseRoutine)
     }
 
     @Test
@@ -603,9 +623,10 @@ class RoutineSummaryViewModelTest {
                     segmentsSummary = SegmentsSummary(
                         estimatedTotalTime = "30".timeText,
                         segmentTypesCount = immutableMapOf(
-                            TimeType(
+                            TimeTypeStyle(
                                 nameStringResId = R.string.chip_time_type_timer_name,
-                                color = TimeTypeColors.TIMER,
+                                backgroundColor = Color.Red,
+                                onBackgroundColor = Color.White,
                                 id = "TIMER"
                             ) to 3
                         )
@@ -639,9 +660,10 @@ class RoutineSummaryViewModelTest {
                     segmentsSummary = SegmentsSummary(
                         estimatedTotalTime = "30".timeText,
                         segmentTypesCount = immutableMapOf(
-                            TimeType(
+                            TimeTypeStyle(
                                 nameStringResId = R.string.chip_time_type_timer_name,
-                                color = TimeTypeColors.TIMER,
+                                backgroundColor = Color.Red,
+                                onBackgroundColor = Color.White,
                                 id = "TIMER"
                             ) to 3
                         )
@@ -661,7 +683,7 @@ class RoutineSummaryViewModelTest {
         val viewModel = buildViewModel()
         advanceUntilIdle()
 
-        store.enableErrorOnNextAccess()
+        routinesStore.enableErrorOnNextAccess()
         viewModel.onSegmentMoved(
             draggedSegmentId = secondSegmentItem.id,
             hoveredSegmentId = firstSegmentItem.id
@@ -682,9 +704,10 @@ class RoutineSummaryViewModelTest {
                     segmentsSummary = SegmentsSummary(
                         estimatedTotalTime = "30".timeText,
                         segmentTypesCount = immutableMapOf(
-                            TimeType(
+                            TimeTypeStyle(
                                 nameStringResId = R.string.chip_time_type_timer_name,
-                                color = TimeTypeColors.TIMER,
+                                backgroundColor = Color.Red,
+                                onBackgroundColor = Color.White,
                                 id = "TIMER"
                             ) to 3
                         )
@@ -700,7 +723,7 @@ class RoutineSummaryViewModelTest {
         )
         val viewModel = buildViewModel()
         advanceUntilIdle()
-        store.enableErrorOnNextAccess()
+        routinesStore.enableErrorOnNextAccess()
         viewModel.onSegmentMoved(
             draggedSegmentId = secondSegmentItem.id,
             hoveredSegmentId = firstSegmentItem.id
@@ -724,9 +747,10 @@ class RoutineSummaryViewModelTest {
                     segmentsSummary = SegmentsSummary(
                         estimatedTotalTime = "20".timeText,
                         segmentTypesCount = immutableMapOf(
-                            TimeType(
+                            TimeTypeStyle(
                                 nameStringResId = R.string.chip_time_type_timer_name,
-                                color = TimeTypeColors.TIMER,
+                                backgroundColor = Color.Red,
+                                onBackgroundColor = Color.White,
                                 id = "TIMER"
                             ) to 2
                         )
@@ -759,7 +783,7 @@ class RoutineSummaryViewModelTest {
         viewModel.viewState.test {
             assertThat(awaitItem()).isEqualTo(expected)
         }
-        assertThat(store.get().first()).isEqualTo(expectedDatabaseRoutine)
+        assertThat(routinesStore.get().first()).isEqualTo(expectedDatabaseRoutine)
     }
 
     @Test
@@ -778,7 +802,7 @@ class RoutineSummaryViewModelTest {
 
     @Test
     fun `should show errors when starting routine with errors`() = coroutineRule {
-        store.update { listOf(routine.copy(segments = emptyList())) }
+        routinesStore.update { listOf(routine.copy(segments = emptyList())) }
         val expected = RoutineSummaryViewState.Data(
             items = immutableListOf(
                 RoutineSummaryItem.RoutineInfo(
@@ -834,12 +858,13 @@ class RoutineSummaryViewModelTest {
             savedStateHandle = savedStateHandle,
             dispatchers = coroutineRule.getDispatchers(),
             converter = RoutineSummaryStateConverter(),
-            navigationActions = RoutinesNavigationActions(navigator),
+            navigationActions = RoutinesNavigationActions(navigator = navigator),
             reducer = RoutineSummaryReducer(),
-            getRoutineUseCase = GetRoutineUseCase(routineDataSource),
-            deleteSegmentUseCase = DeleteSegmentUseCase(routineDataSource),
-            moveSegmentUseCase = MoveSegmentUseCase(routineDataSource),
-            duplicateSegmentUseCase = DuplicateSegmentUseCase(routineDataSource),
+            getTimerThemeUseCase = GetTimerThemeUseCase(timerThemeDataSource = timerThemeDataSource),
+            getRoutineUseCase = GetRoutineUseCase(routineDataSource = routineDataSource),
+            deleteSegmentUseCase = DeleteSegmentUseCase(routineDataSource = routineDataSource),
+            moveSegmentUseCase = MoveSegmentUseCase(routineDataSource = routineDataSource),
+            duplicateSegmentUseCase = DuplicateSegmentUseCase(routineDataSource = routineDataSource),
             validator = RoutineSummaryValidator()
         )
     }

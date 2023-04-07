@@ -50,6 +50,7 @@ dependencies {
     implementation project(':ui:components')
     implementation project(":ui:theme")
     implementation project(':data:routines:api')
+    implementation project(':data:timer:api')
     implementation project(":navigation:api")
 
     implementation Libs.AndroidX.appCompat
@@ -73,6 +74,7 @@ dependencies {
 
     // Test
     testImplementation project(':data:routines:testing')
+    testImplementation project(':data:timer:testing')
     testImplementation project(":core:coroutines:testing")
     testImplementation project(":navigation:testing")
     testImplementation Libs.Test.truth
@@ -80,6 +82,7 @@ dependencies {
 
     androidTestImplementation platform(Libs.AndroidX.Compose.bom)
     androidTestImplementation project(':data:routines:testing')
+    androidTestImplementation project(':data:timer:testing')
     androidTestImplementation project(":core:compose:testing")
     androidTestImplementation Libs.Test.junit
     androidTestImplementation Libs.AndroidX.Test.core

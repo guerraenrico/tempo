@@ -6,7 +6,8 @@ import com.enricog.core.compose.api.classes.asImmutableMap
 import com.enricog.data.routines.api.entities.Routine
 import com.enricog.core.entities.ID
 import com.enricog.core.entities.seconds
-import com.enricog.features.routines.detail.ui.time_type.TimeType
+import com.enricog.data.timer.api.theme.entities.TimerTheme
+import com.enricog.features.routines.detail.ui.time_type.TimeTypeStyle
 import com.enricog.ui.components.textField.TimeText
 import com.enricog.ui.components.textField.timeText
 
@@ -25,16 +26,18 @@ internal sealed class RoutinesItem {
 
         data class SegmentsSummary(
             val estimatedTotalTime: TimeText?,
-            val segmentTypesCount: ImmutableMap<TimeType, Int>
+            val segmentTypesCount: ImmutableMap<TimeTypeStyle, Int>
         )
 
         companion object {
-            fun from(routine: Routine): RoutineItem {
+            fun from(routine: Routine, timerTheme: TimerTheme): RoutineItem {
                 val segmentsSummary = if (routine.segments.isNotEmpty()) {
                     SegmentsSummary(
                         estimatedTotalTime = routine.expectedTotalTime.takeIf { it > 0.seconds }?.timeText,
                         segmentTypesCount = routine.segments.groupBy { it.type }
-                            .map { (type, segments) -> TimeType.from(type) to segments.size }
+                            .map { (type, segments) ->
+                                TimeTypeStyle.from(timeType = type, timerTheme = timerTheme) to segments.size
+                            }
                             .toMap()
                             .asImmutableMap()
                     )

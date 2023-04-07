@@ -1,12 +1,14 @@
 package com.enricog.features.routines.detail.segment
 
+import com.enricog.core.entities.Rank
+import com.enricog.core.entities.asID
+import com.enricog.core.entities.seconds
 import com.enricog.data.routines.api.entities.Routine
 import com.enricog.data.routines.api.entities.Segment
 import com.enricog.data.routines.api.entities.TimeType
 import com.enricog.data.routines.testing.entities.EMPTY
-import com.enricog.core.entities.Rank
-import com.enricog.core.entities.asID
-import com.enricog.core.entities.seconds
+import com.enricog.data.timer.api.theme.entities.TimerTheme
+import com.enricog.data.timer.testing.entities.DEFAULT
 import com.enricog.features.routines.detail.segment.models.SegmentField
 import com.enricog.features.routines.detail.segment.models.SegmentFieldError
 import com.enricog.features.routines.detail.segment.models.SegmentState
@@ -29,16 +31,18 @@ class SegmentReducerTest {
         val routine = Routine.EMPTY.copy(
             segments = listOf(segment)
         )
+        val timerTheme = TimerTheme.DEFAULT
         val expected = SegmentState.Data(
             routine = routine,
             segment = segment,
             errors = emptyMap(),
             timeTypes = listOf(TimeType.TIMER, TimeType.REST, TimeType.STOPWATCH),
             selectedTimeType = TimeType.TIMER,
-            action = null
+            action = null,
+            timerTheme = timerTheme
         )
 
-        val actual = reducer.setup(routine = routine, segmentId = 1.asID)
+        val actual = reducer.setup(routine = routine, segmentId = 1.asID, timerTheme = timerTheme)
 
         assertThat(actual).isEqualTo(expected)
     }
@@ -49,16 +53,18 @@ class SegmentReducerTest {
         val routine = Routine.EMPTY.copy(
             segments = emptyList()
         )
+        val timerTheme = TimerTheme.DEFAULT
         val expected = SegmentState.Data(
             routine = routine,
             segment = segment,
             errors = emptyMap(),
             timeTypes = listOf(TimeType.TIMER, TimeType.REST, TimeType.STOPWATCH),
             selectedTimeType = TimeType.TIMER,
-            action = null
+            action = null,
+            timerTheme = timerTheme
         )
 
-        val actual = reducer.setup(routine = routine, segmentId = 0.asID)
+        val actual = reducer.setup(routine = routine, segmentId = 0.asID, timerTheme = timerTheme)
 
         assertThat(actual).isEqualTo(expected)
     }
@@ -86,7 +92,8 @@ class SegmentReducerTest {
             ),
             timeTypes = listOf(TimeType.TIMER, TimeType.REST, TimeType.STOPWATCH),
             selectedTimeType = TimeType.TIMER,
-            action = null
+            action = null,
+            timerTheme = TimerTheme.DEFAULT
         )
         val expected = SegmentState.Data(
             routine = Routine.EMPTY.copy(
@@ -98,7 +105,8 @@ class SegmentReducerTest {
             ),
             timeTypes = listOf(TimeType.TIMER, TimeType.REST, TimeType.STOPWATCH),
             selectedTimeType = TimeType.TIMER,
-            action = null
+            action = null,
+            timerTheme = TimerTheme.DEFAULT
         )
 
         val actual = reducer.updateSegmentName(state = state)
@@ -122,7 +130,8 @@ class SegmentReducerTest {
             ),
             timeTypes = listOf(TimeType.TIMER, TimeType.REST, TimeType.STOPWATCH),
             selectedTimeType = TimeType.TIMER,
-            action = null
+            action = null,
+            timerTheme = TimerTheme.DEFAULT
         )
         val expected = SegmentState.Data(
             routine = Routine.EMPTY.copy(
@@ -137,7 +146,8 @@ class SegmentReducerTest {
             ),
             timeTypes = listOf(TimeType.TIMER, TimeType.REST, TimeType.STOPWATCH),
             selectedTimeType = TimeType.TIMER,
-            action = null
+            action = null,
+            timerTheme = TimerTheme.DEFAULT
         )
 
         val actual = reducer.updateSegmentTime(state = state)
@@ -158,7 +168,8 @@ class SegmentReducerTest {
             errors = emptyMap(),
             timeTypes = listOf(TimeType.TIMER, TimeType.REST, TimeType.STOPWATCH),
             selectedTimeType = TimeType.TIMER,
-            action = null
+            action = null,
+            timerTheme = TimerTheme.DEFAULT
         )
 
         val actual = reducer.updateSegmentTimeType(state = expected, timeType = TimeType.TIMER)
@@ -182,7 +193,8 @@ class SegmentReducerTest {
             ),
             timeTypes = listOf(TimeType.TIMER, TimeType.REST, TimeType.STOPWATCH),
             selectedTimeType = TimeType.TIMER,
-            action = null
+            action = null,
+            timerTheme = TimerTheme.DEFAULT
         )
         val expected = SegmentState.Data(
             routine = Routine.EMPTY.copy(
@@ -197,7 +209,8 @@ class SegmentReducerTest {
             ),
             timeTypes = listOf(TimeType.TIMER, TimeType.REST, TimeType.STOPWATCH),
             selectedTimeType = TimeType.REST,
-            action = null
+            action = null,
+            timerTheme = TimerTheme.DEFAULT
         )
 
         val actual = reducer.updateSegmentTimeType(state = state, timeType = TimeType.REST)
@@ -217,7 +230,8 @@ class SegmentReducerTest {
             errors = emptyMap(),
             timeTypes = listOf(TimeType.TIMER, TimeType.REST, TimeType.STOPWATCH),
             selectedTimeType = TimeType.TIMER,
-            action = null
+            action = null,
+            timerTheme = TimerTheme.DEFAULT
         )
         val expected = SegmentState.Data(
             routine = Routine.EMPTY,
@@ -225,7 +239,8 @@ class SegmentReducerTest {
             errors = errors,
             timeTypes = listOf(TimeType.TIMER, TimeType.REST, TimeType.STOPWATCH),
             selectedTimeType = TimeType.TIMER,
-            action = null
+            action = null,
+            timerTheme = TimerTheme.DEFAULT
         )
 
         val actual = reducer.applySegmentErrors(state = state, errors = errors)
@@ -241,7 +256,8 @@ class SegmentReducerTest {
             errors = emptyMap(),
             timeTypes = listOf(TimeType.TIMER, TimeType.REST, TimeType.STOPWATCH),
             selectedTimeType = TimeType.TIMER,
-            action = null
+            action = null,
+            timerTheme = TimerTheme.DEFAULT
         )
         val expected = SegmentState.Data(
             routine = Routine.EMPTY,
@@ -249,7 +265,8 @@ class SegmentReducerTest {
             errors = emptyMap(),
             timeTypes = listOf(TimeType.TIMER, TimeType.REST, TimeType.STOPWATCH),
             selectedTimeType = TimeType.TIMER,
-            action = SaveSegmentError
+            action = SaveSegmentError,
+            timerTheme = TimerTheme.DEFAULT
         )
 
         val actual = reducer.saveSegmentError(state = state)
@@ -265,7 +282,8 @@ class SegmentReducerTest {
             errors = emptyMap(),
             timeTypes = listOf(TimeType.TIMER, TimeType.REST, TimeType.STOPWATCH),
             selectedTimeType = TimeType.TIMER,
-            action = SaveSegmentError
+            action = SaveSegmentError,
+            timerTheme = TimerTheme.DEFAULT
         )
         val expected = SegmentState.Data(
             routine = Routine.EMPTY,
@@ -273,7 +291,8 @@ class SegmentReducerTest {
             errors = emptyMap(),
             timeTypes = listOf(TimeType.TIMER, TimeType.REST, TimeType.STOPWATCH),
             selectedTimeType = TimeType.TIMER,
-            action = null
+            action = null,
+            timerTheme = TimerTheme.DEFAULT
         )
 
         val actual = reducer.actionHandled(state = state)

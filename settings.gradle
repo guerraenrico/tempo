@@ -16,6 +16,8 @@ include ':data:local:testing'
 include ':data:local:database'
 include ':data:routines:api'
 include ':data:routines:testing'
+include ':data:timer:api'
+include ':data:timer:testing'
 
 include ':features:routines'
 include ':features:timer'

@@ -32,10 +32,9 @@ import com.enricog.core.compose.api.ScreenConfiguration.Orientation.LANDSCAPE
 import com.enricog.core.compose.api.ScreenConfiguration.Orientation.PORTRAIT
 import com.enricog.core.compose.api.extensions.toPx
 import com.enricog.features.timer.models.TimerViewState
-import com.enricog.features.timer.models.TimerViewState.Counting.BackgroundColor
+import com.enricog.features.timer.models.TimerViewState.Counting.Background
 import com.enricog.ui.components.text.TempoText
 import com.enricog.ui.theme.TempoTheme
-import com.enricog.ui.theme.contentColorFor
 
 internal const val TimerCountingSceneTestTag = "TimerCountingSceneTestTag"
 internal const val StepTitleTestTag = "StepTitleTestTag"
@@ -71,7 +70,7 @@ private fun TimerCountingScenePortrait(
     onBack: () -> Unit,
     onNext: () -> Unit
 ) {
-    TimerBackground(clockBackgroundColor = state.clockBackgroundColor) {
+    TimerBackground(clockBackground = state.clockBackground) {
         ConstraintLayout(
             modifier = Modifier
                 .windowInsetsPadding(WindowInsets.statusBars)
@@ -87,14 +86,13 @@ private fun TimerCountingScenePortrait(
                     end.linkTo(parent.end)
                     width = Dimension.fillToConstraints
                 },
+                textColor = state.clockOnBackgroundColor,
                 stepTitle = stringResource(state.stepTitleId),
                 segmentName = state.segmentName
             )
             Clock(
                 timeInSeconds = state.timeInSeconds,
-                textColor = TempoTheme.colors.contentColorFor(
-                    backgroundColor = state.clockBackgroundColor.background
-                ),
+                textColor = state.clockOnBackgroundColor,
                 modifier = Modifier.constrainAs(clock) {
                     top.linkTo(title.bottom)
                     bottom.linkTo(actionBar.top)
@@ -125,7 +123,7 @@ private fun TimerCountingSceneLandscape(
     onBack: () -> Unit,
     onNext: () -> Unit
 ) {
-    TimerBackground(clockBackgroundColor = state.clockBackgroundColor) {
+    TimerBackground(clockBackground = state.clockBackground) {
         ConstraintLayout(
             modifier = Modifier
                 .windowInsetsPadding(WindowInsets.statusBars)
@@ -141,14 +139,13 @@ private fun TimerCountingSceneLandscape(
                     end.linkTo(actionBar.start)
                     width = Dimension.fillToConstraints
                 },
+                textColor = state.clockOnBackgroundColor,
                 stepTitle = stringResource(state.stepTitleId),
                 segmentName = state.segmentName
             )
             Clock(
                 timeInSeconds = state.timeInSeconds,
-                textColor = TempoTheme.colors.contentColorFor(
-                    backgroundColor = state.clockBackgroundColor.background
-                ),
+                textColor = state.clockOnBackgroundColor,
                 modifier = Modifier.constrainAs(clock) {
                     bottom.linkTo(parent.bottom)
                     start.linkTo(parent.start)
@@ -172,7 +169,7 @@ private fun TimerCountingSceneLandscape(
 
 @Composable
 private fun TimerBackground(
-    clockBackgroundColor: BackgroundColor,
+    clockBackground: Background,
     modifier: Modifier = Modifier,
     content: @Composable BoxScope.() -> Unit
 ) {
@@ -182,7 +179,7 @@ private fun TimerBackground(
     }
 
     val circleRadius = remember { Animatable(initialValue = 0f) }
-    val isCircleAnimating = clockBackgroundColor.ripple != null
+    val isCircleAnimating = clockBackground.ripple != null
     LaunchedEffect(isCircleAnimating) {
         circleRadius.animateTo(
             targetValue = if (isCircleAnimating) circleTransitionSize else 0f,
@@ -195,9 +192,9 @@ private fun TimerBackground(
             .testTag(TimerCountingSceneTestTag)
             .fillMaxSize()
             .drawBehind {
-                drawRect(color = clockBackgroundColor.background)
+                drawRect(color = clockBackground.background)
                 drawCircle(
-                    color = clockBackgroundColor.ripple ?: Color.Transparent,
+                    color = clockBackground.ripple ?: Color.Transparent,
                     radius = circleRadius.value
                 )
             },
@@ -209,6 +206,7 @@ private fun TimerBackground(
 private fun Title(
     stepTitle: String,
     segmentName: String,
+    textColor: Color,
     modifier: Modifier = Modifier
 ) {
     Column(
@@ -228,7 +226,7 @@ private fun Title(
             textAlign = TextAlign.Center,
             style = TempoTheme.typography.h1.copy(
                 fontSize = 35.sp,
-                color = TempoTheme.colors.background
+                color = textColor
             ),
             maxLines = 2
         )
@@ -241,7 +239,7 @@ private fun Title(
             textAlign = TextAlign.Center,
             style = TempoTheme.typography.h1.copy(
                 fontSize = 25.sp,
-                color = TempoTheme.colors.background
+                color = textColor
             )
         )
     }

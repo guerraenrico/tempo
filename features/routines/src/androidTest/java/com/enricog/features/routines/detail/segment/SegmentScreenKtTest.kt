@@ -6,11 +6,13 @@ import androidx.compose.ui.test.onNodeWithTag
 import com.enricog.core.compose.api.classes.emptyImmutableMap
 import com.enricog.core.compose.api.classes.immutableListOf
 import com.enricog.core.compose.testing.invoke
+import com.enricog.data.timer.api.theme.entities.TimerTheme
+import com.enricog.data.timer.testing.entities.DEFAULT
 import com.enricog.features.routines.detail.segment.models.SegmentInputs
 import com.enricog.features.routines.detail.segment.models.SegmentViewState
 import com.enricog.features.routines.detail.segment.ui_components.SegmentErrorSceneTestTag
 import com.enricog.features.routines.detail.segment.ui_components.SegmentFormSceneTestTag
-import com.enricog.features.routines.detail.ui.time_type.TimeType
+import com.enricog.features.routines.detail.ui.time_type.TimeTypeStyle
 import com.enricog.ui.components.extensions.toTextFieldValue
 import com.enricog.ui.components.textField.timeText
 import com.enricog.ui.theme.TempoTheme
@@ -51,14 +53,18 @@ class SegmentScreenKtTest {
 
     @Test
     fun shouldRenderSegmentFormSceneWhenStateIsData() = composeRule {
+        val timerTheme = TimerTheme.DEFAULT
         val viewState = SegmentViewState.Data(
             isTimeFieldVisible = true,
-            selectedTimeType = TimeType.from(TimeTypeEntity.TIMER),
+            selectedTimeTypeStyle = TimeTypeStyle.from(
+                timeType = TimeTypeEntity.TIMER,
+                timerTheme = timerTheme
+            ),
             errors = emptyImmutableMap(),
-            timeTypes = immutableListOf(
-                TimeType.from(TimeTypeEntity.TIMER),
-                TimeType.from(TimeTypeEntity.REST),
-                TimeType.from(TimeTypeEntity.STOPWATCH)
+            timeTypeStyles = immutableListOf(
+                TimeTypeStyle.from(timeType = TimeTypeEntity.TIMER, timerTheme = timerTheme),
+                TimeTypeStyle.from(timeType = TimeTypeEntity.REST, timerTheme = timerTheme),
+                TimeTypeStyle.from(timeType = TimeTypeEntity.STOPWATCH, timerTheme = timerTheme)
             ),
             message = null
         )

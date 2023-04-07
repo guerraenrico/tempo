@@ -12,29 +12,26 @@ import androidx.compose.ui.platform.testTag
 import androidx.compose.ui.res.stringResource
 import com.enricog.ui.components.text.TempoText
 import com.enricog.ui.theme.TempoTheme
-import com.enricog.ui.theme.contentColorFor
 
 internal const val TimeTypeChipTestTag = "TimeTypeChipTestTag"
 private val chipShape = RoundedCornerShape(percent = 50)
 
 @Composable
 internal fun TimeTypeChip(
-    value: TimeType,
+    style: TimeTypeStyle,
     modifier: Modifier = Modifier
 ) {
     Box(
         modifier = modifier
             .testTag(TimeTypeChipTestTag)
             .clip(chipShape)
-            .background(color = value.color, shape = chipShape),
+            .background(color = style.backgroundColor, shape = chipShape),
         contentAlignment = Alignment.Center
     ) {
         TempoText(
-            text = stringResource(id = value.nameStringResId),
+            text = stringResource(id = style.nameStringResId),
             style = TempoTheme.typography.h4.copy(
-                color = TempoTheme.colors.contentColorFor(
-                    backgroundColor = value.color
-                )
+                color = style.onBackgroundColor
             ),
             modifier = Modifier.padding(
                 horizontal = TempoTheme.dimensions.spaceM,

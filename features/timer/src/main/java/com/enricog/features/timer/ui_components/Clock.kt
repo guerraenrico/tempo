@@ -43,12 +43,12 @@ internal fun Clock(
 private fun TimeText(timeInSeconds: Long, textColor: Color) {
     val orientation = ScreenConfiguration.orientation
     val numberStyle = when (orientation) {
-        PORTRAIT -> BaseNumberStyle.copy(fontSize = 110.sp)
-        LANDSCAPE -> BaseNumberStyle.copy(fontSize = 170.sp)
+        PORTRAIT -> BaseNumberStyle.copy(fontSize = 110.sp, color = textColor)
+        LANDSCAPE -> BaseNumberStyle.copy(fontSize = 170.sp, color = textColor)
     }
     val separatorStyle = when (orientation) {
-        PORTRAIT -> BaseSeparatorStyle.copy(fontSize = 55.sp)
-        LANDSCAPE -> BaseSeparatorStyle.copy(fontSize = 85.sp)
+        PORTRAIT -> BaseSeparatorStyle.copy(fontSize = 55.sp, color = textColor)
+        LANDSCAPE -> BaseSeparatorStyle.copy(fontSize = 85.sp, color = textColor)
     }
     val timeText = remember(timeInSeconds) {
         buildTimeText(

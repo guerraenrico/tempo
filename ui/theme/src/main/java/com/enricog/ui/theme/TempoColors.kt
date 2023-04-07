@@ -86,9 +86,9 @@ class TempoColors internal constructor() {
 
     override fun toString(): String {
         return "TempoColors(primary=$primary, primaryVariant=$primaryVariant, secondary=$secondary," +
-                " secondaryVariant=$secondaryVariant, background=$background, surface=$surface, " +
-                "error=$error, onPrimary=$onPrimary, onSecondary=$onSecondary, onBackground=$onBackground, " +
-                "onSurface=$onSurface, onSurfaceSecondary=$onSurfaceSecondary, onError=$onError, isLight=$isLight)"
+            " secondaryVariant=$secondaryVariant, background=$background, surface=$surface, " +
+            "error=$error, onPrimary=$onPrimary, onSecondary=$onSecondary, onBackground=$onBackground, " +
+            "onSurface=$onSurface, onSurfaceSecondary=$onSurfaceSecondary, onError=$onError, isLight=$isLight)"
     }
 }
 
@@ -101,10 +101,6 @@ fun TempoColors.contentColorFor(backgroundColor: Color): Color {
         background -> onBackground
         surface -> onSurface
         error -> onError
-        TimeTypeColors.STARTING -> darkBlue500
-        TimeTypeColors.STOPWATCH -> darkBlue500
-        TimeTypeColors.TIMER -> darkBlue500
-        TimeTypeColors.REST -> darkBlue500
         else -> Color.Unspecified
     }
 }
@@ -127,11 +123,4 @@ internal fun TempoColors.toMaterialColors(): Colors {
         onError = onError,
         isLight = isLight
     )
-}
-
-object TimeTypeColors {
-    val STARTING = Color(0xff_A0A6FF)
-    val STOPWATCH = Color(0xff_BC92FF)
-    val TIMER = Color(0xff_57C0F5)
-    val REST = Color(0xff_FF968E)
 }

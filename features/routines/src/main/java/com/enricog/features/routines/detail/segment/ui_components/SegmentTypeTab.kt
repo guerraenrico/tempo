@@ -11,7 +11,7 @@ import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.lerp
 import androidx.compose.ui.platform.testTag
 import androidx.compose.ui.res.stringResource
-import com.enricog.features.routines.detail.ui.time_type.TimeType
+import com.enricog.features.routines.detail.ui.time_type.TimeTypeStyle
 import com.enricog.ui.components.text.TempoText
 import com.enricog.ui.theme.TempoTheme
 import com.enricog.ui.theme.contentColorFor
@@ -20,15 +20,13 @@ internal const val SegmentTypeTabTestTag = "SegmentTypeTabTestTag"
 
 @Composable
 internal fun SegmentTypeTab(
-    timeType: TimeType,
+    timeTypeStyle: TimeTypeStyle,
     progress: Float,
-    onClick: (TimeType) -> Unit,
+    onClick: (TimeTypeStyle) -> Unit,
     modifier: Modifier = Modifier,
 ) {
     val textColor = lerp(
-        start = TempoTheme.colors.contentColorFor(
-            backgroundColor = timeType.color
-        ),
+        start = timeTypeStyle.onBackgroundColor,
         stop = TempoTheme.colors.contentColorFor(
             backgroundColor = TempoTheme.colors.background
         ),
@@ -38,11 +36,11 @@ internal fun SegmentTypeTab(
         modifier = modifier
             .testTag(SegmentTypeTabTestTag)
             .clip(shape = RoundedCornerShape(percent = 50))
-            .clickable { onClick(timeType) },
+            .clickable { onClick(timeTypeStyle) },
         contentAlignment = Alignment.Center
     ) {
         TempoText(
-            text = stringResource(id = timeType.nameStringResId),
+            text = stringResource(id = timeTypeStyle.nameStringResId),
             style = TempoTheme.typography.h4.copy(
                 color = textColor
             ),

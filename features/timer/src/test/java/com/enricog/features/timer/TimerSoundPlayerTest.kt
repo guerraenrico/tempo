@@ -5,6 +5,8 @@ import com.enricog.data.routines.api.entities.Segment
 import com.enricog.data.routines.api.entities.TimeType
 import com.enricog.data.routines.testing.entities.EMPTY
 import com.enricog.core.entities.seconds
+import com.enricog.data.timer.api.theme.entities.TimerTheme
+import com.enricog.data.timer.testing.entities.DEFAULT
 import com.enricog.features.timer.models.Count
 import com.enricog.features.timer.models.SegmentStep
 import com.enricog.features.timer.models.SegmentStepType
@@ -317,7 +319,8 @@ internal class TimerSoundPlayerTest {
             ),
             isSoundEnabled = true,
             startedAt = OffsetDateTime.now(Clock.fixed(Instant.parse("2023-04-03T10:15:30.00Z"), ZoneId.of("UTC"))),
-            skipCount = 0
+            skipCount = 0,
+            timerTheme = TimerTheme.DEFAULT
         )
     }
 }

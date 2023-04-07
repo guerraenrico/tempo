@@ -8,7 +8,7 @@ import androidx.compose.ui.test.onNodeWithTag
 import com.enricog.core.compose.testing.invoke
 import com.enricog.features.timer.R
 import com.enricog.features.timer.models.TimerViewState
-import com.enricog.features.timer.models.TimerViewState.Counting.BackgroundColor
+import com.enricog.features.timer.models.TimerViewState.Counting.Background
 import com.enricog.ui.components.button.icon.TempoIconButtonSize
 import com.enricog.ui.theme.TempoTheme
 import org.junit.Rule
@@ -25,10 +25,11 @@ class TimerCountingSceneKtTest {
             stepTitleId = R.string.title_segment_step_type_in_progress,
             segmentName = "segment name",
             timeInSeconds = 1,
-            clockBackgroundColor = BackgroundColor(
+            clockBackground = Background(
                 background = Color.Blue,
                 ripple = null
             ),
+            clockOnBackgroundColor = Color.White,
             isSoundEnabled = true,
             timerActions = TimerViewState.Counting.Actions(
                 back = TimerViewState.Counting.Actions.Button(
@@ -72,10 +73,11 @@ class TimerCountingSceneKtTest {
             stepTitleId = R.string.title_segment_step_type_in_progress,
             segmentName = "segment name",
             timeInSeconds = 1,
-            clockBackgroundColor = BackgroundColor(
+            clockBackground = Background(
                 background = Color.Blue,
                 ripple = null
             ),
+            clockOnBackgroundColor = Color.White,
             isSoundEnabled = true,
             timerActions = TimerViewState.Counting.Actions(
                 back = TimerViewState.Counting.Actions.Button(

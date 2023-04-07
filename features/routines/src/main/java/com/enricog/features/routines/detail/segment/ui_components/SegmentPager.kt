@@ -15,21 +15,21 @@ import com.enricog.core.compose.api.classes.ImmutableList
 import com.enricog.core.compose.api.classes.toImmutableMap
 import com.enricog.core.compose.api.extensions.toPx
 import com.enricog.core.compose.api.modifiers.swipeable.rememberSwipeableState
-import com.enricog.features.routines.detail.ui.time_type.TimeType
+import com.enricog.features.routines.detail.ui.time_type.TimeTypeStyle
 import com.enricog.ui.theme.TempoTheme
 
 @Composable
 internal fun SegmentPager(
-    timeTypes: ImmutableList<TimeType>,
-    selectedType: TimeType,
-    onSelectTimeTypeChange: (TimeType) -> Unit,
+    timeTypeStyles: ImmutableList<TimeTypeStyle>,
+    selectedType: TimeTypeStyle,
+    onSelectTimeTypeChange: (TimeTypeStyle) -> Unit,
     modifier: Modifier = Modifier,
     content: @Composable ColumnScope.() -> Unit
 ) = BoxWithConstraints(modifier = modifier) {
 
     val swipeState = rememberSwipeableState(
         initialValue = selectedType,
-        valueSaver = TimeType.Saver()
+        valueSaver = TimeTypeStyle.Saver()
     ) {
         onSelectTimeTypeChange(it)
         true
@@ -39,8 +39,8 @@ internal fun SegmentPager(
     }
 
     val tabSpace = TempoTheme.dimensions.spaceS
-    val tabWidth = (maxWidth - (tabSpace * (timeTypes.size - 1))) / timeTypes.size
-    val tabAnchors = timeTypes
+    val tabWidth = (maxWidth - (tabSpace * (timeTypeStyles.size - 1))) / timeTypeStyles.size
+    val tabAnchors = timeTypeStyles
         .mapIndexed { index, timeType -> (tabWidth.toPx() * index) + (tabSpace.toPx() * index) to timeType }
         .toImmutableMap()
 
@@ -60,8 +60,8 @@ internal fun SegmentPager(
             tabWidth = tabWidth,
             tabAnchors = tabAnchors,
             swipeState = swipeState,
-            timeTypes = timeTypes,
-            selectedTimeType = selectedType,
+            timeTypeStyles = timeTypeStyles,
+            selectedTimeTypeStyle = selectedType,
             onSelectTimeTypeChange = onSelectTimeTypeChange,
         )
         content()

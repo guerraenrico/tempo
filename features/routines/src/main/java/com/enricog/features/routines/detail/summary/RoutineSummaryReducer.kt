@@ -1,7 +1,8 @@
 package com.enricog.features.routines.detail.summary
 
-import com.enricog.data.routines.api.entities.Routine
 import com.enricog.core.entities.ID
+import com.enricog.data.routines.api.entities.Routine
+import com.enricog.data.timer.api.theme.entities.TimerTheme
 import com.enricog.features.routines.detail.summary.models.RoutineSummaryField
 import com.enricog.features.routines.detail.summary.models.RoutineSummaryFieldError
 import com.enricog.features.routines.detail.summary.models.RoutineSummaryState
@@ -13,10 +14,15 @@ import javax.inject.Inject
 
 internal class RoutineSummaryReducer @Inject constructor() {
 
-    fun setup(state: RoutineSummaryState, routine: Routine): RoutineSummaryState {
+    fun setup(state: RoutineSummaryState, routine: Routine, timerTheme: TimerTheme): RoutineSummaryState {
         return when (state) {
             is RoutineSummaryState.Data -> state.copy(routine = routine)
-            else -> RoutineSummaryState.Data(routine = routine, errors = emptyMap(), action = null)
+            else -> RoutineSummaryState.Data(
+                timerTheme = timerTheme,
+                routine = routine,
+                errors = emptyMap(),
+                action = null
+            )
         }
     }
 

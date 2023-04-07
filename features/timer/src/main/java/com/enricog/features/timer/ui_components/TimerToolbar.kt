@@ -16,8 +16,6 @@ import com.enricog.features.timer.models.TimerViewState
 import com.enricog.ui.components.button.TempoButtonColor
 import com.enricog.ui.components.button.icon.TempoIconButton
 import com.enricog.ui.components.button.icon.TempoIconButtonSize
-import com.enricog.ui.theme.TempoTheme
-import com.enricog.ui.theme.contentColorFor
 
 internal const val TimerToolbarCloseButtonTestTag = "TimerToolbarCloseButtonTestTag"
 internal const val TimerToolbarSoundButtonTestTag = "TimerToolbarSoundButtonTestTag"
@@ -38,12 +36,8 @@ internal fun TimerToolbar(
         is TimerViewState.Counting -> TempoButtonColor.Adaptive(
             enabledBackgroundColor = Color.Transparent,
             disabledBackgroundColor = Color.Transparent,
-            enabledContentColor = TempoTheme.colors.contentColorFor(
-                backgroundColor = state.clockBackgroundColor.background
-            ),
-            disabledContentColor = TempoTheme.colors.contentColorFor(
-                backgroundColor = state.clockBackgroundColor.background.copy(alpha = .5f)
-            )
+            enabledContentColor = state.clockOnBackgroundColor,
+            disabledContentColor = state.clockOnBackgroundColor.copy(alpha = .5f)
         )
     }
 

@@ -8,7 +8,7 @@ import com.enricog.features.routines.detail.segment.models.SegmentState
 import com.enricog.features.routines.detail.segment.models.SegmentState.Data.Action
 import com.enricog.features.routines.detail.segment.models.SegmentViewState
 import com.enricog.features.routines.detail.segment.models.SegmentViewState.Data.Message
-import com.enricog.features.routines.detail.ui.time_type.TimeType
+import com.enricog.features.routines.detail.ui.time_type.TimeTypeStyle
 import javax.inject.Inject
 import com.enricog.data.routines.api.entities.TimeType as TimeTypeEntity
 
@@ -27,8 +27,9 @@ internal class SegmentStateConverter @Inject constructor() :
         return SegmentViewState.Data(
             isTimeFieldVisible = selectedTimeType != TimeTypeEntity.STOPWATCH,
             errors = errors.asImmutableMap(),
-            selectedTimeType = TimeType.from(timeType = selectedTimeType),
-            timeTypes = timeTypes.map { TimeType.from(timeType = it) }.asImmutableList(),
+            selectedTimeTypeStyle = TimeTypeStyle.from(timeType = selectedTimeType, timerTheme = timerTheme),
+            timeTypeStyles = timeTypes.map { TimeTypeStyle.from(timeType = it, timerTheme = timerTheme) }
+                .asImmutableList(),
             message = action?.toMessage()
         )
     }

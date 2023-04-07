@@ -17,7 +17,7 @@ import com.enricog.features.routines.detail.summary.models.RoutineSummaryState.D
 import com.enricog.features.routines.detail.summary.models.RoutineSummaryState.Data.Action.MoveSegmentError
 import com.enricog.features.routines.detail.summary.models.RoutineSummaryViewState
 import com.enricog.features.routines.detail.summary.models.RoutineSummaryViewState.Data.Message
-import com.enricog.features.routines.detail.ui.time_type.TimeType
+import com.enricog.features.routines.detail.ui.time_type.TimeTypeStyle
 import com.enricog.ui.components.textField.timeText
 import javax.inject.Inject
 
@@ -38,7 +38,12 @@ internal class RoutineSummaryStateConverter @Inject constructor() :
                 SegmentsSummary(
                     estimatedTotalTime = routine.expectedTotalTime.takeIf { it > 0.seconds }?.timeText,
                     segmentTypesCount = routine.segments.groupBy { it.type }
-                        .map { (type, segments) -> TimeType.from(type) to segments.size }
+                        .map { (type, segments) ->
+                            TimeTypeStyle.from(
+                                timeType = type,
+                                timerTheme = timerTheme
+                            ) to segments.size
+                        }
                         .toMap()
                         .asImmutableMap()
                 )
@@ -61,7 +66,7 @@ internal class RoutineSummaryStateConverter @Inject constructor() :
 
             addAll(
                 routine.segments.map {
-                    RoutineSummaryItem.SegmentItem.from(segment = it)
+                    RoutineSummaryItem.SegmentItem.from(segment = it, timerTheme = timerTheme)
                 }
             )
             add(RoutineSummaryItem.Space)

@@ -1,13 +1,16 @@
 package com.enricog.features.routines.detail.summary
 
+import androidx.compose.ui.graphics.Color
 import com.enricog.core.compose.api.classes.immutableListOf
 import com.enricog.core.compose.api.classes.immutableMapOf
 import com.enricog.core.coroutines.testing.CoroutineRule
+import com.enricog.core.entities.asID
+import com.enricog.core.entities.seconds
 import com.enricog.data.routines.api.entities.Routine
 import com.enricog.data.routines.api.entities.Segment
 import com.enricog.data.routines.testing.entities.EMPTY
-import com.enricog.core.entities.asID
-import com.enricog.core.entities.seconds
+import com.enricog.data.timer.api.theme.entities.TimerTheme
+import com.enricog.data.timer.testing.entities.DEFAULT
 import com.enricog.features.routines.R
 import com.enricog.features.routines.detail.summary.models.RoutineSummaryField
 import com.enricog.features.routines.detail.summary.models.RoutineSummaryFieldError
@@ -17,9 +20,8 @@ import com.enricog.features.routines.detail.summary.models.RoutineSummaryState
 import com.enricog.features.routines.detail.summary.models.RoutineSummaryState.Data.Action
 import com.enricog.features.routines.detail.summary.models.RoutineSummaryViewState
 import com.enricog.features.routines.detail.summary.models.RoutineSummaryViewState.Data.Message
-import com.enricog.features.routines.detail.ui.time_type.TimeType
+import com.enricog.features.routines.detail.ui.time_type.TimeTypeStyle
 import com.enricog.ui.components.textField.timeText
-import com.enricog.ui.theme.TimeTypeColors
 import com.google.common.truth.Truth.assertThat
 import org.junit.Rule
 import org.junit.Test
@@ -53,7 +55,8 @@ class RoutineSummaryStateConverterTest {
                 )
             ),
             errors = mapOf(RoutineSummaryField.Segments to RoutineSummaryFieldError.NoSegments),
-            action = null
+            action = null,
+            timerTheme = TimerTheme.DEFAULT
         )
         val expected = RoutineSummaryViewState.Data(
             items = immutableListOf(
@@ -62,9 +65,10 @@ class RoutineSummaryStateConverterTest {
                     segmentsSummary = SegmentsSummary(
                         estimatedTotalTime = "20".timeText,
                         segmentTypesCount = immutableMapOf(
-                            TimeType(
+                            TimeTypeStyle(
                                 nameStringResId = R.string.chip_time_type_timer_name,
-                                color = TimeTypeColors.TIMER,
+                                backgroundColor = Color.Red,
+                                onBackgroundColor = Color.White,
                                 id = "TIMER"
                             ) to 2
                         )
@@ -77,9 +81,10 @@ class RoutineSummaryStateConverterTest {
                     id = 1.asID,
                     name = "Segment 1",
                     time = "10".timeText,
-                    type = TimeType(
+                    type = TimeTypeStyle(
                         nameStringResId = R.string.chip_time_type_timer_name,
-                        color = TimeTypeColors.TIMER,
+                        backgroundColor = Color.Red,
+                        onBackgroundColor = Color.White,
                         id = "TIMER"
                     ),
                     rank = "aaaaaa"
@@ -88,9 +93,10 @@ class RoutineSummaryStateConverterTest {
                     id = 2.asID,
                     name = "Segment 2",
                     time = "10".timeText,
-                    type = TimeType(
+                    type = TimeTypeStyle(
                         nameStringResId = R.string.chip_time_type_timer_name,
-                        color = TimeTypeColors.TIMER,
+                        backgroundColor = Color.Red,
+                        onBackgroundColor = Color.White,
                         id = "TIMER"
                     ),
                     rank = "aaaaaa"
@@ -116,7 +122,8 @@ class RoutineSummaryStateConverterTest {
                 )
             ),
             errors = mapOf(RoutineSummaryField.Segments to RoutineSummaryFieldError.NoSegments),
-            action = Action.DeleteSegmentError(segmentId = 1.asID)
+            action = Action.DeleteSegmentError(segmentId = 1.asID),
+            timerTheme = TimerTheme.DEFAULT
         )
         val expected = RoutineSummaryViewState.Data(
             items = immutableListOf(
@@ -125,9 +132,10 @@ class RoutineSummaryStateConverterTest {
                     segmentsSummary = SegmentsSummary(
                         estimatedTotalTime = "20".timeText,
                         segmentTypesCount = immutableMapOf(
-                            TimeType(
+                            TimeTypeStyle(
                                 nameStringResId = R.string.chip_time_type_timer_name,
-                                color = TimeTypeColors.TIMER,
+                                backgroundColor = Color.Red,
+                                onBackgroundColor = Color.White,
                                 id = "TIMER"
                             ) to 2
                         )
@@ -140,9 +148,10 @@ class RoutineSummaryStateConverterTest {
                     id = 1.asID,
                     name = "Segment 1",
                     time = "10".timeText,
-                    type = TimeType(
+                    type = TimeTypeStyle(
                         nameStringResId = R.string.chip_time_type_timer_name,
-                        color = TimeTypeColors.TIMER,
+                        backgroundColor = Color.Red,
+                        onBackgroundColor = Color.White,
                         id = "TIMER"
                     ),
                     rank = "aaaaaa"
@@ -151,9 +160,10 @@ class RoutineSummaryStateConverterTest {
                     id = 2.asID,
                     name = "Segment 2",
                     time = "10".timeText,
-                    type = TimeType(
+                    type = TimeTypeStyle(
                         nameStringResId = R.string.chip_time_type_timer_name,
-                        color = TimeTypeColors.TIMER,
+                        backgroundColor = Color.Red,
+                        onBackgroundColor = Color.White,
                         id = "TIMER"
                     ),
                     rank = "aaaaaa"
@@ -182,7 +192,8 @@ class RoutineSummaryStateConverterTest {
                 )
             ),
             errors = mapOf(RoutineSummaryField.Segments to RoutineSummaryFieldError.NoSegments),
-            action = Action.DeleteSegmentSuccess
+            action = Action.DeleteSegmentSuccess,
+            timerTheme = TimerTheme.DEFAULT
         )
         val expected = RoutineSummaryViewState.Data(
             items = immutableListOf(
@@ -191,9 +202,10 @@ class RoutineSummaryStateConverterTest {
                     segmentsSummary = SegmentsSummary(
                         estimatedTotalTime = "20".timeText,
                         segmentTypesCount = immutableMapOf(
-                            TimeType(
+                            TimeTypeStyle(
                                 nameStringResId = R.string.chip_time_type_timer_name,
-                                color = TimeTypeColors.TIMER,
+                                backgroundColor = Color.Red,
+                                onBackgroundColor = Color.White,
                                 id = "TIMER"
                             ) to 2
                         )
@@ -206,9 +218,10 @@ class RoutineSummaryStateConverterTest {
                     id = 1.asID,
                     name = "Segment 1",
                     time = "10".timeText,
-                    type = TimeType(
+                    type = TimeTypeStyle(
                         nameStringResId = R.string.chip_time_type_timer_name,
-                        color = TimeTypeColors.TIMER,
+                        backgroundColor = Color.Red,
+                        onBackgroundColor = Color.White,
                         id = "TIMER"
                     ),
                     rank = "aaaaaa"
@@ -217,9 +230,10 @@ class RoutineSummaryStateConverterTest {
                     id = 2.asID,
                     name = "Segment 2",
                     time = "10".timeText,
-                    type = TimeType(
+                    type = TimeTypeStyle(
                         nameStringResId = R.string.chip_time_type_timer_name,
-                        color = TimeTypeColors.TIMER,
+                        backgroundColor = Color.Red,
+                        onBackgroundColor = Color.White,
                         id = "TIMER"
                     ),
                     rank = "aaaaaa"
@@ -248,7 +262,8 @@ class RoutineSummaryStateConverterTest {
                 )
             ),
             errors = mapOf(RoutineSummaryField.Segments to RoutineSummaryFieldError.NoSegments),
-            action = Action.MoveSegmentError
+            action = Action.MoveSegmentError,
+            timerTheme = TimerTheme.DEFAULT
         )
         val expected = RoutineSummaryViewState.Data(
             items = immutableListOf(
@@ -257,9 +272,10 @@ class RoutineSummaryStateConverterTest {
                     segmentsSummary = SegmentsSummary(
                         estimatedTotalTime = "20".timeText,
                         segmentTypesCount = immutableMapOf(
-                            TimeType(
+                            TimeTypeStyle(
                                 nameStringResId = R.string.chip_time_type_timer_name,
-                                color = TimeTypeColors.TIMER,
+                                backgroundColor = Color.Red,
+                                onBackgroundColor = Color.White,
                                 id = "TIMER"
                             ) to 2
                         )
@@ -272,9 +288,10 @@ class RoutineSummaryStateConverterTest {
                     id = 1.asID,
                     name = "Segment 1",
                     time = "10".timeText,
-                    type = TimeType(
+                    type = TimeTypeStyle(
                         nameStringResId = R.string.chip_time_type_timer_name,
-                        color = TimeTypeColors.TIMER,
+                        backgroundColor = Color.Red,
+                        onBackgroundColor = Color.White,
                         id = "TIMER"
                     ),
                     rank = "aaaaaa"
@@ -283,9 +300,10 @@ class RoutineSummaryStateConverterTest {
                     id = 2.asID,
                     name = "Segment 2",
                     time = "10".timeText,
-                    type = TimeType(
+                    type = TimeTypeStyle(
                         nameStringResId = R.string.chip_time_type_timer_name,
-                        color = TimeTypeColors.TIMER,
+                        backgroundColor = Color.Red,
+                        onBackgroundColor = Color.White,
                         id = "TIMER"
                     ),
                     rank = "aaaaaa"
@@ -314,7 +332,8 @@ class RoutineSummaryStateConverterTest {
                 )
             ),
             errors = mapOf(RoutineSummaryField.Segments to RoutineSummaryFieldError.NoSegments),
-            action = Action.DuplicateSegmentError
+            action = Action.DuplicateSegmentError,
+            timerTheme = TimerTheme.DEFAULT
         )
         val expected = RoutineSummaryViewState.Data(
             items = immutableListOf(
@@ -323,9 +342,10 @@ class RoutineSummaryStateConverterTest {
                     segmentsSummary = SegmentsSummary(
                         estimatedTotalTime = "20".timeText,
                         segmentTypesCount = immutableMapOf(
-                            TimeType(
+                            TimeTypeStyle(
                                 nameStringResId = R.string.chip_time_type_timer_name,
-                                color = TimeTypeColors.TIMER,
+                                backgroundColor = Color.Red,
+                                onBackgroundColor = Color.White,
                                 id = "TIMER"
                             ) to 2
                         )
@@ -338,9 +358,10 @@ class RoutineSummaryStateConverterTest {
                     id = 1.asID,
                     name = "Segment 1",
                     time = "10".timeText,
-                    type = TimeType(
+                    type = TimeTypeStyle(
                         nameStringResId = R.string.chip_time_type_timer_name,
-                        color = TimeTypeColors.TIMER,
+                        backgroundColor = Color.Red,
+                        onBackgroundColor = Color.White,
                         id = "TIMER"
                     ),
                     rank = "aaaaaa"
@@ -349,9 +370,10 @@ class RoutineSummaryStateConverterTest {
                     id = 2.asID,
                     name = "Segment 2",
                     time = "10".timeText,
-                    type = TimeType(
+                    type = TimeTypeStyle(
                         nameStringResId = R.string.chip_time_type_timer_name,
-                        color = TimeTypeColors.TIMER,
+                        backgroundColor = Color.Red,
+                        onBackgroundColor = Color.White,
                         id = "TIMER"
                     ),
                     rank = "aaaaaa"
@@ -377,7 +399,8 @@ class RoutineSummaryStateConverterTest {
                 segments = emptyList()
             ),
             errors = emptyMap(),
-            action = null
+            action = null,
+            timerTheme = TimerTheme.DEFAULT
         )
         val expected = RoutineSummaryViewState.Data(
             items = immutableListOf(
@@ -406,7 +429,8 @@ class RoutineSummaryStateConverterTest {
                 )
             ),
             errors = emptyMap(),
-            action = null
+            action = null,
+            timerTheme = TimerTheme.DEFAULT
         )
         val expected = RoutineSummaryViewState.Data(
             items = immutableListOf(
@@ -415,9 +439,10 @@ class RoutineSummaryStateConverterTest {
                     segmentsSummary = SegmentsSummary(
                         estimatedTotalTime = null,
                         segmentTypesCount = immutableMapOf(
-                            TimeType(
+                            TimeTypeStyle(
                                 nameStringResId = R.string.chip_time_type_stopwatch_name,
-                                color = TimeTypeColors.STOPWATCH,
+                                backgroundColor = Color.Black,
+                                onBackgroundColor = Color.White,
                                 id = "STOPWATCH"
                             ) to 1
                         )
@@ -428,9 +453,10 @@ class RoutineSummaryStateConverterTest {
                     id = 1.asID,
                     name = "Segment 1",
                     time = "0".timeText,
-                    type = TimeType(
+                    type = TimeTypeStyle(
                         nameStringResId = R.string.chip_time_type_stopwatch_name,
-                        color = TimeTypeColors.STOPWATCH,
+                        backgroundColor = Color.Black,
+                        onBackgroundColor = Color.White,
                         id = "STOPWATCH"
                     ),
                     rank = "aaaaaa"

@@ -6,6 +6,8 @@ import com.enricog.data.routines.api.entities.TimeType
 import com.enricog.data.routines.testing.entities.EMPTY
 import com.enricog.core.entities.asID
 import com.enricog.core.entities.seconds
+import com.enricog.data.timer.api.theme.entities.TimerTheme
+import com.enricog.data.timer.testing.entities.DEFAULT
 import com.google.common.truth.Truth.assertThat
 import org.junit.Test
 import java.time.Clock
@@ -60,7 +62,8 @@ internal class TimerStateTest {
         ),
         isSoundEnabled = true,
         startedAt = OffsetDateTime.now(clock),
-        skipCount = 1
+        skipCount = 1,
+        timerTheme = TimerTheme.DEFAULT
     )
 
     @Test

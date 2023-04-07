@@ -4,6 +4,7 @@ import com.enricog.data.routines.api.entities.Routine
 import com.enricog.data.routines.api.entities.Segment
 import com.enricog.data.routines.api.entities.TimeType
 import com.enricog.core.entities.ID
+import com.enricog.data.timer.api.theme.entities.TimerTheme
 import com.enricog.features.routines.detail.segment.models.SegmentField
 import com.enricog.features.routines.detail.segment.models.SegmentFieldError
 import com.enricog.features.routines.detail.segment.models.SegmentState
@@ -14,10 +15,11 @@ internal class SegmentReducer @Inject constructor() {
 
     private val timeTypes = listOf(TimeType.TIMER, TimeType.REST, TimeType.STOPWATCH)
 
-    fun setup(routine: Routine, segmentId: ID): SegmentState {
+    fun setup(routine: Routine, timerTheme: TimerTheme, segmentId: ID): SegmentState {
         val segment = routine.segments.find { it.id == segmentId }
             ?: Segment.create(routine.getNewSegmentRank())
         return SegmentState.Data(
+            timerTheme = timerTheme,
             routine = routine,
             segment = segment,
             errors = emptyMap(),

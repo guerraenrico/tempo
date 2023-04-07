@@ -3,6 +3,7 @@ package com.enricog.features.timer
 import com.enricog.data.routines.api.entities.Routine
 import com.enricog.data.routines.api.entities.TimeType
 import com.enricog.core.entities.seconds
+import com.enricog.data.timer.api.theme.entities.TimerTheme
 import com.enricog.features.timer.models.Count
 import com.enricog.features.timer.models.SegmentStep
 import com.enricog.features.timer.models.SegmentStepType
@@ -14,7 +15,7 @@ import kotlin.math.max
 
 internal class TimerReducer @Inject constructor(private val clock: Clock) {
 
-    fun setup(state: TimerState, routine: Routine): TimerState {
+    fun setup(state: TimerState, routine: Routine, timerTheme: TimerTheme): TimerState {
         val steps = buildList {
             fun generateId(): () -> Int {
                 var id = 0
@@ -45,6 +46,7 @@ internal class TimerReducer @Inject constructor(private val clock: Clock) {
             }
         }
         return TimerState.Counting(
+            timerTheme = timerTheme,
             routine = routine,
             runningStep = steps.first(),
             steps = steps,

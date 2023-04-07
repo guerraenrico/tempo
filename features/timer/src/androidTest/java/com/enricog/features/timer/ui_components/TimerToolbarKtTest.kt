@@ -27,10 +27,11 @@ class TimerToolbarKtTest {
                         stepTitleId = R.string.title_segment_step_type_in_progress,
                         segmentName = "segment name",
                         timeInSeconds = 1,
-                        clockBackgroundColor = TimerViewState.Counting.BackgroundColor(
+                        clockBackground = TimerViewState.Counting.Background(
                             background = Color.Blue,
                             ripple = null
                         ),
+                        clockOnBackgroundColor = Color.White,
                         isSoundEnabled = true,
                         timerActions = TimerViewState.Counting.Actions(
                             back = TimerViewState.Counting.Actions.Button(
@@ -71,10 +72,11 @@ class TimerToolbarKtTest {
                         stepTitleId = R.string.title_segment_step_type_in_progress,
                         segmentName = "segment name",
                         timeInSeconds = 1,
-                        clockBackgroundColor = TimerViewState.Counting.BackgroundColor(
+                        clockBackground = TimerViewState.Counting.Background(
                             background = Color.Blue,
                             ripple = null
                         ),
+                        clockOnBackgroundColor = Color.White,
                         isSoundEnabled = false,
                         timerActions = TimerViewState.Counting.Actions(
                             back = TimerViewState.Counting.Actions.Button(

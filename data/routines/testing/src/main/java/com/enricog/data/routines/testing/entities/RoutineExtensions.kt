@@ -1,14 +1,13 @@
 package com.enricog.data.routines.testing.entities
 
-import com.enricog.data.routines.api.entities.Routine
 import com.enricog.core.entities.Rank
 import com.enricog.core.entities.asID
 import com.enricog.core.entities.seconds
+import com.enricog.data.routines.api.entities.Routine
 import java.time.OffsetDateTime
 import java.time.ZoneOffset
 
 val Routine.Companion.EMPTY: Routine
-    @Suppress("NewApi")
     get() = Routine(
         id = 0.asID,
         name = "",
