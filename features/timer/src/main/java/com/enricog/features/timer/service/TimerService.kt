@@ -17,14 +17,13 @@ import com.enricog.features.timer.R
 import dagger.hilt.android.AndroidEntryPoint
 import dagger.hilt.android.qualifiers.ApplicationContext
 import kotlinx.coroutines.CoroutineScope
-import kotlinx.coroutines.delay
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.updateAndGet
-import kotlinx.coroutines.launch
+import java.util.*
 import javax.inject.Inject
 
 @AndroidEntryPoint
-internal class TimerService: Service() {
+internal class TimerService : Service() {
 
     @Inject
     @ApplicationContext
@@ -45,7 +44,7 @@ internal class TimerService: Service() {
     }
 
     private val countState = MutableStateFlow(0)
-    private var serviceJob by autoCancelableJob()
+    private val stopwatchTimer = Timer()
 
     override fun onStartCommand(intent: Intent?, flags: Int, startId: Int): Int {
         when (intent?.action) {
@@ -65,7 +64,7 @@ internal class TimerService: Service() {
         super.onCreate()
         val notification = createNotification(count = countState.value)
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.Q) {
-            startForeground(NOTIFICATION_ID, notification, ServiceInfo.FOREGROUND_SERVICE_TYPE_NONE)
+            startForeground(NOTIFICATION_ID, notification, ServiceInfo.FOREGROUND_SERVICE_TYPE_MEDIA_PLAYBACK)
         } else {
             startForeground(NOTIFICATION_ID, notification)
         }
@@ -80,21 +79,18 @@ internal class TimerService: Service() {
     private fun start() {
         if (isStarted) return
         isStarted = true
-        serviceJob = scope.launch {
-            while (true) {
-                delay(1000)
+        stopwatchTimer.scheduleAtFixedRate(object : TimerTask() {
+            override fun run() {
                 val count = countState.updateAndGet { it + 1 }
                 val notification = createNotification(count = count)
                 notificationManager.notify(NOTIFICATION_ID, notification)
             }
-        }
+        }, 0, 1000)
     }
 
     private fun createNotification(count: Int): Notification {
 
-        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
-            createChannel()
-        }
+        createChannel()
 
         return NotificationCompat.Builder(applicationContext, channelId)
             .setSmallIcon(R.drawable.ic_notification)
@@ -117,16 +113,12 @@ internal class TimerService: Service() {
     private fun buildPendingIntent(context: Context, action: String): PendingIntent {
         val intent = Intent(context, TimerService::class.java)
         intent.action = action
-        return if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
-            PendingIntent.getForegroundService(
-                context,
-                0,
-                intent,
-                PendingIntent.FLAG_IMMUTABLE
-            )
-        } else {
-            PendingIntent.getService(context, 0, intent, PendingIntent.FLAG_IMMUTABLE)
-        }
+        return PendingIntent.getForegroundService(
+            context,
+            0,
+            intent,
+            PendingIntent.FLAG_IMMUTABLE
+        )
     }
 
     private fun createChannel() {
@@ -141,7 +133,7 @@ internal class TimerService: Service() {
     private fun stop() {
         isStarted = false
         countState.value = 0
-        serviceJob?.cancel()
+        stopwatchTimer.cancel()
     }
 
     private companion object {

@@ -7,6 +7,7 @@
     <application>
         <service
             android:name="com.enricog.features.timer.service.TimerService"
+            android:foregroundServiceType="mediaPlayback"
             android:enabled="true"
             android:exported="false" />
     </application>
