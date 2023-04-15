@@ -1,5 +1,8 @@
 package com.enricog.features.timer
 
+import android.content.Context
+import android.content.Intent
+import android.os.Build
 import androidx.lifecycle.SavedStateHandle
 import com.enricog.base.viewmodel.BaseViewModel
 import com.enricog.base.viewmodel.ViewModelConfiguration
@@ -12,11 +15,14 @@ import com.enricog.data.timer.api.theme.entities.TimerTheme
 import com.enricog.features.timer.models.TimerState
 import com.enricog.features.timer.models.TimerViewState
 import com.enricog.features.timer.navigation.TimerNavigationActions
+import com.enricog.features.timer.service.TimerService
+import com.enricog.features.timer.service.TimerServiceActions
 import com.enricog.features.timer.usecase.GetRoutineUseCase
 import com.enricog.features.timer.usecase.GetTimerThemeUseCase
 import com.enricog.navigation.api.routes.TimerRoute
 import com.enricog.navigation.api.routes.TimerRouteInput
 import dagger.hilt.android.lifecycle.HiltViewModel
+import dagger.hilt.android.qualifiers.ApplicationContext
 import kotlinx.coroutines.CoroutineExceptionHandler
 import kotlinx.coroutines.async
 import kotlinx.coroutines.delay
@@ -32,7 +38,8 @@ internal class TimerViewModel @Inject constructor(
     private val getRoutineUseCase: GetRoutineUseCase,
     private val getTimerThemeUseCase: GetTimerThemeUseCase,
     private val windowScreenManager: WindowScreenManager,
-    private val soundPlayer: TimerSoundPlayer
+    private val soundPlayer: TimerSoundPlayer,
+    @ApplicationContext private val context: Context
 ) : BaseViewModel<TimerState, TimerViewState>(
     initialState = TimerState.Idle,
     converter = converter,
@@ -46,7 +53,17 @@ internal class TimerViewModel @Inject constructor(
     private var startJob by autoCancelableJob()
 
     init {
+
+        startForegroundService()
+
         load(input)
+    }
+
+    fun startForegroundService() {
+        Intent(context, TimerService::class.java).also { intent ->
+            intent.action = TimerServiceActions.START.name
+            context.startForegroundService(intent)
+        }
     }
 
     private fun load(input: TimerRouteInput) {

@@ -1,2 +1,14 @@
 <?xml version="1.0" encoding="utf-8"?>
-<manifest />
+<manifest xmlns:android="http://schemas.android.com/apk/res/android">
+
+    <uses-permission android:name="android.permission.FOREGROUND_SERVICE"/>
+    <uses-permission android:name="android.permission.POST_NOTIFICATIONS"/>
+
+    <application>
+        <service
+            android:name="com.enricog.features.timer.service.TimerService"
+            android:enabled="true"
+            android:exported="false" />
+    </application>
+
+</manifest>
