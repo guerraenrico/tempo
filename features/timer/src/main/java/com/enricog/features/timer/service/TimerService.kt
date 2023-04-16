@@ -12,14 +12,18 @@ import android.os.Build
 import android.os.IBinder
 import androidx.core.app.NotificationCompat
 import com.enricog.core.coroutines.job.autoCancelableJob
-import com.enricog.core.coroutines.scope.ApplicationCoroutineScope
 import com.enricog.features.timer.R
+import com.enricog.features.timer.TimerController
+import com.enricog.features.timer.models.TimerState
 import dagger.hilt.android.AndroidEntryPoint
 import dagger.hilt.android.qualifiers.ApplicationContext
 import kotlinx.coroutines.CoroutineScope
-import kotlinx.coroutines.flow.MutableStateFlow
-import kotlinx.coroutines.flow.updateAndGet
-import java.util.*
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.cancel
+import kotlinx.coroutines.delay
+import kotlinx.coroutines.flow.filterIsInstance
+import kotlinx.coroutines.flow.launchIn
+import kotlinx.coroutines.flow.onEach
 import javax.inject.Inject
 
 @AndroidEntryPoint
@@ -30,8 +34,10 @@ internal class TimerService : Service() {
     lateinit var context: Context
 
     @Inject
-    @ApplicationCoroutineScope
-    lateinit var scope: CoroutineScope
+    lateinit var timerController: TimerController
+
+    private val scope = CoroutineScope(Dispatchers.Default)
+    private var stateJob by autoCancelableJob()
 
     private var isStarted = false
 
@@ -42,9 +48,6 @@ internal class TimerService : Service() {
     private val notificationManager by lazy {
         context.getSystemService(NOTIFICATION_SERVICE) as NotificationManager
     }
-
-    private val countState = MutableStateFlow(0)
-    private val stopwatchTimer = Timer()
 
     override fun onStartCommand(intent: Intent?, flags: Int, startId: Int): Int {
         when (intent?.action) {
@@ -62,7 +65,7 @@ internal class TimerService : Service() {
 
     override fun onCreate() {
         super.onCreate()
-        val notification = createNotification(count = countState.value)
+        val notification = createNotification(count = 0)
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.Q) {
             startForeground(NOTIFICATION_ID, notification, ServiceInfo.FOREGROUND_SERVICE_TYPE_MEDIA_PLAYBACK)
         } else {
@@ -73,22 +76,24 @@ internal class TimerService : Service() {
 
     override fun onDestroy() {
         super.onDestroy()
-        stop()
+        scope.cancel()
     }
 
     private fun start() {
         if (isStarted) return
         isStarted = true
-        stopwatchTimer.scheduleAtFixedRate(object : TimerTask() {
-            override fun run() {
-                val count = countState.updateAndGet { it + 1 }
-                val notification = createNotification(count = count)
+
+        stateJob = timerController.state
+            .filterIsInstance<TimerState.Counting>()
+            .onEach {
+                delay(10)
+                val notification = createNotification(count = it.runningStep.count.seconds.value)
                 notificationManager.notify(NOTIFICATION_ID, notification)
             }
-        }, 0, 1000)
+            .launchIn(scope)
     }
 
-    private fun createNotification(count: Int): Notification {
+    private fun createNotification(count: Long): Notification {
 
         createChannel()
 
@@ -132,8 +137,7 @@ internal class TimerService : Service() {
 
     private fun stop() {
         isStarted = false
-        countState.value = 0
-        stopwatchTimer.cancel()
+        timerController.onPlay()
     }
 
     private companion object {
