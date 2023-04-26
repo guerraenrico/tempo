@@ -126,7 +126,7 @@ internal class TimerViewModel @Inject constructor(
     }
 
     override fun onStateUpdated(currentState: TimerState) {
-//        toggleKeepScreenOn(currentState)
+        toggleKeepScreenOn(currentState)
     }
 
     private fun toggleKeepScreenOn(currentState: TimerState) {

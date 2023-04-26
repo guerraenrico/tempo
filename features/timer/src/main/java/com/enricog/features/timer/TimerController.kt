@@ -84,7 +84,6 @@ internal class TimerController @Inject constructor(
 
     private fun loadNextStep() {
         timer.launchAfter(ONE_SECOND) {
-            println("TEST: step completed")
             val newState = _state.updateAndGet { reducer.nextStep(it) }
             soundPlayer.playFrom(state = newState)
         }
@@ -125,7 +124,6 @@ internal class TimerController @Inject constructor(
             private set
 
         override fun run() {
-            println("TEST: run")
             isRunning = true
             val newState = _state.updateAndGet { reducer.progressTime(it) }
             soundPlayer.playFrom(state = newState)
