@@ -107,6 +107,7 @@ internal class TimerController @Inject constructor(
 
     override fun close() {
         stopCounting()
+        timer.cancel()
         soundPlayer.close()
     }
 

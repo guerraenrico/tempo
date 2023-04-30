@@ -1,5 +1,6 @@
 package com.enricog.features.timer
 
+import android.annotation.SuppressLint
 import android.content.Context
 import android.content.Intent
 import androidx.lifecycle.SavedStateHandle
@@ -16,7 +17,6 @@ import com.enricog.features.timer.models.TimerState
 import com.enricog.features.timer.models.TimerViewState
 import com.enricog.features.timer.navigation.TimerNavigationActions
 import com.enricog.features.timer.service.TimerService
-import com.enricog.features.timer.service.TimerServiceActions
 import com.enricog.features.timer.usecase.GetRoutineUseCase
 import com.enricog.features.timer.usecase.GetTimerThemeUseCase
 import com.enricog.navigation.api.routes.TimerRoute
@@ -39,7 +39,7 @@ internal class TimerViewModel @Inject constructor(
     private val getRoutineUseCase: GetRoutineUseCase,
     private val getTimerThemeUseCase: GetTimerThemeUseCase,
     private val windowScreenManager: WindowScreenManager,
-    @ApplicationContext private val context: Context
+    @SuppressLint("StaticFieldLeak") @ApplicationContext private val context: Context
 ) : BaseViewModel<TimerState, TimerViewState>(
     initialState = TimerState.Idle,
     converter = converter,
@@ -81,7 +81,7 @@ internal class TimerViewModel @Inject constructor(
      */
     private fun startForegroundService() {
         Intent(context, TimerService::class.java).also { intent ->
-            intent.action = TimerServiceActions.START.name
+//            intent.action = TimerServiceActions.START.name
             context.startForegroundService(intent)
         }
     }
@@ -116,7 +116,6 @@ internal class TimerViewModel @Inject constructor(
 
     fun onClose() {
         launch {
-            timerController.close()
             navigationActions.backToRoutines()
         }
     }

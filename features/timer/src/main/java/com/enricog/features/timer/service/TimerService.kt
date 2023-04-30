@@ -52,14 +52,21 @@ internal class TimerService : Service() {
 
     private var isForegroundServiceSet = false
     private var isNotificationChannelCreated = false
-    private var isStarted = false
 
     private val channelId by lazy { context.getString(R.string.timer_service_notification_channel_id) }
     private val channelName by lazy { context.getString(R.string.timer_service_notification_channel_name) }
     private val channelDescription by lazy { context.getString(R.string.timer_service_notification_channel_description) }
 
-    private val notificationManager by lazy {
+    private val notificationManager by lazy(LazyThreadSafetyMode.NONE) {
         context.getSystemService(NOTIFICATION_SERVICE) as NotificationManager
+    }
+
+    private val contentView by lazy(LazyThreadSafetyMode.NONE) {
+        RemoteViews(context.packageName, R.layout.notification_timer_content)
+    }
+
+    private val bigContentView by lazy(LazyThreadSafetyMode.NONE) {
+        RemoteViews(context.packageName, R.layout.notification_timer_big_content)
     }
 
     override fun onBind(intent: Intent?): IBinder? {
@@ -120,65 +127,44 @@ internal class TimerService : Service() {
             .setSilent(true)
             .setColorized(true)
             .setColor(state.clockBackground.background.toArgb())
-            .setCustomBigContentView(buildView(state))
-            .setCustomContentView(buildView(state))
-            .addAction(
-                NotificationCompat.Action.Builder(
-                    R.drawable.ic_timer_stop,
-                    "Stop",
-                    buildPendingIntent(context, TimerServiceActions.STOP.name)
-                ).build()
-            )
+            .setCustomContentView(buildContentView(state))
+            .setCustomBigContentView(buildBigContentView(state))
             .setPriority(NotificationCompat.PRIORITY_DEFAULT)
             .setGroup(NOTIFICATION_GROUP)
             .build()
     }
 
-    private fun buildView(state: TimerServiceViewState.Counting): RemoteViews {
-        val views = RemoteViews(context.packageName, R.layout.notification_timer_content)
+    private fun buildContentView(state: TimerServiceViewState.Counting): RemoteViews = contentView.apply {
+        setTextColor(R.id.notification_timer_step_name, state.clockOnBackgroundColor.toArgb())
+        setTextViewText(R.id.notification_timer_step_name, context.getString(state.stepTitleId))
 
-        views.setTextColor(R.id.notification_timer_step_name, state.clockOnBackgroundColor.toArgb())
-        views.setTextViewText(R.id.notification_timer_step_name, context.getString(state.stepTitleId))
+        setTextColor(R.id.notification_timer_segment_name, state.clockOnBackgroundColor.toArgb())
+        setTextViewText(R.id.notification_timer_segment_name, state.segmentName)
 
-        views.setTextColor(R.id.notification_timer_segment_name, state.clockOnBackgroundColor.toArgb())
-        views.setTextViewText(R.id.notification_timer_segment_name, state.segmentName)
-
-        views.setTextColor(R.id.notification_timer_count, state.clockOnBackgroundColor.toArgb())
-        views.setTextViewText(R.id.notification_timer_count, state.time)
-
-        return views
+        setTextColor(R.id.notification_timer_count, state.clockOnBackgroundColor.toArgb())
+        setTextViewText(R.id.notification_timer_count, state.time)
     }
 
-    private fun buildPendingIntent(context: Context, action: String): PendingIntent {
-        val intent = Intent(context, TimerService::class.java)
-        intent.action = action
-        return PendingIntent.getForegroundService(
-            context,
-            0,
-            intent,
-            PendingIntent.FLAG_IMMUTABLE
-        )
+    private fun buildBigContentView(state: TimerServiceViewState.Counting): RemoteViews = bigContentView.apply {
+        setTextColor(R.id.notification_timer_step_name, state.clockOnBackgroundColor.toArgb())
+        setTextViewText(R.id.notification_timer_step_name, context.getString(state.stepTitleId))
+
+        setTextColor(R.id.notification_timer_segment_name, state.clockOnBackgroundColor.toArgb())
+        setTextViewText(R.id.notification_timer_segment_name, state.segmentName)
+
+        setTextColor(R.id.notification_timer_count, state.clockOnBackgroundColor.toArgb())
+        setTextViewText(R.id.notification_timer_count, state.time)
+
+        setContentDescription(R.id.notification_timer_play_button, getString(state.timerActions.play.contentDescriptionResId))
+        setInt(R.id.notification_timer_play_button, "setImageResource", state.timerActions.play.iconResId)
+        setOnClickPendingIntent(R.id.notification_timer_play_button, TimerServiceActions.PLAY.getPendingIntent(context))
     }
 
     override fun onStartCommand(intent: Intent?, flags: Int, startId: Int): Int {
         when (intent?.action) {
-            TimerServiceActions.START.name -> start()
-            TimerServiceActions.STOP.name -> stop()
-            else -> throw IllegalArgumentException("${intent?.action} is not a valid TimerService action")
+            TimerServiceActions.PLAY.name -> timerController.onPlay()
         }
         return START_NOT_STICKY
-    }
-
-    private fun start() {
-        if (isStarted) return
-        isStarted = true
-
-        // TODO should handle here the start/stop action in the notification?
-    }
-
-    private fun stop() {
-        isStarted = false
-        timerController.onPlay()
     }
 
     private companion object {
@@ -187,6 +173,17 @@ internal class TimerService : Service() {
     }
 }
 
-internal enum class TimerServiceActions {
-    START, STOP,
+private enum class TimerServiceActions {
+    PLAY;
+
+    fun getPendingIntent(context: Context): PendingIntent {
+        val intent = Intent(context, TimerService::class.java)
+        intent.action = name
+        return PendingIntent.getForegroundService(
+            context,
+            0,
+            intent,
+            PendingIntent.FLAG_IMMUTABLE
+        )
+    }
 }

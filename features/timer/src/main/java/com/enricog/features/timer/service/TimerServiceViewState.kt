@@ -19,11 +19,7 @@ internal sealed class TimerServiceViewState {
 
         data class Background(val background: Color)
 
-        data class Actions(
-            val next: Button,
-            val back: Button,
-            val play: Button
-        ) {
+        data class Actions(val play: Button) {
             data class Button(
                 @DrawableRes val iconResId: Int,
                 @StringRes val contentDescriptionResId: Int

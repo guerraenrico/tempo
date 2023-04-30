@@ -88,17 +88,9 @@ internal class TimerServiceStateConverter @Inject constructor() : StateConverter
 
     private fun TimerState.Counting.getActions(): TimerServiceViewState.Counting.Actions {
         return TimerServiceViewState.Counting.Actions(
-            back = TimerServiceViewState.Counting.Actions.Button(
-                iconResId = R.drawable.ic_timer_back,
-                contentDescriptionResId = R.string.content_description_button_back_routine_segment
-            ),
             play = TimerServiceViewState.Counting.Actions.Button(
                 iconResId = if (runningStep.count.isRunning) R.drawable.ic_timer_stop else R.drawable.ic_timer_play,
                 contentDescriptionResId = if (runningStep.count.isRunning) R.string.content_description_button_stop_routine_segment else R.string.content_description_button_start_routine_segment
-            ),
-            next = TimerServiceViewState.Counting.Actions.Button(
-                iconResId = R.drawable.ic_timer_next,
-                contentDescriptionResId = R.string.content_description_button_next_routine_segment
             )
         )
     }
@@ -106,28 +98,13 @@ internal class TimerServiceStateConverter @Inject constructor() : StateConverter
     private fun Seconds.toText(): String {
         val minutes = value / 60
         val seconds = value - (minutes * 60)
+        val format = "%02d"
 
-        val timeBuilder = StringBuilder()
-        var format = "%01d"
-        var from = 0
-        var to = 0
-
-        if (minutes > 0) {
-            format = "%02d"
-            val minutesString = String.format(format, minutes)
-            to = minutesString.length
-            timeBuilder.append(minutesString)
-
-            from = to
-            to += 1
-            timeBuilder.append(":")
-            from += 1
+        return buildString {
+            append(String.format(format, minutes))
+            append(":")
+            append(String.format(format, seconds))
         }
-        val secondsString = String.format(format, seconds)
-        to += secondsString.length
-        timeBuilder.append(secondsString)
-
-        return timeBuilder.toString()
     }
 
     private data class ClockBackgroundResource(
