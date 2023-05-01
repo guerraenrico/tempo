@@ -1,7 +1,5 @@
 package com.enricog.features.timer
 
-import android.annotation.SuppressLint
-import android.content.Context
 import android.content.Intent
 import androidx.lifecycle.SavedStateHandle
 import androidx.lifecycle.viewModelScope
@@ -17,12 +15,12 @@ import com.enricog.features.timer.models.TimerState
 import com.enricog.features.timer.models.TimerViewState
 import com.enricog.features.timer.navigation.TimerNavigationActions
 import com.enricog.features.timer.service.TimerService
+import com.enricog.features.timer.service.TimerServiceHandler
 import com.enricog.features.timer.usecase.GetRoutineUseCase
 import com.enricog.features.timer.usecase.GetTimerThemeUseCase
 import com.enricog.navigation.api.routes.TimerRoute
 import com.enricog.navigation.api.routes.TimerRouteInput
 import dagger.hilt.android.lifecycle.HiltViewModel
-import dagger.hilt.android.qualifiers.ApplicationContext
 import kotlinx.coroutines.CoroutineExceptionHandler
 import kotlinx.coroutines.async
 import kotlinx.coroutines.flow.launchIn
@@ -39,7 +37,7 @@ internal class TimerViewModel @Inject constructor(
     private val getRoutineUseCase: GetRoutineUseCase,
     private val getTimerThemeUseCase: GetTimerThemeUseCase,
     private val windowScreenManager: WindowScreenManager,
-    @SuppressLint("StaticFieldLeak") @ApplicationContext private val context: Context
+    private val serviceHandler: TimerServiceHandler
 ) : BaseViewModel<TimerState, TimerViewState>(
     initialState = TimerState.Idle,
     converter = converter,
@@ -73,17 +71,10 @@ internal class TimerViewModel @Inject constructor(
 
     private fun start(routine: Routine, timerTheme: TimerTheme) {
         timerController.start(routine = routine, timerTheme = timerTheme)
-        startForegroundService()
-    }
-
-    /**
-     * TODO ask notification permissions
-     */
-    private fun startForegroundService() {
-        Intent(context, TimerService::class.java).also { intent ->
-//            intent.action = TimerServiceActions.START.name
-            context.startForegroundService(intent)
-        }
+        /**
+         * TODO ask notification permissions
+         */
+        serviceHandler.startService()
     }
 
     fun onPlay() {
@@ -135,6 +126,7 @@ internal class TimerViewModel @Inject constructor(
     }
 
     override fun onCleared() {
+        serviceHandler.stopService()
         timerController.close()
     }
 }
