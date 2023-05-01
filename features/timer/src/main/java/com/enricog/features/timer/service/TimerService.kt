@@ -14,6 +14,7 @@ import android.widget.RemoteViews
 import androidx.core.app.NotificationCompat
 import com.enricog.core.coroutines.dispatchers.CoroutineDispatchers
 import com.enricog.core.coroutines.job.autoCancelableJob
+import com.enricog.features.timer.BuildConfig
 import com.enricog.features.timer.R
 import com.enricog.features.timer.TimerController
 import dagger.hilt.android.AndroidEntryPoint
@@ -130,7 +131,7 @@ internal class TimerService : Service() {
             .setCustomContentView(buildContentView(stateHistory))
             .setCustomBigContentView(buildBigContentView(stateHistory))
             .setPriority(NotificationCompat.PRIORITY_DEFAULT)
-            .setGroup(NOTIFICATION_GROUP)
+            .setGroup(BuildConfig.NOTIFICATION_GROUP)
             .build()
     }
 
@@ -193,7 +194,6 @@ internal class TimerService : Service() {
 
     private companion object {
         val NOTIFICATION_ID = R.id.timer_service_notification_id
-        const val NOTIFICATION_GROUP = "com.enricog.tempo.debug"
     }
 
     private data class StateHistory(

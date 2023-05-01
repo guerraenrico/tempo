@@ -13,6 +13,15 @@ android {
 
     compileSdkVersion Versions.compileSdk
 
+    buildTypes {
+        debug {
+            buildConfigField "String", "NOTIFICATION_GROUP", '"com.enricog.tempo.debug"'
+        }
+        release {
+            buildConfigField "String", "NOTIFICATION_GROUP", '"com.enricog.tempo"'
+        }
+    }
+
     defaultConfig {
         minSdkVersion Versions.minSdk
 
