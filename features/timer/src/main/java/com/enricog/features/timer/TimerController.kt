@@ -24,7 +24,7 @@ internal class TimerController @Inject constructor(
     private val soundPlayer: TimerSoundPlayer
 ) : Closeable {
 
-    private var timer = Timer()
+    private val timer = Timer()
     private var countingTimerTask: CountingTimerTask? = null
 
     private val _state = MutableStateFlow<TimerState>(TimerState.Idle)
@@ -107,7 +107,6 @@ internal class TimerController @Inject constructor(
 
     override fun close() {
         stopCounting()
-        timer.cancel()
         soundPlayer.close()
     }
 

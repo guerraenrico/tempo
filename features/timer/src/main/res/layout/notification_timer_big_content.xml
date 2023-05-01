@@ -14,17 +14,17 @@
         android:orientation="vertical">
 
         <TextView
-            android:id="@+id/notification_timer_segment_name"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:textSize="18sp" />
-
-        <TextView
             android:id="@+id/notification_timer_step_name"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:textSize="14sp"
             android:textStyle="bold" />
+
+        <TextView
+            android:id="@+id/notification_timer_segment_name"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:textSize="18sp" />
 
     </LinearLayout>
 
