@@ -99,6 +99,7 @@ internal class TimerController @Inject constructor(
     private fun startCounting() {
         if (countingTimerTask?.isRunning == true) return
 
+        countingTimerTask?.cancel()
         countingTimerTask = CountingTimerTask()
 
         timer.scheduleAtFixedRate(
