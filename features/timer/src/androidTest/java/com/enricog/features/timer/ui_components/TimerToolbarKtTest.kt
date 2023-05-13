@@ -32,7 +32,7 @@ class TimerToolbarKtTest {
                             ripple = null
                         ),
                         clockOnBackgroundColor = Color.White,
-                        isSoundEnabled = true,
+                        soundEnabled = true,
                         timerActions = TimerViewState.Counting.Actions(
                             back = TimerViewState.Counting.Actions.Button(
                                 iconResId = R.drawable.ic_timer_back,
@@ -52,12 +52,12 @@ class TimerToolbarKtTest {
                         )
                     ),
                     onCloseClick = { },
-                    onSoundClick = { })
+                    onSettingsClick = { })
             }
         }
 
         onNodeWithTag(TimerToolbarCloseButtonTestTag).assertIsDisplayed()
-        onNodeWithTag(TimerToolbarSoundButtonTestTag).run {
+        onNodeWithTag(TimerToolbarSettingsButtonTestTag).run {
             assertIsDisplayed()
             assertDrawable(R.drawable.ic_timer_sound_enabled)
         }
@@ -77,7 +77,7 @@ class TimerToolbarKtTest {
                             ripple = null
                         ),
                         clockOnBackgroundColor = Color.White,
-                        isSoundEnabled = false,
+                        soundEnabled = false,
                         timerActions = TimerViewState.Counting.Actions(
                             back = TimerViewState.Counting.Actions.Button(
                                 iconResId = R.drawable.ic_timer_back,
@@ -97,12 +97,12 @@ class TimerToolbarKtTest {
                         )
                     ),
                     onCloseClick = { },
-                    onSoundClick = { })
+                    onSettingsClick = { })
             }
         }
 
         onNodeWithTag(TimerToolbarCloseButtonTestTag).assertIsDisplayed()
-        onNodeWithTag(TimerToolbarSoundButtonTestTag).run {
+        onNodeWithTag(TimerToolbarSettingsButtonTestTag).run {
             assertIsDisplayed()
             assertDrawable(R.drawable.ic_timer_sound_disabled)
         }

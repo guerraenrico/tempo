@@ -54,7 +54,7 @@ class TimerScreenKtTest {
                 ripple = null
             ),
             clockOnBackgroundColor = Color.White,
-            isSoundEnabled = true,
+            soundEnabled = true,
             timerActions = TimerViewState.Counting.Actions(
                 back = TimerViewState.Counting.Actions.Button(
                     iconResId = R.drawable.ic_timer_back,

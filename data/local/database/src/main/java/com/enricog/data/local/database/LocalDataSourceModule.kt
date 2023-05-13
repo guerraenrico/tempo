@@ -2,8 +2,10 @@ package com.enricog.data.local.database
 
 import android.content.Context
 import com.enricog.data.local.database.routines.RoutineDataSourceImpl
+import com.enricog.data.local.database.timer.settings.TimerSettingsDataSourceImpl
 import com.enricog.data.local.database.timer.theme.TimerThemeDataSourceImpl
 import com.enricog.data.routines.api.RoutineDataSource
+import com.enricog.data.timer.api.settings.TimerSettingsDataSource
 import com.enricog.data.timer.api.theme.TimerThemeDataSource
 import dagger.Module
 import dagger.Provides
@@ -13,8 +15,8 @@ import dagger.hilt.components.SingletonComponent
 import kotlinx.serialization.json.Json
 import javax.inject.Singleton
 
-@InstallIn(SingletonComponent::class)
 @Module
+@InstallIn(SingletonComponent::class)
 object LocalDataSourceModule {
 
     @Provides
@@ -32,6 +34,12 @@ object LocalDataSourceModule {
     @Provides
     @Singleton
     internal fun provideTimerThemeDataSource(impl: TimerThemeDataSourceImpl): TimerThemeDataSource {
+        return impl
+    }
+
+    @Provides
+    @Singleton
+    internal fun provideTimerSettingsDataSource(impl: TimerSettingsDataSourceImpl): TimerSettingsDataSource {
         return impl
     }
 }

@@ -2,6 +2,7 @@ package com.enricog.features.timer
 
 import com.enricog.core.coroutines.scope.ApplicationCoroutineScope
 import com.enricog.data.routines.api.entities.Routine
+import com.enricog.data.timer.api.settings.entities.TimerSettings
 import com.enricog.data.timer.api.theme.entities.TimerTheme
 import com.enricog.features.timer.models.TimerState
 import kotlinx.coroutines.CoroutineScope
@@ -36,8 +37,14 @@ internal class TimerController @Inject constructor(
             .launchIn(scope)
     }
 
-    fun start(routine: Routine, timerTheme: TimerTheme) {
-        _state.update { reducer.setup(state = it, routine = routine, timerTheme = timerTheme) }
+    fun start(routine: Routine, timerTheme: TimerTheme, timerSettings: TimerSettings) {
+        _state.update {
+            reducer.setup(
+                routine = routine,
+                timerTheme = timerTheme,
+                timerSettings = timerSettings
+            )
+        }
 
         timer.launchAfter(ONE_SECOND) {
             val newState = _state.updateAndGet { reducer.toggleTimeRunning(it) }
@@ -49,8 +56,8 @@ internal class TimerController @Inject constructor(
         _state.update { reducer.toggleTimeRunning(it) }
     }
 
-    fun onToggleSound() {
-        _state.update { reducer.toggleSound(it) }
+    fun onTimerSettingsChanged(timerSettings: TimerSettings) {
+        _state.update { reducer.updateTimerSettings(state = it, timerSettings = timerSettings) }
     }
 
     fun onBack() {
@@ -74,7 +81,7 @@ internal class TimerController @Inject constructor(
             }
             currentState.isStepCountCompleted -> {
                 stopCounting()
-                loadNextStep()
+                launchNextStep()
             }
             else -> {
                 stopCounting()
@@ -82,7 +89,7 @@ internal class TimerController @Inject constructor(
         }
     }
 
-    private fun loadNextStep() {
+    private fun launchNextStep() {
         timer.launchAfter(ONE_SECOND) {
             val newState = _state.updateAndGet { reducer.nextStep(it) }
             soundPlayer.playFrom(state = newState)

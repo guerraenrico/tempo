@@ -10,6 +10,8 @@
 
     <string name="label_routine_total_time">Total time</string>
     <string name="label_routine_skip_count">N° skips</string>
+    <string name="label_routine_settings_sound">Play sounds</string>
+    <string name="label_routine_settings_background">Run in background</string>
 
     <string name="dialog_exit_time_title">Quit</string>
     <string name="dialog_exit_time_description">Do you want to exit?</string>
@@ -25,7 +27,7 @@
     <string name="content_description_dialog_quite_routine_button_positive">Yes, quit routine</string>
     <string name="content_description_dialog_quite_routine_button_negative">No, continue routine</string>
     <string name="content_description_button_exit_routine">Exit routine</string>
-    <string name="content_description_button_toggle_sound">Toggle sound</string>
+    <string name="content_description_button_settings">Settings</string>
 
     <string name="timer_service_notification_channel_id" translatable="false">tempo_timer_notification</string>
     <string name="timer_service_notification_channel_name" translatable="false">Tempo Timer</string>

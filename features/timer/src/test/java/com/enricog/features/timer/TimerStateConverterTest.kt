@@ -90,7 +90,7 @@ class TimerStateConverterTest {
                 ripple = null
             ),
             clockOnBackgroundColor = Color.White,
-            isSoundEnabled = true,
+            soundEnabled = true,
             timerActions = TimerViewState.Counting.Actions(
                 back = TimerViewState.Counting.Actions.Button(
                     iconResId = R.drawable.ic_timer_back,
@@ -149,7 +149,7 @@ class TimerStateConverterTest {
                 ripple = null
             ),
             clockOnBackgroundColor = Color.White,
-            isSoundEnabled = true,
+            soundEnabled = true,
             timerActions = TimerViewState.Counting.Actions(
                 back = TimerViewState.Counting.Actions.Button(
                     iconResId = R.drawable.ic_timer_back,
@@ -209,7 +209,7 @@ class TimerStateConverterTest {
                     ripple = null
                 ),
                 clockOnBackgroundColor = Color.White,
-                isSoundEnabled = true,
+                soundEnabled = true,
                 timerActions = TimerViewState.Counting.Actions(
                     back = TimerViewState.Counting.Actions.Button(
                         iconResId = R.drawable.ic_timer_back,
@@ -269,7 +269,7 @@ class TimerStateConverterTest {
                     ripple = null
                 ),
                 clockOnBackgroundColor = Color.White,
-                isSoundEnabled = true,
+                soundEnabled = true,
                 timerActions = TimerViewState.Counting.Actions(
                     back = TimerViewState.Counting.Actions.Button(
                         iconResId = R.drawable.ic_timer_back,
@@ -329,7 +329,7 @@ class TimerStateConverterTest {
                     ripple = null
                 ),
                 clockOnBackgroundColor = Color.White,
-                isSoundEnabled = true,
+                soundEnabled = true,
                 timerActions = TimerViewState.Counting.Actions(
                     back = TimerViewState.Counting.Actions.Button(
                         iconResId = R.drawable.ic_timer_back,
@@ -398,7 +398,7 @@ class TimerStateConverterTest {
                     ripple = Color.Black
                 ),
                 clockOnBackgroundColor = Color.White,
-                isSoundEnabled = true,
+                soundEnabled = true,
                 timerActions = TimerViewState.Counting.Actions(
                     back = TimerViewState.Counting.Actions.Button(
                         iconResId = R.drawable.ic_timer_back,
@@ -480,7 +480,7 @@ class TimerStateConverterTest {
                     ripple = Color.Blue
                 ),
                 clockOnBackgroundColor = Color.White,
-                isSoundEnabled = true,
+                soundEnabled = true,
                 timerActions = TimerViewState.Counting.Actions(
                     back = TimerViewState.Counting.Actions.Button(
                         iconResId = R.drawable.ic_timer_back,

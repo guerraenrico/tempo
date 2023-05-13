@@ -113,6 +113,12 @@ object Libs {
         const val testing = "androidx.room:room-testing:$version"
     }
 
+    object DataStore {
+        private const val version = "1.0.0"
+
+        const val preferences = "androidx.datastore:datastore-preferences:$version"
+    }
+
     const val Timber = "com.jakewharton.timber:timber:5.0.1"
 
     object Lint {

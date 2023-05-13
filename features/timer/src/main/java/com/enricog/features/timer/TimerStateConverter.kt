@@ -42,7 +42,6 @@ internal class TimerStateConverter @Inject constructor(
             segmentName = state.runningSegment.name,
             clockBackground = clockBackgroundResource.toViewBackground(),
             clockOnBackgroundColor = clockBackgroundResource.onBackgroundColor(),
-            isSoundEnabled = state.isSoundEnabled,
             timerActions = state.getActions()
         )
     }

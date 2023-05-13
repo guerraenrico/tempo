@@ -58,6 +58,9 @@ dependencies {
     kapt Libs.Room.compiler
     implementation Libs.Room.ktx
 
+    // Data Store
+    implementation Libs.DataStore.preferences
+
     // Hilt
     implementation Libs.Hilt.android
     kapt Libs.Hilt.androidCompiler

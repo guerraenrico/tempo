@@ -4,6 +4,7 @@ import com.enricog.data.routines.api.entities.Routine
 import com.enricog.data.routines.api.entities.Segment
 import com.enricog.data.routines.api.entities.TimeType
 import com.enricog.core.entities.Seconds
+import com.enricog.data.timer.api.settings.entities.TimerSettings
 import com.enricog.data.timer.api.theme.entities.TimerTheme
 import java.time.Clock
 import java.time.Duration
@@ -15,10 +16,10 @@ internal sealed class TimerState {
 
     data class Counting(
         val timerTheme: TimerTheme,
+        val timerSettings: TimerSettings,
         val routine: Routine,
         val runningStep: SegmentStep,
         val steps: List<SegmentStep>,
-        val isSoundEnabled: Boolean,
         val startedAt: OffsetDateTime,
         val skipCount: Int
     ) : TimerState() {

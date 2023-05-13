@@ -14,7 +14,7 @@ internal class TimerSoundPlayer @Inject constructor(
 
     fun playFrom(state: TimerState) {
         if (state !is TimerState.Counting) return
-        if (!state.isSoundEnabled) return
+        if (!state.timerSettings.soundEnabled) return
 
         val soundToPlay = when {
             state.isRestStarted -> REST_SPEECH
