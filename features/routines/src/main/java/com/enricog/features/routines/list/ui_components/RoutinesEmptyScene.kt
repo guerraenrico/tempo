@@ -22,7 +22,7 @@ internal fun RoutinesEmptyScene(onCreateSegment: () -> Unit) {
                 onClick = onCreateSegment,
                 text = stringResource(R.string.button_create_routine),
                 color = TempoButtonColor.Accent,
-                contentDescription = stringResource(R.string.content_description_button_create_routine)
+                iconContentDescription = stringResource(R.string.content_description_button_create_routine)
             )
         }
     )

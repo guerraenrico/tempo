@@ -25,14 +25,16 @@ import com.enricog.ui.theme.TempoTheme
 fun TempoButton(
     onClick: () -> Unit,
     text: String,
-    contentDescription: String,
     modifier: Modifier = Modifier,
+    iconContentDescription: String? = null,
     @DrawableRes iconResId: Int? = null,
     iconSpacing: Dp = TempoButtonDefaults.IconSpacing,
     color: TempoButtonColor = TempoButtonColor.Normal,
     enabled: Boolean = true
 ) {
-    require(contentDescription.isNotBlank()) { "contentDescription cannot be blank" }
+    if (iconResId != null) {
+        require(iconContentDescription?.isNotBlank() == true) { "contentDescription cannot be blank" }
+    }
     require(text.isNotBlank()) { "text cannot be blank, use TempoIconButton if you need to show only an icon" }
 
     Button(
@@ -48,7 +50,7 @@ fun TempoButton(
             TempoButtonIcon(
                 iconResId = iconResId,
                 color = color,
-                contentDescription = contentDescription,
+                contentDescription = requireNotNull(iconContentDescription),
             )
             Spacer(modifier = Modifier.width(iconSpacing))
         }
@@ -129,7 +131,7 @@ private fun Preview() {
         modifier = Modifier.fillMaxWidth(),
         onClick = {},
         text = "Button",
-        contentDescription = "content description",
+        iconContentDescription = "content description",
         iconResId = R.drawable.ic_back
     )
 }

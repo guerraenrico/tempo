@@ -141,7 +141,7 @@ internal fun SegmentFormScene(
                 onClick = onSegmentConfirmed,
                 color = TempoButtonColor.Accent,
                 text = stringResource(R.string.button_save),
-                contentDescription = stringResource(R.string.content_description_button_save_segment)
+                iconContentDescription = stringResource(R.string.content_description_button_save_segment)
             )
         }
     )

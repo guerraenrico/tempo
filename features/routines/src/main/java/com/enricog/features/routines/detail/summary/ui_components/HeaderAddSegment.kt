@@ -28,7 +28,7 @@ internal fun HeaderAddSegment(
         TempoButton(
             onClick = onAddSegmentClick,
             iconResId = R.drawable.ic_add,
-            contentDescription = stringResource(R.string.content_description_button_add_segment),
+            iconContentDescription = stringResource(R.string.content_description_button_add_segment),
             text = stringResource(R.string.button_add_segment),
             enabled = enabled,
             modifier = Modifier

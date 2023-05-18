@@ -77,7 +77,7 @@ private fun TempoLayoutMessagePreview() {
             TempoButton(
                 onClick = { },
                 text = stringResource(id = R.string.button_retry),
-                contentDescription = stringResource(id = R.string.content_description_button_retry)
+                iconContentDescription = stringResource(id = R.string.content_description_button_retry)
             )
         }
     )

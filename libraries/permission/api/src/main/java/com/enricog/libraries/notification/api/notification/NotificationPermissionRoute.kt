@@ -1,4 +1,4 @@
-package com.enricog.navigation.api.routes
+package com.enricog.libraries.notification.api.notification
 
 import androidx.compose.runtime.Composable
 import androidx.lifecycle.SavedStateHandle
@@ -7,11 +7,13 @@ import androidx.navigation.NavGraphBuilder
 import androidx.navigation.NavOptionsBuilder
 import androidx.navigation.navOptions
 import com.enricog.navigation.api.NavigationAction
-import com.enricog.navigation.api.extensions.bottomSheet
+import com.enricog.navigation.api.routes.Route
+import com.enricog.navigation.api.routes.RouteInput
+import com.google.accompanist.navigation.material.bottomSheet
 
-object TimerSettingsRoute : Route<TimerSettingsRoute.Input> {
+internal object NotificationPermissionRoute : Route<NotificationPermissionRoute.Input> {
 
-    override val name: String = "timer/settings"
+    override val name: String = "permissions/notification"
 
     override fun NavGraphBuilder.compose(content: @Composable (NavBackStackEntry) -> Unit) {
         bottomSheet(
