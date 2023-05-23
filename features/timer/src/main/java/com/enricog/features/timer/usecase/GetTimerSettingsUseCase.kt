@@ -2,8 +2,8 @@ package com.enricog.features.timer.usecase
 
 import com.enricog.data.timer.api.settings.TimerSettingsDataSource
 import com.enricog.data.timer.api.settings.entities.TimerSettings
-import com.enricog.libraries.notification.api.Permission
-import com.enricog.libraries.notification.api.PermissionManager
+import com.enricog.libraries.permission.api.Permission
+import com.enricog.libraries.permission.api.PermissionManager
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.map
 import javax.inject.Inject

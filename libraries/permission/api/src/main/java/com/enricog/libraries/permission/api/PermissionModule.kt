@@ -1,4 +1,4 @@
-package com.enricog.libraries.notification.api
+package com.enricog.libraries.permission.api
 
 import dagger.Binds
 import dagger.Module

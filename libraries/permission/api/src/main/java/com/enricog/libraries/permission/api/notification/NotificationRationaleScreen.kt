@@ -1,4 +1,4 @@
-package com.enricog.libraries.notification.api.notification
+package com.enricog.libraries.permission.api.notification
 
 import android.Manifest
 import android.os.Build

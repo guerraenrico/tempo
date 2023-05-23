@@ -16,7 +16,7 @@ import com.enricog.core.logger.api.TempoLogger
 import com.enricog.features.routines.RoutinesNavigation
 import com.enricog.features.timer.TimerNavigation
 import com.enricog.features.timer.WindowScreenManager
-import com.enricog.libraries.notification.api.PermissionNavigation
+import com.enricog.libraries.permission.api.PermissionNavigation
 import com.enricog.navigation.api.NavigationAction
 import com.enricog.navigation.api.Navigator
 import com.enricog.ui.theme.TempoTheme

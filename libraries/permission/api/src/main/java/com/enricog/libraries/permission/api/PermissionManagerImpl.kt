@@ -1,4 +1,4 @@
-package com.enricog.libraries.notification.api
+package com.enricog.libraries.permission.api
 
 import android.content.Context
 import androidx.core.app.NotificationManagerCompat

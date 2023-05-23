@@ -1,6 +1,6 @@
-package com.enricog.libraries.notification.api
+package com.enricog.libraries.permission.api
 
-import com.enricog.libraries.notification.api.notification.NotificationPermissionRoute
+import com.enricog.libraries.permission.api.notification.NotificationPermissionRoute
 import com.enricog.navigation.api.NavigationAction
 import com.enricog.navigation.api.Navigator
 import javax.inject.Inject

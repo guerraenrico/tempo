@@ -1,8 +1,8 @@
-package com.enricog.libraries.notification.api.notification
+package com.enricog.libraries.permission.api.notification
 
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import com.enricog.libraries.notification.api.PermissionNavigationActions
+import com.enricog.libraries.permission.api.PermissionNavigationActions
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.launch
 import javax.inject.Inject
