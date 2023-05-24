@@ -13,8 +13,8 @@ import com.enricog.data.routines.api.entities.TimeType
 import com.enricog.data.routines.testing.FakeRoutineDataSource
 import com.enricog.data.routines.testing.entities.EMPTY
 import com.enricog.data.timer.api.theme.entities.TimerTheme
-import com.enricog.data.timer.testing.FakeTimerThemeDataSource
-import com.enricog.data.timer.testing.entities.DEFAULT
+import com.enricog.data.timer.testing.theme.FakeTimerThemeDataSource
+import com.enricog.data.timer.testing.theme.entities.DEFAULT
 import com.enricog.features.timer.fakes.FakeWindowScreenManager
 import com.enricog.features.timer.models.TimerViewState
 import com.enricog.features.timer.models.TimerViewState.Counting.Background

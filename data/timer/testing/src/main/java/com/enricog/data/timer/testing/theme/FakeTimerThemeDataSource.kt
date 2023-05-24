@@ -1,4 +1,4 @@
-package com.enricog.data.timer.testing
+package com.enricog.data.timer.testing.theme
 
 import com.enricog.data.local.testing.FakeStore
 import com.enricog.data.timer.api.theme.TimerThemeDataSource

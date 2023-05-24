@@ -7,7 +7,7 @@ import com.enricog.core.compose.api.classes.emptyImmutableMap
 import com.enricog.core.compose.api.classes.immutableListOf
 import com.enricog.core.compose.testing.invoke
 import com.enricog.data.timer.api.theme.entities.TimerTheme
-import com.enricog.data.timer.testing.entities.DEFAULT
+import com.enricog.data.timer.testing.theme.entities.DEFAULT
 import com.enricog.features.routines.detail.segment.models.SegmentInputs
 import com.enricog.features.routines.detail.segment.models.SegmentViewState
 import com.enricog.features.routines.detail.segment.ui_components.SegmentErrorSceneTestTag

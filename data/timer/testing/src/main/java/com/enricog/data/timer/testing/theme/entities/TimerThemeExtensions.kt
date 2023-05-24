@@ -1,4 +1,4 @@
-package com.enricog.data.timer.testing.entities
+package com.enricog.data.timer.testing.theme.entities
 
 import com.enricog.core.entities.asID
 import com.enricog.data.timer.api.theme.entities.TimerTheme

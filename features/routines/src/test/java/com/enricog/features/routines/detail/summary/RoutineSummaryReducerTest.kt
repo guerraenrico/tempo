@@ -6,7 +6,7 @@ import com.enricog.data.routines.api.entities.Routine
 import com.enricog.data.routines.api.entities.Segment
 import com.enricog.data.routines.testing.entities.EMPTY
 import com.enricog.data.timer.api.theme.entities.TimerTheme
-import com.enricog.data.timer.testing.entities.DEFAULT
+import com.enricog.data.timer.testing.theme.entities.DEFAULT
 import com.enricog.features.routines.detail.summary.models.RoutineSummaryField
 import com.enricog.features.routines.detail.summary.models.RoutineSummaryFieldError
 import com.enricog.features.routines.detail.summary.models.RoutineSummaryState
