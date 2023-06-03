@@ -1,6 +1,5 @@
 package com.enricog.features.timer.service
 
-import android.graphics.Color
 import androidx.annotation.StringRes
 import com.enricog.base.viewmodel.StateConverter
 import com.enricog.core.entities.Seconds
@@ -114,17 +113,17 @@ internal class TimerServiceStateConverter @Inject constructor() : StateConverter
 
         fun toViewBackground(): TimerServiceViewState.Counting.Background {
             return TimerServiceViewState.Counting.Background(
-                background = backgroundResource.background.toAndroidColor()
+                background = backgroundResource.background.toColorLong()
             )
         }
 
-        fun onBackgroundColor(): Color {
-            return backgroundResource.onBackground.toAndroidColor()
+        fun onBackgroundColor(): Long {
+            return backgroundResource.onBackground.toColorLong()
         }
 
-        private fun TimerTheme.Asset.toAndroidColor(): Color {
+        private fun TimerTheme.Asset.toColorLong(): Long {
             return when (this) {
-                is TimerTheme.Asset.Color -> Color.valueOf(argb.toLong())
+                is TimerTheme.Asset.Color -> argb.toLong()
             }
         }
     }

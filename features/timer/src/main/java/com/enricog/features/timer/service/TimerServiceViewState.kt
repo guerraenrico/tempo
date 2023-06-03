@@ -1,6 +1,5 @@
 package com.enricog.features.timer.service
 
-import android.graphics.Color
 import androidx.annotation.DrawableRes
 import androidx.annotation.StringRes
 
@@ -13,11 +12,11 @@ internal sealed class TimerServiceViewState {
         @StringRes val stepTitleId: Int,
         val segmentName: String,
         val clockBackground: Background,
-        val clockOnBackgroundColor: Color,
+        val clockOnBackgroundColor: Long,
         val timerActions: Actions
     ) : TimerServiceViewState() {
 
-        data class Background(val background: Color)
+        data class Background(val background: Long)
 
         data class Actions(val play: Button) {
             data class Button(

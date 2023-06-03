@@ -1,6 +1,5 @@
 package com.enricog.features.timer.service
 
-import android.graphics.Color
 import com.enricog.core.coroutines.testing.CoroutineRule
 import com.enricog.core.entities.seconds
 import com.enricog.data.routines.api.entities.Routine
@@ -84,9 +83,9 @@ internal class TimerServiceStateConverterTest {
             stepTitleId = R.string.title_segment_time_type_rest,
             segmentName = "segment name",
             clockBackground = TimerServiceViewState.Counting.Background(
-                background = Color.valueOf(Color.GREEN)
+                background = "18374966855136706560".toULong().toLong()
             ),
-            clockOnBackgroundColor = Color.valueOf(Color.WHITE),
+            clockOnBackgroundColor = "18446744069414584320".toULong().toLong(),
             timerActions = TimerServiceViewState.Counting.Actions(
                 play = TimerServiceViewState.Counting.Actions.Button(
                     iconResId = R.drawable.ic_timer_stop,
@@ -130,9 +129,9 @@ internal class TimerServiceStateConverterTest {
             stepTitleId = R.string.title_segment_time_type_rest,
             segmentName = "segment name",
             clockBackground = TimerServiceViewState.Counting.Background(
-                background = Color.valueOf(Color.GREEN)
+                background = "18374966855136706560".toULong().toLong()
             ),
-            clockOnBackgroundColor = Color.valueOf(Color.WHITE),
+            clockOnBackgroundColor = "18446744069414584320".toULong().toLong(),
             timerActions = TimerServiceViewState.Counting.Actions(
                 play = TimerServiceViewState.Counting.Actions.Button(
                     iconResId = R.drawable.ic_timer_play,
@@ -177,9 +176,9 @@ internal class TimerServiceStateConverterTest {
                 stepTitleId = R.string.title_segment_time_type_rest,
                 segmentName = "segment name",
                 clockBackground = TimerServiceViewState.Counting.Background(
-                    background = Color.valueOf(Color.GREEN)
+                    background = "18374966855136706560".toULong().toLong()
                 ),
-                clockOnBackgroundColor = Color.valueOf(Color.WHITE),
+                clockOnBackgroundColor = "18446744069414584320".toULong().toLong(),
                 timerActions = TimerServiceViewState.Counting.Actions(
                     play = TimerServiceViewState.Counting.Actions.Button(
                         iconResId = R.drawable.ic_timer_stop,
@@ -224,9 +223,9 @@ internal class TimerServiceStateConverterTest {
                 stepTitleId = R.string.title_segment_step_type_in_progress,
                 segmentName = "segment name",
                 clockBackground = TimerServiceViewState.Counting.Background(
-                    background = Color.valueOf(Color.RED)
+                    background = "18446462598732840960".toULong().toLong()
                 ),
-                clockOnBackgroundColor = Color.valueOf(Color.WHITE),
+                clockOnBackgroundColor = "18446744069414584320".toULong().toLong(),
                 timerActions = TimerServiceViewState.Counting.Actions(
                     play = TimerServiceViewState.Counting.Actions.Button(
                         iconResId = R.drawable.ic_timer_stop,
@@ -271,9 +270,9 @@ internal class TimerServiceStateConverterTest {
                 stepTitleId = R.string.title_segment_step_type_in_progress,
                 segmentName = "segment name",
                 clockBackground = TimerServiceViewState.Counting.Background(
-                    background = Color.valueOf(Color.BLACK)
+                    background = "18374686479671623680".toULong().toLong()
                 ),
-                clockOnBackgroundColor = Color.valueOf(Color.WHITE),
+                clockOnBackgroundColor = "18446744069414584320".toULong().toLong(),
                 timerActions = TimerServiceViewState.Counting.Actions(
                     play = TimerServiceViewState.Counting.Actions.Button(
                         iconResId = R.drawable.ic_timer_stop,

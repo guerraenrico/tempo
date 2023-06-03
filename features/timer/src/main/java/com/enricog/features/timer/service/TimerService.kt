@@ -8,6 +8,7 @@ import android.app.Service
 import android.content.Context
 import android.content.Intent
 import android.content.pm.ServiceInfo
+import android.graphics.Color
 import android.os.Build
 import android.os.IBinder
 import android.widget.RemoteViews
@@ -127,7 +128,7 @@ internal class TimerService : Service() {
             .setSmallIcon(R.drawable.ic_notification)
             .setSilent(true)
             .setColorized(true)
-            .setColor(stateHistory.current.clockBackground.background.toArgb())
+            .setColor(Color.valueOf(stateHistory.current.clockBackground.background).toArgb())
             .setCustomContentView(buildContentView(stateHistory))
             .setCustomBigContentView(buildBigContentView(stateHistory))
             .setPriority(NotificationCompat.PRIORITY_DEFAULT)
@@ -137,14 +138,14 @@ internal class TimerService : Service() {
 
     private fun buildContentView(stateHistory: StateHistory): RemoteViews = contentView.apply {
         if (stateHistory.prev?.clockOnBackgroundColor != stateHistory.current.clockOnBackgroundColor) {
-            setTextColor(R.id.notification_timer_step_name, stateHistory.current.clockOnBackgroundColor.toArgb())
+            setTextColor(R.id.notification_timer_step_name, Color.valueOf(stateHistory.current.clockOnBackgroundColor).toArgb())
         }
         if (stateHistory.prev?.stepTitleId != stateHistory.current.stepTitleId) {
             setTextViewText(R.id.notification_timer_step_name, context.getString(stateHistory.current.stepTitleId))
         }
         if (stateHistory.prev?.clockOnBackgroundColor != stateHistory.current.clockOnBackgroundColor) {
-            setTextColor(R.id.notification_timer_segment_name, stateHistory.current.clockOnBackgroundColor.toArgb())
-            setTextColor(R.id.notification_timer_count, stateHistory.current.clockOnBackgroundColor.toArgb())
+            setTextColor(R.id.notification_timer_segment_name, Color.valueOf(stateHistory.current.clockOnBackgroundColor).toArgb())
+            setTextColor(R.id.notification_timer_count, Color.valueOf(stateHistory.current.clockOnBackgroundColor).toArgb())
         }
         if (stateHistory.prev?.segmentName != stateHistory.current.segmentName) {
             setTextViewText(R.id.notification_timer_segment_name, stateHistory.current.segmentName)
@@ -154,14 +155,14 @@ internal class TimerService : Service() {
 
     private fun buildBigContentView(stateHistory: StateHistory): RemoteViews = bigContentView.apply {
         if (stateHistory.prev?.clockOnBackgroundColor != stateHistory.current.clockOnBackgroundColor) {
-            setTextColor(R.id.notification_timer_step_name, stateHistory.current.clockOnBackgroundColor.toArgb())
+            setTextColor(R.id.notification_timer_step_name, Color.valueOf(stateHistory.current.clockOnBackgroundColor).toArgb())
         }
         if (stateHistory.prev?.stepTitleId != stateHistory.current.stepTitleId) {
             setTextViewText(R.id.notification_timer_step_name, context.getString(stateHistory.current.stepTitleId))
         }
         if (stateHistory.prev?.clockOnBackgroundColor != stateHistory.current.clockOnBackgroundColor) {
-            setTextColor(R.id.notification_timer_segment_name, stateHistory.current.clockOnBackgroundColor.toArgb())
-            setTextColor(R.id.notification_timer_count, stateHistory.current.clockOnBackgroundColor.toArgb())
+            setTextColor(R.id.notification_timer_segment_name, Color.valueOf(stateHistory.current.clockOnBackgroundColor).toArgb())
+            setTextColor(R.id.notification_timer_count, Color.valueOf(stateHistory.current.clockOnBackgroundColor).toArgb())
         }
         if (stateHistory.prev?.segmentName != stateHistory.current.segmentName) {
             setTextViewText(R.id.notification_timer_segment_name, stateHistory.current.segmentName)
