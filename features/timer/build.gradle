@@ -89,6 +89,7 @@ dependencies {
     testImplementation project(":core:coroutines:testing")
     testImplementation project(":navigation:testing")
     testImplementation project(":libraries:sound:testing")
+    testImplementation project(":libraries:permission:testing")
     testImplementation Libs.Test.truth
     testImplementation Libs.Test.parameterInjector
     testImplementation Libs.Test.junit

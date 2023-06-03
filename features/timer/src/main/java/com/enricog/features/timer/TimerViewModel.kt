@@ -133,14 +133,14 @@ internal class TimerViewModel @Inject constructor(
 
     private fun toggleBackgroundService(currentState: TimerState) {
         if (currentState is TimerState.Counting && currentState.timerSettings.runInBackgroundEnabled) {
-            serviceHandler.startService()
+            serviceHandler.start()
         } else {
-            serviceHandler.stopService()
+            serviceHandler.stop()
         }
     }
 
     override fun onCleared() {
-        serviceHandler.stopService()
+        serviceHandler.stop()
         timerController.close()
     }
 }

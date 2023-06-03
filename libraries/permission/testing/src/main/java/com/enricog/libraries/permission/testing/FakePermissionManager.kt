@@ -17,6 +17,10 @@ class FakePermissionManager : PermissionManager {
         assertThat(askedPermissions).contains(permission)
     }
 
+    fun isPermissionNotAsked(permission: Permission) {
+        assertThat(askedPermissions).doesNotContain(permission)
+    }
+
     override fun checkPermission(permission: Permission): Boolean {
         return permissions[permission] ?: throw IllegalStateException("Permission $permission not set")
     }

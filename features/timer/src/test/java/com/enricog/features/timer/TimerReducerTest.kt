@@ -1,11 +1,13 @@
 package com.enricog.features.timer
 
+import com.enricog.core.entities.seconds
 import com.enricog.data.routines.api.entities.Routine
 import com.enricog.data.routines.api.entities.Segment
 import com.enricog.data.routines.api.entities.TimeType
 import com.enricog.data.routines.testing.entities.EMPTY
-import com.enricog.core.entities.seconds
+import com.enricog.data.timer.api.settings.entities.TimerSettings
 import com.enricog.data.timer.api.theme.entities.TimerTheme
+import com.enricog.data.timer.testing.settings.entities.DEFAULT
 import com.enricog.data.timer.testing.theme.entities.DEFAULT
 import com.enricog.features.timer.models.Count
 import com.enricog.features.timer.models.SegmentStep
@@ -27,6 +29,7 @@ class TimerReducerTest {
     @Test
     fun `should setup state with starting segment when preparation is more than 0`() {
         val timerTheme = TimerTheme.DEFAULT
+        val timerSettings = TimerSettings.DEFAULT
         val routine = Routine.EMPTY.copy(
             preparationTime = 5.seconds,
             segments = listOf(
@@ -43,7 +46,6 @@ class TimerReducerTest {
                 )
             )
         )
-        val state = TimerState.Idle
         val expected = TimerState.Counting(
             routine = routine,
             runningStep = SegmentStep(
@@ -105,13 +107,13 @@ class TimerReducerTest {
                     )
                 )
             ),
-            isSoundEnabled = true,
             startedAt = OffsetDateTime.now(clock),
             skipCount = 0,
-            timerTheme = timerTheme
+            timerTheme = timerTheme,
+            timerSettings = timerSettings
         )
 
-        val actual = timerReducer.setup(state = state, routine = routine, timerTheme = timerTheme)
+        val actual = timerReducer.setup(routine = routine, timerTheme = timerTheme, timerSettings = timerSettings)
 
         assertThat(actual).isEqualTo(expected)
     }
@@ -119,6 +121,7 @@ class TimerReducerTest {
     @Test
     fun `should setup state with segment in progress when preparation time is 0`() {
         val timerTheme = TimerTheme.DEFAULT
+        val timerSettings = TimerSettings.DEFAULT
         val routine = Routine.EMPTY.copy(
             preparationTime = 0.seconds,
             segments = listOf(
@@ -135,7 +138,6 @@ class TimerReducerTest {
                 )
             )
         )
-        val state = TimerState.Idle
         val expected = TimerState.Counting(
             routine = routine,
             runningStep = SegmentStep(
@@ -178,69 +180,13 @@ class TimerReducerTest {
                     )
                 )
             ),
-            isSoundEnabled = true,
             startedAt = OffsetDateTime.now(clock),
             skipCount = 0,
-            timerTheme = TimerTheme.DEFAULT
+            timerTheme = TimerTheme.DEFAULT,
+            timerSettings = timerSettings
         )
 
-        val actual = timerReducer.setup(state = state, routine = routine, timerTheme = timerTheme)
-
-        assertThat(actual).isEqualTo(expected)
-    }
-
-    @Test
-    fun `should setup state with same sound enable status when current state is counting`() {
-        val timerTheme = TimerTheme.DEFAULT
-        val segment = Segment.EMPTY.copy(time = 5.seconds)
-        val routine = Routine.EMPTY.copy(
-            preparationTime = 0.seconds,
-            segments = listOf(segment)
-        )
-        val state = TimerState.Counting(
-            routine = routine,
-            runningStep = SegmentStep(
-                id = 0,
-                count = Count(seconds = 2.seconds, isRunning = true, isCompleted = false),
-                type = SegmentStepType.IN_PROGRESS,
-                segment = segment
-            ),
-            steps = listOf(
-                SegmentStep(
-                    id = 0,
-                    count = Count.idle(seconds = 5.seconds),
-                    type = SegmentStepType.IN_PROGRESS,
-                    segment = segment
-                )
-            ),
-            isSoundEnabled = false,
-            startedAt = OffsetDateTime.now(clock),
-            skipCount = 0,
-            timerTheme = timerTheme
-        )
-        val expected = TimerState.Counting(
-            routine = routine,
-            runningStep = SegmentStep(
-                id = 0,
-                count = Count(seconds = 5.seconds, isRunning = false, isCompleted = false),
-                type = SegmentStepType.IN_PROGRESS,
-                segment = segment
-            ),
-            steps = listOf(
-                SegmentStep(
-                    id = 0,
-                    count = Count.idle(seconds = 5.seconds),
-                    type = SegmentStepType.IN_PROGRESS,
-                    segment = segment
-                )
-            ),
-            isSoundEnabled = false,
-            startedAt = OffsetDateTime.now(clock),
-            skipCount = 0,
-            timerTheme = timerTheme
-        )
-
-        val actual = timerReducer.setup(state = state, routine = routine, timerTheme = timerTheme)
+        val actual = timerReducer.setup(routine = routine, timerTheme = timerTheme, timerSettings = timerSettings)
 
         assertThat(actual).isEqualTo(expected)
     }
@@ -275,10 +221,10 @@ class TimerReducerTest {
                     segment = segment
                 )
             ),
-            isSoundEnabled = true,
             startedAt = OffsetDateTime.now(clock),
             skipCount = 0,
-            timerTheme = TimerTheme.DEFAULT
+            timerTheme = TimerTheme.DEFAULT,
+            timerSettings = TimerSettings.DEFAULT
         )
 
         val actual = timerReducer.progressTime(state)
@@ -306,10 +252,10 @@ class TimerReducerTest {
                     segment = segment
                 )
             ),
-            isSoundEnabled = true,
             startedAt = OffsetDateTime.now(clock),
             skipCount = 0,
-            timerTheme = TimerTheme.DEFAULT
+            timerTheme = TimerTheme.DEFAULT,
+            timerSettings = TimerSettings.DEFAULT
         )
         val expected = TimerState.Counting(
             routine = routine,
@@ -327,10 +273,10 @@ class TimerReducerTest {
                     segment = segment
                 )
             ),
-            isSoundEnabled = true,
             startedAt = OffsetDateTime.now(clock),
             skipCount = 0,
-            timerTheme = TimerTheme.DEFAULT
+            timerTheme = TimerTheme.DEFAULT,
+            timerSettings = TimerSettings.DEFAULT
         )
 
         val actual = timerReducer.progressTime(state)
@@ -358,10 +304,10 @@ class TimerReducerTest {
                     segment = segment
                 )
             ),
-            isSoundEnabled = true,
             startedAt = OffsetDateTime.now(clock),
             skipCount = 0,
-            timerTheme = TimerTheme.DEFAULT
+            timerTheme = TimerTheme.DEFAULT,
+            timerSettings = TimerSettings.DEFAULT
         )
         val expected = TimerState.Counting(
             routine = routine,
@@ -379,10 +325,10 @@ class TimerReducerTest {
                     segment = segment
                 )
             ),
-            isSoundEnabled = true,
             startedAt = OffsetDateTime.now(clock),
             skipCount = 0,
-            timerTheme = TimerTheme.DEFAULT
+            timerTheme = TimerTheme.DEFAULT,
+            timerSettings = TimerSettings.DEFAULT
         )
 
         val actual = timerReducer.progressTime(state)
@@ -416,10 +362,10 @@ class TimerReducerTest {
                     segment = segment
                 )
             ),
-            isSoundEnabled = true,
             startedAt = OffsetDateTime.now(clock),
             skipCount = 0,
-            timerTheme = TimerTheme.DEFAULT
+            timerTheme = TimerTheme.DEFAULT,
+            timerSettings = TimerSettings.DEFAULT
         )
         val expected = TimerState.Counting(
             routine = routine,
@@ -443,10 +389,10 @@ class TimerReducerTest {
                     segment = segment
                 )
             ),
-            isSoundEnabled = true,
             startedAt = OffsetDateTime.now(clock),
             skipCount = 0,
-            timerTheme = TimerTheme.DEFAULT
+            timerTheme = TimerTheme.DEFAULT,
+            timerSettings = TimerSettings.DEFAULT
         )
 
         val actual = timerReducer.progressTime(state)
@@ -474,10 +420,10 @@ class TimerReducerTest {
                     segment = segment
                 )
             ),
-            isSoundEnabled = true,
             startedAt = OffsetDateTime.now(clock),
             skipCount = 0,
-            timerTheme = TimerTheme.DEFAULT
+            timerTheme = TimerTheme.DEFAULT,
+            timerSettings = TimerSettings.DEFAULT
         )
         val expected = TimerState.Counting(
             routine = routine,
@@ -495,10 +441,10 @@ class TimerReducerTest {
                     segment = segment
                 )
             ),
-            isSoundEnabled = true,
             startedAt = OffsetDateTime.now(clock),
             skipCount = 0,
-            timerTheme = TimerTheme.DEFAULT
+            timerTheme = TimerTheme.DEFAULT,
+            timerSettings = TimerSettings.DEFAULT
         )
 
         val actual = timerReducer.progressTime(state)
@@ -526,10 +472,10 @@ class TimerReducerTest {
                     segment = segment
                 )
             ),
-            isSoundEnabled = true,
             startedAt = OffsetDateTime.now(clock),
             skipCount = 0,
-            timerTheme = TimerTheme.DEFAULT
+            timerTheme = TimerTheme.DEFAULT,
+            timerSettings = TimerSettings.DEFAULT
         )
         val expected = TimerState.Counting(
             routine = routine,
@@ -547,10 +493,10 @@ class TimerReducerTest {
                     segment = segment
                 )
             ),
-            isSoundEnabled = true,
             startedAt = OffsetDateTime.now(clock),
             skipCount = 0,
-            timerTheme = TimerTheme.DEFAULT
+            timerTheme = TimerTheme.DEFAULT,
+            timerSettings = TimerSettings.DEFAULT
         )
 
         val actual = timerReducer.progressTime(state)
@@ -578,10 +524,10 @@ class TimerReducerTest {
                     segment = segment
                 )
             ),
-            isSoundEnabled = true,
             startedAt = OffsetDateTime.now(clock),
             skipCount = 0,
-            timerTheme = TimerTheme.DEFAULT
+            timerTheme = TimerTheme.DEFAULT,
+            timerSettings = TimerSettings.DEFAULT
         )
         val expected = TimerState.Counting(
             routine = routine,
@@ -599,10 +545,10 @@ class TimerReducerTest {
                     segment = segment
                 )
             ),
-            isSoundEnabled = true,
             startedAt = OffsetDateTime.now(clock),
             skipCount = 0,
-            timerTheme = TimerTheme.DEFAULT
+            timerTheme = TimerTheme.DEFAULT,
+            timerSettings = TimerSettings.DEFAULT
         )
 
         val actual = timerReducer.progressTime(state)
@@ -630,10 +576,10 @@ class TimerReducerTest {
                     segment = segment
                 )
             ),
-            isSoundEnabled = true,
             startedAt = OffsetDateTime.now(clock),
             skipCount = 0,
-            timerTheme = TimerTheme.DEFAULT
+            timerTheme = TimerTheme.DEFAULT,
+            timerSettings = TimerSettings.DEFAULT
         )
 
         val actual = timerReducer.toggleTimeRunning(state)
@@ -661,10 +607,10 @@ class TimerReducerTest {
                     segment = segment
                 )
             ),
-            isSoundEnabled = true,
             startedAt = OffsetDateTime.now(clock),
             skipCount = 0,
-            timerTheme = TimerTheme.DEFAULT
+            timerTheme = TimerTheme.DEFAULT,
+            timerSettings = TimerSettings.DEFAULT
         )
         val expected = TimerState.Counting(
             routine = routine,
@@ -682,10 +628,10 @@ class TimerReducerTest {
                     segment = segment
                 )
             ),
-            isSoundEnabled = true,
             startedAt = OffsetDateTime.now(clock),
             skipCount = 0,
-            timerTheme = TimerTheme.DEFAULT
+            timerTheme = TimerTheme.DEFAULT,
+            timerSettings = TimerSettings.DEFAULT
         )
 
         val actual = timerReducer.toggleTimeRunning(state)
@@ -713,10 +659,10 @@ class TimerReducerTest {
                     segment = segment
                 )
             ),
-            isSoundEnabled = true,
             startedAt = OffsetDateTime.now(clock),
             skipCount = 0,
-            timerTheme = TimerTheme.DEFAULT
+            timerTheme = TimerTheme.DEFAULT,
+            timerSettings = TimerSettings.DEFAULT
         )
         val expected = TimerState.Counting(
             routine = routine,
@@ -734,10 +680,10 @@ class TimerReducerTest {
                     segment = segment
                 )
             ),
-            isSoundEnabled = true,
             startedAt = OffsetDateTime.now(clock),
             skipCount = 0,
-            timerTheme = TimerTheme.DEFAULT
+            timerTheme = TimerTheme.DEFAULT,
+            timerSettings = TimerSettings.DEFAULT
         )
 
         val actual = timerReducer.toggleTimeRunning(state)
@@ -765,10 +711,10 @@ class TimerReducerTest {
                     segment = segment
                 )
             ),
-            isSoundEnabled = true,
             startedAt = OffsetDateTime.now(clock),
             skipCount = 0,
-            timerTheme = TimerTheme.DEFAULT
+            timerTheme = TimerTheme.DEFAULT,
+            timerSettings = TimerSettings.DEFAULT
         )
         val expected = TimerState.Counting(
             routine = routine,
@@ -786,10 +732,10 @@ class TimerReducerTest {
                     segment = segment
                 )
             ),
-            isSoundEnabled = true,
             startedAt = OffsetDateTime.now(clock),
             skipCount = 0,
-            timerTheme = TimerTheme.DEFAULT
+            timerTheme = TimerTheme.DEFAULT,
+            timerSettings = TimerSettings.DEFAULT
         )
 
         val actual = timerReducer.jumpStepBack(state)
@@ -823,10 +769,10 @@ class TimerReducerTest {
                     segment = segment
                 )
             ),
-            isSoundEnabled = true,
             startedAt = OffsetDateTime.now(clock),
             skipCount = 0,
-            timerTheme = TimerTheme.DEFAULT
+            timerTheme = TimerTheme.DEFAULT,
+            timerSettings = TimerSettings.DEFAULT
         )
         val expected = TimerState.Counting(
             routine = routine,
@@ -850,10 +796,10 @@ class TimerReducerTest {
                     segment = segment
                 )
             ),
-            isSoundEnabled = true,
             startedAt = OffsetDateTime.now(clock),
             skipCount = 0,
-            timerTheme = TimerTheme.DEFAULT
+            timerTheme = TimerTheme.DEFAULT,
+            timerSettings = TimerSettings.DEFAULT
         )
 
         val actual = timerReducer.jumpStepBack(state)
@@ -887,10 +833,10 @@ class TimerReducerTest {
                     segment = segment
                 )
             ),
-            isSoundEnabled = true,
             startedAt = OffsetDateTime.now(clock),
             skipCount = 0,
-            timerTheme = TimerTheme.DEFAULT
+            timerTheme = TimerTheme.DEFAULT,
+            timerSettings = TimerSettings.DEFAULT
         )
         val expected = TimerState.Counting(
             routine = routine,
@@ -914,10 +860,10 @@ class TimerReducerTest {
                     segment = segment
                 )
             ),
-            isSoundEnabled = true,
             startedAt = OffsetDateTime.now(clock),
             skipCount = 1,
-            timerTheme = TimerTheme.DEFAULT
+            timerTheme = TimerTheme.DEFAULT,
+            timerSettings = TimerSettings.DEFAULT
         )
 
         val actual = timerReducer.jumpStepNext(state)
@@ -951,10 +897,10 @@ class TimerReducerTest {
                     segment = segment
                 )
             ),
-            isSoundEnabled = true,
             startedAt = OffsetDateTime.now(clock),
             skipCount = 0,
-            timerTheme = TimerTheme.DEFAULT
+            timerTheme = TimerTheme.DEFAULT,
+            timerSettings = TimerSettings.DEFAULT
         )
         val expected = TimerState.Counting(
             routine = routine,
@@ -978,10 +924,10 @@ class TimerReducerTest {
                     segment = segment
                 )
             ),
-            isSoundEnabled = true,
             startedAt = OffsetDateTime.now(clock),
             skipCount = 1,
-            timerTheme = TimerTheme.DEFAULT
+            timerTheme = TimerTheme.DEFAULT,
+            timerSettings = TimerSettings.DEFAULT
         )
 
         val actual = timerReducer.jumpStepNext(state)
@@ -1009,10 +955,10 @@ class TimerReducerTest {
                     segment = segment
                 )
             ),
-            isSoundEnabled = true,
             startedAt = OffsetDateTime.now(clock),
             skipCount = 0,
-            timerTheme = TimerTheme.DEFAULT
+            timerTheme = TimerTheme.DEFAULT,
+            timerSettings = TimerSettings.DEFAULT
         )
 
         val actual = timerReducer.nextStep(state)
@@ -1046,10 +992,10 @@ class TimerReducerTest {
                     segment = segment
                 )
             ),
-            isSoundEnabled = true,
             startedAt = OffsetDateTime.now(clock),
             skipCount = 0,
-            timerTheme = TimerTheme.DEFAULT
+            timerTheme = TimerTheme.DEFAULT,
+            timerSettings = TimerSettings.DEFAULT
         )
         val expected = TimerState.Counting(
             routine = routine,
@@ -1073,10 +1019,10 @@ class TimerReducerTest {
                     segment = segment
                 )
             ),
-            isSoundEnabled = true,
             startedAt = OffsetDateTime.now(clock),
             skipCount = 0,
-            timerTheme = TimerTheme.DEFAULT
+            timerTheme = TimerTheme.DEFAULT,
+            timerSettings = TimerSettings.DEFAULT
         )
 
         val actual = timerReducer.nextStep(state)
@@ -1104,66 +1050,14 @@ class TimerReducerTest {
                     segment = segment
                 )
             ),
-            isSoundEnabled = true,
             startedAt = OffsetDateTime.now(clock),
             skipCount = 0,
-            timerTheme = TimerTheme.DEFAULT
+            timerTheme = TimerTheme.DEFAULT,
+            timerSettings = TimerSettings.DEFAULT
         )
 
         val actual = timerReducer.nextStep(state)
 
         assertThat(actual).isEqualTo(state)
-    }
-
-    @Test
-    fun `should update state with sound disabled on toggling the sound`() {
-        val segment = Segment.EMPTY.copy(time = 10.seconds, type = TimeType.TIMER)
-        val routine = Routine.EMPTY.copy(segments = listOf(segment))
-        val state = TimerState.Counting(
-            routine = routine,
-            runningStep = SegmentStep(
-                id = 0,
-                count = Count(seconds = 10.seconds, isRunning = true, isCompleted = false),
-                type = SegmentStepType.IN_PROGRESS,
-                segment = segment
-            ),
-            steps = listOf(
-                SegmentStep(
-                    id = 0,
-                    count = Count.idle(seconds = 10.seconds),
-                    type = SegmentStepType.IN_PROGRESS,
-                    segment = segment
-                )
-            ),
-            isSoundEnabled = true,
-            startedAt = OffsetDateTime.now(clock),
-            skipCount = 0,
-            timerTheme = TimerTheme.DEFAULT
-        )
-        val expected = TimerState.Counting(
-            routine = routine,
-            runningStep = SegmentStep(
-                id = 0,
-                count = Count(seconds = 10.seconds, isRunning = true, isCompleted = false),
-                type = SegmentStepType.IN_PROGRESS,
-                segment = segment
-            ),
-            steps = listOf(
-                SegmentStep(
-                    id = 0,
-                    count = Count.idle(seconds = 10.seconds),
-                    type = SegmentStepType.IN_PROGRESS,
-                    segment = segment
-                )
-            ),
-            isSoundEnabled = false,
-            startedAt = OffsetDateTime.now(clock),
-            skipCount = 0,
-            timerTheme = TimerTheme.DEFAULT
-        )
-
-        val actual = timerReducer.toggleSound(state)
-
-        assertThat(actual).isEqualTo(expected)
     }
 }

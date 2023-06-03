@@ -5,6 +5,7 @@ import com.enricog.data.routines.api.entities.Routine
 import com.enricog.data.timer.api.settings.entities.TimerSettings
 import com.enricog.data.timer.api.theme.entities.TimerTheme
 import com.enricog.features.timer.models.TimerState
+import com.enricog.features.timer.util.TimerProvider
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.MutableStateFlow
@@ -20,12 +21,13 @@ import javax.inject.Singleton
 
 @Singleton
 internal class TimerController @Inject constructor(
+    timerProvider: TimerProvider,
     @ApplicationCoroutineScope private val scope: CoroutineScope,
     private val reducer: TimerReducer,
     private val soundPlayer: TimerSoundPlayer
 ) : Closeable {
 
-    private val timer = Timer()
+    private val timer = timerProvider.get()
     private var countingTimerTask: CountingTimerTask? = null
 
     private val _state = MutableStateFlow<TimerState>(TimerState.Idle)
@@ -128,11 +130,10 @@ internal class TimerController @Inject constructor(
 
     inner class CountingTimerTask : TimerTask() {
 
-        var isRunning: Boolean = false
+        var isRunning: Boolean = true
             private set
 
         override fun run() {
-            isRunning = true
             val newState = _state.updateAndGet { reducer.progressTime(it) }
             soundPlayer.playFrom(state = newState)
         }
