@@ -79,7 +79,10 @@ object Libs {
         const val material = "com.google.android.material:material:1.2.0"
 
         object Accompanist {
-            const val navigation = "com.google.accompanist:accompanist-navigation-material:0.30.0"
+            private const val version = "0.30.0"
+
+            const val navigation = "com.google.accompanist:accompanist-navigation-material:$version"
+            const val permission = "com.google.accompanist:accompanist-permissions:$version"
         }
     }
 
@@ -111,6 +114,12 @@ object Libs {
         const val compiler = "androidx.room:room-compiler:$version"
         const val ktx = "androidx.room:room-ktx:$version"
         const val testing = "androidx.room:room-testing:$version"
+    }
+
+    object DataStore {
+        private const val version = "1.0.0"
+
+        const val preferences = "androidx.datastore:datastore-preferences:$version"
     }
 
     const val Timber = "com.jakewharton.timber:timber:5.0.1"

@@ -42,7 +42,7 @@ internal fun TimerScreen(viewModel: TimerViewModel) {
                 .zIndex(1f),
             state = viewState,
             onCloseClick = { showCloseDialog = true },
-            onSoundClick = viewModel::onToggleSound
+            onSettingsClick = viewModel::onShowSettings
         )
 
         AnimatedContent(

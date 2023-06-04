@@ -30,7 +30,7 @@ internal fun TempoLayoutGenericError(layoutTestTag: String, onButtonClick: () ->
             TempoButton(
                 onClick = onButtonClick,
                 text = stringResource(id = R.string.button_retry),
-                contentDescription = stringResource(id = R.string.content_description_button_retry),
+                iconContentDescription = stringResource(id = R.string.content_description_button_retry),
                 color = TempoButtonColor.Accent
             )
         }

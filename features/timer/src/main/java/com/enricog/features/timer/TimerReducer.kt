@@ -1,8 +1,9 @@
 package com.enricog.features.timer
 
+import com.enricog.core.entities.seconds
 import com.enricog.data.routines.api.entities.Routine
 import com.enricog.data.routines.api.entities.TimeType
-import com.enricog.core.entities.seconds
+import com.enricog.data.timer.api.settings.entities.TimerSettings
 import com.enricog.data.timer.api.theme.entities.TimerTheme
 import com.enricog.features.timer.models.Count
 import com.enricog.features.timer.models.SegmentStep
@@ -15,7 +16,7 @@ import kotlin.math.max
 
 internal class TimerReducer @Inject constructor(private val clock: Clock) {
 
-    fun setup(state: TimerState, routine: Routine, timerTheme: TimerTheme): TimerState {
+    fun setup(routine: Routine, timerTheme: TimerTheme, timerSettings: TimerSettings): TimerState {
         val steps = buildList {
             fun generateId(): () -> Int {
                 var id = 0
@@ -47,10 +48,10 @@ internal class TimerReducer @Inject constructor(private val clock: Clock) {
         }
         return TimerState.Counting(
             timerTheme = timerTheme,
+            timerSettings = timerSettings,
             routine = routine,
             runningStep = steps.first(),
             steps = steps,
-            isSoundEnabled = if (state is TimerState.Counting) state.isSoundEnabled else true,
             startedAt = OffsetDateTime.now(clock),
             skipCount = 0
         )
@@ -97,10 +98,10 @@ internal class TimerReducer @Inject constructor(private val clock: Clock) {
         }
     }
 
-    fun toggleSound(state: TimerState): TimerState {
+    fun updateTimerSettings(state: TimerState, timerSettings: TimerSettings): TimerState {
         if (state !is TimerState.Counting) return state
 
-        return state.copy(isSoundEnabled = !state.isSoundEnabled)
+        return state.copy(timerSettings = timerSettings)
     }
 
     fun jumpStepBack(state: TimerState): TimerState {

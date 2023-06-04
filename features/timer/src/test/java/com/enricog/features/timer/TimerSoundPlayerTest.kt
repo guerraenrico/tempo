@@ -1,12 +1,14 @@
 package com.enricog.features.timer
 
+import com.enricog.core.entities.seconds
 import com.enricog.data.routines.api.entities.Routine
 import com.enricog.data.routines.api.entities.Segment
 import com.enricog.data.routines.api.entities.TimeType
 import com.enricog.data.routines.testing.entities.EMPTY
-import com.enricog.core.entities.seconds
+import com.enricog.data.timer.api.settings.entities.TimerSettings
 import com.enricog.data.timer.api.theme.entities.TimerTheme
-import com.enricog.data.timer.testing.entities.DEFAULT
+import com.enricog.data.timer.testing.settings.entities.DEFAULT
+import com.enricog.data.timer.testing.theme.entities.DEFAULT
 import com.enricog.features.timer.models.Count
 import com.enricog.features.timer.models.SegmentStep
 import com.enricog.features.timer.models.SegmentStepType
@@ -48,7 +50,7 @@ internal class TimerSoundPlayerTest {
 
     @Test
     fun `should not play sound when sound is disabled`() {
-        val state = baseCountingState.copy(isSoundEnabled = false)
+        val state = baseCountingState.copy(timerSettings = TimerSettings.DEFAULT.copy(soundEnabled = false))
 
         timerSoundPlayer.playFrom(state = state)
 
@@ -302,13 +304,21 @@ internal class TimerSoundPlayerTest {
                     id = 2,
                     count = Count(seconds = 30.seconds, isRunning = false, isCompleted = false),
                     type = SegmentStepType.PREPARATION,
-                    segment = Segment.EMPTY.copy(name = "segment stopwatch", type = TimeType.STOPWATCH, time = 0.seconds)
+                    segment = Segment.EMPTY.copy(
+                        name = "segment stopwatch",
+                        type = TimeType.STOPWATCH,
+                        time = 0.seconds
+                    )
                 ),
                 SegmentStep(
                     id = 3,
                     count = Count(seconds = 3000.seconds, isRunning = false, isCompleted = false),
                     type = SegmentStepType.IN_PROGRESS,
-                    segment = Segment.EMPTY.copy(name = "segment stopwatch", type = TimeType.STOPWATCH, time = 0.seconds)
+                    segment = Segment.EMPTY.copy(
+                        name = "segment stopwatch",
+                        type = TimeType.STOPWATCH,
+                        time = 0.seconds
+                    )
                 ),
                 SegmentStep(
                     id = 4,
@@ -317,10 +327,10 @@ internal class TimerSoundPlayerTest {
                     segment = Segment.EMPTY.copy(name = "segment rest", type = TimeType.REST, time = 3000.seconds)
                 )
             ),
-            isSoundEnabled = true,
             startedAt = OffsetDateTime.now(Clock.fixed(Instant.parse("2023-04-03T10:15:30.00Z"), ZoneId.of("UTC"))),
             skipCount = 0,
-            timerTheme = TimerTheme.DEFAULT
+            timerTheme = TimerTheme.DEFAULT,
+            timerSettings = TimerSettings.DEFAULT
         )
     }
 }

@@ -2,6 +2,7 @@ package com.enricog.ui.components.button
 
 import androidx.compose.material.ButtonColors
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.Immutable
 import androidx.compose.runtime.State
 import androidx.compose.runtime.rememberUpdatedState
 import androidx.compose.ui.graphics.Color
@@ -92,6 +93,7 @@ sealed class TempoButtonColor {
     }
 }
 
+@Immutable
 internal data class TempoButtonColors(
     private val enabledBackgroundColor: Color,
     private val disabledBackgroundColor: Color,

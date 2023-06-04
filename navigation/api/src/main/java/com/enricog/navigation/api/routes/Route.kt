@@ -7,7 +7,7 @@ import androidx.navigation.NavGraphBuilder
 import androidx.navigation.NavOptionsBuilder
 import com.enricog.navigation.api.NavigationAction
 
-sealed interface Route<I : RouteInput> {
+interface Route<I : RouteInput> {
     val name: String
 
     fun NavGraphBuilder.compose(content: @Composable (NavBackStackEntry) -> Unit)

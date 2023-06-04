@@ -1,0 +1,8 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="permission_notification_label_title">Enable notification</string>
+    <string name="permission_notification_label_description">In order to enable functionalities such running the timer in background, it is required to enable the notification permission.</string>
+    <string name="permission_notification_button_confirm">Continue</string>
+    <string name="permission_notification_button_ok">OK</string>
+    <string name="permission_notification_button_cancel">Cancel</string>
+</resources>

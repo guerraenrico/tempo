@@ -66,7 +66,7 @@ internal fun RoutineSection(
             iconResId = R.drawable.ic_routine_edit,
             text = stringResource(R.string.button_routine_summary_edit_routine),
             color = TempoButtonColor.TransparentSecondary,
-            contentDescription = stringResource(R.string.content_description_button_edit_routine)
+            iconContentDescription = stringResource(R.string.content_description_button_edit_routine)
         )
         if (routineInfo.segmentsSummary != null) {
             SegmentSummary(

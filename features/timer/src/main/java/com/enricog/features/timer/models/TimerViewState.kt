@@ -16,7 +16,6 @@ internal sealed class TimerViewState {
         val segmentName: String,
         val clockBackground: Background,
         val clockOnBackgroundColor: Color,
-        val isSoundEnabled: Boolean,
         val timerActions: Actions
     ) : TimerViewState() {
 

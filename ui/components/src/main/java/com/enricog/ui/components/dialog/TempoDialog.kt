@@ -66,14 +66,14 @@ fun TempoDialogAlert(
                     TempoButton(
                         onClick = negativeAction.onClick,
                         text = negativeAction.text,
-                        contentDescription = negativeAction.contentDescription
+                        iconContentDescription = negativeAction.contentDescription
                     )
                     Spacer(modifier = Modifier.width(16.dp))
                 }
                 TempoButton(
                     onClick = positiveAction.onClick,
                     text = positiveAction.text,
-                    contentDescription = positiveAction.contentDescription
+                    iconContentDescription = positiveAction.contentDescription
                 )
             }
         }

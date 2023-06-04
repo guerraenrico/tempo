@@ -7,8 +7,10 @@ import com.enricog.data.routines.api.entities.Routine
 import com.enricog.data.routines.api.entities.Segment
 import com.enricog.data.routines.api.entities.TimeType
 import com.enricog.data.routines.testing.entities.EMPTY
+import com.enricog.data.timer.api.settings.entities.TimerSettings
 import com.enricog.data.timer.api.theme.entities.TimerTheme
-import com.enricog.data.timer.testing.entities.DEFAULT
+import com.enricog.data.timer.testing.settings.entities.DEFAULT
+import com.enricog.data.timer.testing.theme.entities.DEFAULT
 import com.enricog.features.timer.models.Count
 import com.enricog.features.timer.models.SegmentStep
 import com.enricog.features.timer.models.SegmentStepType
@@ -76,10 +78,10 @@ class TimerStateConverterTest {
                     segment = Segment.EMPTY.copy(name = "segment name", type = TimeType.REST)
                 )
             ),
-            isSoundEnabled = true,
             startedAt = OffsetDateTime.now(clock),
             skipCount = 0,
-            timerTheme = TimerTheme.DEFAULT
+            timerTheme = TimerTheme.DEFAULT,
+            timerSettings = TimerSettings.DEFAULT
         )
         val expected = TimerViewState.Counting(
             timeInSeconds = 5,
@@ -90,7 +92,6 @@ class TimerStateConverterTest {
                 ripple = null
             ),
             clockOnBackgroundColor = Color.White,
-            isSoundEnabled = true,
             timerActions = TimerViewState.Counting.Actions(
                 back = TimerViewState.Counting.Actions.Button(
                     iconResId = R.drawable.ic_timer_back,
@@ -135,10 +136,10 @@ class TimerStateConverterTest {
                     segment = Segment.EMPTY.copy(name = "segment name", type = TimeType.REST)
                 )
             ),
-            isSoundEnabled = true,
             startedAt = OffsetDateTime.now(clock),
             skipCount = 0,
-            timerTheme = TimerTheme.DEFAULT
+            timerTheme = TimerTheme.DEFAULT,
+            timerSettings = TimerSettings.DEFAULT
         )
         val expected = TimerViewState.Counting(
             timeInSeconds = 5,
@@ -149,7 +150,6 @@ class TimerStateConverterTest {
                 ripple = null
             ),
             clockOnBackgroundColor = Color.White,
-            isSoundEnabled = true,
             timerActions = TimerViewState.Counting.Actions(
                 back = TimerViewState.Counting.Actions.Button(
                     iconResId = R.drawable.ic_timer_back,
@@ -195,10 +195,10 @@ class TimerStateConverterTest {
                         segment = Segment.EMPTY.copy(name = "segment name", type = TimeType.REST)
                     )
                 ),
-                isSoundEnabled = true,
                 startedAt = OffsetDateTime.now(clock),
                 skipCount = 0,
-                timerTheme = TimerTheme.DEFAULT
+                timerTheme = TimerTheme.DEFAULT,
+                timerSettings = TimerSettings.DEFAULT
             )
             val expected = TimerViewState.Counting(
                 timeInSeconds = 5,
@@ -209,7 +209,6 @@ class TimerStateConverterTest {
                     ripple = null
                 ),
                 clockOnBackgroundColor = Color.White,
-                isSoundEnabled = true,
                 timerActions = TimerViewState.Counting.Actions(
                     back = TimerViewState.Counting.Actions.Button(
                         iconResId = R.drawable.ic_timer_back,
@@ -255,10 +254,10 @@ class TimerStateConverterTest {
                         segment = Segment.EMPTY.copy(name = "segment name", type = TimeType.TIMER),
                     )
                 ),
-                isSoundEnabled = true,
                 startedAt = OffsetDateTime.now(clock),
                 skipCount = 0,
-                timerTheme = TimerTheme.DEFAULT
+                timerTheme = TimerTheme.DEFAULT,
+                timerSettings = TimerSettings.DEFAULT
             )
             val expected = TimerViewState.Counting(
                 timeInSeconds = 5,
@@ -269,7 +268,6 @@ class TimerStateConverterTest {
                     ripple = null
                 ),
                 clockOnBackgroundColor = Color.White,
-                isSoundEnabled = true,
                 timerActions = TimerViewState.Counting.Actions(
                     back = TimerViewState.Counting.Actions.Button(
                         iconResId = R.drawable.ic_timer_back,
@@ -315,10 +313,10 @@ class TimerStateConverterTest {
                         segment = Segment.EMPTY.copy(name = "segment name", type = TimeType.STOPWATCH),
                     )
                 ),
-                isSoundEnabled = true,
                 startedAt = OffsetDateTime.now(clock),
                 skipCount = 0,
-                timerTheme = TimerTheme.DEFAULT
+                timerTheme = TimerTheme.DEFAULT,
+                timerSettings = TimerSettings.DEFAULT
             )
             val expected = TimerViewState.Counting(
                 timeInSeconds = 5,
@@ -329,7 +327,6 @@ class TimerStateConverterTest {
                     ripple = null
                 ),
                 clockOnBackgroundColor = Color.White,
-                isSoundEnabled = true,
                 timerActions = TimerViewState.Counting.Actions(
                     back = TimerViewState.Counting.Actions.Button(
                         iconResId = R.drawable.ic_timer_back,
@@ -384,10 +381,10 @@ class TimerStateConverterTest {
                         segment = Segment.EMPTY.copy(name = "segment name", type = TimeType.STOPWATCH)
                     )
                 ),
-                isSoundEnabled = true,
                 startedAt = OffsetDateTime.now(clock),
                 skipCount = 0,
-                timerTheme = TimerTheme.DEFAULT
+                timerTheme = TimerTheme.DEFAULT,
+                timerSettings = TimerSettings.DEFAULT
             )
             val expected = TimerViewState.Counting(
                 timeInSeconds = 5,
@@ -398,7 +395,6 @@ class TimerStateConverterTest {
                     ripple = Color.Black
                 ),
                 clockOnBackgroundColor = Color.White,
-                isSoundEnabled = true,
                 timerActions = TimerViewState.Counting.Actions(
                     back = TimerViewState.Counting.Actions.Button(
                         iconResId = R.drawable.ic_timer_back,
@@ -466,10 +462,10 @@ class TimerStateConverterTest {
                         segment = Segment.EMPTY.copy(name = "segment name timer", type = TimeType.TIMER)
                     )
                 ),
-                isSoundEnabled = true,
                 startedAt = OffsetDateTime.now(clock),
                 skipCount = 0,
-                timerTheme = TimerTheme.DEFAULT
+                timerTheme = TimerTheme.DEFAULT,
+                timerSettings = TimerSettings.DEFAULT
             )
             val expected = TimerViewState.Counting(
                 timeInSeconds = 5,
@@ -480,7 +476,6 @@ class TimerStateConverterTest {
                     ripple = Color.Blue
                 ),
                 clockOnBackgroundColor = Color.White,
-                isSoundEnabled = true,
                 timerActions = TimerViewState.Counting.Actions(
                     back = TimerViewState.Counting.Actions.Button(
                         iconResId = R.drawable.ic_timer_back,
@@ -534,10 +529,10 @@ class TimerStateConverterTest {
                     segment = Segment.EMPTY.copy(name = "segment name timer", type = TimeType.TIMER)
                 )
             ),
-            isSoundEnabled = true,
             startedAt = OffsetDateTime.now(clock),
             skipCount = 1,
-            timerTheme = TimerTheme.DEFAULT
+            timerTheme = TimerTheme.DEFAULT,
+            timerSettings = TimerSettings.DEFAULT
         )
         val expected = TimerViewState.Completed(
             effectiveTotalTime = "0".timeText,
