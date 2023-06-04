@@ -32,7 +32,6 @@ class TimerToolbarKtTest {
                             ripple = null
                         ),
                         clockOnBackgroundColor = Color.White,
-                        soundEnabled = true,
                         timerActions = TimerViewState.Counting.Actions(
                             back = TimerViewState.Counting.Actions.Button(
                                 iconResId = R.drawable.ic_timer_back,
@@ -59,7 +58,7 @@ class TimerToolbarKtTest {
         onNodeWithTag(TimerToolbarCloseButtonTestTag).assertIsDisplayed()
         onNodeWithTag(TimerToolbarSettingsButtonTestTag).run {
             assertIsDisplayed()
-            assertDrawable(R.drawable.ic_timer_sound_enabled)
+            assertDrawable(R.drawable.ic_timer_settings)
         }
     }
 
@@ -77,7 +76,6 @@ class TimerToolbarKtTest {
                             ripple = null
                         ),
                         clockOnBackgroundColor = Color.White,
-                        soundEnabled = false,
                         timerActions = TimerViewState.Counting.Actions(
                             back = TimerViewState.Counting.Actions.Button(
                                 iconResId = R.drawable.ic_timer_back,
@@ -104,7 +102,7 @@ class TimerToolbarKtTest {
         onNodeWithTag(TimerToolbarCloseButtonTestTag).assertIsDisplayed()
         onNodeWithTag(TimerToolbarSettingsButtonTestTag).run {
             assertIsDisplayed()
-            assertDrawable(R.drawable.ic_timer_sound_disabled)
+            assertDrawable(R.drawable.ic_timer_settings)
         }
     }
 }

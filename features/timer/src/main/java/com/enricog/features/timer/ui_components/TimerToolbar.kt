@@ -153,7 +153,7 @@ private fun SettingsButton(
         TempoIconButton(
             modifier = modifier.testTag(TimerToolbarSettingsButtonTestTag),
             onClick = onClick,
-            iconResId = R.drawable.ic_timer_sound_enabled,
+            iconResId = R.drawable.ic_timer_settings,
             color = buttonColor,
             size = TempoIconButtonSize.Large,
             drawShadow = false,
