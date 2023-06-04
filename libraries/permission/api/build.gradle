@@ -65,6 +65,8 @@ dependencies {
     kapt Libs.Hilt.androidCompiler
 
     // Test
+    testImplementation project(":core:coroutines:testing")
+    testImplementation project(":navigation:testing")
     testImplementation Libs.Test.truth
     testImplementation Libs.Test.junit
 }

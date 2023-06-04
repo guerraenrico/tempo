@@ -11,3 +11,10 @@ val DrawableId = SemanticsPropertyKey<Int>(name = "DrawableId")
 fun SemanticsPropertyReceiver.drawableId(@DrawableRes resId: Int) {
     set(key = DrawableId, value = resId)
 }
+
+@VisibleForTesting
+val CheckedId = SemanticsPropertyKey<Int>(name = "CheckedId")
+
+fun SemanticsPropertyReceiver.isChecked(checked: Boolean) {
+    set(key = CheckedId, value = if (checked) 1 else 0)
+}
