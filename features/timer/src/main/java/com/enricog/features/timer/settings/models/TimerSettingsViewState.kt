@@ -7,6 +7,7 @@ internal sealed class TimerSettingsViewState {
     object Idle : TimerSettingsViewState()
 
     data class Data(
+        val keepScreenOnSetting: Setting,
         val soundSetting: Setting,
         val runInBackgroundSetting: Setting
     ): TimerSettingsViewState() {

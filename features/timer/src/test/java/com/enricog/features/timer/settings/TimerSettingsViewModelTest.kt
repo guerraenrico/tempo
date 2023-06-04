@@ -17,7 +17,6 @@ import org.junit.Before
 import org.junit.Rule
 import org.junit.Test
 
-
 internal class TimerSettingsViewModelTest {
 
     @get:Rule
@@ -36,6 +35,10 @@ internal class TimerSettingsViewModelTest {
     @Test
     fun `should get initial settings state`() = coroutineRule {
         val expected = TimerSettingsViewState.Data(
+            keepScreenOnSetting = TimerSettingsViewState.Data.Setting(
+                title = R.string.label_routine_settings_keep_screen_on,
+                enabled = true
+            ),
             soundSetting = TimerSettingsViewState.Data.Setting(
                 title = R.string.label_routine_settings_sound,
                 enabled = true
@@ -54,8 +57,37 @@ internal class TimerSettingsViewModelTest {
     }
 
     @Test
+    fun `should update keep screen on setting when keep screen on is toggled`() = coroutineRule {
+        val expected = TimerSettingsViewState.Data(
+            keepScreenOnSetting = TimerSettingsViewState.Data.Setting(
+                title = R.string.label_routine_settings_keep_screen_on,
+                enabled = false
+            ),
+            soundSetting = TimerSettingsViewState.Data.Setting(
+                title = R.string.label_routine_settings_sound,
+                enabled = true
+            ),
+            runInBackgroundSetting = TimerSettingsViewState.Data.Setting(
+                title = R.string.label_routine_settings_background,
+                enabled = false
+            )
+        )
+        val viewModel = buildViewModel()
+
+        viewModel.onToggleKeepScreenOn()
+
+        viewModel.viewState.test {
+            assertThat(awaitItem()).isEqualTo(expected)
+        }
+    }
+
+    @Test
     fun `should update sound setting when sound is toggled`() = coroutineRule {
         val expected = TimerSettingsViewState.Data(
+            keepScreenOnSetting = TimerSettingsViewState.Data.Setting(
+                title = R.string.label_routine_settings_keep_screen_on,
+                enabled = true
+            ),
             soundSetting = TimerSettingsViewState.Data.Setting(
                 title = R.string.label_routine_settings_sound,
                 enabled = false
@@ -77,6 +109,10 @@ internal class TimerSettingsViewModelTest {
     @Test
     fun `should update run in background setting when run in background is toggled`() = coroutineRule {
         val expected = TimerSettingsViewState.Data(
+            keepScreenOnSetting = TimerSettingsViewState.Data.Setting(
+                title = R.string.label_routine_settings_keep_screen_on,
+                enabled = true
+            ),
             soundSetting = TimerSettingsViewState.Data.Setting(
                 title = R.string.label_routine_settings_sound,
                 enabled = true

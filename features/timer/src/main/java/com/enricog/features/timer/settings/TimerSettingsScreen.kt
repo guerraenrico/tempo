@@ -28,6 +28,7 @@ internal fun TimerSettingsScreen(viewModel: TimerSettingsViewModel) {
             .padding(TempoTheme.dimensions.spaceM)
     ) {
         viewState.Compose(
+            onKeepScreenOnClick = viewModel::onToggleKeepScreenOn,
             onSoundClick = viewModel::onToggleSound,
             onRunInBackgroundClick = viewModel::onToggleRunInBackground
         )
@@ -36,6 +37,7 @@ internal fun TimerSettingsScreen(viewModel: TimerSettingsViewModel) {
 
 @Composable
 internal fun TimerSettingsViewState.Compose(
+    onKeepScreenOnClick: () -> Unit,
     onSoundClick: () -> Unit,
     onRunInBackgroundClick: () -> Unit
 ) {
@@ -43,6 +45,7 @@ internal fun TimerSettingsViewState.Compose(
         TimerSettingsViewState.Idle -> Unit
         is TimerSettingsViewState.Data -> TimerSettingsScene(
             state = this,
+            onKeepScreenOnClick = onKeepScreenOnClick,
             onSoundClick = onSoundClick,
             onRunInBackgroundClick = onRunInBackgroundClick
         )

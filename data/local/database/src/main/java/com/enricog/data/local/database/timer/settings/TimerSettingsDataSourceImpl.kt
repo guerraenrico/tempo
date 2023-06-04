@@ -17,6 +17,7 @@ internal class TimerSettingsDataSourceImpl @Inject constructor(
     private val dataStore: DataStore<Preferences>
 ) : TimerSettingsDataSource {
 
+    private val keepScreenOnEnabledKey = booleanPreferencesKey(KEEP_SCREEN_ON_ENABLED_PREF_NAME)
     private val soundEnabledKey = booleanPreferencesKey(SOUND_ENABLED_PREF_NAME)
     private val runInBackgroundEnabledKey = booleanPreferencesKey(RUN_IN_BACKGROUND_ENABLED_PREF_NAME)
 
@@ -36,6 +37,7 @@ internal class TimerSettingsDataSourceImpl @Inject constructor(
 
     override suspend fun update(settings: TimerSettings) {
         dataStore.edit { preferences ->
+            preferences[keepScreenOnEnabledKey] = settings.keepScreenOnEnabled
             preferences[soundEnabledKey] = settings.soundEnabled
             preferences[runInBackgroundEnabledKey] = settings.runInBackgroundEnabled
         }
@@ -43,12 +45,14 @@ internal class TimerSettingsDataSourceImpl @Inject constructor(
 
     private fun Preferences.toTimerSettings(): TimerSettings {
         return TimerSettings(
+            keepScreenOnEnabled = this[keepScreenOnEnabledKey] ?: true,
             soundEnabled = this[soundEnabledKey] ?: true,
             runInBackgroundEnabled = this[runInBackgroundEnabledKey] ?: false
         )
     }
 
     private companion object {
+        const val KEEP_SCREEN_ON_ENABLED_PREF_NAME = "keep_screen_on_enabled"
         const val SOUND_ENABLED_PREF_NAME = "sound_enabled"
         const val RUN_IN_BACKGROUND_ENABLED_PREF_NAME = "run_in_background_enabled"
     }

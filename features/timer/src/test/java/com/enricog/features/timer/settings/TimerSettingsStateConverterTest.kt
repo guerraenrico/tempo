@@ -33,6 +33,10 @@ internal class TimerSettingsStateConverterTest {
             timerSettings = TimerSettings.DEFAULT
         )
         val expected = TimerSettingsViewState.Data(
+            keepScreenOnSetting = TimerSettingsViewState.Data.Setting(
+                title = R.string.label_routine_settings_keep_screen_on,
+                enabled = state.timerSettings.keepScreenOnEnabled
+            ),
             soundSetting = TimerSettingsViewState.Data.Setting(
                 title = R.string.label_routine_settings_sound,
                 enabled = state.timerSettings.soundEnabled
