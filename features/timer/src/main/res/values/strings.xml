@@ -10,6 +10,7 @@
 
     <string name="label_routine_total_time">Total time</string>
     <string name="label_routine_skip_count">N° skips</string>
+    <string name="label_routine_settings_keep_screen_on">Keep screen on</string>
     <string name="label_routine_settings_sound">Play sounds</string>
     <string name="label_routine_settings_background">Run in background</string>
 

@@ -166,31 +166,8 @@ internal class TimerViewModelTest {
             runCurrent()
 
             assertThat(expectMostRecentItem()).isEqualTo(expected)
-            windowScreenManager.keepScreenOn.test {
-                assertThat(awaitItem()).isFalse()
-            }
             cancelAndIgnoreRemainingEvents()
         }
-    }
-
-    @Test
-    fun `should start service when timer is counting and run in background setting is enabled`() = coroutineRule {
-        timerSettingsStore.put(TimerSettings.DEFAULT.copy(runInBackgroundEnabled = true))
-
-        buildViewModel()
-        runCurrent()
-
-        timerServiceHandler.assertServiceIsStarted()
-    }
-
-    @Test
-    fun `should not start service when run in background setting is disabled`() = coroutineRule {
-        timerSettingsStore.put(TimerSettings.DEFAULT.copy(runInBackgroundEnabled = false))
-
-        buildViewModel()
-        runCurrent()
-
-        timerServiceHandler.assertServiceIsNotStarted()
     }
 
     @Test
@@ -294,6 +271,50 @@ internal class TimerViewModelTest {
     }
 
     @Test
+    fun `should keep screen on when keep screen on setting is enabled`() = coroutineRule {
+        timerSettingsStore.put(timerSettings.copy(keepScreenOnEnabled = true))
+        val viewModel = buildViewModel()
+
+        viewModel.viewState.test {
+            // Load
+            runCurrent()
+            // Start
+            advanceTimeBy(1000)
+            runCurrent()
+            // Advance count time 1 second
+            advanceTimeBy(1000)
+            runCurrent()
+
+            windowScreenManager.keepScreenOn.test {
+                assertThat(expectMostRecentItem()).isTrue()
+            }
+            cancelAndIgnoreRemainingEvents()
+        }
+    }
+
+    @Test
+    fun `should not keep screen on when keep screen on setting is disabled`() = coroutineRule {
+        timerSettingsStore.put(timerSettings.copy(keepScreenOnEnabled = false))
+        val viewModel = buildViewModel()
+
+        viewModel.viewState.test {
+            // Load
+            runCurrent()
+            // Start
+            advanceTimeBy(1000)
+            runCurrent()
+            // Advance count time 1 second
+            advanceTimeBy(1000)
+            runCurrent()
+
+            windowScreenManager.keepScreenOn.test {
+                assertThat(expectMostRecentItem()).isFalse()
+            }
+            cancelAndIgnoreRemainingEvents()
+        }
+    }
+
+    @Test
     fun `should play sounds when segment count is completing and sound is enabled`() = coroutineRule {
         val viewModel = buildViewModel()
 
@@ -384,6 +405,25 @@ internal class TimerViewModelTest {
         }
     }
 
+    @Test
+    fun `should start service when timer is counting and run in background setting is enabled`() = coroutineRule {
+        timerSettingsStore.put(TimerSettings.DEFAULT.copy(runInBackgroundEnabled = true))
+
+        buildViewModel()
+        runCurrent()
+
+        timerServiceHandler.assertServiceIsStarted()
+    }
+
+    @Test
+    fun `should not start service when run in background setting is disabled`() = coroutineRule {
+        timerSettingsStore.put(TimerSettings.DEFAULT.copy(runInBackgroundEnabled = false))
+
+        buildViewModel()
+        runCurrent()
+
+        timerServiceHandler.assertServiceIsNotStarted()
+    }
 
     @Test
     fun `should go to routines on done`() = coroutineRule {

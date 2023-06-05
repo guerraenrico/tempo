@@ -35,6 +35,15 @@ internal class TimerSettingsViewModel @Inject constructor(
             .launchIn(viewModelScope)
     }
 
+    fun onToggleKeepScreenOn() {
+        launchWhen<TimerSettingsState.Data> { state ->
+            val updatedSettings = state.timerSettings.copy(
+                keepScreenOnEnabled = !state.timerSettings.keepScreenOnEnabled
+            )
+            updateTimerSettingsUseCase(settings = updatedSettings)
+        }
+    }
+
     fun onToggleSound() {
         launchWhen<TimerSettingsState.Data> { state ->
             val updatedSettings = state.timerSettings.copy(

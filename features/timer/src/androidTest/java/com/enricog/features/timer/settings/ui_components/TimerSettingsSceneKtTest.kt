@@ -17,8 +17,54 @@ internal class TimerSettingsSceneKtTest {
     val composeTestRule = createComposeRule()
 
     @Test
+    fun shouldShowSettingsWithKeepScreenOnEnabled() = composeTestRule {
+        val viewState = TimerSettingsViewState.Data(
+            keepScreenOnSetting = TimerSettingsViewState.Data.Setting(
+                title = R.string.label_routine_settings_keep_screen_on,
+                enabled = true
+            ),
+            soundSetting = TimerSettingsViewState.Data.Setting(
+                title = R.string.label_routine_settings_sound,
+                enabled = false
+            ),
+            runInBackgroundSetting = TimerSettingsViewState.Data.Setting(
+                title = R.string.label_routine_settings_background,
+                enabled = false
+            )
+        )
+
+        setContent {
+            TempoTheme {
+                TimerSettingsScene(
+                    state = viewState,
+                    onKeepScreenOnClick = {},
+                    onSoundClick = {},
+                    onRunInBackgroundClick = {}
+                )
+            }
+        }
+
+        onNodeWithTag(TimerKeepScreenOnSettingButtonTestTag).apply {
+            assertIsDisplayed()
+            assertChecked(checked = true)
+        }
+        onNodeWithTag(TimerSoundSettingButtonTestTag).apply {
+            assertIsDisplayed()
+            assertChecked(checked = false)
+        }
+        onNodeWithTag(TimerBackgroundSettingButtonTestTag).apply {
+            assertIsDisplayed()
+            assertChecked(checked = false)
+        }
+    }
+
+    @Test
     fun shouldShowSettingsWithSoundEnabled() = composeTestRule {
         val viewState = TimerSettingsViewState.Data(
+            keepScreenOnSetting = TimerSettingsViewState.Data.Setting(
+                title = R.string.label_routine_settings_keep_screen_on,
+                enabled = false
+            ),
             soundSetting = TimerSettingsViewState.Data.Setting(
                 title = R.string.label_routine_settings_sound,
                 enabled = true
@@ -33,12 +79,17 @@ internal class TimerSettingsSceneKtTest {
             TempoTheme {
                 TimerSettingsScene(
                     state = viewState,
+                    onKeepScreenOnClick = {},
                     onSoundClick = {},
                     onRunInBackgroundClick = {}
                 )
             }
         }
 
+        onNodeWithTag(TimerKeepScreenOnSettingButtonTestTag).apply {
+            assertIsDisplayed()
+            assertChecked(checked = false)
+        }
         onNodeWithTag(TimerSoundSettingButtonTestTag).apply {
             assertIsDisplayed()
             assertChecked(checked = true)
@@ -52,6 +103,10 @@ internal class TimerSettingsSceneKtTest {
     @Test
     fun shouldShowSettingsWithRunInBackgroundEnabled() = composeTestRule {
         val viewState = TimerSettingsViewState.Data(
+            keepScreenOnSetting = TimerSettingsViewState.Data.Setting(
+                title = R.string.label_routine_settings_keep_screen_on,
+                enabled = false
+            ),
             soundSetting = TimerSettingsViewState.Data.Setting(
                 title = R.string.label_routine_settings_sound,
                 enabled = false
@@ -66,12 +121,17 @@ internal class TimerSettingsSceneKtTest {
             TempoTheme {
                 TimerSettingsScene(
                     state = viewState,
+                    onKeepScreenOnClick = {},
                     onSoundClick = {},
                     onRunInBackgroundClick = {}
                 )
             }
         }
 
+        onNodeWithTag(TimerKeepScreenOnSettingButtonTestTag).apply {
+            assertIsDisplayed()
+            assertChecked(checked = false)
+        }
         onNodeWithTag(TimerSoundSettingButtonTestTag).apply {
             assertIsDisplayed()
             assertChecked(checked = false)

@@ -127,7 +127,9 @@ internal class TimerViewModel @Inject constructor(
 
     private fun toggleKeepScreenOn(currentState: TimerState) {
         val enableKeepScreenOn = currentState is TimerState.Counting &&
-            currentState.isStepCountRunning && !currentState.isRoutineCompleted
+            currentState.isStepCountRunning &&
+            !currentState.isRoutineCompleted &&
+            currentState.timerSettings.keepScreenOnEnabled
         windowScreenManager.toggleKeepScreenOnFlag(enableKeepScreenOn)
     }
 

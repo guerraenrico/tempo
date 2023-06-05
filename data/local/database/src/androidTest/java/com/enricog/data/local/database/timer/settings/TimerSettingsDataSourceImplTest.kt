@@ -52,6 +52,7 @@ internal class TimerSettingsDataSourceImplTest {
     @Test
     fun shouldReturnDefaultSettingsWhenThereIsNoStoredData() = coroutineRule {
         val expected = TimerSettings(
+            keepScreenOnEnabled = true,
             soundEnabled = true,
             runInBackgroundEnabled = false
         )
@@ -64,10 +65,12 @@ internal class TimerSettingsDataSourceImplTest {
     @Test
     fun shouldReturnStoredSettingsWhenThereIsStoredData() = coroutineRule {
         testDataStore.edit { preferences ->
+            preferences[booleanPreferencesKey(name = "keep_screen_on_enabled")] = false
             preferences[booleanPreferencesKey(name = "sound_enabled")] = false
             preferences[booleanPreferencesKey(name = "run_in_background_enabled")] = true
         }
         val expected = TimerSettings(
+            keepScreenOnEnabled = false,
             soundEnabled = false,
             runInBackgroundEnabled = true
         )
@@ -80,14 +83,17 @@ internal class TimerSettingsDataSourceImplTest {
     @Test
     fun shouldUpdateStoredSettings() = coroutineRule {
         testDataStore.edit { preferences ->
+            preferences[booleanPreferencesKey(name = "keep_screen_on_enabled")] = false
             preferences[booleanPreferencesKey(name = "sound_enabled")] = false
             preferences[booleanPreferencesKey(name = "run_in_background_enabled")] = false
         }
         val settings = TimerSettings(
+            keepScreenOnEnabled = true,
             soundEnabled = true,
             runInBackgroundEnabled = true
         )
         val expected = preferencesOf(
+            booleanPreferencesKey(name = "keep_screen_on_enabled") to true,
             booleanPreferencesKey(name = "sound_enabled") to true,
             booleanPreferencesKey(name = "run_in_background_enabled") to true
         )

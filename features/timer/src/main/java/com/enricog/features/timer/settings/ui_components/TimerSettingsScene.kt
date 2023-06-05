@@ -12,20 +12,45 @@ import com.enricog.ui.components.selector.TempoSwitch
 import com.enricog.ui.components.text.TempoText
 
 internal const val TimerSettingSceneTestTag = "TimerSettingSceneTestTag"
+internal const val TimerKeepScreenOnSettingButtonTestTag = "TimerKeepScreenOnSettingButtonTestTag"
 internal const val TimerSoundSettingButtonTestTag = "TimerSoundSettingButtonTestTag"
 internal const val TimerBackgroundSettingButtonTestTag = "TimerBackgroundSettingButtonTestTag"
 
 @Composable
 internal fun TimerSettingsScene(
     state: TimerSettingsViewState.Data,
+    onKeepScreenOnClick: () -> Unit,
     onSoundClick: () -> Unit,
     onRunInBackgroundClick: () -> Unit
 ) {
     Column(
         modifier = Modifier.testTag(TimerSettingSceneTestTag)
     ) {
+        KeepScreenOnSetting(keepScreenOnSetting = state.keepScreenOnSetting, onClick = onKeepScreenOnClick)
         SoundSetting(soundSetting = state.soundSetting, onClick = onSoundClick)
         BackgroundSetting(runInBackgroundSetting = state.runInBackgroundSetting, onClick = onRunInBackgroundClick)
+    }
+}
+
+@Composable
+private fun KeepScreenOnSetting(
+    keepScreenOnSetting: TimerSettingsViewState.Data.Setting,
+    onClick: () -> Unit,
+    modifier: Modifier = Modifier
+) {
+    Row(
+        modifier = modifier,
+        verticalAlignment = Alignment.CenterVertically
+    ) {
+        TempoText(
+            modifier = Modifier.weight(weight = 1f),
+            text = stringResource(id = keepScreenOnSetting.title)
+        )
+        TempoSwitch(
+            modifier = Modifier.testTag(TimerKeepScreenOnSettingButtonTestTag),
+            checked = keepScreenOnSetting.enabled,
+            onCheckedChange = { onClick() }
+        )
     }
 }
 
