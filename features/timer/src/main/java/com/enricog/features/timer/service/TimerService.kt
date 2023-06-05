@@ -121,10 +121,10 @@ internal class TimerService : Service() {
     }
 
     private fun createNotification(stateHistory: StateHistory): Notification {
-
         createChannel()
 
         return NotificationCompat.Builder(applicationContext, channelId)
+            .setVisibility(NotificationCompat.VISIBILITY_PUBLIC)
             .setSmallIcon(R.drawable.ic_notification)
             .setSilent(true)
             .setColorized(true)
