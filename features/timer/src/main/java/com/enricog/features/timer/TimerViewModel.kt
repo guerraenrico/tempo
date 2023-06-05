@@ -57,6 +57,7 @@ internal class TimerViewModel @Inject constructor(
         getTimerSettingsUseCase()
             .onEach { timerSettings -> timerController.onTimerSettingsChanged(timerSettings = timerSettings) }
             .launchIn(viewModelScope)
+        onStateUpdate(::onStateUpdated)
 
         load(input)
     }
@@ -120,7 +121,7 @@ internal class TimerViewModel @Inject constructor(
         }
     }
 
-    override fun onStateUpdated(currentState: TimerState) {
+    private fun onStateUpdated(currentState: TimerState) {
         toggleKeepScreenOn(currentState = currentState)
         toggleBackgroundService(currentState = currentState)
     }

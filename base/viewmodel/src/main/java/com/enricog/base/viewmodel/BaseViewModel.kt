@@ -43,7 +43,6 @@ open class BaseViewModel<ViewModelState : Any, ViewState : Any>(
     init {
         viewModelStateFlow
             .debounce(configuration.debounce)
-            .onEach(::onStateUpdated)
             .map(converter::convert)
             .flowOn(dispatchers.cpu)
             .distinctUntilChanged()
@@ -52,7 +51,11 @@ open class BaseViewModel<ViewModelState : Any, ViewState : Any>(
             .launchIn(viewModelScope)
     }
 
-    protected open fun onStateUpdated(currentState: ViewModelState) {}
+    protected fun onStateUpdate(block: (ViewModelState) -> Unit) {
+        viewModelStateFlow
+            .onEach(block)
+            .launchIn(viewModelScope)
+    }
 
     protected open fun updateStateError(throwable: Throwable) {
         TempoLogger.e(throwable = throwable, message = "Error viewState value")
