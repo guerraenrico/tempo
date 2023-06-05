@@ -22,9 +22,9 @@ object Versions {
 object Libs {
 
     object Kotlin {
-        const val version = "1.8.10"
-        private const val coroutineVersion = "1.6.4"
-        private const val serializationVersion = "1.5.0"
+        const val version = "1.8.21"
+        private const val coroutineVersion = "1.7.1"
+        private const val serializationVersion = "1.5.1"
 
         const val coroutines = "org.jetbrains.kotlinx:kotlinx-coroutines-android:$coroutineVersion"
         const val stdlib = "org.jetbrains.kotlin:kotlin-stdlib:$version"
@@ -49,8 +49,8 @@ object Libs {
         }
 
         object Compose {
-            const val compilerVersion = "1.4.4"
-            private const val version = "2023.03.00"
+            const val compilerVersion = "1.4.7"
+            private const val version = "2023.05.01"
 
             const val bom = "androidx.compose:compose-bom:$version"
 
@@ -67,10 +67,10 @@ object Libs {
             const val test = "androidx.compose.ui:ui-test"
             const val uiTest = "androidx.compose.ui:ui-test-junit4"
 
-            const val activity = "androidx.activity:activity-compose:1.6.1"
+            const val activity = "androidx.activity:activity-compose:1.7.2"
 
             const val navigation = "androidx.navigation:navigation-compose:2.5.3"
-            const val viewModel = "androidx.lifecycle:lifecycle-viewmodel-compose:2.5.1"
+            const val viewModel = "androidx.lifecycle:lifecycle-viewmodel-compose:2.6.1"
             const val constraintLayout = "androidx.constraintlayout:constraintlayout-compose:1.0.1"
         }
     }
@@ -79,7 +79,7 @@ object Libs {
         const val material = "com.google.android.material:material:1.2.0"
 
         object Accompanist {
-            private const val version = "0.30.0"
+            private const val version = "0.30.1"
 
             const val navigation = "com.google.accompanist:accompanist-navigation-material:$version"
             const val permission = "com.google.accompanist:accompanist-permissions:$version"
@@ -87,7 +87,7 @@ object Libs {
     }
 
     object Lifecycle {
-        private const val version = "2.6.0"
+        private const val version = "2.6.1"
 
         const val viewModelKtx = "androidx.lifecycle:lifecycle-viewmodel-ktx:$version"
         const val commonJava8 = "androidx.lifecycle:lifecycle-common-java8:$version"
@@ -95,7 +95,7 @@ object Libs {
     }
 
     object Hilt {
-        const val androidVersion = "2.45"
+        const val androidVersion = "2.46.1"
         private const val version = "1.0.0"
 
         const val android = "com.google.dagger:hilt-android:$androidVersion"

@@ -48,7 +48,7 @@ internal fun TimerScreen(viewModel: TimerViewModel) {
         AnimatedContent(
             targetState = viewState,
             transitionSpec = {
-                if (targetState::class == initialState::class) {
+                if (targetState::class.simpleName == initialState::class.simpleName) {
                     EnterTransition.None with ExitTransition.None
                 } else {
                     fadeIn(
