@@ -13,6 +13,7 @@ import kotlinx.coroutines.flow.flow
 import kotlinx.coroutines.flow.produceIn
 import kotlinx.coroutines.isActive
 import kotlinx.coroutines.selects.whileSelect
+import kotlinx.coroutines.selects.onTimeout
 
 fun <T> Flow<T>.chunked(maxSize: Int, timeMillis: Long): Flow<List<T>> =
     flow {
