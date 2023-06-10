@@ -40,7 +40,7 @@ internal sealed class TimerState {
             get() = steps.getOrNull(index = runningStepIndex - 1)
 
         val isStepCountRunning: Boolean
-            get() = runningStep.count.isRunning && !runningStep.count.isCompleted
+            get() = runningStep.count.isRunning
 
         val isStepCountCompleted: Boolean
             get() = runningStep.count.isCompleted

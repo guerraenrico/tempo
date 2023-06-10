@@ -40,7 +40,7 @@ internal class TimerSoundPlayer @Inject constructor(
     }
 
     private val TimerState.Counting.isStepCountCompleting: Boolean
-        get() = isStepCountRunning && !isStopwatchRunning &&
+        get() = isStepCountRunning && !isStepCountCompleted && !isStopwatchRunning &&
             runningStep.count.seconds <= STEP_COMPLETING_THRESHOLD
 
     private val TimerState.Counting.isRestStarted: Boolean
