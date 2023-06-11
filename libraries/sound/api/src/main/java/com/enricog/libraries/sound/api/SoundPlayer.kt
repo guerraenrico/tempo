@@ -7,5 +7,5 @@ interface SoundPlayer : Closeable {
 
     fun play(@RawRes soundResId: Int)
 
-    fun release(@RawRes soundResId: Int)
+    fun keepAlive(@RawRes soundResId: Int)
 }

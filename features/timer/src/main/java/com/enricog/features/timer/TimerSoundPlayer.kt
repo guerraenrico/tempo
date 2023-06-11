@@ -33,7 +33,10 @@ internal class TimerSoundPlayer @Inject constructor(
             state.isStepCountAt(1800.seconds) -> MIN_30_SPEECH
             state.isStepCountAt(2700.seconds) -> MIN_45_SPEECH
 
-            else -> return
+            else -> {
+                soundPlayer.keepAlive(COUNT_DOWN_SOUND)
+                return
+            }
         }
 
         soundPlayer.play(soundResId = soundToPlay)
