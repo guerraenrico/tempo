@@ -128,7 +128,7 @@ internal class TimerService : Service() {
             .setSmallIcon(R.drawable.ic_notification)
             .setSilent(true)
             .setColorized(true)
-            .setColor(Color.valueOf(stateHistory.current.clockBackground.background).toArgb())
+            .setColor(stateHistory.current.clockBackground.background.argb)
             .setCustomContentView(buildContentView(stateHistory))
             .setCustomBigContentView(buildBigContentView(stateHistory))
             .setPriority(NotificationCompat.PRIORITY_DEFAULT)
@@ -138,14 +138,14 @@ internal class TimerService : Service() {
 
     private fun buildContentView(stateHistory: StateHistory): RemoteViews = contentView.apply {
         if (stateHistory.prev?.clockOnBackgroundColor != stateHistory.current.clockOnBackgroundColor) {
-            setTextColor(R.id.notification_timer_step_name, Color.valueOf(stateHistory.current.clockOnBackgroundColor).toArgb())
+            setTextColor(R.id.notification_timer_step_name, stateHistory.current.clockOnBackgroundColor.argb)
         }
         if (stateHistory.prev?.stepTitleId != stateHistory.current.stepTitleId) {
             setTextViewText(R.id.notification_timer_step_name, context.getString(stateHistory.current.stepTitleId))
         }
         if (stateHistory.prev?.clockOnBackgroundColor != stateHistory.current.clockOnBackgroundColor) {
-            setTextColor(R.id.notification_timer_segment_name, Color.valueOf(stateHistory.current.clockOnBackgroundColor).toArgb())
-            setTextColor(R.id.notification_timer_count, Color.valueOf(stateHistory.current.clockOnBackgroundColor).toArgb())
+            setTextColor(R.id.notification_timer_segment_name, stateHistory.current.clockOnBackgroundColor.argb)
+            setTextColor(R.id.notification_timer_count, stateHistory.current.clockOnBackgroundColor.argb)
         }
         if (stateHistory.prev?.segmentName != stateHistory.current.segmentName) {
             setTextViewText(R.id.notification_timer_segment_name, stateHistory.current.segmentName)
@@ -155,14 +155,14 @@ internal class TimerService : Service() {
 
     private fun buildBigContentView(stateHistory: StateHistory): RemoteViews = bigContentView.apply {
         if (stateHistory.prev?.clockOnBackgroundColor != stateHistory.current.clockOnBackgroundColor) {
-            setTextColor(R.id.notification_timer_step_name, Color.valueOf(stateHistory.current.clockOnBackgroundColor).toArgb())
+            setTextColor(R.id.notification_timer_step_name, stateHistory.current.clockOnBackgroundColor.argb)
         }
         if (stateHistory.prev?.stepTitleId != stateHistory.current.stepTitleId) {
             setTextViewText(R.id.notification_timer_step_name, context.getString(stateHistory.current.stepTitleId))
         }
         if (stateHistory.prev?.clockOnBackgroundColor != stateHistory.current.clockOnBackgroundColor) {
-            setTextColor(R.id.notification_timer_segment_name, Color.valueOf(stateHistory.current.clockOnBackgroundColor).toArgb())
-            setTextColor(R.id.notification_timer_count, Color.valueOf(stateHistory.current.clockOnBackgroundColor).toArgb())
+            setTextColor(R.id.notification_timer_segment_name, stateHistory.current.clockOnBackgroundColor.argb)
+            setTextColor(R.id.notification_timer_count, stateHistory.current.clockOnBackgroundColor.argb)
         }
         if (stateHistory.prev?.segmentName != stateHistory.current.segmentName) {
             setTextViewText(R.id.notification_timer_segment_name, stateHistory.current.segmentName)
@@ -193,10 +193,6 @@ internal class TimerService : Service() {
         return START_NOT_STICKY
     }
 
-    private companion object {
-        val NOTIFICATION_ID = R.id.timer_service_notification_id
-    }
-
     private data class StateHistory(
         val prev: TimerServiceViewState.Counting?,
         val current: TimerServiceViewState.Counting
@@ -207,6 +203,13 @@ internal class TimerService : Service() {
             initial = null as StateHistory?,
             operation = { acc, new -> StateHistory(prev = acc?.current, current = new) }
         )
+
+    private val Long.argb: Int
+        get() =  Color.valueOf(this).toArgb()
+
+    private companion object {
+        val NOTIFICATION_ID = R.id.timer_service_notification_id
+    }
 }
 
 private enum class TimerServiceActions {
