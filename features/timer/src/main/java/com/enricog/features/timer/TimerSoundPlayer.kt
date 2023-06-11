@@ -33,14 +33,17 @@ internal class TimerSoundPlayer @Inject constructor(
             state.isStepCountAt(1800.seconds) -> MIN_30_SPEECH
             state.isStepCountAt(2700.seconds) -> MIN_45_SPEECH
 
-            else -> return
+            else -> {
+                soundPlayer.keepAlive(COUNT_DOWN_SOUND)
+                return
+            }
         }
 
         soundPlayer.play(soundResId = soundToPlay)
     }
 
     private val TimerState.Counting.isStepCountCompleting: Boolean
-        get() = isStepCountRunning && !isStopwatchRunning &&
+        get() = isStepCountRunning && !isStepCountCompleted && !isStopwatchRunning &&
             runningStep.count.seconds <= STEP_COMPLETING_THRESHOLD
 
     private val TimerState.Counting.isRestStarted: Boolean

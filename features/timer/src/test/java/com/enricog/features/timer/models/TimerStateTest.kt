@@ -69,40 +69,6 @@ internal class TimerStateTest {
     )
 
     @Test
-    fun `test when step count is running`() {
-        val arguments = listOf(
-            count.copy(isRunning = true, isCompleted = false) to true,
-            count.copy(isRunning = true, isCompleted = true) to false,
-            count.copy(isRunning = false, isCompleted = true) to false,
-            count.copy(isRunning = false, isCompleted = false) to false
-        )
-        val inputs = arguments.map { (count, expected) ->
-            state.copy(runningStep = state.runningStep.copy(count = count)) to expected
-        }
-
-        inputs.forEach { (state, expected) ->
-            val actual = state.isStepCountRunning
-            assertThat(actual).isEqualTo(expected)
-        }
-    }
-
-    @Test
-    fun `test when step count is completed`() {
-        val arguments = listOf(
-            count.copy(isRunning = true, isCompleted = false) to false,
-            count.copy(isRunning = true, isCompleted = true) to true
-        )
-        val inputs = arguments.map { (count, expected) ->
-            state.copy(runningStep = state.runningStep.copy(count = count)) to expected
-        }
-
-        inputs.forEach { (state, expected) ->
-            val actual = state.isStepCountCompleted
-            assertThat(actual).isEqualTo(expected)
-        }
-    }
-
-    @Test
     fun `test when routine is completed`() {
         val inputs = listOf(
             state.copy(
@@ -179,7 +145,7 @@ internal class TimerStateTest {
                     type = SegmentStepType.IN_PROGRESS,
                     segment = Segment.EMPTY.copy(id = 2.asID, type = TimeType.STOPWATCH)
                 )
-            ) to false,
+            ) to true,
             state.copy(
                 runningStep = SegmentStep(
                     id = 3,

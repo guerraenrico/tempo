@@ -12,8 +12,8 @@ class FakeSoundPlayer : SoundPlayer {
         playedSounds[soundResId] = count + 1
     }
 
-    override fun release(soundResId: Int) {
-        playedSounds.remove(soundResId)
+    override fun keepAlive(soundResId: Int) {
+        // no-op
     }
 
     override fun close() {

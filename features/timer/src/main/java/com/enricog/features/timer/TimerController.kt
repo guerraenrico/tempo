@@ -71,30 +71,21 @@ internal class TimerController @Inject constructor(
     }
 
     private fun onStateUpdated(currentState: TimerState) {
-
         if (currentState !is TimerState.Counting) {
             stopCounting()
             return
         }
 
         when {
+            currentState.isRoutineCompleted -> {
+                stopCounting()
+            }
             currentState.isStepCountRunning -> {
                 startCounting()
-            }
-            currentState.isStepCountCompleted -> {
-                stopCounting()
-                launchNextStep()
             }
             else -> {
                 stopCounting()
             }
-        }
-    }
-
-    private fun launchNextStep() {
-        timer.launchAfter(ONE_SECOND) {
-            val newState = _state.updateAndGet { reducer.nextStep(it) }
-            soundPlayer.playFrom(state = newState)
         }
     }
 
@@ -134,7 +125,12 @@ internal class TimerController @Inject constructor(
             private set
 
         override fun run() {
-            val newState = _state.updateAndGet { reducer.progressTime(it) }
+            val currentState = _state.value
+            val newState = if (currentState is TimerState.Counting && currentState.isStepCountCompleted) {
+                _state.updateAndGet { reducer.nextStep(it) }
+            } else {
+                _state.updateAndGet { reducer.progressTime(it) }
+            }
             soundPlayer.playFrom(state = newState)
         }
 
