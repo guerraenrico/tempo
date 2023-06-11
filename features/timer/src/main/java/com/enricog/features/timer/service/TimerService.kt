@@ -13,6 +13,7 @@ import android.os.Build
 import android.os.IBinder
 import android.widget.RemoteViews
 import androidx.core.app.NotificationCompat
+import androidx.core.graphics.toColor
 import com.enricog.core.coroutines.dispatchers.CoroutineDispatchers
 import com.enricog.core.coroutines.job.autoCancelableJob
 import com.enricog.features.timer.BuildConfig
@@ -25,7 +26,7 @@ import kotlinx.coroutines.SupervisorJob
 import kotlinx.coroutines.cancel
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.distinctUntilChanged
-import kotlinx.coroutines.flow.filterIsInstance
+import kotlinx.coroutines.flow.filter
 import kotlinx.coroutines.flow.filterNotNull
 import kotlinx.coroutines.flow.launchIn
 import kotlinx.coroutines.flow.map
@@ -65,6 +66,10 @@ internal class TimerService : Service() {
         context.getSystemService(NOTIFICATION_SERVICE) as NotificationManager
     }
 
+    private val completedContentView by lazy(LazyThreadSafetyMode.NONE) {
+        RemoteViews(context.packageName, R.layout.notification_timer_completed_content)
+    }
+
     private val contentView by lazy(LazyThreadSafetyMode.NONE) {
         RemoteViews(context.packageName, R.layout.notification_timer_content)
     }
@@ -83,7 +88,7 @@ internal class TimerService : Service() {
         stateJob = timerController.state
             .map(stateConverter::convert)
             .distinctUntilChanged()
-            .filterIsInstance<TimerServiceViewState.Counting>()
+            .filter { it is TimerServiceViewState.Counting || it is TimerServiceViewState.Completed }
             .history()
             .filterNotNull()
             .onEach {
@@ -122,68 +127,94 @@ internal class TimerService : Service() {
 
     private fun createNotification(stateHistory: StateHistory): Notification {
         createChannel()
+        val color = if (stateHistory.current is TimerServiceViewState.Counting) {
+            stateHistory.current.clockBackground.background.argb
+        } else {
+            Color.parseColor("#1A1D20").toColor().toArgb()
+        }
+        val contentView = if (stateHistory.current is TimerServiceViewState.Counting) {
+            buildContentView(prev = stateHistory.prev?.takeIfInstance(), current = stateHistory.current)
+        } else {
+            buildCompletedContent()
+        }
+        val bigContentView = if (stateHistory.current is TimerServiceViewState.Counting) {
+            buildBigContentView(prev = stateHistory.prev?.takeIfInstance(), current = stateHistory.current)
+        } else {
+            buildCompletedContent()
+        }
 
         return NotificationCompat.Builder(applicationContext, channelId)
             .setVisibility(NotificationCompat.VISIBILITY_PUBLIC)
             .setSmallIcon(R.drawable.ic_notification)
             .setSilent(true)
             .setColorized(true)
-            .setColor(stateHistory.current.clockBackground.background.argb)
-            .setCustomContentView(buildContentView(stateHistory))
-            .setCustomBigContentView(buildBigContentView(stateHistory))
+            .setColor(color)
+            .setCustomContentView(contentView)
+            .setCustomBigContentView(bigContentView)
             .setPriority(NotificationCompat.PRIORITY_DEFAULT)
             .setGroup(BuildConfig.NOTIFICATION_GROUP)
             .build()
     }
 
-    private fun buildContentView(stateHistory: StateHistory): RemoteViews = contentView.apply {
-        if (stateHistory.prev?.clockOnBackgroundColor != stateHistory.current.clockOnBackgroundColor) {
-            setTextColor(R.id.notification_timer_step_name, stateHistory.current.clockOnBackgroundColor.argb)
+    private fun buildContentView(
+        prev: TimerServiceViewState.Counting?,
+        current: TimerServiceViewState.Counting
+    ): RemoteViews = contentView.apply {
+        if (prev?.clockOnBackgroundColor != current.clockOnBackgroundColor) {
+            setTextColor(R.id.notification_timer_step_name, current.clockOnBackgroundColor.argb)
         }
-        if (stateHistory.prev?.stepTitleId != stateHistory.current.stepTitleId) {
-            setTextViewText(R.id.notification_timer_step_name, context.getString(stateHistory.current.stepTitleId))
+        if (prev?.stepTitleId != current.stepTitleId) {
+            setTextViewText(R.id.notification_timer_step_name, context.getString(current.stepTitleId))
         }
-        if (stateHistory.prev?.clockOnBackgroundColor != stateHistory.current.clockOnBackgroundColor) {
-            setTextColor(R.id.notification_timer_segment_name, stateHistory.current.clockOnBackgroundColor.argb)
-            setTextColor(R.id.notification_timer_count, stateHistory.current.clockOnBackgroundColor.argb)
+        if (prev?.clockOnBackgroundColor != current.clockOnBackgroundColor) {
+            setTextColor(R.id.notification_timer_segment_name, current.clockOnBackgroundColor.argb)
+            setTextColor(R.id.notification_timer_count, current.clockOnBackgroundColor.argb)
         }
-        if (stateHistory.prev?.segmentName != stateHistory.current.segmentName) {
-            setTextViewText(R.id.notification_timer_segment_name, stateHistory.current.segmentName)
+        if (prev?.segmentName != current.segmentName) {
+            setTextViewText(R.id.notification_timer_segment_name, current.segmentName)
         }
-        setTextViewText(R.id.notification_timer_count, stateHistory.current.time)
+        setTextViewText(R.id.notification_timer_count, current.time)
     }
 
-    private fun buildBigContentView(stateHistory: StateHistory): RemoteViews = bigContentView.apply {
-        if (stateHistory.prev?.clockOnBackgroundColor != stateHistory.current.clockOnBackgroundColor) {
-            setTextColor(R.id.notification_timer_step_name, stateHistory.current.clockOnBackgroundColor.argb)
+    private fun buildBigContentView(
+        prev: TimerServiceViewState.Counting?,
+        current: TimerServiceViewState.Counting
+    ): RemoteViews = bigContentView.apply {
+        if (prev?.clockOnBackgroundColor != current.clockOnBackgroundColor) {
+            setTextColor(R.id.notification_timer_step_name, current.clockOnBackgroundColor.argb)
         }
-        if (stateHistory.prev?.stepTitleId != stateHistory.current.stepTitleId) {
-            setTextViewText(R.id.notification_timer_step_name, context.getString(stateHistory.current.stepTitleId))
+        if (prev?.stepTitleId != current.stepTitleId) {
+            setTextViewText(R.id.notification_timer_step_name, context.getString(current.stepTitleId))
         }
-        if (stateHistory.prev?.clockOnBackgroundColor != stateHistory.current.clockOnBackgroundColor) {
-            setTextColor(R.id.notification_timer_segment_name, stateHistory.current.clockOnBackgroundColor.argb)
-            setTextColor(R.id.notification_timer_count, stateHistory.current.clockOnBackgroundColor.argb)
+        if (prev?.clockOnBackgroundColor != current.clockOnBackgroundColor) {
+            setTextColor(R.id.notification_timer_segment_name, current.clockOnBackgroundColor.argb)
+            setTextColor(R.id.notification_timer_count, current.clockOnBackgroundColor.argb)
         }
-        if (stateHistory.prev?.segmentName != stateHistory.current.segmentName) {
-            setTextViewText(R.id.notification_timer_segment_name, stateHistory.current.segmentName)
+        if (prev?.segmentName != current.segmentName) {
+            setTextViewText(R.id.notification_timer_segment_name, current.segmentName)
         }
-        setTextViewText(R.id.notification_timer_count, stateHistory.current.time)
+        setTextViewText(R.id.notification_timer_count, current.time)
 
-        if (stateHistory.prev?.timerActions != stateHistory.current.timerActions) {
+        if (prev?.timerActions != current.timerActions) {
             setContentDescription(
                 R.id.notification_timer_play_button,
-                getString(stateHistory.current.timerActions.play.contentDescriptionResId)
+                getString(current.timerActions.play.contentDescriptionResId)
             )
             setInt(
                 R.id.notification_timer_play_button,
                 "setImageResource",
-                stateHistory.current.timerActions.play.iconResId
+                current.timerActions.play.iconResId
             )
             setOnClickPendingIntent(
                 R.id.notification_timer_play_button,
                 TimerServiceActions.PLAY.getPendingIntent(context)
             )
         }
+    }
+
+    private fun buildCompletedContent() = completedContentView.apply {
+        setTextColor(R.id.notification_timer_completed_label, Color.parseColor("#FFFFFF").toColor().toArgb())
+        setTextViewText(R.id.notification_timer_completed_label, context.getString(R.string.title_routine_completed))
     }
 
     override fun onStartCommand(intent: Intent?, flags: Int, startId: Int): Int {
@@ -194,18 +225,22 @@ internal class TimerService : Service() {
     }
 
     private data class StateHistory(
-        val prev: TimerServiceViewState.Counting?,
-        val current: TimerServiceViewState.Counting
+        val prev: TimerServiceViewState?,
+        val current: TimerServiceViewState
     )
 
-    private fun Flow<TimerServiceViewState.Counting>.history(): Flow<StateHistory?> =
+    private fun Flow<TimerServiceViewState>.history(): Flow<StateHistory?> =
         runningFold(
             initial = null as StateHistory?,
             operation = { acc, new -> StateHistory(prev = acc?.current, current = new) }
         )
 
     private val Long.argb: Int
-        get() =  Color.valueOf(this).toArgb()
+        get() = Color.valueOf(this).toArgb()
+
+    private inline fun <reified T : TimerServiceViewState> TimerServiceViewState.takeIfInstance(): T? {
+        return if (this is T) this else null
+    }
 
     private companion object {
         val NOTIFICATION_ID = R.id.timer_service_notification_id
