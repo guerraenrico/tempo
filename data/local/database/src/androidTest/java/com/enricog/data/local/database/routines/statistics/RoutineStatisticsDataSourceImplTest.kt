@@ -55,13 +55,15 @@ class RoutineStatisticsDataSourceImplTest {
             id = 2,
             routineId = 1,
             createdAt = now,
-            completionEffectiveTime = 15
+            type = "ROUTINE_ABORTED",
+            effectiveTime = 15
         )
         val statistic = Statistic(
             id = 2.asID,
             routineId = 1.asID,
             createdAt = now,
-            completionEffectiveTime = 15.seconds
+            type = Statistic.Type.ROUTINE_ABORTED,
+            effectiveTime = 15.seconds
         )
         val expected = listOf(statistic)
 
@@ -88,13 +90,15 @@ class RoutineStatisticsDataSourceImplTest {
             id = 2,
             routineId = 1,
             createdAt = now,
-            completionEffectiveTime = 15
+            effectiveTime = 15,
+            type = "ROUTINE_ABORTED",
         )
         val statistic = Statistic(
             id = 2.asID,
             routineId = 1.asID,
             createdAt = now,
-            completionEffectiveTime = 15.seconds
+            type = Statistic.Type.ROUTINE_ABORTED,
+            effectiveTime = 15.seconds
         )
         val expected = listOf(statistic)
 
@@ -113,7 +117,8 @@ class RoutineStatisticsDataSourceImplTest {
             id = 0.asID,
             routineId = 1.asID,
             createdAt = now,
-            completionEffectiveTime = 15.seconds
+            type = Statistic.Type.ROUTINE_ABORTED,
+            effectiveTime = 15.seconds
         )
         val internalRoutine = InternalRoutine(
             id = 1,
@@ -127,7 +132,8 @@ class RoutineStatisticsDataSourceImplTest {
             id = 1.asID,
             routineId = 1.asID,
             createdAt = now,
-            completionEffectiveTime = 15.seconds
+            type = Statistic.Type.ROUTINE_ABORTED,
+            effectiveTime = 15.seconds
         )
 
         database.routineDao().insert(internalRoutine)
@@ -143,7 +149,8 @@ class RoutineStatisticsDataSourceImplTest {
     private fun assertStatisticEquals(expected: Statistic, actual: Statistic) {
         assertThat(actual.id).isEqualTo(expected.id)
         assertThat(actual.routineId).isEqualTo(expected.routineId)
-        assertThat(actual.completionEffectiveTime).isEqualTo(expected.completionEffectiveTime)
+        assertThat(actual.effectiveTime).isEqualTo(expected.effectiveTime)
+        assertThat(actual.type).isEqualTo(expected.type)
         assertThat(actual.createdAt.truncatedTo(ChronoUnit.HOURS))
             .isEqualTo(expected.createdAt.truncatedTo(ChronoUnit.HOURS))
     }

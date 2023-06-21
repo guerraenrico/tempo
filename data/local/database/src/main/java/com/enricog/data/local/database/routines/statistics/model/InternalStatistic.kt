@@ -27,7 +27,8 @@ internal data class InternalStatistic(
     @PrimaryKey(autoGenerate = true) @ColumnInfo(name = "statisticId") val id: Long,
     @ColumnInfo(name = "routineId_fk") val routineId: Long,
     @ColumnInfo(name = "createdAt") val createdAt: OffsetDateTime,
-    @ColumnInfo(name = "completionEffectiveTime") val completionEffectiveTime: Long,
+    @ColumnInfo(name = "type") val type: String,
+    @ColumnInfo(name = "effectiveTime") val effectiveTime: Long,
 ) {
 
     fun toEntity(): Statistic {
@@ -35,7 +36,8 @@ internal data class InternalStatistic(
             id = ID.from(id),
             routineId = ID.from(routineId),
             createdAt = createdAt,
-            completionEffectiveTime = completionEffectiveTime.seconds
+            type = Statistic.Type.valueOf(type),
+            effectiveTime = effectiveTime.seconds
         )
     }
 }
@@ -45,6 +47,7 @@ internal fun Statistic.toInternal(): InternalStatistic {
         id = id.toLong(),
         routineId = routineId.toLong(),
         createdAt = createdAt,
-        completionEffectiveTime = completionEffectiveTime.value
+        type = type.name,
+        effectiveTime = effectiveTime.value
     )
 }

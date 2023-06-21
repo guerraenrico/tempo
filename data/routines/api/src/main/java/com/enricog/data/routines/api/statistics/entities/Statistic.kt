@@ -10,17 +10,22 @@ data class Statistic(
     val id: ID,
     val routineId: ID,
     val createdAt: OffsetDateTime,
-    val completionEffectiveTime: Seconds
+    val type: Type,
+    val effectiveTime: Seconds
 ) {
 
     init {
-        require(completionEffectiveTime >= 0.seconds) {
-            "completionEffectiveTime must be positive"
+        require(effectiveTime >= 0.seconds) {
+            "effectiveTime must be positive"
         }
     }
 
     val isNew: Boolean
         get() = id.isNew
+
+    enum class Type {
+        ROUTINE_COMPLETED, ROUTINE_ABORTED
+    }
 
     companion object {
         fun create(routine: Routine): Statistic {
@@ -29,7 +34,8 @@ data class Statistic(
                 id = ID.new(),
                 routineId = routine.id,
                 createdAt = now,
-                completionEffectiveTime = 0.seconds
+                type = Type.ROUTINE_ABORTED,
+                effectiveTime = 0.seconds
             )
         }
     }
