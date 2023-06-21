@@ -1,7 +1,5 @@
 package com.enricog.data.local.database.routines
 
-import android.content.Context
-import androidx.test.core.app.ApplicationProvider
 import androidx.test.ext.junit.runners.AndroidJUnit4
 import com.enricog.core.coroutines.testing.CoroutineRule
 import com.enricog.core.entities.Rank

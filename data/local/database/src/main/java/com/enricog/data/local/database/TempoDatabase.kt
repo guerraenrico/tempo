@@ -15,6 +15,8 @@ import com.enricog.data.local.database.routines.dao.RoutineDao
 import com.enricog.data.local.database.routines.dao.SegmentDao
 import com.enricog.data.local.database.routines.model.InternalRoutine
 import com.enricog.data.local.database.routines.model.InternalSegment
+import com.enricog.data.local.database.routines.statistics.dao.StatisticDao
+import com.enricog.data.local.database.routines.statistics.model.InternalStatistic
 import com.enricog.data.local.database.timer.theme.dao.TimerThemeDao
 import com.enricog.data.local.database.timer.theme.model.InternalTimerTheme
 import kotlinx.serialization.json.Json
@@ -23,6 +25,7 @@ import kotlinx.serialization.json.Json
     entities = [
         InternalRoutine::class,
         InternalSegment::class,
+        InternalStatistic::class,
         InternalTimerTheme::class
     ],
     version = 4
@@ -37,6 +40,8 @@ internal abstract class TempoDatabase : RoomDatabase() {
     abstract fun routineDao(): RoutineDao
 
     abstract fun segmentDao(): SegmentDao
+
+    abstract fun statisticDao(): StatisticDao
 
     abstract fun timerThemeDao(): TimerThemeDao
 
