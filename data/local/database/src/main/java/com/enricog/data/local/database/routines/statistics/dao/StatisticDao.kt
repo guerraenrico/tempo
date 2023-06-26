@@ -10,11 +10,11 @@ import com.enricog.data.local.database.routines.statistics.model.InternalStatist
 internal interface StatisticDao {
 
     @Transaction
-    @Query("SELECT * FROM Statistics ORDER BY createdAt DESC")
+    @Query("SELECT * FROM RoutineStatistics ORDER BY createdAt DESC")
     suspend fun getAll(): List<InternalStatistic>
 
     @Transaction
-    @Query("SELECT * FROM Statistics WHERE routineId_fk=:routineId ORDER BY createdAt DESC")
+    @Query("SELECT * FROM RoutineStatistics WHERE routineId_fk=:routineId ORDER BY createdAt DESC")
     suspend fun getAllByRoutine(routineId: Long): List<InternalStatistic>
 
     @Insert

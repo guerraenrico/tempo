@@ -20,9 +20,6 @@ data class Statistic(
         }
     }
 
-    val isNew: Boolean
-        get() = id.isNew
-
     enum class Type {
         ROUTINE_COMPLETED, ROUTINE_ABORTED
     }

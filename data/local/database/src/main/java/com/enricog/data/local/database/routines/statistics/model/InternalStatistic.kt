@@ -28,7 +28,7 @@ internal data class InternalStatistic(
     @ColumnInfo(name = "routineId_fk") val routineId: Long,
     @ColumnInfo(name = "createdAt") val createdAt: OffsetDateTime,
     @ColumnInfo(name = "type") val type: String,
-    @ColumnInfo(name = "effectiveTime") val effectiveTime: Long,
+    @ColumnInfo(name = "effectiveTime") val effectiveTime: Long
 ) {
 
     fun toEntity(): Statistic {
