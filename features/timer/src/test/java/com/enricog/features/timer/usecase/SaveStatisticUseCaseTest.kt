@@ -1,6 +1,5 @@
 package com.enricog.features.timer.usecase
 
-import app.cash.turbine.test
 import com.enricog.core.coroutines.testing.CoroutineRule
 import com.enricog.core.entities.asID
 import com.enricog.core.entities.seconds
@@ -12,6 +11,7 @@ import com.enricog.data.routines.testing.statistics.FakeRoutineStatisticsDataSou
 import com.enricog.data.routines.testing.statistics.entities.EMPTY
 import com.google.common.truth.Truth.assertThat
 import kotlinx.coroutines.CoroutineScope
+import kotlinx.coroutines.test.runCurrent
 import org.junit.Rule
 import org.junit.Test
 
@@ -28,12 +28,15 @@ internal class SaveStatisticUseCaseTest {
         val type = Statistic.Type.ROUTINE_COMPLETED
         val effectiveTime = 10.seconds
         val expected = Statistic.EMPTY.copy(
+            id = 1.asID,
+            routineId = 1.asID,
             type = type,
             effectiveTime = effectiveTime
         )
         val useCase = buildUseCase(scope = this)
 
         useCase(routine = routine, type = type, effectiveTime = effectiveTime)
+        runCurrent()
 
         val actual = store.get().first()
         assertThat(actual.id).isEqualTo(expected.id)
