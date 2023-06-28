@@ -3,9 +3,11 @@ package com.enricog.data.local.database
 import android.content.Context
 import androidx.datastore.preferences.preferencesDataStore
 import com.enricog.data.local.database.routines.RoutineDataSourceImpl
+import com.enricog.data.local.database.routines.statistics.RoutineStatisticsDataSourceImpl
 import com.enricog.data.local.database.timer.settings.TimerSettingsDataSourceImpl
 import com.enricog.data.local.database.timer.theme.TimerThemeDataSourceImpl
 import com.enricog.data.routines.api.RoutineDataSource
+import com.enricog.data.routines.api.statistics.RoutineStatisticsDataSource
 import com.enricog.data.timer.api.settings.TimerSettingsDataSource
 import com.enricog.data.timer.api.theme.TimerThemeDataSource
 import dagger.Module
@@ -31,6 +33,12 @@ object LocalDataSourceModule {
     @Provides
     @Singleton
     internal fun provideRoutineDataSource(impl: RoutineDataSourceImpl): RoutineDataSource {
+        return impl
+    }
+
+    @Provides
+    @Singleton
+    internal fun provideRoutineStatisticsDataSource(impl: RoutineStatisticsDataSourceImpl): RoutineStatisticsDataSource {
         return impl
     }
 

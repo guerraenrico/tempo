@@ -11,10 +11,13 @@ import com.enricog.data.local.database.converter.TimerThemeResourceConverter
 import com.enricog.data.local.database.migrations.MigrationFrom1To2
 import com.enricog.data.local.database.migrations.MigrationFrom2To3
 import com.enricog.data.local.database.migrations.MigrationFrom3To4
+import com.enricog.data.local.database.migrations.MigrationFrom4To5
 import com.enricog.data.local.database.routines.dao.RoutineDao
 import com.enricog.data.local.database.routines.dao.SegmentDao
 import com.enricog.data.local.database.routines.model.InternalRoutine
 import com.enricog.data.local.database.routines.model.InternalSegment
+import com.enricog.data.local.database.routines.statistics.dao.StatisticDao
+import com.enricog.data.local.database.routines.statistics.model.InternalStatistic
 import com.enricog.data.local.database.timer.theme.dao.TimerThemeDao
 import com.enricog.data.local.database.timer.theme.model.InternalTimerTheme
 import kotlinx.serialization.json.Json
@@ -23,9 +26,10 @@ import kotlinx.serialization.json.Json
     entities = [
         InternalRoutine::class,
         InternalSegment::class,
+        InternalStatistic::class,
         InternalTimerTheme::class
     ],
-    version = 4
+    version = 5
 )
 @TypeConverters(
     TimeTypeConverter::class,
@@ -37,6 +41,8 @@ internal abstract class TempoDatabase : RoomDatabase() {
     abstract fun routineDao(): RoutineDao
 
     abstract fun segmentDao(): SegmentDao
+
+    abstract fun statisticDao(): StatisticDao
 
     abstract fun timerThemeDao(): TimerThemeDao
 
@@ -57,6 +63,7 @@ internal abstract class TempoDatabase : RoomDatabase() {
                 .addMigrations(MigrationFrom1To2)
                 .addMigrations(MigrationFrom2To3)
                 .addMigrations(MigrationFrom3To4)
+                .addMigrations(MigrationFrom4To5)
                 .build()
         }
     }

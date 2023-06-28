@@ -109,6 +109,7 @@ internal class TimerController @Inject constructor(
     override fun close() {
         stopCounting()
         soundPlayer.close()
+        _state.value = TimerState.Idle
     }
 
     private fun Timer.launchAfter(delay: Long, block: () -> Unit) {

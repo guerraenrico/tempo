@@ -1,5 +1,6 @@
 package com.enricog.features.timer
 
+import androidx.annotation.RestrictTo
 import androidx.lifecycle.SavedStateHandle
 import androidx.lifecycle.viewModelScope
 import com.enricog.base.viewmodel.BaseViewModel
@@ -9,6 +10,9 @@ import com.enricog.core.coroutines.dispatchers.CoroutineDispatchers
 import com.enricog.core.coroutines.job.autoCancelableJob
 import com.enricog.core.logger.api.TempoLogger
 import com.enricog.data.routines.api.entities.Routine
+import com.enricog.data.routines.api.statistics.entities.Statistic
+import com.enricog.data.routines.api.statistics.entities.Statistic.Type.ROUTINE_ABORTED
+import com.enricog.data.routines.api.statistics.entities.Statistic.Type.ROUTINE_COMPLETED
 import com.enricog.data.timer.api.settings.entities.TimerSettings
 import com.enricog.data.timer.api.theme.entities.TimerTheme
 import com.enricog.features.timer.models.TimerState
@@ -18,6 +22,7 @@ import com.enricog.features.timer.service.TimerServiceHandler
 import com.enricog.features.timer.usecase.GetRoutineUseCase
 import com.enricog.features.timer.usecase.GetTimerSettingsUseCase
 import com.enricog.features.timer.usecase.GetTimerThemeUseCase
+import com.enricog.features.timer.usecase.SaveStatisticUseCase
 import com.enricog.navigation.api.routes.TimerRoute
 import com.enricog.navigation.api.routes.TimerRouteInput
 import dagger.hilt.android.lifecycle.HiltViewModel
@@ -26,6 +31,7 @@ import kotlinx.coroutines.async
 import kotlinx.coroutines.flow.first
 import kotlinx.coroutines.flow.launchIn
 import kotlinx.coroutines.flow.onEach
+import java.time.Clock
 import javax.inject.Inject
 
 @HiltViewModel
@@ -38,8 +44,10 @@ internal class TimerViewModel @Inject constructor(
     private val getRoutineUseCase: GetRoutineUseCase,
     private val getTimerThemeUseCase: GetTimerThemeUseCase,
     private val getTimerSettingsUseCase: GetTimerSettingsUseCase,
+    private val saveStatisticUseCase: SaveStatisticUseCase,
     private val windowScreenManager: WindowScreenManager,
-    private val serviceHandler: TimerServiceHandler
+    private val serviceHandler: TimerServiceHandler,
+    private val clock: Clock
 ) : BaseViewModel<TimerState, TimerViewState>(
     initialState = TimerState.Idle,
     converter = converter,
@@ -122,6 +130,9 @@ internal class TimerViewModel @Inject constructor(
     }
 
     private fun onStateUpdated(currentState: TimerState) {
+        saveRoutineStatisticIf(state = currentState, type = ROUTINE_COMPLETED) { state ->
+            state.isRoutineCompleted
+        }
         toggleKeepScreenOn(currentState = currentState)
         toggleBackgroundService(currentState = currentState)
     }
@@ -142,8 +153,28 @@ internal class TimerViewModel @Inject constructor(
         }
     }
 
-    override fun onCleared() {
+    @RestrictTo(RestrictTo.Scope.TESTS)
+    public override fun onCleared() {
+        saveRoutineStatisticIf(state = state, type = ROUTINE_ABORTED) { state ->
+            !state.isRoutineCompleted
+        }
         serviceHandler.stop()
         timerController.close()
+    }
+
+    private fun saveRoutineStatisticIf(
+        state: TimerState,
+        type: Statistic.Type,
+        condition: (TimerState.Counting) -> Boolean
+    ) {
+        if (state !is TimerState.Counting) return
+
+        if (condition(state)) {
+            saveStatisticUseCase(
+                routine = state.routine,
+                type = type,
+                effectiveTime = state.effectiveTotalSeconds(clock = clock)
+            )
+        }
     }
 }

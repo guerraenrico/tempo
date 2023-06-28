@@ -10,8 +10,11 @@ import com.enricog.data.local.testing.FakeStore
 import com.enricog.data.routines.api.entities.Routine
 import com.enricog.data.routines.api.entities.Segment
 import com.enricog.data.routines.api.entities.TimeType
+import com.enricog.data.routines.api.statistics.entities.Statistic
 import com.enricog.data.routines.testing.FakeRoutineDataSource
 import com.enricog.data.routines.testing.entities.EMPTY
+import com.enricog.data.routines.testing.statistics.FakeRoutineStatisticsDataSource
+import com.enricog.data.routines.testing.statistics.entities.EMPTY
 import com.enricog.data.timer.api.settings.entities.TimerSettings
 import com.enricog.data.timer.api.theme.entities.TimerTheme
 import com.enricog.data.timer.testing.settings.FakeTimerSettingsDataSource
@@ -28,6 +31,7 @@ import com.enricog.features.timer.navigation.TimerNavigationActions
 import com.enricog.features.timer.usecase.GetRoutineUseCase
 import com.enricog.features.timer.usecase.GetTimerSettingsUseCase
 import com.enricog.features.timer.usecase.GetTimerThemeUseCase
+import com.enricog.features.timer.usecase.SaveStatisticUseCase
 import com.enricog.libraries.permission.api.Permission
 import com.enricog.libraries.permission.testing.FakePermissionManager
 import com.enricog.libraries.sound.testing.FakeSoundPlayer
@@ -84,6 +88,8 @@ internal class TimerViewModelTest {
     private val routinesStore = FakeStore(listOf(routine))
     private val timerSettingsStore = FakeStore(timerSettings)
     private val timerThemeStore = FakeStore(listOf(timerTheme))
+    private val statisticStore = FakeStore(emptyList<Statistic>())
+
     private val windowScreenManager = FakeWindowScreenManager()
     private val soundPlayer = FakeSoundPlayer()
     private val timerServiceHandler = FakeTimerServiceHandler()
@@ -426,6 +432,127 @@ internal class TimerViewModelTest {
     }
 
     @Test
+    fun `should save routine completed statistic when routine completes`() = coroutineRule {
+        val expected = Statistic.EMPTY.copy(
+            id = 1.asID,
+            routineId = routine.id,
+            type = Statistic.Type.ROUTINE_COMPLETED
+        )
+        val viewModel = buildViewModel()
+
+        viewModel.viewState.test {
+            // Load
+            runCurrent()
+            // Start
+            advanceTimeBy(1000)
+            runCurrent()
+
+            // Preparation time
+            // Advance count time 5 second
+            advanceTimeBy(5000)
+            runCurrent()
+
+            // First segment
+            // Advance count time 10
+            advanceTimeBy(10000)
+            runCurrent()
+
+            // Preparation time
+            // Advance count time 5 second
+            advanceTimeBy(5000)
+            runCurrent()
+
+            // Second segment
+            // Advance count time 8
+            advanceTimeBy(8000)
+            runCurrent()
+
+            val actual = statisticStore.get().first()
+            assertThat(actual.id).isEqualTo(expected.id)
+            assertThat(actual.routineId).isEqualTo(expected.routineId)
+            assertThat(actual.type).isEqualTo(expected.type)
+
+            cancelAndIgnoreRemainingEvents()
+        }
+    }
+
+    @Test
+    fun `should save routine aborted statistic when screen is closed and routine is not completed`() = coroutineRule {
+        val expected = Statistic.EMPTY.copy(
+            id = 1.asID,
+            routineId = routine.id,
+            type = Statistic.Type.ROUTINE_ABORTED
+        )
+        val viewModel = buildViewModel()
+
+        viewModel.viewState.test {
+            assertThat(awaitItem()).isEqualTo(Idle)
+            // Load
+            runCurrent()
+            // Start
+            advanceTimeBy(1000)
+            runCurrent()
+
+            // Preparation time
+            // Advance count time 5 second
+            advanceTimeBy(5000)
+            runCurrent()
+
+            viewModel.onCleared()
+            runCurrent()
+
+            val actual = statisticStore.get().first()
+            assertThat(actual.id).isEqualTo(expected.id)
+            assertThat(actual.routineId).isEqualTo(expected.routineId)
+            assertThat(actual.type).isEqualTo(expected.type)
+
+            cancelAndIgnoreRemainingEvents()
+        }
+    }
+
+    @Test
+    fun `should not save routine aborted statistic when screen is closed and routine is completed`() = coroutineRule {
+        val viewModel = buildViewModel()
+
+        viewModel.viewState.test {
+            // Load
+            runCurrent()
+            // Start
+            advanceTimeBy(1000)
+            runCurrent()
+
+            // Preparation time
+            // Advance count time 5 second
+            advanceTimeBy(5000)
+            runCurrent()
+
+            // First segment
+            // Advance count time 10
+            advanceTimeBy(10000)
+            runCurrent()
+
+            // Preparation time
+            // Advance count time 5 second
+            advanceTimeBy(5000)
+            runCurrent()
+
+            // Second segment
+            // Advance count time 8
+            advanceTimeBy(8000)
+            runCurrent()
+
+            viewModel.onCleared()
+            runCurrent()
+
+            val statistics = statisticStore.get()
+            assertThat(statistics).hasSize(1)
+            assertThat(statistics.first().type).isNotEqualTo(Statistic.Type.ROUTINE_ABORTED)
+
+            cancelAndIgnoreRemainingEvents()
+        }
+    }
+
+    @Test
     fun `should go to routines on done`() = coroutineRule {
         val viewModel = buildViewModel()
 
@@ -451,7 +578,6 @@ internal class TimerViewModelTest {
 
         navigator.assertGoTo(route = TimerSettingsRoute, input = TimerSettingsRoute.Input)
     }
-
 
     private fun buildViewModel(): TimerViewModel {
         return TimerViewModel(
@@ -479,8 +605,13 @@ internal class TimerViewModelTest {
                 ),
                 permissionManager = permissionManager
             ),
+            saveStatisticUseCase = SaveStatisticUseCase(
+                scope = testCoroutineScope,
+                routineStatisticsDataSource = FakeRoutineStatisticsDataSource(store = statisticStore),
+            ),
             windowScreenManager = windowScreenManager,
-            serviceHandler = timerServiceHandler
+            serviceHandler = timerServiceHandler,
+            clock = clock
         )
     }
 
