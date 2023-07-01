@@ -15,5 +15,6 @@ val Routine.Companion.EMPTY: Routine
         createdAt = OffsetDateTime.of(2020, 12, 20, 10, 10, 0, 0, ZoneOffset.UTC),
         updatedAt = OffsetDateTime.of(2020, 12, 20, 10, 10, 0, 0, ZoneOffset.UTC),
         segments = emptyList(),
-        rank = Rank.from(value = "aaaaaa")
+        rank = Rank.from(value = "aaaaaa"),
+        rounds = 1
     )

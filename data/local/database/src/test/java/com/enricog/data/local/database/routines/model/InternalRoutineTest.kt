@@ -28,10 +28,12 @@ class InternalRoutineTest {
                     name = "name",
                     time = 4.seconds,
                     type = TimeType.TIMER,
-                    rank = Rank.RANDOM
+                    rank = Rank.RANDOM,
+                    rounds = 1
                 )
             ),
-            rank = Rank.from(value = "abcdef")
+            rank = Rank.from(value = "abcdef"),
+            rounds = 1
         )
         val expected = InternalRoutine(
             id = 1,
@@ -39,7 +41,8 @@ class InternalRoutineTest {
             preparationTime = 2,
             createdAt = now,
             updatedAt = now,
-            rank = "abcdef"
+            rank = "abcdef",
+            rounds = 1
         )
 
         val actual = routine.toInternal()
@@ -57,7 +60,8 @@ class InternalRoutineTest {
                 name = "name",
                 timeInSeconds = 4,
                 type = TimeType.TIMER,
-                rank = "aaaaaa"
+                rank = "aaaaaa",
+                rounds = 1
             )
         )
         val internalRoutine = InternalRoutine(
@@ -66,7 +70,8 @@ class InternalRoutineTest {
             preparationTime = 2,
             createdAt = now,
             updatedAt = now,
-            rank = "abcdef"
+            rank = "abcdef",
+            rounds = 1
         )
         val expected = Routine(
             id = 1.asID,
@@ -80,10 +85,12 @@ class InternalRoutineTest {
                     name = "name",
                     time = 4.seconds,
                     type = TimeType.TIMER,
-                    rank = Rank.from("aaaaaa")
+                    rank = Rank.from("aaaaaa"),
+                    rounds = 1
                 )
             ),
-            rank = Rank.from(value = "abcdef")
+            rank = Rank.from(value = "abcdef"),
+            rounds = 1
         )
 
         val actual = internalRoutine.toEntity(internalSegments)

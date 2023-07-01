@@ -10,12 +10,16 @@ data class Segment(
     val name: String,
     val time: Seconds,
     val type: TimeType,
-    val rank: Rank
+    val rank: Rank,
+    val rounds: Int
 ) {
 
     init {
         require(value = time >= 0.seconds) {
             "time must be positive"
+        }
+        require(value = rounds >= 1) {
+            "rounds must be equals or more than 1"
         }
     }
 
@@ -29,7 +33,8 @@ data class Segment(
                 name = "",
                 time = 0.seconds,
                 type = TimeType.TIMER,
-                rank = rank
+                rank = rank,
+                rounds = 1
             )
         }
     }

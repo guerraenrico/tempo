@@ -53,7 +53,8 @@ class RoutineDataSourceImplTest {
             name = "name",
             timeInSeconds = 40,
             type = TimeType.TIMER,
-            rank = "aaaaaa"
+            rank = "aaaaaa",
+            rounds = 1
         )
         val internalRoutine = InternalRoutine(
             id = 1,
@@ -61,7 +62,8 @@ class RoutineDataSourceImplTest {
             preparationTime = 10,
             createdAt = now,
             updatedAt = now,
-            rank = "abcdef"
+            rank = "abcdef",
+            rounds = 1
         )
         val routine = Routine(
             id = 1.asID,
@@ -75,10 +77,12 @@ class RoutineDataSourceImplTest {
                     name = "name",
                     time = 40.seconds,
                     type = TimeType.TIMER,
-                    Rank.from(value = "aaaaaa")
+                    rank = Rank.from(value = "aaaaaa"),
+                    rounds = 1
                 )
             ),
-            rank = Rank.from(value = "abcdef")
+            rank = Rank.from(value = "abcdef"),
+            rounds = 1
         )
         val expected = listOf(routine)
 
@@ -99,7 +103,8 @@ class RoutineDataSourceImplTest {
             name = "name",
             timeInSeconds = 40,
             type = TimeType.TIMER,
-            rank = "aaaaaa"
+            rank = "aaaaaa",
+            rounds = 1
         )
         val internalRoutine = InternalRoutine(
             id = 1,
@@ -107,7 +112,8 @@ class RoutineDataSourceImplTest {
             preparationTime = 10,
             createdAt = now,
             updatedAt = now,
-            rank = "abcdef"
+            rank = "abcdef",
+            rounds = 1
         )
         val expected = Routine(
             id = 1.asID,
@@ -121,10 +127,12 @@ class RoutineDataSourceImplTest {
                     name = "name",
                     time = 40.seconds,
                     type = TimeType.TIMER,
-                    rank = Rank.from(value = "aaaaaa")
+                    rank = Rank.from(value = "aaaaaa"),
+                    rounds = 1
                 )
             ),
-            rank = Rank.from(value = "abcdef")
+            rank = Rank.from(value = "abcdef"),
+            rounds = 1
         )
 
         database.routineDao().insert(internalRoutine)
@@ -144,7 +152,8 @@ class RoutineDataSourceImplTest {
             name = "name",
             timeInSeconds = 40,
             type = TimeType.TIMER,
-            rank = "aaaaaa"
+            rank = "aaaaaa",
+            rounds = 1
         )
         val internalRoutine = InternalRoutine(
             id = 1,
@@ -152,7 +161,8 @@ class RoutineDataSourceImplTest {
             preparationTime = 10,
             createdAt = now,
             updatedAt = now,
-            rank = "abcdef"
+            rank = "abcdef",
+            rounds = 1
         )
         val routine = Routine(
             id = 1.asID,
@@ -166,10 +176,12 @@ class RoutineDataSourceImplTest {
                     name = "name",
                     time = 40.seconds,
                     type = TimeType.TIMER,
-                    Rank.from(value = "aaaaaa")
+                    rank = Rank.from(value = "aaaaaa"),
+                    rounds = 1
                 )
             ),
-            rank = Rank.from(value = "abcdef")
+            rank = Rank.from(value = "abcdef"),
+            rounds = 1
         )
         val expected = listOf(routine)
 
@@ -190,7 +202,8 @@ class RoutineDataSourceImplTest {
             name = "name",
             timeInSeconds = 40,
             type = TimeType.TIMER,
-            rank = "aaaaaa"
+            rank = "aaaaaa",
+            rounds = 1
         )
         val internalRoutine = InternalRoutine(
             id = 1,
@@ -198,7 +211,8 @@ class RoutineDataSourceImplTest {
             preparationTime = 10,
             createdAt = now,
             updatedAt = now,
-            rank = "abcdef"
+            rank = "abcdef",
+            rounds = 1
         )
         val expected = Routine(
             id = 1.asID,
@@ -212,10 +226,12 @@ class RoutineDataSourceImplTest {
                     name = "name",
                     time = 40.seconds,
                     type = TimeType.TIMER,
-                    rank = Rank.from(value = "aaaaaa")
+                    rank = Rank.from(value = "aaaaaa"),
+                    rounds = 1
                 )
             ),
-            rank = Rank.from(value = "abcdef")
+            rank = Rank.from(value = "abcdef"),
+            rounds = 1
         )
 
         database.routineDao().insert(internalRoutine)
@@ -242,10 +258,12 @@ class RoutineDataSourceImplTest {
                     name = "name",
                     time = 40.seconds,
                     type = TimeType.TIMER,
-                    rank = Rank.from(value = "aaaaaa")
+                    rank = Rank.from(value = "aaaaaa"),
+                    rounds = 1
                 )
             ),
-            rank = Rank.from(value = "abcdef")
+            rank = Rank.from(value = "abcdef"),
+            rounds = 1
         )
         val expected = Routine(
             id = 1.asID,
@@ -259,10 +277,12 @@ class RoutineDataSourceImplTest {
                     name = "name",
                     time = 40.seconds,
                     type = TimeType.TIMER,
-                    rank = Rank.from(value = "aaaaaa")
+                    rank = Rank.from(value = "aaaaaa"),
+                    rounds = 1
                 )
             ),
-            rank = Rank.from(value = "abcdef")
+            rank = Rank.from(value = "abcdef"),
+            rounds = 1
         )
 
         val routineId = dataSource.create(routine)
@@ -283,7 +303,8 @@ class RoutineDataSourceImplTest {
             name = "name",
             timeInSeconds = 40,
             type = TimeType.TIMER,
-            rank = "aaaaaa"
+            rank = "aaaaaa",
+            rounds = 1
         )
         val internalRoutine = InternalRoutine(
             id = 1,
@@ -291,7 +312,8 @@ class RoutineDataSourceImplTest {
             preparationTime = 10,
             createdAt = max,
             updatedAt = max,
-            rank = "abcdef"
+            rank = "abcdef",
+            rounds = 1
         )
         val routine = Routine(
             id = 1.asID,
@@ -305,10 +327,12 @@ class RoutineDataSourceImplTest {
                     name = "name",
                     time = 40.seconds,
                     type = TimeType.TIMER,
-                    rank = Rank.from(value = "aaaaaa")
+                    rank = Rank.from(value = "aaaaaa"),
+                    rounds = 1
                 )
             ),
-            rank = Rank.from(value = "abcdef")
+            rank = Rank.from(value = "abcdef"),
+            rounds = 1
         )
 
         database.routineDao().insert(internalRoutine)
@@ -332,7 +356,8 @@ class RoutineDataSourceImplTest {
             name = "name",
             timeInSeconds = 40,
             type = TimeType.TIMER,
-            rank = "aaaaaa"
+            rank = "aaaaaa",
+            rounds = 1
         )
         val internalRoutine = InternalRoutine(
             id = 1,
@@ -340,7 +365,8 @@ class RoutineDataSourceImplTest {
             preparationTime = 10,
             createdAt = max,
             updatedAt = max,
-            rank = "abcdef"
+            rank = "abcdef",
+            rounds = 1
         )
         val routine = Routine(
             id = 1.asID,
@@ -354,10 +380,12 @@ class RoutineDataSourceImplTest {
                     name = "name2",
                     time = 40.seconds,
                     type = TimeType.TIMER,
-                    rank = Rank.from(value = "aaaaaa")
+                    rank = Rank.from(value = "aaaaaa"),
+                    rounds = 1
                 )
             ),
-            rank = Rank.from(value = "abcdef")
+            rank = Rank.from(value = "abcdef"),
+            rounds = 1
         )
 
         database.routineDao().insert(internalRoutine)
@@ -381,7 +409,8 @@ class RoutineDataSourceImplTest {
             name = "name",
             timeInSeconds = 40,
             type = TimeType.TIMER,
-            rank = "aaaaaa"
+            rank = "aaaaaa",
+            rounds = 1
         )
         val internalRoutine = InternalRoutine(
             id = 1,
@@ -389,7 +418,8 @@ class RoutineDataSourceImplTest {
             preparationTime = 10,
             createdAt = max,
             updatedAt = max,
-            rank = "abcdef"
+            rank = "abcdef",
+            rounds = 1
         )
         val routine = Routine(
             id = 1.asID,
@@ -398,7 +428,8 @@ class RoutineDataSourceImplTest {
             createdAt = max,
             updatedAt = now,
             segments = emptyList(),
-            rank = Rank.from(value = "abcdef")
+            rank = Rank.from(value = "abcdef"),
+            rounds = 1
         )
 
         database.routineDao().insert(internalRoutine)
@@ -422,7 +453,8 @@ class RoutineDataSourceImplTest {
             preparationTime = 10,
             createdAt = max,
             updatedAt = max,
-            rank = "abcdef"
+            rank = "abcdef",
+            rounds = 1
         )
         val routine = Routine(
             id = 1.asID,
@@ -436,10 +468,12 @@ class RoutineDataSourceImplTest {
                     name = "name",
                     time = 40.seconds,
                     type = TimeType.TIMER,
-                    rank = Rank.from(value = "aaaaaa")
+                    rank = Rank.from(value = "aaaaaa"),
+                    rounds = 1
                 )
             ),
-            rank = Rank.from(value = "abcdef")
+            rank = Rank.from(value = "abcdef"),
+            rounds = 1
         )
         val expected = Routine(
             id = 1.asID,
@@ -453,10 +487,12 @@ class RoutineDataSourceImplTest {
                     name = "name",
                     time = 40.seconds,
                     type = TimeType.TIMER,
-                    rank = Rank.from(value = "aaaaaa")
+                    rank = Rank.from(value = "aaaaaa"),
+                    rounds = 1
                 )
             ),
-            rank = Rank.from(value = "abcdef")
+            rank = Rank.from(value = "abcdef"),
+            rounds = 1
         )
 
         database.routineDao().insert(internalRoutine)
@@ -479,7 +515,8 @@ class RoutineDataSourceImplTest {
             name = "name",
             timeInSeconds = 40,
             type = TimeType.TIMER,
-            rank = "aaaaaa"
+            rank = "aaaaaa",
+            rounds = 1
         )
         val internalRoutine = InternalRoutine(
             id = 1,
@@ -487,7 +524,8 @@ class RoutineDataSourceImplTest {
             preparationTime = 10,
             createdAt = max,
             updatedAt = max,
-            rank = "abcdef"
+            rank = "abcdef",
+            rounds = 1
         )
         val routine = Routine(
             id = 1.asID,
@@ -501,10 +539,12 @@ class RoutineDataSourceImplTest {
                     name = "name2",
                     time = 40.seconds,
                     type = TimeType.TIMER,
-                    rank = Rank.from(value = "aaaaaa")
+                    rank = Rank.from(value = "aaaaaa"),
+                    rounds = 1
                 )
             ),
-            rank = Rank.from(value = "abcdef")
+            rank = Rank.from(value = "abcdef"),
+            rounds = 1
         )
         val expected = Routine(
             id = 1.asID,
@@ -518,10 +558,12 @@ class RoutineDataSourceImplTest {
                     name = "name2",
                     time = 40.seconds,
                     type = TimeType.TIMER,
-                    rank = Rank.from(value = "aaaaaa")
+                    rank = Rank.from(value = "aaaaaa"),
+                    rounds = 1
                 )
             ),
-            rank = Rank.from(value = "abcdef")
+            rank = Rank.from(value = "abcdef"),
+            rounds = 1
         )
 
         database.routineDao().insert(internalRoutine)
@@ -545,7 +587,8 @@ class RoutineDataSourceImplTest {
             name = "name",
             timeInSeconds = 40,
             type = TimeType.TIMER,
-            rank = "aaaaaa"
+            rank = "aaaaaa",
+            rounds = 1
         )
         val internalSegment2 = InternalSegment(
             id = 2,
@@ -553,7 +596,8 @@ class RoutineDataSourceImplTest {
             name = "name2",
             timeInSeconds = 40,
             type = TimeType.TIMER,
-            rank = "bbbbbb"
+            rank = "bbbbbb",
+            rounds = 1
         )
         val internalRoutine = InternalRoutine(
             id = 1,
@@ -561,7 +605,8 @@ class RoutineDataSourceImplTest {
             preparationTime = 10,
             createdAt = max,
             updatedAt = max,
-            rank = "abcdef"
+            rank = "abcdef",
+            rounds = 1
         )
         val routine = Routine(
             id = 1.asID,
@@ -575,17 +620,20 @@ class RoutineDataSourceImplTest {
                     name = "name2_mod",
                     time = 40.seconds,
                     type = TimeType.TIMER,
-                    rank = Rank.from(value = "aaaaaa")
+                    rank = Rank.from(value = "aaaaaa"),
+                    rounds = 1
                 ),
                 Segment(
                     id = 0.asID,
                     name = "name3",
                     time = 40.seconds,
                     type = TimeType.TIMER,
-                    rank = Rank.from(value = "bbbbbb")
+                    rank = Rank.from(value = "bbbbbb"),
+                    rounds = 1
                 )
             ),
-            rank = Rank.from(value = "abcdef")
+            rank = Rank.from(value = "abcdef"),
+            rounds = 1
         )
         val expected = Routine(
             id = 1.asID,
@@ -599,17 +647,20 @@ class RoutineDataSourceImplTest {
                     name = "name2_mod",
                     time = 40.seconds,
                     type = TimeType.TIMER,
-                    rank = Rank.from(value = "aaaaaa")
+                    rank = Rank.from(value = "aaaaaa"),
+                    rounds = 1
                 ),
                 Segment(
                     id = 3.asID,
                     name = "name3",
                     time = 40.seconds,
                     type = TimeType.TIMER,
-                    rank = Rank.from(value = "bbbbbb")
+                    rank = Rank.from(value = "bbbbbb"),
+                    rounds = 1
                 )
             ),
-            rank = Rank.from(value = "abcdef")
+            rank = Rank.from(value = "abcdef"),
+            rounds = 1
         )
 
         database.routineDao().insert(internalRoutine)
@@ -632,7 +683,8 @@ class RoutineDataSourceImplTest {
             name = "name",
             timeInSeconds = 40,
             type = TimeType.TIMER,
-            rank = "aaaaaa"
+            rank = "aaaaaa",
+            rounds = 1
         )
         val internalRoutine = InternalRoutine(
             id = 1,
@@ -640,7 +692,8 @@ class RoutineDataSourceImplTest {
             preparationTime = 10,
             createdAt = now,
             updatedAt = now,
-            rank = "abcdef"
+            rank = "abcdef",
+            rounds = 1
         )
         val routine = Routine(
             id = 1.asID,
@@ -654,10 +707,12 @@ class RoutineDataSourceImplTest {
                     name = "name",
                     time = 40.seconds,
                     type = TimeType.TIMER,
-                    rank = Rank.from(value = "aaaaaa")
+                    rank = Rank.from(value = "aaaaaa"),
+                    rounds = 1
                 )
             ),
-            rank = Rank.from(value = "abcdef")
+            rank = Rank.from(value = "abcdef"),
+            rounds = 1
         )
 
         database.routineDao().insert(internalRoutine)
