@@ -25,6 +25,7 @@ class RoutineScreenKtTest {
         val viewState = RoutineViewState.Idle
         val inputs = RoutineInputs(
             name = "".toTextFieldValue(),
+            rounds = "".toTextFieldValue(),
             preparationTime = "".timeText
         )
 
@@ -33,6 +34,7 @@ class RoutineScreenKtTest {
                 viewState.Compose(
                     inputs = inputs,
                     onRoutineNameChange = {},
+                    onRoutineRoundsChange = {},
                     onPreparationTimeChange = {},
                     onRoutineSave = {},
                     onPreparationTimeInfo = {},
@@ -54,6 +56,7 @@ class RoutineScreenKtTest {
         )
         val inputs = RoutineInputs(
             name = "".toTextFieldValue(),
+            rounds = "".toTextFieldValue(),
             preparationTime = "".timeText
         )
 
@@ -62,6 +65,7 @@ class RoutineScreenKtTest {
                 viewState.Compose(
                     inputs = inputs,
                     onRoutineNameChange = {},
+                    onRoutineRoundsChange = {},
                     onPreparationTimeChange = {},
                     onRoutineSave = {},
                     onPreparationTimeInfo = {},
@@ -80,6 +84,7 @@ class RoutineScreenKtTest {
         val viewState = RoutineViewState.Error(throwable = Exception())
         val inputs = RoutineInputs(
             name = "".toTextFieldValue(),
+            rounds = "".toTextFieldValue(),
             preparationTime = "".timeText
         )
 
@@ -87,6 +92,7 @@ class RoutineScreenKtTest {
             viewState.Compose(
                 inputs = inputs,
                 onRoutineNameChange = {},
+                onRoutineRoundsChange = {},
                 onPreparationTimeChange = {},
                 onRoutineSave = {},
                 onPreparationTimeInfo = {},

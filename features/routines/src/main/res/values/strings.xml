@@ -18,7 +18,9 @@
     <string name="field_label_routine_name">Routine name</string>
     <string name="field_label_routine_preparation_time">Preparation time</string>
     <string name="field_support_text_routine_preparation_time">Max 1 minute</string>
+    <string name="field_label_routine_rounds">Number of rounds</string>
     <string name="field_error_message_routine_name_blank">Routine name must not be blank</string>
+    <string name="field_error_message_routine_rounds_blank">Routine rounds must be al least 1</string>
     <string name="content_description_button_save_routine">Save routine</string>
     <string name="content_description_button_help_routine_preparation_time">Info about preparation time</string>
     <string name="label_routine_save_error">An error happen</string>

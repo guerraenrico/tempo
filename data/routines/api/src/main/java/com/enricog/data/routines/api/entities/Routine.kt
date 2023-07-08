@@ -67,6 +67,7 @@ data class Routine(
         }
 
         val MAX_PREPARATION_TIME = 60.seconds
+        const val MIN_NUM_ROUNDS = 1
     }
 }
 

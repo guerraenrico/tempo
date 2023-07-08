@@ -67,7 +67,8 @@ internal class RoutineViewModel @Inject constructor(
 
             fieldInputs = RoutineInputs(
                 name = routine.name.toTextFieldValue(),
-                preparationTime = routine.preparationTime.timeText
+                preparationTime = routine.preparationTime.timeText,
+                rounds = routine.rounds.toString().toTextFieldValue()
             )
         }
     }
@@ -82,6 +83,13 @@ internal class RoutineViewModel @Inject constructor(
     fun onRoutinePreparationTimeChange(text: TimeText) {
         if (text.toSeconds() <= Routine.MAX_PREPARATION_TIME) {
             fieldInputs = fieldInputs.copy(preparationTime = text)
+        }
+    }
+
+    fun onRoutineRoundsChange(textFieldValue: TextFieldValue) {
+        updateStateWhen<RoutineState.Data> {
+            fieldInputs = fieldInputs.copy(rounds = textFieldValue)
+            reducer.updateRoutineRounds(state = it)
         }
     }
 
