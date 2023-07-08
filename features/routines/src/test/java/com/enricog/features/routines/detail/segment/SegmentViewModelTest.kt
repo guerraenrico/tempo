@@ -45,6 +45,7 @@ class SegmentViewModelTest {
         id = 2.asID,
         name = "Segment Name",
         time = 30.seconds,
+        rounds = 2,
         type = TimeTypeEntity.TIMER
     )
     private val routine = Routine.EMPTY.copy(
@@ -72,6 +73,7 @@ class SegmentViewModelTest {
         )
         val expectedFieldInputs = SegmentInputs(
             name = "Segment Name".toTextFieldValue(),
+            rounds = "2".toTextFieldValue(),
             time = "30".timeText,
         )
 
@@ -113,6 +115,7 @@ class SegmentViewModelTest {
         )
         val expectedFieldInputs = SegmentInputs(
             name = "Segment Name".toTextFieldValue(),
+            rounds = "2".toTextFieldValue(),
             time = "30".timeText,
         )
         store.enableErrorOnNextAccess()
@@ -129,7 +132,7 @@ class SegmentViewModelTest {
     }
 
     @Test
-    fun `should update segment name when name changes`() = coroutineRule {
+    fun `should update field input name when name changes`() = coroutineRule {
         val expectedViewState = SegmentViewState.Data(
             isTimeFieldVisible = true,
             selectedTimeTypeStyle = TimeTypeStyle.from(timeType = TimeTypeEntity.TIMER, timerTheme = timerTheme),
@@ -143,12 +146,13 @@ class SegmentViewModelTest {
         )
         val expectedFieldInputs = SegmentInputs(
             name = "Segment Name Modified".toTextFieldValue(),
+            rounds = "2".toTextFieldValue(),
             time = "30".timeText,
         )
         val viewModel = buildViewModel()
         advanceUntilIdle()
 
-        viewModel.onSegmentNameTextChange(textFieldValue = "Segment Name Modified".toTextFieldValue())
+        viewModel.onSegmentNameChange(textFieldValue = "Segment Name Modified".toTextFieldValue())
         advanceUntilIdle()
 
         viewModel.viewState.test {
@@ -158,7 +162,7 @@ class SegmentViewModelTest {
     }
 
     @Test
-    fun `should update segment time when time changes`() = coroutineRule {
+    fun `should update field input rounds when rounds changes`() = coroutineRule {
         val expectedViewState = SegmentViewState.Data(
             isTimeFieldVisible = true,
             selectedTimeTypeStyle = TimeTypeStyle.from(timeType = TimeTypeEntity.TIMER, timerTheme = timerTheme),
@@ -172,6 +176,37 @@ class SegmentViewModelTest {
         )
         val expectedFieldInputs = SegmentInputs(
             name = "Segment Name".toTextFieldValue(),
+            rounds = "3".toTextFieldValue(),
+            time = "30".timeText,
+        )
+        val viewModel = buildViewModel()
+        advanceUntilIdle()
+
+        viewModel.onSegmentRoundsChange(textFieldValue = "3".toTextFieldValue())
+        advanceUntilIdle()
+
+        viewModel.viewState.test {
+            assertThat(awaitItem()).isEqualTo(expectedViewState)
+        }
+        assertThat(viewModel.fieldInputs).isEqualTo(expectedFieldInputs)
+    }
+
+    @Test
+    fun `should update field input time when time changes`() = coroutineRule {
+        val expectedViewState = SegmentViewState.Data(
+            isTimeFieldVisible = true,
+            selectedTimeTypeStyle = TimeTypeStyle.from(timeType = TimeTypeEntity.TIMER, timerTheme = timerTheme),
+            errors = emptyImmutableMap(),
+            timeTypeStyles = immutableListOf(
+                TimeTypeStyle.from(timeType = TimeTypeEntity.TIMER, timerTheme = timerTheme),
+                TimeTypeStyle.from(timeType = TimeTypeEntity.REST, timerTheme = timerTheme),
+                TimeTypeStyle.from(timeType = TimeTypeEntity.STOPWATCH, timerTheme = timerTheme)
+            ),
+            message = null
+        )
+        val expectedFieldInputs = SegmentInputs(
+            name = "Segment Name".toTextFieldValue(),
+            rounds = "2".toTextFieldValue(),
             time = "10".timeText,
         )
         val viewModel = buildViewModel()
@@ -202,6 +237,7 @@ class SegmentViewModelTest {
             )
             val expectedFieldInputs = SegmentInputs(
                 name = "Segment Name".toTextFieldValue(),
+                rounds = "2".toTextFieldValue(),
                 time = "30".timeText,
             )
             val viewModel = buildViewModel()
@@ -231,6 +267,7 @@ class SegmentViewModelTest {
         )
         val expectedFieldInputs = SegmentInputs(
             name = "Segment Name".toTextFieldValue(),
+            rounds = "2".toTextFieldValue(),
             time = "30".timeText,
         )
         val viewModel = buildViewModel()
@@ -265,6 +302,7 @@ class SegmentViewModelTest {
         )
         val expectedFieldInputs = SegmentInputs(
             name = "Segment Name".toTextFieldValue(),
+            rounds = "2".toTextFieldValue(),
             time = "".timeText,
         )
         val viewModel = buildViewModel()
@@ -299,7 +337,7 @@ class SegmentViewModelTest {
         )
         val viewModel = buildViewModel()
         advanceUntilIdle()
-        viewModel.onSegmentNameTextChange(textFieldValue = "".toTextFieldValue())
+        viewModel.onSegmentNameChange(textFieldValue = "".toTextFieldValue())
         advanceUntilIdle()
 
         viewModel.onSegmentSave()
@@ -317,7 +355,7 @@ class SegmentViewModelTest {
         )
         val viewModel = buildViewModel(routinesStore = store)
         advanceUntilIdle()
-        viewModel.onSegmentNameTextChange(textFieldValue = "Segment Name Modified".toTextFieldValue())
+        viewModel.onSegmentNameChange(textFieldValue = "Segment Name Modified".toTextFieldValue())
         advanceUntilIdle()
 
         viewModel.onSegmentSave()

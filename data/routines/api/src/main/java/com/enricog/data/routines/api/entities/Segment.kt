@@ -34,9 +34,11 @@ data class Segment(
                 time = 0.seconds,
                 type = TimeType.TIMER,
                 rank = rank,
-                rounds = 1
+                rounds = MIN_NUM_ROUNDS
             )
         }
+
+        const val MIN_NUM_ROUNDS = 1
     }
 }
 

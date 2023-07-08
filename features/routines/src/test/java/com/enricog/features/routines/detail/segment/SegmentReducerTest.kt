@@ -109,7 +109,42 @@ class SegmentReducerTest {
             timerTheme = TimerTheme.DEFAULT
         )
 
-        val actual = reducer.updateSegmentName(state = state)
+        val actual = reducer.updateSegmentNameError(state = state)
+
+        assertThat(actual).isEqualTo(expected)
+    }
+
+    @Test
+    fun `should remove field rounds error when segment rounds is updated`() {
+        val state = SegmentState.Data(
+            routine = Routine.EMPTY.copy(
+                segments = emptyList()
+            ),
+            segment = Segment.EMPTY.copy(name = "Segment Name"),
+            errors = mapOf(
+                SegmentField.Rounds to SegmentFieldError.BlankSegmentRounds,
+                SegmentField.Time to SegmentFieldError.InvalidSegmentTime
+            ),
+            timeTypes = listOf(TimeType.TIMER, TimeType.REST, TimeType.STOPWATCH),
+            selectedTimeType = TimeType.TIMER,
+            action = null,
+            timerTheme = TimerTheme.DEFAULT
+        )
+        val expected = SegmentState.Data(
+            routine = Routine.EMPTY.copy(
+                segments = emptyList()
+            ),
+            segment = Segment.EMPTY.copy(name = "Segment Name"),
+            errors = mapOf(
+                SegmentField.Time to SegmentFieldError.InvalidSegmentTime
+            ),
+            timeTypes = listOf(TimeType.TIMER, TimeType.REST, TimeType.STOPWATCH),
+            selectedTimeType = TimeType.TIMER,
+            action = null,
+            timerTheme = TimerTheme.DEFAULT
+        )
+
+        val actual = reducer.updateSegmentRoundsError(state = state)
 
         assertThat(actual).isEqualTo(expected)
     }

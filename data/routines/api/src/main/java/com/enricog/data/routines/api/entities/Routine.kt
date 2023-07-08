@@ -62,7 +62,7 @@ data class Routine(
                 updatedAt = now,
                 segments = emptyList(),
                 rank = rank,
-                rounds = 1
+                rounds = MIN_NUM_ROUNDS
             )
         }
 

@@ -21,7 +21,7 @@ internal fun RoutineScreen(viewModel: RoutineViewModel) {
         TempoToolbar(onBack = viewModel::onRoutineBack)
         viewState.Compose(
             inputs = fieldInputs,
-            onRoutineNameChange = viewModel::onRoutineNameTextChange,
+            onRoutineNameChange = viewModel::onRoutineNameChange,
             onPreparationTimeChange = viewModel::onRoutinePreparationTimeChange,
             onRoutineRoundsChange = viewModel::onRoutineRoundsChange,
             onPreparationTimeInfo = viewModel::onRoutinePreparationTimeInfo,

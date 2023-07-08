@@ -54,7 +54,7 @@ class RoutineReducerTest {
             action = null
         )
 
-        val actual = reducer.updateRoutineName(state = state)
+        val actual = reducer.updateRoutineNameError(state = state)
 
         assertThat(actual).isEqualTo(expected)
     }
@@ -72,7 +72,7 @@ class RoutineReducerTest {
             action = null
         )
 
-        val actual = reducer.updateRoutineRounds(state = state)
+        val actual = reducer.updateRoutineRoundsError(state = state)
 
         assertThat(actual).isEqualTo(expected)
     }

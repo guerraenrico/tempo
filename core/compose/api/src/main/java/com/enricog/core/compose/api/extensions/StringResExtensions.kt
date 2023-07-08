@@ -7,6 +7,6 @@ import androidx.compose.ui.res.stringResource
 
 @Composable
 @ReadOnlyComposable
-fun stringResourceOrNull(@StringRes id: Int?): String? {
-    return id?.let { stringResource(id = id) }
+fun stringResourceOrNull(@StringRes id: Int?, formatArgs: Array<Any>? = arrayOf()): String? {
+    return id?.let { stringResource(id = id, formatArgs = formatArgs ?: arrayOf()) }
 }

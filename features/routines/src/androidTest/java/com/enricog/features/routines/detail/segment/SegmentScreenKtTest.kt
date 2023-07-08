@@ -30,6 +30,7 @@ class SegmentScreenKtTest {
         val viewState = SegmentViewState.Idle
         val inputs = SegmentInputs(
             name = "".toTextFieldValue(),
+            rounds = "".toTextFieldValue(),
             time = "".timeText,
         )
 
@@ -38,6 +39,7 @@ class SegmentScreenKtTest {
                 viewState.Compose(
                     inputs = inputs,
                     onSegmentNameChange = {},
+                    onSegmentRoundsChange = {},
                     onSegmentTimeChange = {},
                     onSegmentTimeTypeChange = {},
                     onSegmentSave = {},
@@ -70,6 +72,7 @@ class SegmentScreenKtTest {
         )
         val inputs = SegmentInputs(
             name = "".toTextFieldValue(),
+            rounds = "".toTextFieldValue(),
             time = "".timeText,
         )
 
@@ -78,6 +81,7 @@ class SegmentScreenKtTest {
                 viewState.Compose(
                     inputs = inputs,
                     onSegmentNameChange = {},
+                    onSegmentRoundsChange = {},
                     onSegmentTimeChange = {},
                     onSegmentTimeTypeChange = {},
                     onSegmentSave = {},
@@ -96,6 +100,7 @@ class SegmentScreenKtTest {
         val viewState = SegmentViewState.Error(throwable = Exception())
         val inputs = SegmentInputs(
             name = "".toTextFieldValue(),
+            rounds = "".toTextFieldValue(),
             time = "".timeText,
         )
 
@@ -103,6 +108,7 @@ class SegmentScreenKtTest {
             viewState.Compose(
                 inputs = inputs,
                 onSegmentNameChange = {},
+                onSegmentRoundsChange = {},
                 onSegmentTimeChange = {},
                 onSegmentTimeTypeChange = {},
                 onSegmentSave = {},

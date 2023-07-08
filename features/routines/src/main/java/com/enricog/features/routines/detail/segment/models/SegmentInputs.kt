@@ -9,6 +9,7 @@ import com.enricog.ui.components.textField.TimeText
 
 internal data class SegmentInputs(
     val name: TextFieldValue,
+    val rounds: TextFieldValue,
     val time: TimeText
 ) {
 
@@ -16,6 +17,7 @@ internal data class SegmentInputs(
         return segment.copy(
             name = name.text,
             time = time.toSeconds(),
+            rounds = rounds.text.toInt(),
             type = type
         )
     }
@@ -23,6 +25,7 @@ internal data class SegmentInputs(
     companion object {
         val empty = SegmentInputs(
             name = "".toTextFieldValue(),
+            rounds = "1".toTextFieldValue(),
             time = TimeText.from(0.seconds)
         )
     }

@@ -118,7 +118,7 @@ class RoutineViewModelTest {
         val viewModel = buildViewModel()
         advanceUntilIdle()
 
-        viewModel.onRoutineNameTextChange(textFieldValue = "Routine Name Modified".toTextFieldValue())
+        viewModel.onRoutineNameChange(textFieldValue = "Routine Name Modified".toTextFieldValue())
         advanceUntilIdle()
 
         viewModel.viewState.test {
@@ -213,7 +213,7 @@ class RoutineViewModelTest {
         )
         val viewModel = buildViewModel()
         advanceUntilIdle()
-        viewModel.onRoutineNameTextChange(textFieldValue = "".toTextFieldValue())
+        viewModel.onRoutineNameChange(textFieldValue = "".toTextFieldValue())
         advanceUntilIdle()
 
         viewModel.onRoutineSave()
@@ -232,7 +232,7 @@ class RoutineViewModelTest {
         val savedStateHandle = SavedStateHandle(mapOf("routineId" to 0L))
         val viewModel = buildViewModel(store = store, savedStateHandle = savedStateHandle)
         advanceUntilIdle()
-        viewModel.onRoutineNameTextChange(textFieldValue = "New Routine Name".toTextFieldValue())
+        viewModel.onRoutineNameChange(textFieldValue = "New Routine Name".toTextFieldValue())
         advanceUntilIdle()
 
         viewModel.onRoutineSave()
@@ -256,7 +256,7 @@ class RoutineViewModelTest {
         val store = FakeStore(listOf(routine))
         val viewModel = buildViewModel(store)
         advanceUntilIdle()
-        viewModel.onRoutineNameTextChange(textFieldValue = "Routine Name Modified".toTextFieldValue())
+        viewModel.onRoutineNameChange(textFieldValue = "Routine Name Modified".toTextFieldValue())
         advanceUntilIdle()
 
         viewModel.onRoutineSave()

@@ -23,7 +23,6 @@ import androidx.compose.ui.text.input.ImeAction
 import androidx.compose.ui.text.input.KeyboardType
 import androidx.compose.ui.text.input.TextFieldValue
 import com.enricog.core.compose.api.classes.ImmutableMap
-import com.enricog.core.compose.api.extensions.stringResourceOrNull
 import com.enricog.features.routines.R
 import com.enricog.features.routines.detail.routine.models.RoutineField
 import com.enricog.features.routines.detail.routine.models.RoutineFieldError
@@ -90,7 +89,9 @@ internal fun RoutineFormScene(
                             .fillMaxWidth()
                             .focusRequester(routineNameRef),
                         labelText = stringResource(R.string.field_label_routine_name),
-                        errorText = stringResourceOrNull(id = errors[RoutineField.Name]?.stringResId),
+                        errorText = errors[RoutineField.Name]?.let {
+                            stringResource(id = it.stringResId, formatArgs = it.formatArgs)
+                        },
                         singleLine = true,
                         keyboardOptions = KeyboardOptions(imeAction = ImeAction.Next),
                         keyboardActions = KeyboardActions(
@@ -105,7 +106,9 @@ internal fun RoutineFormScene(
                             .fillMaxWidth()
                             .focusRequester(routineRoundsRef),
                         labelText = stringResource(R.string.field_label_routine_rounds),
-                        errorText = stringResourceOrNull(id = errors[RoutineField.Rounds]?.stringResId),
+                        errorText = errors[RoutineField.Rounds]?.let {
+                            stringResource(id = it.stringResId, formatArgs = it.formatArgs)
+                        },
                         keyboardOptions = KeyboardOptions(
                             keyboardType = KeyboardType.Number,
                             imeAction = ImeAction.Next

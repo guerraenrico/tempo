@@ -1,9 +1,20 @@
 package com.enricog.features.routines.detail.segment.models
 
 import androidx.annotation.StringRes
+import com.enricog.data.routines.api.entities.Segment
 import com.enricog.features.routines.R
 
-internal enum class SegmentFieldError(@StringRes val stringResId: Int) {
-    BlankSegmentName(stringResId = R.string.field_error_message_segment_name_blank),
-    InvalidSegmentTime(stringResId = R.string.field_error_message_segment_time_invalid)
+internal enum class SegmentFieldError(@StringRes val stringResId: Int, val formatArgs: Array<Any>) {
+    BlankSegmentName(
+        stringResId = R.string.field_error_message_segment_name_blank,
+        formatArgs = arrayOf()
+    ),
+    BlankSegmentRounds(
+        stringResId = R.string.field_error_message_segment_rounds_blank,
+        formatArgs = arrayOf(Segment.MIN_NUM_ROUNDS)
+    ),
+    InvalidSegmentTime(
+        stringResId = R.string.field_error_message_segment_time_invalid,
+        formatArgs = arrayOf()
+    )
 }

@@ -73,10 +73,10 @@ internal class RoutineViewModel @Inject constructor(
         }
     }
 
-    fun onRoutineNameTextChange(textFieldValue: TextFieldValue) {
+    fun onRoutineNameChange(textFieldValue: TextFieldValue) {
         updateStateWhen<RoutineState.Data> {
             fieldInputs = fieldInputs.copy(name = textFieldValue)
-            reducer.updateRoutineName(state = it)
+            reducer.updateRoutineNameError(state = it)
         }
     }
 
@@ -89,7 +89,7 @@ internal class RoutineViewModel @Inject constructor(
     fun onRoutineRoundsChange(textFieldValue: TextFieldValue) {
         updateStateWhen<RoutineState.Data> {
             fieldInputs = fieldInputs.copy(rounds = textFieldValue)
-            reducer.updateRoutineRounds(state = it)
+            reducer.updateRoutineRoundsError(state = it)
         }
     }
 

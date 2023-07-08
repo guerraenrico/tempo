@@ -21,12 +21,12 @@ internal class RoutineReducer @Inject constructor() {
         return RoutineState.Error(throwable = throwable)
     }
 
-    fun updateRoutineName(state: RoutineState.Data): RoutineState.Data {
+    fun updateRoutineNameError(state: RoutineState.Data): RoutineState.Data {
         val errors = state.errors.filterKeys { it != RoutineField.Name }
         return state.copy(errors = errors)
     }
 
-    fun updateRoutineRounds(state: RoutineState.Data): RoutineState.Data {
+    fun updateRoutineRoundsError(state: RoutineState.Data): RoutineState.Data {
         val errors = state.errors.filterKeys { it != RoutineField.Rounds }
         return state.copy(errors = errors)
     }
