@@ -3,6 +3,7 @@ package com.enricog.features.timer
 import androidx.annotation.StringRes
 import androidx.compose.ui.graphics.Color
 import com.enricog.base.viewmodel.StateConverter
+import com.enricog.core.compose.api.classes.immutableListOf
 import com.enricog.data.routines.api.entities.TimeType
 import com.enricog.data.timer.api.theme.entities.TimerTheme
 import com.enricog.features.timer.models.SegmentStepType
@@ -40,6 +41,8 @@ internal class TimerStateConverter @Inject constructor(
             timeInSeconds = state.runningStep.count.seconds.value,
             stepTitleId = state.getStepTitleId(),
             segmentName = state.runningSegment.name,
+            routineRoundText = state.getRoutineRoundText(),
+            segmentRoundText = state.getSegmentRoundText(),
             clockBackground = clockBackgroundResource.toViewBackground(),
             clockOnBackgroundColor = clockBackgroundResource.onBackgroundColor(),
             timerActions = state.getActions()
@@ -56,20 +59,24 @@ internal class TimerStateConverter @Inject constructor(
                     else -> null
                 }
             )
+
             else -> ClockBackgroundResource(
                 backgroundResource = runningSegment.type.getResource(timerTheme = timerTheme),
                 rippleResource = when {
                     isStepCountCompleted -> when {
                         nextSegmentStep?.type == SegmentStepType.PREPARATION ->
                             timerTheme.preparationTimeResource
+
                         runningSegment.type == nextSegment?.type ->
                             TimerTheme.Resource(
                                 background = TimerTheme.Asset.Color(argb = 2233785410880798720.toULong()),
                                 onBackground = TimerTheme.Asset.Color(argb = 2233785410880798720.toULong())
                             )
+
                         else ->
                             nextSegment?.type?.getResource(timerTheme = timerTheme)
                     }
+
                     else -> null
                 }
             )
@@ -111,6 +118,26 @@ internal class TimerStateConverter @Inject constructor(
                 contentDescriptionResId = R.string.content_description_button_next_routine_segment,
                 size = TempoIconButtonSize.Normal
             )
+        )
+    }
+
+    private fun TimerState.Counting.getRoutineRoundText(): TimerViewState.Counting.RoundText? {
+        if (routine.rounds == 1) {
+            return null
+        }
+        return TimerViewState.Counting.RoundText(
+            labelId = R.string.label_routine_round,
+            formatArgs = immutableListOf(runningStep.routineRound, routine.rounds.toString())
+        )
+    }
+
+    private fun TimerState.Counting.getSegmentRoundText(): TimerViewState.Counting.RoundText? {
+        if (runningSegment.rounds == 1) {
+            return null
+        }
+        return TimerViewState.Counting.RoundText(
+            labelId = R.string.label_routine_segment_round,
+            formatArgs = immutableListOf(runningStep.segmentRound, runningSegment.rounds.toString())
         )
     }
 

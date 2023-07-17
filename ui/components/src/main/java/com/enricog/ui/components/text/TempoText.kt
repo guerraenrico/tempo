@@ -6,6 +6,7 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.text.AnnotatedString
 import androidx.compose.ui.text.TextStyle
 import androidx.compose.ui.text.style.TextAlign
+import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.unit.TextUnit
 import com.enricog.ui.theme.TempoTheme
 
@@ -43,6 +44,7 @@ fun TempoText(
         textAlign = textAlign,
         style = style,
         letterSpacing = letterSpacing,
-        maxLines = maxLines
+        maxLines = maxLines,
+        overflow = TextOverflow.Ellipsis
     )
 }

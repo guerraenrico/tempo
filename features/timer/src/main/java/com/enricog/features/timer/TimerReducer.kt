@@ -23,27 +23,35 @@ internal class TimerReducer @Inject constructor(private val clock: Clock) {
                 return { id.also { id++ } }
             }
 
-            val getNextId = generateId()
+            val getId = generateId()
 
-            for (segment in routine.segments) {
-                if (segment.type.requirePreparationTime && routine.preparationTime > 0.seconds) {
-                    add(
-                        SegmentStep(
-                            id = getNextId(),
-                            count = Count.idle(seconds = routine.preparationTime),
-                            type = SegmentStepType.PREPARATION,
-                            segment = segment
+            repeat(routine.rounds) { routineRound ->
+                for (segment in routine.segments) {
+                    repeat(segment.rounds) { segmentRound ->
+                        if (segment.type.requirePreparationTime && routine.preparationTime > 0.seconds) {
+                            add(
+                                SegmentStep(
+                                    id = getId(),
+                                    count = Count.idle(seconds = routine.preparationTime),
+                                    type = SegmentStepType.PREPARATION,
+                                    segment = segment,
+                                    routineRound = routineRound + 1,
+                                    segmentRound = segmentRound + 1
+                                )
+                            )
+                        }
+                        add(
+                            SegmentStep(
+                                id = getId(),
+                                count = Count.idle(seconds = segment.time),
+                                type = SegmentStepType.IN_PROGRESS,
+                                segment = segment,
+                                routineRound = routineRound + 1,
+                                segmentRound = segmentRound + 1
+                            )
                         )
-                    )
+                    }
                 }
-                add(
-                    SegmentStep(
-                        id = getNextId(),
-                        count = Count.idle(seconds = segment.time),
-                        type = SegmentStepType.IN_PROGRESS,
-                        segment = segment
-                    )
-                )
             }
         }
         return TimerState.Counting(

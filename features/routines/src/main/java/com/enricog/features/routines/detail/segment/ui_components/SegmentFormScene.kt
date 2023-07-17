@@ -22,6 +22,7 @@ import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.TextStyle
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.input.ImeAction
+import androidx.compose.ui.text.input.KeyboardType
 import androidx.compose.ui.text.input.TextFieldValue
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
@@ -93,7 +94,7 @@ internal fun SegmentFormScene(
                         .focusRequester(segmentNameRef),
                     labelText = stringResource(R.string.field_label_segment_name),
                     errorText = state.errors[SegmentField.Name]?.let {
-                        stringResource(id = it.stringResId, formatArgs = it.formatArgs)
+                        stringResource(id = it.stringResId, formatArgs = it.formatArgs.toTypedArray())
                     },
                     singleLine = true,
                     keyboardOptions = KeyboardOptions(imeAction = ImeAction.Next),
@@ -107,14 +108,14 @@ internal fun SegmentFormScene(
                     onValueChange = onSegmentRoundsChange,
                     modifier = Modifier
                         .fillMaxWidth()
-                        .padding(top = TempoTheme.dimensions.spaceXL)
                         .focusRequester(segmentRoundsRef),
                     labelText = stringResource(R.string.field_label_segment_rounds),
                     errorText = state.errors[SegmentField.Rounds]?.let {
-                        stringResource(id = it.stringResId, formatArgs = it.formatArgs)
+                        stringResource(id = it.stringResId, formatArgs = it.formatArgs.toTypedArray())
                     },
                     singleLine = true,
                     keyboardOptions = KeyboardOptions(
+                        keyboardType = KeyboardType.Number,
                         imeAction = if (state.isTimeFieldVisible) ImeAction.Next else ImeAction.Done
                     ),
                     keyboardActions = KeyboardActions(
@@ -140,7 +141,7 @@ internal fun SegmentFormScene(
                             .focusRequester(segmentTimeRef),
                         labelText = stringResource(R.string.field_label_segment_time),
                         errorText = state.errors[SegmentField.Time]?.let {
-                            stringResource(id = it.stringResId, formatArgs = it.formatArgs)
+                            stringResource(id = it.stringResId, formatArgs = it.formatArgs.toTypedArray())
                         },
                         supportingText = stringResource(R.string.field_support_text_segment_time),
                         imeAction = ImeAction.Done,

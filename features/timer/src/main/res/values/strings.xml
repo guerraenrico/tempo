@@ -8,6 +8,8 @@
     <string name="title_segment_time_type_rest">REST</string>
     <string name="title_routine_completed">Completed</string>
 
+    <string name="label_routine_round">Round %1$s of %2$s</string>
+    <string name="label_routine_segment_round">Set %1$s of %2$s</string>
     <string name="label_routine_total_time">Total time</string>
     <string name="label_routine_skip_count">N° skips</string>
     <string name="label_routine_settings_keep_screen_on">Keep screen on</string>

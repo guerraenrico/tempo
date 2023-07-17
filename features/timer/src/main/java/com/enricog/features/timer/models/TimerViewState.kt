@@ -3,6 +3,7 @@ package com.enricog.features.timer.models
 import androidx.annotation.DrawableRes
 import androidx.annotation.StringRes
 import androidx.compose.ui.graphics.Color
+import com.enricog.core.compose.api.classes.ImmutableList
 import com.enricog.ui.components.button.icon.TempoIconButtonSize
 import com.enricog.ui.components.textField.TimeText
 
@@ -14,10 +15,15 @@ internal sealed class TimerViewState {
         val timeInSeconds: Long,
         @StringRes val stepTitleId: Int,
         val segmentName: String,
+        val routineRoundText: RoundText?,
+        val segmentRoundText: RoundText?,
         val clockBackground: Background,
         val clockOnBackgroundColor: Color,
         val timerActions: Actions
     ) : TimerViewState() {
+
+        val hasRoundsText : Boolean
+            get() = routineRoundText != null || segmentRoundText != null
 
         data class Background(
             val background: Color,
@@ -35,6 +41,8 @@ internal sealed class TimerViewState {
                 val size: TempoIconButtonSize
             )
         }
+
+        data class RoundText(@StringRes val labelId: Int, val formatArgs: ImmutableList<Any>)
     }
 
     data class Completed(

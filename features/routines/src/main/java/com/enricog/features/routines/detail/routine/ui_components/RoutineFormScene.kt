@@ -90,7 +90,7 @@ internal fun RoutineFormScene(
                             .focusRequester(routineNameRef),
                         labelText = stringResource(R.string.field_label_routine_name),
                         errorText = errors[RoutineField.Name]?.let {
-                            stringResource(id = it.stringResId, formatArgs = it.formatArgs)
+                            stringResource(id = it.stringResId, formatArgs = it.formatArgs.toTypedArray())
                         },
                         singleLine = true,
                         keyboardOptions = KeyboardOptions(imeAction = ImeAction.Next),
@@ -107,7 +107,7 @@ internal fun RoutineFormScene(
                             .focusRequester(routineRoundsRef),
                         labelText = stringResource(R.string.field_label_routine_rounds),
                         errorText = errors[RoutineField.Rounds]?.let {
-                            stringResource(id = it.stringResId, formatArgs = it.formatArgs)
+                            stringResource(id = it.stringResId, formatArgs = it.formatArgs.toTypedArray())
                         },
                         keyboardOptions = KeyboardOptions(
                             keyboardType = KeyboardType.Number,
