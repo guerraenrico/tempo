@@ -61,8 +61,8 @@ class TimerScreenKtTest {
                     size = TempoIconButtonSize.Normal
                 ),
                 play = TimerViewState.Counting.Actions.Button(
-                    iconResId =  R.drawable.ic_timer_stop,
-                    contentDescriptionResId =  R.string.content_description_button_stop_routine_segment,
+                    iconResId = R.drawable.ic_timer_stop,
+                    contentDescriptionResId = R.string.content_description_button_stop_routine_segment,
                     size = TempoIconButtonSize.Normal
                 ),
                 next = TimerViewState.Counting.Actions.Button(
@@ -70,7 +70,9 @@ class TimerScreenKtTest {
                     contentDescriptionResId = R.string.content_description_button_next_routine_segment,
                     size = TempoIconButtonSize.Normal
                 )
-            )
+            ),
+            routineRoundText = null,
+            segmentRoundText = null
         )
 
         setContent {

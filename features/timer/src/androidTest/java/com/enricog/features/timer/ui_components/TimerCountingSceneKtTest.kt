@@ -5,6 +5,7 @@ import androidx.compose.ui.test.assertIsDisplayed
 import androidx.compose.ui.test.assertTextEquals
 import androidx.compose.ui.test.junit4.createComposeRule
 import androidx.compose.ui.test.onNodeWithTag
+import com.enricog.core.compose.api.classes.immutableListOf
 import com.enricog.core.compose.testing.invoke
 import com.enricog.features.timer.R
 import com.enricog.features.timer.models.TimerViewState
@@ -20,7 +21,7 @@ class TimerCountingSceneKtTest {
     val composeTestRule = createComposeRule()
 
     @Test
-    fun shouldShowTitlesClockAndActionBar() = composeTestRule {
+    fun validateElements() = composeTestRule {
         val viewState = TimerViewState.Counting(
             stepTitleId = R.string.title_segment_step_type_in_progress,
             segmentName = "segment name",
@@ -46,6 +47,14 @@ class TimerCountingSceneKtTest {
                     contentDescriptionResId = R.string.content_description_button_next_routine_segment,
                     size = TempoIconButtonSize.Normal
                 )
+            ),
+            routineRoundText = TimerViewState.Counting.RoundText(
+                labelId = R.string.label_routine_round,
+                formatArgs = immutableListOf(1, 2)
+            ),
+            segmentRoundText = TimerViewState.Counting.RoundText(
+                labelId = R.string.label_routine_segment_round,
+                formatArgs = immutableListOf(2, 2)
             )
         )
 
@@ -60,54 +69,23 @@ class TimerCountingSceneKtTest {
             }
         }
 
-        onNodeWithTag(StepTitleTestTag).assertIsDisplayed()
-        onNodeWithTag(SegmentNameTestTag).assertIsDisplayed()
+        onNodeWithTag(StepTitleTestTag)
+            .assertIsDisplayed()
+            .assertTextEquals("GO")
+
+        onNodeWithTag(SegmentNameTestTag)
+            .assertIsDisplayed()
+            .assertTextEquals("segment name")
+
+        onNodeWithTag(RoutineRoundTestTag)
+            .assertIsDisplayed()
+            .assertTextEquals("Round 1 of 2")
+
+        onNodeWithTag(SegmentRoundTestTag)
+            .assertIsDisplayed()
+            .assertTextEquals("Set 2 of 2")
+
         onNodeWithTag(ClockTestTag).assertIsDisplayed()
         onNodeWithTag(ActionBarTestTag).assertIsDisplayed()
-    }
-
-    @Test
-    fun testStepTitleAndSegmentName() = composeTestRule {
-        val viewState = TimerViewState.Counting(
-            stepTitleId = R.string.title_segment_step_type_in_progress,
-            segmentName = "segment name",
-            timeInSeconds = 1,
-            clockBackground = Background(
-                background = Color.Blue,
-                ripple = null
-            ),
-            clockOnBackgroundColor = Color.White,
-            timerActions = TimerViewState.Counting.Actions(
-                back = TimerViewState.Counting.Actions.Button(
-                    iconResId = R.drawable.ic_timer_back,
-                    contentDescriptionResId = R.string.content_description_button_back_routine_segment,
-                    size = TempoIconButtonSize.Normal
-                ),
-                play = TimerViewState.Counting.Actions.Button(
-                    iconResId =  R.drawable.ic_timer_stop,
-                    contentDescriptionResId =  R.string.content_description_button_stop_routine_segment,
-                    size = TempoIconButtonSize.Normal
-                ),
-                next = TimerViewState.Counting.Actions.Button(
-                    iconResId = R.drawable.ic_timer_next,
-                    contentDescriptionResId = R.string.content_description_button_next_routine_segment,
-                    size = TempoIconButtonSize.Normal
-                )
-            )
-        )
-
-        setContent {
-            TempoTheme {
-                TimerCountingScene(
-                    state = viewState,
-                    onPlay = {},
-                    onBack = {},
-                    onNext = {}
-                )
-            }
-        }
-
-        onNodeWithTag(StepTitleTestTag).assertTextEquals("GO")
-        onNodeWithTag(SegmentNameTestTag).assertTextEquals("segment name")
     }
 }

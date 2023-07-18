@@ -127,7 +127,7 @@ internal class TimerStateConverter @Inject constructor(
         }
         return TimerViewState.Counting.RoundText(
             labelId = R.string.label_routine_round,
-            formatArgs = immutableListOf(runningStep.routineRound, routine.rounds.toString())
+            formatArgs = immutableListOf(runningStep.routineRound, routine.rounds)
         )
     }
 
@@ -137,7 +137,7 @@ internal class TimerStateConverter @Inject constructor(
         }
         return TimerViewState.Counting.RoundText(
             labelId = R.string.label_routine_segment_round,
-            formatArgs = immutableListOf(runningStep.segmentRound, runningSegment.rounds.toString())
+            formatArgs = immutableListOf(runningStep.segmentRound, runningSegment.rounds)
         )
     }
 

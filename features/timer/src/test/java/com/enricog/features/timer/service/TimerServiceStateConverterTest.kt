@@ -63,14 +63,18 @@ internal class TimerServiceStateConverterTest {
                 id = 0,
                 count = Count(seconds = 5.seconds, isRunning = true, isCompleted = false),
                 type = SegmentStepType.IN_PROGRESS,
-                segment = Segment.EMPTY.copy(name = "segment name", type = TimeType.REST)
+                segment = Segment.EMPTY.copy(name = "segment name", type = TimeType.REST),
+                routineRound = 1,
+                segmentRound = 1
             ),
             steps = listOf(
                 SegmentStep(
                     id = 0,
                     count = Count(seconds = 5.seconds, isRunning = true, isCompleted = false),
                     type = SegmentStepType.IN_PROGRESS,
-                    segment = Segment.EMPTY.copy(name = "segment name", type = TimeType.REST)
+                    segment = Segment.EMPTY.copy(name = "segment name", type = TimeType.REST),
+                    routineRound = 1,
+                    segmentRound = 1
                 )
             ),
             startedAt = OffsetDateTime.now(clock),
@@ -91,7 +95,9 @@ internal class TimerServiceStateConverterTest {
                     iconResId = R.drawable.ic_timer_stop,
                     contentDescriptionResId = R.string.content_description_button_stop_routine_segment
                 )
-            )
+            ),
+            routineRoundText = null,
+            segmentRoundText = null
         )
 
         val actual = stateConverter.convert(state)
@@ -109,14 +115,18 @@ internal class TimerServiceStateConverterTest {
                 id = 0,
                 count = Count(seconds = 5.seconds, isRunning = false, isCompleted = false),
                 type = SegmentStepType.IN_PROGRESS,
-                segment = Segment.EMPTY.copy(name = "segment name", type = TimeType.REST)
+                segment = Segment.EMPTY.copy(name = "segment name", type = TimeType.REST),
+                routineRound = 1,
+                segmentRound = 1
             ),
             steps = listOf(
                 SegmentStep(
                     id = 0,
                     count = Count(seconds = 5.seconds, isRunning = false, isCompleted = false),
                     type = SegmentStepType.IN_PROGRESS,
-                    segment = Segment.EMPTY.copy(name = "segment name", type = TimeType.REST)
+                    segment = Segment.EMPTY.copy(name = "segment name", type = TimeType.REST),
+                    routineRound = 1,
+                    segmentRound = 1
                 )
             ),
             startedAt = OffsetDateTime.now(clock),
@@ -137,7 +147,9 @@ internal class TimerServiceStateConverterTest {
                     iconResId = R.drawable.ic_timer_play,
                     contentDescriptionResId = R.string.content_description_button_start_routine_segment
                 )
-            )
+            ),
+            routineRoundText = null,
+            segmentRoundText = null
         )
 
         val actual = stateConverter.convert(state)
@@ -156,14 +168,18 @@ internal class TimerServiceStateConverterTest {
                     id = 0,
                     count = Count(seconds = 5.seconds, isRunning = true, isCompleted = false),
                     type = SegmentStepType.IN_PROGRESS,
-                    segment = Segment.EMPTY.copy(name = "segment name", type = TimeType.REST)
+                    segment = Segment.EMPTY.copy(name = "segment name", type = TimeType.REST),
+                    routineRound = 1,
+                    segmentRound = 1
                 ),
                 steps = listOf(
                     SegmentStep(
                         id = 0,
                         count = Count(seconds = 5.seconds, isRunning = true, isCompleted = false),
                         type = SegmentStepType.IN_PROGRESS,
-                        segment = Segment.EMPTY.copy(name = "segment name", type = TimeType.REST)
+                        segment = Segment.EMPTY.copy(name = "segment name", type = TimeType.REST),
+                        routineRound = 1,
+                        segmentRound = 1
                     )
                 ),
                 startedAt = OffsetDateTime.now(clock),
@@ -184,7 +200,9 @@ internal class TimerServiceStateConverterTest {
                         iconResId = R.drawable.ic_timer_stop,
                         contentDescriptionResId = R.string.content_description_button_stop_routine_segment
                     )
-                )
+                ),
+                routineRoundText = null,
+                segmentRoundText = null
             )
 
             val actual = stateConverter.convert(state)
@@ -204,6 +222,8 @@ internal class TimerServiceStateConverterTest {
                     count = Count(seconds = 5.seconds, isRunning = true, isCompleted = false),
                     type = SegmentStepType.IN_PROGRESS,
                     segment = Segment.EMPTY.copy(name = "segment name", type = TimeType.TIMER),
+                    routineRound = 1,
+                    segmentRound = 1
                 ),
                 steps = listOf(
                     SegmentStep(
@@ -211,6 +231,8 @@ internal class TimerServiceStateConverterTest {
                         count = Count(seconds = 5.seconds, isRunning = true, isCompleted = false),
                         type = SegmentStepType.IN_PROGRESS,
                         segment = Segment.EMPTY.copy(name = "segment name", type = TimeType.TIMER),
+                        routineRound = 1,
+                        segmentRound = 1
                     )
                 ),
                 startedAt = OffsetDateTime.now(clock),
@@ -231,7 +253,9 @@ internal class TimerServiceStateConverterTest {
                         iconResId = R.drawable.ic_timer_stop,
                         contentDescriptionResId = R.string.content_description_button_stop_routine_segment
                     )
-                )
+                ),
+                routineRoundText = null,
+                segmentRoundText = null
             )
 
             val actual = stateConverter.convert(state)
@@ -251,6 +275,8 @@ internal class TimerServiceStateConverterTest {
                     count = Count(seconds = 5.seconds, isRunning = true, isCompleted = false),
                     type = SegmentStepType.IN_PROGRESS,
                     segment = Segment.EMPTY.copy(name = "segment name", type = TimeType.STOPWATCH),
+                    routineRound = 1,
+                    segmentRound = 1
                 ),
                 steps = listOf(
                     SegmentStep(
@@ -258,6 +284,8 @@ internal class TimerServiceStateConverterTest {
                         count = Count(seconds = 0.seconds, isRunning = true, isCompleted = false),
                         type = SegmentStepType.IN_PROGRESS,
                         segment = Segment.EMPTY.copy(name = "segment name", type = TimeType.STOPWATCH),
+                        routineRound = 1,
+                        segmentRound = 1
                     )
                 ),
                 startedAt = OffsetDateTime.now(clock),
@@ -278,6 +306,92 @@ internal class TimerServiceStateConverterTest {
                         iconResId = R.drawable.ic_timer_stop,
                         contentDescriptionResId = R.string.content_description_button_stop_routine_segment
                     )
+                ),
+                routineRoundText = null,
+                segmentRoundText = null
+            )
+
+            val actual = stateConverter.convert(state)
+
+            assertThat(actual).isEqualTo(expected)
+        }
+
+    @Test
+    fun `test map counting state with round texts when routine and segment rounds are more than one `() =
+        coroutineRule {
+            val state = TimerState.Counting(
+                routine = Routine.EMPTY.copy(
+                    segments = listOf(Segment.EMPTY.copy(name = "segment name", type = TimeType.REST, rounds = 2)),
+                    rounds = 2
+                ),
+                runningStep = SegmentStep(
+                    id = 1,
+                    count = Count(seconds = 5.seconds, isRunning = true, isCompleted = false),
+                    type = SegmentStepType.IN_PROGRESS,
+                    segment = Segment.EMPTY.copy(name = "segment name", type = TimeType.REST, rounds = 2),
+                    routineRound = 1,
+                    segmentRound = 2
+                ),
+                steps = listOf(
+                    SegmentStep(
+                        id = 0,
+                        count = Count(seconds = 5.seconds, isRunning = false, isCompleted = true),
+                        type = SegmentStepType.IN_PROGRESS,
+                        segment = Segment.EMPTY.copy(name = "segment name", type = TimeType.REST, rounds = 2),
+                        routineRound = 1,
+                        segmentRound = 1
+                    ),
+                    SegmentStep(
+                        id = 1,
+                        count = Count(seconds = 5.seconds, isRunning = true, isCompleted = false),
+                        type = SegmentStepType.IN_PROGRESS,
+                        segment = Segment.EMPTY.copy(name = "segment name", type = TimeType.REST, rounds = 2),
+                        routineRound = 1,
+                        segmentRound = 2
+                    ),
+                    SegmentStep(
+                        id = 0,
+                        count = Count(seconds = 5.seconds, isRunning = false, isCompleted = false),
+                        type = SegmentStepType.IN_PROGRESS,
+                        segment = Segment.EMPTY.copy(name = "segment name", type = TimeType.REST, rounds = 2),
+                        routineRound = 2,
+                        segmentRound = 1
+                    ),
+                    SegmentStep(
+                        id = 1,
+                        count = Count(seconds = 5.seconds, isRunning = false, isCompleted = false),
+                        type = SegmentStepType.IN_PROGRESS,
+                        segment = Segment.EMPTY.copy(name = "segment name", type = TimeType.REST, rounds = 2),
+                        routineRound = 2,
+                        segmentRound = 2
+                    )
+                ),
+                startedAt = OffsetDateTime.now(clock),
+                skipCount = 0,
+                timerTheme = TimerTheme.DEFAULT,
+                timerSettings = TimerSettings.DEFAULT
+            )
+            val expected = TimerServiceViewState.Counting(
+                time = "00:05",
+                stepTitleId = R.string.title_segment_time_type_rest,
+                segmentName = "segment name",
+                clockBackground = TimerServiceViewState.Counting.Background(
+                    background = "18374966855136706560".toULong().toLong()
+                ),
+                clockOnBackgroundColor = "18446744069414584320".toULong().toLong(),
+                timerActions = TimerServiceViewState.Counting.Actions(
+                    play = TimerServiceViewState.Counting.Actions.Button(
+                        iconResId = R.drawable.ic_timer_stop,
+                        contentDescriptionResId = R.string.content_description_button_stop_routine_segment
+                    )
+                ),
+                routineRoundText = TimerServiceViewState.Counting.RoundText(
+                    labelId = R.string.label_routine_round,
+                    formatArgs = listOf(1, 2)
+                ),
+                segmentRoundText = TimerServiceViewState.Counting.RoundText(
+                    labelId = R.string.label_routine_segment_round,
+                    formatArgs = listOf(2, 2)
                 )
             )
 

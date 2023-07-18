@@ -159,7 +159,9 @@ internal class TimerSoundPlayerTest {
     }
 
     @Test
-    fun `should speech when step count is at specifics seconds and segment is preparation`(@TestParameter testCase: PreparationStepTestCase) {
+    fun `should speech when step count is at specifics seconds and segment is preparation`(
+        @TestParameter testCase: PreparationStepTestCase
+    ) {
         timerSoundPlayer.playFrom(state = testCase.state)
 
         soundPlayer.assertSoundPlayed(testCase.expectedSound)
@@ -212,7 +214,9 @@ internal class TimerSoundPlayerTest {
     }
 
     @Test
-    fun `should speech when step count is at specifics seconds and segment is timer in progress`(@TestParameter testCase: TimerStepTestCase) {
+    fun `should speech when step count is at specifics seconds and segment is timer in progress`(
+        @TestParameter testCase: TimerStepTestCase
+    ) {
         timerSoundPlayer.playFrom(state = testCase.state)
 
         soundPlayer.assertSoundPlayed(testCase.expectedSound)
@@ -265,7 +269,9 @@ internal class TimerSoundPlayerTest {
     }
 
     @Test
-    fun `should speech when step count is at specifics seconds and segment is rest in progress`(@TestParameter testCase: RestStepTestCase) {
+    fun `should speech when step count is at specifics seconds and segment is rest in progress`(
+        @TestParameter testCase: RestStepTestCase
+    ) {
         timerSoundPlayer.playFrom(state = testCase.state)
 
         soundPlayer.assertSoundPlayed(testCase.expectedSound)
@@ -285,20 +291,26 @@ internal class TimerSoundPlayerTest {
                 id = 0,
                 count = Count(seconds = 5.seconds, isRunning = true, isCompleted = false),
                 type = SegmentStepType.IN_PROGRESS,
-                segment = Segment.EMPTY.copy(name = "segment timer", type = TimeType.TIMER, time = 3000.seconds)
+                segment = Segment.EMPTY.copy(name = "segment timer", type = TimeType.TIMER, time = 3000.seconds),
+                routineRound = 1,
+                segmentRound = 1
             ),
             steps = listOf(
                 SegmentStep(
                     id = 0,
                     count = Count(seconds = 30.seconds, isRunning = false, isCompleted = false),
                     type = SegmentStepType.PREPARATION,
-                    segment = Segment.EMPTY.copy(name = "segment timer", type = TimeType.TIMER, time = 3000.seconds)
+                    segment = Segment.EMPTY.copy(name = "segment timer", type = TimeType.TIMER, time = 3000.seconds),
+                    routineRound = 1,
+                    segmentRound = 1
                 ),
                 SegmentStep(
                     id = 1,
                     count = Count(seconds = 3000.seconds, isRunning = false, isCompleted = false),
                     type = SegmentStepType.IN_PROGRESS,
-                    segment = Segment.EMPTY.copy(name = "segment timer", type = TimeType.TIMER, time = 3000.seconds)
+                    segment = Segment.EMPTY.copy(name = "segment timer", type = TimeType.TIMER, time = 3000.seconds),
+                    routineRound = 1,
+                    segmentRound = 1
                 ),
                 SegmentStep(
                     id = 2,
@@ -308,7 +320,9 @@ internal class TimerSoundPlayerTest {
                         name = "segment stopwatch",
                         type = TimeType.STOPWATCH,
                         time = 0.seconds
-                    )
+                    ),
+                    routineRound = 1,
+                    segmentRound = 1
                 ),
                 SegmentStep(
                     id = 3,
@@ -318,13 +332,18 @@ internal class TimerSoundPlayerTest {
                         name = "segment stopwatch",
                         type = TimeType.STOPWATCH,
                         time = 0.seconds
-                    )
+                    ),
+                    routineRound = 1,
+                    segmentRound = 1
                 ),
                 SegmentStep(
                     id = 4,
                     count = Count(seconds = 3000.seconds, isRunning = false, isCompleted = false),
                     type = SegmentStepType.IN_PROGRESS,
                     segment = Segment.EMPTY.copy(name = "segment rest", type = TimeType.REST, time = 3000.seconds)
+                    ,
+                    routineRound = 1,
+                    segmentRound = 1
                 )
             ),
             startedAt = OffsetDateTime.now(Clock.fixed(Instant.parse("2023-04-03T10:15:30.00Z"), ZoneId.of("UTC"))),

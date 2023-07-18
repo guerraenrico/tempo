@@ -1,6 +1,7 @@
 package com.enricog.features.timer
 
 import androidx.compose.ui.graphics.Color
+import com.enricog.core.compose.api.classes.immutableListOf
 import com.enricog.core.coroutines.testing.CoroutineRule
 import com.enricog.core.entities.seconds
 import com.enricog.data.routines.api.entities.Routine
@@ -68,14 +69,18 @@ class TimerStateConverterTest {
                 id = 0,
                 count = Count(seconds = 5.seconds, isRunning = true, isCompleted = false),
                 type = SegmentStepType.IN_PROGRESS,
-                segment = Segment.EMPTY.copy(name = "segment name", type = TimeType.REST)
+                segment = Segment.EMPTY.copy(name = "segment name", type = TimeType.REST),
+                routineRound = 1,
+                segmentRound = 1
             ),
             steps = listOf(
                 SegmentStep(
                     id = 0,
                     count = Count(seconds = 5.seconds, isRunning = true, isCompleted = false),
                     type = SegmentStepType.IN_PROGRESS,
-                    segment = Segment.EMPTY.copy(name = "segment name", type = TimeType.REST)
+                    segment = Segment.EMPTY.copy(name = "segment name", type = TimeType.REST),
+                    routineRound = 1,
+                    segmentRound = 1
                 )
             ),
             startedAt = OffsetDateTime.now(clock),
@@ -108,7 +113,9 @@ class TimerStateConverterTest {
                     contentDescriptionResId = R.string.content_description_button_next_routine_segment,
                     size = TempoIconButtonSize.Normal
                 )
-            )
+            ),
+            routineRoundText = null,
+            segmentRoundText = null,
         )
 
         val actual = stateConverter.convert(state)
@@ -126,14 +133,18 @@ class TimerStateConverterTest {
                 id = 0,
                 count = Count(seconds = 5.seconds, isRunning = false, isCompleted = false),
                 type = SegmentStepType.IN_PROGRESS,
-                segment = Segment.EMPTY.copy(name = "segment name", type = TimeType.REST)
+                segment = Segment.EMPTY.copy(name = "segment name", type = TimeType.REST),
+                routineRound = 1,
+                segmentRound = 1
             ),
             steps = listOf(
                 SegmentStep(
                     id = 0,
                     count = Count(seconds = 5.seconds, isRunning = false, isCompleted = false),
                     type = SegmentStepType.IN_PROGRESS,
-                    segment = Segment.EMPTY.copy(name = "segment name", type = TimeType.REST)
+                    segment = Segment.EMPTY.copy(name = "segment name", type = TimeType.REST),
+                    routineRound = 1,
+                    segmentRound = 1
                 )
             ),
             startedAt = OffsetDateTime.now(clock),
@@ -166,7 +177,9 @@ class TimerStateConverterTest {
                     contentDescriptionResId = R.string.content_description_button_next_routine_segment,
                     size = TempoIconButtonSize.Normal
                 )
-            )
+            ),
+            routineRoundText = null,
+            segmentRoundText = null
         )
 
         val actual = stateConverter.convert(state)
@@ -185,14 +198,18 @@ class TimerStateConverterTest {
                     id = 0,
                     count = Count(seconds = 5.seconds, isRunning = true, isCompleted = false),
                     type = SegmentStepType.IN_PROGRESS,
-                    segment = Segment.EMPTY.copy(name = "segment name", type = TimeType.REST)
+                    segment = Segment.EMPTY.copy(name = "segment name", type = TimeType.REST),
+                    routineRound = 1,
+                    segmentRound = 1
                 ),
                 steps = listOf(
                     SegmentStep(
                         id = 0,
                         count = Count(seconds = 5.seconds, isRunning = true, isCompleted = false),
                         type = SegmentStepType.IN_PROGRESS,
-                        segment = Segment.EMPTY.copy(name = "segment name", type = TimeType.REST)
+                        segment = Segment.EMPTY.copy(name = "segment name", type = TimeType.REST),
+                        routineRound = 1,
+                        segmentRound = 1
                     )
                 ),
                 startedAt = OffsetDateTime.now(clock),
@@ -225,7 +242,9 @@ class TimerStateConverterTest {
                         contentDescriptionResId = R.string.content_description_button_next_routine_segment,
                         size = TempoIconButtonSize.Normal
                     )
-                )
+                ),
+                routineRoundText = null,
+                segmentRoundText = null
             )
 
             val actual = stateConverter.convert(state)
@@ -245,6 +264,8 @@ class TimerStateConverterTest {
                     count = Count(seconds = 5.seconds, isRunning = true, isCompleted = false),
                     type = SegmentStepType.IN_PROGRESS,
                     segment = Segment.EMPTY.copy(name = "segment name", type = TimeType.TIMER),
+                    routineRound = 1,
+                    segmentRound = 1
                 ),
                 steps = listOf(
                     SegmentStep(
@@ -252,6 +273,8 @@ class TimerStateConverterTest {
                         count = Count(seconds = 5.seconds, isRunning = true, isCompleted = false),
                         type = SegmentStepType.IN_PROGRESS,
                         segment = Segment.EMPTY.copy(name = "segment name", type = TimeType.TIMER),
+                        routineRound = 1,
+                        segmentRound = 1
                     )
                 ),
                 startedAt = OffsetDateTime.now(clock),
@@ -284,7 +307,9 @@ class TimerStateConverterTest {
                         contentDescriptionResId = R.string.content_description_button_next_routine_segment,
                         size = TempoIconButtonSize.Normal
                     )
-                )
+                ),
+                routineRoundText = null,
+                segmentRoundText = null
             )
 
             val actual = stateConverter.convert(state)
@@ -304,6 +329,8 @@ class TimerStateConverterTest {
                     count = Count(seconds = 5.seconds, isRunning = true, isCompleted = false),
                     type = SegmentStepType.IN_PROGRESS,
                     segment = Segment.EMPTY.copy(name = "segment name", type = TimeType.STOPWATCH),
+                    routineRound = 1,
+                    segmentRound = 1
                 ),
                 steps = listOf(
                     SegmentStep(
@@ -311,6 +338,8 @@ class TimerStateConverterTest {
                         count = Count(seconds = 0.seconds, isRunning = true, isCompleted = false),
                         type = SegmentStepType.IN_PROGRESS,
                         segment = Segment.EMPTY.copy(name = "segment name", type = TimeType.STOPWATCH),
+                        routineRound = 1,
+                        segmentRound = 1
                     )
                 ),
                 startedAt = OffsetDateTime.now(clock),
@@ -343,7 +372,9 @@ class TimerStateConverterTest {
                         contentDescriptionResId = R.string.content_description_button_next_routine_segment,
                         size = TempoIconButtonSize.Normal
                     )
-                )
+                ),
+                routineRoundText = null,
+                segmentRoundText = null
             )
 
             val actual = stateConverter.convert(state)
@@ -365,20 +396,26 @@ class TimerStateConverterTest {
                     id = 0,
                     count = Count(seconds = 5.seconds, isRunning = true, isCompleted = true),
                     type = SegmentStepType.PREPARATION,
-                    segment = Segment.EMPTY.copy(name = "segment name", type = TimeType.STOPWATCH)
+                    segment = Segment.EMPTY.copy(name = "segment name", type = TimeType.STOPWATCH),
+                    routineRound = 1,
+                    segmentRound = 1
                 ),
                 steps = listOf(
                     SegmentStep(
                         id = 0,
                         count = Count(seconds = 0.seconds, isRunning = true, isCompleted = true),
                         type = SegmentStepType.PREPARATION,
-                        segment = Segment.EMPTY.copy(name = "segment name", type = TimeType.STOPWATCH)
+                        segment = Segment.EMPTY.copy(name = "segment name", type = TimeType.STOPWATCH),
+                        routineRound = 1,
+                        segmentRound = 1
                     ),
                     SegmentStep(
                         id = 1,
                         count = Count(seconds = 5.seconds, isRunning = false, isCompleted = false),
                         type = SegmentStepType.IN_PROGRESS,
-                        segment = Segment.EMPTY.copy(name = "segment name", type = TimeType.STOPWATCH)
+                        segment = Segment.EMPTY.copy(name = "segment name", type = TimeType.STOPWATCH),
+                        routineRound = 1,
+                        segmentRound = 1
                     )
                 ),
                 startedAt = OffsetDateTime.now(clock),
@@ -411,7 +448,9 @@ class TimerStateConverterTest {
                         contentDescriptionResId = R.string.content_description_button_next_routine_segment,
                         size = TempoIconButtonSize.Normal
                     )
-                )
+                ),
+                routineRoundText = null,
+                segmentRoundText = null
             )
 
             val actual = stateConverter.convert(state)
@@ -434,32 +473,42 @@ class TimerStateConverterTest {
                     id = 1,
                     count = Count(seconds = 5.seconds, isRunning = true, isCompleted = true),
                     type = SegmentStepType.IN_PROGRESS,
-                    segment = Segment.EMPTY.copy(name = "segment name stopwatch", type = TimeType.STOPWATCH)
+                    segment = Segment.EMPTY.copy(name = "segment name stopwatch", type = TimeType.STOPWATCH),
+                    routineRound = 1,
+                    segmentRound = 1
                 ),
                 steps = listOf(
                     SegmentStep(
                         id = 0,
                         count = Count(seconds = 5.seconds, isRunning = false, isCompleted = false),
                         type = SegmentStepType.PREPARATION,
-                        segment = Segment.EMPTY.copy(name = "segment name stopwatch", type = TimeType.STOPWATCH)
+                        segment = Segment.EMPTY.copy(name = "segment name stopwatch", type = TimeType.STOPWATCH),
+                        routineRound = 1,
+                        segmentRound = 1
                     ),
                     SegmentStep(
                         id = 1,
                         count = Count(seconds = 0.seconds, isRunning = false, isCompleted = false),
                         type = SegmentStepType.IN_PROGRESS,
-                        segment = Segment.EMPTY.copy(name = "segment name stopwatch", type = TimeType.STOPWATCH)
+                        segment = Segment.EMPTY.copy(name = "segment name stopwatch", type = TimeType.STOPWATCH),
+                        routineRound = 1,
+                        segmentRound = 1
                     ),
                     SegmentStep(
                         id = 2,
                         count = Count(seconds = 5.seconds, isRunning = false, isCompleted = false),
                         type = SegmentStepType.PREPARATION,
-                        segment = Segment.EMPTY.copy(name = "segment name timer", type = TimeType.TIMER)
+                        segment = Segment.EMPTY.copy(name = "segment name timer", type = TimeType.TIMER),
+                        routineRound = 1,
+                        segmentRound = 1
                     ),
                     SegmentStep(
                         id = 3,
                         count = Count(seconds = 0.seconds, isRunning = false, isCompleted = false),
                         type = SegmentStepType.IN_PROGRESS,
-                        segment = Segment.EMPTY.copy(name = "segment name timer", type = TimeType.TIMER)
+                        segment = Segment.EMPTY.copy(name = "segment name timer", type = TimeType.TIMER),
+                        routineRound = 1,
+                        segmentRound = 1
                     )
                 ),
                 startedAt = OffsetDateTime.now(clock),
@@ -492,7 +541,9 @@ class TimerStateConverterTest {
                         contentDescriptionResId = R.string.content_description_button_next_routine_segment,
                         size = TempoIconButtonSize.Normal
                     )
-                )
+                ),
+                routineRoundText = null,
+                segmentRoundText = null
             )
 
             val actual = stateConverter.convert(state)
@@ -513,20 +564,26 @@ class TimerStateConverterTest {
                 id = 2,
                 count = Count(seconds = 5.seconds, isRunning = true, isCompleted = true),
                 type = SegmentStepType.IN_PROGRESS,
-                segment = Segment.EMPTY.copy(name = "segment name timer", type = TimeType.STOPWATCH)
+                segment = Segment.EMPTY.copy(name = "segment name timer", type = TimeType.STOPWATCH),
+                routineRound = 1,
+                segmentRound = 1
             ),
             steps = listOf(
                 SegmentStep(
                     id = 1,
                     count = Count(seconds = 5.seconds, isRunning = false, isCompleted = false),
                     type = SegmentStepType.PREPARATION,
-                    segment = Segment.EMPTY.copy(name = "segment name timer", type = TimeType.TIMER)
+                    segment = Segment.EMPTY.copy(name = "segment name timer", type = TimeType.TIMER),
+                    routineRound = 1,
+                    segmentRound = 1
                 ),
                 SegmentStep(
                     id = 2,
                     count = Count(seconds = 0.seconds, isRunning = false, isCompleted = false),
                     type = SegmentStepType.IN_PROGRESS,
-                    segment = Segment.EMPTY.copy(name = "segment name timer", type = TimeType.TIMER)
+                    segment = Segment.EMPTY.copy(name = "segment name timer", type = TimeType.TIMER),
+                    routineRound = 1,
+                    segmentRound = 1
                 )
             ),
             startedAt = OffsetDateTime.now(clock),
@@ -537,6 +594,101 @@ class TimerStateConverterTest {
         val expected = TimerViewState.Completed(
             effectiveTotalTime = "0".timeText,
             skipCount = 1
+        )
+
+        val actual = stateConverter.convert(state)
+
+        assertThat(actual).isEqualTo(expected)
+    }
+
+    @Test
+    fun `test map counting state with round texts when routine and segment rounds are more than one`() = coroutineRule {
+        val state = TimerState.Counting(
+            routine = Routine.EMPTY.copy(
+                segments = listOf(Segment.EMPTY.copy(name = "segment name", type = TimeType.REST, rounds = 2)),
+                rounds = 2
+            ),
+            runningStep = SegmentStep(
+                id = 1,
+                count = Count(seconds = 5.seconds, isRunning = true, isCompleted = false),
+                type = SegmentStepType.IN_PROGRESS,
+                segment = Segment.EMPTY.copy(name = "segment name", type = TimeType.REST, rounds = 2),
+                routineRound = 1,
+                segmentRound = 2
+            ),
+            steps = listOf(
+                SegmentStep(
+                    id = 0,
+                    count = Count(seconds = 5.seconds, isRunning = false, isCompleted = true),
+                    type = SegmentStepType.IN_PROGRESS,
+                    segment = Segment.EMPTY.copy(name = "segment name", type = TimeType.REST, rounds = 2),
+                    routineRound = 1,
+                    segmentRound = 1
+                ),
+                SegmentStep(
+                    id = 1,
+                    count = Count(seconds = 5.seconds, isRunning = true, isCompleted = false),
+                    type = SegmentStepType.IN_PROGRESS,
+                    segment = Segment.EMPTY.copy(name = "segment name", type = TimeType.REST, rounds = 2),
+                    routineRound = 1,
+                    segmentRound = 2
+                ),
+                SegmentStep(
+                    id = 0,
+                    count = Count(seconds = 5.seconds, isRunning = false, isCompleted = false),
+                    type = SegmentStepType.IN_PROGRESS,
+                    segment = Segment.EMPTY.copy(name = "segment name", type = TimeType.REST, rounds = 2),
+                    routineRound = 2,
+                    segmentRound = 1
+                ),
+                SegmentStep(
+                    id = 1,
+                    count = Count(seconds = 5.seconds, isRunning = false, isCompleted = false),
+                    type = SegmentStepType.IN_PROGRESS,
+                    segment = Segment.EMPTY.copy(name = "segment name", type = TimeType.REST, rounds = 2),
+                    routineRound = 2,
+                    segmentRound = 2
+                )
+            ),
+            startedAt = OffsetDateTime.now(clock),
+            skipCount = 0,
+            timerTheme = TimerTheme.DEFAULT,
+            timerSettings = TimerSettings.DEFAULT
+        )
+        val expected = TimerViewState.Counting(
+            timeInSeconds = 5,
+            stepTitleId = R.string.title_segment_time_type_rest,
+            segmentName = "segment name",
+            clockBackground = Background(
+                background = Color.Green,
+                ripple = null
+            ),
+            clockOnBackgroundColor = Color.White,
+            timerActions = TimerViewState.Counting.Actions(
+                back = TimerViewState.Counting.Actions.Button(
+                    iconResId = R.drawable.ic_timer_back,
+                    contentDescriptionResId = R.string.content_description_button_back_routine_segment,
+                    size = TempoIconButtonSize.Normal
+                ),
+                play = TimerViewState.Counting.Actions.Button(
+                    iconResId = R.drawable.ic_timer_stop,
+                    contentDescriptionResId = R.string.content_description_button_stop_routine_segment,
+                    size = TempoIconButtonSize.Normal
+                ),
+                next = TimerViewState.Counting.Actions.Button(
+                    iconResId = R.drawable.ic_timer_next,
+                    contentDescriptionResId = R.string.content_description_button_next_routine_segment,
+                    size = TempoIconButtonSize.Normal
+                )
+            ),
+            routineRoundText = TimerViewState.Counting.RoundText(
+                labelId = R.string.label_routine_round,
+                formatArgs = immutableListOf(1, 2)
+            ),
+            segmentRoundText = TimerViewState.Counting.RoundText(
+                labelId = R.string.label_routine_segment_round,
+                formatArgs = immutableListOf(2, 2)
+            )
         )
 
         val actual = stateConverter.convert(state)

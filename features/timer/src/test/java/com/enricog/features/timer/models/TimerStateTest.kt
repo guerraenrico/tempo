@@ -34,32 +34,42 @@ internal class TimerStateTest {
             id = 0,
             count = count,
             type = SegmentStepType.PREPARATION,
-            segment = Segment.EMPTY.copy(id = 1.asID)
+            segment = Segment.EMPTY.copy(id = 1.asID),
+            routineRound = 1,
+            segmentRound = 1
         ),
         steps = listOf(
             SegmentStep(
                 id = 0,
                 count = count,
                 type = SegmentStepType.PREPARATION,
-                segment = Segment.EMPTY.copy(id = 1.asID)
+                segment = Segment.EMPTY.copy(id = 1.asID),
+                routineRound = 1,
+                segmentRound = 1
             ),
             SegmentStep(
                 id = 1,
                 count = count,
                 type = SegmentStepType.IN_PROGRESS,
-                segment = Segment.EMPTY.copy(id = 1.asID)
+                segment = Segment.EMPTY.copy(id = 1.asID),
+                routineRound = 1,
+                segmentRound = 1
             ),
             SegmentStep(
                 id = 2,
                 count = count,
                 type = SegmentStepType.PREPARATION,
-                segment = Segment.EMPTY.copy(id = 2.asID)
+                segment = Segment.EMPTY.copy(id = 2.asID),
+                routineRound = 1,
+                segmentRound = 1
             ),
             SegmentStep(
                 id = 3,
                 count = count,
                 type = SegmentStepType.IN_PROGRESS,
-                segment = Segment.EMPTY.copy(id = 2.asID)
+                segment = Segment.EMPTY.copy(id = 2.asID),
+                routineRound = 1,
+                segmentRound = 1
             )
         ),
         startedAt = OffsetDateTime.now(clock),
@@ -76,7 +86,9 @@ internal class TimerStateTest {
                     id = 3,
                     count = count.copy(isRunning = true, isCompleted = true),
                     type = SegmentStepType.IN_PROGRESS,
-                    segment = Segment.EMPTY.copy(id = 2.asID)
+                    segment = Segment.EMPTY.copy(id = 2.asID),
+                    routineRound = 1,
+                    segmentRound = 1
                 )
             ) to true,
             state.copy(
@@ -84,7 +96,9 @@ internal class TimerStateTest {
                     id = 2,
                     count = count.copy(isRunning = true, isCompleted = true),
                     type = SegmentStepType.PREPARATION,
-                    segment = Segment.EMPTY.copy(id = 2.asID)
+                    segment = Segment.EMPTY.copy(id = 2.asID),
+                    routineRound = 1,
+                    segmentRound = 1
                 )
             ) to false,
             state.copy(
@@ -92,7 +106,9 @@ internal class TimerStateTest {
                     id = 3,
                     count = count.copy(isRunning = true, isCompleted = false),
                     type = SegmentStepType.IN_PROGRESS,
-                    segment = Segment.EMPTY.copy(id = 2.asID)
+                    segment = Segment.EMPTY.copy(id = 2.asID),
+                    routineRound = 1,
+                    segmentRound = 1
                 )
             ) to false,
             state.copy(
@@ -100,7 +116,9 @@ internal class TimerStateTest {
                     id = 2,
                     count = count.copy(isRunning = true, isCompleted = false),
                     type = SegmentStepType.PREPARATION,
-                    segment = Segment.EMPTY.copy(id = 2.asID)
+                    segment = Segment.EMPTY.copy(id = 2.asID),
+                    routineRound = 1,
+                    segmentRound = 1
                 )
             ) to false
         )
@@ -119,7 +137,9 @@ internal class TimerStateTest {
                     id = 3,
                     count = count.copy(isRunning = true, isCompleted = false),
                     type = SegmentStepType.IN_PROGRESS,
-                    segment = Segment.EMPTY.copy(id = 2.asID, type = TimeType.STOPWATCH)
+                    segment = Segment.EMPTY.copy(id = 2.asID, type = TimeType.STOPWATCH),
+                    routineRound = 1,
+                    segmentRound = 1
                 )
             ) to true,
             state.copy(
@@ -127,7 +147,9 @@ internal class TimerStateTest {
                     id = 1,
                     count = count.copy(isRunning = true, isCompleted = false),
                     type = SegmentStepType.IN_PROGRESS,
-                    segment = Segment.EMPTY.copy(id = 1.asID, type = TimeType.TIMER)
+                    segment = Segment.EMPTY.copy(id = 1.asID, type = TimeType.TIMER),
+                    routineRound = 1,
+                    segmentRound = 1
                 )
             ) to false,
             state.copy(
@@ -135,7 +157,9 @@ internal class TimerStateTest {
                     id = 3,
                     count = count.copy(isRunning = false, isCompleted = false),
                     type = SegmentStepType.IN_PROGRESS,
-                    segment = Segment.EMPTY.copy(id = 2.asID, type = TimeType.STOPWATCH)
+                    segment = Segment.EMPTY.copy(id = 2.asID, type = TimeType.STOPWATCH),
+                    routineRound = 1,
+                    segmentRound = 1
                 )
             ) to false,
             state.copy(
@@ -143,7 +167,9 @@ internal class TimerStateTest {
                     id = 3,
                     count = count.copy(isRunning = true, isCompleted = true),
                     type = SegmentStepType.IN_PROGRESS,
-                    segment = Segment.EMPTY.copy(id = 2.asID, type = TimeType.STOPWATCH)
+                    segment = Segment.EMPTY.copy(id = 2.asID, type = TimeType.STOPWATCH),
+                    routineRound = 1,
+                    segmentRound = 1
                 )
             ) to true,
             state.copy(
@@ -151,7 +177,9 @@ internal class TimerStateTest {
                     id = 3,
                     count = count.copy(isRunning = true, isCompleted = false),
                     type = SegmentStepType.PREPARATION,
-                    segment = Segment.EMPTY.copy(id = 2.asID, type = TimeType.STOPWATCH)
+                    segment = Segment.EMPTY.copy(id = 2.asID, type = TimeType.STOPWATCH),
+                    routineRound = 1,
+                    segmentRound = 1
                 )
             ) to false,
         )

@@ -48,10 +48,13 @@ class TimerToolbarKtTest {
                                 contentDescriptionResId = R.string.content_description_button_next_routine_segment,
                                 size = TempoIconButtonSize.Normal
                             ),
-                        )
+                        ),
+                        routineRoundText = null,
+                        segmentRoundText = null
                     ),
                     onCloseClick = { },
-                    onSettingsClick = { })
+                    onSettingsClick = { }
+                )
             }
         }
 
@@ -91,11 +94,14 @@ class TimerToolbarKtTest {
                                 iconResId = R.drawable.ic_timer_next,
                                 contentDescriptionResId = R.string.content_description_button_next_routine_segment,
                                 size = TempoIconButtonSize.Normal
-                            ),
-                        )
+                            )
+                        ),
+                        routineRoundText = null,
+                        segmentRoundText = null
                     ),
                     onCloseClick = { },
-                    onSettingsClick = { })
+                    onSettingsClick = { }
+                )
             }
         }
 
