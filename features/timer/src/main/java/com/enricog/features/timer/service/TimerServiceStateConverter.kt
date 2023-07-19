@@ -31,6 +31,8 @@ internal class TimerServiceStateConverter @Inject constructor() : StateConverter
             time = state.runningStep.count.seconds.toText(),
             stepTitleId = state.getStepTitleId(),
             segmentName = state.runningSegment.name,
+            routineRoundText = state.getRoutineRoundText(),
+            segmentRoundText = state.getSegmentRoundText(),
             clockBackground = clockBackgroundResource.toViewBackground(),
             clockOnBackgroundColor = clockBackgroundResource.onBackgroundColor(),
             timerActions = state.getActions()
@@ -47,20 +49,24 @@ internal class TimerServiceStateConverter @Inject constructor() : StateConverter
                     else -> null
                 }
             )
+
             else -> ClockBackgroundResource(
                 backgroundResource = runningSegment.type.getResource(timerTheme = timerTheme),
                 rippleResource = when {
                     isStepCountCompleted -> when {
                         nextSegmentStep?.type == SegmentStepType.PREPARATION ->
                             timerTheme.preparationTimeResource
+
                         runningSegment.type == nextSegment?.type ->
                             TimerTheme.Resource(
                                 background = TimerTheme.Asset.Color(argb = 2233785410880798720.toULong()),
                                 onBackground = TimerTheme.Asset.Color(argb = 2233785410880798720.toULong())
                             )
+
                         else ->
                             nextSegment?.type?.getResource(timerTheme = timerTheme)
                     }
+
                     else -> null
                 }
             )
@@ -104,6 +110,26 @@ internal class TimerServiceStateConverter @Inject constructor() : StateConverter
             append(":")
             append(String.format(format, seconds))
         }
+    }
+
+    private fun TimerState.Counting.getRoutineRoundText(): TimerServiceViewState.Counting.RoundText? {
+        if (routine.rounds == 1) {
+            return null
+        }
+        return TimerServiceViewState.Counting.RoundText(
+            labelId = R.string.label_routine_round,
+            formatArgs = listOf(runningStep.routineRound, routine.rounds)
+        )
+    }
+
+    private fun TimerState.Counting.getSegmentRoundText(): TimerServiceViewState.Counting.RoundText? {
+        if (runningSegment.rounds == 1) {
+            return null
+        }
+        return TimerServiceViewState.Counting.RoundText(
+            labelId = R.string.label_routine_segment_round,
+            formatArgs = listOf(runningStep.segmentRound, runningSegment.rounds)
+        )
     }
 
     private data class ClockBackgroundResource(

@@ -23,7 +23,8 @@ internal fun SegmentScreen(viewModel: SegmentViewModel) {
 
         viewState.Compose(
             inputs = fieldInputs,
-            onSegmentNameChange = viewModel::onSegmentNameTextChange,
+            onSegmentNameChange = viewModel::onSegmentNameChange,
+            onSegmentRoundsChange = viewModel::onSegmentRoundsChange,
             onSegmentTimeChange = viewModel::onSegmentTimeChange,
             onSegmentTimeTypeChange = viewModel::onSegmentTypeChange,
             onSegmentSave = viewModel::onSegmentSave,
@@ -37,6 +38,7 @@ internal fun SegmentScreen(viewModel: SegmentViewModel) {
 internal fun SegmentViewState.Compose(
     inputs: SegmentInputs,
     onSegmentNameChange: (TextFieldValue) -> Unit,
+    onSegmentRoundsChange: (TextFieldValue) -> Unit,
     onSegmentTimeChange: (TimeText) -> Unit,
     onSegmentTimeTypeChange: (TimeTypeStyle) -> Unit,
     onSegmentSave: () -> Unit,
@@ -49,6 +51,7 @@ internal fun SegmentViewState.Compose(
             state = this,
             inputs = inputs,
             onSegmentNameChange = onSegmentNameChange,
+            onSegmentRoundsChange = onSegmentRoundsChange,
             onSegmentTimeChange = onSegmentTimeChange,
             onSegmentTimeTypeChange = onSegmentTimeTypeChange,
             onSegmentConfirmed = onSegmentSave,

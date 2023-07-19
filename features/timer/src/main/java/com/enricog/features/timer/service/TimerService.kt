@@ -11,6 +11,7 @@ import android.content.pm.ServiceInfo
 import android.graphics.Color
 import android.os.Build
 import android.os.IBinder
+import android.view.View
 import android.widget.RemoteViews
 import androidx.core.app.NotificationCompat
 import androidx.core.graphics.toColor
@@ -170,8 +171,21 @@ internal class TimerService : Service() {
             setTextColor(R.id.notification_timer_segment_name, current.clockOnBackgroundColor.argb)
             setTextColor(R.id.notification_timer_count, current.clockOnBackgroundColor.argb)
         }
-        if (prev?.segmentName != current.segmentName) {
-            setTextViewText(R.id.notification_timer_segment_name, current.segmentName)
+        if (prev?.segmentName != current.segmentName || prev.segmentRoundText != current.segmentRoundText) {
+            val text = buildString {
+                append(current.segmentName)
+                if (current.segmentRoundText != null) {
+                    append(" (")
+                    append(
+                        getString(
+                            current.segmentRoundText.labelId,
+                            *current.segmentRoundText.formatArgs.toTypedArray()
+                        )
+                    )
+                    append(")")
+                }
+            }
+            setTextViewText(R.id.notification_timer_segment_name, text)
         }
         setTextViewText(R.id.notification_timer_count, current.time)
     }
@@ -189,9 +203,22 @@ internal class TimerService : Service() {
         if (prev?.clockOnBackgroundColor != current.clockOnBackgroundColor) {
             setTextColor(R.id.notification_timer_segment_name, current.clockOnBackgroundColor.argb)
             setTextColor(R.id.notification_timer_count, current.clockOnBackgroundColor.argb)
+            setTextColor(R.id.notification_timer_segment_round, current.clockOnBackgroundColor.argb)
         }
         if (prev?.segmentName != current.segmentName) {
             setTextViewText(R.id.notification_timer_segment_name, current.segmentName)
+        }
+        // TODO where to show the routine rounds?
+        if (prev?.segmentRoundText != current.segmentRoundText) {
+            if (current.segmentRoundText != null) {
+                setViewVisibility(R.id.notification_timer_segment_round, View.VISIBLE)
+                val text =
+                    getString(current.segmentRoundText.labelId, *current.segmentRoundText.formatArgs.toTypedArray())
+                setTextViewText(R.id.notification_timer_segment_round, text)
+            } else {
+                setViewVisibility(R.id.notification_timer_segment_round, View.GONE)
+            }
+
         }
         setTextViewText(R.id.notification_timer_count, current.time)
 

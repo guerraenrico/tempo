@@ -12,6 +12,7 @@ import com.enricog.data.local.database.migrations.MigrationFrom1To2
 import com.enricog.data.local.database.migrations.MigrationFrom2To3
 import com.enricog.data.local.database.migrations.MigrationFrom3To4
 import com.enricog.data.local.database.migrations.MigrationFrom4To5
+import com.enricog.data.local.database.migrations.MigrationFrom5To6
 import com.enricog.data.local.database.routines.dao.RoutineDao
 import com.enricog.data.local.database.routines.dao.SegmentDao
 import com.enricog.data.local.database.routines.model.InternalRoutine
@@ -29,7 +30,7 @@ import kotlinx.serialization.json.Json
         InternalStatistic::class,
         InternalTimerTheme::class
     ],
-    version = 5
+    version = 6
 )
 @TypeConverters(
     TimeTypeConverter::class,
@@ -64,6 +65,7 @@ internal abstract class TempoDatabase : RoomDatabase() {
                 .addMigrations(MigrationFrom2To3)
                 .addMigrations(MigrationFrom3To4)
                 .addMigrations(MigrationFrom4To5)
+                .addMigrations(MigrationFrom5To6)
                 .build()
         }
     }

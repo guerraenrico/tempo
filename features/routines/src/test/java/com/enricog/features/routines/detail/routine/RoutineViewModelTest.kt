@@ -38,6 +38,7 @@ class RoutineViewModelTest {
     private val routine = Routine.EMPTY.copy(
         id = 1.asID,
         name = "Routine Name",
+        rounds = 2,
         preparationTime = 30.seconds,
         segments = emptyList()
     )
@@ -52,6 +53,7 @@ class RoutineViewModelTest {
         )
         val expectedFieldInputs = RoutineInputs(
             name = "Routine Name".toTextFieldValue(),
+            rounds = "2".toTextFieldValue(),
             preparationTime = "30".timeText
         )
 
@@ -86,6 +88,7 @@ class RoutineViewModelTest {
         )
         val expectedFieldInputs = RoutineInputs(
             name = "Routine Name".toTextFieldValue(),
+            rounds = "2".toTextFieldValue(),
             preparationTime = "30".timeText
         )
         store.enableErrorOnNextAccess()
@@ -102,19 +105,20 @@ class RoutineViewModelTest {
     }
 
     @Test
-    fun `should update routine when name changes`() = coroutineRule {
+    fun `should fields input when name changes`() = coroutineRule {
         val expectedViewState = RoutineViewState.Data(
             errors = emptyImmutableMap(),
             message = null
         )
         val expectedFieldInputs = RoutineInputs(
             name = "Routine Name Modified".toTextFieldValue(),
+            rounds = "2".toTextFieldValue(),
             preparationTime = "30".timeText
         )
         val viewModel = buildViewModel()
         advanceUntilIdle()
 
-        viewModel.onRoutineNameTextChange(textFieldValue = "Routine Name Modified".toTextFieldValue())
+        viewModel.onRoutineNameChange(textFieldValue = "Routine Name Modified".toTextFieldValue())
         advanceUntilIdle()
 
         viewModel.viewState.test {
@@ -124,13 +128,37 @@ class RoutineViewModelTest {
     }
 
     @Test
-    fun `should update routine when start offset time changes`() = coroutineRule {
+    fun `should fields input when rounds changes`() = coroutineRule {
         val expectedViewState = RoutineViewState.Data(
             errors = emptyImmutableMap(),
             message = null
         )
         val expectedFieldInputs = RoutineInputs(
             name = "Routine Name".toTextFieldValue(),
+            rounds = "3".toTextFieldValue(),
+            preparationTime = "30".timeText
+        )
+        val viewModel = buildViewModel()
+        advanceUntilIdle()
+
+        viewModel.onRoutineRoundsChange(textFieldValue = "3".toTextFieldValue())
+        advanceUntilIdle()
+
+        viewModel.viewState.test {
+            assertThat(awaitItem()).isEqualTo(expectedViewState)
+        }
+        assertThat(viewModel.fieldInputs).isEqualTo(expectedFieldInputs)
+    }
+
+    @Test
+    fun `should fields input when start offset time changes`() = coroutineRule {
+        val expectedViewState = RoutineViewState.Data(
+            errors = emptyImmutableMap(),
+            message = null
+        )
+        val expectedFieldInputs = RoutineInputs(
+            name = "Routine Name".toTextFieldValue(),
+            rounds = "2".toTextFieldValue(),
             preparationTime = "10".timeText
         )
         val viewModel = buildViewModel()
@@ -153,6 +181,7 @@ class RoutineViewModelTest {
         )
         val expectedFieldInputs = RoutineInputs(
             name = "Routine Name".toTextFieldValue(),
+            rounds = "2".toTextFieldValue(),
             preparationTime = "30".timeText
         )
         val viewModel = buildViewModel()
@@ -184,7 +213,7 @@ class RoutineViewModelTest {
         )
         val viewModel = buildViewModel()
         advanceUntilIdle()
-        viewModel.onRoutineNameTextChange(textFieldValue = "".toTextFieldValue())
+        viewModel.onRoutineNameChange(textFieldValue = "".toTextFieldValue())
         advanceUntilIdle()
 
         viewModel.onRoutineSave()
@@ -203,7 +232,7 @@ class RoutineViewModelTest {
         val savedStateHandle = SavedStateHandle(mapOf("routineId" to 0L))
         val viewModel = buildViewModel(store = store, savedStateHandle = savedStateHandle)
         advanceUntilIdle()
-        viewModel.onRoutineNameTextChange(textFieldValue = "New Routine Name".toTextFieldValue())
+        viewModel.onRoutineNameChange(textFieldValue = "New Routine Name".toTextFieldValue())
         advanceUntilIdle()
 
         viewModel.onRoutineSave()
@@ -227,7 +256,7 @@ class RoutineViewModelTest {
         val store = FakeStore(listOf(routine))
         val viewModel = buildViewModel(store)
         advanceUntilIdle()
-        viewModel.onRoutineNameTextChange(textFieldValue = "Routine Name Modified".toTextFieldValue())
+        viewModel.onRoutineNameChange(textFieldValue = "Routine Name Modified".toTextFieldValue())
         advanceUntilIdle()
 
         viewModel.onRoutineSave()

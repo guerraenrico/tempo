@@ -645,7 +645,9 @@ internal class TimerViewModelTest {
                 segmentName = segmentName,
                 clockBackground = clockBackground,
                 clockOnBackgroundColor = clockOnBackgroundColor,
-                timerActions = timerActions
+                timerActions = timerActions,
+                routineRoundText = null,
+                segmentRoundText = null
             )
         }
     }

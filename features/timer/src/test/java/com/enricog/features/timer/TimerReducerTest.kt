@@ -55,7 +55,9 @@ class TimerReducerTest {
                 segment = Segment.EMPTY.copy(
                     name = "segment name stopwatch",
                     type = TimeType.STOPWATCH
-                )
+                ),
+                routineRound = 1,
+                segmentRound = 1
             ),
             steps = listOf(
                 SegmentStep(
@@ -65,7 +67,9 @@ class TimerReducerTest {
                     segment = Segment.EMPTY.copy(
                         name = "segment name stopwatch",
                         type = TimeType.STOPWATCH
-                    )
+                    ),
+                    routineRound = 1,
+                    segmentRound = 1
                 ),
                 SegmentStep(
                     id = 1,
@@ -74,7 +78,9 @@ class TimerReducerTest {
                     segment = Segment.EMPTY.copy(
                         name = "segment name stopwatch",
                         type = TimeType.STOPWATCH
-                    )
+                    ),
+                    routineRound = 1,
+                    segmentRound = 1
                 ),
                 SegmentStep(
                     id = 2,
@@ -84,7 +90,9 @@ class TimerReducerTest {
                         name = "segment name rest",
                         type = TimeType.REST,
                         time = 4.seconds
-                    )
+                    ),
+                    routineRound = 1,
+                    segmentRound = 1
                 ),
                 SegmentStep(
                     id = 3,
@@ -94,7 +102,9 @@ class TimerReducerTest {
                         name = "segment name timer",
                         type = TimeType.TIMER,
                         time = 10.seconds
-                    )
+                    ),
+                    routineRound = 1,
+                    segmentRound = 1
                 ),
                 SegmentStep(
                     id = 4,
@@ -104,7 +114,9 @@ class TimerReducerTest {
                         name = "segment name timer",
                         type = TimeType.TIMER,
                         time = 10.seconds
-                    )
+                    ),
+                    routineRound = 1,
+                    segmentRound = 1
                 )
             ),
             startedAt = OffsetDateTime.now(clock),
@@ -147,7 +159,9 @@ class TimerReducerTest {
                 segment = Segment.EMPTY.copy(
                     name = "segment name stopwatch",
                     type = TimeType.STOPWATCH
-                )
+                ),
+                routineRound = 1,
+                segmentRound = 1
             ),
             steps = listOf(
                 SegmentStep(
@@ -157,7 +171,9 @@ class TimerReducerTest {
                     segment = Segment.EMPTY.copy(
                         name = "segment name stopwatch",
                         type = TimeType.STOPWATCH
-                    )
+                    ),
+                    routineRound = 1,
+                    segmentRound = 1
                 ),
                 SegmentStep(
                     id = 1,
@@ -167,7 +183,9 @@ class TimerReducerTest {
                         name = "segment name rest",
                         type = TimeType.REST,
                         time = 4.seconds
-                    )
+                    ),
+                    routineRound = 1,
+                    segmentRound = 1
                 ),
                 SegmentStep(
                     id = 2,
@@ -177,7 +195,9 @@ class TimerReducerTest {
                         name = "segment name timer",
                         type = TimeType.TIMER,
                         time = 10.seconds
-                    )
+                    ),
+                    routineRound = 1,
+                    segmentRound = 1
                 )
             ),
             startedAt = OffsetDateTime.now(clock),
@@ -211,14 +231,18 @@ class TimerReducerTest {
                 id = 0,
                 count = Count(seconds = 10.seconds, isRunning = false, isCompleted = false),
                 type = SegmentStepType.IN_PROGRESS,
-                segment = segment
+                segment = segment,
+                routineRound = 1,
+                segmentRound = 1
             ),
             steps = listOf(
                 SegmentStep(
                     id = 0,
                     count = Count.idle(seconds = 10.seconds),
                     type = SegmentStepType.IN_PROGRESS,
-                    segment = segment
+                    segment = segment,
+                    routineRound = 1,
+                    segmentRound = 1
                 )
             ),
             startedAt = OffsetDateTime.now(clock),
@@ -242,14 +266,18 @@ class TimerReducerTest {
                 id = 0,
                 count = Count(seconds = 10.seconds, isRunning = true, isCompleted = false),
                 type = SegmentStepType.IN_PROGRESS,
-                segment = segment
+                segment = segment,
+                routineRound = 1,
+                segmentRound = 1
             ),
             steps = listOf(
                 SegmentStep(
                     id = 0,
                     count = Count.idle(seconds = 10.seconds),
                     type = SegmentStepType.IN_PROGRESS,
-                    segment = segment
+                    segment = segment,
+                    routineRound = 1,
+                    segmentRound = 1
                 )
             ),
             startedAt = OffsetDateTime.now(clock),
@@ -263,14 +291,18 @@ class TimerReducerTest {
                 id = 0,
                 count = Count(seconds = 9.seconds, isRunning = true, isCompleted = false),
                 type = SegmentStepType.IN_PROGRESS,
-                segment = segment
+                segment = segment,
+                routineRound = 1,
+                segmentRound = 1
             ),
             steps = listOf(
                 SegmentStep(
                     id = 0,
                     count = Count.idle(seconds = 10.seconds),
                     type = SegmentStepType.IN_PROGRESS,
-                    segment = segment
+                    segment = segment,
+                    routineRound = 1,
+                    segmentRound = 1
                 )
             ),
             startedAt = OffsetDateTime.now(clock),
@@ -294,14 +326,18 @@ class TimerReducerTest {
                 id = 0,
                 count = Count(seconds = 10.seconds, isRunning = true, isCompleted = false),
                 type = SegmentStepType.PREPARATION,
-                segment = segment
+                segment = segment,
+                routineRound = 1,
+                segmentRound = 1
             ),
             steps = listOf(
                 SegmentStep(
                     id = 0,
                     count = Count.idle(seconds = 10.seconds),
                     type = SegmentStepType.IN_PROGRESS,
-                    segment = segment
+                    segment = segment,
+                    routineRound = 1,
+                    segmentRound = 1
                 )
             ),
             startedAt = OffsetDateTime.now(clock),
@@ -315,14 +351,18 @@ class TimerReducerTest {
                 id = 0,
                 count = Count(seconds = 9.seconds, isRunning = true, isCompleted = false),
                 type = SegmentStepType.PREPARATION,
-                segment = segment
+                segment = segment,
+                routineRound = 1,
+                segmentRound = 1
             ),
             steps = listOf(
                 SegmentStep(
                     id = 0,
                     count = Count.idle(seconds = 10.seconds),
                     type = SegmentStepType.IN_PROGRESS,
-                    segment = segment
+                    segment = segment,
+                    routineRound = 1,
+                    segmentRound = 1
                 )
             ),
             startedAt = OffsetDateTime.now(clock),
@@ -346,20 +386,26 @@ class TimerReducerTest {
                 id = 0,
                 count = Count(seconds = 1.seconds, isRunning = true, isCompleted = false),
                 type = SegmentStepType.PREPARATION,
-                segment = segment
+                segment = segment,
+                routineRound = 1,
+                segmentRound = 1
             ),
             steps = listOf(
                 SegmentStep(
                     id = 0,
                     count = Count.idle(seconds = 5.seconds),
                     type = SegmentStepType.PREPARATION,
-                    segment = segment
+                    segment = segment,
+                    routineRound = 1,
+                    segmentRound = 1
                 ),
                 SegmentStep(
                     id = 1,
                     count = Count.idle(seconds = 10.seconds),
                     type = SegmentStepType.IN_PROGRESS,
-                    segment = segment
+                    segment = segment,
+                    routineRound = 1,
+                    segmentRound = 1
                 )
             ),
             startedAt = OffsetDateTime.now(clock),
@@ -373,20 +419,26 @@ class TimerReducerTest {
                 id = 0,
                 count = Count(seconds = 0.seconds, isRunning = true, isCompleted = true),
                 type = SegmentStepType.PREPARATION,
-                segment = segment
+                segment = segment,
+                routineRound = 1,
+                segmentRound = 1
             ),
             steps = listOf(
                 SegmentStep(
                     id = 0,
                     count = Count.idle(seconds = 5.seconds),
                     type = SegmentStepType.PREPARATION,
-                    segment = segment
+                    segment = segment,
+                    routineRound = 1,
+                    segmentRound = 1
                 ),
                 SegmentStep(
                     id = 1,
                     count = Count.idle(seconds = 10.seconds),
                     type = SegmentStepType.IN_PROGRESS,
-                    segment = segment
+                    segment = segment,
+                    routineRound = 1,
+                    segmentRound = 1
                 )
             ),
             startedAt = OffsetDateTime.now(clock),
@@ -410,14 +462,18 @@ class TimerReducerTest {
                 id = 0,
                 count = Count(seconds = 1.seconds, isRunning = true, isCompleted = false),
                 type = SegmentStepType.IN_PROGRESS,
-                segment = segment
+                segment = segment,
+                routineRound = 1,
+                segmentRound = 1
             ),
             steps = listOf(
                 SegmentStep(
                     id = 0,
                     count = Count.idle(seconds = 10.seconds),
                     type = SegmentStepType.IN_PROGRESS,
-                    segment = segment
+                    segment = segment,
+                    routineRound = 1,
+                    segmentRound = 1
                 )
             ),
             startedAt = OffsetDateTime.now(clock),
@@ -431,14 +487,18 @@ class TimerReducerTest {
                 id = 0,
                 count = Count(seconds = 0.seconds, isRunning = true, isCompleted = true),
                 type = SegmentStepType.IN_PROGRESS,
-                segment = segment
+                segment = segment,
+                routineRound = 1,
+                segmentRound = 1
             ),
             steps = listOf(
                 SegmentStep(
                     id = 0,
                     count = Count.idle(seconds = 10.seconds),
                     type = SegmentStepType.IN_PROGRESS,
-                    segment = segment
+                    segment = segment,
+                    routineRound = 1,
+                    segmentRound = 1
                 )
             ),
             startedAt = OffsetDateTime.now(clock),
@@ -462,14 +522,18 @@ class TimerReducerTest {
                 id = 0,
                 count = Count(seconds = 1.seconds, isRunning = true, isCompleted = false),
                 type = SegmentStepType.IN_PROGRESS,
-                segment = segment
+                segment = segment,
+                routineRound = 1,
+                segmentRound = 1
             ),
             steps = listOf(
                 SegmentStep(
                     id = 0,
                     count = Count.idle(seconds = 10.seconds),
                     type = SegmentStepType.IN_PROGRESS,
-                    segment = segment
+                    segment = segment,
+                    routineRound = 1,
+                    segmentRound = 1
                 )
             ),
             startedAt = OffsetDateTime.now(clock),
@@ -483,14 +547,18 @@ class TimerReducerTest {
                 id = 0,
                 count = Count(seconds = 0.seconds, isRunning = true, isCompleted = true),
                 type = SegmentStepType.IN_PROGRESS,
-                segment = segment
+                segment = segment,
+                routineRound = 1,
+                segmentRound = 1
             ),
             steps = listOf(
                 SegmentStep(
                     id = 0,
                     count = Count.idle(seconds = 10.seconds),
                     type = SegmentStepType.IN_PROGRESS,
-                    segment = segment
+                    segment = segment,
+                    routineRound = 1,
+                    segmentRound = 1
                 )
             ),
             startedAt = OffsetDateTime.now(clock),
@@ -514,14 +582,18 @@ class TimerReducerTest {
                 id = 0,
                 count = Count(seconds = 0.seconds, isRunning = true, isCompleted = false),
                 type = SegmentStepType.IN_PROGRESS,
-                segment = segment
+                segment = segment,
+                routineRound = 1,
+                segmentRound = 1
             ),
             steps = listOf(
                 SegmentStep(
                     id = 0,
                     count = Count.idle(seconds = 0.seconds),
                     type = SegmentStepType.IN_PROGRESS,
-                    segment = segment
+                    segment = segment,
+                    routineRound = 1,
+                    segmentRound = 1
                 )
             ),
             startedAt = OffsetDateTime.now(clock),
@@ -535,14 +607,18 @@ class TimerReducerTest {
                 id = 0,
                 count = Count(seconds = 1.seconds, isRunning = true, isCompleted = false),
                 type = SegmentStepType.IN_PROGRESS,
-                segment = segment
+                segment = segment,
+                routineRound = 1,
+                segmentRound = 1
             ),
             steps = listOf(
                 SegmentStep(
                     id = 0,
                     count = Count.idle(seconds = 0.seconds),
                     type = SegmentStepType.IN_PROGRESS,
-                    segment = segment
+                    segment = segment,
+                    routineRound = 1,
+                    segmentRound = 1
                 )
             ),
             startedAt = OffsetDateTime.now(clock),
@@ -566,14 +642,18 @@ class TimerReducerTest {
                 id = 0,
                 count = Count(seconds = 10.seconds, isRunning = true, isCompleted = true),
                 type = SegmentStepType.IN_PROGRESS,
-                segment = segment
+                segment = segment,
+                routineRound = 1,
+                segmentRound = 1
             ),
             steps = listOf(
                 SegmentStep(
                     id = 0,
                     count = Count.idle(seconds = 10.seconds),
                     type = SegmentStepType.IN_PROGRESS,
-                    segment = segment
+                    segment = segment,
+                    routineRound = 1,
+                    segmentRound = 1
                 )
             ),
             startedAt = OffsetDateTime.now(clock),
@@ -597,14 +677,18 @@ class TimerReducerTest {
                 id = 0,
                 count = Count(seconds = 10.seconds, isRunning = true, isCompleted = false),
                 type = SegmentStepType.IN_PROGRESS,
-                segment = segment
+                segment = segment,
+                routineRound = 1,
+                segmentRound = 1
             ),
             steps = listOf(
                 SegmentStep(
                     id = 0,
                     count = Count.idle(seconds = 10.seconds),
                     type = SegmentStepType.IN_PROGRESS,
-                    segment = segment
+                    segment = segment,
+                    routineRound = 1,
+                    segmentRound = 1
                 )
             ),
             startedAt = OffsetDateTime.now(clock),
@@ -618,14 +702,18 @@ class TimerReducerTest {
                 id = 0,
                 count = Count(seconds = 10.seconds, isRunning = true, isCompleted = true),
                 type = SegmentStepType.IN_PROGRESS,
-                segment = segment
+                segment = segment,
+                routineRound = 1,
+                segmentRound = 1
             ),
             steps = listOf(
                 SegmentStep(
                     id = 0,
                     count = Count.idle(seconds = 10.seconds),
                     type = SegmentStepType.IN_PROGRESS,
-                    segment = segment
+                    segment = segment,
+                    routineRound = 1,
+                    segmentRound = 1
                 )
             ),
             startedAt = OffsetDateTime.now(clock),
@@ -649,14 +737,18 @@ class TimerReducerTest {
                 id = 0,
                 count = Count(seconds = 10.seconds, isRunning = true, isCompleted = false),
                 type = SegmentStepType.IN_PROGRESS,
-                segment = segment
+                segment = segment,
+                routineRound = 1,
+                segmentRound = 1
             ),
             steps = listOf(
                 SegmentStep(
                     id = 0,
                     count = Count.idle(seconds = 10.seconds),
                     type = SegmentStepType.IN_PROGRESS,
-                    segment = segment
+                    segment = segment,
+                    routineRound = 1,
+                    segmentRound = 1
                 )
             ),
             startedAt = OffsetDateTime.now(clock),
@@ -670,14 +762,18 @@ class TimerReducerTest {
                 id = 0,
                 count = Count(seconds = 10.seconds, isRunning = false, isCompleted = false),
                 type = SegmentStepType.IN_PROGRESS,
-                segment = segment
+                segment = segment,
+                routineRound = 1,
+                segmentRound = 1
             ),
             steps = listOf(
                 SegmentStep(
                     id = 0,
                     count = Count.idle(seconds = 10.seconds),
                     type = SegmentStepType.IN_PROGRESS,
-                    segment = segment
+                    segment = segment,
+                    routineRound = 1,
+                    segmentRound = 1
                 )
             ),
             startedAt = OffsetDateTime.now(clock),
@@ -701,14 +797,18 @@ class TimerReducerTest {
                 id = 0,
                 count = Count(seconds = 5.seconds, isRunning = true, isCompleted = false),
                 type = SegmentStepType.IN_PROGRESS,
-                segment = segment
+                segment = segment,
+                routineRound = 1,
+                segmentRound = 1
             ),
             steps = listOf(
                 SegmentStep(
                     id = 0,
                     count = Count.idle(seconds = 10.seconds),
                     type = SegmentStepType.IN_PROGRESS,
-                    segment = segment
+                    segment = segment,
+                    routineRound = 1,
+                    segmentRound = 1
                 )
             ),
             startedAt = OffsetDateTime.now(clock),
@@ -722,14 +822,18 @@ class TimerReducerTest {
                 id = 0,
                 count = Count(seconds = 10.seconds, isRunning = false, isCompleted = false),
                 type = SegmentStepType.IN_PROGRESS,
-                segment = segment
+                segment = segment,
+                routineRound = 1,
+                segmentRound = 1
             ),
             steps = listOf(
                 SegmentStep(
                     id = 0,
                     count = Count.idle(seconds = 10.seconds),
                     type = SegmentStepType.IN_PROGRESS,
-                    segment = segment
+                    segment = segment,
+                    routineRound = 1,
+                    segmentRound = 1
                 )
             ),
             startedAt = OffsetDateTime.now(clock),
@@ -753,20 +857,26 @@ class TimerReducerTest {
                 id = 1,
                 count = Count(seconds = 10.seconds, isRunning = true, isCompleted = false),
                 type = SegmentStepType.IN_PROGRESS,
-                segment = segment
+                segment = segment,
+                routineRound = 1,
+                segmentRound = 1
             ),
             steps = listOf(
                 SegmentStep(
                     id = 0,
                     count = Count.idle(seconds = 5.seconds),
                     type = SegmentStepType.PREPARATION,
-                    segment = segment
+                    segment = segment,
+                    routineRound = 1,
+                    segmentRound = 1
                 ),
                 SegmentStep(
                     id = 1,
                     count = Count.idle(seconds = 10.seconds),
                     type = SegmentStepType.IN_PROGRESS,
-                    segment = segment
+                    segment = segment,
+                    routineRound = 1,
+                    segmentRound = 1
                 )
             ),
             startedAt = OffsetDateTime.now(clock),
@@ -780,20 +890,26 @@ class TimerReducerTest {
                 id = 0,
                 count = Count(seconds = 5.seconds, isRunning = false, isCompleted = false),
                 type = SegmentStepType.PREPARATION,
-                segment = segment
+                segment = segment,
+                routineRound = 1,
+                segmentRound = 1
             ),
             steps = listOf(
                 SegmentStep(
                     id = 0,
                     count = Count.idle(seconds = 5.seconds),
                     type = SegmentStepType.PREPARATION,
-                    segment = segment
+                    segment = segment,
+                    routineRound = 1,
+                    segmentRound = 1
                 ),
                 SegmentStep(
                     id = 1,
                     count = Count.idle(seconds = 10.seconds),
                     type = SegmentStepType.IN_PROGRESS,
-                    segment = segment
+                    segment = segment,
+                    routineRound = 1,
+                    segmentRound = 1
                 )
             ),
             startedAt = OffsetDateTime.now(clock),
@@ -817,20 +933,26 @@ class TimerReducerTest {
                 id = 0,
                 count = Count(seconds = 5.seconds, isRunning = true, isCompleted = false),
                 type = SegmentStepType.PREPARATION,
-                segment = segment
+                segment = segment,
+                routineRound = 1,
+                segmentRound = 1
             ),
             steps = listOf(
                 SegmentStep(
                     id = 0,
                     count = Count.idle(seconds = 5.seconds),
                     type = SegmentStepType.PREPARATION,
-                    segment = segment
+                    segment = segment,
+                    routineRound = 1,
+                    segmentRound = 1
                 ),
                 SegmentStep(
                     id = 1,
                     count = Count.idle(seconds = 10.seconds),
                     type = SegmentStepType.IN_PROGRESS,
-                    segment = segment
+                    segment = segment,
+                    routineRound = 1,
+                    segmentRound = 1
                 )
             ),
             startedAt = OffsetDateTime.now(clock),
@@ -844,20 +966,26 @@ class TimerReducerTest {
                 id = 1,
                 count = Count(seconds = 10.seconds, isRunning = false, isCompleted = false),
                 type = SegmentStepType.IN_PROGRESS,
-                segment = segment
+                segment = segment,
+                routineRound = 1,
+                segmentRound = 1
             ),
             steps = listOf(
                 SegmentStep(
                     id = 0,
                     count = Count.idle(seconds = 5.seconds),
                     type = SegmentStepType.PREPARATION,
-                    segment = segment
+                    segment = segment,
+                    routineRound = 1,
+                    segmentRound = 1
                 ),
                 SegmentStep(
                     id = 1,
                     count = Count.idle(seconds = 10.seconds),
                     type = SegmentStepType.IN_PROGRESS,
-                    segment = segment
+                    segment = segment,
+                    routineRound = 1,
+                    segmentRound = 1
                 )
             ),
             startedAt = OffsetDateTime.now(clock),
@@ -881,20 +1009,26 @@ class TimerReducerTest {
                 id = 1,
                 count = Count(seconds = 10.seconds, isRunning = true, isCompleted = false),
                 type = SegmentStepType.IN_PROGRESS,
-                segment = segment
+                segment = segment,
+                routineRound = 1,
+                segmentRound = 1
             ),
             steps = listOf(
                 SegmentStep(
                     id = 0,
                     count = Count.idle(seconds = 5.seconds),
                     type = SegmentStepType.PREPARATION,
-                    segment = segment
+                    segment = segment,
+                    routineRound = 1,
+                    segmentRound = 1
                 ),
                 SegmentStep(
                     id = 1,
                     count = Count.idle(seconds = 10.seconds),
                     type = SegmentStepType.IN_PROGRESS,
-                    segment = segment
+                    segment = segment,
+                    routineRound = 1,
+                    segmentRound = 1
                 )
             ),
             startedAt = OffsetDateTime.now(clock),
@@ -908,20 +1042,26 @@ class TimerReducerTest {
                 id = 1,
                 count = Count(seconds = 10.seconds, isRunning = true, isCompleted = true),
                 type = SegmentStepType.IN_PROGRESS,
-                segment = segment
+                segment = segment,
+                routineRound = 1,
+                segmentRound = 1
             ),
             steps = listOf(
                 SegmentStep(
                     id = 0,
                     count = Count.idle(seconds = 5.seconds),
                     type = SegmentStepType.PREPARATION,
-                    segment = segment
+                    segment = segment,
+                    routineRound = 1,
+                    segmentRound = 1
                 ),
                 SegmentStep(
                     id = 1,
                     count = Count.idle(seconds = 10.seconds),
                     type = SegmentStepType.IN_PROGRESS,
-                    segment = segment
+                    segment = segment,
+                    routineRound = 1,
+                    segmentRound = 1
                 )
             ),
             startedAt = OffsetDateTime.now(clock),
@@ -945,14 +1085,18 @@ class TimerReducerTest {
                 id = 0,
                 count = Count(seconds = 0.seconds, isRunning = false, isCompleted = false),
                 type = SegmentStepType.IN_PROGRESS,
-                segment = segment
+                segment = segment,
+                routineRound = 1,
+                segmentRound = 1
             ),
             steps = listOf(
                 SegmentStep(
                     id = 0,
                     count = Count.idle(seconds = 10.seconds),
                     type = SegmentStepType.IN_PROGRESS,
-                    segment = segment
+                    segment = segment,
+                    routineRound = 1,
+                    segmentRound = 1
                 )
             ),
             startedAt = OffsetDateTime.now(clock),
@@ -976,20 +1120,26 @@ class TimerReducerTest {
                 id = 0,
                 count = Count(seconds = 0.seconds, isRunning = true, isCompleted = true),
                 type = SegmentStepType.PREPARATION,
-                segment = segment
+                segment = segment,
+                routineRound = 1,
+                segmentRound = 1
             ),
             steps = listOf(
                 SegmentStep(
                     id = 0,
                     count = Count.idle(seconds = 5.seconds),
                     type = SegmentStepType.PREPARATION,
-                    segment = segment
+                    segment = segment,
+                    routineRound = 1,
+                    segmentRound = 1
                 ),
                 SegmentStep(
                     id = 1,
                     count = Count.idle(seconds = 10.seconds),
                     type = SegmentStepType.IN_PROGRESS,
-                    segment = segment
+                    segment = segment,
+                    routineRound = 1,
+                    segmentRound = 1
                 )
             ),
             startedAt = OffsetDateTime.now(clock),
@@ -1003,20 +1153,26 @@ class TimerReducerTest {
                 id = 1,
                 count = Count(seconds = 10.seconds, isRunning = true, isCompleted = false),
                 type = SegmentStepType.IN_PROGRESS,
-                segment = segment
+                segment = segment,
+                routineRound = 1,
+                segmentRound = 1
             ),
             steps = listOf(
                 SegmentStep(
                     id = 0,
                     count = Count.idle(seconds = 5.seconds),
                     type = SegmentStepType.PREPARATION,
-                    segment = segment
+                    segment = segment,
+                    routineRound = 1,
+                    segmentRound = 1
                 ),
                 SegmentStep(
                     id = 1,
                     count = Count.idle(seconds = 10.seconds),
                     type = SegmentStepType.IN_PROGRESS,
-                    segment = segment
+                    segment = segment,
+                    routineRound = 1,
+                    segmentRound = 1
                 )
             ),
             startedAt = OffsetDateTime.now(clock),
@@ -1040,14 +1196,18 @@ class TimerReducerTest {
                 id = 0,
                 count = Count(seconds = 0.seconds, isRunning = false, isCompleted = true),
                 type = SegmentStepType.IN_PROGRESS,
-                segment = segment
+                segment = segment,
+                routineRound = 1,
+                segmentRound = 1
             ),
             steps = listOf(
                 SegmentStep(
                     id = 0,
                     count = Count.idle(seconds = 10.seconds),
                     type = SegmentStepType.IN_PROGRESS,
-                    segment = segment
+                    segment = segment,
+                    routineRound = 1,
+                    segmentRound = 1
                 )
             ),
             startedAt = OffsetDateTime.now(clock),

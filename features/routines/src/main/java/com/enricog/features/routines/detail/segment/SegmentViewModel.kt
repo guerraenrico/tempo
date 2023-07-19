@@ -81,16 +81,24 @@ internal class SegmentViewModel @Inject constructor(
                 val segment = stateData.segment
                 fieldInputs = SegmentInputs(
                     name = segment.name.toTextFieldValue(),
+                    rounds = segment.rounds.toString().toTextFieldValue(),
                     time = segment.time.timeText
                 )
             }
         }
     }
 
-    fun onSegmentNameTextChange(textFieldValue: TextFieldValue) {
+    fun onSegmentNameChange(textFieldValue: TextFieldValue) {
         updateStateWhen<SegmentState.Data> { stateData ->
             fieldInputs = fieldInputs.copy(name = textFieldValue)
-            reducer.updateSegmentName(state = stateData)
+            reducer.updateSegmentNameError(state = stateData)
+        }
+    }
+
+    fun onSegmentRoundsChange(textFieldValue: TextFieldValue) {
+        updateStateWhen<SegmentState.Data> { stateData ->
+            fieldInputs = fieldInputs.copy(rounds = textFieldValue)
+            reducer.updateSegmentRoundsError(state = stateData)
         }
     }
 

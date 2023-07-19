@@ -22,10 +22,10 @@ import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.TextStyle
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.input.ImeAction
+import androidx.compose.ui.text.input.KeyboardType
 import androidx.compose.ui.text.input.TextFieldValue
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
-import com.enricog.core.compose.api.extensions.stringResourceOrNull
 import com.enricog.features.routines.R
 import com.enricog.features.routines.detail.segment.models.SegmentField
 import com.enricog.features.routines.detail.segment.models.SegmentInputs
@@ -48,13 +48,14 @@ internal fun SegmentFormScene(
     state: SegmentViewState.Data,
     inputs: SegmentInputs,
     onSegmentNameChange: (TextFieldValue) -> Unit,
+    onSegmentRoundsChange: (TextFieldValue) -> Unit,
     onSegmentTimeChange: (TimeText) -> Unit,
     onSegmentTimeTypeChange: (TimeTypeStyle) -> Unit,
     onSegmentConfirmed: () -> Unit,
     onSnackbarEvent: (TempoSnackbarEvent) -> Unit
 ) {
     val keyboardController = LocalSoftwareKeyboardController.current
-    val (segmentNameRef, segmentTimeRef) = remember { FocusRequester.createRefs() }
+    val (segmentNameRef, segmentRoundsRef, segmentTimeRef) = remember { FocusRequester.createRefs() }
 
     val snackbarHostState = rememberSnackbarHostState()
 
@@ -92,9 +93,29 @@ internal fun SegmentFormScene(
                         .padding(top = TempoTheme.dimensions.spaceXL)
                         .focusRequester(segmentNameRef),
                     labelText = stringResource(R.string.field_label_segment_name),
-                    errorText = stringResourceOrNull(id = state.errors[SegmentField.Name]?.stringResId),
+                    errorText = state.errors[SegmentField.Name]?.let {
+                        stringResource(id = it.stringResId, formatArgs = it.formatArgs.toTypedArray())
+                    },
+                    singleLine = true,
+                    keyboardOptions = KeyboardOptions(imeAction = ImeAction.Next),
+                    keyboardActions = KeyboardActions(
+                        onNext = { segmentRoundsRef.requestFocus() }
+                    )
+                )
+
+                TempoTextField(
+                    value = inputs.rounds,
+                    onValueChange = onSegmentRoundsChange,
+                    modifier = Modifier
+                        .fillMaxWidth()
+                        .focusRequester(segmentRoundsRef),
+                    labelText = stringResource(R.string.field_label_segment_rounds),
+                    errorText = state.errors[SegmentField.Rounds]?.let {
+                        stringResource(id = it.stringResId, formatArgs = it.formatArgs.toTypedArray())
+                    },
                     singleLine = true,
                     keyboardOptions = KeyboardOptions(
+                        keyboardType = KeyboardType.Number,
                         imeAction = if (state.isTimeFieldVisible) ImeAction.Next else ImeAction.Done
                     ),
                     keyboardActions = KeyboardActions(
@@ -119,7 +140,9 @@ internal fun SegmentFormScene(
                         modifier = Modifier
                             .focusRequester(segmentTimeRef),
                         labelText = stringResource(R.string.field_label_segment_time),
-                        errorText = stringResourceOrNull(state.errors[SegmentField.Time]?.stringResId),
+                        errorText = state.errors[SegmentField.Time]?.let {
+                            stringResource(id = it.stringResId, formatArgs = it.formatArgs.toTypedArray())
+                        },
                         supportingText = stringResource(R.string.field_support_text_segment_time),
                         imeAction = ImeAction.Done,
                         keyboardActions = KeyboardActions(

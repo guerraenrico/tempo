@@ -21,8 +21,9 @@ internal fun RoutineScreen(viewModel: RoutineViewModel) {
         TempoToolbar(onBack = viewModel::onRoutineBack)
         viewState.Compose(
             inputs = fieldInputs,
-            onRoutineNameChange = viewModel::onRoutineNameTextChange,
+            onRoutineNameChange = viewModel::onRoutineNameChange,
             onPreparationTimeChange = viewModel::onRoutinePreparationTimeChange,
+            onRoutineRoundsChange = viewModel::onRoutineRoundsChange,
             onPreparationTimeInfo = viewModel::onRoutinePreparationTimeInfo,
             onRoutineSave = viewModel::onRoutineSave,
             onRetryLoad = viewModel::onRetryLoad,
@@ -36,6 +37,7 @@ internal fun RoutineViewState.Compose(
     inputs: RoutineInputs,
     onRoutineNameChange: (TextFieldValue) -> Unit,
     onPreparationTimeChange: (TimeText) -> Unit,
+    onRoutineRoundsChange: (TextFieldValue) -> Unit,
     onPreparationTimeInfo: () -> Unit,
     onRoutineSave: () -> Unit,
     onRetryLoad: () -> Unit,
@@ -49,6 +51,7 @@ internal fun RoutineViewState.Compose(
             message = message,
             onRoutineNameChange = onRoutineNameChange,
             onPreparationTimeChange = onPreparationTimeChange,
+            onRoutineRoundsChange = onRoutineRoundsChange,
             onPreparationTimeInfo = onPreparationTimeInfo,
             onRoutineSave = onRoutineSave,
             onSnackbarEvent = onSnackbarEvent

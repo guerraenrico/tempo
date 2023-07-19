@@ -22,7 +22,8 @@ class InternalRoutineWithSegmentsTest {
                 name = "name",
                 timeInSeconds = 4,
                 type = TimeType.TIMER,
-                rank = "aaaaaa"
+                rank = "aaaaaa",
+                rounds = 1
             )
         )
         val internalRoutine = InternalRoutine(
@@ -31,7 +32,8 @@ class InternalRoutineWithSegmentsTest {
             preparationTime = 2,
             createdAt = now,
             updatedAt = now,
-            rank = "abcdef"
+            rank = "abcdef",
+            rounds = 1
         )
         val expected = Routine(
             id = 1.asID,
@@ -45,10 +47,12 @@ class InternalRoutineWithSegmentsTest {
                     name = "name",
                     time = 4.seconds,
                     type = TimeType.TIMER,
-                    rank = Rank.from("aaaaaa")
+                    rank = Rank.from("aaaaaa"),
+                    rounds = 1
                 )
             ),
-            rank = Rank.from(value = "abcdef")
+            rank = Rank.from(value = "abcdef"),
+            rounds = 1
         )
         val internalRoutineWithSegments = InternalRoutineWithSegments(
             routine = internalRoutine,

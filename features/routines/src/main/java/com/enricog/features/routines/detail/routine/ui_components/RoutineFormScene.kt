@@ -20,9 +20,9 @@ import androidx.compose.ui.platform.testTag
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.semantics.Role
 import androidx.compose.ui.text.input.ImeAction
+import androidx.compose.ui.text.input.KeyboardType
 import androidx.compose.ui.text.input.TextFieldValue
 import com.enricog.core.compose.api.classes.ImmutableMap
-import com.enricog.core.compose.api.extensions.stringResourceOrNull
 import com.enricog.features.routines.R
 import com.enricog.features.routines.detail.routine.models.RoutineField
 import com.enricog.features.routines.detail.routine.models.RoutineFieldError
@@ -49,12 +49,13 @@ internal fun RoutineFormScene(
     message: Message?,
     onRoutineNameChange: (TextFieldValue) -> Unit,
     onPreparationTimeChange: (TimeText) -> Unit,
+    onRoutineRoundsChange: (TextFieldValue) -> Unit,
     onPreparationTimeInfo: () -> Unit,
     onRoutineSave: () -> Unit,
     onSnackbarEvent: (TempoSnackbarEvent) -> Unit
 ) {
     val keyboardController = LocalSoftwareKeyboardController.current
-    val (routineNameRef, routinePreparationTimeRef) = remember { FocusRequester.createRefs() }
+    val (routineNameRef, routinePreparationTimeRef, routineRoundsRef) = remember { FocusRequester.createRefs() }
     val scrollState = rememberScrollState(initial = 0)
     val snackbarHostState = rememberSnackbarHostState()
 
@@ -88,9 +89,30 @@ internal fun RoutineFormScene(
                             .fillMaxWidth()
                             .focusRequester(routineNameRef),
                         labelText = stringResource(R.string.field_label_routine_name),
-                        errorText = stringResourceOrNull(id = errors[RoutineField.Name]?.stringResId),
+                        errorText = errors[RoutineField.Name]?.let {
+                            stringResource(id = it.stringResId, formatArgs = it.formatArgs.toTypedArray())
+                        },
                         singleLine = true,
                         keyboardOptions = KeyboardOptions(imeAction = ImeAction.Next),
+                        keyboardActions = KeyboardActions(
+                            onNext = { routineRoundsRef.requestFocus() }
+                        )
+                    )
+
+                    TempoTextField(
+                        value = inputs.rounds,
+                        onValueChange = onRoutineRoundsChange,
+                        modifier = Modifier
+                            .fillMaxWidth()
+                            .focusRequester(routineRoundsRef),
+                        labelText = stringResource(R.string.field_label_routine_rounds),
+                        errorText = errors[RoutineField.Rounds]?.let {
+                            stringResource(id = it.stringResId, formatArgs = it.formatArgs.toTypedArray())
+                        },
+                        keyboardOptions = KeyboardOptions(
+                            keyboardType = KeyboardType.Number,
+                            imeAction = ImeAction.Next
+                        ),
                         keyboardActions = KeyboardActions(
                             onNext = { routinePreparationTimeRef.requestFocus() }
                         )

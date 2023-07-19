@@ -33,10 +33,16 @@ internal class SegmentReducer @Inject constructor() {
         return SegmentState.Error(throwable = throwable)
     }
 
-    fun updateSegmentName(state: SegmentState.Data): SegmentState.Data {
+    fun updateSegmentNameError(state: SegmentState.Data): SegmentState.Data {
         val errors = state.errors.filterKeys { it != SegmentField.Name }
         return state.copy(errors = errors)
     }
+
+    fun updateSegmentRoundsError(state: SegmentState.Data): SegmentState.Data {
+        val errors = state.errors.filterKeys { it != SegmentField.Rounds }
+        return state.copy(errors = errors)
+    }
+
 
     fun updateSegmentTime(state: SegmentState.Data): SegmentState.Data {
         val errors = state.errors.filterKeys { it != SegmentField.Time }

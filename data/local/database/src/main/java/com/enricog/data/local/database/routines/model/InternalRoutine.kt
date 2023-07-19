@@ -17,7 +17,8 @@ internal data class InternalRoutine(
     @ColumnInfo(name = "preparationTimeInSeconds") val preparationTime: Long,
     @ColumnInfo(name = "createdAt") val createdAt: OffsetDateTime,
     @ColumnInfo(name = "updatedAt") val updatedAt: OffsetDateTime,
-    @ColumnInfo(name = "rank") val rank: String
+    @ColumnInfo(name = "rank") val rank: String,
+    @ColumnInfo(name = "rounds") val rounds: Int
 ) {
     fun toEntity(segments: List<InternalSegment>): Routine {
         return Routine(
@@ -29,7 +30,8 @@ internal data class InternalRoutine(
             segments = segments
                 .map { it.toEntity() }
                 .sortedByRank(),
-            rank = Rank.from(rank)
+            rank = Rank.from(rank),
+            rounds = rounds
         )
     }
 }
@@ -41,6 +43,7 @@ internal fun Routine.toInternal(): InternalRoutine {
         preparationTime = preparationTime.value,
         createdAt = createdAt,
         updatedAt = updatedAt,
-        rank = rank.toString()
+        rank = rank.toString(),
+        rounds = rounds
     )
 }

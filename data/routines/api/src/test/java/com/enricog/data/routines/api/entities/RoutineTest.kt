@@ -13,7 +13,7 @@ import java.time.OffsetDateTime
 class RoutineTest {
 
     @Test
-    fun `on instantiation should throw exception when preparation time is more than max`() {
+    fun `on init should throw exception when preparation time is more than max`() {
         val preparationTime = MAX_PREPARATION_TIME + 1.seconds
 
         assertThrows(IllegalArgumentException::class.java) {
@@ -24,7 +24,8 @@ class RoutineTest {
                 createdAt = OffsetDateTime.MAX,
                 updatedAt = OffsetDateTime.MAX,
                 segments = emptyList(),
-                rank = Rank.from("aaaaaa")
+                rank = Rank.from("aaaaaa"),
+                rounds = 1
             )
         }
     }
@@ -41,7 +42,8 @@ class RoutineTest {
                 createdAt = OffsetDateTime.MAX,
                 updatedAt = OffsetDateTime.MAX,
                 segments = emptyList(),
-                rank = Rank.from("aaaaaa")
+                rank = Rank.from("aaaaaa"),
+                rounds = 1
             )
         }
     }
@@ -58,7 +60,8 @@ class RoutineTest {
             createdAt = OffsetDateTime.MAX,
             updatedAt = OffsetDateTime.MAX,
             segments = emptyList(),
-            rank = Rank.from("aaaaaa")
+            rank = Rank.from("aaaaaa"),
+            rounds = 1
         )
 
         assertThrows(IllegalArgumentException::class.java) {
@@ -78,7 +81,8 @@ class RoutineTest {
             createdAt = OffsetDateTime.MAX,
             updatedAt = OffsetDateTime.MAX,
             segments = emptyList(),
-            rank = Rank.from("aaaaaa")
+            rank = Rank.from("aaaaaa"),
+            rounds = 1
         )
         assertThrows(IllegalArgumentException::class.java) {
             routine.copy(preparationTime = preparationTime)
@@ -86,7 +90,45 @@ class RoutineTest {
     }
 
     @Test
-    fun `on instantiation should not throw any exception when all argument are valid`() {
+    fun `on init should throw exception when number of rounds is less than one`() {
+        val rounds = 1
+
+        assertThrows(IllegalArgumentException::class.java) {
+            Routine(
+                id = 0.asID,
+                name = "",
+                preparationTime = 0.seconds,
+                createdAt = OffsetDateTime.MAX,
+                updatedAt = OffsetDateTime.MAX,
+                segments = emptyList(),
+                rank = Rank.from("aaaaaa"),
+                rounds = rounds
+            )
+        }
+    }
+
+    @Test
+    @Suppress("UnusedDataClassCopyResult")
+    fun `on copy should throw exception when number of rounds is less that one`() {
+        val rounds = -1
+
+        val routine = Routine(
+            id = 0.asID,
+            name = "",
+            preparationTime = 50.seconds,
+            createdAt = OffsetDateTime.MAX,
+            updatedAt = OffsetDateTime.MAX,
+            segments = emptyList(),
+            rank = Rank.from("aaaaaa"),
+            rounds = 2
+        )
+        assertThrows(IllegalArgumentException::class.java) {
+            routine.copy(rounds = rounds)
+        }
+    }
+
+    @Test
+    fun `on init should not throw any exception when all argument are valid`() {
         Routine(
             id = 0.asID,
             name = "",
@@ -94,7 +136,8 @@ class RoutineTest {
             createdAt = OffsetDateTime.MAX,
             updatedAt = OffsetDateTime.MAX,
             segments = emptyList(),
-            rank = Rank.from("aaaaaa")
+            rank = Rank.from("aaaaaa"),
+            rounds = 1
         )
     }
 
@@ -108,7 +151,8 @@ class RoutineTest {
             createdAt = OffsetDateTime.MAX,
             updatedAt = OffsetDateTime.MAX,
             segments = emptyList(),
-            rank = Rank.from("aaaaaa")
+            rank = Rank.from("aaaaaa"),
+            rounds = 1
         )
         routine.copy(preparationTime = MAX_PREPARATION_TIME)
     }
@@ -127,10 +171,12 @@ class RoutineTest {
                     name = "",
                     time = 0.seconds,
                     type = TimeType.STOPWATCH,
-                    rank = Rank.from("aaaaaa")
+                    rank = Rank.from("aaaaaa"),
+                    rounds = 1
                 )
             ),
-            rank = Rank.from("aaaaaa")
+            rank = Rank.from("aaaaaa"),
+            rounds = 1
         )
         val expected = 0.seconds
 
@@ -153,31 +199,36 @@ class RoutineTest {
                     name = "",
                     time = 30.seconds,
                     type = TimeType.TIMER,
-                    rank = Rank.from("aaaaaa")
+                    rank = Rank.from("aaaaaa"),
+                    rounds = 1
                 ),
                 Segment(
                     id = ID.new(),
                     name = "",
                     time = 30.seconds,
                     type = TimeType.REST,
-                    rank = Rank.from("bbbbbb")
+                    rank = Rank.from("bbbbbb"),
+                    rounds = 1
                 ),
                 Segment(
                     id = ID.new(),
                     name = "",
                     time = 30.seconds,
                     type = TimeType.TIMER,
-                    rank = Rank.from("aaaaaa")
+                    rank = Rank.from("aaaaaa"),
+                    rounds = 1
                 ),
                 Segment(
                     id = ID.new(),
                     name = "",
                     time = 0.seconds,
                     type = TimeType.STOPWATCH,
-                    rank = Rank.from("aaaaaa")
+                    rank = Rank.from("aaaaaa"),
+                    rounds = 1
                 )
             ),
-            rank = Rank.from("aaaaaa")
+            rank = Rank.from("aaaaaa"),
+            rounds = 1
         )
         val expected = 180.seconds
 

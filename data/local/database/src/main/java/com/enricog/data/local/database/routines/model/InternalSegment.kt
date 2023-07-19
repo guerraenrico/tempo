@@ -6,11 +6,11 @@ import androidx.room.ForeignKey
 import androidx.room.ForeignKey.Companion.CASCADE
 import androidx.room.Index
 import androidx.room.PrimaryKey
-import com.enricog.data.routines.api.entities.Segment
-import com.enricog.data.routines.api.entities.TimeType
 import com.enricog.core.entities.ID
 import com.enricog.core.entities.Rank
 import com.enricog.core.entities.seconds
+import com.enricog.data.routines.api.entities.Segment
+import com.enricog.data.routines.api.entities.TimeType
 
 @Entity(
     tableName = "Segments",
@@ -30,7 +30,8 @@ internal data class InternalSegment(
     @ColumnInfo(name = "name") val name: String,
     @ColumnInfo(name = "timeInSeconds") val timeInSeconds: Long,
     @ColumnInfo(name = "type") val type: TimeType,
-    @ColumnInfo(name = "rank") val rank: String
+    @ColumnInfo(name = "rank") val rank: String,
+    @ColumnInfo(name = "rounds") val rounds: Int
 ) {
     fun toEntity(): Segment {
         return Segment(
@@ -38,7 +39,8 @@ internal data class InternalSegment(
             name = name,
             time = timeInSeconds.seconds,
             type = type,
-            rank = Rank.from(rank)
+            rank = Rank.from(rank),
+            rounds = rounds
         )
     }
 }
@@ -50,6 +52,7 @@ internal fun Segment.toInternal(routineId: Long): InternalSegment {
         name = name,
         timeInSeconds = time.value,
         type = type,
-        rank = rank.toString()
+        rank = rank.toString(),
+        rounds = rounds
     )
 }

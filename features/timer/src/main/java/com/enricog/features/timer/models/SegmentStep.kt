@@ -6,5 +6,7 @@ internal data class SegmentStep(
     val id: Int,
     val segment: Segment,
     val count: Count,
-    val type: SegmentStepType
+    val type: SegmentStepType,
+    val routineRound: Int,
+    val segmentRound: Int
 )

@@ -2,6 +2,7 @@ package com.enricog.features.routines.detail.segment
 
 import com.enricog.data.routines.api.entities.TimeType
 import com.enricog.core.entities.seconds
+import com.enricog.data.routines.api.entities.Segment
 import com.enricog.features.routines.detail.segment.models.SegmentField
 import com.enricog.features.routines.detail.segment.models.SegmentFieldError
 import com.enricog.features.routines.detail.segment.models.SegmentInputs
@@ -13,6 +14,9 @@ internal class SegmentValidator @Inject constructor() {
         return buildMap {
             if (inputs.name.text.isBlank()) {
                 put(SegmentField.Name, SegmentFieldError.BlankSegmentName)
+            }
+            if ((inputs.rounds.text.toIntOrNull() ?: 0) < Segment.MIN_NUM_ROUNDS) {
+                put(SegmentField.Rounds, SegmentFieldError.BlankSegmentRounds)
             }
             val seconds = inputs.time.toSeconds()
             if (seconds <= 0.seconds && selectedTimeType != TimeType.STOPWATCH) {

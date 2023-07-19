@@ -54,7 +54,25 @@ class RoutineReducerTest {
             action = null
         )
 
-        val actual = reducer.updateRoutineName(state = state)
+        val actual = reducer.updateRoutineNameError(state = state)
+
+        assertThat(actual).isEqualTo(expected)
+    }
+
+    @Test
+    fun `should remove field rounds error when routine rounds is updated`() {
+        val state = RoutineState.Data(
+            routine = Routine.EMPTY,
+            errors = mapOf(RoutineField.Rounds to RoutineFieldError.BlankRoutineRounds),
+            action = null
+        )
+        val expected = RoutineState.Data(
+            routine = Routine.EMPTY,
+            errors = emptyMap(),
+            action = null
+        )
+
+        val actual = reducer.updateRoutineRoundsError(state = state)
 
         assertThat(actual).isEqualTo(expected)
     }

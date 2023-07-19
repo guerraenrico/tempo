@@ -11,6 +11,8 @@ internal sealed class TimerServiceViewState {
         val time: String,
         @StringRes val stepTitleId: Int,
         val segmentName: String,
+        val routineRoundText: RoundText?,
+        val segmentRoundText: RoundText?,
         val clockBackground: Background,
         val clockOnBackgroundColor: Long,
         val timerActions: Actions
@@ -24,6 +26,8 @@ internal sealed class TimerServiceViewState {
                 @StringRes val contentDescriptionResId: Int
             )
         }
+
+        data class RoundText(@StringRes val labelId: Int, val formatArgs: List<Any>)
     }
 
     object Completed : TimerServiceViewState()
