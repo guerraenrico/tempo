@@ -22,8 +22,8 @@ object Versions {
 object Libs {
 
     object Kotlin {
-        const val version = "1.8.21"
-        private const val coroutineVersion = "1.7.1"
+        const val version = "1.8.22"
+        private const val coroutineVersion = "1.7.2"
         private const val serializationVersion = "1.5.1"
 
         const val coroutines = "org.jetbrains.kotlinx:kotlinx-coroutines-android:$coroutineVersion"
@@ -36,9 +36,9 @@ object Libs {
     }
 
     object AndroidX {
-        const val coreKtx = "androidx.core:core-ktx:1.9.0"
+        const val coreKtx = "androidx.core:core-ktx:1.10.1"
 
-        const val appCompat = "androidx.appcompat:appcompat:1.5.1"
+        const val appCompat = "androidx.appcompat:appcompat:1.6.1"
 
         object Test {
             const val junitKtx = "androidx.test.ext:junit-ktx:1.1.5"
@@ -49,8 +49,8 @@ object Libs {
         }
 
         object Compose {
-            const val compilerVersion = "1.4.7"
-            private const val version = "2023.05.01"
+            const val compilerVersion = "1.4.8"
+            private const val version = "2023.06.01"
 
             const val bom = "androidx.compose:compose-bom:$version"
 
@@ -69,7 +69,7 @@ object Libs {
 
             const val activity = "androidx.activity:activity-compose:1.6.1"
 
-            const val navigation = "androidx.navigation:navigation-compose:2.5.3"
+            const val navigation = "androidx.navigation:navigation-compose:2.6.0"
             const val viewModel = "androidx.lifecycle:lifecycle-viewmodel-compose:2.6.1"
             const val constraintLayout = "androidx.constraintlayout:constraintlayout-compose:1.0.1"
         }
@@ -108,7 +108,7 @@ object Libs {
     }
 
     object Room {
-        private const val version = "2.5.0"
+        private const val version = "2.5.2"
 
         const val runtime = "androidx.room:room-runtime:$version"
         const val compiler = "androidx.room:room-compiler:$version"
@@ -132,7 +132,7 @@ object Libs {
     }
 
     object Firebase {
-        private const val version = "31.2.3"
+        private const val version = "32.2.0"
 
         const val bom = "com.google.firebase:firebase-bom:$version"
         const val crashlytics = "com.google.firebase:firebase-crashlytics-ktx"
@@ -144,6 +144,6 @@ object Libs {
         const val parameterInjector = "com.google.testparameterinjector:test-parameter-injector:1.10"
         const val truth = "com.google.truth:truth:1.1.3"
 
-        const val flow = "app.cash.turbine:turbine:0.12.0"
+        const val flow = "app.cash.turbine:turbine:1.0.0"
     }
 }
