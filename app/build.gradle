@@ -29,8 +29,6 @@ android {
         targetSdkVersion Versions.targetSdk
         versionCode Versions.appVersionCode
         versionName Versions.appVersionName
-
-        testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
     }
 
     signingConfigs {
