@@ -52,7 +52,7 @@ jobs:
         run: ./gradlew testDebug
 
       - name: Run instrument-tests
-        uses: reactivecircus/android-emulator-runner@v2.27.0
+        uses: reactivecircus/android-emulator-runner@v2.28.0
         with:
           api-level: 29
           script: ./gradlew connectedDebugAndroidTest
