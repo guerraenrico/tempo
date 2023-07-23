@@ -115,5 +115,7 @@ dependencies {
     implementation Libs.Firebase.crashlytics
     implementation Libs.Firebase.analytics
 
+    androidTestImplementation Libs.AndroidX.Test.junitKtx
     androidTestImplementation Libs.AndroidX.Test.core
+    androidTestImplementation Libs.AndroidX.Test.rules
 }
