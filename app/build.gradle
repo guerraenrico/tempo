@@ -98,7 +98,6 @@ dependencies {
 
     // Compose
     implementation platform(Libs.AndroidX.Compose.bom)
-    androidTestImplementation platform(Libs.AndroidX.Compose.bom)
     implementation Libs.AndroidX.Compose.ui
     implementation Libs.AndroidX.Compose.material
     implementation Libs.AndroidX.Compose.tooling
@@ -115,4 +114,8 @@ dependencies {
     implementation platform(Libs.Firebase.bom)
     implementation Libs.Firebase.crashlytics
     implementation Libs.Firebase.analytics
+
+    androidTestImplementation Libs.AndroidX.Test.junitKtx
+    androidTestImplementation Libs.AndroidX.Test.core
+    androidTestImplementation Libs.AndroidX.Test.rules
 }
