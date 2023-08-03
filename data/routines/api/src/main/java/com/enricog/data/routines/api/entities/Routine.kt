@@ -14,7 +14,8 @@ data class Routine(
     val updatedAt: OffsetDateTime,
     val segments: List<Segment>,
     val rank: Rank,
-    val rounds: Int
+    val rounds: Int,
+    val frequencyGoal: FrequencyGoal?
 ) {
 
     init {
@@ -24,8 +25,8 @@ data class Routine(
         require(value = preparationTime >= 0.seconds) {
             "preparationTime must be positive"
         }
-        require(value = rounds >= 1) {
-            "rounds must be equals or more than 1"
+        require(value = rounds >= MIN_NUM_ROUNDS) {
+            "rounds must be equals or more than $MIN_NUM_ROUNDS"
         }
     }
 
@@ -62,7 +63,8 @@ data class Routine(
                 updatedAt = now,
                 segments = emptyList(),
                 rank = rank,
-                rounds = MIN_NUM_ROUNDS
+                rounds = MIN_NUM_ROUNDS,
+                frequencyGoal = null
             )
         }
 

@@ -63,7 +63,8 @@ class RoutineDataSourceImplTest {
             createdAt = now,
             updatedAt = now,
             rank = "abcdef",
-            rounds = 1
+            rounds = 1,
+            frequencyGoal = null
         )
         val routine = Routine(
             id = 1.asID,
@@ -82,7 +83,8 @@ class RoutineDataSourceImplTest {
                 )
             ),
             rank = Rank.from(value = "abcdef"),
-            rounds = 1
+            rounds = 1,
+            frequencyGoal = null
         )
         val expected = listOf(routine)
 
@@ -113,7 +115,8 @@ class RoutineDataSourceImplTest {
             createdAt = now,
             updatedAt = now,
             rank = "abcdef",
-            rounds = 1
+            rounds = 1,
+            frequencyGoal = null
         )
         val expected = Routine(
             id = 1.asID,
@@ -132,7 +135,8 @@ class RoutineDataSourceImplTest {
                 )
             ),
             rank = Rank.from(value = "abcdef"),
-            rounds = 1
+            rounds = 1,
+            frequencyGoal = null
         )
 
         database.routineDao().insert(internalRoutine)
@@ -162,7 +166,8 @@ class RoutineDataSourceImplTest {
             createdAt = now,
             updatedAt = now,
             rank = "abcdef",
-            rounds = 1
+            rounds = 1,
+            frequencyGoal = null
         )
         val routine = Routine(
             id = 1.asID,
@@ -181,7 +186,8 @@ class RoutineDataSourceImplTest {
                 )
             ),
             rank = Rank.from(value = "abcdef"),
-            rounds = 1
+            rounds = 1,
+            frequencyGoal = null
         )
         val expected = listOf(routine)
 
@@ -212,7 +218,8 @@ class RoutineDataSourceImplTest {
             createdAt = now,
             updatedAt = now,
             rank = "abcdef",
-            rounds = 1
+            rounds = 1,
+            frequencyGoal = null
         )
         val expected = Routine(
             id = 1.asID,
@@ -231,7 +238,8 @@ class RoutineDataSourceImplTest {
                 )
             ),
             rank = Rank.from(value = "abcdef"),
-            rounds = 1
+            rounds = 1,
+            frequencyGoal = null
         )
 
         database.routineDao().insert(internalRoutine)
@@ -263,7 +271,8 @@ class RoutineDataSourceImplTest {
                 )
             ),
             rank = Rank.from(value = "abcdef"),
-            rounds = 1
+            rounds = 1,
+            frequencyGoal = null
         )
         val expected = Routine(
             id = 1.asID,
@@ -282,7 +291,8 @@ class RoutineDataSourceImplTest {
                 )
             ),
             rank = Rank.from(value = "abcdef"),
-            rounds = 1
+            rounds = 1,
+            frequencyGoal = null
         )
 
         val routineId = dataSource.create(routine)
@@ -313,7 +323,8 @@ class RoutineDataSourceImplTest {
             createdAt = max,
             updatedAt = max,
             rank = "abcdef",
-            rounds = 1
+            rounds = 1,
+            frequencyGoal = null
         )
         val routine = Routine(
             id = 1.asID,
@@ -332,7 +343,8 @@ class RoutineDataSourceImplTest {
                 )
             ),
             rank = Rank.from(value = "abcdef"),
-            rounds = 1
+            rounds = 1,
+            frequencyGoal = null
         )
 
         database.routineDao().insert(internalRoutine)
@@ -366,7 +378,8 @@ class RoutineDataSourceImplTest {
             createdAt = max,
             updatedAt = max,
             rank = "abcdef",
-            rounds = 1
+            rounds = 1,
+            frequencyGoal = null
         )
         val routine = Routine(
             id = 1.asID,
@@ -385,7 +398,8 @@ class RoutineDataSourceImplTest {
                 )
             ),
             rank = Rank.from(value = "abcdef"),
-            rounds = 1
+            rounds = 1,
+            frequencyGoal = null
         )
 
         database.routineDao().insert(internalRoutine)
@@ -419,7 +433,8 @@ class RoutineDataSourceImplTest {
             createdAt = max,
             updatedAt = max,
             rank = "abcdef",
-            rounds = 1
+            rounds = 1,
+            frequencyGoal = null
         )
         val routine = Routine(
             id = 1.asID,
@@ -429,7 +444,8 @@ class RoutineDataSourceImplTest {
             updatedAt = now,
             segments = emptyList(),
             rank = Rank.from(value = "abcdef"),
-            rounds = 1
+            rounds = 1,
+            frequencyGoal = null
         )
 
         database.routineDao().insert(internalRoutine)
@@ -454,7 +470,8 @@ class RoutineDataSourceImplTest {
             createdAt = max,
             updatedAt = max,
             rank = "abcdef",
-            rounds = 1
+            rounds = 1,
+            frequencyGoal = null
         )
         val routine = Routine(
             id = 1.asID,
@@ -473,7 +490,8 @@ class RoutineDataSourceImplTest {
                 )
             ),
             rank = Rank.from(value = "abcdef"),
-            rounds = 1
+            rounds = 1,
+            frequencyGoal = null
         )
         val expected = Routine(
             id = 1.asID,
@@ -492,7 +510,8 @@ class RoutineDataSourceImplTest {
                 )
             ),
             rank = Rank.from(value = "abcdef"),
-            rounds = 1
+            rounds = 1,
+            frequencyGoal = null
         )
 
         database.routineDao().insert(internalRoutine)
@@ -525,7 +544,8 @@ class RoutineDataSourceImplTest {
             createdAt = max,
             updatedAt = max,
             rank = "abcdef",
-            rounds = 1
+            rounds = 1,
+            frequencyGoal = null
         )
         val routine = Routine(
             id = 1.asID,
@@ -544,7 +564,8 @@ class RoutineDataSourceImplTest {
                 )
             ),
             rank = Rank.from(value = "abcdef"),
-            rounds = 1
+            rounds = 1,
+            frequencyGoal = null
         )
         val expected = Routine(
             id = 1.asID,
@@ -563,7 +584,8 @@ class RoutineDataSourceImplTest {
                 )
             ),
             rank = Rank.from(value = "abcdef"),
-            rounds = 1
+            rounds = 1,
+            frequencyGoal = null
         )
 
         database.routineDao().insert(internalRoutine)
@@ -606,7 +628,8 @@ class RoutineDataSourceImplTest {
             createdAt = max,
             updatedAt = max,
             rank = "abcdef",
-            rounds = 1
+            rounds = 1,
+            frequencyGoal = null
         )
         val routine = Routine(
             id = 1.asID,
@@ -633,7 +656,8 @@ class RoutineDataSourceImplTest {
                 )
             ),
             rank = Rank.from(value = "abcdef"),
-            rounds = 1
+            rounds = 1,
+            frequencyGoal = null
         )
         val expected = Routine(
             id = 1.asID,
@@ -660,7 +684,8 @@ class RoutineDataSourceImplTest {
                 )
             ),
             rank = Rank.from(value = "abcdef"),
-            rounds = 1
+            rounds = 1,
+            frequencyGoal = null
         )
 
         database.routineDao().insert(internalRoutine)
@@ -693,7 +718,8 @@ class RoutineDataSourceImplTest {
             createdAt = now,
             updatedAt = now,
             rank = "abcdef",
-            rounds = 1
+            rounds = 1,
+            frequencyGoal = null
         )
         val routine = Routine(
             id = 1.asID,
@@ -712,7 +738,8 @@ class RoutineDataSourceImplTest {
                 )
             ),
             rank = Rank.from(value = "abcdef"),
-            rounds = 1
+            rounds = 1,
+            frequencyGoal = null
         )
 
         database.routineDao().insert(internalRoutine)

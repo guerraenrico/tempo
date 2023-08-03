@@ -3,7 +3,6 @@ package com.enricog.data.local.database.converter
 import androidx.room.ProvidedTypeConverter
 import androidx.room.TypeConverter
 import com.enricog.data.local.database.timer.theme.model.InternalTimerTheme.InternalResource
-import kotlinx.serialization.decodeFromString
 import kotlinx.serialization.encodeToString
 import kotlinx.serialization.json.Json
 
@@ -16,7 +15,7 @@ internal class TimerThemeResourceConverter(private val json: Json) {
     }
 
     @TypeConverter
-    fun toResources(resourceJson: String): InternalResource {
+    fun toResource(resourceJson: String): InternalResource {
         return json.decodeFromString(resourceJson)
     }
 }

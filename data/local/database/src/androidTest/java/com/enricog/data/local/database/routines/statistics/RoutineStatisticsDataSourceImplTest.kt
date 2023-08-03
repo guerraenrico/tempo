@@ -50,7 +50,8 @@ class RoutineStatisticsDataSourceImplTest {
             createdAt = now,
             updatedAt = now,
             rank = "abcdef",
-            rounds = 1
+            rounds = 1,
+            frequencyGoal = null
         )
         val internalStatistic = InternalStatistic(
             id = 2,
@@ -86,7 +87,8 @@ class RoutineStatisticsDataSourceImplTest {
             createdAt = now,
             updatedAt = now,
             rank = "abcdef",
-            rounds = 1
+            rounds = 1,
+            frequencyGoal = null
         )
         val internalStatistic = InternalStatistic(
             id = 2,
@@ -129,7 +131,8 @@ class RoutineStatisticsDataSourceImplTest {
             createdAt = now,
             updatedAt = now,
             rank = "abcdef",
-            rounds = 1
+            rounds = 1,
+            frequencyGoal = null
         )
         val expected = Statistic(
             id = 1.asID,

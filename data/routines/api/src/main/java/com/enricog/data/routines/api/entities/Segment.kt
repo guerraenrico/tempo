@@ -18,8 +18,8 @@ data class Segment(
         require(value = time >= 0.seconds) {
             "time must be positive"
         }
-        require(value = rounds >= 1) {
-            "rounds must be equals or more than 1"
+        require(value = rounds >= MIN_NUM_ROUNDS) {
+            "rounds must be equals or more than $MIN_NUM_ROUNDS"
         }
     }
 
