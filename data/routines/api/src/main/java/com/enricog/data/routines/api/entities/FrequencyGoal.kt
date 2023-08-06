@@ -17,5 +17,10 @@ data class FrequencyGoal(
 
     companion object {
         const val MIN_TIMES = 1
+
+        val DEFAULT = FrequencyGoal(
+            times = 1,
+            period = Period.DAY
+        )
     }
 }

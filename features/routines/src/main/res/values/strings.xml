@@ -19,8 +19,12 @@
     <string name="field_label_routine_preparation_time">Preparation time</string>
     <string name="field_support_text_routine_preparation_time">Max 1 minute</string>
     <string name="field_label_routine_rounds">Number of rounds</string>
+    <string name="field_label_routine_frequency_goal">Goal</string>
+    <string name="field_label_routine_frequency_goal_times">Number of times</string>
+    <string name="field_label_routine_frequency_goal_period">Period</string>
     <string name="field_error_message_routine_name_blank">Routine name must not be blank</string>
     <string name="field_error_message_routine_rounds_blank">Routine rounds must be al least %1$s</string>
+    <string name="field_error_message_routine_frequency_goal_times_blank">Must be al least %1$s</string>
     <string name="content_description_button_save_routine">Save routine</string>
     <string name="content_description_button_help_routine_preparation_time">Info about preparation time</string>
     <string name="label_routine_save_error">An error happen</string>
@@ -68,4 +72,8 @@
     <string name="chip_time_type_rest_name">Rest</string>
     <string name="chip_time_type_timer_name">Timer</string>
     <string name="chip_time_type_stopwatch_name">Stopwatch</string>
+
+    <string name="frequency_goal_period_day_name">Day</string>
+    <string name="frequency_goal_period_day_week">Week</string>
+    <string name="frequency_goal_period_day_month">Month</string>
 </resources>

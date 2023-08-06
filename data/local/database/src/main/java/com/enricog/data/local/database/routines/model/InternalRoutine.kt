@@ -37,7 +37,7 @@ internal data class InternalRoutine(
                 .sortedByRank(),
             rank = Rank.from(rank),
             rounds = rounds,
-            frequencyGoal = null
+            frequencyGoal = frequencyGoal?.toEntity()
         )
     }
 

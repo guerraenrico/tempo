@@ -27,7 +27,8 @@ fun TempoTextField(
     singleLine: Boolean = false,
     maxLines: Int = Int.MAX_VALUE,
     showBackground: Boolean = true,
-    showIndicator: Boolean = true
+    showIndicator: Boolean = true,
+    readOnly: Boolean = false
 ) {
     require(errorText == null || errorText.isNotBlank()) { "Error text cannot be blank" }
     require(labelText == null || labelText.isNotBlank()) { "Label text cannot be blank" }
@@ -49,7 +50,8 @@ fun TempoTextField(
         maxLines = maxLines,
         textStyle = textStyle,
         showBackground = showBackground,
-        showIndicator = showIndicator
+        showIndicator = showIndicator,
+        readOnly = readOnly
     )
 }
 
