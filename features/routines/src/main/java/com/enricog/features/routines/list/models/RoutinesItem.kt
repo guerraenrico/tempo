@@ -1,11 +1,14 @@
 package com.enricog.features.routines.list.models
 
+import androidx.annotation.StringRes
 import androidx.compose.runtime.Stable
+import com.enricog.core.compose.api.classes.ImmutableList
 import com.enricog.core.compose.api.classes.ImmutableMap
 import com.enricog.core.compose.api.classes.asImmutableMap
-import com.enricog.data.routines.api.entities.Routine
 import com.enricog.core.entities.ID
 import com.enricog.core.entities.seconds
+import com.enricog.data.routines.api.entities.Routine
+import com.enricog.data.routines.api.statistics.entities.Statistic
 import com.enricog.data.timer.api.theme.entities.TimerTheme
 import com.enricog.features.routines.detail.ui.time_type.TimeTypeStyle
 import com.enricog.ui.components.textField.TimeText
@@ -19,7 +22,8 @@ internal sealed class RoutinesItem {
         @Stable val id: ID,
         val name: String,
         val rank: String,
-        val segmentsSummary: SegmentsSummary?
+        val segmentsSummary: SegmentsSummary?,
+        val goalText: GoalText?
     ) : RoutinesItem() {
 
         override val isDraggable: Boolean = true
@@ -29,28 +33,10 @@ internal sealed class RoutinesItem {
             val segmentTypesCount: ImmutableMap<TimeTypeStyle, Int>
         )
 
-        companion object {
-            fun from(routine: Routine, timerTheme: TimerTheme): RoutineItem {
-                val segmentsSummary = if (routine.segments.isNotEmpty()) {
-                    SegmentsSummary(
-                        estimatedTotalTime = routine.expectedTotalTime.takeIf { it > 0.seconds }?.timeText,
-                        segmentTypesCount = routine.segments.groupBy { it.type }
-                            .map { (type, segments) ->
-                                TimeTypeStyle.from(timeType = type, timerTheme = timerTheme) to segments.size
-                            }
-                            .toMap()
-                            .asImmutableMap()
-                    )
-                } else null
-
-                return RoutineItem(
-                    id = routine.id,
-                    name = routine.name,
-                    rank = routine.rank.toString(),
-                    segmentsSummary = segmentsSummary
-                )
-            }
-        }
+        data class GoalText(
+            @StringRes val stringResId: Int,
+            val formatArgs: ImmutableList<Any>
+        )
     }
 
     object Space : RoutinesItem() {

@@ -7,8 +7,11 @@ import com.enricog.data.local.database.routines.statistics.model.toInternal
 import com.enricog.data.routines.api.statistics.RoutineStatisticsDataSource
 import com.enricog.data.routines.api.statistics.entities.Statistic
 import kotlinx.coroutines.NonCancellable
+import kotlinx.coroutines.flow.Flow
+import kotlinx.coroutines.flow.map
 import kotlinx.coroutines.withContext
 import kotlinx.coroutines.yield
+import java.time.Clock
 import java.time.OffsetDateTime
 import javax.inject.Inject
 
@@ -16,13 +19,19 @@ internal class RoutineStatisticsDataSourceImpl @Inject constructor(
     private val database: TempoDatabase
 ) : RoutineStatisticsDataSource {
 
+    override fun observeStatistics(from: OffsetDateTime, to: OffsetDateTime): Flow<List<Statistic>> {
+        return database.statisticDao().observeAll(from, to)
+            .map { it.map(InternalStatistic::toEntity) }
+    }
+
     override suspend fun getAll(): List<Statistic> {
         return database.statisticDao().getAll()
             .map(InternalStatistic::toEntity)
     }
 
     override suspend fun getAllByRoutine(routineId: ID): List<Statistic> {
-        return database.statisticDao().getAllByRoutine(routineId = routineId.toLong())
+        return database.statisticDao()
+            .getAllByRoutine(routineId = routineId.toLong())
             .map(InternalStatistic::toEntity)
     }
 

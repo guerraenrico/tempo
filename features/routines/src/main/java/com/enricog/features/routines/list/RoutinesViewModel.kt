@@ -15,6 +15,7 @@ import com.enricog.features.routines.list.models.RoutinesState.Data.Action.MoveR
 import com.enricog.features.routines.list.models.RoutinesViewState
 import com.enricog.features.routines.list.usecase.DeleteRoutineUseCase
 import com.enricog.features.routines.list.usecase.DuplicateRoutineUseCase
+import com.enricog.features.routines.list.usecase.GetLatestStatisticUseCase
 import com.enricog.features.routines.list.usecase.GetRoutinesUseCase
 import com.enricog.features.routines.list.usecase.GetTimerThemeUseCase
 import com.enricog.features.routines.list.usecase.MoveRoutineUseCase
@@ -41,7 +42,8 @@ internal class RoutinesViewModel @Inject constructor(
     private val getRoutinesUseCase: GetRoutinesUseCase,
     private val deleteRoutineUseCase: DeleteRoutineUseCase,
     private val moveRoutineUseCase: MoveRoutineUseCase,
-    private val duplicateRoutineUseCase: DuplicateRoutineUseCase
+    private val duplicateRoutineUseCase: DuplicateRoutineUseCase,
+    private val getLatestStatisticUseCase: GetLatestStatisticUseCase
 ) : BaseViewModel<RoutinesState, RoutinesViewState>(
     initialState = RoutinesState.Idle,
     converter = converter,
@@ -60,14 +62,23 @@ internal class RoutinesViewModel @Inject constructor(
 
     private fun load() {
         val timerThemeFlow = getTimerThemeUseCase()
+        val latestStatisticsFlow = getLatestStatisticUseCase()
         val routinesFlow = getRoutinesUseCase().combine(queueRoutineToDelete) { routines, routineToDelete ->
             routines.filter { it != routineToDelete }
         }
 
-        loadJob = combine(routinesFlow, timerThemeFlow) { routines, timerTheme -> routines to timerTheme }
-            .onEach { (routines, timerTheme) ->
+        val loadFlow = combine(
+            routinesFlow,
+            timerThemeFlow,
+            latestStatisticsFlow
+        ) { routines, timerTheme, statistics ->
+            Triple(routines, timerTheme, statistics)
+        }
+
+        loadJob = loadFlow
+            .onEach { (routines, timerTheme, statistics) ->
                 updateState {
-                    reducer.setup(state = it, routines = routines, timerTheme = timerTheme)
+                    reducer.setup(state = it, routines = routines, timerTheme = timerTheme, statistics = statistics)
                 }
             }
             .catch { throwable ->
@@ -153,6 +164,7 @@ internal class RoutinesViewModel @Inject constructor(
                         onRoutineDelete(routineId = previousAction.routineId)
                     }
                 }
+
                 DeleteRoutineSuccess -> {
                     if (snackbarEvent == ActionPerformed) {
                         queueRoutineToDelete.value = null
@@ -160,6 +172,7 @@ internal class RoutinesViewModel @Inject constructor(
                         runDeleteQueuedRoutine()
                     }
                 }
+
                 MoveRoutineError,
                 DuplicateRoutineError,
                 null -> Unit

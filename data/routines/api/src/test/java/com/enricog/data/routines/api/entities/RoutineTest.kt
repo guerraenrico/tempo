@@ -25,7 +25,8 @@ class RoutineTest {
                 updatedAt = OffsetDateTime.MAX,
                 segments = emptyList(),
                 rank = Rank.from("aaaaaa"),
-                rounds = 1
+                rounds = 1,
+                frequencyGoal = null
             )
         }
     }
@@ -43,7 +44,8 @@ class RoutineTest {
                 updatedAt = OffsetDateTime.MAX,
                 segments = emptyList(),
                 rank = Rank.from("aaaaaa"),
-                rounds = 1
+                rounds = 1,
+                frequencyGoal = null
             )
         }
     }
@@ -61,7 +63,8 @@ class RoutineTest {
             updatedAt = OffsetDateTime.MAX,
             segments = emptyList(),
             rank = Rank.from("aaaaaa"),
-            rounds = 1
+            rounds = 1,
+            frequencyGoal = null
         )
 
         assertThrows(IllegalArgumentException::class.java) {
@@ -82,7 +85,8 @@ class RoutineTest {
             updatedAt = OffsetDateTime.MAX,
             segments = emptyList(),
             rank = Rank.from("aaaaaa"),
-            rounds = 1
+            rounds = 1,
+            frequencyGoal = null
         )
         assertThrows(IllegalArgumentException::class.java) {
             routine.copy(preparationTime = preparationTime)
@@ -102,7 +106,8 @@ class RoutineTest {
                 updatedAt = OffsetDateTime.MAX,
                 segments = emptyList(),
                 rank = Rank.from("aaaaaa"),
-                rounds = rounds
+                rounds = rounds,
+                frequencyGoal = null
             )
         }
     }
@@ -120,7 +125,8 @@ class RoutineTest {
             updatedAt = OffsetDateTime.MAX,
             segments = emptyList(),
             rank = Rank.from("aaaaaa"),
-            rounds = 2
+            rounds = 2,
+            frequencyGoal = null
         )
         assertThrows(IllegalArgumentException::class.java) {
             routine.copy(rounds = rounds)
@@ -137,7 +143,8 @@ class RoutineTest {
             updatedAt = OffsetDateTime.MAX,
             segments = emptyList(),
             rank = Rank.from("aaaaaa"),
-            rounds = 1
+            rounds = 1,
+            frequencyGoal = null
         )
     }
 
@@ -152,7 +159,8 @@ class RoutineTest {
             updatedAt = OffsetDateTime.MAX,
             segments = emptyList(),
             rank = Rank.from("aaaaaa"),
-            rounds = 1
+            rounds = 1,
+            frequencyGoal = null
         )
         routine.copy(preparationTime = MAX_PREPARATION_TIME)
     }
@@ -176,7 +184,8 @@ class RoutineTest {
                 )
             ),
             rank = Rank.from("aaaaaa"),
-            rounds = 1
+            rounds = 1,
+            frequencyGoal = null
         )
         val expected = 0.seconds
 
@@ -228,7 +237,8 @@ class RoutineTest {
                 )
             ),
             rank = Rank.from("aaaaaa"),
-            rounds = 1
+            rounds = 1,
+            frequencyGoal = null
         )
         val expected = 180.seconds
 

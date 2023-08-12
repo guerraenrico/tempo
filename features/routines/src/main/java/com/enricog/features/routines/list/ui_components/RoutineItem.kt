@@ -13,6 +13,7 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.platform.testTag
+import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import androidx.constraintlayout.compose.ConstraintLayout
@@ -50,7 +51,7 @@ internal fun RoutineItem(
                 .clickable(enabled = enableClick) { onClick(routineItem.id) }
                 .padding(TempoTheme.dimensions.spaceM)
         ) {
-            val (routineName, count) = createRefs()
+            val (routineName, goalText, count) = createRefs()
             TempoText(
                 modifier = Modifier
                     .constrainAs(routineName) {
@@ -66,6 +67,20 @@ internal fun RoutineItem(
                 text = routineItem.name,
                 style = TempoTheme.typography.h2,
             )
+            if (routineItem.goalText != null) {
+                TempoText(
+                    modifier = Modifier
+                        .constrainAs(goalText) {
+                            top.linkTo(routineName.bottom)
+                            start.linkTo(parent.start)
+                        },
+                    text = stringResource(
+                        id = routineItem.goalText.stringResId,
+                        formatArgs = routineItem.goalText.formatArgs.toTypedArray()
+                    ),
+                    style = TempoTheme.typography.body2,
+                )
+            }
             if (routineItem.segmentsSummary != null) {
                 Counts(
                     modifier = Modifier

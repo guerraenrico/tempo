@@ -13,6 +13,9 @@
     <string name="label_routines_duplicate_error">An error happen</string>
     <string name="label_routines_delete_confirm">Routine deleted</string>
     <string name="action_text_routines_delete_undo">Undo</string>
+    <string name="label_routine_goal_text_day">Completed %1$s/%2$s today</string>
+    <string name="label_routine_goal_text_week">Completed %1$s/%2$s this week</string>
+    <string name="label_routine_goal_text_month">Completed %1$s/%2$s this month</string>
 
     <!-- Routine -->
     <string name="field_label_routine_name">Routine name</string>
