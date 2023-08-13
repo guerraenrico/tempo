@@ -32,7 +32,6 @@ import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.catch
 import kotlinx.coroutines.flow.combine
 import kotlinx.coroutines.flow.launchIn
-import kotlinx.coroutines.flow.map
 import kotlinx.coroutines.flow.onEach
 import javax.inject.Inject
 
@@ -73,8 +72,7 @@ internal class RoutineSummaryViewModel @Inject constructor(
                 routine.copy(segments = routine.segments.filter { it != segmentToDelete })
             }
 
-        loadJob = combine(routineFlow, timerThemeFlow) { routine, timerTheme -> routine to timerTheme }
-            .map { (routine, timerTheme) ->
+        loadJob = combine(routineFlow, timerThemeFlow) { routine, timerTheme ->
                 val statistics = getRoutineStatistic(routine = routine)
                 Triple(routine, timerTheme, statistics)
             }
