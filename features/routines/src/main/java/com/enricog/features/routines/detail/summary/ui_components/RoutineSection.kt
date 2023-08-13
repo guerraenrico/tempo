@@ -22,6 +22,7 @@ import com.enricog.core.compose.api.modifiers.spacing.horizontalListItemSpacing
 import com.enricog.features.routines.R
 import com.enricog.features.routines.detail.summary.models.RoutineSummaryItem.RoutineInfo
 import com.enricog.features.routines.detail.summary.models.RoutineSummaryItem.RoutineInfo.SegmentsSummary
+import com.enricog.features.routines.ui_components.goal_label.GoalText
 import com.enricog.ui.components.button.TempoButton
 import com.enricog.ui.components.button.TempoButtonColor
 import com.enricog.ui.components.text.TempoText
@@ -43,22 +44,41 @@ internal fun RoutineSection(
             .testTag(RoutineSectionTestTag)
             .fillMaxWidth()
     ) {
-        val (name, buttonEdit, count) = createRefs()
+        val (routineName, goalText, buttonEdit, segmentCount) = createRefs()
         TempoText(
-            modifier = Modifier.constrainAs(name) {
+            modifier = Modifier.constrainAs(routineName) {
                 top.linkTo(parent.top)
                 start.linkTo(parent.start)
-                bottom.linkTo(buttonEdit.top)
-                end.linkTo(count.start)
+                if (routineInfo.goalLabel != null) {
+                    bottom.linkTo(goalText.top)
+                } else {
+                    bottom.linkTo(buttonEdit.top)
+                }
+                end.linkTo(segmentCount.start)
                 width = Dimension.fillToConstraints
             },
             text = routineInfo.routineName,
             style = TempoTheme.typography.h1
         )
 
+        if (routineInfo.goalLabel != null) {
+            GoalText(
+                modifier = Modifier.constrainAs(goalText) {
+                    top.linkTo(routineName.bottom)
+                    start.linkTo(parent.start)
+                    bottom.linkTo(buttonEdit.top)
+                },
+                label = routineInfo.goalLabel,
+            )
+        }
+
         TempoButton(
             modifier = Modifier.constrainAs(buttonEdit) {
-                top.linkTo(name.bottom)
+                if (routineInfo.goalLabel != null) {
+                    top.linkTo(goalText.bottom)
+                } else {
+                    top.linkTo(routineName.bottom)
+                }
                 start.linkTo(parent.start)
                 bottom.linkTo(parent.bottom)
             },
@@ -68,16 +88,17 @@ internal fun RoutineSection(
             color = TempoButtonColor.TransparentSecondary,
             iconContentDescription = stringResource(R.string.content_description_button_edit_routine)
         )
+
         if (routineInfo.segmentsSummary != null) {
             SegmentSummary(
                 modifier = Modifier
                     .padding(start = TempoTheme.dimensions.spaceM)
-                    .constrainAs(count) {
+                    .constrainAs(segmentCount) {
                         top.linkTo(parent.top)
-                        start.linkTo(name.end)
+                        start.linkTo(routineName.end)
                         bottom.linkTo(parent.bottom)
                         end.linkTo(parent.end)
-                        baseline.linkTo(name.baseline)
+                        baseline.linkTo(routineName.baseline)
                     },
                 segmentsSummary = routineInfo.segmentsSummary
             )

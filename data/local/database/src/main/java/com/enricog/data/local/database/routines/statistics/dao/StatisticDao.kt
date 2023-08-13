@@ -23,6 +23,10 @@ internal interface StatisticDao {
     @Query("SELECT * FROM RoutineStatistics WHERE routineId_fk=:routineId ORDER BY createdAt DESC")
     suspend fun getAllByRoutine(routineId: Long): List<InternalStatistic>
 
+    @Transaction
+    @Query("SELECT * FROM RoutineStatistics  WHERE routineId_fk=:routineId AND createdAt >= :from AND createdAt <= :to ORDER BY createdAt DESC")
+    suspend fun getAllByRoutine(routineId: Long, from: OffsetDateTime, to: OffsetDateTime): List<InternalStatistic>
+
     @Insert
     suspend fun insert(vararg statistic: InternalStatistic): List<Long>
 }

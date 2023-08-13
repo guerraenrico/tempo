@@ -35,6 +35,16 @@ internal class RoutineStatisticsDataSourceImpl @Inject constructor(
             .map(InternalStatistic::toEntity)
     }
 
+    override suspend fun getAllByRoutine(routineId: ID, from: OffsetDateTime, to: OffsetDateTime): List<Statistic> {
+        return database.statisticDao()
+            .getAllByRoutine(
+                routineId = routineId.toLong(),
+                from = from,
+                to = to
+            )
+            .map(InternalStatistic::toEntity)
+    }
+
     override suspend fun create(statistic: Statistic): ID {
         val now = OffsetDateTime.now()
         val statisticToCreate = statistic.copy(createdAt = now)

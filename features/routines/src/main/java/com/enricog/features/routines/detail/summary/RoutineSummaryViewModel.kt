@@ -16,6 +16,7 @@ import com.enricog.features.routines.detail.summary.models.RoutineSummaryState.D
 import com.enricog.features.routines.detail.summary.models.RoutineSummaryViewState
 import com.enricog.features.routines.detail.summary.usecase.DeleteSegmentUseCase
 import com.enricog.features.routines.detail.summary.usecase.DuplicateSegmentUseCase
+import com.enricog.features.routines.detail.summary.usecase.GetRoutineStatistic
 import com.enricog.features.routines.detail.summary.usecase.GetRoutineUseCase
 import com.enricog.features.routines.detail.summary.usecase.GetTimerThemeUseCase
 import com.enricog.features.routines.detail.summary.usecase.MoveSegmentUseCase
@@ -31,6 +32,7 @@ import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.catch
 import kotlinx.coroutines.flow.combine
 import kotlinx.coroutines.flow.launchIn
+import kotlinx.coroutines.flow.map
 import kotlinx.coroutines.flow.onEach
 import javax.inject.Inject
 
@@ -46,6 +48,7 @@ internal class RoutineSummaryViewModel @Inject constructor(
     private val deleteSegmentUseCase: DeleteSegmentUseCase,
     private val moveSegmentUseCase: MoveSegmentUseCase,
     private val duplicateSegmentUseCase: DuplicateSegmentUseCase,
+    private val getRoutineStatistic: GetRoutineStatistic,
     private val validator: RoutineSummaryValidator
 ) : BaseViewModel<RoutineSummaryState, RoutineSummaryViewState>(
     dispatchers = dispatchers,
@@ -66,12 +69,18 @@ internal class RoutineSummaryViewModel @Inject constructor(
     private fun load(input: RoutineSummaryRouteInput) {
         val timerThemeFlow = getTimerThemeUseCase()
         val routineFlow = getRoutineUseCase(input.routineId)
-            .combine(queueSegmentToDelete) { routine, segmentToDelete -> routine.copy(segments = routine.segments.filter { it != segmentToDelete }) }
+            .combine(queueSegmentToDelete) { routine, segmentToDelete ->
+                routine.copy(segments = routine.segments.filter { it != segmentToDelete })
+            }
 
         loadJob = combine(routineFlow, timerThemeFlow) { routine, timerTheme -> routine to timerTheme }
-            .onEach { (routine, timerTheme) ->
+            .map { (routine, timerTheme) ->
+                val statistics = getRoutineStatistic(routine = routine)
+                Triple(routine, timerTheme, statistics)
+            }
+            .onEach { (routine, timerTheme, statistics) ->
                 updateState {
-                    reducer.setup(state = it, routine = routine, timerTheme = timerTheme)
+                    reducer.setup(state = it, routine = routine, timerTheme = timerTheme, statistics = statistics)
                 }
             }
             .catch { throwable ->
@@ -182,6 +191,7 @@ internal class RoutineSummaryViewModel @Inject constructor(
                         onSegmentDelete(segmentId = previousAction.segmentId)
                     }
                 }
+
                 is DeleteSegmentSuccess -> {
                     if (snackbarEvent == ActionPerformed) {
                         queueSegmentToDelete.value = null
@@ -189,6 +199,7 @@ internal class RoutineSummaryViewModel @Inject constructor(
                         runDeleteQueuedSegment()
                     }
                 }
+
                 MoveSegmentError,
                 DuplicateSegmentError,
                 null -> Unit

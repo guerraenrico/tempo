@@ -24,4 +24,23 @@ class CollectionsExtensionsKtTest {
 
         assertThat(actual).isEqualTo(expected)
     }
+
+    @Test
+    fun `mapToIfNotEmptyOrNull should return null when list is empty`() {
+        val list = emptyList<Int>()
+
+        val actual = list.mapToIfNotEmptyOrNull { it.size }
+
+        assertThat(actual).isNull()
+    }
+
+    @Test
+    fun `mapToIfNotEmptyOrNull should return transformed value when list is not empty`() {
+        val list = listOf(1, 2, 3, 4)
+        val expected = 4
+
+        val actual = list.mapToIfNotEmptyOrNull { it.size }
+
+        assertThat(actual).isEqualTo(expected)
+    }
 }

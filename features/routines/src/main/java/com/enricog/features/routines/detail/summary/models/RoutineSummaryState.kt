@@ -2,6 +2,7 @@ package com.enricog.features.routines.detail.summary.models
 
 import com.enricog.core.entities.ID
 import com.enricog.data.routines.api.entities.Routine
+import com.enricog.data.routines.api.statistics.entities.Statistic
 import com.enricog.data.timer.api.theme.entities.TimerTheme
 
 internal sealed class RoutineSummaryState {
@@ -11,9 +12,11 @@ internal sealed class RoutineSummaryState {
     data class Data(
         val timerTheme: TimerTheme,
         val routine: Routine,
+        val statistics: List<Statistic>,
         val errors: Map<RoutineSummaryField, RoutineSummaryFieldError>,
         val action: Action?
     ) : RoutineSummaryState() {
+
         sealed class Action {
             data class DeleteSegmentError(val segmentId: ID) : Action()
             object DeleteSegmentSuccess : Action()

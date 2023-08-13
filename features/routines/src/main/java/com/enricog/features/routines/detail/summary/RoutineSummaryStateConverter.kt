@@ -1,5 +1,6 @@
 package com.enricog.features.routines.detail.summary
 
+import com.enricog.base.extensions.mapToIfNotEmptyOrNull
 import com.enricog.base.viewmodel.StateConverter
 import com.enricog.core.compose.api.classes.asImmutableList
 import com.enricog.core.compose.api.classes.asImmutableMap
@@ -17,12 +18,15 @@ import com.enricog.features.routines.detail.summary.models.RoutineSummaryState.D
 import com.enricog.features.routines.detail.summary.models.RoutineSummaryState.Data.Action.MoveSegmentError
 import com.enricog.features.routines.detail.summary.models.RoutineSummaryViewState
 import com.enricog.features.routines.detail.summary.models.RoutineSummaryViewState.Data.Message
+import com.enricog.features.routines.ui_components.goal_label.toGoalLabel
 import com.enricog.features.routines.ui_components.time_type.TimeTypeStyle
 import com.enricog.ui.components.textField.timeText
+import java.time.Clock
 import javax.inject.Inject
 
-internal class RoutineSummaryStateConverter @Inject constructor() :
-    StateConverter<RoutineSummaryState, RoutineSummaryViewState> {
+internal class RoutineSummaryStateConverter @Inject constructor(
+    private val clock: Clock
+) : StateConverter<RoutineSummaryState, RoutineSummaryViewState> {
 
     override suspend fun convert(state: RoutineSummaryState): RoutineSummaryViewState {
         return when (state) {
@@ -34,10 +38,10 @@ internal class RoutineSummaryStateConverter @Inject constructor() :
 
     private fun RoutineSummaryState.Data.toViewState(): RoutineSummaryViewState.Data {
         val items: List<RoutineSummaryItem> = buildList {
-            val segmentsSummary = if (routine.segments.isNotEmpty()) {
+            val segmentsSummary = routine.segments.mapToIfNotEmptyOrNull { segments ->
                 SegmentsSummary(
                     estimatedTotalTime = routine.expectedTotalTime.takeIf { it > 0.seconds }?.timeText,
-                    segmentTypesCount = routine.segments.groupBy { it.type }
+                    segmentTypesCount = segments.groupBy { it.type }
                         .map { (type, segments) ->
                             TimeTypeStyle.from(
                                 timeType = type,
@@ -47,10 +51,13 @@ internal class RoutineSummaryStateConverter @Inject constructor() :
                         .toMap()
                         .asImmutableMap()
                 )
-            } else null
+            }
+            val goalLabel = routine.frequencyGoal?.toGoalLabel(clock = clock, statistics = statistics)
+
             add(
                 RoutineSummaryItem.RoutineInfo(
                     routineName = routine.name,
+                    goalLabel = goalLabel,
                     segmentsSummary = segmentsSummary
                 )
             )
