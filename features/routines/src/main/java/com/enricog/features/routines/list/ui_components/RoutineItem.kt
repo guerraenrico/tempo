@@ -13,7 +13,6 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.platform.testTag
-import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import androidx.constraintlayout.compose.ConstraintLayout
@@ -21,6 +20,7 @@ import androidx.constraintlayout.compose.Dimension
 import com.enricog.core.compose.api.modifiers.spacing.horizontalListItemSpacing
 import com.enricog.core.entities.ID
 import com.enricog.features.routines.list.models.RoutinesItem.RoutineItem
+import com.enricog.features.routines.ui_components.goal_label.GoalText
 import com.enricog.features.routines.ui_components.item.SwipeableListItem
 import com.enricog.ui.components.text.TempoText
 import com.enricog.ui.theme.TempoTheme
@@ -67,18 +67,14 @@ internal fun RoutineItem(
                 text = routineItem.name,
                 style = TempoTheme.typography.h2,
             )
-            if (routineItem.goalText != null) {
-                TempoText(
+            if (routineItem.goalLabel != null) {
+                GoalText(
                     modifier = Modifier
                         .constrainAs(goalText) {
                             top.linkTo(routineName.bottom)
                             start.linkTo(parent.start)
                         },
-                    text = stringResource(
-                        id = routineItem.goalText.stringResId,
-                        formatArgs = routineItem.goalText.formatArgs.toTypedArray()
-                    ),
-                    style = TempoTheme.typography.body2,
+                    label = routineItem.goalLabel
                 )
             }
             if (routineItem.segmentsSummary != null) {

@@ -3,9 +3,7 @@ package com.enricog.features.routines.list
 import com.enricog.base.viewmodel.StateConverter
 import com.enricog.core.compose.api.classes.asImmutableList
 import com.enricog.core.compose.api.classes.asImmutableMap
-import com.enricog.core.compose.api.classes.immutableListOf
 import com.enricog.core.entities.seconds
-import com.enricog.data.routines.api.entities.FrequencyGoal
 import com.enricog.data.routines.api.entities.Routine
 import com.enricog.data.routines.api.statistics.entities.Statistic
 import com.enricog.data.timer.api.theme.entities.TimerTheme
@@ -22,6 +20,7 @@ import com.enricog.features.routines.list.models.RoutinesState.Data.Action.MoveR
 import com.enricog.features.routines.list.models.RoutinesViewState
 import com.enricog.features.routines.list.models.RoutinesViewState.Data
 import com.enricog.features.routines.list.models.RoutinesViewState.Data.Message
+import com.enricog.features.routines.ui_components.goal_label.toGoalLabel
 import com.enricog.ui.components.textField.timeText
 import java.time.Clock
 import javax.inject.Inject
@@ -64,38 +63,15 @@ internal class RoutinesStateConverter @Inject constructor(
             )
         } else null
 
-        val goalText = frequencyGoal?.toGoalText(statistics)
+        val goalLabel = frequencyGoal?.toGoalLabel(clock = clock, statistics = statistics)
 
         return RoutineItem(
             id = id,
             name = name,
             rank = rank.toString(),
             segmentsSummary = segmentsSummary,
-            goalText = goalText
+            goalLabel = goalLabel
         )
-    }
-
-    private fun FrequencyGoal.toGoalText(statistics: List<Statistic>): RoutineItem.GoalText {
-        val (from, to) = period.timeRange(clock = clock)
-        val numCompletedRoutines = statistics.count {
-            it.type == Statistic.Type.ROUTINE_COMPLETED && it.createdAt >= from && it.createdAt <= to
-        }
-        return when (period) {
-            FrequencyGoal.Period.DAY -> RoutineItem.GoalText(
-                stringResId = R.string.label_routine_goal_text_day,
-                immutableListOf(numCompletedRoutines, times)
-            )
-
-            FrequencyGoal.Period.WEEK -> RoutineItem.GoalText(
-                stringResId = R.string.label_routine_goal_text_week,
-                immutableListOf(numCompletedRoutines, times)
-            )
-
-            FrequencyGoal.Period.MONTH -> RoutineItem.GoalText(
-                stringResId = R.string.label_routine_goal_text_month,
-                immutableListOf(numCompletedRoutines, times)
-            )
-        }
     }
 
     private fun Action.toMessage(): Message {
