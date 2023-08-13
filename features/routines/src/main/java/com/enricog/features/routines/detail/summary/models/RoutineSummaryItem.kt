@@ -5,7 +5,7 @@ import com.enricog.core.compose.api.classes.ImmutableMap
 import com.enricog.data.routines.api.entities.Segment
 import com.enricog.core.entities.ID
 import com.enricog.data.timer.api.theme.entities.TimerTheme
-import com.enricog.features.routines.detail.ui.time_type.TimeTypeStyle
+import com.enricog.features.routines.ui_components.time_type.TimeTypeStyle
 import com.enricog.ui.components.textField.TimeText
 import com.enricog.ui.components.textField.timeText
 

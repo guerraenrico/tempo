@@ -1,4 +1,4 @@
-package com.enricog.features.routines.ui_components
+package com.enricog.features.routines.ui_components.item
 
 import androidx.compose.foundation.background
 import androidx.compose.foundation.gestures.Orientation
@@ -20,9 +20,9 @@ import com.enricog.core.compose.api.modifiers.swipeable.FractionalThreshold
 import com.enricog.core.compose.api.modifiers.swipeable.rememberSwipeableState
 import com.enricog.core.compose.api.modifiers.swipeable.swipeable
 import com.enricog.features.routines.R
-import com.enricog.features.routines.ui_components.SwipeableState.CLOSE
-import com.enricog.features.routines.ui_components.SwipeableState.DELETE
-import com.enricog.features.routines.ui_components.SwipeableState.DUPLICATE
+import com.enricog.features.routines.ui_components.item.SwipeableState.CLOSE
+import com.enricog.features.routines.ui_components.item.SwipeableState.DELETE
+import com.enricog.features.routines.ui_components.item.SwipeableState.DUPLICATE
 import com.enricog.ui.components.icon.TempoIcon
 import com.enricog.ui.components.icon.TempoIconSize
 import com.enricog.ui.theme.TempoTheme

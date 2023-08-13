@@ -22,7 +22,7 @@ import com.enricog.core.compose.api.modifiers.spacing.horizontalListItemSpacing
 import com.enricog.core.compose.api.modifiers.swipeable.FractionalThreshold
 import com.enricog.core.compose.api.modifiers.swipeable.SwipeableState
 import com.enricog.core.compose.api.modifiers.swipeable.swipeable
-import com.enricog.features.routines.detail.ui.time_type.TimeTypeStyle
+import com.enricog.features.routines.ui_components.time_type.TimeTypeStyle
 import kotlinx.coroutines.launch
 import java.lang.Float.min
 import kotlin.math.abs

@@ -1,4 +1,4 @@
-package com.enricog.features.routines.detail.ui.time_type
+package com.enricog.features.routines.ui_components.time_type
 
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Box

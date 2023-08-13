@@ -14,9 +14,9 @@ import com.enricog.core.entities.ID
 import com.enricog.core.entities.asID
 import com.enricog.features.routines.R
 import com.enricog.features.routines.detail.summary.models.RoutineSummaryItem.SegmentItem
-import com.enricog.features.routines.detail.ui.time_type.TimeTypeChip
-import com.enricog.features.routines.detail.ui.time_type.TimeTypeStyle
-import com.enricog.features.routines.ui_components.SwipeableListItem
+import com.enricog.features.routines.ui_components.time_type.TimeTypeChip
+import com.enricog.features.routines.ui_components.time_type.TimeTypeStyle
+import com.enricog.features.routines.ui_components.item.SwipeableListItem
 import com.enricog.ui.components.text.TempoText
 import com.enricog.ui.components.textField.timeText
 import com.enricog.ui.theme.TempoTheme

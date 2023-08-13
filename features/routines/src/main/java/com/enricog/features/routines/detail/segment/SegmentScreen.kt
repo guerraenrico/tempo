@@ -8,7 +8,7 @@ import com.enricog.features.routines.detail.segment.models.SegmentInputs
 import com.enricog.features.routines.detail.segment.models.SegmentViewState
 import com.enricog.features.routines.detail.segment.ui_components.SegmentErrorScene
 import com.enricog.features.routines.detail.segment.ui_components.SegmentFormScene
-import com.enricog.features.routines.detail.ui.time_type.TimeTypeStyle
+import com.enricog.features.routines.ui_components.time_type.TimeTypeStyle
 import com.enricog.ui.components.layout.scafold.TempoScreenScaffold
 import com.enricog.ui.components.snackbar.TempoSnackbarEvent
 import com.enricog.ui.components.textField.TimeText

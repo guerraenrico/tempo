@@ -10,7 +10,7 @@ import com.enricog.data.routines.testing.entities.EMPTY
 import com.enricog.data.timer.api.theme.entities.TimerTheme
 import com.enricog.data.timer.testing.theme.entities.DEFAULT
 import com.enricog.features.routines.R
-import com.enricog.features.routines.detail.ui.time_type.TimeTypeStyle
+import com.enricog.features.routines.ui_components.time_type.TimeTypeStyle
 import com.enricog.features.routines.list.models.RoutinesItem
 import com.enricog.features.routines.list.models.RoutinesItem.RoutineItem.SegmentsSummary
 import com.enricog.features.routines.list.models.RoutinesState

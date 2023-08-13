@@ -10,7 +10,7 @@ import com.enricog.data.routines.api.entities.Routine
 import com.enricog.data.routines.api.statistics.entities.Statistic
 import com.enricog.data.timer.api.theme.entities.TimerTheme
 import com.enricog.features.routines.R
-import com.enricog.features.routines.detail.ui.time_type.TimeTypeStyle
+import com.enricog.features.routines.ui_components.time_type.TimeTypeStyle
 import com.enricog.features.routines.list.models.RoutinesItem.RoutineItem
 import com.enricog.features.routines.list.models.RoutinesItem.Space
 import com.enricog.features.routines.list.models.RoutinesState

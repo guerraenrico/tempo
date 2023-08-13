@@ -15,7 +15,7 @@ import com.enricog.core.compose.api.classes.ImmutableList
 import com.enricog.core.compose.api.classes.toImmutableMap
 import com.enricog.core.compose.api.extensions.toPx
 import com.enricog.core.compose.api.modifiers.swipeable.rememberSwipeableState
-import com.enricog.features.routines.detail.ui.time_type.TimeTypeStyle
+import com.enricog.features.routines.ui_components.time_type.TimeTypeStyle
 import com.enricog.ui.theme.TempoTheme
 
 @Composable
