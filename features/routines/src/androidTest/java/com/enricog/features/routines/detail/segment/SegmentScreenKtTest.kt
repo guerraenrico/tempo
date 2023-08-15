@@ -12,7 +12,7 @@ import com.enricog.features.routines.detail.segment.models.SegmentInputs
 import com.enricog.features.routines.detail.segment.models.SegmentViewState
 import com.enricog.features.routines.detail.segment.ui_components.SegmentErrorSceneTestTag
 import com.enricog.features.routines.detail.segment.ui_components.SegmentFormSceneTestTag
-import com.enricog.features.routines.detail.ui.time_type.TimeTypeStyle
+import com.enricog.features.routines.ui_components.time_type.TimeTypeStyle
 import com.enricog.ui.components.extensions.toTextFieldValue
 import com.enricog.ui.components.textField.timeText
 import com.enricog.ui.theme.TempoTheme

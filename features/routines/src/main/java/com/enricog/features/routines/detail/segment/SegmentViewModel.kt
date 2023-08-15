@@ -21,7 +21,7 @@ import com.enricog.features.routines.detail.segment.models.SegmentState.Data.Act
 import com.enricog.features.routines.detail.segment.models.SegmentViewState
 import com.enricog.features.routines.detail.segment.usecase.GetTimerThemeUseCase
 import com.enricog.features.routines.detail.segment.usecase.SegmentUseCase
-import com.enricog.features.routines.detail.ui.time_type.TimeTypeStyle
+import com.enricog.features.routines.ui_components.time_type.TimeTypeStyle
 import com.enricog.features.routines.navigation.RoutinesNavigationActions
 import com.enricog.navigation.api.routes.SegmentRoute
 import com.enricog.navigation.api.routes.SegmentRouteInput

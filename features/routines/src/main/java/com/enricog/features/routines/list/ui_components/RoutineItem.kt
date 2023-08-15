@@ -20,12 +20,15 @@ import androidx.constraintlayout.compose.Dimension
 import com.enricog.core.compose.api.modifiers.spacing.horizontalListItemSpacing
 import com.enricog.core.entities.ID
 import com.enricog.features.routines.list.models.RoutinesItem.RoutineItem
-import com.enricog.features.routines.ui_components.SwipeableListItem
+import com.enricog.features.routines.ui_components.goal_label.GoalText
+import com.enricog.features.routines.ui_components.item.SwipeableListItem
 import com.enricog.ui.components.text.TempoText
 import com.enricog.ui.theme.TempoTheme
 
 internal const val RoutineItemTestTag = "RoutineItemTestTag"
 internal const val RoutineItemCountTestTag = "RoutineItemCountTestTag"
+internal const val RoutineItemNameTestTag = "RoutineItemNameTestTag"
+internal const val RoutineItemGoalTestTag = "RoutineItemGoalTestTag"
 internal const val RoutineItemEstimatedTotalTimeTestTag = "RoutineItemEstimatedTotalTimeTestTag"
 internal const val RoutineItemSegmentTypeCountTestTag =
     "RoutineItemSegmentTypeCount_{{TYPE}}_TestTag"
@@ -50,9 +53,10 @@ internal fun RoutineItem(
                 .clickable(enabled = enableClick) { onClick(routineItem.id) }
                 .padding(TempoTheme.dimensions.spaceM)
         ) {
-            val (routineName, count) = createRefs()
+            val (routineName, goalText, count) = createRefs()
             TempoText(
                 modifier = Modifier
+                    .testTag(RoutineItemNameTestTag)
                     .constrainAs(routineName) {
                         top.linkTo(parent.top)
                         start.linkTo(parent.start)
@@ -66,6 +70,17 @@ internal fun RoutineItem(
                 text = routineItem.name,
                 style = TempoTheme.typography.h2,
             )
+            if (routineItem.goalLabel != null) {
+                GoalText(
+                    modifier = Modifier
+                        .testTag(RoutineItemGoalTestTag)
+                        .constrainAs(goalText) {
+                            top.linkTo(routineName.bottom)
+                            start.linkTo(parent.start)
+                        },
+                    label = routineItem.goalLabel
+                )
+            }
             if (routineItem.segmentsSummary != null) {
                 Counts(
                     modifier = Modifier

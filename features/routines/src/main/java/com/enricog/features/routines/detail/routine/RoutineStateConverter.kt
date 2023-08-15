@@ -1,13 +1,16 @@
 package com.enricog.features.routines.detail.routine
 
 import com.enricog.base.viewmodel.StateConverter
+import com.enricog.core.compose.api.classes.asImmutableList
 import com.enricog.core.compose.api.classes.asImmutableMap
+import com.enricog.data.routines.api.entities.FrequencyGoal
 import com.enricog.features.routines.R
 import com.enricog.features.routines.detail.routine.models.RoutineState
 import com.enricog.features.routines.detail.routine.models.RoutineState.Data.Action
 import com.enricog.features.routines.detail.routine.models.RoutineState.Data.Action.SaveRoutineError
 import com.enricog.features.routines.detail.routine.models.RoutineViewState
 import com.enricog.features.routines.detail.routine.models.RoutineViewState.Data.Message
+import com.enricog.features.routines.detail.routine.models.toDropDownItem
 import javax.inject.Inject
 
 internal class RoutineStateConverter @Inject constructor() :
@@ -24,7 +27,10 @@ internal class RoutineStateConverter @Inject constructor() :
     private fun RoutineState.Data.toViewState(): RoutineViewState {
         return RoutineViewState.Data(
             errors = errors.asImmutableMap(),
-            message = action?.toMessage()
+            message = action?.toMessage(),
+            frequencyGoalItems = FrequencyGoal.Period.values()
+                .map(FrequencyGoal.Period::toDropDownItem)
+                .asImmutableList()
         )
     }
 

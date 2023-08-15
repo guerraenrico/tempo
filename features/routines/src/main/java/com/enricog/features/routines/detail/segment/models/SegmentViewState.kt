@@ -3,7 +3,7 @@ package com.enricog.features.routines.detail.segment.models
 import androidx.annotation.StringRes
 import com.enricog.core.compose.api.classes.ImmutableList
 import com.enricog.core.compose.api.classes.ImmutableMap
-import com.enricog.features.routines.detail.ui.time_type.TimeTypeStyle
+import com.enricog.features.routines.ui_components.time_type.TimeTypeStyle
 
 internal sealed class SegmentViewState {
 

@@ -11,7 +11,6 @@ import androidx.compose.foundation.interaction.MutableInteractionSource
 import androidx.compose.foundation.interaction.collectIsFocusedAsState
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
-import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
@@ -61,6 +60,7 @@ internal fun TempoTextFieldBase(
     textStyle: TextStyle = TempoTextFieldBaseDefaults.textStyle,
     showBackground: Boolean = true,
     showIndicator: Boolean = true,
+    readOnly: Boolean = false
 ) {
     require(errorText == null || errorText.isNotBlank()) { "Error text cannot be blank" }
     require(labelText == null || labelText.isNotBlank()) { "Label text cannot be blank" }
@@ -123,7 +123,8 @@ internal fun TempoTextFieldBase(
                 showBackground = showBackground,
                 showIndicator = showIndicator
             ),
-            interactionSource = interactionSource
+            interactionSource = interactionSource,
+            readOnly = readOnly
         )
         Box(
             modifier = Modifier
@@ -304,7 +305,8 @@ private class TempoTextFieldBaseColors(
         return if (enabled) {
             animateColorAsState(
                 targetValue = targetValue,
-                animationSpec = tween(durationMillis = 150)
+                animationSpec = tween(durationMillis = 150),
+                label = "TempoTextFieldIndicatorColor"
             )
         } else {
             rememberUpdatedState(targetValue)

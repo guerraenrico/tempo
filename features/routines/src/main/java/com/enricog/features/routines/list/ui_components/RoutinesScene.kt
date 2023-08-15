@@ -117,7 +117,7 @@ internal fun RoutinesScene(
                                     }
                                 } ?: 0f
 
-                                val animate = animateFloatAsState(targetValue = offsetY)
+                                val animate = animateFloatAsState(targetValue = offsetY, label = "routineDrag")
                                 if (!isDragged) {
                                     RoutineItem(
                                         modifier = Modifier

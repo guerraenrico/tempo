@@ -4,14 +4,16 @@ import androidx.compose.ui.test.assertIsDisplayed
 import androidx.compose.ui.test.assertTextEquals
 import androidx.compose.ui.test.junit4.createComposeRule
 import androidx.compose.ui.test.onNodeWithTag
-import androidx.compose.ui.test.onNodeWithText
+import com.enricog.core.compose.api.classes.immutableListOf
 import com.enricog.core.compose.api.classes.immutableMapOf
 import com.enricog.core.compose.testing.invoke
 import com.enricog.core.entities.asID
 import com.enricog.data.timer.api.theme.entities.TimerTheme
 import com.enricog.data.timer.testing.theme.entities.DEFAULT
-import com.enricog.features.routines.detail.ui.time_type.TimeTypeStyle
+import com.enricog.features.routines.R
 import com.enricog.features.routines.list.models.RoutinesItem
+import com.enricog.features.routines.ui_components.goal_label.GoalLabel
+import com.enricog.features.routines.ui_components.time_type.TimeTypeStyle
 import com.enricog.ui.components.textField.timeText
 import com.enricog.ui.theme.TempoTheme
 import org.junit.Rule
@@ -24,7 +26,7 @@ class RoutineItemKtTest {
     val composeRule = createComposeRule()
 
     @Test
-    fun shouldRenderRoutineItemWithSegmentSummary() = composeRule {
+    fun shouldRenderRoutineItemFull() = composeRule {
         val timerTheme = TimerTheme.DEFAULT
         val routineItem = RoutinesItem.RoutineItem(
             id = 0.asID,
@@ -37,6 +39,10 @@ class RoutineItemKtTest {
                     TimeTypeStyle.from(timeType = TimeTypeEntity.REST, timerTheme = timerTheme) to 1,
                     TimeTypeStyle.from(timeType = TimeTypeEntity.STOPWATCH, timerTheme = timerTheme) to 1
                 )
+            ),
+            goalLabel = GoalLabel(
+                stringResId = R.string.label_routine_goal_text_day,
+                formatArgs = immutableListOf(1, 2)
             )
         )
 
@@ -54,10 +60,13 @@ class RoutineItemKtTest {
 
         waitForIdle()
 
-        onNodeWithTag(testTag = RoutineItemTestTag).assertIsDisplayed()
-        onNodeWithText(text = routineItem.name).assertIsDisplayed()
+        onNodeWithTag(testTag = RoutineItemNameTestTag, useUnmergedTree = true)
+            .assertTextEquals("Routine")
+        onNodeWithTag(testTag = RoutineItemGoalTestTag, useUnmergedTree = true)
+            .assertTextEquals("Completed 1/2 today")
 
-        onNodeWithTag(testTag = RoutineItemCountTestTag, useUnmergedTree = true).assertIsDisplayed()
+        onNodeWithTag(testTag = RoutineItemCountTestTag, useUnmergedTree = true)
+            .assertIsDisplayed()
         onNodeWithTag(testTag = RoutineItemEstimatedTotalTimeTestTag, useUnmergedTree = true)
             .assertTextEquals("00:12")
         onNodeWithTag(testTag = "RoutineItemSegmentTypeCount_TIMER_TestTag", useUnmergedTree = true)
@@ -74,7 +83,11 @@ class RoutineItemKtTest {
             id = 0.asID,
             name = "Routine",
             rank = "aaaaaa",
-            segmentsSummary = null
+            segmentsSummary = null,
+            goalLabel = GoalLabel(
+                stringResId = R.string.label_routine_goal_text_day,
+                formatArgs = immutableListOf(1, 2)
+            )
         )
 
         setContent {
@@ -91,10 +104,10 @@ class RoutineItemKtTest {
 
         waitForIdle()
 
-        onNodeWithTag(testTag = RoutineItemTestTag)
-            .assertIsDisplayed()
-        onNodeWithText(text = "Routine")
-            .assertIsDisplayed()
+        onNodeWithTag(testTag = RoutineItemNameTestTag, useUnmergedTree = true)
+            .assertTextEquals("Routine")
+        onNodeWithTag(testTag = RoutineItemGoalTestTag, useUnmergedTree = true)
+            .assertTextEquals("Completed 1/2 today")
 
         onNodeWithTag(testTag = RoutineItemEstimatedTotalTimeTestTag, useUnmergedTree = true)
             .assertDoesNotExist()
@@ -119,6 +132,10 @@ class RoutineItemKtTest {
                 segmentTypesCount = immutableMapOf(
                     TimeTypeStyle.from(timeType = TimeTypeEntity.STOPWATCH, timerTheme = TimerTheme.DEFAULT) to 1
                 )
+            ),
+            goalLabel = GoalLabel(
+                stringResId = R.string.label_routine_goal_text_day,
+                formatArgs = immutableListOf(1, 2)
             )
         )
 
@@ -136,10 +153,10 @@ class RoutineItemKtTest {
 
         waitForIdle()
 
-        onNodeWithTag(testTag = RoutineItemTestTag)
-            .assertIsDisplayed()
-        onNodeWithText(text = "Routine")
-            .assertIsDisplayed()
+        onNodeWithTag(testTag = RoutineItemNameTestTag, useUnmergedTree = true)
+            .assertTextEquals("Routine")
+        onNodeWithTag(testTag = RoutineItemGoalTestTag, useUnmergedTree = true)
+            .assertTextEquals("Completed 1/2 today")
 
         onNodeWithTag(testTag = RoutineItemCountTestTag, useUnmergedTree = true)
             .assertIsDisplayed()
@@ -149,6 +166,55 @@ class RoutineItemKtTest {
             .assertDoesNotExist()
         onNodeWithTag(testTag = "RoutineItemSegmentTypeCount_REST_TestTag", useUnmergedTree = true)
             .assertDoesNotExist()
+        onNodeWithTag(testTag = "RoutineItemSegmentTypeCount_STOPWATCH_TestTag", useUnmergedTree = true)
+            .assertTextEquals("1")
+    }
+
+    @Test
+    fun shouldRenderRoutineItemWithoutGoal() = composeRule {
+        val timerTheme = TimerTheme.DEFAULT
+        val routineItem = RoutinesItem.RoutineItem(
+            id = 0.asID,
+            name = "Routine",
+            rank = "aaaaaa",
+            segmentsSummary = RoutinesItem.RoutineItem.SegmentsSummary(
+                estimatedTotalTime = "12".timeText,
+                segmentTypesCount = immutableMapOf(
+                    TimeTypeStyle.from(timeType = TimeTypeEntity.TIMER, timerTheme = timerTheme) to 2,
+                    TimeTypeStyle.from(timeType = TimeTypeEntity.REST, timerTheme = timerTheme) to 1,
+                    TimeTypeStyle.from(timeType = TimeTypeEntity.STOPWATCH, timerTheme = timerTheme) to 1
+                )
+            ),
+            goalLabel = null
+        )
+
+        setContent {
+            TempoTheme {
+                RoutineItem(
+                    routineItem = routineItem,
+                    enableClick = true,
+                    onClick = {},
+                    onDelete = {},
+                    onDuplicate = {}
+                )
+            }
+        }
+
+        waitForIdle()
+
+        onNodeWithTag(testTag = RoutineItemNameTestTag, useUnmergedTree = true)
+            .assertTextEquals("Routine")
+        onNodeWithTag(testTag = RoutineItemGoalTestTag, useUnmergedTree = true)
+            .assertDoesNotExist()
+
+        onNodeWithTag(testTag = RoutineItemCountTestTag, useUnmergedTree = true)
+            .assertIsDisplayed()
+        onNodeWithTag(testTag = RoutineItemEstimatedTotalTimeTestTag, useUnmergedTree = true)
+            .assertTextEquals("00:12")
+        onNodeWithTag(testTag = "RoutineItemSegmentTypeCount_TIMER_TestTag", useUnmergedTree = true)
+            .assertTextEquals("2")
+        onNodeWithTag(testTag = "RoutineItemSegmentTypeCount_REST_TestTag", useUnmergedTree = true)
+            .assertTextEquals("1")
         onNodeWithTag(testTag = "RoutineItemSegmentTypeCount_STOPWATCH_TestTag", useUnmergedTree = true)
             .assertTextEquals("1")
     }

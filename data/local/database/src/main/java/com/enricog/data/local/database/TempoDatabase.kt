@@ -5,6 +5,7 @@ import androidx.room.Database
 import androidx.room.Room
 import androidx.room.RoomDatabase
 import androidx.room.TypeConverters
+import com.enricog.data.local.database.converter.FrequencyGoalConverter
 import com.enricog.data.local.database.converter.OffsetDateTimeConverter
 import com.enricog.data.local.database.converter.TimeTypeConverter
 import com.enricog.data.local.database.converter.TimerThemeResourceConverter
@@ -13,6 +14,7 @@ import com.enricog.data.local.database.migrations.MigrationFrom2To3
 import com.enricog.data.local.database.migrations.MigrationFrom3To4
 import com.enricog.data.local.database.migrations.MigrationFrom4To5
 import com.enricog.data.local.database.migrations.MigrationFrom5To6
+import com.enricog.data.local.database.migrations.MigrationFrom6To7
 import com.enricog.data.local.database.routines.dao.RoutineDao
 import com.enricog.data.local.database.routines.dao.SegmentDao
 import com.enricog.data.local.database.routines.model.InternalRoutine
@@ -30,12 +32,13 @@ import kotlinx.serialization.json.Json
         InternalStatistic::class,
         InternalTimerTheme::class
     ],
-    version = 6
+    version = 7
 )
 @TypeConverters(
     TimeTypeConverter::class,
     OffsetDateTimeConverter::class,
-    TimerThemeResourceConverter::class
+    TimerThemeResourceConverter::class,
+    FrequencyGoalConverter::class
 )
 internal abstract class TempoDatabase : RoomDatabase() {
 
@@ -61,11 +64,13 @@ internal abstract class TempoDatabase : RoomDatabase() {
                 .databaseBuilder(context.applicationContext, TempoDatabase::class.java, "Tempo.db")
                 .createFromAsset("database/default.db")
                 .addTypeConverter(TimerThemeResourceConverter(json = json))
+                .addTypeConverter(FrequencyGoalConverter(json = json))
                 .addMigrations(MigrationFrom1To2)
                 .addMigrations(MigrationFrom2To3)
                 .addMigrations(MigrationFrom3To4)
                 .addMigrations(MigrationFrom4To5)
                 .addMigrations(MigrationFrom5To6)
+                .addMigrations(MigrationFrom6To7)
                 .build()
         }
     }

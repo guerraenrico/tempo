@@ -30,7 +30,7 @@ import com.enricog.features.routines.R
 import com.enricog.features.routines.detail.segment.models.SegmentField
 import com.enricog.features.routines.detail.segment.models.SegmentInputs
 import com.enricog.features.routines.detail.segment.models.SegmentViewState
-import com.enricog.features.routines.detail.ui.time_type.TimeTypeStyle
+import com.enricog.features.routines.ui_components.time_type.TimeTypeStyle
 import com.enricog.ui.components.button.TempoButton
 import com.enricog.ui.components.button.TempoButtonColor
 import com.enricog.ui.components.snackbar.TempoSnackbarEvent

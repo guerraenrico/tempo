@@ -6,6 +6,7 @@ import com.enricog.data.routines.api.entities.TimeType
 import com.enricog.core.entities.Rank
 import com.enricog.core.entities.asID
 import com.enricog.core.entities.seconds
+import com.enricog.data.routines.api.entities.FrequencyGoal
 import com.google.common.truth.Truth.assertThat
 import org.junit.Test
 import java.time.OffsetDateTime
@@ -33,7 +34,11 @@ class InternalRoutineWithSegmentsTest {
             createdAt = now,
             updatedAt = now,
             rank = "abcdef",
-            rounds = 1
+            rounds = 1,
+            frequencyGoal = InternalRoutine.InternalFrequencyGoal(
+                times = 2,
+                period = InternalRoutine.InternalFrequencyGoal.InternalPeriod.MONTH
+            )
         )
         val expected = Routine(
             id = 1.asID,
@@ -52,7 +57,11 @@ class InternalRoutineWithSegmentsTest {
                 )
             ),
             rank = Rank.from(value = "abcdef"),
-            rounds = 1
+            rounds = 1,
+            frequencyGoal = FrequencyGoal(
+                times = 2,
+                period = FrequencyGoal.Period.MONTH
+            )
         )
         val internalRoutineWithSegments = InternalRoutineWithSegments(
             routine = internalRoutine,

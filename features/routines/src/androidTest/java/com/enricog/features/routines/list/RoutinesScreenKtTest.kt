@@ -9,7 +9,7 @@ import com.enricog.core.compose.testing.invoke
 import com.enricog.core.entities.asID
 import com.enricog.data.timer.api.theme.entities.TimerTheme
 import com.enricog.data.timer.testing.theme.entities.DEFAULT
-import com.enricog.features.routines.detail.ui.time_type.TimeTypeStyle
+import com.enricog.features.routines.ui_components.time_type.TimeTypeStyle
 import com.enricog.features.routines.list.models.RoutinesItem
 import com.enricog.features.routines.list.models.RoutinesViewState
 import com.enricog.features.routines.list.ui_components.RoutinesEmptySceneTestTag
@@ -92,7 +92,8 @@ class RoutinesScreenKtTest {
                             TimeTypeStyle.from(timeType = TimeTypeEntity.REST, timerTheme = timerTheme) to 1,
                             TimeTypeStyle.from(timeType = TimeTypeEntity.STOPWATCH, timerTheme = timerTheme) to 1
                         )
-                    )
+                    ),
+                    goalLabel = null
                 ),
                 RoutinesItem.Space
             ),

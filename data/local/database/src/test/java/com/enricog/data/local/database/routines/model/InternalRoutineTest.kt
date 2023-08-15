@@ -7,6 +7,7 @@ import com.enricog.data.routines.testing.entities.RANDOM
 import com.enricog.core.entities.Rank
 import com.enricog.core.entities.asID
 import com.enricog.core.entities.seconds
+import com.enricog.data.routines.api.entities.FrequencyGoal
 import com.google.common.truth.Truth.assertThat
 import org.junit.Test
 import java.time.OffsetDateTime
@@ -33,7 +34,11 @@ class InternalRoutineTest {
                 )
             ),
             rank = Rank.from(value = "abcdef"),
-            rounds = 1
+            rounds = 1,
+            frequencyGoal = FrequencyGoal(
+                times = 2,
+                period = FrequencyGoal.Period.WEEK
+            )
         )
         val expected = InternalRoutine(
             id = 1,
@@ -42,7 +47,11 @@ class InternalRoutineTest {
             createdAt = now,
             updatedAt = now,
             rank = "abcdef",
-            rounds = 1
+            rounds = 1,
+            frequencyGoal = InternalRoutine.InternalFrequencyGoal(
+                times = 2,
+                period = InternalRoutine.InternalFrequencyGoal.InternalPeriod.WEEK
+            )
         )
 
         val actual = routine.toInternal()
@@ -71,7 +80,11 @@ class InternalRoutineTest {
             createdAt = now,
             updatedAt = now,
             rank = "abcdef",
-            rounds = 1
+            rounds = 1,
+            frequencyGoal = InternalRoutine.InternalFrequencyGoal(
+                times = 2,
+                period = InternalRoutine.InternalFrequencyGoal.InternalPeriod.WEEK
+            )
         )
         val expected = Routine(
             id = 1.asID,
@@ -90,7 +103,11 @@ class InternalRoutineTest {
                 )
             ),
             rank = Rank.from(value = "abcdef"),
-            rounds = 1
+            rounds = 1,
+            frequencyGoal = FrequencyGoal(
+                times = 2,
+                period = FrequencyGoal.Period.WEEK
+            )
         )
 
         val actual = internalRoutine.toEntity(internalSegments)

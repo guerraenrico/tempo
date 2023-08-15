@@ -5,12 +5,13 @@ import androidx.compose.ui.test.assertIsDisplayed
 import androidx.compose.ui.test.assertTextEquals
 import androidx.compose.ui.test.junit4.createComposeRule
 import androidx.compose.ui.test.onNodeWithTag
-import androidx.compose.ui.test.onNodeWithText
+import com.enricog.core.compose.api.classes.immutableListOf
 import com.enricog.core.compose.api.classes.immutableMapOf
 import com.enricog.core.compose.testing.invoke
 import com.enricog.features.routines.R
 import com.enricog.features.routines.detail.summary.models.RoutineSummaryItem.RoutineInfo
-import com.enricog.features.routines.detail.ui.time_type.TimeTypeStyle
+import com.enricog.features.routines.ui_components.goal_label.GoalLabel
+import com.enricog.features.routines.ui_components.time_type.TimeTypeStyle
 import com.enricog.ui.components.textField.timeText
 import com.enricog.ui.theme.TempoTheme
 import org.junit.Rule
@@ -25,6 +26,10 @@ internal class RoutineSectionKtTest {
     fun shouldShowAllElementInTheSection() = composeRule {
         val routineInfo = RoutineInfo(
             routineName = "Routine Name",
+            goalLabel = GoalLabel(
+                stringResId = R.string.label_routine_goal_text_day,
+                formatArgs = immutableListOf(1, 2)
+            ),
             segmentsSummary = RoutineInfo.SegmentsSummary(
                 estimatedTotalTime = "10".timeText,
                 segmentTypesCount = immutableMapOf(
@@ -60,8 +65,10 @@ internal class RoutineSectionKtTest {
 
         onNodeWithTag(testTag = RoutineSectionTestTag)
             .assertIsDisplayed()
-        onNodeWithText(text = "Routine Name")
-            .assertIsDisplayed()
+        onNodeWithTag(testTag = RoutineSectionSummaryRoutineNameTestTag)
+            .assertTextEquals("Routine Name")
+        onNodeWithTag(testTag = RoutineSectionSummaryGoalTestTag)
+            .assertTextEquals("Completed 1/2 today")
 
         onNodeWithTag(testTag = RoutineSectionSummaryInfoTestTag, useUnmergedTree = true)
             .assertIsDisplayed()
@@ -83,6 +90,10 @@ internal class RoutineSectionKtTest {
     fun shouldNotShowSegmentSummaryWhenItIsNotSet() = composeRule {
         val routineInfo = RoutineInfo(
             routineName = "Routine Name",
+            goalLabel = GoalLabel(
+                stringResId = R.string.label_routine_goal_text_day,
+                formatArgs = immutableListOf(1, 2)
+            ),
             segmentsSummary = null
         )
 
@@ -96,8 +107,10 @@ internal class RoutineSectionKtTest {
 
         onNodeWithTag(testTag = RoutineSectionTestTag)
             .assertIsDisplayed()
-        onNodeWithText(text = "Routine Name")
-            .assertIsDisplayed()
+        onNodeWithTag(testTag = RoutineSectionSummaryRoutineNameTestTag)
+            .assertTextEquals("Routine Name")
+        onNodeWithTag(testTag = RoutineSectionSummaryGoalTestTag)
+            .assertTextEquals("Completed 1/2 today")
 
         onNodeWithTag(testTag = RoutineSectionSummaryInfoTestTag)
             .assertDoesNotExist()
@@ -107,6 +120,10 @@ internal class RoutineSectionKtTest {
     fun shouldNotShowEstimatedTotalTimeWhenNotSet() = composeRule {
         val routineInfo = RoutineInfo(
             routineName = "Routine Name",
+            goalLabel = GoalLabel(
+                stringResId = R.string.label_routine_goal_text_day,
+                formatArgs = immutableListOf(1, 2)
+            ),
             segmentsSummary = RoutineInfo.SegmentsSummary(
                 estimatedTotalTime = null,
                 segmentTypesCount = immutableMapOf(
@@ -130,8 +147,10 @@ internal class RoutineSectionKtTest {
 
         onNodeWithTag(testTag = RoutineSectionTestTag)
             .assertIsDisplayed()
-        onNodeWithText(text = "Routine Name")
-            .assertIsDisplayed()
+        onNodeWithTag(testTag = RoutineSectionSummaryRoutineNameTestTag)
+            .assertTextEquals("Routine Name")
+        onNodeWithTag(testTag = RoutineSectionSummaryGoalTestTag)
+            .assertTextEquals("Completed 1/2 today")
 
         onNodeWithTag(testTag = RoutineSectionSummaryInfoTestTag)
             .assertIsDisplayed()
@@ -141,4 +160,31 @@ internal class RoutineSectionKtTest {
             .assertIsDisplayed()
             .assertTextEquals("1")
     }
+
+    @Test
+    fun shouldNotShowGoalLabelWhenItIsNotSet() = composeRule {
+        val routineInfo = RoutineInfo(
+            routineName = "Routine Name",
+            goalLabel = null,
+            segmentsSummary = null
+        )
+
+        setContent {
+            TempoTheme {
+                RoutineSection(routineInfo = routineInfo, onEditRoutine = {})
+            }
+        }
+
+        waitForIdle()
+
+        onNodeWithTag(testTag = RoutineSectionTestTag)
+            .assertIsDisplayed()
+
+        onNodeWithTag(testTag = RoutineSectionSummaryGoalTestTag)
+            .assertDoesNotExist()
+
+        onNodeWithTag(testTag = RoutineSectionSummaryInfoTestTag)
+            .assertDoesNotExist()
+    }
+
 }

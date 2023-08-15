@@ -10,8 +10,10 @@ import com.enricog.base.viewmodel.ViewModelConfiguration
 import com.enricog.core.coroutines.dispatchers.CoroutineDispatchers
 import com.enricog.core.coroutines.job.autoCancelableJob
 import com.enricog.core.logger.api.TempoLogger
+import com.enricog.data.routines.api.entities.FrequencyGoal
 import com.enricog.data.routines.api.entities.Routine
 import com.enricog.features.routines.detail.routine.models.RoutineInputs
+import com.enricog.features.routines.detail.routine.models.RoutineInputs.FrequencyGoalInput
 import com.enricog.features.routines.detail.routine.models.RoutineState
 import com.enricog.features.routines.detail.routine.models.RoutineState.Data.Action.SaveRoutineError
 import com.enricog.features.routines.detail.routine.models.RoutineViewState
@@ -19,6 +21,7 @@ import com.enricog.features.routines.detail.routine.usecase.RoutineUseCase
 import com.enricog.features.routines.navigation.RoutinesNavigationActions
 import com.enricog.navigation.api.routes.RoutineRoute
 import com.enricog.navigation.api.routes.RoutineRouteInput
+import com.enricog.ui.components.dropDown.TempoDropDownItem
 import com.enricog.ui.components.extensions.toTextFieldValue
 import com.enricog.ui.components.snackbar.TempoSnackbarEvent
 import com.enricog.ui.components.snackbar.TempoSnackbarEvent.ActionPerformed
@@ -68,7 +71,8 @@ internal class RoutineViewModel @Inject constructor(
             fieldInputs = RoutineInputs(
                 name = routine.name.toTextFieldValue(),
                 preparationTime = routine.preparationTime.timeText,
-                rounds = routine.rounds.toString().toTextFieldValue()
+                rounds = routine.rounds.toString().toTextFieldValue(),
+                frequencyGoal = FrequencyGoalInput.from(frequencyGoal = routine.frequencyGoal)
             )
         }
     }
@@ -90,6 +94,38 @@ internal class RoutineViewModel @Inject constructor(
         updateStateWhen<RoutineState.Data> {
             fieldInputs = fieldInputs.copy(rounds = textFieldValue)
             reducer.updateRoutineRoundsError(state = it)
+        }
+    }
+
+    fun onFrequencyGoalCheck(isChecked: Boolean) {
+        val frequencyGoal = FrequencyGoalInput.from(
+            frequencyGoal = FrequencyGoal.DEFAULT.takeIf { isChecked }
+        )
+        fieldInputs = fieldInputs.copy(frequencyGoal = frequencyGoal)
+    }
+
+    fun onFrequencyGoalTimesChange(textFieldValue: TextFieldValue) {
+        updateStateWhen<RoutineState.Data> {
+            val frequencyGoalInput = fieldInputs.frequencyGoal
+            if (frequencyGoalInput is FrequencyGoalInput.Value) {
+                fieldInputs = fieldInputs.copy(
+                    frequencyGoal = frequencyGoalInput.copy(
+                        frequencyGoalTimes = textFieldValue
+                    )
+                )
+            }
+            reducer.updateRoutineFrequencyGoalTimesError(state = it)
+        }
+    }
+
+    fun onFrequencyGoalPeriodChange(dropDownItem: TempoDropDownItem) {
+        val frequencyGoalInput = fieldInputs.frequencyGoal
+        if (frequencyGoalInput is FrequencyGoalInput.Value) {
+            fieldInputs = fieldInputs.copy(
+                frequencyGoal = frequencyGoalInput.copy(
+                    frequencyGoalPeriod = dropDownItem
+                )
+            )
         }
     }
 

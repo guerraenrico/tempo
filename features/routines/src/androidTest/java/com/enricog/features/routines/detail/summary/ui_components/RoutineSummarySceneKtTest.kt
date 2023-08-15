@@ -6,7 +6,6 @@ import androidx.compose.ui.test.assertIsDisplayed
 import androidx.compose.ui.test.assertTextEquals
 import androidx.compose.ui.test.junit4.createComposeRule
 import androidx.compose.ui.test.onNodeWithTag
-import androidx.compose.ui.test.onNodeWithText
 import androidx.compose.ui.test.performTouchInput
 import androidx.compose.ui.test.swipe
 import com.enricog.core.compose.api.classes.immutableListOf
@@ -17,7 +16,7 @@ import com.enricog.features.routines.R
 import com.enricog.features.routines.detail.summary.models.RoutineSummaryItem.RoutineInfo
 import com.enricog.features.routines.detail.summary.models.RoutineSummaryItem.SegmentItem
 import com.enricog.features.routines.detail.summary.models.RoutineSummaryItem.SegmentSectionTitle
-import com.enricog.features.routines.detail.ui.time_type.TimeTypeStyle
+import com.enricog.features.routines.ui_components.time_type.TimeTypeStyle
 import com.enricog.ui.components.textField.timeText
 import com.enricog.ui.theme.TempoTheme
 import org.junit.Rule
@@ -34,6 +33,7 @@ class RoutineSummarySceneKtTest {
         val items = immutableListOf(
             RoutineInfo(
                 routineName = "Routine Name",
+                goalLabel = null,
                 segmentsSummary = RoutineInfo.SegmentsSummary(
                     estimatedTotalTime = "10".timeText,
                     segmentTypesCount = immutableMapOf(
@@ -71,8 +71,10 @@ class RoutineSummarySceneKtTest {
 
         onNodeWithTag(testTag = RoutineSectionTestTag)
             .assertIsDisplayed()
-        onNodeWithText(text = "Routine Name")
-            .assertIsDisplayed()
+        onNodeWithTag(testTag = RoutineSectionSummaryRoutineNameTestTag)
+            .assertTextEquals("Routine Name")
+        onNodeWithTag(testTag = RoutineSectionSummaryGoalTestTag)
+            .assertDoesNotExist()
 
         onNodeWithTag(testTag = RoutineSectionSummaryInfoTestTag)
             .assertIsDisplayed()
@@ -96,6 +98,7 @@ class RoutineSummarySceneKtTest {
         val items = immutableListOf(
             RoutineInfo(
                 routineName = "routineName",
+                goalLabel = null,
                 segmentsSummary = RoutineInfo.SegmentsSummary(
                     estimatedTotalTime = "110".timeText,
                     segmentTypesCount = immutableMapOf(

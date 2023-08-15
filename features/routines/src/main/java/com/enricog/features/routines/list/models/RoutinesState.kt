@@ -2,6 +2,7 @@ package com.enricog.features.routines.list.models
 
 import com.enricog.data.routines.api.entities.Routine
 import com.enricog.core.entities.ID
+import com.enricog.data.routines.api.statistics.entities.Statistic
 import com.enricog.data.timer.api.theme.entities.TimerTheme
 
 internal sealed class RoutinesState {
@@ -13,6 +14,7 @@ internal sealed class RoutinesState {
     data class Data(
         val routines: List<Routine>,
         val timerTheme: TimerTheme,
+        val statistics: List<Statistic>,
         val action: Action?
     ) : RoutinesState() {
         sealed class Action {

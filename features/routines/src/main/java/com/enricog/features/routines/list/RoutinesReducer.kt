@@ -2,6 +2,7 @@ package com.enricog.features.routines.list
 
 import com.enricog.core.entities.ID
 import com.enricog.data.routines.api.entities.Routine
+import com.enricog.data.routines.api.statistics.entities.Statistic
 import com.enricog.data.timer.api.theme.entities.TimerTheme
 import com.enricog.features.routines.list.models.RoutinesState
 import com.enricog.features.routines.list.models.RoutinesState.Data.Action.DeleteRoutineError
@@ -12,11 +13,21 @@ import javax.inject.Inject
 
 internal class RoutinesReducer @Inject constructor() {
 
-    fun setup(state: RoutinesState, routines: List<Routine>, timerTheme: TimerTheme): RoutinesState {
+    fun setup(
+        state: RoutinesState,
+        routines: List<Routine>,
+        timerTheme: TimerTheme,
+        statistics: List<Statistic>
+    ): RoutinesState {
         return when {
             routines.isEmpty() -> RoutinesState.Empty
             state is RoutinesState.Data -> state.copy(routines = routines)
-            else -> RoutinesState.Data(routines = routines, timerTheme = timerTheme, action = null)
+            else -> RoutinesState.Data(
+                routines = routines,
+                timerTheme = timerTheme,
+                statistics = statistics,
+                action = null
+            )
         }
     }
 

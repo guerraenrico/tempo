@@ -31,6 +31,11 @@ internal class RoutineReducer @Inject constructor() {
         return state.copy(errors = errors)
     }
 
+    fun updateRoutineFrequencyGoalTimesError(state: RoutineState.Data): RoutineState.Data {
+        val errors = state.errors.filterKeys { it != RoutineField.FrequencyGoalTimes }
+        return state.copy(errors = errors)
+    }
+
     fun applyRoutineErrors(
         state: RoutineState.Data,
         errors: Map<RoutineField, RoutineFieldError>

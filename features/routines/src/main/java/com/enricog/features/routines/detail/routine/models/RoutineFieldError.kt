@@ -3,6 +3,7 @@ package com.enricog.features.routines.detail.routine.models
 import androidx.annotation.StringRes
 import com.enricog.core.compose.api.classes.ImmutableList
 import com.enricog.core.compose.api.classes.immutableListOf
+import com.enricog.data.routines.api.entities.FrequencyGoal
 import com.enricog.data.routines.api.entities.Routine
 import com.enricog.features.routines.R
 
@@ -14,5 +15,9 @@ internal enum class RoutineFieldError(@StringRes val stringResId: Int, val forma
     BlankRoutineRounds(
         stringResId = R.string.field_error_message_routine_rounds_blank,
         formatArgs = immutableListOf(Routine.MIN_NUM_ROUNDS)
+    ),
+    BlankFrequencyGoalTimes(
+        stringResId = R.string.field_error_message_routine_frequency_goal_times_blank,
+        formatArgs = immutableListOf(FrequencyGoal.MIN_TIMES)
     )
 }

@@ -20,7 +20,7 @@ internal class MigrationFrom5To6Test {
     )
 
     @Test
-    fun shouldApplyRankWhenDatabaseContainsRoutines() {
+    fun shouldAddColumnRoundsToRoutinesAndSegments() {
         helper.createDatabase(TEST_DB, 5).apply {
             execSQL(
                 """

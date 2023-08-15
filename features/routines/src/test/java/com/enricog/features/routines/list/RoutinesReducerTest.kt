@@ -2,7 +2,9 @@ package com.enricog.features.routines.list
 
 import com.enricog.core.entities.asID
 import com.enricog.data.routines.api.entities.Routine
+import com.enricog.data.routines.api.statistics.entities.Statistic
 import com.enricog.data.routines.testing.entities.EMPTY
+import com.enricog.data.routines.testing.statistics.entities.EMPTY
 import com.enricog.data.timer.api.theme.entities.TimerTheme
 import com.enricog.data.timer.testing.theme.entities.DEFAULT
 import com.enricog.features.routines.list.models.RoutinesState
@@ -19,11 +21,22 @@ class RoutinesReducerTest {
     @Test
     fun `setup should return empty state when routine list is empty`() {
         val routines = emptyList<Routine>()
+        val statistics = listOf(Statistic.EMPTY)
         val timerTheme = TimerTheme.DEFAULT
-        val state = RoutinesState.Data(routines = listOf(Routine.EMPTY), action = null, timerTheme = timerTheme)
+        val state = RoutinesState.Data(
+            routines = listOf(Routine.EMPTY),
+            action = null,
+            timerTheme = timerTheme,
+            statistics = emptyList()
+        )
         val expected = RoutinesState.Empty
 
-        val actual = routinesReducer.setup(state = state, routines = routines, timerTheme = timerTheme)
+        val actual = routinesReducer.setup(
+            state = state,
+            routines = routines,
+            timerTheme = timerTheme,
+            statistics = statistics
+        )
 
         assertThat(actual).isEqualTo(expected)
     }
@@ -31,11 +44,22 @@ class RoutinesReducerTest {
     @Test
     fun `setup should return data state when routine list is not empty`() {
         val routines = listOf(Routine.EMPTY)
+        val statistics = listOf(Statistic.EMPTY)
         val state = RoutinesState.Empty
         val timerTheme = TimerTheme.DEFAULT
-        val expected = RoutinesState.Data(routines = routines, action = null, timerTheme = timerTheme)
+        val expected = RoutinesState.Data(
+            routines = routines,
+            action = null,
+            timerTheme = timerTheme,
+            statistics = statistics
+        )
 
-        val actual = routinesReducer.setup(state = state, routines = routines, timerTheme = timerTheme)
+        val actual = routinesReducer.setup(
+            state = state,
+            routines = routines,
+            timerTheme = timerTheme,
+            statistics = statistics
+        )
 
         assertThat(actual).isEqualTo(expected)
     }
@@ -43,15 +67,27 @@ class RoutinesReducerTest {
     @Test
     fun `setup should return data state updating only routines when state is data`() {
         val routines = listOf(Routine.EMPTY)
+        val statistics = listOf(Statistic.EMPTY)
         val timerTheme = TimerTheme.DEFAULT
         val state = RoutinesState.Data(
             routines = listOf(Routine.EMPTY, Routine.EMPTY),
             action = DuplicateRoutineError,
-            timerTheme = timerTheme
+            timerTheme = timerTheme,
+            statistics = statistics
         )
-        val expected = RoutinesState.Data(routines = routines, action = DuplicateRoutineError, timerTheme = timerTheme)
+        val expected = RoutinesState.Data(
+            routines = routines,
+            action = DuplicateRoutineError,
+            timerTheme = timerTheme,
+            statistics = statistics
+        )
 
-        val actual = routinesReducer.setup(state = state, routines = routines, timerTheme = timerTheme)
+        val actual = routinesReducer.setup(
+            state = state,
+            routines = routines,
+            timerTheme = timerTheme,
+            statistics = statistics
+        )
 
         assertThat(actual).isEqualTo(expected)
     }
@@ -72,11 +108,17 @@ class RoutinesReducerTest {
         val routine = Routine.EMPTY.copy(id = routineId)
         val routines = listOf(routine)
         val timerTheme = TimerTheme.DEFAULT
-        val state = RoutinesState.Data(routines = routines, action = null, timerTheme = timerTheme)
+        val state = RoutinesState.Data(
+            routines = routines,
+            action = null,
+            timerTheme = timerTheme,
+            statistics = emptyList()
+        )
         val expected = RoutinesState.Data(
             routines = routines,
             action = DeleteRoutineError(routineId = routineId),
-            timerTheme = timerTheme
+            timerTheme = timerTheme,
+            statistics = emptyList()
         )
 
         val actual = routinesReducer.deleteRoutineError(state = state, routineId = routineId)
@@ -90,11 +132,17 @@ class RoutinesReducerTest {
         val routine = Routine.EMPTY.copy(id = routineId)
         val routines = listOf(routine)
         val timerTheme = TimerTheme.DEFAULT
-        val state = RoutinesState.Data(routines = routines, action = null, timerTheme = timerTheme)
+        val state = RoutinesState.Data(
+            routines = routines,
+            action = null,
+            timerTheme = timerTheme,
+            statistics = emptyList()
+        )
         val expected = RoutinesState.Data(
             routines = routines,
             action = MoveRoutineError,
-            timerTheme = timerTheme
+            timerTheme = timerTheme,
+            statistics = emptyList()
         )
 
         val actual = routinesReducer.moveRoutineError(state = state)
@@ -108,11 +156,17 @@ class RoutinesReducerTest {
         val routine = Routine.EMPTY.copy(id = routineId)
         val routines = listOf(routine)
         val timerTheme = TimerTheme.DEFAULT
-        val state = RoutinesState.Data(routines = routines, action = null, timerTheme = timerTheme)
+        val state = RoutinesState.Data(
+            routines = routines,
+            action = null,
+            timerTheme = timerTheme,
+            statistics = emptyList()
+        )
         val expected = RoutinesState.Data(
             routines = routines,
             action = DuplicateRoutineError,
-            timerTheme = timerTheme
+            timerTheme = timerTheme,
+            statistics = emptyList()
         )
 
         val actual = routinesReducer.duplicateRoutineError(state = state)
@@ -129,9 +183,15 @@ class RoutinesReducerTest {
         val state = RoutinesState.Data(
             routines = routines,
             action = DeleteRoutineError(routineId = routineId),
-            timerTheme = timerTheme
+            timerTheme = timerTheme,
+            statistics = emptyList()
         )
-        val expected = RoutinesState.Data(routines = routines, action = null, timerTheme = timerTheme)
+        val expected = RoutinesState.Data(
+            routines = routines,
+            action = null,
+            timerTheme = timerTheme,
+            statistics = emptyList()
+        )
 
         val actual = routinesReducer.actionHandled(state = state)
 
