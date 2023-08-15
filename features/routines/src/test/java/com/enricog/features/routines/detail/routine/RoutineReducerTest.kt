@@ -78,6 +78,24 @@ class RoutineReducerTest {
     }
 
     @Test
+    fun `should remove field rounds error when routine frequency goal time is updated`() {
+        val state = RoutineState.Data(
+            routine = Routine.EMPTY,
+            errors = mapOf(RoutineField.FrequencyGoalTimes to RoutineFieldError.BlankFrequencyGoalTimes),
+            action = null
+        )
+        val expected = RoutineState.Data(
+            routine = Routine.EMPTY,
+            errors = emptyMap(),
+            action = null
+        )
+
+        val actual = reducer.updateRoutineFrequencyGoalTimesError(state = state)
+
+        assertThat(actual).isEqualTo(expected)
+    }
+
+    @Test
     fun `should apply routine errors`() {
         val errors = mapOf(
             RoutineField.Name to RoutineFieldError.BlankRoutineName

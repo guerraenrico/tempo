@@ -77,6 +77,6 @@
     <string name="chip_time_type_stopwatch_name">Stopwatch</string>
 
     <string name="frequency_goal_period_day_name">Day</string>
-    <string name="frequency_goal_period_day_week">Week</string>
-    <string name="frequency_goal_period_day_month">Month</string>
+    <string name="frequency_goal_period_week_name">Week</string>
+    <string name="frequency_goal_period_month_name">Month</string>
 </resources>

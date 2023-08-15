@@ -13,8 +13,8 @@ internal fun FrequencyGoal.Period.getText(): Text {
     return when (this) {
         FrequencyGoal.Period.DAY -> Text.Resource(resId = R.string.frequency_goal_period_day_name)
 
-        FrequencyGoal.Period.WEEK -> Text.Resource(resId = R.string.frequency_goal_period_day_week)
+        FrequencyGoal.Period.WEEK -> Text.Resource(resId = R.string.frequency_goal_period_week_name)
 
-        FrequencyGoal.Period.MONTH -> Text.Resource(resId = R.string.frequency_goal_period_day_month)
+        FrequencyGoal.Period.MONTH -> Text.Resource(resId = R.string.frequency_goal_period_month_name)
     }
 }

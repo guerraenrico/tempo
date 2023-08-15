@@ -3,6 +3,7 @@ package com.enricog.features.routines.detail.routine
 import androidx.compose.ui.test.assertIsDisplayed
 import androidx.compose.ui.test.junit4.createComposeRule
 import androidx.compose.ui.test.onNodeWithTag
+import com.enricog.core.compose.api.classes.emptyImmutableList
 import com.enricog.core.compose.api.classes.emptyImmutableMap
 import com.enricog.core.compose.testing.invoke
 import com.enricog.features.routines.detail.routine.models.RoutineInputs
@@ -26,7 +27,8 @@ class RoutineScreenKtTest {
         val inputs = RoutineInputs(
             name = "".toTextFieldValue(),
             rounds = "".toTextFieldValue(),
-            preparationTime = "".timeText
+            preparationTime = "".timeText,
+            frequencyGoal = RoutineInputs.FrequencyGoalInput.None
         )
 
         setContent {
@@ -39,7 +41,10 @@ class RoutineScreenKtTest {
                     onRoutineSave = {},
                     onPreparationTimeInfo = {},
                     onRetryLoad = {},
-                    onSnackbarEvent = {}
+                    onSnackbarEvent = {},
+                    onFrequencyGoalCheck = {},
+                    onFrequencyGoalPeriodChange = {},
+                    onFrequencyGoalTimesChange = {}
                 )
             }
         }
@@ -52,12 +57,14 @@ class RoutineScreenKtTest {
     fun shouldRenderSceneWhenStateIsData() = composeRule {
         val viewState = RoutineViewState.Data(
             errors = emptyImmutableMap(),
-            message = null
+            message = null,
+            frequencyGoalItems = emptyImmutableList()
         )
         val inputs = RoutineInputs(
             name = "".toTextFieldValue(),
             rounds = "".toTextFieldValue(),
-            preparationTime = "".timeText
+            preparationTime = "".timeText,
+            frequencyGoal = RoutineInputs.FrequencyGoalInput.None
         )
 
         setContent {
@@ -70,7 +77,10 @@ class RoutineScreenKtTest {
                     onRoutineSave = {},
                     onPreparationTimeInfo = {},
                     onRetryLoad = {},
-                    onSnackbarEvent = {}
+                    onSnackbarEvent = {},
+                    onFrequencyGoalCheck = {},
+                    onFrequencyGoalPeriodChange = {},
+                    onFrequencyGoalTimesChange = {}
                 )
             }
         }
@@ -85,7 +95,8 @@ class RoutineScreenKtTest {
         val inputs = RoutineInputs(
             name = "".toTextFieldValue(),
             rounds = "".toTextFieldValue(),
-            preparationTime = "".timeText
+            preparationTime = "".timeText,
+            frequencyGoal = RoutineInputs.FrequencyGoalInput.None
         )
 
         setContent {
@@ -97,7 +108,10 @@ class RoutineScreenKtTest {
                 onRoutineSave = {},
                 onPreparationTimeInfo = {},
                 onRetryLoad = {},
-                onSnackbarEvent = {}
+                onSnackbarEvent = {},
+                onFrequencyGoalCheck = {},
+                onFrequencyGoalPeriodChange = {},
+                onFrequencyGoalTimesChange = {}
             )
         }
 
