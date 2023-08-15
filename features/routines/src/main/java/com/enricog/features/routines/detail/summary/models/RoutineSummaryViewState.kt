@@ -11,6 +11,7 @@ internal sealed class RoutineSummaryViewState {
         val items: ImmutableList<RoutineSummaryItem>,
         val message: Message?
     ) : RoutineSummaryViewState() {
+
         data class Message(@StringRes val textResId: Int, @StringRes val actionTextResId: Int?)
     }
 

@@ -29,6 +29,8 @@ import com.enricog.ui.components.text.TempoText
 import com.enricog.ui.theme.TempoTheme
 
 internal const val RoutineSectionTestTag = "RoutineSectionTestTag"
+internal const val RoutineSectionSummaryRoutineNameTestTag = "RoutineSectionSummaryRoutineNameTestTag"
+internal const val RoutineSectionSummaryGoalTestTag = "RoutineSectionSummaryGoalTestTag"
 internal const val RoutineSectionSummaryInfoTestTag = "RoutineSectionSummaryInfoTestTag"
 internal const val RoutineSectionEstimatedTotalTimeTestTag = "RoutineSectionEstimatedTotalTimeTestTag"
 internal const val RoutineSectionSegmentTypeCountTestTag =
@@ -46,28 +48,32 @@ internal fun RoutineSection(
     ) {
         val (routineName, goalText, buttonEdit, segmentCount) = createRefs()
         TempoText(
-            modifier = Modifier.constrainAs(routineName) {
-                top.linkTo(parent.top)
-                start.linkTo(parent.start)
-                if (routineInfo.goalLabel != null) {
-                    bottom.linkTo(goalText.top)
-                } else {
-                    bottom.linkTo(buttonEdit.top)
-                }
-                end.linkTo(segmentCount.start)
-                width = Dimension.fillToConstraints
-            },
+            modifier = Modifier
+                .testTag(RoutineSectionSummaryRoutineNameTestTag)
+                .constrainAs(routineName) {
+                    top.linkTo(parent.top)
+                    start.linkTo(parent.start)
+                    if (routineInfo.goalLabel != null) {
+                        bottom.linkTo(goalText.top)
+                    } else {
+                        bottom.linkTo(buttonEdit.top)
+                    }
+                    end.linkTo(segmentCount.start)
+                    width = Dimension.fillToConstraints
+                },
             text = routineInfo.routineName,
             style = TempoTheme.typography.h1
         )
 
         if (routineInfo.goalLabel != null) {
             GoalText(
-                modifier = Modifier.constrainAs(goalText) {
-                    top.linkTo(routineName.bottom)
-                    start.linkTo(parent.start)
-                    bottom.linkTo(buttonEdit.top)
-                },
+                modifier = Modifier
+                    .testTag(RoutineSectionSummaryGoalTestTag)
+                    .constrainAs(goalText) {
+                        top.linkTo(routineName.bottom)
+                        start.linkTo(parent.start)
+                        bottom.linkTo(buttonEdit.top)
+                    },
                 label = routineInfo.goalLabel,
             )
         }

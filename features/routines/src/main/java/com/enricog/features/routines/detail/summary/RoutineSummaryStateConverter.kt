@@ -43,10 +43,7 @@ internal class RoutineSummaryStateConverter @Inject constructor(
                     estimatedTotalTime = routine.expectedTotalTime.takeIf { it > 0.seconds }?.timeText,
                     segmentTypesCount = segments.groupBy { it.type }
                         .map { (type, segments) ->
-                            TimeTypeStyle.from(
-                                timeType = type,
-                                timerTheme = timerTheme
-                            ) to segments.size
+                            TimeTypeStyle.from(timeType = type, timerTheme = timerTheme) to segments.size
                         }
                         .toMap()
                         .asImmutableMap()
@@ -95,14 +92,17 @@ internal class RoutineSummaryStateConverter @Inject constructor(
                 textResId = R.string.label_routine_summary_segment_delete_error,
                 actionTextResId = R.string.action_text_routine_summary_segment_delete_error
             )
+
             DeleteSegmentSuccess -> Message(
                 textResId = R.string.label_routine_summary_segment_delete_confirm,
                 actionTextResId = R.string.action_text_routine_summary_segment_delete_undo
             )
+
             MoveSegmentError -> Message(
                 textResId = R.string.label_routine_summary_segment_move_error,
                 actionTextResId = null
             )
+
             DuplicateSegmentError -> Message(
                 textResId = R.string.label_routine_summary_segment_duplicate_error,
                 actionTextResId = null

@@ -1,6 +1,5 @@
 package com.enricog.features.routines.detail.summary
 
-import androidx.compose.ui.graphics.Color
 import androidx.lifecycle.SavedStateHandle
 import app.cash.turbine.test
 import com.enricog.core.compose.api.classes.immutableListOf
@@ -11,10 +10,13 @@ import com.enricog.core.entities.Rank
 import com.enricog.core.entities.asID
 import com.enricog.core.entities.seconds
 import com.enricog.data.local.testing.FakeStore
+import com.enricog.data.routines.api.entities.FrequencyGoal
 import com.enricog.data.routines.api.entities.Routine
 import com.enricog.data.routines.api.entities.Segment
+import com.enricog.data.routines.api.statistics.entities.Statistic
 import com.enricog.data.routines.testing.FakeRoutineDataSource
 import com.enricog.data.routines.testing.entities.EMPTY
+import com.enricog.data.routines.testing.statistics.FakeRoutineStatisticsDataSource
 import com.enricog.data.timer.api.theme.entities.TimerTheme
 import com.enricog.data.timer.testing.theme.FakeTimerThemeDataSource
 import com.enricog.data.timer.testing.theme.entities.DEFAULT
@@ -24,13 +26,22 @@ import com.enricog.features.routines.detail.summary.models.RoutineSummaryItem
 import com.enricog.features.routines.detail.summary.models.RoutineSummaryItem.RoutineInfo.SegmentsSummary
 import com.enricog.features.routines.detail.summary.models.RoutineSummaryViewState
 import com.enricog.features.routines.detail.summary.models.RoutineSummaryViewState.Data.Message
+import com.enricog.features.routines.detail.summary.test.RoutineSummaryItemBuilder
+import com.enricog.features.routines.detail.summary.test.RoutineSummaryItemRoutineInfo
+import com.enricog.features.routines.detail.summary.test.RoutineSummaryItemSegmentItem
+import com.enricog.features.routines.detail.summary.test.RoutineSummaryItemSegmentSectionTitle
+import com.enricog.features.routines.detail.summary.test.RoutineSummaryViewStateBuilder
+import com.enricog.features.routines.detail.summary.test.RoutineSummaryViewStateData
+import com.enricog.features.routines.detail.summary.test.TIMER
 import com.enricog.features.routines.detail.summary.usecase.DeleteSegmentUseCase
 import com.enricog.features.routines.detail.summary.usecase.DuplicateSegmentUseCase
+import com.enricog.features.routines.detail.summary.usecase.GetRoutineStatistic
 import com.enricog.features.routines.detail.summary.usecase.GetRoutineUseCase
 import com.enricog.features.routines.detail.summary.usecase.GetTimerThemeUseCase
 import com.enricog.features.routines.detail.summary.usecase.MoveSegmentUseCase
-import com.enricog.features.routines.ui_components.time_type.TimeTypeStyle
 import com.enricog.features.routines.navigation.RoutinesNavigationActions
+import com.enricog.features.routines.ui_components.goal_label.GoalLabel
+import com.enricog.features.routines.ui_components.time_type.TimeTypeStyle
 import com.enricog.navigation.api.routes.RoutineRoute
 import com.enricog.navigation.api.routes.RoutineRouteInput
 import com.enricog.navigation.api.routes.SegmentRoute
@@ -46,49 +57,19 @@ import kotlinx.coroutines.test.advanceUntilIdle
 import kotlinx.coroutines.test.runCurrent
 import org.junit.Rule
 import org.junit.Test
+import java.time.Clock
+import java.time.Instant
+import java.time.OffsetDateTime
+import java.time.ZoneId
 
 class RoutineSummaryViewModelTest {
 
     @get:Rule
     val coroutineRule = CoroutineRule(StandardTestDispatcher())
 
+    private val clock = Clock.fixed(Instant.parse("2023-04-03T10:15:30.00Z"), ZoneId.of("UTC"))
+
     private val timerTheme = TimerTheme.DEFAULT
-    private val firstSegmentItem = RoutineSummaryItem.SegmentItem(
-        id = 1.asID,
-        name = "First Segment",
-        time = "10".timeText,
-        type = TimeTypeStyle(
-            nameStringResId = R.string.chip_time_type_timer_name,
-            backgroundColor = Color.Red,
-            onBackgroundColor = Color.White,
-            id = "TIMER"
-        ),
-        rank = "bbbbbb"
-    )
-    private val secondSegmentItem = RoutineSummaryItem.SegmentItem(
-        id = 2.asID,
-        name = "Second Segment",
-        time = "10".timeText,
-        type = TimeTypeStyle(
-            nameStringResId = R.string.chip_time_type_timer_name,
-            backgroundColor = Color.Red,
-            onBackgroundColor = Color.White,
-            id = "TIMER"
-        ),
-        rank = "cccccc"
-    )
-    private val thirdSegmentItem = RoutineSummaryItem.SegmentItem(
-        id = 3.asID,
-        name = "Third Segment",
-        time = "10".timeText,
-        type = TimeTypeStyle(
-            nameStringResId = R.string.chip_time_type_timer_name,
-            backgroundColor = Color.Red,
-            onBackgroundColor = Color.White,
-            id = "TIMER"
-        ),
-        rank = "dddddd"
-    )
     private val firstSegment = Segment.EMPTY.copy(
         id = 1.asID,
         name = "First Segment",
@@ -110,41 +91,27 @@ class RoutineSummaryViewModelTest {
     private val routine = Routine.EMPTY.copy(
         id = 1.asID,
         name = "Routine Name",
-        segments = listOf(firstSegment, secondSegment, thirdSegment)
+        segments = listOf(firstSegment, secondSegment, thirdSegment),
+        frequencyGoal = FrequencyGoal.DEFAULT
+    )
+    private val statistic = Statistic(
+        id = 1.asID,
+        createdAt = OffsetDateTime.now(clock),
+        routineId = routine.id,
+        type = Statistic.Type.ROUTINE_COMPLETED,
+        effectiveTime = 30.seconds
     )
 
     private val routinesStore = FakeStore(initialValue = listOf(routine))
     private val routineDataSource = FakeRoutineDataSource(store = routinesStore)
     private val timerThemeDataSource = FakeTimerThemeDataSource(store = FakeStore(listOf(timerTheme)))
+    private val statisticsDataSource = FakeRoutineStatisticsDataSource(store = FakeStore(listOf(statistic)))
     private val navigator = FakeNavigator()
     private val savedStateHandle = SavedStateHandle(mapOf("routineId" to 1L))
 
     @Test
     fun `should show data when load succeeds`() = coroutineRule {
-        val expected = RoutineSummaryViewState.Data(
-            items = immutableListOf(
-                RoutineSummaryItem.RoutineInfo(
-                    routineName = "Routine Name",
-                    segmentsSummary = SegmentsSummary(
-                        estimatedTotalTime = "30".timeText,
-                        segmentTypesCount = immutableMapOf(
-                            TimeTypeStyle(
-                                nameStringResId = R.string.chip_time_type_timer_name,
-                                backgroundColor = Color.Red,
-                                onBackgroundColor = Color.White,
-                                id = "TIMER"
-                            ) to 3
-                        )
-                    )
-                ),
-                RoutineSummaryItem.SegmentSectionTitle(error = null),
-                firstSegmentItem,
-                secondSegmentItem,
-                thirdSegmentItem,
-                RoutineSummaryItem.Space
-            ),
-            message = null
-        )
+        val expected = RoutineSummaryViewStateData { withFullItems() }
 
         val viewModel = buildViewModel()
         advanceUntilIdle()
@@ -168,30 +135,7 @@ class RoutineSummaryViewModelTest {
 
     @Test
     fun `should retry load when fails`() = coroutineRule {
-        val expected = RoutineSummaryViewState.Data(
-            items = immutableListOf(
-                RoutineSummaryItem.RoutineInfo(
-                    routineName = "Routine Name",
-                    segmentsSummary = SegmentsSummary(
-                        estimatedTotalTime = "30".timeText,
-                        segmentTypesCount = immutableMapOf(
-                            TimeTypeStyle(
-                                nameStringResId = R.string.chip_time_type_timer_name,
-                                backgroundColor = Color.Red,
-                                onBackgroundColor = Color.White,
-                                id = "TIMER"
-                            ) to 3
-                        )
-                    )
-                ),
-                RoutineSummaryItem.SegmentSectionTitle(error = null),
-                firstSegmentItem,
-                secondSegmentItem,
-                thirdSegmentItem,
-                RoutineSummaryItem.Space
-            ),
-            message = null
-        )
+        val expected = RoutineSummaryViewStateData { withFullItems() }
         routinesStore.enableErrorOnNextAccess()
         val viewModel = buildViewModel()
         advanceUntilIdle()
@@ -223,47 +167,40 @@ class RoutineSummaryViewModelTest {
         val viewModel = buildViewModel()
         advanceUntilIdle()
 
-        viewModel.onSegmentSelected(segmentId = secondSegmentItem.id)
+        viewModel.onSegmentSelected(segmentId = secondSegment.id)
         advanceUntilIdle()
 
         navigator.assertGoTo(
             route = SegmentRoute,
-            input = SegmentRouteInput(routineId = routine.id, segmentId = secondSegmentItem.id)
+            input = SegmentRouteInput(routineId = routine.id, segmentId = secondSegment.id)
         )
     }
 
     @Test
     fun `should update routine and show message when segment is deleted`() = coroutineRule {
-        val expected = RoutineSummaryViewState.Data(
+        val expected = RoutineSummaryViewStateData {
             items = immutableListOf(
-                RoutineSummaryItem.RoutineInfo(
-                    routineName = "Routine Name",
+                RoutineSummaryItemRoutineInfo {
+                    withPreset()
                     segmentsSummary = SegmentsSummary(
                         estimatedTotalTime = "20".timeText,
-                        segmentTypesCount = immutableMapOf(
-                            TimeTypeStyle(
-                                nameStringResId = R.string.chip_time_type_timer_name,
-                                backgroundColor = Color.Red,
-                                onBackgroundColor = Color.White,
-                                id = "TIMER"
-                            ) to 2
-                        )
+                        segmentTypesCount = immutableMapOf(TimeTypeStyle.TIMER to 2)
                     )
-                ),
-                RoutineSummaryItem.SegmentSectionTitle(error = null),
-                firstSegmentItem,
-                thirdSegmentItem,
+                },
+                RoutineSummaryItemSegmentSectionTitle { },
+                RoutineSummaryItemSegmentItem { withPreset(num = 1) },
+                RoutineSummaryItemSegmentItem { withPreset(num = 3) },
                 RoutineSummaryItem.Space
-            ),
+            )
             message = Message(
                 textResId = R.string.label_routine_summary_segment_delete_confirm,
                 actionTextResId = R.string.action_text_routine_summary_segment_delete_undo
             )
-        )
+        }
         val viewModel = buildViewModel()
         advanceUntilIdle()
 
-        viewModel.onSegmentDelete(segmentId = secondSegmentItem.id)
+        viewModel.onSegmentDelete(segmentId = secondSegment.id)
         advanceUntilIdle()
 
         viewModel.viewState.test {
@@ -273,34 +210,11 @@ class RoutineSummaryViewModelTest {
 
     @Test
     fun `should restore segment when undo delete segment is clicked`() = coroutineRule {
-        val expected = RoutineSummaryViewState.Data(
-            items = immutableListOf(
-                RoutineSummaryItem.RoutineInfo(
-                    routineName = "Routine Name",
-                    segmentsSummary = SegmentsSummary(
-                        estimatedTotalTime = "30".timeText,
-                        segmentTypesCount = immutableMapOf(
-                            TimeTypeStyle(
-                                nameStringResId = R.string.chip_time_type_timer_name,
-                                backgroundColor = Color.Red,
-                                onBackgroundColor = Color.White,
-                                id = "TIMER"
-                            ) to 3
-                        )
-                    )
-                ),
-                RoutineSummaryItem.SegmentSectionTitle(error = null),
-                firstSegmentItem,
-                secondSegmentItem,
-                thirdSegmentItem,
-                RoutineSummaryItem.Space
-            ),
-            message = null
-        )
+        val expected = RoutineSummaryViewStateData { withFullItems() }
         val expectedDatabaseRoutine = routine
         val viewModel = buildViewModel()
         advanceUntilIdle()
-        viewModel.onSegmentDelete(segmentId = secondSegmentItem.id)
+        viewModel.onSegmentDelete(segmentId = secondSegment.id)
         advanceUntilIdle()
 
         viewModel.onSnackbarEvent(TempoSnackbarEvent.ActionPerformed)
@@ -314,35 +228,27 @@ class RoutineSummaryViewModelTest {
 
     @Test
     fun `should delete routine in database when snackbar is dismissed`() = coroutineRule {
-        val expected = RoutineSummaryViewState.Data(
+        val expected = RoutineSummaryViewStateData {
             items = immutableListOf(
-                RoutineSummaryItem.RoutineInfo(
-                    routineName = "Routine Name",
+                RoutineSummaryItemRoutineInfo {
+                    withPreset()
                     segmentsSummary = SegmentsSummary(
                         estimatedTotalTime = "20".timeText,
-                        segmentTypesCount = immutableMapOf(
-                            TimeTypeStyle(
-                                nameStringResId = R.string.chip_time_type_timer_name,
-                                backgroundColor = Color.Red,
-                                onBackgroundColor = Color.White,
-                                id = "TIMER"
-                            ) to 2
-                        )
+                        segmentTypesCount = immutableMapOf(TimeTypeStyle.TIMER to 2)
                     )
-                ),
-                RoutineSummaryItem.SegmentSectionTitle(error = null),
-                firstSegmentItem,
-                thirdSegmentItem,
+                },
+                RoutineSummaryItemSegmentSectionTitle { },
+                RoutineSummaryItemSegmentItem { withPreset(num = 1) },
+                RoutineSummaryItemSegmentItem { withPreset(num = 3) },
                 RoutineSummaryItem.Space
-            ),
-            message = null
-        )
+            )
+        }
         val expectedDatabaseRoutine = routine.copy(
             segments = listOf(firstSegment, thirdSegment)
         )
         val viewModel = buildViewModel()
         advanceUntilIdle()
-        viewModel.onSegmentDelete(segmentId = secondSegmentItem.id)
+        viewModel.onSegmentDelete(segmentId = secondSegment.id)
         advanceUntilIdle()
 
         viewModel.onSnackbarEvent(TempoSnackbarEvent.Dismissed)
@@ -356,37 +262,17 @@ class RoutineSummaryViewModelTest {
 
     @Test
     fun `should show message when delete segment fails`() = coroutineRule {
-        val expected = RoutineSummaryViewState.Data(
-            items = immutableListOf(
-                RoutineSummaryItem.RoutineInfo(
-                    routineName = "Routine Name",
-                    segmentsSummary = SegmentsSummary(
-                        estimatedTotalTime = "30".timeText,
-                        segmentTypesCount = immutableMapOf(
-                            TimeTypeStyle(
-                                nameStringResId = R.string.chip_time_type_timer_name,
-                                backgroundColor = Color.Red,
-                                onBackgroundColor = Color.White,
-                                id = "TIMER"
-                            ) to 3
-                        )
-                    )
-                ),
-                RoutineSummaryItem.SegmentSectionTitle(error = null),
-                firstSegmentItem,
-                secondSegmentItem,
-                thirdSegmentItem,
-                RoutineSummaryItem.Space
-            ),
+        val expected = RoutineSummaryViewStateData {
+            withFullItems()
             message = Message(
                 textResId = R.string.label_routine_summary_segment_delete_error,
                 actionTextResId = R.string.action_text_routine_summary_segment_delete_error
             )
-        )
+        }
         val viewModel = buildViewModel()
         advanceUntilIdle()
         routinesStore.enableErrorOnNextAccess()
-        viewModel.onSegmentDelete(segmentId = secondSegmentItem.id)
+        viewModel.onSegmentDelete(segmentId = secondSegment.id)
         advanceUntilIdle()
 
         viewModel.onSnackbarEvent(TempoSnackbarEvent.Dismissed)
@@ -399,35 +285,27 @@ class RoutineSummaryViewModelTest {
 
     @Test
     fun `should delete routine in database when composable stops`() = coroutineRule {
-        val expected = RoutineSummaryViewState.Data(
+        val expected = RoutineSummaryViewStateData {
             items = immutableListOf(
-                RoutineSummaryItem.RoutineInfo(
-                    routineName = "Routine Name",
+                RoutineSummaryItemRoutineInfo {
+                    withPreset()
                     segmentsSummary = SegmentsSummary(
                         estimatedTotalTime = "20".timeText,
-                        segmentTypesCount = immutableMapOf(
-                            TimeTypeStyle(
-                                nameStringResId = R.string.chip_time_type_timer_name,
-                                backgroundColor = Color.Red,
-                                onBackgroundColor = Color.White,
-                                id = "TIMER"
-                            ) to 2
-                        )
+                        segmentTypesCount = immutableMapOf(TimeTypeStyle.TIMER to 2)
                     )
-                ),
-                RoutineSummaryItem.SegmentSectionTitle(error = null),
-                firstSegmentItem,
-                thirdSegmentItem,
+                },
+                RoutineSummaryItemSegmentSectionTitle { },
+                RoutineSummaryItemSegmentItem { withPreset(num = 1) },
+                RoutineSummaryItemSegmentItem { withPreset(num = 3) },
                 RoutineSummaryItem.Space
-            ),
-            message = null
-        )
+            )
+        }
         val expectedDatabaseRoutine = routine.copy(
             segments = listOf(firstSegment, thirdSegment)
         )
         val viewModel = buildViewModel()
         advanceUntilIdle()
-        viewModel.onSegmentDelete(segmentId = secondSegmentItem.id)
+        viewModel.onSegmentDelete(segmentId = secondSegment.id)
         advanceUntilIdle()
 
         viewModel.onStop()
@@ -441,33 +319,25 @@ class RoutineSummaryViewModelTest {
 
     @Test
     fun `should retry delete segment when action is clicked`() = coroutineRule {
-        val expected = RoutineSummaryViewState.Data(
+        val expected = RoutineSummaryViewStateData {
             items = immutableListOf(
-                RoutineSummaryItem.RoutineInfo(
-                    routineName = "Routine Name",
+                RoutineSummaryItemRoutineInfo {
+                    withPreset()
                     segmentsSummary = SegmentsSummary(
                         estimatedTotalTime = "20".timeText,
-                        segmentTypesCount = immutableMapOf(
-                            TimeTypeStyle(
-                                nameStringResId = R.string.chip_time_type_timer_name,
-                                backgroundColor = Color.Red,
-                                onBackgroundColor = Color.White,
-                                id = "TIMER"
-                            ) to 2
-                        )
+                        segmentTypesCount = immutableMapOf(TimeTypeStyle.TIMER to 2)
                     )
-                ),
-                RoutineSummaryItem.SegmentSectionTitle(error = null),
-                firstSegmentItem,
-                thirdSegmentItem,
+                },
+                RoutineSummaryItemSegmentSectionTitle { },
+                RoutineSummaryItemSegmentItem { withPreset(num = 1) },
+                RoutineSummaryItemSegmentItem { withPreset(num = 3) },
                 RoutineSummaryItem.Space
-            ),
-            message = null
-        )
+            )
+        }
         val viewModel = buildViewModel()
         advanceUntilIdle()
         routinesStore.enableErrorOnNextAccess()
-        viewModel.onSegmentDelete(segmentId = secondSegmentItem.id)
+        viewModel.onSegmentDelete(segmentId = secondSegment.id)
         advanceUntilIdle()
         viewModel.onSnackbarEvent(snackbarEvent = TempoSnackbarEvent.Dismissed)
         advanceUntilIdle()
@@ -484,38 +354,31 @@ class RoutineSummaryViewModelTest {
 
     @Test
     fun `should update routine when segment is duplicated`() = coroutineRule {
-        val expected = RoutineSummaryViewState.Data(
+        val expected = RoutineSummaryViewStateData {
             items = immutableListOf(
-                RoutineSummaryItem.RoutineInfo(
-                    routineName = "Routine Name",
+                RoutineSummaryItemRoutineInfo {
+                    withPreset()
                     segmentsSummary = SegmentsSummary(
                         estimatedTotalTime = "40".timeText,
-                        segmentTypesCount = immutableMapOf(
-                            TimeTypeStyle(
-                                nameStringResId = R.string.chip_time_type_timer_name,
-                                backgroundColor = Color.Red,
-                                onBackgroundColor = Color.White,
-                                id = "TIMER"
-                            ) to 4
-                        )
+                        segmentTypesCount = immutableMapOf(TimeTypeStyle.TIMER to 4)
                     )
-                ),
-                RoutineSummaryItem.SegmentSectionTitle(error = null),
-                firstSegmentItem,
-                firstSegmentItem.copy(
-                    id = ID.from(value = 4),
+                },
+                RoutineSummaryItemSegmentSectionTitle { },
+                RoutineSummaryItemSegmentItem { withPreset(num = 1) },
+                RoutineSummaryItemSegmentItem {
+                    withPreset(num = 1)
+                    id = ID.from(value = 4)
                     rank = "booooo"
-                ),
-                secondSegmentItem,
-                thirdSegmentItem,
+                },
+                RoutineSummaryItemSegmentItem { withPreset(num = 2) },
+                RoutineSummaryItemSegmentItem { withPreset(num = 3) },
                 RoutineSummaryItem.Space
-            ),
-            message = null
-        )
+            )
+        }
         val viewModel = buildViewModel()
         advanceUntilIdle()
 
-        viewModel.onSegmentDuplicate(segmentId = firstSegmentItem.id)
+        viewModel.onSegmentDuplicate(segmentId = firstSegment.id)
         advanceUntilIdle()
 
         viewModel.viewState.test {
@@ -525,38 +388,18 @@ class RoutineSummaryViewModelTest {
 
     @Test
     fun `should show message when duplicate segment fails`() = coroutineRule {
-        val expected = RoutineSummaryViewState.Data(
-            items = immutableListOf(
-                RoutineSummaryItem.RoutineInfo(
-                    routineName = "Routine Name",
-                    segmentsSummary = SegmentsSummary(
-                        estimatedTotalTime = "30".timeText,
-                        segmentTypesCount = immutableMapOf(
-                            TimeTypeStyle(
-                                nameStringResId = R.string.chip_time_type_timer_name,
-                                backgroundColor = Color.Red,
-                                onBackgroundColor = Color.White,
-                                id = "TIMER"
-                            ) to 3
-                        )
-                    )
-                ),
-                RoutineSummaryItem.SegmentSectionTitle(error = null),
-                firstSegmentItem,
-                secondSegmentItem,
-                thirdSegmentItem,
-                RoutineSummaryItem.Space
-            ),
+        val expected = RoutineSummaryViewStateData {
+            withFullItems()
             message = Message(
                 textResId = R.string.label_routine_summary_segment_duplicate_error,
                 actionTextResId = null
             )
-        )
+        }
         val viewModel = buildViewModel()
         advanceUntilIdle()
 
         routinesStore.enableErrorOnNextAccess()
-        viewModel.onSegmentDuplicate(segmentId = firstSegmentItem.id)
+        viewModel.onSegmentDuplicate(segmentId = firstSegment.id)
         advanceUntilIdle()
 
         viewModel.viewState.test {
@@ -566,33 +409,30 @@ class RoutineSummaryViewModelTest {
 
     @Test
     fun `should delete pending segment when another segment is duplicated`() = coroutineRule {
-        val expected = RoutineSummaryViewState.Data(
+        val expected = RoutineSummaryViewStateData {
             items = immutableListOf(
-                RoutineSummaryItem.RoutineInfo(
-                    routineName = "Routine Name",
+                RoutineSummaryItemRoutineInfo {
+                    withPreset()
                     segmentsSummary = SegmentsSummary(
                         estimatedTotalTime = "30".timeText,
-                        segmentTypesCount = immutableMapOf(
-                            TimeTypeStyle(
-                                nameStringResId = R.string.chip_time_type_timer_name,
-                                backgroundColor = Color.Red,
-                                onBackgroundColor = Color.White,
-                                id = "TIMER"
-                            ) to 3
-                        )
+                        segmentTypesCount = immutableMapOf(TimeTypeStyle.TIMER to 3)
                     )
-                ),
-                RoutineSummaryItem.SegmentSectionTitle(error = null),
-                firstSegmentItem,
-                firstSegmentItem.copy(
-                    id = 4.asID,
+                },
+                RoutineSummaryItemSegmentSectionTitle { },
+                RoutineSummaryItemSegmentItem {
+                    withPreset(num = 1)
+                },
+                RoutineSummaryItemSegmentItem {
+                    withPreset(num = 1)
+                    id = ID.from(value = 4)
                     rank = "cccccc"
-                ),
-                thirdSegmentItem,
+                },
+                RoutineSummaryItemSegmentItem {
+                    withPreset(num = 3)
+                },
                 RoutineSummaryItem.Space
-            ),
-            message = null
-        )
+            )
+        }
         val expectedDatabaseRoutine = routine.copy(
             segments = listOf(
                 firstSegment,
@@ -602,10 +442,10 @@ class RoutineSummaryViewModelTest {
         )
         val viewModel = buildViewModel()
         advanceUntilIdle()
-        viewModel.onSegmentDelete(segmentId = secondSegmentItem.id)
+        viewModel.onSegmentDelete(segmentId = secondSegment.id)
         advanceUntilIdle()
 
-        viewModel.onSegmentDuplicate(segmentId = firstSegmentItem.id)
+        viewModel.onSegmentDuplicate(segmentId = firstSegment.id)
         advanceUntilIdle()
 
         viewModel.viewState.test {
@@ -616,30 +456,23 @@ class RoutineSummaryViewModelTest {
 
     @Test
     fun `should move segment when segment is moved`() = coroutineRule {
-        val expected = RoutineSummaryViewState.Data(
+        val expected = RoutineSummaryViewStateData {
             items = immutableListOf(
-                RoutineSummaryItem.RoutineInfo(
-                    routineName = "Routine Name",
-                    segmentsSummary = SegmentsSummary(
-                        estimatedTotalTime = "30".timeText,
-                        segmentTypesCount = immutableMapOf(
-                            TimeTypeStyle(
-                                nameStringResId = R.string.chip_time_type_timer_name,
-                                backgroundColor = Color.Red,
-                                onBackgroundColor = Color.White,
-                                id = "TIMER"
-                            ) to 3
-                        )
-                    )
-                ),
-                RoutineSummaryItem.SegmentSectionTitle(error = null),
-                secondSegmentItem.copy(rank = "annnnn"),
-                firstSegmentItem,
-                thirdSegmentItem,
+                RoutineSummaryItemRoutineInfo { withPreset() },
+                RoutineSummaryItemSegmentSectionTitle { },
+                RoutineSummaryItemSegmentItem {
+                    withPreset(num = 2)
+                    rank = "annnnn"
+                },
+                RoutineSummaryItemSegmentItem {
+                    withPreset(num = 1)
+                },
+                RoutineSummaryItemSegmentItem {
+                    withPreset(num = 3)
+                },
                 RoutineSummaryItem.Space
-            ),
-            message = null
-        )
+            )
+        }
         val viewModel = buildViewModel()
         advanceUntilIdle()
 
@@ -653,40 +486,20 @@ class RoutineSummaryViewModelTest {
 
     @Test
     fun `should show message when move segment fails`() = coroutineRule {
-        val expected = RoutineSummaryViewState.Data(
-            items = immutableListOf(
-                RoutineSummaryItem.RoutineInfo(
-                    routineName = "Routine Name",
-                    segmentsSummary = SegmentsSummary(
-                        estimatedTotalTime = "30".timeText,
-                        segmentTypesCount = immutableMapOf(
-                            TimeTypeStyle(
-                                nameStringResId = R.string.chip_time_type_timer_name,
-                                backgroundColor = Color.Red,
-                                onBackgroundColor = Color.White,
-                                id = "TIMER"
-                            ) to 3
-                        )
-                    )
-                ),
-                RoutineSummaryItem.SegmentSectionTitle(error = null),
-                firstSegmentItem,
-                secondSegmentItem,
-                thirdSegmentItem,
-                RoutineSummaryItem.Space
-            ),
+        val expected = RoutineSummaryViewStateData {
+            withFullItems()
             message = Message(
                 textResId = R.string.label_routine_summary_segment_move_error,
                 actionTextResId = null
             )
-        )
+        }
         val viewModel = buildViewModel()
         advanceUntilIdle()
 
         routinesStore.enableErrorOnNextAccess()
         viewModel.onSegmentMoved(
-            draggedSegmentId = secondSegmentItem.id,
-            hoveredSegmentId = firstSegmentItem.id
+            draggedSegmentId = secondSegment.id,
+            hoveredSegmentId = firstSegment.id
         )
         advanceUntilIdle()
 
@@ -697,36 +510,13 @@ class RoutineSummaryViewModelTest {
 
     @Test
     fun `should hide message when move segment fails and action is performed`() = coroutineRule {
-        val expected = RoutineSummaryViewState.Data(
-            items = immutableListOf(
-                RoutineSummaryItem.RoutineInfo(
-                    routineName = "Routine Name",
-                    segmentsSummary = SegmentsSummary(
-                        estimatedTotalTime = "30".timeText,
-                        segmentTypesCount = immutableMapOf(
-                            TimeTypeStyle(
-                                nameStringResId = R.string.chip_time_type_timer_name,
-                                backgroundColor = Color.Red,
-                                onBackgroundColor = Color.White,
-                                id = "TIMER"
-                            ) to 3
-                        )
-                    )
-                ),
-                RoutineSummaryItem.SegmentSectionTitle(error = null),
-                firstSegmentItem,
-                secondSegmentItem,
-                thirdSegmentItem,
-                RoutineSummaryItem.Space
-            ),
-            message = null
-        )
+        val expected = RoutineSummaryViewStateData { withFullItems() }
         val viewModel = buildViewModel()
         advanceUntilIdle()
         routinesStore.enableErrorOnNextAccess()
         viewModel.onSegmentMoved(
-            draggedSegmentId = secondSegmentItem.id,
-            hoveredSegmentId = firstSegmentItem.id
+            draggedSegmentId = secondSegment.id,
+            hoveredSegmentId = firstSegment.id
         )
         advanceUntilIdle()
 
@@ -740,29 +530,26 @@ class RoutineSummaryViewModelTest {
 
     @Test
     fun `should delete pending segment when another segment is moved`() = coroutineRule {
-        val expected = RoutineSummaryViewState.Data(
+        val expected = RoutineSummaryViewStateData {
             items = immutableListOf(
-                RoutineSummaryItem.RoutineInfo(
-                    routineName = "Routine Name",
+                RoutineSummaryItemRoutineInfo {
+                    withPreset()
                     segmentsSummary = SegmentsSummary(
                         estimatedTotalTime = "20".timeText,
-                        segmentTypesCount = immutableMapOf(
-                            TimeTypeStyle(
-                                nameStringResId = R.string.chip_time_type_timer_name,
-                                backgroundColor = Color.Red,
-                                onBackgroundColor = Color.White,
-                                id = "TIMER"
-                            ) to 2
-                        )
+                        segmentTypesCount = immutableMapOf(TimeTypeStyle.TIMER to 2)
                     )
-                ),
-                RoutineSummaryItem.SegmentSectionTitle(error = null),
-                thirdSegmentItem.copy(rank = "annnnn"),
-                firstSegmentItem,
+                },
+                RoutineSummaryItemSegmentSectionTitle { },
+                RoutineSummaryItemSegmentItem {
+                    withPreset(num = 3)
+                    rank = "annnnn"
+                },
+                RoutineSummaryItemSegmentItem {
+                    withPreset(num = 1)
+                },
                 RoutineSummaryItem.Space
-            ),
-            message = null
-        )
+            )
+        }
         val expectedDatabaseRoutine = routine.copy(
             segments = listOf(
                 firstSegment,
@@ -775,8 +562,8 @@ class RoutineSummaryViewModelTest {
         advanceUntilIdle()
 
         viewModel.onSegmentMoved(
-            draggedSegmentId = thirdSegmentItem.id,
-            hoveredSegmentId = firstSegmentItem.id
+            draggedSegmentId = thirdSegment.id,
+            hoveredSegmentId = firstSegment.id
         )
         advanceUntilIdle()
 
@@ -803,19 +590,18 @@ class RoutineSummaryViewModelTest {
     @Test
     fun `should show errors when starting routine with errors`() = coroutineRule {
         routinesStore.update { listOf(routine.copy(segments = emptyList())) }
-        val expected = RoutineSummaryViewState.Data(
+        val expected = RoutineSummaryViewStateData {
             items = immutableListOf(
-                RoutineSummaryItem.RoutineInfo(
-                    routineName = "Routine Name",
+                RoutineSummaryItemRoutineInfo {
+                    withPreset()
                     segmentsSummary = null
-                ),
-                RoutineSummaryItem.SegmentSectionTitle(
+                },
+                RoutineSummaryItemSegmentSectionTitle {
                     error = Segments to R.string.field_error_message_routine_no_segments
-                ),
+                },
                 RoutineSummaryItem.Space
-            ),
-            message = null
-        )
+            )
+        }
         val viewModel = buildViewModel()
         advanceUntilIdle()
 
@@ -857,7 +643,7 @@ class RoutineSummaryViewModelTest {
         return RoutineSummaryViewModel(
             savedStateHandle = savedStateHandle,
             dispatchers = coroutineRule.getDispatchers(),
-            converter = RoutineSummaryStateConverter(),
+            converter = RoutineSummaryStateConverter(clock = clock),
             navigationActions = RoutinesNavigationActions(navigator = navigator),
             reducer = RoutineSummaryReducer(),
             getTimerThemeUseCase = GetTimerThemeUseCase(timerThemeDataSource = timerThemeDataSource),
@@ -865,7 +651,40 @@ class RoutineSummaryViewModelTest {
             deleteSegmentUseCase = DeleteSegmentUseCase(routineDataSource = routineDataSource),
             moveSegmentUseCase = MoveSegmentUseCase(routineDataSource = routineDataSource),
             duplicateSegmentUseCase = DuplicateSegmentUseCase(routineDataSource = routineDataSource),
+            getRoutineStatistic = GetRoutineStatistic(statisticsDataSource = statisticsDataSource, clock = clock),
             validator = RoutineSummaryValidator()
+        )
+    }
+
+    private fun RoutineSummaryItemBuilder.SegmentItem.withPreset(num: Int) {
+        val ids = listOf(1.asID, 2.asID, 3.asID)
+        val names = listOf("First Segment", "Second Segment", "Third Segment")
+        val ranks = listOf("bbbbbb", "cccccc", "dddddd")
+        this.id = ids[num - 1]
+        this.name = names[num - 1]
+        this.rank = ranks[num - 1]
+    }
+
+    private fun RoutineSummaryItemBuilder.RoutineInfo.withPreset() {
+        this.routineName = "Routine Name"
+        this.goalLabel = GoalLabel(
+            stringResId = R.string.label_routine_goal_text_day,
+            formatArgs = immutableListOf(1, 1)
+        )
+        this.segmentsSummary = SegmentsSummary(
+            estimatedTotalTime = "30".timeText,
+            segmentTypesCount = immutableMapOf(TimeTypeStyle.TIMER to 3)
+        )
+    }
+
+    private fun RoutineSummaryViewStateBuilder.Data.withFullItems() {
+        items = immutableListOf(
+            RoutineSummaryItemRoutineInfo { withPreset() },
+            RoutineSummaryItemSegmentSectionTitle { },
+            RoutineSummaryItemSegmentItem { withPreset(num = 1) },
+            RoutineSummaryItemSegmentItem { withPreset(num = 2) },
+            RoutineSummaryItemSegmentItem { withPreset(num = 3) },
+            RoutineSummaryItem.Space
         )
     }
 }

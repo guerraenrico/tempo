@@ -6,7 +6,6 @@ import androidx.compose.ui.test.assertIsDisplayed
 import androidx.compose.ui.test.assertTextEquals
 import androidx.compose.ui.test.junit4.createComposeRule
 import androidx.compose.ui.test.onNodeWithTag
-import androidx.compose.ui.test.onNodeWithText
 import androidx.compose.ui.test.performTouchInput
 import androidx.compose.ui.test.swipe
 import com.enricog.core.compose.api.classes.immutableListOf
@@ -34,6 +33,7 @@ class RoutineSummarySceneKtTest {
         val items = immutableListOf(
             RoutineInfo(
                 routineName = "Routine Name",
+                goalLabel = null,
                 segmentsSummary = RoutineInfo.SegmentsSummary(
                     estimatedTotalTime = "10".timeText,
                     segmentTypesCount = immutableMapOf(
@@ -71,8 +71,10 @@ class RoutineSummarySceneKtTest {
 
         onNodeWithTag(testTag = RoutineSectionTestTag)
             .assertIsDisplayed()
-        onNodeWithText(text = "Routine Name")
-            .assertIsDisplayed()
+        onNodeWithTag(testTag = RoutineSectionSummaryRoutineNameTestTag)
+            .assertTextEquals("Routine Name")
+        onNodeWithTag(testTag = RoutineSectionSummaryGoalTestTag)
+            .assertDoesNotExist()
 
         onNodeWithTag(testTag = RoutineSectionSummaryInfoTestTag)
             .assertIsDisplayed()
@@ -96,6 +98,7 @@ class RoutineSummarySceneKtTest {
         val items = immutableListOf(
             RoutineInfo(
                 routineName = "routineName",
+                goalLabel = null,
                 segmentsSummary = RoutineInfo.SegmentsSummary(
                     estimatedTotalTime = "110".timeText,
                     segmentTypesCount = immutableMapOf(
