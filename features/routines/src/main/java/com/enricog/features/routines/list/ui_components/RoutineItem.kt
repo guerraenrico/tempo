@@ -27,6 +27,8 @@ import com.enricog.ui.theme.TempoTheme
 
 internal const val RoutineItemTestTag = "RoutineItemTestTag"
 internal const val RoutineItemCountTestTag = "RoutineItemCountTestTag"
+internal const val RoutineItemNameTestTag = "RoutineItemNameTestTag"
+internal const val RoutineItemGoalTestTag = "RoutineItemGoalTestTag"
 internal const val RoutineItemEstimatedTotalTimeTestTag = "RoutineItemEstimatedTotalTimeTestTag"
 internal const val RoutineItemSegmentTypeCountTestTag =
     "RoutineItemSegmentTypeCount_{{TYPE}}_TestTag"
@@ -54,6 +56,7 @@ internal fun RoutineItem(
             val (routineName, goalText, count) = createRefs()
             TempoText(
                 modifier = Modifier
+                    .testTag(RoutineItemNameTestTag)
                     .constrainAs(routineName) {
                         top.linkTo(parent.top)
                         start.linkTo(parent.start)
@@ -70,6 +73,7 @@ internal fun RoutineItem(
             if (routineItem.goalLabel != null) {
                 GoalText(
                     modifier = Modifier
+                        .testTag(RoutineItemGoalTestTag)
                         .constrainAs(goalText) {
                             top.linkTo(routineName.bottom)
                             start.linkTo(parent.start)

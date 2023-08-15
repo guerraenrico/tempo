@@ -10,6 +10,7 @@ import com.enricog.data.local.testing.FakeStore
 import com.enricog.data.routines.api.entities.sortedByRank
 import com.enricog.data.routines.testing.FakeRoutineDataSource
 import com.enricog.data.routines.testing.entities.EMPTY
+import com.enricog.data.routines.testing.statistics.FakeRoutineStatisticsDataSource
 import com.enricog.data.timer.api.theme.entities.TimerTheme
 import com.enricog.data.timer.testing.theme.FakeTimerThemeDataSource
 import com.enricog.data.timer.testing.theme.entities.DEFAULT
@@ -19,6 +20,7 @@ import com.enricog.features.routines.list.models.RoutinesViewState
 import com.enricog.features.routines.list.models.RoutinesViewState.Data.Message
 import com.enricog.features.routines.list.usecase.DeleteRoutineUseCase
 import com.enricog.features.routines.list.usecase.DuplicateRoutineUseCase
+import com.enricog.features.routines.list.usecase.GetLatestStatisticUseCase
 import com.enricog.features.routines.list.usecase.GetRoutinesUseCase
 import com.enricog.features.routines.list.usecase.GetTimerThemeUseCase
 import com.enricog.features.routines.list.usecase.MoveRoutineUseCase
@@ -35,12 +37,17 @@ import kotlinx.coroutines.test.advanceUntilIdle
 import kotlinx.coroutines.test.runCurrent
 import org.junit.Rule
 import org.junit.Test
+import java.time.Clock
+import java.time.Instant
+import java.time.ZoneId
 import com.enricog.data.routines.api.entities.Routine as RoutineEntity
 
 class RoutinesViewModelTest {
 
     @get:Rule
     val coroutineRule = CoroutineRule(StandardTestDispatcher())
+
+    private val clock = Clock.fixed(Instant.parse("2023-04-03T10:15:30.00Z"), ZoneId.of("UTC"))
 
     private val timerTheme = TimerTheme.DEFAULT
     private val firstRoutineEntity = RoutineEntity.EMPTY.copy(
@@ -62,25 +69,29 @@ class RoutinesViewModelTest {
         id = 1.asID,
         name = "First Routine",
         rank = "aaaaaa",
-        segmentsSummary = null
+        segmentsSummary = null,
+        goalLabel = null
     )
     private val secondRoutine = RoutinesItem.RoutineItem(
         id = 2.asID,
         name = "Second Routine",
         rank = "bbbbbb",
-        segmentsSummary = null
+        segmentsSummary = null,
+        goalLabel = null
     )
     private val thirdRoutine = RoutinesItem.RoutineItem(
         id = 3.asID,
         name = "Third Routine",
         rank = "cccccc",
-        segmentsSummary = null
+        segmentsSummary = null,
+        goalLabel = null
     )
     private val navigator = FakeNavigator()
     private val routinesStore = FakeStore(
         initialValue = listOf(firstRoutineEntity, secondRoutineEntity, thirdRoutineEntity)
     )
     private val routineDataSource = FakeRoutineDataSource(store = routinesStore)
+    private val statisticsDataSource = FakeRoutineStatisticsDataSource(store = FakeStore(emptyList()))
 
     @Test
     fun `should should show data when load succeeds`() = coroutineRule {
@@ -139,28 +150,27 @@ class RoutinesViewModelTest {
     }
 
     @Test
-    fun `should remove routine from list and show message when routine is deleted`() =
-        coroutineRule {
-            val expected = RoutinesViewState.Data(
-                routinesItems = immutableListOf(secondRoutine, thirdRoutine, RoutinesItem.Space),
-                message = Message(
-                    textResId = R.string.label_routines_delete_confirm,
-                    actionTextResId = R.string.action_text_routines_delete_undo
-                )
+    fun `should remove routine from list and show message when routine is deleted`() = coroutineRule {
+        val expected = RoutinesViewState.Data(
+            routinesItems = immutableListOf(secondRoutine, thirdRoutine, RoutinesItem.Space),
+            message = Message(
+                textResId = R.string.label_routines_delete_confirm,
+                actionTextResId = R.string.action_text_routines_delete_undo
             )
-            val expectedDatabaseRoutines =
-                listOf(firstRoutineEntity, secondRoutineEntity, thirdRoutineEntity)
-            val viewModel = buildViewModel()
-            advanceUntilIdle()
+        )
+        val expectedDatabaseRoutines =
+            listOf(firstRoutineEntity, secondRoutineEntity, thirdRoutineEntity)
+        val viewModel = buildViewModel()
+        advanceUntilIdle()
 
-            viewModel.onRoutineDelete(routineId = firstRoutine.id)
-            advanceUntilIdle()
+        viewModel.onRoutineDelete(routineId = firstRoutine.id)
+        advanceUntilIdle()
 
-            viewModel.viewState.test {
-                assertThat(awaitItem()).isEqualTo(expected)
-            }
-            assertThat(routinesStore.get()).isEqualTo(expectedDatabaseRoutines)
+        viewModel.viewState.test {
+            assertThat(awaitItem()).isEqualTo(expected)
         }
+        assertThat(routinesStore.get()).isEqualTo(expectedDatabaseRoutines)
+    }
 
     @Test
     fun `should restore routine when undo delete routine is clicked`() = coroutineRule {
@@ -495,6 +505,10 @@ class RoutinesViewModelTest {
             ),
             duplicateRoutineUseCase = DuplicateRoutineUseCase(
                 routineDataSource = routineDataSource
+            ),
+            getLatestStatisticUseCase = GetLatestStatisticUseCase(
+                routineStatisticsDataSource = statisticsDataSource,
+                clock = clock
             )
         )
     }

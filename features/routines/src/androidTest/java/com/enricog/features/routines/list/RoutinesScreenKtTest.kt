@@ -92,7 +92,8 @@ class RoutinesScreenKtTest {
                             TimeTypeStyle.from(timeType = TimeTypeEntity.REST, timerTheme = timerTheme) to 1,
                             TimeTypeStyle.from(timeType = TimeTypeEntity.STOPWATCH, timerTheme = timerTheme) to 1
                         )
-                    )
+                    ),
+                    goalLabel = null
                 ),
                 RoutinesItem.Space
             ),
