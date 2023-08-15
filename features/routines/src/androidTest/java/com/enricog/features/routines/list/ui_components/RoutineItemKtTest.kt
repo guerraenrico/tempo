@@ -4,7 +4,6 @@ import androidx.compose.ui.test.assertIsDisplayed
 import androidx.compose.ui.test.assertTextEquals
 import androidx.compose.ui.test.junit4.createComposeRule
 import androidx.compose.ui.test.onNodeWithTag
-import androidx.compose.ui.test.onNodeWithText
 import com.enricog.core.compose.api.classes.immutableListOf
 import com.enricog.core.compose.api.classes.immutableMapOf
 import com.enricog.core.compose.testing.invoke
@@ -12,9 +11,9 @@ import com.enricog.core.entities.asID
 import com.enricog.data.timer.api.theme.entities.TimerTheme
 import com.enricog.data.timer.testing.theme.entities.DEFAULT
 import com.enricog.features.routines.R
-import com.enricog.features.routines.ui_components.time_type.TimeTypeStyle
 import com.enricog.features.routines.list.models.RoutinesItem
 import com.enricog.features.routines.ui_components.goal_label.GoalLabel
+import com.enricog.features.routines.ui_components.time_type.TimeTypeStyle
 import com.enricog.ui.components.textField.timeText
 import com.enricog.ui.theme.TempoTheme
 import org.junit.Rule
@@ -61,9 +60,9 @@ class RoutineItemKtTest {
 
         waitForIdle()
 
-        onNodeWithTag(RoutineItemNameTestTag)
+        onNodeWithTag(testTag = RoutineItemNameTestTag, useUnmergedTree = true)
             .assertTextEquals("Routine")
-        onNodeWithTag(RoutineItemGoalTestTag)
+        onNodeWithTag(testTag = RoutineItemGoalTestTag, useUnmergedTree = true)
             .assertTextEquals("Completed 1/2 today")
 
         onNodeWithTag(testTag = RoutineItemCountTestTag, useUnmergedTree = true)
@@ -105,9 +104,9 @@ class RoutineItemKtTest {
 
         waitForIdle()
 
-        onNodeWithTag(RoutineItemNameTestTag)
+        onNodeWithTag(testTag = RoutineItemNameTestTag, useUnmergedTree = true)
             .assertTextEquals("Routine")
-        onNodeWithTag(RoutineItemGoalTestTag)
+        onNodeWithTag(testTag = RoutineItemGoalTestTag, useUnmergedTree = true)
             .assertTextEquals("Completed 1/2 today")
 
         onNodeWithTag(testTag = RoutineItemEstimatedTotalTimeTestTag, useUnmergedTree = true)
@@ -154,9 +153,9 @@ class RoutineItemKtTest {
 
         waitForIdle()
 
-        onNodeWithTag(RoutineItemNameTestTag)
+        onNodeWithTag(testTag = RoutineItemNameTestTag, useUnmergedTree = true)
             .assertTextEquals("Routine")
-        onNodeWithTag(RoutineItemGoalTestTag)
+        onNodeWithTag(testTag = RoutineItemGoalTestTag, useUnmergedTree = true)
             .assertTextEquals("Completed 1/2 today")
 
         onNodeWithTag(testTag = RoutineItemCountTestTag, useUnmergedTree = true)
@@ -203,9 +202,9 @@ class RoutineItemKtTest {
 
         waitForIdle()
 
-        onNodeWithTag(RoutineItemNameTestTag)
+        onNodeWithTag(testTag = RoutineItemNameTestTag, useUnmergedTree = true)
             .assertTextEquals("Routine")
-        onNodeWithTag(RoutineItemGoalTestTag)
+        onNodeWithTag(testTag = RoutineItemGoalTestTag, useUnmergedTree = true)
             .assertDoesNotExist()
 
         onNodeWithTag(testTag = RoutineItemCountTestTag, useUnmergedTree = true)

@@ -6,6 +6,7 @@ import com.enricog.data.routines.api.statistics.entities.Statistic
 import com.enricog.data.routines.testing.statistics.FakeRoutineStatisticsDataSource
 import com.enricog.data.routines.testing.statistics.entities.EMPTY
 import com.google.common.truth.Truth.assertThat
+import kotlinx.coroutines.flow.first
 import kotlinx.coroutines.test.runTest
 import org.junit.Test
 import java.time.Clock
@@ -83,7 +84,7 @@ class GetLatestStatisticUseCaseTest {
             )
         )
 
-        val actual = useCase()
+        val actual = useCase().first()
 
         assertThat(actual).isEqualTo(expected)
     }

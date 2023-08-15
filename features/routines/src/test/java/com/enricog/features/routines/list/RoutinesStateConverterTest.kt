@@ -216,7 +216,12 @@ class RoutinesStateConverterTest {
                 ),
                 goalLabel = null
             )
-            val state = RoutinesState.Data(routines = listOf(routineEntity), action = null, timerTheme = timerTheme)
+            val state = RoutinesState.Data(
+                routines = listOf(routineEntity),
+                action = null,
+                timerTheme = timerTheme,
+                statistics = emptyList()
+            )
             val expected = RoutinesViewState.Data(
                 routinesItems = immutableListOf(routineItem, RoutinesItem.Space),
                 message = null

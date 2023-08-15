@@ -10,6 +10,7 @@ import com.enricog.features.routines.detail.routine.models.RoutineFieldError
 import com.enricog.features.routines.detail.routine.models.RoutineState
 import com.enricog.features.routines.detail.routine.models.RoutineState.Data.Action.SaveRoutineError
 import com.enricog.features.routines.detail.routine.models.RoutineViewState
+import com.enricog.features.routines.detail.routine.test.RoutineViewStateData
 import com.google.common.truth.Truth.assertThat
 import org.junit.Rule
 import org.junit.Test
@@ -51,12 +52,11 @@ class RoutineStateConverterTest {
             ),
             action = null
         )
-        val expected = RoutineViewState.Data(
+        val expected = RoutineViewStateData {
             errors = immutableMapOf(
                 RoutineField.Name to RoutineFieldError.BlankRoutineName
-            ),
-            message = null
-        )
+            )
+        }
 
         val actual = stateConverter.convert(state = state)
 
@@ -72,15 +72,15 @@ class RoutineStateConverterTest {
             ),
             action = SaveRoutineError
         )
-        val expected = RoutineViewState.Data(
+        val expected = RoutineViewStateData {
             errors = immutableMapOf(
                 RoutineField.Name to RoutineFieldError.BlankRoutineName
-            ),
+            )
             message = RoutineViewState.Data.Message(
                 textResId = R.string.label_segment_save_error,
                 actionTextResId = R.string.action_text_segment_save_error
             )
-        )
+        }
 
         val actual = stateConverter.convert(state = state)
 

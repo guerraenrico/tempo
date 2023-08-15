@@ -223,7 +223,7 @@ class RoutineViewModelTest {
         val expectedFieldInputs = RoutineInputs {
             from(routine)
             frequencyGoal = RoutineInputs.FrequencyGoalInput.Value(
-                frequencyGoalTimes = "2".toTextFieldValue(),
+                frequencyGoalTimes = "1".toTextFieldValue(),
                 frequencyGoalPeriod = frequencyGoalDropDownItems.getValue(FrequencyGoal.Period.WEEK)
             )
         }

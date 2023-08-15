@@ -486,7 +486,7 @@ class RoutinesViewModelTest {
     private fun buildViewModel(): RoutinesViewModel {
         return RoutinesViewModel(
             dispatchers = coroutineRule.getDispatchers(),
-            converter = RoutinesStateConverter(),
+            converter = RoutinesStateConverter(clock = clock),
             navigationActions = RoutinesNavigationActions(navigator),
             reducer = RoutinesReducer(),
             getTimerThemeUseCase = GetTimerThemeUseCase(

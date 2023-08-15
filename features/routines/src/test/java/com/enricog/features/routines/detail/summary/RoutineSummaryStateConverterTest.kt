@@ -74,8 +74,8 @@ class RoutineSummaryStateConverterTest {
     @Test
     fun `test map data state with goal`() = coroutineRule {
         val state = RoutineSummaryStateData {
-            routine = Routine.EMPTY.copy(
-                name = "Routine Name",
+            withPreset()
+            routine = routine.copy(
                 frequencyGoal = FrequencyGoal(times = 2, period = FrequencyGoal.Period.DAY)
             )
             statistics = listOf(Statistic.EMPTY.copy(createdAt = OffsetDateTime.now(clock)))
@@ -89,7 +89,11 @@ class RoutineSummaryStateConverterTest {
                         formatArgs = immutableListOf(1, 2)
                     )
                 },
-                RoutineSummaryItemSegmentSectionTitle {},
+                RoutineSummaryItemSegmentSectionTitle {
+                    error = RoutineSummaryField.Segments to R.string.field_error_message_routine_no_segments
+                },
+                RoutineSummaryItemSegmentItem { withPreset(num = 1) },
+                RoutineSummaryItemSegmentItem { withPreset(num = 2) },
                 RoutineSummaryItem.Space
             )
         }
@@ -207,7 +211,7 @@ class RoutineSummaryStateConverterTest {
             items = immutableListOf(
                 RoutineSummaryItemRoutineInfo {
                     routineName = "routineName"
-                    SegmentsSummary(
+                    segmentsSummary = SegmentsSummary(
                         estimatedTotalTime = null,
                         segmentTypesCount = immutableMapOf(TimeTypeStyle.STOPWATCH to 1)
                     )

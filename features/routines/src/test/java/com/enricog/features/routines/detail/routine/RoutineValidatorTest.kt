@@ -59,13 +59,13 @@ class RoutineValidatorTest {
     @Test
     fun `should return error when routine frequency goal times is zero`() {
         val inputs = RoutineInputs {
-            RoutineInputs.FrequencyGoalInput.Value(
+            frequencyGoal = RoutineInputs.FrequencyGoalInput.Value(
                 frequencyGoalTimes = "0".toTextFieldValue(),
                 frequencyGoalPeriod = frequencyGoalDropDownItems.getValue(FrequencyGoal.Period.DAY)
             )
         }
         val expected: Map<RoutineField, RoutineFieldError> = mapOf(
-            RoutineField.Rounds to RoutineFieldError.BlankRoutineRounds,
+            RoutineField.FrequencyGoalTimes to RoutineFieldError.BlankFrequencyGoalTimes,
         )
 
         val actual = validator.validate(inputs = inputs)

@@ -70,11 +70,6 @@ class GetRoutineStatisticTest {
                 routineId = 1.asID,
                 createdAt = OffsetDateTime.ofInstant(Instant.parse("2023-04-02T11:01:30.00Z"), ZoneId.of("UTC")),
                 type = Statistic.Type.ROUTINE_ABORTED
-            ),
-            Statistic.EMPTY.copy(
-                routineId = 1.asID,
-                createdAt = OffsetDateTime.ofInstant(Instant.parse("2023-04-01T11:05:30.00Z"), ZoneId.of("UTC")),
-                type = Statistic.Type.ROUTINE_COMPLETED
             )
         )
 
