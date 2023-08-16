@@ -29,7 +29,6 @@ class RoutineSummaryScreenKtTest {
                     onSegmentDelete = {},
                     onSegmentDuplicate = {},
                     onRoutineStart = {},
-                    onRoutineEdit = {},
                     onSegmentMoved = { _, _ -> },
                     onSnackbarEvent = {},
                     onRetryLoad = {}
@@ -53,7 +52,6 @@ class RoutineSummaryScreenKtTest {
                     onSegmentDelete = {},
                     onSegmentDuplicate = {},
                     onRoutineStart = {},
-                    onRoutineEdit = {},
                     onSegmentMoved = { _, _ -> },
                     onSnackbarEvent = {},
                     onRetryLoad = {}
@@ -76,7 +74,6 @@ class RoutineSummaryScreenKtTest {
                 onSegmentDelete = {},
                 onSegmentDuplicate = {},
                 onRoutineStart = {},
-                onRoutineEdit = {},
                 onSegmentMoved = { _, _ -> },
                 onSnackbarEvent = {},
                 onRetryLoad = {}

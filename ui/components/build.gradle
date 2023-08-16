@@ -44,6 +44,7 @@ dependencies {
     implementation Libs.AndroidX.Compose.material
     implementation Libs.AndroidX.Compose.animation
     implementation Libs.AndroidX.Compose.util
+    implementation Libs.AndroidX.Compose.constraintLayout
 
     testImplementation Libs.Test.junit
     testImplementation Libs.Test.parameterInjector

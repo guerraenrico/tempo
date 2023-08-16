@@ -13,18 +13,14 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.platform.testTag
-import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import androidx.constraintlayout.compose.ConstraintLayout
 import androidx.constraintlayout.compose.Dimension
 import com.enricog.core.compose.api.modifiers.spacing.horizontalListItemSpacing
-import com.enricog.features.routines.R
 import com.enricog.features.routines.detail.summary.models.RoutineSummaryItem.RoutineInfo
 import com.enricog.features.routines.detail.summary.models.RoutineSummaryItem.RoutineInfo.SegmentsSummary
 import com.enricog.features.routines.ui_components.goal_label.GoalText
-import com.enricog.ui.components.button.TempoButton
-import com.enricog.ui.components.button.TempoButtonColor
 import com.enricog.ui.components.chip.TempoChip
 import com.enricog.ui.components.text.TempoText
 import com.enricog.ui.theme.TempoTheme
@@ -40,15 +36,14 @@ internal const val RoutineSectionSegmentTypeCountTestTag =
 
 @Composable
 internal fun RoutineSection(
-    routineInfo: RoutineInfo,
-    onEditRoutine: () -> Unit
+    routineInfo: RoutineInfo
 ) {
     ConstraintLayout(
         modifier = Modifier
             .testTag(RoutineSectionTestTag)
             .fillMaxWidth()
     ) {
-        val (routineName, goalText, buttonEdit, segmentCount, rounds) = createRefs()
+        val (routineName, goalText, segmentSummary, rounds) = createRefs()
         TempoText(
             modifier = Modifier
                 .testTag(RoutineSectionSummaryRoutineNameTestTag)
@@ -60,7 +55,10 @@ internal fun RoutineSection(
                         routineInfo.goalLabel != null -> bottom.linkTo(goalText.top)
                         else -> Unit
                     }
-                    end.linkTo(buttonEdit.start)
+                    when {
+                        routineInfo.segmentsSummary != null -> end.linkTo(segmentSummary.start)
+                        else -> end.linkTo(parent.end)
+                    }
                     width = Dimension.fillToConstraints
                 },
             text = routineInfo.routineName,
@@ -100,30 +98,12 @@ internal fun RoutineSection(
             )
         }
 
-        TempoButton(
-            modifier = Modifier
-                .constrainAs(buttonEdit) {
-                    top.linkTo(parent.top)
-                    start.linkTo(routineName.end)
-                    end.linkTo(parent.end)
-                    when {
-                        routineInfo.segmentsSummary != null -> bottom.linkTo(segmentCount.top)
-                        else -> Unit
-                    }
-                },
-            onClick = onEditRoutine,
-            iconResId = R.drawable.ic_routine_edit,
-            text = stringResource(R.string.button_routine_summary_edit_routine),
-            color = TempoButtonColor.TransparentSecondary,
-            iconContentDescription = stringResource(R.string.content_description_button_edit_routine)
-        )
-
         if (routineInfo.segmentsSummary != null) {
             SegmentSummary(
                 modifier = Modifier
                     .padding(start = TempoTheme.dimensions.spaceM)
-                    .constrainAs(segmentCount) {
-                        top.linkTo(buttonEdit.bottom)
+                    .constrainAs(segmentSummary) {
+                        top.linkTo(parent.top)
                         start.linkTo(routineName.end)
                         end.linkTo(parent.end)
                     },

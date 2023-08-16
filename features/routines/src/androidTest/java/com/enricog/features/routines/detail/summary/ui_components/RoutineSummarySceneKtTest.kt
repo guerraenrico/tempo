@@ -62,7 +62,6 @@ class RoutineSummarySceneKtTest {
                     onSegmentDelete = {},
                     onSegmentDuplicate = {},
                     onRoutineStart = {},
-                    onRoutineEdit = {},
                     onSegmentMoved = { _, _ -> },
                     onSnackbarEvent = {}
                 )
@@ -138,7 +137,6 @@ class RoutineSummarySceneKtTest {
                     onSegmentDelete = {},
                     onSegmentDuplicate = {},
                     onRoutineStart = {},
-                    onRoutineEdit = {},
                     onSegmentMoved = { _, _ -> },
                     onSnackbarEvent = {}
                 )

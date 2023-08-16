@@ -44,7 +44,6 @@ internal fun RoutineSummaryScene(
     onSegmentDuplicate: (ID) -> Unit,
     onSegmentMoved: (ID, ID) -> Unit,
     onRoutineStart: () -> Unit,
-    onRoutineEdit: () -> Unit,
     onSnackbarEvent: (TempoSnackbarEvent) -> Unit
 ) {
 
@@ -97,8 +96,7 @@ internal fun RoutineSummaryScene(
                     onSegmentAdd = onSegmentAdd,
                     onSegmentSelected = onSegmentSelected,
                     onSegmentDelete = onSegmentDelete,
-                    onSegmentDuplicate = onSegmentDuplicate,
-                    onRoutineEdit = onRoutineEdit
+                    onSegmentDuplicate = onSegmentDuplicate
                 )
 
                 AnimatedVisibility(
