@@ -8,6 +8,7 @@ import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
+import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.rememberScrollState
@@ -28,6 +29,7 @@ import androidx.compose.ui.semantics.Role
 import androidx.compose.ui.text.input.ImeAction
 import androidx.compose.ui.text.input.KeyboardType
 import androidx.compose.ui.text.input.TextFieldValue
+import androidx.compose.ui.unit.dp
 import com.enricog.core.compose.api.classes.ImmutableList
 import com.enricog.core.compose.api.classes.ImmutableMap
 import com.enricog.features.routines.R
@@ -91,7 +93,12 @@ internal fun RoutineFormScene(
                 modifier = Modifier
                     .fillMaxSize()
                     .testTag(RoutineFormSceneTestTag)
-                    .padding(all = TempoTheme.dimensions.spaceM)
+                    .padding(
+                        top = TempoTheme.dimensions.spaceM,
+                        start = TempoTheme.dimensions.spaceM,
+                        end = TempoTheme.dimensions.spaceM,
+                        bottom = 85.dp
+                    )
             ) {
                 Column(
                     modifier = Modifier
