@@ -28,6 +28,7 @@ import androidx.compose.ui.semantics.Role
 import androidx.compose.ui.text.input.ImeAction
 import androidx.compose.ui.text.input.KeyboardType
 import androidx.compose.ui.text.input.TextFieldValue
+import androidx.compose.ui.unit.dp
 import com.enricog.core.compose.api.classes.ImmutableList
 import com.enricog.core.compose.api.classes.ImmutableMap
 import com.enricog.features.routines.R
@@ -91,7 +92,12 @@ internal fun RoutineFormScene(
                 modifier = Modifier
                     .fillMaxSize()
                     .testTag(RoutineFormSceneTestTag)
-                    .padding(all = TempoTheme.dimensions.spaceM)
+                    .padding(
+                        top = TempoTheme.dimensions.spaceM,
+                        start = TempoTheme.dimensions.spaceM,
+                        end = TempoTheme.dimensions.spaceM,
+                        bottom = 85.dp
+                    )
             ) {
                 Column(
                     modifier = Modifier
