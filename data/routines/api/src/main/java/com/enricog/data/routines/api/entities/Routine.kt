@@ -35,14 +35,13 @@ data class Routine(
 
     val expectedTotalTime: Seconds
         get() {
-            val segmentsTotalTime = segments.map { it.time }
+            val segmentsTotalTime = segments.map { it.time * it.rounds }
                 .reduce { acc, time -> acc + time }
+                .takeIf { it > 0.seconds } ?: return 0.seconds
             val preparationTotalTime = preparationTime * segments.count {
                 it.type.requirePreparationTime
             }
-            if (segmentsTotalTime == 0.seconds)
-                return 0.seconds
-            return segmentsTotalTime + preparationTotalTime
+            return (segmentsTotalTime + preparationTotalTime) * rounds
         }
 
     fun getNewSegmentRank(): Rank {

@@ -95,7 +95,7 @@ class RoutineTest {
 
     @Test
     fun `on init should throw exception when number of rounds is less than one`() {
-        val rounds = 1
+        val rounds = 0
 
         assertThrows(IllegalArgumentException::class.java) {
             Routine(
@@ -224,7 +224,7 @@ class RoutineTest {
                     name = "",
                     time = 30.seconds,
                     type = TimeType.TIMER,
-                    rank = Rank.from("aaaaaa"),
+                    rank = Rank.from("cccccc"),
                     rounds = 1
                 ),
                 Segment(
@@ -232,7 +232,7 @@ class RoutineTest {
                     name = "",
                     time = 0.seconds,
                     type = TimeType.STOPWATCH,
-                    rank = Rank.from("aaaaaa"),
+                    rank = Rank.from("dddddd"),
                     rounds = 1
                 )
             ),
@@ -241,6 +241,59 @@ class RoutineTest {
             frequencyGoal = null
         )
         val expected = 180.seconds
+
+        val actual = routine.expectedTotalTime
+
+        assertThat(actual).isEqualTo(expected)
+    }
+
+    @Test
+    fun `expected total time should count the numbers of rounds`() {
+        val routine = Routine(
+            id = 0.asID,
+            name = "",
+            preparationTime = 30.seconds,
+            createdAt = OffsetDateTime.MAX,
+            updatedAt = OffsetDateTime.MAX,
+            segments = listOf(
+                Segment(
+                    id = ID.new(),
+                    name = "",
+                    time = 30.seconds,
+                    type = TimeType.TIMER,
+                    rank = Rank.from("aaaaaa"),
+                    rounds = 2
+                ),
+                Segment(
+                    id = ID.new(),
+                    name = "",
+                    time = 30.seconds,
+                    type = TimeType.REST,
+                    rank = Rank.from("bbbbbb"),
+                    rounds = 1
+                ),
+                Segment(
+                    id = ID.new(),
+                    name = "",
+                    time = 30.seconds,
+                    type = TimeType.TIMER,
+                    rank = Rank.from("cccccc"),
+                    rounds = 3
+                ),
+                Segment(
+                    id = ID.new(),
+                    name = "",
+                    time = 0.seconds,
+                    type = TimeType.STOPWATCH,
+                    rank = Rank.from("dddddd"),
+                    rounds = 1
+                )
+            ),
+            rank = Rank.from("aaaaaa"),
+            rounds = 2,
+            frequencyGoal = null
+        )
+        val expected = 540.seconds
 
         val actual = routine.expectedTotalTime
 
