@@ -67,6 +67,7 @@ internal class RoutineSummaryItemBuilder {
         var time: TimeText = "10".timeText
         var rank: String = "aaaaaa"
         var type: TimeTypeStyle = TimeTypeStyle.TIMER
+        var rounds: String? = null
 
         fun build(): RoutineSummaryItem.SegmentItem {
             return RoutineSummaryItem.SegmentItem(
@@ -74,7 +75,8 @@ internal class RoutineSummaryItemBuilder {
                 name = name,
                 time = time,
                 type = type,
-                rank = rank
+                rank = rank,
+                rounds = rounds
             )
         }
     }

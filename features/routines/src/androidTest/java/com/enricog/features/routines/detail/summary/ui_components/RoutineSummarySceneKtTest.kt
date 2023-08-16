@@ -173,6 +173,7 @@ class RoutineSummarySceneKtTest {
             onBackgroundColor = Color.White,
             id = "TIMER"
         ),
-        rank = "aaaaaa"
+        rank = "aaaaaa",
+        rounds = "x2"
     )
 }

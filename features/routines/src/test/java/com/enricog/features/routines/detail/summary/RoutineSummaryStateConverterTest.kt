@@ -237,8 +237,19 @@ class RoutineSummaryStateConverterTest {
         routine = Routine.EMPTY.copy(
             name = "Routine Name",
             segments = listOf(
-                Segment.EMPTY.copy(id = 1.asID, name = "Segment 1", time = 10.seconds, rank = Rank.from("bbbbbb")),
-                Segment.EMPTY.copy(id = 2.asID, name = "Segment 2", time = 10.seconds, rank = Rank.from("cccccc"))
+                Segment.EMPTY.copy(
+                    id = 1.asID,
+                    name = "Segment 1",
+                    time = 10.seconds,
+                    rank = Rank.from("bbbbbb")
+                ),
+                Segment.EMPTY.copy(
+                    id = 2.asID,
+                    name = "Segment 2",
+                    time = 10.seconds,
+                    rank = Rank.from("cccccc"),
+                    rounds = 2
+                )
             )
         )
         errors = mapOf(RoutineSummaryField.Segments to RoutineSummaryFieldError.NoSegments)
@@ -248,15 +259,17 @@ class RoutineSummaryStateConverterTest {
         val ids = listOf(1.asID, 2.asID)
         val names = listOf("Segment 1", "Segment 2")
         val ranks = listOf("bbbbbb", "cccccc")
+        val rounds = listOf(null, "x2")
         this.id = ids[num - 1]
         this.name = names[num - 1]
         this.rank = ranks[num - 1]
+        this.rounds = rounds[num - 1]
     }
 
     private fun RoutineSummaryItemBuilder.RoutineInfo.withPreset() {
         this.routineName = "Routine Name"
         this.segmentsSummary = SegmentsSummary(
-            estimatedTotalTime = "20".timeText,
+            estimatedTotalTime = "30".timeText,
             segmentTypesCount = immutableMapOf(TimeTypeStyle.TIMER to 2)
         )
     }

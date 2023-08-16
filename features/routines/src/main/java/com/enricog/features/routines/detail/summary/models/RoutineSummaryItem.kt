@@ -2,8 +2,8 @@ package com.enricog.features.routines.detail.summary.models
 
 import androidx.compose.runtime.Stable
 import com.enricog.core.compose.api.classes.ImmutableMap
-import com.enricog.data.routines.api.entities.Segment
 import com.enricog.core.entities.ID
+import com.enricog.data.routines.api.entities.Segment
 import com.enricog.data.timer.api.theme.entities.TimerTheme
 import com.enricog.features.routines.ui_components.goal_label.GoalLabel
 import com.enricog.features.routines.ui_components.time_type.TimeTypeStyle
@@ -40,7 +40,8 @@ internal sealed class RoutineSummaryItem {
         val name: String,
         val time: TimeText,
         val type: TimeTypeStyle,
-        val rank: String
+        val rank: String,
+        val rounds: String?
     ) : RoutineSummaryItem() {
 
         override val isDraggable: Boolean = true
@@ -51,7 +52,8 @@ internal sealed class RoutineSummaryItem {
                 name = segment.name,
                 time = segment.time.timeText,
                 type = TimeTypeStyle.from(timeType = segment.type, timerTheme = timerTheme),
-                rank = segment.rank.toString()
+                rank = segment.rank.toString(),
+                rounds = "x${segment.rounds}".takeIf { segment.rounds > 1 }
             )
         }
     }
