@@ -8,7 +8,10 @@ import kotlin.String as KString
 
 sealed class Text {
     @Immutable
-    data class Resource(@StringRes val resId: Int) : Text()
+    data class Resource(
+        @StringRes val resId: Int,
+        val formatArgs: ImmutableList<Any> = emptyImmutableList()
+    ) : Text()
 
     @Immutable
     data class String(val value: KString) : Text()
@@ -16,7 +19,7 @@ sealed class Text {
     @Composable
     fun resolveString(): KString {
         return when (this) {
-            is Resource -> stringResource(id = resId)
+            is Resource -> stringResource(id = resId, formatArgs = formatArgs.toTypedArray())
             is String -> value
         }
     }

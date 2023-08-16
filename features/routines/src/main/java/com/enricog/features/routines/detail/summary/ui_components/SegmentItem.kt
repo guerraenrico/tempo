@@ -10,13 +10,15 @@ import androidx.compose.ui.platform.testTag
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.constraintlayout.compose.ConstraintLayout
 import androidx.constraintlayout.compose.Dimension
+import com.enricog.core.compose.api.classes.Text
 import com.enricog.core.entities.ID
 import com.enricog.core.entities.asID
 import com.enricog.features.routines.R
 import com.enricog.features.routines.detail.summary.models.RoutineSummaryItem.SegmentItem
+import com.enricog.features.routines.ui_components.item.SwipeableListItem
 import com.enricog.features.routines.ui_components.time_type.TimeTypeChip
 import com.enricog.features.routines.ui_components.time_type.TimeTypeStyle
-import com.enricog.features.routines.ui_components.item.SwipeableListItem
+import com.enricog.ui.components.chip.TempoChip
 import com.enricog.ui.components.text.TempoText
 import com.enricog.ui.components.textField.timeText
 import com.enricog.ui.theme.TempoTheme
@@ -44,7 +46,7 @@ internal fun SegmentItem(
                 .clickable(enabled = enableClick) { onClick(segment.id) }
                 .padding(TempoTheme.dimensions.spaceM)
         ) {
-            val (name, type, time) = createRefs()
+            val (name, type, rounds, time) = createRefs()
 
             TempoText(
                 modifier = Modifier
@@ -69,6 +71,22 @@ internal fun SegmentItem(
                     .padding(top = TempoTheme.dimensions.spaceM),
                 style = segment.type
             )
+
+            if (segment.rounds != null) {
+                TempoChip(
+                    modifier = Modifier
+                        .constrainAs(rounds) {
+                            top.linkTo(name.bottom)
+                            start.linkTo(type.end)
+                            bottom.linkTo(parent.bottom)
+                        }
+                        .padding(
+                            top = TempoTheme.dimensions.spaceM,
+                            start = TempoTheme.dimensions.spaceM
+                        ),
+                    text = segment.rounds
+                )
+            }
 
             TempoText(
                 modifier = Modifier
@@ -100,7 +118,8 @@ private fun SegmentItemPreview() {
                 onBackgroundColor = Color.White,
                 nameStringResId = R.string.chip_time_type_timer_name
             ),
-            rank = ""
+            rank = "",
+            rounds = Text.String(value = "x2")
         ),
         onClick = {},
         onDelete = {},

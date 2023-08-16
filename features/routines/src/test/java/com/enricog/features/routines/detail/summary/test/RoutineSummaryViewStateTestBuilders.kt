@@ -2,6 +2,7 @@ package com.enricog.features.routines.detail.summary.test
 
 import androidx.compose.ui.graphics.Color
 import com.enricog.core.compose.api.classes.ImmutableList
+import com.enricog.core.compose.api.classes.Text
 import com.enricog.core.compose.api.classes.immutableListOf
 import com.enricog.core.entities.ID
 import com.enricog.core.entities.asID
@@ -50,12 +51,14 @@ internal class RoutineSummaryItemBuilder {
         var routineName: String = "Routine Name"
         var goalLabel: GoalLabel? = null
         var segmentsSummary: RoutineSummaryItem.RoutineInfo.SegmentsSummary? = null
+        var rounds: Text? = null
 
         fun build(): RoutineSummaryItem.RoutineInfo {
             return RoutineSummaryItem.RoutineInfo(
                 routineName = routineName,
                 goalLabel = goalLabel,
-                segmentsSummary = segmentsSummary
+                segmentsSummary = segmentsSummary,
+                rounds = rounds
             )
         }
     }
@@ -67,6 +70,7 @@ internal class RoutineSummaryItemBuilder {
         var time: TimeText = "10".timeText
         var rank: String = "aaaaaa"
         var type: TimeTypeStyle = TimeTypeStyle.TIMER
+        var rounds: Text? = null
 
         fun build(): RoutineSummaryItem.SegmentItem {
             return RoutineSummaryItem.SegmentItem(
@@ -74,7 +78,8 @@ internal class RoutineSummaryItemBuilder {
                 name = name,
                 time = time,
                 type = type,
-                rank = rank
+                rank = rank,
+                rounds = rounds
             )
         }
     }

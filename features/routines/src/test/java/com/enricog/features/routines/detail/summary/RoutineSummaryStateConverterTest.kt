@@ -1,5 +1,6 @@
 package com.enricog.features.routines.detail.summary
 
+import com.enricog.core.compose.api.classes.Text
 import com.enricog.core.compose.api.classes.immutableListOf
 import com.enricog.core.compose.api.classes.immutableMapOf
 import com.enricog.core.coroutines.testing.CoroutineRule
@@ -236,9 +237,21 @@ class RoutineSummaryStateConverterTest {
     private fun RoutineSummaryStateBuilder.Data.withPreset() {
         routine = Routine.EMPTY.copy(
             name = "Routine Name",
+            rounds = 2,
             segments = listOf(
-                Segment.EMPTY.copy(id = 1.asID, name = "Segment 1", time = 10.seconds, rank = Rank.from("bbbbbb")),
-                Segment.EMPTY.copy(id = 2.asID, name = "Segment 2", time = 10.seconds, rank = Rank.from("cccccc"))
+                Segment.EMPTY.copy(
+                    id = 1.asID,
+                    name = "Segment 1",
+                    time = 10.seconds,
+                    rank = Rank.from("bbbbbb")
+                ),
+                Segment.EMPTY.copy(
+                    id = 2.asID,
+                    name = "Segment 2",
+                    time = 10.seconds,
+                    rank = Rank.from("cccccc"),
+                    rounds = 2
+                )
             )
         )
         errors = mapOf(RoutineSummaryField.Segments to RoutineSummaryFieldError.NoSegments)
@@ -248,15 +261,18 @@ class RoutineSummaryStateConverterTest {
         val ids = listOf(1.asID, 2.asID)
         val names = listOf("Segment 1", "Segment 2")
         val ranks = listOf("bbbbbb", "cccccc")
+        val rounds = listOf(null, Text.String(value = "x2"))
         this.id = ids[num - 1]
         this.name = names[num - 1]
         this.rank = ranks[num - 1]
+        this.rounds = rounds[num - 1]
     }
 
     private fun RoutineSummaryItemBuilder.RoutineInfo.withPreset() {
         this.routineName = "Routine Name"
+        this.rounds = Text.String(value = "x2")
         this.segmentsSummary = SegmentsSummary(
-            estimatedTotalTime = "20".timeText,
+            estimatedTotalTime = "100".timeText,
             segmentTypesCount = immutableMapOf(TimeTypeStyle.TIMER to 2)
         )
     }
