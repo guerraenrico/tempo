@@ -8,8 +8,10 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
+import androidx.compose.ui.semantics.semantics
 import androidx.compose.ui.tooling.preview.Preview
 import com.enricog.core.compose.api.classes.Text
+import com.enricog.core.compose.api.modifiers.semantics.innerText
 import com.enricog.ui.components.text.TempoText
 import com.enricog.ui.theme.TempoTheme
 
@@ -19,14 +21,18 @@ fun TempoChip(
     modifier: Modifier = Modifier,
     color: TempoChipColor = TempoChipColor.Default
 ) {
+    val resolvedText = text.resolveString()
     Box(
         modifier = modifier
+            .semantics {
+                innerText(value = resolvedText)
+            }
             .clip(TempoChipDefaults.shape)
             .background(color = color.backgroundColor, shape = TempoChipDefaults.shape),
         contentAlignment = Alignment.Center
     ) {
         TempoText(
-            text = text.resolveString(),
+            text = resolvedText,
             style = TempoTheme.typography.h4.copy(
                 color = color.onBackgroundColor
             ),

@@ -18,3 +18,10 @@ val CheckedId = SemanticsPropertyKey<Int>(name = "CheckedId")
 fun SemanticsPropertyReceiver.isChecked(checked: Boolean) {
     set(key = CheckedId, value = if (checked) 1 else 0)
 }
+
+@VisibleForTesting
+val InnerText = SemanticsPropertyKey<String>(name = "Text")
+
+fun SemanticsPropertyReceiver.innerText(value: String) {
+    set(key = InnerText, value = value)
+}

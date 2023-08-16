@@ -2,6 +2,7 @@ package com.enricog.features.routines.detail.summary
 
 import com.enricog.base.extensions.mapToIfNotEmptyOrNull
 import com.enricog.base.viewmodel.StateConverter
+import com.enricog.core.compose.api.classes.Text
 import com.enricog.core.compose.api.classes.asImmutableList
 import com.enricog.core.compose.api.classes.asImmutableMap
 import com.enricog.core.entities.seconds
@@ -55,7 +56,8 @@ internal class RoutineSummaryStateConverter @Inject constructor(
                 RoutineSummaryItem.RoutineInfo(
                     routineName = routine.name,
                     goalLabel = goalLabel,
-                    segmentsSummary = segmentsSummary
+                    segmentsSummary = segmentsSummary,
+                    rounds = Text.String(value = "x${routine.rounds}").takeIf { routine.rounds > 1 }
                 )
             )
 

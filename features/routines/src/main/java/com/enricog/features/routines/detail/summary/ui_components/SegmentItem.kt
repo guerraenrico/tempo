@@ -15,9 +15,9 @@ import com.enricog.core.entities.ID
 import com.enricog.core.entities.asID
 import com.enricog.features.routines.R
 import com.enricog.features.routines.detail.summary.models.RoutineSummaryItem.SegmentItem
+import com.enricog.features.routines.ui_components.item.SwipeableListItem
 import com.enricog.features.routines.ui_components.time_type.TimeTypeChip
 import com.enricog.features.routines.ui_components.time_type.TimeTypeStyle
-import com.enricog.features.routines.ui_components.item.SwipeableListItem
 import com.enricog.ui.components.chip.TempoChip
 import com.enricog.ui.components.text.TempoText
 import com.enricog.ui.components.textField.timeText
@@ -84,7 +84,7 @@ internal fun SegmentItem(
                             top = TempoTheme.dimensions.spaceM,
                             start = TempoTheme.dimensions.spaceM
                         ),
-                    text = Text.String(value = segment.rounds)
+                    text = segment.rounds
                 )
             }
 
@@ -119,7 +119,7 @@ private fun SegmentItemPreview() {
                 nameStringResId = R.string.chip_time_type_timer_name
             ),
             rank = "",
-            rounds = "x2"
+            rounds = Text.String(value = "x2")
         ),
         onClick = {},
         onDelete = {},

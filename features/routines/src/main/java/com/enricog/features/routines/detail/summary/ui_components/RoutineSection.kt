@@ -25,11 +25,13 @@ import com.enricog.features.routines.detail.summary.models.RoutineSummaryItem.Ro
 import com.enricog.features.routines.ui_components.goal_label.GoalText
 import com.enricog.ui.components.button.TempoButton
 import com.enricog.ui.components.button.TempoButtonColor
+import com.enricog.ui.components.chip.TempoChip
 import com.enricog.ui.components.text.TempoText
 import com.enricog.ui.theme.TempoTheme
 
 internal const val RoutineSectionTestTag = "RoutineSectionTestTag"
 internal const val RoutineSectionSummaryRoutineNameTestTag = "RoutineSectionSummaryRoutineNameTestTag"
+internal const val RoutineSectionSummaryRoundsTestTag = "RoutineSectionSummaryRoundsTestTag"
 internal const val RoutineSectionSummaryGoalTestTag = "RoutineSectionSummaryGoalTestTag"
 internal const val RoutineSectionSummaryInfoTestTag = "RoutineSectionSummaryInfoTestTag"
 internal const val RoutineSectionEstimatedTotalTimeTestTag = "RoutineSectionEstimatedTotalTimeTestTag"
@@ -46,48 +48,69 @@ internal fun RoutineSection(
             .testTag(RoutineSectionTestTag)
             .fillMaxWidth()
     ) {
-        val (routineName, goalText, buttonEdit, segmentCount) = createRefs()
+        val (routineName, goalText, buttonEdit, segmentCount, rounds) = createRefs()
         TempoText(
             modifier = Modifier
                 .testTag(RoutineSectionSummaryRoutineNameTestTag)
                 .constrainAs(routineName) {
                     top.linkTo(parent.top)
                     start.linkTo(parent.start)
-                    if (routineInfo.goalLabel != null) {
-                        bottom.linkTo(goalText.top)
-                    } else {
-                        bottom.linkTo(buttonEdit.top)
+                    when {
+                        routineInfo.rounds != null -> bottom.linkTo(rounds.top)
+                        routineInfo.goalLabel != null -> bottom.linkTo(goalText.top)
+                        else -> Unit
                     }
-                    end.linkTo(segmentCount.start)
+                    end.linkTo(buttonEdit.start)
                     width = Dimension.fillToConstraints
                 },
             text = routineInfo.routineName,
             style = TempoTheme.typography.h1
         )
 
+        if (routineInfo.rounds != null) {
+            TempoChip(
+                modifier = Modifier
+                    .testTag(RoutineSectionSummaryRoundsTestTag)
+                    .constrainAs(rounds) {
+                        top.linkTo(routineName.bottom)
+                        start.linkTo(parent.start)
+                        when {
+                            routineInfo.goalLabel != null -> bottom.linkTo(goalText.top)
+                            else -> Unit
+                        }
+                    }
+                    .padding(top = TempoTheme.dimensions.spaceS),
+                text = routineInfo.rounds
+            )
+        }
+
         if (routineInfo.goalLabel != null) {
             GoalText(
                 modifier = Modifier
                     .testTag(RoutineSectionSummaryGoalTestTag)
                     .constrainAs(goalText) {
-                        top.linkTo(routineName.bottom)
+                        when {
+                            routineInfo.rounds != null -> top.linkTo(rounds.bottom)
+                            else -> top.linkTo(routineName.bottom)
+                        }
                         start.linkTo(parent.start)
-                        bottom.linkTo(buttonEdit.top)
-                    },
-                label = routineInfo.goalLabel,
+                    }
+                    .padding(top = TempoTheme.dimensions.spaceS),
+                label = routineInfo.goalLabel
             )
         }
 
         TempoButton(
-            modifier = Modifier.constrainAs(buttonEdit) {
-                if (routineInfo.goalLabel != null) {
-                    top.linkTo(goalText.bottom)
-                } else {
-                    top.linkTo(routineName.bottom)
-                }
-                start.linkTo(parent.start)
-                bottom.linkTo(parent.bottom)
-            },
+            modifier = Modifier
+                .constrainAs(buttonEdit) {
+                    top.linkTo(parent.top)
+                    start.linkTo(routineName.end)
+                    end.linkTo(parent.end)
+                    when {
+                        routineInfo.segmentsSummary != null -> bottom.linkTo(segmentCount.top)
+                        else -> Unit
+                    }
+                },
             onClick = onEditRoutine,
             iconResId = R.drawable.ic_routine_edit,
             text = stringResource(R.string.button_routine_summary_edit_routine),
@@ -100,11 +123,9 @@ internal fun RoutineSection(
                 modifier = Modifier
                     .padding(start = TempoTheme.dimensions.spaceM)
                     .constrainAs(segmentCount) {
-                        top.linkTo(parent.top)
+                        top.linkTo(buttonEdit.bottom)
                         start.linkTo(routineName.end)
-                        bottom.linkTo(parent.bottom)
                         end.linkTo(parent.end)
-                        baseline.linkTo(routineName.baseline)
                     },
                 segmentsSummary = routineInfo.segmentsSummary
             )

@@ -5,9 +5,11 @@ import androidx.compose.ui.test.assertIsDisplayed
 import androidx.compose.ui.test.assertTextEquals
 import androidx.compose.ui.test.junit4.createComposeRule
 import androidx.compose.ui.test.onNodeWithTag
+import com.enricog.core.compose.api.classes.Text
 import com.enricog.core.compose.api.classes.immutableListOf
 import com.enricog.core.compose.api.classes.immutableMapOf
 import com.enricog.core.compose.testing.invoke
+import com.enricog.core.compose.testing.text.assertInnerTextEquals
 import com.enricog.features.routines.R
 import com.enricog.features.routines.detail.summary.models.RoutineSummaryItem.RoutineInfo
 import com.enricog.features.routines.ui_components.goal_label.GoalLabel
@@ -30,6 +32,7 @@ internal class RoutineSectionKtTest {
                 stringResId = R.string.label_routine_goal_text_day,
                 formatArgs = immutableListOf(1, 2)
             ),
+            rounds = Text.String(value = "x2"),
             segmentsSummary = RoutineInfo.SegmentsSummary(
                 estimatedTotalTime = "10".timeText,
                 segmentTypesCount = immutableMapOf(
@@ -69,6 +72,8 @@ internal class RoutineSectionKtTest {
             .assertTextEquals("Routine Name")
         onNodeWithTag(testTag = RoutineSectionSummaryGoalTestTag)
             .assertTextEquals("Completed 1/2 today")
+        onNodeWithTag(testTag = RoutineSectionSummaryRoundsTestTag, useUnmergedTree = true)
+            .assertInnerTextEquals("x2")
 
         onNodeWithTag(testTag = RoutineSectionSummaryInfoTestTag, useUnmergedTree = true)
             .assertIsDisplayed()
@@ -94,6 +99,7 @@ internal class RoutineSectionKtTest {
                 stringResId = R.string.label_routine_goal_text_day,
                 formatArgs = immutableListOf(1, 2)
             ),
+            rounds = Text.String(value = "x2"),
             segmentsSummary = null
         )
 
@@ -111,6 +117,8 @@ internal class RoutineSectionKtTest {
             .assertTextEquals("Routine Name")
         onNodeWithTag(testTag = RoutineSectionSummaryGoalTestTag)
             .assertTextEquals("Completed 1/2 today")
+        onNodeWithTag(testTag = RoutineSectionSummaryRoundsTestTag, useUnmergedTree = true)
+            .assertInnerTextEquals("x2")
 
         onNodeWithTag(testTag = RoutineSectionSummaryInfoTestTag)
             .assertDoesNotExist()
@@ -124,6 +132,7 @@ internal class RoutineSectionKtTest {
                 stringResId = R.string.label_routine_goal_text_day,
                 formatArgs = immutableListOf(1, 2)
             ),
+            rounds = Text.String(value = "x2"),
             segmentsSummary = RoutineInfo.SegmentsSummary(
                 estimatedTotalTime = null,
                 segmentTypesCount = immutableMapOf(
@@ -151,6 +160,8 @@ internal class RoutineSectionKtTest {
             .assertTextEquals("Routine Name")
         onNodeWithTag(testTag = RoutineSectionSummaryGoalTestTag)
             .assertTextEquals("Completed 1/2 today")
+        onNodeWithTag(testTag = RoutineSectionSummaryRoundsTestTag)
+            .assertInnerTextEquals("x2")
 
         onNodeWithTag(testTag = RoutineSectionSummaryInfoTestTag)
             .assertIsDisplayed()
@@ -166,6 +177,33 @@ internal class RoutineSectionKtTest {
         val routineInfo = RoutineInfo(
             routineName = "Routine Name",
             goalLabel = null,
+            segmentsSummary = null,
+            rounds = Text.String(value = "x2"),
+        )
+
+        setContent {
+            TempoTheme {
+                RoutineSection(routineInfo = routineInfo, onEditRoutine = {})
+            }
+        }
+
+        waitForIdle()
+
+        onNodeWithTag(testTag = RoutineSectionTestTag)
+            .assertIsDisplayed()
+        onNodeWithTag(testTag = RoutineSectionSummaryGoalTestTag)
+            .assertDoesNotExist()
+    }
+
+    @Test
+    fun shouldNotShowRoundslWhenItIsNotSet() = composeRule {
+        val routineInfo = RoutineInfo(
+            routineName = "Routine Name",
+            goalLabel = GoalLabel(
+                stringResId = R.string.label_routine_goal_text_day,
+                formatArgs = immutableListOf(1, 2)
+            ),
+            rounds = null,
             segmentsSummary = null
         )
 
@@ -179,12 +217,7 @@ internal class RoutineSectionKtTest {
 
         onNodeWithTag(testTag = RoutineSectionTestTag)
             .assertIsDisplayed()
-
-        onNodeWithTag(testTag = RoutineSectionSummaryGoalTestTag)
-            .assertDoesNotExist()
-
-        onNodeWithTag(testTag = RoutineSectionSummaryInfoTestTag)
+        onNodeWithTag(testTag = RoutineSectionSummaryRoundsTestTag)
             .assertDoesNotExist()
     }
-
 }

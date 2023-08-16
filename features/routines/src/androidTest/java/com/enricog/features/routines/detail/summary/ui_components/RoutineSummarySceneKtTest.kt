@@ -8,6 +8,7 @@ import androidx.compose.ui.test.junit4.createComposeRule
 import androidx.compose.ui.test.onNodeWithTag
 import androidx.compose.ui.test.performTouchInput
 import androidx.compose.ui.test.swipe
+import com.enricog.core.compose.api.classes.Text
 import com.enricog.core.compose.api.classes.immutableListOf
 import com.enricog.core.compose.api.classes.immutableMapOf
 import com.enricog.core.compose.testing.invoke
@@ -34,6 +35,7 @@ class RoutineSummarySceneKtTest {
             RoutineInfo(
                 routineName = "Routine Name",
                 goalLabel = null,
+                rounds = null,
                 segmentsSummary = RoutineInfo.SegmentsSummary(
                     estimatedTotalTime = "10".timeText,
                     segmentTypesCount = immutableMapOf(
@@ -99,6 +101,7 @@ class RoutineSummarySceneKtTest {
             RoutineInfo(
                 routineName = "routineName",
                 goalLabel = null,
+                rounds = null,
                 segmentsSummary = RoutineInfo.SegmentsSummary(
                     estimatedTotalTime = "110".timeText,
                     segmentTypesCount = immutableMapOf(
@@ -174,6 +177,6 @@ class RoutineSummarySceneKtTest {
             id = "TIMER"
         ),
         rank = "aaaaaa",
-        rounds = "x2"
+        rounds = Text.String(value = "x2")
     )
 }
