@@ -32,8 +32,7 @@ internal fun SummaryList(
     onSegmentAdd: () -> Unit,
     onSegmentSelected: (ID) -> Unit,
     onSegmentDelete: (ID) -> Unit,
-    onSegmentDuplicate: (ID) -> Unit,
-    onRoutineEdit: () -> Unit
+    onSegmentDuplicate: (ID) -> Unit
 ) {
     LazyColumn(
         state = dragState.listState,
@@ -56,7 +55,7 @@ internal fun SummaryList(
         ) { index, item ->
             when (item) {
                 is RoutineSummaryItem.RoutineInfo ->
-                    RoutineSection(routineInfo = item, onEditRoutine = onRoutineEdit)
+                    RoutineSection(routineInfo = item)
                 is RoutineSummaryItem.SegmentSectionTitle ->
                     SegmentSectionTitle(item = item, onAddSegmentClick = onSegmentAdd)
                 is RoutineSummaryItem.SegmentItem -> {
@@ -72,7 +71,7 @@ internal fun SummaryList(
                         }
                     } ?: 0f
 
-                    val animate = animateFloatAsState(targetValue = offsetY)
+                    val animate = animateFloatAsState(targetValue = offsetY, label = "dragAnimation")
                     if (!isDragged) {
                         SegmentItem(
                             segment = item,

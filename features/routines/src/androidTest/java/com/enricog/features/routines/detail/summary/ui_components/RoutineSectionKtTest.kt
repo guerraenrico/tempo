@@ -60,7 +60,7 @@ internal class RoutineSectionKtTest {
 
         setContent {
             TempoTheme {
-                RoutineSection(routineInfo = routineInfo, onEditRoutine = {})
+                RoutineSection(routineInfo = routineInfo)
             }
         }
 
@@ -105,7 +105,7 @@ internal class RoutineSectionKtTest {
 
         setContent {
             TempoTheme {
-                RoutineSection(routineInfo = routineInfo, onEditRoutine = {})
+                RoutineSection(routineInfo = routineInfo)
             }
         }
 
@@ -148,7 +148,7 @@ internal class RoutineSectionKtTest {
 
         setContent {
             TempoTheme {
-                RoutineSection(routineInfo = routineInfo, onEditRoutine = {})
+                RoutineSection(routineInfo = routineInfo)
             }
         }
 
@@ -183,7 +183,7 @@ internal class RoutineSectionKtTest {
 
         setContent {
             TempoTheme {
-                RoutineSection(routineInfo = routineInfo, onEditRoutine = {})
+                RoutineSection(routineInfo = routineInfo)
             }
         }
 
@@ -209,7 +209,7 @@ internal class RoutineSectionKtTest {
 
         setContent {
             TempoTheme {
-                RoutineSection(routineInfo = routineInfo, onEditRoutine = {})
+                RoutineSection(routineInfo = routineInfo)
             }
         }
 
