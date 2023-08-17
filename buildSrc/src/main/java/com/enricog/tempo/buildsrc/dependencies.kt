@@ -16,7 +16,7 @@ object Versions {
     const val minSdk = 28
     const val targetSdk = 34
 
-    const val jvmTarget = "1.8"
+    const val jvmTarget = "17"
 }
 
 object Libs {
