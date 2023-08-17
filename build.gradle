@@ -1,5 +1,6 @@
 import com.enricog.tempo.buildsrc.Libs
 import com.enricog.tempo.buildsrc.Versions
+import org.jetbrains.kotlin.gradle.tasks.KotlinCompile
 
 buildscript {
     repositories {
@@ -42,7 +43,7 @@ allprojects {
 
 subprojects {
 
-    tasks.withType(Test) {
+    tasks.withType(Test).configureEach {
         testLogging {
             exceptionFormat "full"
             events "started", "skipped", "passed", "failed"
@@ -53,7 +54,7 @@ subprojects {
         }
     }
 
-    tasks.withType(org.jetbrains.kotlin.gradle.tasks.KotlinCompile).configureEach {
+    tasks.withType(KotlinCompile).configureEach {
         kotlinOptions {
             // Enable experimental coroutines APIs, including Flow
             freeCompilerArgs += "-opt-in=kotlin.RequiresOptIn"
@@ -110,7 +111,7 @@ subprojects {
     }
 }
 
-task clean(type: Delete) {
+tasks.register('clean', Delete) {
     delete rootProject.buildDir
 }
 
