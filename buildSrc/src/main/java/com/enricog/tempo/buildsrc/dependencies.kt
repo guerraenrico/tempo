@@ -12,9 +12,9 @@ object Versions {
         versionMajor * 1000000 + versionMinor * 10000 + versionPatch * 100 + versionBuild
     const val appVersionName: String = "$versionMajor.$versionMinor.$versionPatch"
 
-    const val compileSdk = 33
+    const val compileSdk = 34
     const val minSdk = 28
-    const val targetSdk = 33
+    const val targetSdk = 34
 
     const val jvmTarget = "1.8"
 }
@@ -22,7 +22,7 @@ object Versions {
 object Libs {
 
     object Kotlin {
-        const val version = "1.8.22"
+        const val version = "1.9.0"
         private const val coroutineVersion = "1.7.2"
         private const val serializationVersion = "1.5.1"
 
@@ -83,6 +83,10 @@ object Libs {
 
             const val navigation = "com.google.accompanist:accompanist-navigation-material:$version"
             const val permission = "com.google.accompanist:accompanist-permissions:$version"
+        }
+
+        object KSP {
+            const val version = "1.9.0-1.0.11"
         }
     }
 
