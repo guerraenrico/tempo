@@ -12,7 +12,7 @@ plugins {
 android {
     namespace 'com.enricog.data.local.database'
 
-    compileSdkVersion Versions.compileSdk
+    compileSdk Versions.compileSdk
 
     defaultConfig {
         minSdkVersion Versions.minSdk

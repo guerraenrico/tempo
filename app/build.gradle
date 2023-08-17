@@ -21,7 +21,7 @@ play {
 android {
     namespace 'com.enricog.tempo'
 
-    compileSdkVersion Versions.compileSdk
+    compileSdk Versions.compileSdk
 
     defaultConfig {
         applicationId 'com.enricog.tempo'
