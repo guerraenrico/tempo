@@ -6,12 +6,13 @@ plugins {
     id 'kotlin-android'
     id 'kotlin-kapt'
     id 'kotlinx-serialization'
+    id 'com.google.devtools.ksp'
 }
 
 android {
     namespace 'com.enricog.data.local.database'
 
-    compileSdkVersion Versions.compileSdk
+    compileSdk Versions.compileSdk
 
     defaultConfig {
         minSdkVersion Versions.minSdk
@@ -56,7 +57,7 @@ class RoomSchemaArgProvider implements CommandLineArgumentProvider {
 
     @Override
     Iterable<String> asArguments() {
-        return ["-Aroom.schemaLocation=${schemaDir.path}".toString()]
+        return ["-room.schemaLocation=${schemaDir.path}".toString()]
     }
 }
 
@@ -69,7 +70,7 @@ dependencies {
 
     // Room
     implementation Libs.Room.runtime
-    kapt Libs.Room.compiler
+    ksp Libs.Room.compiler
     implementation Libs.Room.ktx
 
     // Data Store

@@ -9,7 +9,7 @@ plugins {
 android {
     namespace 'com.enricog.ui.components'
 
-    compileSdkVersion Versions.compileSdk
+    compileSdk Versions.compileSdk
 
     defaultConfig {
         minSdkVersion Versions.minSdk

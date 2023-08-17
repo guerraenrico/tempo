@@ -28,7 +28,7 @@ object RoutineRoute : Route<RoutineRouteInput> {
                     type = NavType.LongType
                 }
             ),
-            content = content
+            content = { content(it) }
         )
     }
 

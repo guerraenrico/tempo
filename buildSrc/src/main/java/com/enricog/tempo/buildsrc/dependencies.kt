@@ -12,9 +12,9 @@ object Versions {
         versionMajor * 1000000 + versionMinor * 10000 + versionPatch * 100 + versionBuild
     const val appVersionName: String = "$versionMajor.$versionMinor.$versionPatch"
 
-    const val compileSdk = 33
+    const val compileSdk = 34
     const val minSdk = 28
-    const val targetSdk = 33
+    const val targetSdk = 34
 
     const val jvmTarget = "1.8"
 }
@@ -22,7 +22,7 @@ object Versions {
 object Libs {
 
     object Kotlin {
-        const val version = "1.8.22"
+        const val version = "1.9.0"
         private const val coroutineVersion = "1.7.2"
         private const val serializationVersion = "1.5.1"
 
@@ -49,8 +49,8 @@ object Libs {
         }
 
         object Compose {
-            const val compilerVersion = "1.4.8"
-            private const val version = "2023.06.01"
+            const val compilerVersion = "1.5.1"
+            private const val version = "2023.08.00"
 
             const val bom = "androidx.compose:compose-bom:$version"
 
@@ -69,7 +69,7 @@ object Libs {
 
             const val activity = "androidx.activity:activity-compose:1.6.1"
 
-            const val navigation = "androidx.navigation:navigation-compose:2.6.0"
+            const val navigation = "androidx.navigation:navigation-compose:2.7.0"
             const val viewModel = "androidx.lifecycle:lifecycle-viewmodel-compose:2.6.1"
             const val constraintLayout = "androidx.constraintlayout:constraintlayout-compose:1.0.1"
         }
@@ -79,10 +79,14 @@ object Libs {
         const val material = "com.google.android.material:material:1.2.0"
 
         object Accompanist {
-            private const val version = "0.30.1"
+            private const val version = "0.31.6-rc"
 
             const val navigation = "com.google.accompanist:accompanist-navigation-material:$version"
             const val permission = "com.google.accompanist:accompanist-permissions:$version"
+        }
+
+        object KSP {
+            const val version = "1.9.0-1.0.11"
         }
     }
 
@@ -95,7 +99,7 @@ object Libs {
     }
 
     object Hilt {
-        const val androidVersion = "2.46.1"
+        const val androidVersion = "2.47"
         private const val version = "1.0.0"
 
         const val android = "com.google.dagger:hilt-android:$androidVersion"
@@ -132,7 +136,7 @@ object Libs {
     }
 
     object Firebase {
-        private const val version = "32.2.0"
+        private const val version = "32.2.2"
 
         const val bom = "com.google.firebase:firebase-bom:$version"
         const val crashlytics = "com.google.firebase:firebase-crashlytics-ktx"

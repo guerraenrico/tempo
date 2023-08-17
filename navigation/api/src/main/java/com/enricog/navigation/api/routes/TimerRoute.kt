@@ -28,7 +28,7 @@ object TimerRoute : Route<TimerRouteInput> {
                     type = NavType.LongType
                 }
             ),
-            content = content
+            content = { content(it) }
         )
     }
 

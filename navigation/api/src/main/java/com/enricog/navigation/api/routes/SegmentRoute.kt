@@ -33,7 +33,7 @@ object SegmentRoute : Route<SegmentRouteInput> {
                     type = NavType.LongType
                 }
             ),
-            content = content
+            content = { content(it) }
         )
     }
 

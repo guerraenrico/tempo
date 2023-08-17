@@ -16,7 +16,7 @@ object RoutinesRoute : Route<RoutinesRouteInput> {
         composable(
             route = name,
             arguments = emptyList(),
-            content = content
+            content = { content(it) }
         )
     }
 

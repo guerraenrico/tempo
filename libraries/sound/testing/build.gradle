@@ -9,7 +9,7 @@ plugins {
 android {
     namespace 'com.enricog.libraries.sound.testing'
 
-    compileSdkVersion Versions.compileSdk
+    compileSdk Versions.compileSdk
 
     defaultConfig {
         minSdkVersion Versions.minSdk

@@ -1,5 +1,6 @@
 import com.enricog.tempo.buildsrc.Libs
 import com.enricog.tempo.buildsrc.Versions
+import org.jetbrains.kotlin.gradle.tasks.KotlinCompile
 
 buildscript {
     repositories {
@@ -9,13 +10,14 @@ buildscript {
         maven { url "https://oss.sonatype.org/content/repositories/snapshots" }
     }
     dependencies {
-        classpath 'com.android.tools.build:gradle:8.0.2'
+        classpath 'com.android.tools.build:gradle:8.1.0'
         classpath "org.jetbrains.kotlin:kotlin-gradle-plugin:${Libs.Kotlin.version}"
         classpath "org.jetbrains.kotlin:kotlin-serialization:${Libs.Kotlin.version}"
         classpath "com.google.dagger:hilt-android-gradle-plugin:${Libs.Hilt.androidVersion}"
+        classpath "com.google.devtools.ksp:com.google.devtools.ksp.gradle.plugin:$Libs.Google.KSP.version"
 
         classpath 'com.google.gms:google-services:4.3.15'
-        classpath 'com.google.firebase:firebase-crashlytics-gradle:2.9.7'
+        classpath 'com.google.firebase:firebase-crashlytics-gradle:2.9.8'
 
         classpath "org.jlleitschuh.gradle:ktlint-gradle:11.0.0"
 
@@ -41,7 +43,7 @@ allprojects {
 
 subprojects {
 
-    tasks.withType(Test) {
+    tasks.withType(Test).configureEach {
         testLogging {
             exceptionFormat "full"
             events "started", "skipped", "passed", "failed"
@@ -52,7 +54,7 @@ subprojects {
         }
     }
 
-    tasks.withType(org.jetbrains.kotlin.gradle.tasks.KotlinCompile).configureEach {
+    tasks.withType(KotlinCompile).configureEach {
         kotlinOptions {
             // Enable experimental coroutines APIs, including Flow
             freeCompilerArgs += "-opt-in=kotlin.RequiresOptIn"
@@ -109,7 +111,7 @@ subprojects {
     }
 }
 
-task clean(type: Delete) {
+tasks.register('clean', Delete) {
     delete rootProject.buildDir
 }
 
