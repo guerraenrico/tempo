@@ -3,12 +3,12 @@ package com.enricog.features.timer
 import androidx.compose.animation.AnimatedContent
 import androidx.compose.animation.EnterTransition
 import androidx.compose.animation.ExitTransition
+import androidx.compose.animation.core.Animatable
 import androidx.compose.animation.core.tween
 import androidx.compose.animation.fadeIn
 import androidx.compose.animation.fadeOut
 import androidx.compose.animation.scaleIn
-import androidx.compose.animation.with
-import androidx.compose.foundation.background
+import androidx.compose.animation.togetherWith
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.WindowInsets
@@ -16,17 +16,20 @@ import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.statusBars
 import androidx.compose.foundation.layout.windowInsetsPadding
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.graphics.RectangleShape
+import androidx.compose.ui.draw.drawBehind
+import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.zIndex
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import com.enricog.core.compose.api.ScreenConfiguration
 import com.enricog.core.compose.api.ScreenConfiguration.Orientation.LANDSCAPE
 import com.enricog.core.compose.api.ScreenConfiguration.Orientation.PORTRAIT
+import com.enricog.core.compose.api.extensions.toPx
 import com.enricog.features.timer.models.TimerViewState
 import com.enricog.features.timer.ui_components.TimerCloseDialog
 import com.enricog.features.timer.ui_components.TimerCompletedScene
@@ -52,16 +55,18 @@ internal fun TimerScreen(viewModel: TimerViewModel) {
             targetState = viewState,
             transitionSpec = {
                 if (targetState::class.simpleName == initialState::class.simpleName) {
-                    EnterTransition.None with ExitTransition.None
+                    EnterTransition.None togetherWith ExitTransition.None
                 } else {
-                    fadeIn(
-                        animationSpec = tween(durationMillis = 440, delayMillis = 440)
-                    ) + scaleIn(
-                        initialScale = 0.92f,
-                        animationSpec = tween(durationMillis = 440, delayMillis = 440)
-                    ) with fadeOut(animationSpec = tween(durationMillis = 440))
+                    (
+                        fadeIn(animationSpec = tween(durationMillis = 440, delayMillis = 440)) +
+                            scaleIn(
+                                initialScale = 0.92f,
+                                animationSpec = tween(durationMillis = 440, delayMillis = 440)
+                            )
+                        ).togetherWith(fadeOut(animationSpec = tween(durationMillis = 440)))
                 }
-            }
+            },
+            label = "timerContent"
         ) { targetViewState ->
             targetViewState.Compose(
                 onPlay = viewModel::onPlay,
@@ -88,16 +93,42 @@ private fun MainContainer(
     viewState: TimerViewState,
     content: @Composable () -> Unit
 ) {
-    val backgroundColor = when (viewState) {
-        is TimerViewState.Counting -> viewState.clockBackground.background
-        else -> TempoTheme.colors.background
+    val circleTransitionSize = when (ScreenConfiguration.orientation) {
+        PORTRAIT -> ScreenConfiguration.height.toPx()
+        LANDSCAPE -> ScreenConfiguration.width.toPx()
+    }
+
+    val circleRadius = remember { Animatable(initialValue = 0f) }
+    val isCircleAnimating = when (viewState) {
+        is TimerViewState.Counting -> viewState.clockBackground.ripple != null
+        else -> false
+    }
+    val clockBackground = when (viewState) {
+        is TimerViewState.Counting -> viewState.clockBackground
+        else -> TimerViewState.Counting.Background(
+            background = TempoTheme.colors.background,
+            ripple = null
+        )
+    }
+
+    LaunchedEffect(isCircleAnimating) {
+        circleRadius.animateTo(
+            targetValue = if (isCircleAnimating) circleTransitionSize else 0f,
+            animationSpec = tween(durationMillis = 1000, delayMillis = 500)
+        )
     }
 
     when (ScreenConfiguration.orientation) {
         PORTRAIT -> Column(
             modifier = modifier
                 .fillMaxSize()
-                .background(color = backgroundColor, shape = RectangleShape)
+                .drawBehind {
+                    drawRect(color = clockBackground.background)
+                    drawCircle(
+                        color = clockBackground.ripple ?: Color.Transparent,
+                        radius = circleRadius.value
+                    )
+                }
                 .windowInsetsPadding(WindowInsets.statusBars),
             content = { content() }
         )
@@ -105,7 +136,13 @@ private fun MainContainer(
         LANDSCAPE -> Row(
             modifier = modifier
                 .fillMaxSize()
-                .background(color = backgroundColor, shape = RectangleShape)
+                .drawBehind {
+                    drawRect(color = clockBackground.background)
+                    drawCircle(
+                        color = clockBackground.ripple ?: Color.Transparent,
+                        radius = circleRadius.value
+                    )
+                }
                 .windowInsetsPadding(WindowInsets.statusBars),
             content = { content() }
         )

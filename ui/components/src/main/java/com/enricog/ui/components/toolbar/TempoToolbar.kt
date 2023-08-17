@@ -96,7 +96,7 @@ fun TempoToolbar(
 private fun TempoToolbarText(title: String, modifier: Modifier = Modifier) {
     TempoText(
         text = title,
-        style = TempoTheme.typography.h2,
+        style = TempoTheme.typography.h1,
         maxLines = 1,
         modifier = modifier
     )

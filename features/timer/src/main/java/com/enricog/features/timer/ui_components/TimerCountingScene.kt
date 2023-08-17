@@ -71,99 +71,99 @@ private fun TimerCountingScenePortrait(
     onBack: () -> Unit,
     onNext: () -> Unit
 ) {
-    TimerBackground(clockBackground = state.clockBackground) {
-        ConstraintLayout(
-            modifier = Modifier.fillMaxSize()
-        ) {
-            val (rounds, title, clock, actionBar) = createRefs()
+    ConstraintLayout(
+        modifier = Modifier
+            .testTag(TimerCountingSceneTestTag)
+            .fillMaxSize()
+    ) {
+        val (rounds, title, clock, actionBar) = createRefs()
 
-            if (state.hasRoundsText) {
-                Column(
-                    modifier = Modifier
-                        .constrainAs(rounds) {
-                            top.linkTo(parent.top)
-                            start.linkTo(parent.start)
-                            end.linkTo(parent.end)
-                            width = Dimension.fillToConstraints
-                        }
-                        .fillMaxWidth()
-                        .padding(horizontal = TempoTheme.dimensions.spaceM)
-                ) {
-                    if (state.routineRoundText != null) {
-                        RoundText(
-                            modifier = Modifier
-                                .testTag(RoutineRoundTestTag)
-                                .fillMaxWidth(),
-                            roundText = state.routineRoundText,
-                            textAlign = TextAlign.Center,
-                            textColor = state.clockOnBackgroundColor
-                        )
-                    }
-                }
-            }
-
+        if (state.hasRoundsText) {
             Column(
                 modifier = Modifier
-                    .fillMaxWidth()
-                    .padding(horizontal = TempoTheme.dimensions.spaceM)
-                    .constrainAs(title) {
-                        if (state.hasRoundsText) {
-                            top.linkTo(rounds.bottom)
-                        } else {
-                            top.linkTo(parent.top)
-                        }
-                        bottom.linkTo(clock.top)
+                    .constrainAs(rounds) {
+                        top.linkTo(parent.top)
                         start.linkTo(parent.start)
                         end.linkTo(parent.end)
                         width = Dimension.fillToConstraints
-                    },
-                horizontalAlignment = Alignment.CenterHorizontally
+                    }
+                    .fillMaxWidth()
+                    .padding(horizontal = TempoTheme.dimensions.spaceM)
             ) {
-                if (state.segmentRoundText != null) {
+                if (state.routineRoundText != null) {
                     RoundText(
                         modifier = Modifier
-                            .testTag(SegmentRoundTestTag)
+                            .testTag(RoutineRoundTestTag)
                             .fillMaxWidth(),
-                        roundText = state.segmentRoundText,
+                        roundText = state.routineRoundText,
                         textAlign = TextAlign.Center,
                         textColor = state.clockOnBackgroundColor
                     )
                 }
-                SegmentName(
-                    segmentName = state.segmentName,
-                    textColor = state.clockOnBackgroundColor,
-                    maxLines = 2
-                )
-                Spacer(modifier = Modifier.height(TempoTheme.dimensions.spaceL))
-                StepTitleText(
-                    stepTitle = stringResource(id = state.stepTitleId),
+            }
+        }
+
+        Column(
+            modifier = Modifier
+                .fillMaxWidth()
+                .padding(horizontal = TempoTheme.dimensions.spaceM)
+                .constrainAs(title) {
+                    if (state.hasRoundsText) {
+                        top.linkTo(rounds.bottom)
+                    } else {
+                        top.linkTo(parent.top)
+                    }
+                    bottom.linkTo(clock.top)
+                    start.linkTo(parent.start)
+                    end.linkTo(parent.end)
+                    width = Dimension.fillToConstraints
+                },
+            horizontalAlignment = Alignment.CenterHorizontally
+        ) {
+            if (state.segmentRoundText != null) {
+                RoundText(
+                    modifier = Modifier
+                        .testTag(SegmentRoundTestTag)
+                        .fillMaxWidth(),
+                    roundText = state.segmentRoundText,
+                    textAlign = TextAlign.Center,
                     textColor = state.clockOnBackgroundColor
                 )
             }
-
-            Clock(
-                timeInSeconds = state.timeInSeconds,
+            SegmentName(
+                segmentName = state.segmentName,
                 textColor = state.clockOnBackgroundColor,
-                modifier = Modifier.constrainAs(clock) {
-                    top.linkTo(title.bottom)
-                    bottom.linkTo(actionBar.top)
-                    start.linkTo(parent.start)
-                    end.linkTo(parent.end)
-                }
+                maxLines = 2
             )
-            ActionsBar(
-                timerActions = state.timerActions,
-                onPlayButtonClick = onPlay,
-                onBackButtonClick = onBack,
-                onNextButtonClick = onNext,
-                modifier = Modifier.constrainAs(actionBar) {
-                    top.linkTo(clock.bottom)
-                    bottom.linkTo(parent.bottom)
-                    start.linkTo(parent.start)
-                    end.linkTo(parent.end)
-                }
+            Spacer(modifier = Modifier.height(TempoTheme.dimensions.spaceL))
+            StepTitleText(
+                stepTitle = stringResource(id = state.stepTitleId),
+                textColor = state.clockOnBackgroundColor
             )
         }
+
+        Clock(
+            timeInSeconds = state.timeInSeconds,
+            textColor = state.clockOnBackgroundColor,
+            modifier = Modifier.constrainAs(clock) {
+                top.linkTo(title.bottom)
+                bottom.linkTo(actionBar.top)
+                start.linkTo(parent.start)
+                end.linkTo(parent.end)
+            }
+        )
+        ActionsBar(
+            timerActions = state.timerActions,
+            onPlayButtonClick = onPlay,
+            onBackButtonClick = onBack,
+            onNextButtonClick = onNext,
+            modifier = Modifier.constrainAs(actionBar) {
+                top.linkTo(clock.bottom)
+                bottom.linkTo(parent.bottom)
+                start.linkTo(parent.start)
+                end.linkTo(parent.end)
+            }
+        )
     }
 }
 
@@ -174,133 +174,98 @@ private fun TimerCountingSceneLandscape(
     onBack: () -> Unit,
     onNext: () -> Unit
 ) {
-    TimerBackground(clockBackground = state.clockBackground) {
-        ConstraintLayout(
-            modifier = Modifier.fillMaxSize()
-        ) {
-            val (rounds, title, clock, actionBar) = createRefs()
+    ConstraintLayout(
+        modifier = Modifier
+            .testTag(TimerCountingSceneTestTag)
+            .fillMaxSize()
+    ) {
+        val (rounds, title, clock, actionBar) = createRefs()
 
-            if (state.hasRoundsText) {
-                Row(
-                    modifier = Modifier
-                        .constrainAs(rounds) {
-                            top.linkTo(parent.top)
-                            start.linkTo(parent.start)
-                            end.linkTo(actionBar.start)
-                            width = Dimension.fillToConstraints
-                        }
-                        .fillMaxWidth()
-                        .padding(horizontal = TempoTheme.dimensions.spaceM)
-                ) {
-                    if (state.routineRoundText != null) {
-                        RoundText(
-                            modifier = Modifier
-                                .testTag(RoutineRoundTestTag)
-                                .weight(0.5f),
-                            roundText = state.routineRoundText,
-                            textAlign = TextAlign.Start,
-                            textColor = state.clockOnBackgroundColor
-                        )
-                    }
-                    if (state.segmentRoundText != null) {
-                        RoundText(
-                            modifier = Modifier
-                                .testTag(SegmentRoundTestTag)
-                                .weight(0.5f),
-                            roundText = state.segmentRoundText,
-                            textAlign = TextAlign.End,
-                            textColor = state.clockOnBackgroundColor
-                        )
-                    }
-                }
-            }
-
-            Column(
+        if (state.hasRoundsText) {
+            Row(
                 modifier = Modifier
-                    .fillMaxWidth()
-                    .padding(horizontal = TempoTheme.dimensions.spaceM)
-                    .constrainAs(title) {
-                        if (state.hasRoundsText) {
-                            top.linkTo(rounds.bottom)
-                        } else {
-                            top.linkTo(parent.top)
-                        }
-                        bottom.linkTo(clock.top)
+                    .constrainAs(rounds) {
+                        top.linkTo(parent.top)
                         start.linkTo(parent.start)
                         end.linkTo(actionBar.start)
                         width = Dimension.fillToConstraints
-                    },
-                horizontalAlignment = Alignment.CenterHorizontally
+                    }
+                    .fillMaxWidth()
+                    .padding(horizontal = TempoTheme.dimensions.spaceM)
             ) {
-                SegmentName(
-                    segmentName = state.segmentName,
-                    textColor = state.clockOnBackgroundColor,
-                    maxLines = 1
-                )
-                Spacer(modifier = Modifier.height(TempoTheme.dimensions.spaceL))
-                StepTitleText(
-                    stepTitle = stringResource(id = state.stepTitleId),
-                    textColor = state.clockOnBackgroundColor
-                )
+                if (state.routineRoundText != null) {
+                    RoundText(
+                        modifier = Modifier
+                            .testTag(RoutineRoundTestTag)
+                            .weight(0.5f),
+                        roundText = state.routineRoundText,
+                        textAlign = TextAlign.Start,
+                        textColor = state.clockOnBackgroundColor
+                    )
+                }
+                if (state.segmentRoundText != null) {
+                    RoundText(
+                        modifier = Modifier
+                            .testTag(SegmentRoundTestTag)
+                            .weight(0.5f),
+                        roundText = state.segmentRoundText,
+                        textAlign = TextAlign.End,
+                        textColor = state.clockOnBackgroundColor
+                    )
+                }
             }
+        }
 
-            Clock(
-                timeInSeconds = state.timeInSeconds,
-                textColor = state.clockOnBackgroundColor,
-                modifier = Modifier.constrainAs(clock) {
-                    bottom.linkTo(parent.bottom)
+        Column(
+            modifier = Modifier
+                .fillMaxWidth()
+                .padding(horizontal = TempoTheme.dimensions.spaceM)
+                .constrainAs(title) {
+                    if (state.hasRoundsText) {
+                        top.linkTo(rounds.bottom)
+                    } else {
+                        top.linkTo(parent.top)
+                    }
+                    bottom.linkTo(clock.top)
                     start.linkTo(parent.start)
                     end.linkTo(actionBar.start)
-                }
+                    width = Dimension.fillToConstraints
+                },
+            horizontalAlignment = Alignment.CenterHorizontally
+        ) {
+            SegmentName(
+                segmentName = state.segmentName,
+                textColor = state.clockOnBackgroundColor,
+                maxLines = 1
             )
-            ActionsBar(
-                timerActions = state.timerActions,
-                onPlayButtonClick = onPlay,
-                onBackButtonClick = onBack,
-                onNextButtonClick = onNext,
-                modifier = Modifier.constrainAs(actionBar) {
-                    top.linkTo(parent.top)
-                    bottom.linkTo(parent.bottom)
-                    end.linkTo(parent.end)
-                }
+            Spacer(modifier = Modifier.height(TempoTheme.dimensions.spaceL))
+            StepTitleText(
+                stepTitle = stringResource(id = state.stepTitleId),
+                textColor = state.clockOnBackgroundColor
             )
         }
-    }
-}
 
-@Composable
-private fun TimerBackground(
-    clockBackground: Background,
-    modifier: Modifier = Modifier,
-    content: @Composable BoxScope.() -> Unit
-) {
-    val circleTransitionSize = when (ScreenConfiguration.orientation) {
-        PORTRAIT -> ScreenConfiguration.height.toPx()
-        LANDSCAPE -> ScreenConfiguration.width.toPx()
-    }
-
-    val circleRadius = remember { Animatable(initialValue = 0f) }
-    val isCircleAnimating = clockBackground.ripple != null
-    LaunchedEffect(isCircleAnimating) {
-        circleRadius.animateTo(
-            targetValue = if (isCircleAnimating) circleTransitionSize else 0f,
-            animationSpec = tween(durationMillis = 1000, delayMillis = 500)
+        Clock(
+            timeInSeconds = state.timeInSeconds,
+            textColor = state.clockOnBackgroundColor,
+            modifier = Modifier.constrainAs(clock) {
+                bottom.linkTo(parent.bottom)
+                start.linkTo(parent.start)
+                end.linkTo(actionBar.start)
+            }
+        )
+        ActionsBar(
+            timerActions = state.timerActions,
+            onPlayButtonClick = onPlay,
+            onBackButtonClick = onBack,
+            onNextButtonClick = onNext,
+            modifier = Modifier.constrainAs(actionBar) {
+                top.linkTo(parent.top)
+                bottom.linkTo(parent.bottom)
+                end.linkTo(parent.end)
+            }
         )
     }
-
-    Box(
-        modifier = modifier
-            .testTag(TimerCountingSceneTestTag)
-            .fillMaxSize()
-            .drawBehind {
-                drawRect(color = clockBackground.background)
-                drawCircle(
-                    color = clockBackground.ripple ?: Color.Transparent,
-                    radius = circleRadius.value
-                )
-            },
-        content = content
-    )
 }
 
 @Composable
