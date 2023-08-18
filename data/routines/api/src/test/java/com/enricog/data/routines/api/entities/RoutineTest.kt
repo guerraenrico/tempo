@@ -33,8 +33,7 @@ class RoutineTest {
 
     @Test
     fun `on init should throw exception when preparation time is less than zero`() {
-        val preparationTime = (1).seconds
-
+        val preparationTime = (-1).seconds
 
         assertThrows(IllegalArgumentException::class.java) {
             Routine(
