@@ -18,19 +18,11 @@ android {
         minSdkVersion Versions.minSdk
 
         testInstrumentationRunner 'androidx.test.runner.AndroidJUnitRunner'
-
-        javaCompileOptions {
-            annotationProcessorOptions {
-                compilerArgumentProviders(
-                        new RoomSchemaArgProvider(new File(projectDir, "schemas"))
-                )
-            }
-        }
     }
 
     compileOptions {
-        sourceCompatibility JavaVersion.VERSION_1_8
-        targetCompatibility JavaVersion.VERSION_1_8
+        sourceCompatibility JavaVersion.VERSION_17
+        targetCompatibility JavaVersion.VERSION_17
     }
 
 
@@ -45,6 +37,10 @@ android {
     }
 }
 
+ksp {
+    arg(new RoomSchemaArgProvider(new File(projectDir, "schemas")))
+}
+
 class RoomSchemaArgProvider implements CommandLineArgumentProvider {
 
     @InputDirectory
@@ -57,7 +53,7 @@ class RoomSchemaArgProvider implements CommandLineArgumentProvider {
 
     @Override
     Iterable<String> asArguments() {
-        return ["-room.schemaLocation=${schemaDir.path}".toString()]
+        return ["room.schemaLocation=${schemaDir.path}".toString()]
     }
 }
 
