@@ -1,0 +1,31 @@
+#!/bin/sh
+
+remote="$1"
+url="$2"
+
+echo "Running pre push tests"
+
+if ./gradlew test; then
+  echo "./gradlew test succeeded"
+else
+  echo "./gradlew test failed"
+  exit 1
+fi
+
+if ./gradlew testDebugUnitTest; then
+  echo "./gradlew testDebugUnitTest succeeded"
+else
+  echo "./gradlew testDebugUnitTest failed"
+  exit 1
+fi
+
+if ./gradlew connectedAndroidTest; then
+  echo "./gradlew connectedAndroidTest succeeded"
+else
+  echo "./gradlew connectedAndroidTest failed"
+  exit 1
+fi
+
+echo "Pre push tests completed"
+
+exit 0
