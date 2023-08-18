@@ -36,4 +36,6 @@ dependencies {
     // Test
     testImplementation Libs.Test.truth
     testImplementation Libs.Test.junit
+
+    androidTestImplementation Libs.Test.junit
 }

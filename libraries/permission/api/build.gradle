@@ -69,4 +69,6 @@ dependencies {
     testImplementation project(":navigation:testing")
     testImplementation Libs.Test.truth
     testImplementation Libs.Test.junit
+
+    androidTestImplementation Libs.Test.junit
 }
